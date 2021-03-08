@@ -22,7 +22,7 @@ $shipList = Session::get('shipList');
                     <div class="col-sm-12">
                         <div class="col-md-2">
                             <label style="float: left;padding-top: 5px">{{ transShipManager('IssaCode.Index') }}:</label>
-                            <select class="form-control" id="code_type" style="float:left;margin-left:10px;width:80%">
+                            <select class="form-control" id="code_type" style="margin-left:10px;width:80%">
                                 <option value="">全部</option>
                                 @foreach($codeList as $type)
                                     <option value="{{$type['id']}}" @if(isset($code) && ($code == $type['id'])) selected @endif>{{$type['Code']}} | {{$type['Code_Cn']}} | {{$type['Code_En']}}</option>
