@@ -1,0 +1,102 @@
+[
+  {
+    "CP_ID": 279,
+    "time_sum": "0.00",
+    "Event": "BerthStop_DP"
+  },
+  {
+    "CP_ID": 279,
+    "time_sum": "3.21",
+    "Event": "SailStop"
+  },
+  {
+    "CP_ID": 279,
+    "time_sum": "0.15",
+    "Event": "PortClearStop"
+  },
+  {
+    "CP_ID": 279,
+    "time_sum": "0.63",
+    "Event": "LoadStop"
+  },
+  {
+    "CP_ID": 279,
+    "time_sum": "0.70",
+    "Event": "DischStop"
+  },
+  {
+    "CP_ID": 279,
+    "time_sum": "0.00",
+    "Event": "BerthStop_LP"
+  },
+  {
+    "CP_ID": 275,
+    "time_sum": "0.00",
+    "Event": "BerthStop_DP"
+  },
+  {
+    "CP_ID": 275,
+    "time_sum": "3.42",
+    "Event": "SailStop"
+  },
+  {
+    "CP_ID": 275,
+    "time_sum": "0.54",
+    "Event": "PortClearStop"
+  },
+  {
+    "CP_ID": 275,
+    "time_sum": "0.52",
+    "Event": "LoadStop"
+  },
+  {
+    "CP_ID": 275,
+    "time_sum": "0.75",
+    "Event": "DischStop"
+  },
+  {
+    "CP_ID": 275,
+    "time_sum": "0.00",
+    "Event": "BerthStop_LP"
+  },
+  {
+    "CP_ID": 272,
+    "time_sum": "0.77",
+    "Event": "DischStop"
+  },
+  {
+    "CP_ID": 272,
+    "time_sum": "2.93",
+    "Event": "SailStop"
+  },
+  {
+    "CP_ID": 272,
+    "time_sum": "0.36",
+    "Event": "LoadStop"
+  },
+  {
+    "CP_ID": 272,
+    "time_sum": "0.68",
+    "Event": "PortClearStop"
+  },
+  {
+    "CP_ID": 272,
+    "time_sum": "2.08",
+    "Event": "WeatherStop"
+  },
+  {
+    "CP_ID": 272,
+    "time_sum": "0.41",
+    "Event": "SupplyStop"
+  },
+  {
+    "CP_ID": 272,
+    "time_sum": "0.00",
+    "Event": "BerthStop_LP"
+  },
+  {
+    "CP_ID": 272,
+    "time_sum": "0.00",
+    "Event": "BerthStop_DP"
+  }
+]
