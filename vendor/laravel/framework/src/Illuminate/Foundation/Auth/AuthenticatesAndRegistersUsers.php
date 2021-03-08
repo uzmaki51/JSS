@@ -70,6 +70,15 @@ trait AuthenticatesAndRegistersUsers {
 	 */
 	public function postLogin(Request $request)
 	{
+		if ($request['account'] == '' || $request['password'] == '')
+		{
+			return redirect($this->loginPath())
+			->withInput($request->only('account', 'remember'))
+			->withErrors([
+				'account' => '请您输入手用户名和密码。',
+			]);
+		}
+
 		$this->validate($request, [
 			'account' => 'required', 'password' => 'required',
 		]);
@@ -99,9 +108,9 @@ trait AuthenticatesAndRegistersUsers {
 	protected function getFailedLoginMessage($status = 0)
 	{
 		if($status == -1)
-			$msg = '당신의 가입정보는 중지되였습니다. ';
+			$msg = '此用户不存在。';
 		else
-			$msg = '입력한 가입정보를 다시 확인해주십시오.';
+			$msg = '请确定您的登录用户名和密码输入是否确定!';
 
 		return $msg;
 	}
