@@ -35,7 +35,7 @@
                         <input type="text" class="form-control" id="search_creator_name" style="width:100%">
                     </div>
                 </div>
-                <div class="col-sm-4 no-padding" style="width: 30%;">
+                <div class="col-sm-4 no-padding" style="width: 35%;">
                     <label class="search-label">{{transDecideManage("captions.approveDate")}}:</label>
                     <div class=" input-group col-md-4" style="padding-left:5px;width:40%">
                         <input class="form-control date-picker" id="fromDate" type="text" data-date-format="yyyy/mm/dd" style="width:70%" value="@if(isset($from_date)){{$from_date}}@endif">
