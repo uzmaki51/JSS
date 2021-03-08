@@ -26,14 +26,14 @@ $ships = Session::get('shipList');
                             <i class="icon-search nav-search-icon"></i>
                             </span>
                         <span>
-                                <button class="btn btn-sm btn-info no-radius" style="width: 80px" id="search-btn"><i class="icon-search" ></i>
+                                <button class="btn btn-sm btn-primary no-radius" style="width: 80px" id="search-btn"><i class="icon-search" ></i>
                                     검색
                                 </button>
                             </span>
                     </div>
                     @if(!$isHolder)
                         <div>
-                            <button class="btn btn-sm btn-info no-radius" style="float:right; width :80px;" id="btn-add-status">
+                            <button class="btn btn-sm btn-primary no-radius" style="float:right; width :80px;" id="btn-add-status">
                                 <i class="icon-plus" ></i>추가
                             </button>
                         </div>
@@ -93,7 +93,7 @@ $ships = Session::get('shipList');
                         </table>
                         <div style="float: right;">
                             <button type="button" class="btn btn-sm btn-primary" id="btn-save">수정</button>
-                            <input class="btn btn-sm btn-info" style="width:60px" id="btn-close" value="닫기">
+                            <input class="btn btn-sm btn-primary" style="width:60px" id="btn-close" value="닫기">
                         </div>
                     </div>
                 </div>

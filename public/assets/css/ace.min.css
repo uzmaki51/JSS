@@ -17605,7 +17605,7 @@ button.btn:active {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff267eb8', endColorstr='#ff136194', GradientType=0) !important
 }
 
-.btn-app.btn-info, .btn-app.btn-info.no-hover:hover, .btn-app.btn-info.disabled:hover {
+.btn-app.btn-primary, .btn-app.btn-primary.no-hover:hover, .btn-app.btn-primary.disabled:hover {
     background: #68adde !important;
     background-image: -webkit-gradient(linear, left 0, left 100%, from(#75b5e6), to(#5ba4d5)) !important;
     background-image: -webkit-linear-gradient(top, #75b5e6, 0%, #5ba4d5, 100%) !important;
@@ -17615,7 +17615,7 @@ button.btn:active {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff75b5e6', endColorstr='#ff5ba4d5', GradientType=0) !important
 }
 
-.btn-app.btn-info:hover {
+.btn-app.btn-primary:hover {
     background: #3f96d4 !important;
     background-image: -webkit-gradient(linear, left 0, left 100%, from(#4a9ede), to(#348dc9)) !important;
     background-image: -webkit-linear-gradient(top, #4a9ede, 0%, #348dc9, 100%) !important;
@@ -17934,13 +17934,17 @@ button.btn:active {
 }
 
 .badge {
-    text-shadow: none;
-    font-size: 12px;
-    padding-top: 1px;
-    padding-bottom: 3px;
-    font-weight: normal;
-    line-height: 15px;
-    background-color: #abbac3 !important
+    display: inline-block;
+    padding: 0.4em 0.4em 0.3em 0.4em;
+    font-size: 90%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 0.25rem;
+    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .badge.no-radius {
@@ -17980,19 +17984,19 @@ button.btn:active {
 }
 
 .label-info, .badge-info {
-    background-color: #3a87ad !important
+    background-color: #00CFE8 !important
 }
 
 .label-primary, .badge-primary {
-    background-color: #428bca !important
+    background-color: #7367F0 !important
 }
 
 .label-success, .badge-success {
-    background-color: #82af6f !important
+    background-color: #28C76F !important
 }
 
 .label-danger, .badge-danger {
-    background-color: #d15b47 !important
+    background-color: #EA5455 !important
 }
 
 .label-important, .badge-important {
@@ -18004,7 +18008,7 @@ button.btn:active {
 }
 
 .label-warning, .badge-warning {
-    background-color: #f89406 !important
+    background-color: #FF9F43 !important
 }
 
 .label-pink, .badge-pink {

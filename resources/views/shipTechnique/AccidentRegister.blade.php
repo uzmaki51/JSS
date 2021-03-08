@@ -53,12 +53,12 @@ $ships = Session::get('shipList');
                         </div>
                     </div>
                     <div class="col-sm-5" style="text-align: right;float:right;">
-                        <button class="btn btn-sm btn-info no-radius search-btn" style="width: 80px">
+                        <button class="btn btn-sm btn-primary no-radius search-btn" style="width: 80px">
                             <i class="icon-search"></i>
                             검색
                         </button>
                         @if(!$isHolder)
-                            <a class="btn btn-sm btn-info no-radius" href="shipAccidentDetail" style="width: 80px">
+                            <a class="btn btn-sm btn-primary no-radius" href="shipAccidentDetail" style="width: 80px">
                                 <i class="icon-plus-sign-alt"></i>
                                 추가
                             </a>

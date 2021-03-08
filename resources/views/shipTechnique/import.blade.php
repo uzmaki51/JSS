@@ -101,7 +101,7 @@
                         </table>
                         <div style="float: right;">
                             <button class="btn btn-sm btn-primary" id="btn-add-movement">추가</button>
-                            <button class="btn btn-sm btn-info" id="btn-close">닫기</button>
+                            <button class="btn btn-sm btn-primary" id="btn-close">닫기</button>
                         </div>
                     </div>
 

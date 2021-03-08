@@ -84,7 +84,7 @@ else $header = 'sidebar';
                         <label class="col-sm-3 control-label no-padding-right">{{transBusinessManage("captions.name")}}</label>
                         <div class="col-sm-8"><input class="form-control" id="member_name" value="{{$memberName}}"></div>
                     </div>
-                    <button type="button" class="btn btn-info btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transBusinessManage("captions.search")}}</button>
+                    <button type="button" class="btn btn-primary btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transBusinessManage("captions.search")}}</button>
                     <button class="btn btn-warning btn-sm excel-btn" style="float:left; margin-left: 20px; width: 80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                 </div>
                 <div class="row">

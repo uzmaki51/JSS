@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <div style="float:left">
-                        <button class="btn btn-sm btn-info no-radius" type="button" onclick="showDecisionReportList()" style="width: 80px">
+                        <button class="btn btn-sm btn-primary no-radius" type="button" onclick="showDecisionReportList()" style="width: 80px">
                             <i class="icon-search"></i>{{transDecideManage("captions.search")}}
                         </button>
                     </div>

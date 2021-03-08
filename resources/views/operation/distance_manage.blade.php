@@ -46,12 +46,12 @@ $ships = Session::get('shipList');
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-info btn-sm" style="float: left; width :80px">
+                        <button type="submit" class="btn btn-primary btn-sm" style="float: left; width :80px">
                             <i class="icon-search"></i>검색</button>
                     </form>
                     @if(!$isHolder)
                         <div class="col-md-3" style="float:right;text-align: right;">
-                            <button class="btn btn-sm btn-info no-radius" style="width: 80px" tyle="border-radius: 3px"><i class="icon-plus-sign-alt"></i>추가</button>
+                            <button class="btn btn-sm btn-primary no-radius" style="width: 80px" tyle="border-radius: 3px"><i class="icon-plus-sign-alt"></i>추가</button>
                         </div>
                     @endif
                 </div>

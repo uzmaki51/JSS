@@ -124,7 +124,7 @@
         //editables on first profile page
         $.fn.editable.defaults.mode = 'inline';
         $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
-        $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="icon-ok icon-white"></i></button>';
+        $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary editable-submit"><i class="icon-ok icon-white"></i></button>';
 
 
         function ShowTabPage(tabName) {

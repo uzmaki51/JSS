@@ -58,7 +58,7 @@ $ships = Session::get('shipList');
                     </div>
                 </div>
                 <div class="col-md-3 pull-right">
-                    <button class="btn btn-info btn-sm select_ctrl" style="float: left; margin-left: 5px; width :80px"><i class="icon-search"></i>검색</button>
+                    <button class="btn btn-primary btn-sm select_ctrl" style="float: left; margin-left: 5px; width :80px"><i class="icon-search"></i>검색</button>
                     @if(!$isHolder)
                         <button class="btn btn-primary btn-sm add-btn" style="float: left; margin-left: 5px; width :80px"><i class="icon-plus-sign-alt"></i>추가</button>
                     @endif

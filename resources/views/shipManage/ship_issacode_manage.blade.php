@@ -36,11 +36,11 @@ $shipList = Session::get('shipList');
                         <div class="col-md-4">
                             <label style="float: left;padding-top: 5px">{{ transShipManager('IssaCode.Content') }}:</label>
                             <input type="text" class="form-control" style="width:50%;float:left;margin-left:10px" id="codeContent" value="@if(isset($content)){{$content}}@endif">
-                            <button class="btn btn-info btn-sm search_btn" style="float: left;margin-left:20px; width :80px"><i class="icon-search"></i>搜索</button>
+                            <button class="btn btn-primary btn-sm search_btn" style="float: left;margin-left:20px; width :80px"><i class="icon-search"></i>搜索</button>
                         </div>
                         <div class="col-md-2" style="float:right;text-align: right">
                             @if(!$isHolder)
-                                <button class="btn btn-sm btn-info no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
+                                <button class="btn btn-sm btn-primary no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
                             @endif
                             <div id="dialog_issacode" class="hide">
                                 <form class="form-horizontal" method="post" action="updateIssaCode" id="issacode-form">

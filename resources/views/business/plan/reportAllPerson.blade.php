@@ -55,7 +55,7 @@
         <td align="right" width="10%" style="padding: 0px !important;">
             <div style="padding-right:5px">
             <span class="input-group-btn">
-                <button class="btn btn-sm btn-info no-radius" type="button" onclick="showAllReportList()" style="width: 80px">
+                <button class="btn btn-sm btn-primary no-radius" type="button" onclick="showAllReportList()" style="width: 80px">
                     <i class="icon-search"></i>
                     {{transBusinessManage("captions.search")}}
                 </button>

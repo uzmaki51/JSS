@@ -105,7 +105,7 @@
                     </div>
                     <div class="hr hr-18 dotted hr-double"></div>
                     <div class="center">
-                        <button type="button" id="submitBtn" class="btn btn-sm btn-info no-radius"  onclick="unitAttendStateListSave()" style="width: 80px"> <i class="icon-save"></i>{{transBusinessManage("captions.register")}}</button>
+                        <button type="button" id="submitBtn" class="btn btn-sm btn-primary no-radius"  onclick="unitAttendStateListSave()" style="width: 80px"> <i class="icon-save"></i>{{transBusinessManage("captions.register")}}</button>
                         <span id="restAlarm" class="red" style="display: none">&nbsp;&nbsp;&nbsp;今天是休息日。</span>
                     </div>
                 </div>

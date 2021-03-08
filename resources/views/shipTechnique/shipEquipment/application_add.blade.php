@@ -468,11 +468,11 @@
         </table>
         <div class="col-md-12" style="text-align: center;">
             @if($supplyId == 0)
-                <a class="btn btn-xs btn-info no-radius" onclick="confirmAdd()">
+                <a class="btn btn-xs btn-primary no-radius" onclick="confirmAdd()">
                     <i class="icon-edit">신청</i>
                 </a>
             @else
-                <a class="btn btn-xs btn-info no-radius" onclick="confirmAdd()">
+                <a class="btn btn-xs btn-primary no-radius" onclick="confirmAdd()">
                     <i class="icon-edit">편집</i>
                 </a>
                 &nbsp;&nbsp;&nbsp;

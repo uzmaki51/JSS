@@ -26,7 +26,7 @@ $shipList = explode(',', Auth::user()->shipList);
                     </div>
                     <div class="col-sm-6" style="text-align: right; margin-top: 50px">
                         @if(!$isShareHolder)
-                        <a href="{{ url('shipManage/registerShipData') }}" data-toggle="modal" class="btn btn-sm btn-info no-radius"
+                        <a href="{{ url('shipManage/registerShipData') }}" data-toggle="modal" class="btn btn-sm btn-primary no-radius"
                            style="width: 80px"
                         ><i class="icon-plus-sign-alt"></i>追加</a>
                         @endif

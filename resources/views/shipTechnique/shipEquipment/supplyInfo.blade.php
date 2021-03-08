@@ -81,7 +81,7 @@ $ships = Session::get('shipList');
                     <div class="col-md-1" style="float: right">
                         <div style="float:right; padding:0">
                                 <span class="input-group-btn" style="padding: 0px 5px;">
-                                    <button class="btn btn-xs btn-info" type="button" onclick="onSearch()" style="width: 80px">
+                                    <button class="btn btn-xs btn-primary" type="button" onclick="onSearch()" style="width: 80px">
                                         <i class="icon-search"></i>
                                         검색
                                     </button>
@@ -93,7 +93,7 @@ $ships = Session::get('shipList');
                                     </button>
                                 </span>
                                 {{--<span class="input-group-btn">--}}
-                                    {{--<button class="btn btn-xs btn-info no-radius" type="button" onclick="onDetailSearch()" style="width: 80px">--}}
+                                    {{--<button class="btn btn-xs btn-primary no-radius" type="button" onclick="onDetailSearch()" style="width: 80px">--}}
                                         {{--<i class="icon-eye-open"></i>--}}
                                         {{--상세검색--}}
                                     {{--</button>--}}

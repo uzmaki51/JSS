@@ -56,7 +56,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button class="btn btn-info btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transOrgManage("captions.search")}}</button>
+                        <button class="btn btn-primary btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transOrgManage("captions.search")}}</button>
                     </div>
                     @if($type != 'privilege')
                         <a href="{{ url('org/memberadd') }}" class="btn btn-primary btn-sm" style="float: right; width: 80px"

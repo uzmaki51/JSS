@@ -1982,21 +1982,21 @@ textarea.input-lg {
     border-color: #4cae4c
 }
 
-.btn-info {
+.btn-primary {
     color: #fff;
     background-color: #5bc0de;
     border-color: #46b8da
 }
 
-.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open .dropdown-toggle.btn-info {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
     opacity: 0.9;
 }
 
-.btn-info:active, .btn-info.active, .open .dropdown-toggle.btn-info {
+.btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
     background-image: none
 }
 
-.btn-info.disabled, .btn-info[disabled], fieldset[disabled] .btn-info, .btn-info.disabled:hover, .btn-info[disabled]:hover, fieldset[disabled] .btn-info:hover, .btn-info.disabled:focus, .btn-info[disabled]:focus, fieldset[disabled] .btn-info:focus, .btn-info.disabled:active, .btn-info[disabled]:active, fieldset[disabled] .btn-info:active, .btn-info.disabled.active, .btn-info[disabled].active, fieldset[disabled] .btn-info.active {
+.btn-primary.disabled, .btn-primary[disabled], fieldset[disabled] .btn-primary, .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled:active, .btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, .btn-primary.disabled.active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary.active {
     opacity: 0.9;
 }
 
@@ -3046,7 +3046,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
     border-top-color: #333
 }
 
-.btn-primary .caret, .btn-success .caret, .btn-warning .caret, .btn-danger .caret, .btn-info .caret {
+.btn-primary .caret, .btn-success .caret, .btn-warning .caret, .btn-danger .caret, .btn-primary .caret {
     border-top-color: #fff
 }
 
@@ -3054,7 +3054,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
     border-bottom-color: #333
 }
 
-.dropup .btn-primary .caret, .dropup .btn-success .caret, .dropup .btn-warning .caret, .dropup .btn-danger .caret, .dropup .btn-info .caret {
+.dropup .btn-primary .caret, .dropup .btn-success .caret, .dropup .btn-warning .caret, .dropup .btn-danger .caret, .dropup .btn-primary .caret {
     border-bottom-color: #fff
 }
 

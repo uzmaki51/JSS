@@ -108,7 +108,7 @@
                                         </tr>
                                         <tr id="{{'row_button'}}">
                                             <td>
-                                                <button class="btn btn-info btn-sm radius-4" id="button_update_time" style="margin-top:6px; width: 80px;">
+                                                <button class="btn btn-primary btn-sm radius-4" id="button_update_time" style="margin-top:6px; width: 80px;">
                                                     <i class="icon-save bigger-130"></i>
                                                     {{transBusinessManage("captions.register")}}
                                                 </button>

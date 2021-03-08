@@ -45,7 +45,7 @@
                             <label>{{transOrgManage("captions.name")}}:</label>
                             <input class="form-control realname" style="width:65%;margin-left: 10px" value="@if(isset($realname)){{$realname}}@endif">
                         </div>
-                        <button class="btn btn-info btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transOrgManage("captions.search")}}</button>
+                        <button class="btn btn-primary btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transOrgManage("captions.search")}}</button>
                     </div>
                 </div>
                 <div class="row">

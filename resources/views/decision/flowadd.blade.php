@@ -137,7 +137,7 @@
                                                 <i class="icon-undo"></i>
                                                 {{transDecideManage("captions.cancel")}}
                                             </button>
-                                            <button class="btn btn-info btn-sm" id="id-btn-adddialog"  onclick="OnAddflow()">
+                                            <button class="btn btn-primary btn-sm" id="id-btn-adddialog"  onclick="OnAddflow()">
                                                 <i class="icon-ok"></i>
                                                 {{transDecideManage("captions.confirm")}}
                                             </button>

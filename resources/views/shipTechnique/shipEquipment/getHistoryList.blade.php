@@ -119,7 +119,7 @@
                             <div class="col-md-12">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-2" style="text-align: center;">
-                                    <a class="btn btn-xs btn-info no-radius" onclick="window.opener.addNewSupplyInfo()">
+                                    <a class="btn btn-xs btn-primary no-radius" onclick="window.opener.addNewSupplyInfo()">
                                         확인
                                     </a>
                                 </div>

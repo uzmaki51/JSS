@@ -27,10 +27,10 @@ $shipList = Session::get('shipList');
                         <label class="control-label no-padding-right" style="float: left;padding-top:7px">职务</label>
                         <input type="text" class="form-control" id="posName" style="float:left;margin-left: 10px;width:70%" value="@if(isset($posName)){{$posName}}@endif">
                     </div>
-                    <button class="btn btn-info btn-sm search-btn" style="float:left; width :80px"><i class="icon-search"></i>搜索</button>
+                    <button class="btn btn-primary btn-sm search-btn" style="float:left; width :80px"><i class="icon-search"></i>搜索</button>
                     @if(!$isHolder)
                         <div class="col-md-3" style="text-align: right;float:right;margin-top:0px">
-                            <button class="btn btn-sm btn-info no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
+                            <button class="btn btn-sm btn-primary no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
                         </div>
                     @endif
                 </div>
