@@ -62,7 +62,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     </select>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-info btn-sm" style="float: left; width :80px"><i class="icon-search"></i>검색</button>
+                            <button type="submit" class="btn btn-primary btn-sm" style="float: left; width :80px"><i class="icon-search"></i>검색</button>
                             <a class="btn btn-success btn-sm no-radius btn-init" style="float: left;margin-left:8px; width :80px"><i class="icon-cogs"></i>초기화</a>
                             <button class="btn btn-warning btn-sm excel-btn" style="float: left; margin-left: 8px; width :80px">
                                 <i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b>
@@ -273,7 +273,7 @@ $isHolder = Session::get('IS_HOLDER');
                                             <th>{{ t('contract.Consignee', array(), 'operation') }}</th>
                                             <th>{{ t('contract.Remark', array(), 'operation') }}</th>
                                             @if(!$isHolder)
-                                                <th><button type="submit" class="btn btn-sm btn-info no-radius" id="btn-modify-contract" style="width: 80px"><i class="icon-save"></i>등록</button></th>
+                                                <th><button type="submit" class="btn btn-sm btn-primary no-radius" id="btn-modify-contract" style="width: 80px"><i class="icon-save"></i>등록</button></th>
                                             @endif
                                         </tr>
                                         </thead>

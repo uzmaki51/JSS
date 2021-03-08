@@ -77,7 +77,7 @@
                             </div>
                             <div class="form-group" style=" padding:0">
                                 <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-sm btn-info search-btn" style="width: 80px"><i class="icon-search"></i>{{transBusinessManage("captions.search")}}</button>
+                                    <button type="submit" class="btn btn-sm btn-primary search-btn" style="width: 80px"><i class="icon-search"></i>{{transBusinessManage("captions.search")}}</button>
                                 </span>
                             </div>
                             <div id="moreSearchView" style="display: none">

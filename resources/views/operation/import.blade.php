@@ -95,7 +95,7 @@ $ships = Session::get('shipList');
                             </div>
                         </div>
                         <div class="col-md-2" style="text-align: right; float:right;">
-                            <button type="submit" class="btn btn-info btn-sm" style="width: 80px"><i class="icon-search"></i>검색</button>
+                            <button type="submit" class="btn btn-primary btn-sm" style="width: 80px"><i class="icon-search"></i>검색</button>
                             <a class="btn btn-success btn-sm no-radius btn-init" style="width: 80px"><i class="icon-cogs"></i>초기화</a>
                         </div>
                     </form>
@@ -317,7 +317,7 @@ $ships = Session::get('shipList');
                                         <td>
                                             <textarea class="form-control" rows="1" name="Remark" style="height: 25px;"></textarea>
                                         </td>
-                                        <td class="center"><button class="btn btn-sm btn-info no-radius" id="btn-add-movement" style="width: 80px"><icon class="icon icon-save"></icon>등록</button></td>
+                                        <td class="center"><button class="btn btn-sm btn-primary no-radius" id="btn-add-movement" style="width: 80px"><icon class="icon icon-save"></icon>등록</button></td>
                                     </tr>
                                     </tbody>
                                 </table>

@@ -317,7 +317,7 @@
                     <div class="space-10"></div>
                     <div style="text-align: center; padding:0">
                         <span class="input-group-btn" style="padding: 0px 5px;">
-                            <button class="btn btn-xs btn-info no-radius" type="button" onclick="onSearch()" style="width: 80px">
+                            <button class="btn btn-xs btn-primary no-radius" type="button" onclick="onSearch()" style="width: 80px">
                                 <i class="icon-search"></i>
                                 검색
                             </button>

@@ -19,7 +19,7 @@
                     <div class="col-sm-6">
                         <label class="col-md-2" style="padding-top:7px">讨论场合 :</label>
                         <input type="text" class="form-control" id="search_tema" style="float:left;width:60%" value="@if(isset($keyword)){{$keyword}}@endif">
-                        <button class="btn btn-sm btn-info no-radius col-md-1" type="button" style="margin-left: 20px; float: left; width: 80px;" onclick="filterByTemaKeyword()">
+                        <button class="btn btn-sm btn-primary no-radius col-md-1" type="button" style="margin-left: 20px; float: left; width: 80px;" onclick="filterByTemaKeyword()">
                             <i class="icon-search"></i>搜索
                         </button>
                     </div>

@@ -43,7 +43,7 @@ else $header = 'sidebar';
                                data-date-format="yyyy/mm/dd" value="{{$selDate}}">
                         <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
                     </div>
-                    <button type="button" class="btn btn-info btn-sm" style="float:left; width: 80px;" onclick="showAttendByDate()"><i class="icon-search"></i>{{transBusinessManage("captions.search")}}</button>
+                    <button type="button" class="btn btn-primary btn-sm" style="float:left; width: 80px;" onclick="showAttendByDate()"><i class="icon-search"></i>{{transBusinessManage("captions.search")}}</button>
                     <button type="button" class="btn btn-warning btn-sm" style="float:left; margin-left:10px; width: 80px" onclick="excelAttendByDate()"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                 </div>
                 <div class="space-6"></div>

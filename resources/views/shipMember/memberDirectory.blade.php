@@ -76,12 +76,12 @@ else $header = 'sidebar';
                         </div>
                     </div>
                     <div style="float: right">
-                        <button class="btn btn-sm btn-info no-radius" onclick="filterByMemberKeyword()" style="width: 70px">
+                        <button class="btn btn-sm btn-primary no-radius" onclick="filterByMemberKeyword()" style="width: 70px">
                             <i class="icon-search"></i>
                             {{transShipMember("captions.search")}}
                         </button>
                         @if(!$isHolder)
-						    <button class="btn btn-sm btn-info no-radius" onclick="registerNewMember()" style="width: 70px"><i class="icon-plus-sign-alt"></i>{{transShipMember("captions.add")}}</button>
+						    <button class="btn btn-sm btn-primary no-radius" onclick="registerNewMember()" style="width: 70px"><i class="icon-plus-sign-alt"></i>{{transShipMember("captions.add")}}</button>
                         @endif
                         <button class="btn btn-sm btn-warning excel-btn" style="width: 70px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                     </div>

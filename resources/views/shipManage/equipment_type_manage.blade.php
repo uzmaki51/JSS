@@ -40,7 +40,7 @@ $shipList = Session::get('shipList');
                             </div>
                             <div style="padding-right: 20px;padding-bottom:10px;text-align: right">
                                 <input class="btn btn-sm btn-warning cancel_btn" value="{{ transShipManager('captions.cancel') }}" style="width:80px">
-                                <button class="btn btn-sm btn-info no-radius" style="width: 80px">{{ transShipManager('captions.register') }}</button>
+                                <button class="btn btn-sm btn-primary no-radius" style="width: 80px">{{ transShipManager('captions.register') }}</button>
                             </div>
                         </form>
                     </div>

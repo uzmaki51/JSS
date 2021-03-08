@@ -81,7 +81,7 @@
                                 <div class="input-group">
                                     <input placeholder="기사에 대한 응답문을 입력하시오." type="text" class="form-control" id="message">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-sm btn-info no-radius" type="button" onclick="responseForNews({{$news['id']}})">
+                                        <button class="btn btn-sm btn-primary no-radius" type="button" onclick="responseForNews({{$news['id']}})">
                                             <i class="icon-share-alt"></i>
                                             回复
                                         </button>

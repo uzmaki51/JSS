@@ -39,7 +39,7 @@
                     <div class="col-sm-6">
                         <label class="col-md-2" style="padding-top:7px">{{transBusinessManage("title.MainPlan")}} :</label>
                         <input type="text" class="form-control" id="search_plan" style="float:left;width:60%" value="@if(isset($name)){{$name}}@endif">
-                        <button class="btn btn-sm btn-info no-radius col-md-1" type="button" style="margin-left: 20px; float: left; width: 80px;" onclick="filterByPlanKeyword()">
+                        <button class="btn btn-sm btn-primary no-radius col-md-1" type="button" style="margin-left: 20px; float: left; width: 80px;" onclick="filterByPlanKeyword()">
                             <i class="icon-search"></i>{{transBusinessManage("captions.search")}}
                         </button>
                     </div>

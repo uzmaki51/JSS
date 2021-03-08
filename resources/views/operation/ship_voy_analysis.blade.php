@@ -76,7 +76,7 @@ else $header = 'sidebar';
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-info btn-sm btn_search" style="float: left;width :80px"><i class="icon-search"></i>검색</button>
+                    <button class="btn btn-primary btn-sm btn_search" style="float: left;width :80px"><i class="icon-search"></i>검색</button>
                     <button class="btn btn-warning btn-sm btn_excel" style="float: left;margin-left: 5px; width :80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                 </div>
                 <div class="space-4"></div>

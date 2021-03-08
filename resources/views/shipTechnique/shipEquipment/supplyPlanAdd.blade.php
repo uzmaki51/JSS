@@ -106,7 +106,7 @@
             $('#PlanContent').css({height:'50px',width:'100%'});
             $('#PlanAmount').css({height:'50px',width:'100%'});
         });
-        $('#PlanAmount').ace_spinner({value:0,min:0,max:10000,step:10, btn_up_class:'btn-info' , btn_down_class:'btn-info'})
+        $('#PlanAmount').ace_spinner({value:0,min:0,max:10000,step:10, btn_up_class:'btn-primary' , btn_down_class:'btn-primary'})
                 .on('change', function(){
                     //alert(this.value)
                 });

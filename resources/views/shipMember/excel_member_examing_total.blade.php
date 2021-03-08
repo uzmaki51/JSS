@@ -34,7 +34,7 @@ else $header = 'sidebar';
                         </div>
                         <div class="col-md-3">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-sm btn-info no-radius search_btn" style="width: 80px">
+                                    <button class="btn btn-sm btn-primary no-radius search_btn" style="width: 80px">
                                         <i class="icon-search"></i>
                                         {{transShipMember("captions.search")}}
                                     </button>

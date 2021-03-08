@@ -82,7 +82,7 @@ else $header = 'sidebar';
                         </div>
                         <div style="padding:0; float: right">
                         <span class="input-group-btn">
-                            <button class="btn btn-sm btn-info no-radius" onclick="showSearchByKeyboard()" style="margin-left: 1px; width: 70px">
+                            <button class="btn btn-sm btn-primary no-radius" onclick="showSearchByKeyboard()" style="margin-left: 1px; width: 70px">
                                 <i class="icon-search"></i>
                                 {{transShipMember("captions.search")}}
                             </button>

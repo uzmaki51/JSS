@@ -20,7 +20,7 @@
                                 <h4 class="lighter smaller col-md-4">{{transOrgManage("captions.officeStructure")}}</h4>
                                 @if(count($units) == 0)
                                     <div class="widget-toolbar action-buttons">
-                                        <button class="btn btn-xs btn-info" id="id-btn-adddialog">
+                                        <button class="btn btn-xs btn-primary" id="id-btn-adddialog">
                                             <i class="icon-plus-sign bigger-110"></i>
                                             {{transOrgManage("captions.add")}}
                                         </button>

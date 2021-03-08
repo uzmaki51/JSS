@@ -18,7 +18,7 @@ $ships = Session::get('shipList');
                 </div>
                 <div class="col-md-6" style="text-align: right;padding-top:50px;">
                     @if(!$isHolder)
-                        <button class="btn btn-sm btn-info no-radius" style="width: 80px">
+                        <button class="btn btn-sm btn-primary no-radius" style="width: 80px">
                             <i class="icon-plus-sign-alt"></i>
                             추가
                         </button>

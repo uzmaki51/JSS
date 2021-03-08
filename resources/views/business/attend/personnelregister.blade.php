@@ -61,7 +61,7 @@
                                     <div class="form-group">
                                         <div class="col-md-6" style="text-align: right">
                                             <button type="button" id="attend_submit"
-                                                    class="btn btn-sm btn-info no-radius"
+                                                    class="btn btn-sm btn-primary no-radius"
                                                     onclick="savepersonelregisterinfo()"
                                                     style="width: 80px">
                                                <i class="icon-save"></i>{{transBusinessManage("captions.register")}}

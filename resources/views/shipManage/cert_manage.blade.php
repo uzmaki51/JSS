@@ -34,7 +34,7 @@ $shipList = Session::get('shipList');
                             <i class="icon-search nav-search-icon"></i>
                             </span>
                                 <span class="input-group-btn">
-                                <button class="btn btn-sm btn-info no-radius" type="button" onclick="filterByCertKeyword()" style="width: 80px">
+                                <button class="btn btn-sm btn-primary no-radius" type="button" onclick="filterByCertKeyword()" style="width: 80px">
                                     <i class="icon-search"></i>{{ transShipManager('captions.search') }}
                                 </button>
                                 <button class="btn btn-sm btn-warning no-radius" type="button" onclick="filterByCertKeywordExcel()"
@@ -46,7 +46,7 @@ $shipList = Session::get('shipList');
                         </div>
                         @if(!$isHolder)
                             <div class="col-md-1" style="float: right;text-align:right">
-                                <button class="btn btn-sm btn-info no-radius" onclick="modifyCertType(0)" style="width: 80px">
+                                <button class="btn btn-sm btn-primary no-radius" onclick="modifyCertType(0)" style="width: 80px">
                                     <i class="icon-plus-sign-alt"></i>
                                     {{ transShipManager('captions.add') }}
                                 </button>

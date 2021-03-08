@@ -110,7 +110,7 @@ else $header = 'sidebar';
                         <div class="col-md-6">
                             <div style="text-align: right">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-info btn-sm" type="button" onclick="onSearch()" style="width: 80px">
+                                    <button class="btn btn-primary btn-sm" type="button" onclick="onSearch()" style="width: 80px">
                                         <i class="icon-search"></i>
                                         검색
                                     </button>

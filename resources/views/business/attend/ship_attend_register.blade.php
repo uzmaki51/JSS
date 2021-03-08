@@ -65,7 +65,7 @@
                         <label class="col-sm-5 control-label no-padding-right" for="chosen-select">{{transBusinessManage("captions.name")}}</label>
                         <div class="col-sm-7"><input class="form-control" id="ship_member" value="{{$memberName}}"></div>
                     </div>
-                    <button class="btn btn-info btn-sm search-btn" style="float: left; width: 80px;"><i class="icon-search"></i>{{transBusinessManage("captions.search")}}</button>
+                    <button class="btn btn-primary btn-sm search-btn" style="float: left; width: 80px;"><i class="icon-search"></i>{{transBusinessManage("captions.search")}}</button>
                 </div>
                 <div class="space-6"></div>
                 <div class="row">
@@ -147,7 +147,7 @@
                 <div class="row">
                     <div class="hr hr-18 dotted hr-double"></div>
                     <div class="center">
-                        <a href="javascript:void(0)" id="submitBtn" class="btn btn-sm btn-info no-radius" style="width: 80px"><i class="icon-save"></i>{{transBusinessManage("captions.register")}}</a>
+                        <a href="javascript:void(0)" id="submitBtn" class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-save"></i>{{transBusinessManage("captions.register")}}</a>
                         <span id="restAlarm" class="red" style="display: none">&nbsp;&nbsp;&nbsp;今天是休息日。</span>
                     </div>
                 </div>

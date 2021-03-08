@@ -16,7 +16,7 @@ $shipList = Session::get('shipList');
                 </div>
                 @if(!$isHolder)
                     <div class="col-md-6" style="text-align: right;float:right;margin-top: 50px">
-                        <button class="btn btn-sm btn-info no-radius new_btn"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus"> 追加</i></button>
+                        <button class="btn btn-sm btn-primary no-radius new_btn"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus"> 追加</i></button>
                     </div>
                 @endif
             </div>

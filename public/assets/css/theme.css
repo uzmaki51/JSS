@@ -335,11 +335,11 @@ th {
 .btn {
     min-width: 120px;
 }
-.btn-info {
+.btn-primary {
     background-color: #28c3d7 !important;
     border-color: #28c3d7 !important;
 }
-.btn-info:hover {
+.btn-primary:hover {
     border-color: #00B8CF !important;
     color: #FFFFFF !important;
     box-shadow: 0 8px 25px -8px #00cfe8;

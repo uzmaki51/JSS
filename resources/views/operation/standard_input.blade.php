@@ -162,7 +162,7 @@
                     <div class="row">
                         <div class="space-10"></div>
                         <div class="col-md-1 col-md-offset-5">
-                            <button type="submit" class="btn btn-sm btn-info no-radius" style="float:right; width :80px;">&nbsp;항차타산&nbsp;</button>
+                            <button type="submit" class="btn btn-sm btn-primary no-radius" style="float:right; width :80px;">&nbsp;항차타산&nbsp;</button>
                         </div>
                     </div>
                 </form>

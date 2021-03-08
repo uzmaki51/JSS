@@ -95,7 +95,7 @@
                     </div>
                     <div class="col-md-1">
                         <label>&nbsp;</label>
-                        <button class="btn btn-info btn-sm search-btn width-100"><i class="icon-search"></i>{{ transShipManager('General.search') }}</button>
+                        <button class="btn btn-primary btn-sm search-btn width-100"><i class="icon-search"></i>{{ transShipManager('General.search') }}</button>
                     </div>
                     <div class="col-md-1">
                         <label>&nbsp;</label>

@@ -36,7 +36,7 @@
                     <div class="col-md-9" style="text-align: right">
                         <div>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-xs btn-info no-radius" type="submit" style="width: 80px">
+                                    <button class="btn btn-xs btn-primary no-radius" type="submit" style="width: 80px">
                                         <i class="icon-search"></i>
                                         검색
                                     </button>

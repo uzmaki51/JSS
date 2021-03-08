@@ -49,7 +49,7 @@ $ships = Session::get('shipList');
                                     </tbody>
                                 </table>
                                 <div style="padding-right: 20px;padding-bottom:10px;text-align: right">
-                                    <button type="submit" class="btn btn-sm btn-info no-radius" style="width: 80px"><i class="icon-plus-sign-alt"></i>추가</button>
+                                    <button type="submit" class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-plus-sign-alt"></i>추가</button>
                                 </div>                        </form>
                         </div>
                     @endif

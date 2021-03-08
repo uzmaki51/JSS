@@ -344,7 +344,7 @@ $isHolder = Session::get('IS_HOLDER');
                             </tbody>
                         </table>
                         @if(!$isHolder)
-                            <button type="submit" class="btn btn-sm btn-info" id="submit-btn" style="float:right; width :80px;"><i class="icon-save"></i>등록</button>
+                            <button type="submit" class="btn btn-sm btn-primary" id="submit-btn" style="float:right; width :80px;"><i class="icon-save"></i>등록</button>
                             <a class="btn btn-sm btn-success" id="re-calc" style="float:right;margin-right: 15px"><i class="icon-keyboard"></i>실리윤계산</a>
                         @endif
                     </form>

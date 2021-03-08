@@ -30,7 +30,7 @@ $ships = Session::get('shipList');
                                 @endforeach
                             </select>
                         </div>
-                        <button class="btn btn-info btn-sm btn_search" style="float: left; width :80px"><i class="icon-search"></i>검색</button>
+                        <button class="btn btn-primary btn-sm btn_search" style="float: left; width :80px"><i class="icon-search"></i>검색</button>
                     </div>
                     @if(!$isHolder)
                         <div class="col-md-4" style="text-align: right">

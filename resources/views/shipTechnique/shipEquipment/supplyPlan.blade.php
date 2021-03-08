@@ -97,7 +97,7 @@ else $header = 'sidebar';
                                             </div>
                                         </div>
                                         <div class="col-md-6 form-horizontal" style="text-align: right">
-                                            <button class="btn btn-xs btn-info" id="id-btn-search" style="width: 80px">
+                                            <button class="btn btn-xs btn-primary" id="id-btn-search" style="width: 80px">
                                                 <i class="icon-search"></i>
                                                 검색
                                             </button>
@@ -270,7 +270,7 @@ else $header = 'sidebar';
                                             </div>
                                         </div>
                                         <div class="col-md-6 form-horizontal" style="text-align: right">
-                                            <button class="btn btn-xs btn-info" id="id-btn-collection-search" style="width: 80px">
+                                            <button class="btn btn-xs btn-primary" id="id-btn-collection-search" style="width: 80px">
                                                 <i class="icon-search"></i>
                                                 검색
                                             </button>
@@ -519,8 +519,8 @@ else $header = 'sidebar';
 //                min: 0,
 //                max: 10000,
 //                step: 10,
-//                btn_up_class: 'btn-info',
-//                btn_down_class: 'btn-info'
+//                btn_up_class: 'btn-primary',
+//                btn_down_class: 'btn-primary'
 //            }).on('change', function () {
 //                //alert(this.value)
 //            });

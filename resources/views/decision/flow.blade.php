@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-md-1">
                         <span class="input-group-btn">
-                            <button class="btn btn-sm btn-info no-radius" type="button" onclick="filterBySearchItems()" style="width: 80px">
+                            <button class="btn btn-sm btn-primary no-radius" type="button" onclick="filterBySearchItems()" style="width: 80px">
                                 <i class="icon-search"></i>
                                 {{transDecideManage("captions.search")}}
                             </button>

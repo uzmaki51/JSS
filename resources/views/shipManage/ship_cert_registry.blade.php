@@ -78,7 +78,7 @@ $ships = Session::get('shipList');
                                 </select>
                             </div>
                         </div>
-                        <button class="btn btn-info btn-sm search-btn" style="float:left; width :80px"><i class="icon-search"></i>搜索</button>
+                        <button class="btn btn-primary btn-sm search-btn" style="float:left; width :80px"><i class="icon-search"></i>搜索</button>
                         <button class="btn btn-warning btn-sm excel-btn" style="float:left;margin-left: 5px;width :80px;"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                         <div class="col-lg-1" style="float: right;margin-right:30px">
                             @if(!$isHolder)
