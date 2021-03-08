@@ -24,7 +24,6 @@
     <!-- ace styles -->
     <link href="{{ asset('/assets/css/chosen.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/assets/css/colorbox.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/assets/css/theme.css') }}"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/ace.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/ace-rtl.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/ace-skins.min.css') }}"/>
@@ -44,8 +43,7 @@
     <link href="{{ asset('/assets/css/jquery-ui-1.10.3.full.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
 
-    <!--자체정의 스타일-->
-    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/assets/css/theme.css') }}"/>
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/common.css') }}" rel="stylesheet">
 
@@ -153,27 +151,13 @@
     </a>
 </div>
 <!-- /.main-container -->
-<div class="footer">
-    <div class="footer-inner">
-        <div class="footer-content">
-        <span class="bigger-120">
+<footer class="footer d-none">
+    <p class="footer-title">
         <a href="/"><span class="blue bolder" style="line-height: 1;">JSS</span></a>&nbsp; &nbsp;船舶业务管理网站 ©  {{ (date('Y') - 1) . ' ~ ' . date('Y')  }}</span>&nbsp; &nbsp;
-            <span class="action-buttons">
-            <a href="#">
-                <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-            </a>
+    </p>
 
-            <a href="#">
-                <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-            </a>
+</footer>
 
-            <a href="#">
-                <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-            </a>
-        </span>
-        </div>
-    </div>
-</div>
 <!-- <![endif]-->
 
 <!--[if IE]>

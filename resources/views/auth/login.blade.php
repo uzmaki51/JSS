@@ -10,69 +10,54 @@
             vertical-align: bottom;
         }
     </style>
-    <div class="container-fluid">
-        <div class="col-sm-10 col-sm-offset-1">
-
-        </div>
-        <div class="row">
-            <div class="space-30"></div>
-            <div class="space-30"></div>
-            <div class="space-30"></div>
-            <div class="space-30"></div>
-            <div class="space-30"></div>
-            <div class="space-30"></div>
-            <div class="space-30"></div>
-
-            <div class="position-relative">
-                <div class="login-container">
-                    <div class="login-bg-div"></div>
-                    <div class="panel-default">
-                        <div class="panel-heading login-label">登录</div>
-                        <div class="login-logo-div text-center">
-                            <img src="{{ cAsset('assets/css/img/logo.png') }}" style="filter: grayscale(0);">
+    <div class="position-relative login-div">
+        <div class="login-container">
+            <div class="login-bg-div"></div>
+            <div class="panel-default">
+                <div class="panel-heading login-label">登录</div>
+                <div class="login-logo-div text-center">
+                    <img src="{{ cAsset('assets/css/img/logo.png') }}" style="filter: grayscale(0);">
+                </div>
+                <div class="panel-body">
+                    @if (count($errors) > 0)
+                        <div class="alert alert-danger">
+                            <strong>登录错误!</strong><br><br>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
-                        <div class="panel-body">
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <strong>登录错误!</strong><br><br>
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                            <div class="space-6"></div>
-                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    @endif
+                    <div class="space-6"></div>
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control" name="account" value="{{ old('account') }}" placeholder="识别字" style="font-size: 18px;padding: 16px 8px!important;">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <input type="password" class="form-control" name="password" placeholder="密码" style="font-size: 18px;padding: 16px 8px!important;">
-                                        </div>
-                                    </div>
-
-                                    <div class="space"></div>
-
-                                    <div class="form-group" style="text-align: center">
-                                        <div class="col-md-12">
-                                            <button type="submit" class="width-100 btn btn-sm btn-primary"  style="font-size: 18px;padding: 8px!important;">
-                                                <i class="icon-key"></i>登录
-                                            </button>
-                                        </div>
-                                    </div>
+                                    <input type="text" class="form-control" name="account" value="{{ old('account') }}" placeholder="识别字" style="font-size: 18px;padding: 16px 8px!important;">
                                 </div>
+                            </div>
 
-                            </form>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input type="password" class="form-control" name="password" placeholder="密码" style="font-size: 18px;padding: 16px 8px!important;">
+                                </div>
+                            </div>
+
+                            <div class="space"></div>
+
+                            <div class="form-group" style="text-align: center">
+                                <div class="col-md-12">
+                                    <button type="submit" class="width-100 btn btn-sm btn-primary"  style="font-size: 18px;padding: 8px!important;">
+                                        <i class="icon-key"></i>登录
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+
+                    </form>
                 </div>
             </div>
         </div>
