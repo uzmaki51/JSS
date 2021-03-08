@@ -49,7 +49,7 @@ $shipList = Session::get('shipList');
                             <h4 class="lighter smaller col-md-4" style="color: #ffffff">{{ transShipManager('title.equip_mark_table') }}</h4>
                             @if(!$isHolder)
                                 <div class="widget-toolbar action-buttons col-md-3">
-                                    <button class="btn btn-xs btn-primary new_btn" style="width: 80px">
+                                    <button class="btn btn-primary new_btn" style="width: 80px">
                                         <i class="icon-plus-sign-alt"></i>
                                         {{ trans('common.label.add') }}
                                     </button>
@@ -132,7 +132,7 @@ $shipList = Session::get('shipList');
                             <h4 class="lighter smaller col-md-4" style="color: #ffffff">{{ transShipManager('title.equipment_unit_table') }}</h4>
                             @if(!$isHolder)
                                 <div class="widget-toolbar action-buttons col-md-3">
-                                    <button class="btn btn-xs btn-primary new_sub_btn" id="id-btn-adddialog" style="width: 100%">
+                                    <button class="btn btn-primary new_sub_btn" id="id-btn-adddialog" style="width: 100%">
                                         <i class="icon-plus-sign-alt"></i>
                                         {{ trans('common.label.add') }}
                                     </button>

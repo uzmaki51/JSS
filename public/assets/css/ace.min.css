@@ -6282,7 +6282,7 @@ th .lbl:only-child, td .lbl:only-child {
 }
 
 .widget-toolbar > .btn {
-    line-height: 27px;
+    line-height: 1;
     margin-top: -2px
 }
 
@@ -20967,7 +20967,7 @@ th .lbl:only-child, td .lbl:only-child {
 }
 
 .widget-toolbar > .btn {
-    line-height: 27px;
+    line-height: 1;
     margin-top: -2px
 }
 
