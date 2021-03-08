@@ -37,7 +37,7 @@ function checkNewDecideReport() {
         var returnCode = parseInt(data);
         if(returnCode > 0) {
             $.gritter.add({
-                title: '통보',
+                title: '通报',
                 text: '新的批准文件(' + returnCode + '个）收到了。',
                 class_name: 'gritter-error'
             });
@@ -54,7 +54,7 @@ function checkNewRecvDecideReport() {
         var returnCode = parseInt(data);
         if(returnCode > 0) {
             $.gritter.add({
-                title: '통보',
+                title: '通报',
                 text: returnCode + '개의 결재문서가 수신됐습니다.',
                 class_name: 'gritter-error'
             });
@@ -68,7 +68,7 @@ function checkPersonSchedule() {
         for(var i=0; i<data.length;i++){
             var schedule = data[i];
             $.toast.add({
-                title: '일정통보',
+                title: '通报',
                 text: schedule.startTime.substr(0,5) + '에 ' + schedule.title + ' 이 있습니다.',
                 class_name: 'gritter-success'
             });

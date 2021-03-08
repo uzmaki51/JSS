@@ -273,3 +273,9 @@ th {
     margin: 0 10px 0 190px;
     border-top: 3px double #E5E5E5;
 }
+
+@media (max-width: 1400px) {
+    .btn {
+        min-width: 80px;
+    }
+}

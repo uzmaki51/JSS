@@ -4,6 +4,11 @@ $isHolder = Session::get('IS_HOLDER');
 $shipList = Session::get('shipList');
 ?>
 @section('content')
+    <style>
+        #div_contents::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
     <div class="main-content">
         <div class="page-content">
             <div class="page-header">
@@ -59,7 +64,7 @@ $shipList = Session::get('shipList');
                 </div>
                 <div class="row">
                     <div class="space-10"></div>
-                    <div style="overflow-y: scroll; width: 100%">
+                    <div style="width: 100%">
                         <table id="ship_info_table" class="table table-striped table-bordered table-hover arc-std-table">
                             <thead>
                             <tr class="black br-hblue">

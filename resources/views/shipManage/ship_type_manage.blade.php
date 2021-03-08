@@ -4,6 +4,11 @@ $isHolder = Session::get('IS_HOLDER');
 $shipList = Session::get('shipList');
 ?>
 @section('content')
+    <style>
+        #div_contents::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
     <div class="main-content">
         <div class="page-content">
             <div class="page-header">
@@ -31,12 +36,12 @@ $shipList = Session::get('shipList');
                                     <button type="submit" class="hidden" id="submit_btn"></button>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label no-padding-right">名称:</label>
-                                        <div class="col-md-7"><input type="text" name="ShipType_Cn" class="form-control"></div>
+                                        <div class="col-md-7"><input type="text" name="ShipType_Cn" class="form-control" required></div>
                                     </div>
                                     <div class="space-2"></div>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label no-padding-right">名称(英文):</label>
-                                        <div class="col-md-7"><input type="text" name="ShipType" class="form-control"></div>
+                                        <div class="col-md-7"><input type="text" name="ShipType" class="form-control" required></div>
                                     </div>
                                 </form>
                             </div><!-- #dialog-message -->
@@ -117,6 +122,16 @@ $shipList = Session::get('shipList');
                         text: "保存",
                         "class" : "btn btn-primary btn-xs",
                         click: function() {
+                            $("#type-form").validate({
+                                rules: {
+                                    ShipType_Cn : "required",
+                                    ShipType: "required",
+                                },
+                                messages: {
+                                    ShipType_Cn : "请输入种类。",
+                                    ShipType: "请输入种类(英文)。",
+                                }
+                            });
                             $('#submit_btn').click();
                         }
                     }

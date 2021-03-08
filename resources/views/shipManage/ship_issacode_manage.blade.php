@@ -20,7 +20,7 @@ $shipList = Session::get('shipList');
                 <div class="row">
                     <div class="space-6"></div>
                     <div class="col-sm-12">
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <label style="float: left;padding-top: 5px">{{ transShipManager('IssaCode.Index') }}:</label>
                             <select class="form-control" id="code_type" style="float:left;margin-left:10px;width:80%">
                                 <option value="">全部</option>
@@ -31,14 +31,14 @@ $shipList = Session::get('shipList');
                         </div>
                         <div class="col-md-2">
                             <label style="float: left;padding-top: 5px">{{ transShipManager('IssaCode.ISSA Code') }}:</label>
-                            <input type="text" class="form-control" style="width:50%;float:left;margin-left:10px" placeholder="-- -- --" id="codeNo" value="@if(isset($codeNo)){{$codeNo}}@endif">
+                            <input type="text" class="form-control" style="width:50%;float:left;" placeholder="-- -- --" id="codeNo" value="@if(isset($codeNo)){{$codeNo}}@endif">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label style="float: left;padding-top: 5px">{{ transShipManager('IssaCode.Content') }}:</label>
                             <input type="text" class="form-control" style="width:50%;float:left;margin-left:10px" id="codeContent" value="@if(isset($content)){{$content}}@endif">
                             <button class="btn btn-info btn-sm search_btn" style="float: left;margin-left:20px; width :80px"><i class="icon-search"></i>搜索</button>
                         </div>
-                        <div class="col-md-1" style="float:right;text-align: right">
+                        <div class="col-md-2" style="float:right;text-align: right">
                             @if(!$isHolder)
                                 <button class="btn btn-sm btn-info no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
                             @endif
