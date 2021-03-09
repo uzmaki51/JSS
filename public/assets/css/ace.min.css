@@ -17212,7 +17212,6 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
 
 .btn {
     display: inline-block;
-    color: #FFF !important;
     background-image: none !important;
     border-radius: 0.25rem!important;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
