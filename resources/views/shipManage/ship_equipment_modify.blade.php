@@ -134,8 +134,9 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                        <div class="widget-toolbar action-buttons" style="width:80px">
-                                            <button type="submit" class="btn btn-xs btn-inverse" style="width: 80px">
+                                        <div class="space-6"></div>
+                                        <div style="display: flex;">
+                                            <button type="submit" class="btn btn-xs btn-inverse" style="width: 80px; margin-left: auto;">
                                                 <i class="icon-save"></i>
                                                 登录
                                             </button>
@@ -146,10 +147,9 @@
                         </form>
                     </div>
                 </div>
-                <div class="space-6"></div>
-
             </div>
         </div>
+    </div>
 
         <script>
             var token = '{!! csrf_token() !!}';

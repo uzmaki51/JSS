@@ -407,9 +407,8 @@ class DecisionController extends Controller
         return json_encode($stamp);
     }
 
-    // 기안문건을 작성한다.
-    public function saveReport(Request $request)
-    {
+    // Create new Sign Doc
+    public function saveReport(Request $request) {
         $user = $this->userinfo;
         $reportInfo = $request->all();
 

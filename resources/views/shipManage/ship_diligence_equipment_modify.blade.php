@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-md-6 alert alert-block alert-info center" style="font-size: 16px">
                     <strong>《&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}}
-                        )&nbsp;》호&nbsp;({{ $shipName['shipName_En'] }}) 设备 </strong>
+                        )&nbsp;》&nbsp;({{ $shipName['shipName_En'] }}) 设备 </strong>
                 </div>
                 <div class="col-sm-3">
                     <h5 style="float: right"><a href="javascript: history.back()"><strong>上一页</strong></a></h5>
@@ -51,9 +51,6 @@
                                             <tr class="black br-hblue">
                                                 <th style="width:80px">{{ transShipManager('EquipmentDetail.Dept') }}<span
                                                             class="require">*</span></th>
-                                                {{--<th>{{ transShipManager('EquipmentDetail.Kind') }}<span--}}
-                                                {{--class="require">*</span></th>--}}
-                                                {{--<th>{{ transShipManager('EquipmentDetail.PIC') }}</th>--}}
                                                 <th>{{ transShipManager('EquipmentDetail.Equipment_Cn') }}<span
                                                             class="require">*</span></th>
                                                 <th>{{ transShipManager('EquipmentDetail.Equipment_en') }}<span
@@ -91,8 +88,6 @@
                                                style="border-top: 1px solid #e5e5e5;">
                                             <thead>
                                             <tr class="black br-hblue">
-                                                {{--<th>{{ transShipManager('EquipmentDetail.Type/Model') }}<span--}}
-                                                {{--class="require">*</span></th>--}}
                                                 <th>{{ transShipManager('EquipmentManage.unit') }}</th>
                                                 <th>{{ transShipManager('EquipmentDetail.Qty') }}</th>
                                                 <th>{{ transShipManager('EquipmentDetail.IssaCode') }}</th>
@@ -133,8 +128,9 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                        <div class="widget-toolbar action-buttons" style="width:80px">
-                                            <button type="submit" class="btn btn-xs btn-inverse" style="width: 80px">
+                                        <div class="space-6"></div>
+                                        <div style="display: flex;">
+                                            <button type="submit" class="btn btn-xs btn-inverse" style="width:80px; margin-left: auto;">
                                                 <i class="icon-save"></i>
                                                 登录
                                             </button>
@@ -145,8 +141,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="space-6"></div>
-
             </div>
         </div>
+    </div>
 @endsection

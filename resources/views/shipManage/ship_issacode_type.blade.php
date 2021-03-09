@@ -69,7 +69,7 @@ $shipList = Session::get('shipList');
                             </thead>
                         </table>
                     </div>
-                    <div id="div_contents" style="overflow-x:hidden; overflow-y:auto; width:100%; height:67vh; border-bottom: 1px solid #eee">
+                    <div id="div_contents" style="overflow-x:hidden; overflow-y:scroll; width:100%; height:67vh; border-bottom: 1px solid #eee">
                         <table class="table table-bordered table-striped table-hover">
                             <tbody id="type_table">
                             @if (count($list) > 0)
