@@ -12,7 +12,7 @@
             <div class="space-2"></div>
             <div class="row" style="margin: 0">
                 <div class="col-md-4">
-                    <div class="col-md-3" style="padding:7px 0;text-align: right">상선항</div>
+                    <div class="col-md-3" style="padding:7px 0;text-align: right">上传港口</div>
                     <div class="col-md-9">
                         <select class="form-control chosen-select" style="width:70%" id="l_port">
                             <option value=""></option>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="col-md-3" style="padding:7px 0;text-align: right">하선항</div>
+                    <div class="col-md-3" style="padding:7px 0;text-align: right">下船港口</div>
                     <div class="col-md-9">
                         <select class="form-control chosen-select" style="width:70%" id="d_port">
                             <option value=""></option>
@@ -42,11 +42,11 @@
                     <thead>
                     <tr class="black br-hblue">
                         <th style="width:5%"></th>
-                        <th style="width:19%">DeptPort</th>
-                        <th style="width:19%">상선항</th>
-                        <th style="width:19%">ArvdPort</th>
-                        <th style="width:19%">하선항</th>
-                        <th style="width:19%">Distance[mile]</th>
+                        <th style="width:19%">Dept港口</th>
+                        <th style="width:19%">上船港口</th>
+                        <th style="width:19%">Arvd港口</th>
+                        <th style="width:19%">下船港口</th>
+                        <th style="width:19%">距离[mile]</th>
                     </tr>
                     </thead>
                 </table>
@@ -59,7 +59,7 @@
         <div class="modal-footer no-margin-top">
             <button class="btn btn-sm btn-danger pull-left btn-confirm" data-dismiss="modal">
                 <i class="icon-check"></i>
-                확 인
+                确认
             </button>
         </div>
     </div><!-- /.modal-content -->

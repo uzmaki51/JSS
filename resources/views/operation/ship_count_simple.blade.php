@@ -11,13 +11,13 @@
             <div class="col-md-6">
                 <h4><b>항차타산</b>
                     <small>
-                        <i class="icon-double-angle-right"></i>초본
+                        <i class="icon-double-angle-right"></i>草案
                     </small>
                 </h4>
             </div>
             <div class="col-md-6">
                 <div style="float:right">
-                    <a href="javascript:history.back()">이전페지</a>
+                    <a href="javascript:history.back()">上一个页</a>
                 </div>
             </div>
         </div>
@@ -368,7 +368,7 @@
                     </div>
                     <div class="col-md-1 col-md-offset-1">
                         <div class="space-10"></div>
-                        <button class="btn btn-primary btn-sm" type="submit" style="float:left" id="submit_btn" disabled> 보 관 </button>
+                        <button class="btn btn-primary btn-sm" type="submit" style="float:left" id="submit_btn" disabled> 保存 </button>
                     </div>
                 </div>
             </form>
@@ -442,7 +442,7 @@
                 if(shipId.length < 1) {
                     $.gritter.add({
                         title: '错误',
-                        text: '배이름을 먼저 선택하여야 합니다.',
+                        text: '需要先选择船舶的名称。',
                         class_name: 'gritter-error'
                     });
                     return;

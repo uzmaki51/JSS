@@ -36,7 +36,7 @@ $ships = Session::get('shipList');
                     </div>
                     @if(isset($shipName['name']))
                         <div class="col-md-6 center" style="font-size: 16px">
-                            <strong>【&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}})&nbsp;】号 &nbsp; 船舶证书目录 </strong>
+                            <strong>[&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}})&nbsp;]号 &nbsp; 船舶证书目录 </strong>
                         </div>
                     @endif
                 </div>

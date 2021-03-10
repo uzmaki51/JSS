@@ -12,7 +12,7 @@ $ships = Session::get('shipList');
                         <b>船舶动态</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            배동태상태관리
+                            船舶动态管理
                         </small>
                     </h4>
                 </div>
@@ -27,14 +27,14 @@ $ships = Session::get('shipList');
                             </span>
                         <span>
                                 <button class="btn btn-sm btn-primary no-radius" style="width: 80px" id="search-btn"><i class="icon-search" ></i>
-                                    검색
+                                    搜索
                                 </button>
                             </span>
                     </div>
                     @if(!$isHolder)
                         <div>
                             <button class="btn btn-sm btn-primary no-radius" style="float:right; width :80px;" id="btn-add-status">
-                                <i class="icon-plus" ></i>추가
+                                <i class="icon-plus" ></i>追加
                             </button>
                         </div>
                     @endif
@@ -56,31 +56,31 @@ $ships = Session::get('shipList');
                                 <td colspan="2"><input type="text" name="Descript_En" value=""></td>
                             </tr>
                             <tr>
-                                <td style="background-color: #f7f7f7;">배동태항목</td>
+                                <td style="background-color: #f7f7f7;">船舶动态项目</td>
                                 <td><input type="text" name="Status_Name" value=""></td>
-                                <td style="background-color: #f7f7f7;">경제일수관련</td>
+                                <td style="background-color: #f7f7f7;">经济日数关联</td>
                                 <td>
                                     <select class="form-control chosen-select" name="Related_Economy">
-                                        <option value="0">무효</option>
+                                        <option value="0">无效</option>
                                         @foreach($economy as $status)
                                             <option value="{{$status['id']}}">{{$status['Event']}}</option>
                                         @endforeach
                                     </select>
                                 </td>
-                                <td style="background-color: #f7f7f7;">비경제일수관련</td>
+                                <td style="background-color: #f7f7f7;">非经济日数关联</td>
                                 <td>
                                     <select class="form-control chosen-select" name="Related_UnEconomy">
-                                        <option value="0">무효</option>
+                                        <option value="0">无效</option>
                                         @foreach($uneconomy as $status)
                                             <option value="{{$status['id']}}">{{$status['Event']}}</option>
                                         @endforeach
                                     </select>
 
                                 </td>
-                                <td style="background-color: #f7f7f7;">기타관련</td>
+                                <td style="background-color: #f7f7f7;">其他关联</td>
                                 <td>
                                     <select class="form-control chosen-select" name="Related_Other">
-                                        <option value="0">무효</option>
+                                        <option value="0">无效</option>
                                         @foreach($other as $status)
                                             <option value="{{$status['id']}}">{{$status['Event']}}</option>
                                         @endforeach
@@ -92,8 +92,8 @@ $ships = Session::get('shipList');
                             </tbody>
                         </table>
                         <div style="float: right;">
-                            <button type="button" class="btn btn-sm btn-primary" id="btn-save">수정</button>
-                            <input class="btn btn-sm btn-primary" style="width:60px" id="btn-close" value="닫기">
+                            <button type="button" class="btn btn-sm btn-primary" id="btn-save">修改</button>
+                            <input class="btn btn-sm btn-primary" style="width:60px" id="btn-close" value="关闭">
                         </div>
                     </div>
                 </div>
@@ -104,12 +104,12 @@ $ships = Session::get('shipList');
                         <tr class="black br-hblue">
                             <td class="center">No</td>
                             <td class="center">Voy_status</td>
-                            <td class="center">배동태항목</td>
+                            <td class="center">船舶动态项目</td>
                             <td class="center">说明</td>
-                            <td class="center">Description</td>
-                            <td class="center">경제일수관련</td>
-                            <td class="center">비경제일수관련</td>
-                            <td class="center">기타관련</td>
+                            <td class="center">说明</td>
+                            <td class="center">经济日数关联</td>
+                            <td class="center">非经济日数关联</td>
+                            <td class="center">其他关联</td>
                             @if(!$isHolder)
                                 <td style="width:60px"></td>
                             @endif
@@ -200,7 +200,7 @@ $ships = Session::get('shipList');
                 if(statusName.length < 1) {
                     $.gritter.add({
                         title: '错误',
-                        text: '[Voy_Status]' + ' 마당을 반드시 입력하여야 합니다!',
+                        text: '[Voy_Status]' + ' 是必要输入的项目。',
                         class_name: 'gritter-error '
                     });
                     return;
@@ -271,7 +271,7 @@ $ships = Session::get('shipList');
                     } else {
                         $.gritter.add({
                             title: '错误',
-                            text: '['+ statusName + ']' + ' 상태이름이 중복되였습니다.',
+                            text: '['+ statusName + ']' + ' 状态的名称重复了。',
                             class_name: 'gritter-error '
                         });
                     }
@@ -284,7 +284,7 @@ $ships = Session::get('shipList');
                 var obj = $(this).closest('tr').children();
                 var statusId = obj.eq(1).data('id');
                 var statusName = obj.eq(1).html();
-                bootbox.confirm('[' + statusName + '] 상태를 삭제하겠습니까?', function(result) {
+                bootbox.confirm('[' + statusName + '] 真要删掉吗?', function(result) {
                     if(result) {
                         // save in db
                         $.post("removeVoyStatus", {'_token': token, 'statusId': statusId}, function (data) {
@@ -304,7 +304,7 @@ $ships = Session::get('shipList');
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ statusName + ']' + ' 상태是已经被删掉的。',
+                                    text: '['+ statusName + ']' + ' 是已经被删掉的。',
                                     class_name: 'gritter-error '
                                 });
                             }

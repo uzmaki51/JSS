@@ -21,7 +21,7 @@
     <div class="page-content">
         <div class="page-header">
             <div class="col-md-8 col-md-offset-2">
-                <h3 class="center">운임계산서</h3>
+                <h3 class="center">运费账单</h3>
             </div>
         </div>
         <div class="col-md-12">
@@ -57,8 +57,8 @@
                                         <span>
                                             {{transShipOperation("shipCalc.CpType")}}:&nbsp;
                                             <select>
-                                                <option value="1" @if($data->CP_kind == 1) selected="selected" @endif>航次租船계약</option>
-                                                <option value="2" @if($data->CP_kind == 2) selected="selected" @endif>期租船계약</option>
+                                                <option value="1" @if($data->CP_kind == 1) selected="selected" @endif>航次租船合同</option>
+                                                <option value="2" @if($data->CP_kind == 2) selected="selected" @endif>期租船合同</option>
                                             </select>
                                         </span>
                                         <span>
@@ -171,7 +171,7 @@
                                         <i class="icon-remove"></i>
                                     </button>
                                     <i class="icon-exclamation-sign red"></i>
-                                    현재 선택한 배에 대한 운임자료를 얻을수 없습니다.
+                                    无法获得船舶的运费资料。
                                 </div>
                             </div>
                         </div>

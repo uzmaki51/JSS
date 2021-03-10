@@ -19,12 +19,12 @@ else $header = 'sidebar';
             <div class="page-header">
                 <div class="col-md-3">
                     <h5>
-                        <b>항차일수분석</b>
+                        <b>航次日数分析</b>
                     </h5>
                 </div>
                 @if(isset($shipName['name']))
                     <div class="col-md-6 alert alert-block center" style="font-size: 16px">
-                        <strong>《&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}})&nbsp;》호&nbsp;({{ $shipName['shipName_En'] }}) 항차일수분석 </strong>
+                        <strong>《&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}})&nbsp;》호&nbsp;({{ $shipName['shipName_En'] }}) 航次日数分析 </strong>
                     </div>
                 @endif
             </div>
@@ -309,7 +309,7 @@ else $header = 'sidebar';
                 if((firstVoy > 0) && (endVoy > 0) && ((endVoy - firstVoy) < 0)) {
                     $.gritter.add({
                         title: '错误',
-                        text: '항차번호구간을 바로 설정하십시오.',
+                        text: '请正确设置航次号码的范围。',
                         class_name: 'gritter-error '
                     });
                     return;
@@ -342,7 +342,7 @@ else $header = 'sidebar';
             if((firstVoy > 0) && (endVoy > 0) && ((endVoy - firstVoy) < 0)) {
                 $.gritter.add({
                     title: '错误',
-                    text: '항차번호구간을 바로 설정하십시오.',
+                    text: '请正确设置航次号码的范围。',
                     class_name: 'gritter-error '
                 });
                 return;

@@ -18,8 +18,8 @@ return [
     ],
 
 	"captions" => [
-		'prevPage' => '上一个',
-		'nextPage' => '下一个',
+		'prevPage' => '上一个页',
+		'nextPage' => '下一个页',
 		'register' => '登记',
 		'delete' => '删掉',
 		'change' => '修改',

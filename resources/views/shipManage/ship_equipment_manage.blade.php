@@ -19,7 +19,7 @@
                 </div>
                 @if(isset($shipName['name']))
                     <div class="col-md-6 alert alert-block center" style="font-size: 16px">
-                        <strong>【&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}})&nbsp;】号&nbsp;({{ $shipName['shipName_En'] }}) 设备目录 </strong>
+                        <strong>[&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}})&nbsp;]号&nbsp;({{ $shipName['shipName_En'] }}) 设备目录 </strong>
                     </div>
                 @endif
                 <div id="modal-wizard" class="modal" aria-hidden="true" style="display: none;">

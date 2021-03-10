@@ -12,7 +12,7 @@
                         <b>船舶动态</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            경제일수항목
+                            经济日数项目
                         </small>
                     </h4>
                 </div>
@@ -20,7 +20,7 @@
                     @if(!$isHolder)
                         <button class="btn btn-sm btn-primary no-radius" style="width: 80px">
                             <i class="icon-plus-sign-alt"></i>
-                            추가
+                            追加
                         </button>
                     @endif
                     <div id="dialog-modify" class="hide">
@@ -29,7 +29,7 @@
                             <input type="text" class="hidden" name="eventId" value="">
                             <input type="submit" class="hidden" id="submit_btn">
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">항차형태:</label>
+                                <label class="col-md-3 control-label no-padding-right">航次形态:</label>
                                 <div class="col-md-8">
                                     <select class="form-control" name="TypeId">
                                         @foreach($typeList as $type)
@@ -40,12 +40,12 @@
                             </div>
                             <div class="space-2"></div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">사건:</label>
+                                <label class="col-md-3 control-label no-padding-right">事件:</label>
                                 <div class="col-md-8"><input type="text" name="Event" class="form-control"></div>
                             </div>
                             <div class="space-2"></div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">설명:</label>
+                                <label class="col-md-3 control-label no-padding-right">说明:</label>
                                 <div class="col-md-8"><input type="text" name="Description" class="form-control"></div>
                             </div>
                         </form>
@@ -60,8 +60,8 @@
                         <thead>
                         <tr class="black br-hblue">
                             <th class="center">No</th>
-                            <th class="center">항차형태</th>
-                            <th class="center">사건</th>
+                            <th class="center">航次形态</th>
+                            <th class="center">事件</th>
                             <th class="center">说明</th>
                             @if(!$isHolder)
                                 <th class="center" style="width:70px"></th>
@@ -108,7 +108,7 @@
                 $('[name=TypeId]').val('');
                 $('[name=Event]').val('');
                 $('[name=Description]').val('');
-                showModifyDialog('사건추가');
+                showModifyDialog('追加事件');
             });
 
             $('.edit-btn').on('click', function () {
@@ -117,7 +117,7 @@
                 $('[name=TypeId]').val(obj.eq(1).data('type'));
                 $('[name=Event]').val(obj.eq(2).html());
                 $('[name=Description]').val(obj.eq(3).html());
-                showModifyDialog('사건수정');
+                showModifyDialog('修改事件');
             });
 
             $('.remove-btn').on('click', function () {
@@ -135,7 +135,7 @@
                         break;
                 }
 
-                bootbox.confirm('['+ eventName + ']  ' + "  사건을 삭제하겠습니까?", function (result) {
+                bootbox.confirm('['+ eventName + ']  ' + "  事件真要删掉吗?", function (result) {
                     if (result) {
                         //확인단추를 눌렀을 때의 처리
                         $.post('deleteVoyStatusEvent', {'_token':token, 'eventId':eventId}, function (data) {
@@ -145,7 +145,7 @@
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ eventName + ']' + ' 사건은 이미 삭제되였습니다.',
+                                    text: '['+ eventName + ']' + ' 是已经被删掉了。',
                                     class_name: 'gritter-error '
                                 });
                             }
@@ -160,8 +160,8 @@
                     Event: "required",
                 },
                 messages: {
-                    TypeId : "항차형태를 선택하십시오.",
-                    Event: "사건이름을 입력하십시오.",
+                    TypeId : "请选择航次的形态。",
+                    Event: "请输入时间的名称。",
                 }
             });
 
@@ -188,7 +188,7 @@
                         }
                     },
                     {
-                        text: "확인",
+                        text: "确认",
                         "class": "btn btn-primary btn-xs",
                         click: function () {
                             $('#submit_btn').click();

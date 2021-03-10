@@ -5,7 +5,7 @@
     <div class="page-content">
         <div class="page-header">
             <div class="col-md-4">
-                <h5><b>운임계산서</b></h5>
+                <h5><b>运费账单</b></h5>
 
             </div>
             <div class="col-sm-8">
@@ -22,7 +22,7 @@
                         <option value="{{ $voy->id }}" @if($voyId == $voy->id) selected @endif }}>{{ $voy->Voy_No }}</option>
                         @endforeach
                     </select>
-                    <button class="btn btn-primary btn-sm print_stand" style="float: right; width :80px;"><i class="icon-print"></i>인쇄</button>
+                    <button class="btn btn-primary btn-sm print_stand" style="float: right; width :80px;"><i class="icon-print"></i>打印</button>
                 </h5>
             </div>
         </div>
@@ -38,8 +38,8 @@
                             <div class="col-md-4" style="text-align: center;">
                                 {{transShipOperation("shipCalc.CpType")}}:&nbsp;
                                 <select name="" id="" style="width: 60%;margin-top:4px">
-                                    <option value="1" @if($data->CP_kind == 1) selected="selected" @endif>航次租船계약</option>
-                                    <option value="2" @if($data->CP_kind == 2) selected="selected" @endif>期租船계약</option>
+                                    <option value="1" @if($data->CP_kind == 1) selected="selected" @endif>航次租船合同</option>
+                                    <option value="2" @if($data->CP_kind == 2) selected="selected" @endif>期租船合同</option>
                                 </select></div>
                             <div class="col-md-4" style="text-align: center;padding-top: 10px;">{{transShipOperation("shipCalc.Ref No")}}:&nbsp;
                                 <span id="">{{ $data->CP_No }}</span></div>
@@ -148,7 +148,7 @@
                                 <i class="icon-remove"></i>
                             </button>
                             <i class="icon-exclamation-sign red"></i>
-                            현재 선택한 배에 대한 운임자료를 얻을수 없습니다.
+                            无法获得船舶的运费资料。
                         </div>
                     </div>
                 </div>

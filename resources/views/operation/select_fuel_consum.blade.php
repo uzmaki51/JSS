@@ -67,7 +67,7 @@
         <div class="modal-footer no-margin-top">
             <button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
                 <i class="icon-check"></i>
-                확 인
+                确认
             </button>
         </div>
     </div><!-- /.modal-content -->

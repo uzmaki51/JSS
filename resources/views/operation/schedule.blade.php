@@ -345,7 +345,7 @@ $isHolder = Session::get('IS_HOLDER');
                         </table>
                         @if(!$isHolder)
                             <button type="submit" class="btn btn-sm btn-primary" id="submit-btn" style="float:right; width :80px;"><i class="icon-save"></i>登记</button>
-                            <a class="btn btn-sm btn-success" id="re-calc" style="float:right;margin-right: 15px"><i class="icon-keyboard"></i>실리윤계산</a>
+                            <a class="btn btn-sm btn-success" id="re-calc" style="float:right;margin-right: 15px"><i class="icon-keyboard"></i>计算利润</a>
                         @endif
                     </form>
                 </div>
@@ -362,7 +362,7 @@ $isHolder = Session::get('IS_HOLDER');
             if(status == 'success') {
                 var year = $('#select_year').val();
                 $.gritter.add({
-                    title: '조작성공',
+                    title: '操作成功!',
                     text: msg,
                     class_name: 'gritter-success'
                 });
@@ -377,7 +377,7 @@ $isHolder = Session::get('IS_HOLDER');
             $('#re-calc').on('click', function () {
                 $shipName = "<?php print_r($shipName);?>";
                 $year = "<?php print_r($year);?>";
-                bootbox.confirm($year + "년 《" + $shipName + "》호 실리윤계산을 진행하겠습니까?", function (result) {
+                bootbox.confirm($year + "年[" + $shipName + "] 号的实在利润计算这要进行吗?", function (result) {
                     if(result) {
                         $('[name=submit_type]').val('calc');
                         $('#submit-btn').click();
@@ -435,8 +435,8 @@ $isHolder = Session::get('IS_HOLDER');
                     var result = jQuery.parseJSON(data);
                     if (result.status == 'success') {
                         $.gritter.add({
-                            title: '조작성공',
-                            text: '['+ shipName + '] 호' + '의 운영계획이 수정되였습니다.',
+                            title: '操作成功!',
+                            text: '['+ shipName + '] 号' + '的运用计划被修改好了。',
                             class_name: 'gritter-success'
                         });
                         obj.eq(1).html( formatNumber(income) );
@@ -512,7 +512,7 @@ $isHolder = Session::get('IS_HOLDER');
                         break;
                 }
 
-                bootbox.confirm("["+ shipName + "]号的 " + year + "년 운영계획을 삭제하겠습니까?", function(result) {
+                bootbox.confirm("["+ shipName + "]号的 " + year + "年运用计划真要删掉吗?", function(result) {
                     if(result) {
                         // save in db
                         $.post("removeYearPlan", {'_token': token, 'year': year, 'shipID': shipID
@@ -563,8 +563,8 @@ $isHolder = Session::get('IS_HOLDER');
                         var result = jQuery.parseJSON(data);
                         if (result.status == 'success') {
                             $.gritter.add({
-                                title: '조작성공',
-                                text: year + '년' + month + '월 운영계획이 수정되였습니다.',
+                                title: '操作成功!',
+                                text: year + '年' + month + '月的运用计划被修改好了。',
                                 class_name: 'gritter-success'
                             });
                             obj.eq(start).html(formatNumber(income));

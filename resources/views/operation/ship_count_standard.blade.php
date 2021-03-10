@@ -18,9 +18,9 @@ $ships = Session::get('shipList');
             <div class="page-content">
                 <div class="page-header">
                     <div class="col-md-6">
-                        <h4><b>항차타산</b>
+                        <h4><b>航次盘算</b>
                             <small>
-                                <i class="icon-double-angle-right"></i>표준
+                                <i class="icon-double-angle-right"></i>标准
                             </small>
                         </h4>
                     </div>
@@ -46,7 +46,7 @@ $ships = Session::get('shipList');
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <label style="float: left;padding-top:7px">항차:</label>
+                            <label style="float: left;padding-top:7px">航次:</label>
                             <select class="form-control" style="width:70%;float:left;margin-left:10px" id="voy_select">
                                 @foreach($voyList as $voy)
                                     <option value="{{$voy['id']}}" @if($voy['id'] == $voyId) selected @endif>{{$voy['Voy_No']}} | {{$voy['CP_No']}}</option>
@@ -56,7 +56,7 @@ $ships = Session::get('shipList');
                         <div class="col-md-4">
                             <button class="btn btn-primary btn-sm search_stand" style="width: 80px"><i class="icon-search"></i>搜索</button>
                             <button class="btn btn-warning btn-sm excel_stand" style="width: 80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
-                            <button class="btn btn-primary btn-sm print_stand" style="width: 80px"><i class="icon-print"></i>인쇄</button>
+                            <button class="btn btn-primary btn-sm print_stand" style="width: 80px"><i class="icon-print"></i>打印</button>
                             @if(!$isHolder)
                                 <button class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-save"></i>登记</button>
                             @endif

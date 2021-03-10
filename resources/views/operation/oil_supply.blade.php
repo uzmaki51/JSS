@@ -352,11 +352,6 @@ else $header = 'sidebar';
                     }
                 });*/
                 location.replace(location.href+'&year='+year);
-
-
-
-
-
             });
 
             $("td.invoice-detail").on("mouseover", function(){

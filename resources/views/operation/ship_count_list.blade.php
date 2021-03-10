@@ -8,10 +8,10 @@ $ships = Session::get('shipList');
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-6">
-                    <h4><b>항차타산</b>
+                    <h4><b>航次盘算</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            초본(목록)
+                            草案(目录)
                         </small>
                     </h4>
                 </div>
@@ -34,7 +34,7 @@ $ships = Session::get('shipList');
                     </div>
                     @if(!$isHolder)
                         <div class="col-md-4" style="text-align: right">
-                            <button class="btn btn-purple btn-sm btn_add" style="float: right; width :100px"><i class="icon-circle-arrow-right"></i>새로 계산</button>
+                            <button class="btn btn-purple btn-sm btn_add" style="float: right; width :100px"><i class="icon-circle-arrow-right"></i>重新计算</button>
                         </div>
                     @endif
                 </div>

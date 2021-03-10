@@ -12,7 +12,7 @@ $ships = Session::get('shipList');
                         <b>船舶动态</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            항차일수항목
+                            航次日数项目
                         </small>
                     </h4>
                 </div>
@@ -20,7 +20,7 @@ $ships = Session::get('shipList');
                     @if(!$isHolder)
                         <button class="btn btn-sm btn-primary no-radius" style="width: 80px">
                             <i class="icon-plus-sign-alt"></i>
-                            추가
+                            追加
                         </button>
                     @endif
                     <div id="dialog-modify" class="hide">
@@ -29,22 +29,22 @@ $ships = Session::get('shipList');
                             <input type="text" class="hidden" name="typeId" value="">
                             <input type="submit" class="hidden" id="submit_btn">
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">항차일수항목:</label>
+                                <label class="col-md-3 control-label no-padding-right">航次日数项目:</label>
                                 <div class="col-md-8"><input type="text" name="ItemName" class="form-control"></div>
                             </div>
                             <div class="space-2"></div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">항차일수항목(英文):</label>
+                                <label class="col-md-3 control-label no-padding-right">航次日数项目(英文):</label>
                                 <div class="col-md-8"><input type="text" name="VoyItem" class="form-control"></div>
                             </div>
                             <div class="space-2"></div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">종류:</label>
+                                <label class="col-md-3 control-label no-padding-right">种类:</label>
                                 <div class="col-md-8">
                                     <select class="form-control" name="Type">
-                                        <option value="1">경제일수</option>
-                                        <option value="2">비경제일수</option>
-                                        <option value="0">기타일수</option>
+                                        <option value="1">经济日数</option>
+                                        <option value="2">非经济日数</option>
+                                        <option value="0">其他日数</option>
                                     </select>
                                 </div>
                             </div>
@@ -60,8 +60,8 @@ $ships = Session::get('shipList');
                         <thead>
                         <tr class="black br-hblue">
                             <th class="center">No</th>
-                            <th class="center">항차일수항목</th>
-                            <th class="center">항차일수항목(英文)</th>
+                            <th class="center">航次日数项目</th>
+                            <th class="center">航次日数项目(英文)</th>
                             <th class="center">种类</th>
                             @if(!$isHolder)
                                 <th class="center" style="width:70px"></th>
@@ -77,11 +77,11 @@ $ships = Session::get('shipList');
                                 <td class="center">{{$type['VoyItem']}}</td>
                                 <td class="center" data-type="{{$type['Type']}}">
                                     @if($type['Type'] == 1)
-                                        경제일수
+                                        经济日数
                                     @elseif($type['Type'] == 2)
-                                        비경제일수
+                                        非经济日数
                                     @else
-                                        기타
+                                        其他
                                     @endif
                                 </td>
                                 @if(!$isHolder)
@@ -114,7 +114,7 @@ $ships = Session::get('shipList');
                 $('[name=ItemName]').val('');
                 $('[name=VoyItem]').val('');
                 $('[name=Type]').val('');
-                showModifyDialog('항목추가');
+                showModifyDialog('追加项目');
             });
 
             $('.edit-btn').on('click', function () {
@@ -123,7 +123,7 @@ $ships = Session::get('shipList');
                 $('[name=ItemName]').val(obj.eq(1).html());
                 $('[name=VoyItem]').val(obj.eq(2).html());
                 $('[name=Type]').val(obj.eq(3).data('type'));
-                showModifyDialog('항목수정');
+                showModifyDialog('修改项目');
             });
 
             $('.remove-btn').on('click', function () {
@@ -141,7 +141,7 @@ $ships = Session::get('shipList');
                         break;
                 }
 
-                bootbox.confirm('['+ itemName + ']  ' + "  항목을 삭제하겠습니까?", function (result) {
+                bootbox.confirm('['+ itemName + ']  ' + "  项目真要删掉吗?", function (result) {
                     if (result) {
                         //확인단추를 눌렀을 때의 처리
                         $.post('deleteVoyStatusType', {'_token':token, 'typeId':typeId}, function (data) {
@@ -151,7 +151,7 @@ $ships = Session::get('shipList');
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ itemName + ']' + ' 항목은 이미 삭제되였습니다.',
+                                    text: '['+ itemName + ']' + ' 是已经被删掉了。',
                                     class_name: 'gritter-error '
                                 });
                             }
@@ -167,9 +167,9 @@ $ships = Session::get('shipList');
                     Type : "required",
                 },
                 messages: {
-                    ItemName : "항차일수항목을 입력하십시오.",
-                    VoyItem: "사건이름을 입력하십시오.",
-                    Type : "경제일수를 선택하십시오.",
+                    ItemName : "请输入航次日数的项目。",
+                    VoyItem: "请输入时间的名称。",
+                    Type : "请选择经济日数。",
                 }
             });
 
@@ -196,7 +196,7 @@ $ships = Session::get('shipList');
                         }
                     },
                     {
-                        text: "확인",
+                        text: "确认",
                         "class": "btn btn-primary btn-xs",
                         click: function () {
                             $('#submit_btn').click();

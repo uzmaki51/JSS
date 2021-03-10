@@ -10,7 +10,7 @@ $ships = Session::get('shipList');
                 <div class="col-md-6">
                     <h4><b>基础资料输入</b>
                         <small>
-                            <i class="icon-double-angle-right"></i>항구명관리
+                            <i class="icon-double-angle-right"></i>港口名称管理
                         </small>
                     </h4>
                 </div>
@@ -31,12 +31,12 @@ $ships = Session::get('shipList');
                                     <input type="text" class="hidden" name="portId">
                                     <button type="submit" class="hidden" id="submit_btn"></button>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label no-padding-right">항구명:</label>
+                                        <label class="col-md-3 control-label no-padding-right">港口名称:</label>
                                         <div class="col-md-8"><input type="text" name="port_name" class="form-control"></div>
                                     </div>
                                     <div class="space-2"></div>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label no-padding-right">항구명(英文):</label>
+                                        <label class="col-md-3 control-label no-padding-right">港口名称(英文):</label>
                                         <div class="col-md-8"><input type="text" name="port_name_en" class="form-control"></div>
                                     </div>
                                 </form>
@@ -51,8 +51,8 @@ $ships = Session::get('shipList');
                             <thead>
                             <tr class="black br-hblue">
                                 <th class="center">No</th>
-                                <th class="center">항구명</th>
-                                <th class="center">항구명(英文)</th>
+                                <th class="center">港口名称</th>
+                                <th class="center">港口名称(英文)</th>
                                 @if(!$isHolder)
                                     <th class="center" style="width: 70px"></th>
                                 @endif
@@ -93,9 +93,9 @@ $ships = Session::get('shipList');
 
         function editShipPort() {
             var portId = $('[name=portId]').val();
-            var title = '항구명 추가';
+            var title = '追加港口名称';
             if(portId != '')
-                title = '항구명 수정';
+                title = '修改港口名称';
             var dialog = $( "#dialog_update_port" ).removeClass('hide').dialog({
                 modal: true,
                 title: title,
@@ -134,8 +134,8 @@ $ships = Session::get('shipList');
                     port_name_en: "required"
                 },
                 messages: {
-                    port_name: "항구명을 입력하시오.",
-                    port_name_en: "항구명의 英文이름을 입력하시오."
+                    port_name: "请输入港口的名称。",
+                    port_name_en: "请输入港口的名称(英文)。"
                 }
             });
 
@@ -163,7 +163,7 @@ $ships = Session::get('shipList');
                 var portId = obj.eq(0).data('id') * 1;
                 var portName = obj.eq(1).text();
 
-                bootbox.confirm("[" + portName + "] 항구명를 삭제하겠습니까?", function (result) {
+                bootbox.confirm("[" + portName + "] 港口名称真要删掉吗?", function (result) {
                     if (result) {
                         //확인단추를 눌렀을 때의 처리
                         $.post('deleteShipPort', {'_token':token, 'portId':portId}, function (result) {
@@ -172,13 +172,13 @@ $ships = Session::get('shipList');
                                 trObj.remove();
                                 $.gritter.add({
                                     title: '成功',
-                                    text: '['+ portName + '] 항구명이 删掉成功!',
+                                    text: '['+ portName + '] 港口名称 删掉成功!',
                                     class_name: 'gritter-success'
                                 });
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ portName + '] 항구명이 이미 삭제되였습니다.',
+                                    text: '['+ portName + '] 港口名称是已经被删掉了。',
                                     class_name: 'gritter-error'
                                 });
                             }

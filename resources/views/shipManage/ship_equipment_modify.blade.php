@@ -22,8 +22,8 @@
                     </h4>
                 </div>
                 <div class="col-md-6 alert alert-block alert-info center" style="font-size: 16px">
-                    <strong>【&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}}
-                        )&nbsp;】号&nbsp;({{ $shipName['shipName_En'] }}) 设备 </strong>
+                    <strong>[&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}}
+                        )&nbsp;]号&nbsp;({{ $shipName['shipName_En'] }}) 设备 </strong>
                 </div>
                 <div class="col-sm-3">
                     <h5 style="float: right"><a href="javascript: history.back()"><strong>上一个页</strong></a></h5>

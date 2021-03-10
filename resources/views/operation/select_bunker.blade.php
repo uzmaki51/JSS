@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <span class="white">&times;</span>
                 </button>
-                Sail Distance Table
+                航海距离表
             </div>
         </div>
         <div class="modal-body no-padding">
@@ -43,7 +43,7 @@
         <div class="modal-footer no-margin-top">
             <button class="btn btn-sm btn-danger pull-left btn-confirm" data-dismiss="modal">
                 <i class="icon-check"></i>
-                확 인
+                确认
             </button>
         </div>
     </div><!-- /.modal-content -->

@@ -20,9 +20,9 @@
                 </div>
                 <div class="col-md-6 alert alert-block alert-info center" style="font-size: 16px">
 					@if(!empty($shipName))
-	                    <strong>【&nbsp;{{$shipName->name}}({{$shipName->shipName_Cn}})&nbsp;】号&nbsp;({{ $shipName->shipName_En }}) {{transBusinessManage("captions.enterstate")}}</strong>
+	                    <strong>[&nbsp;{{$shipName->name}}({{$shipName->shipName_Cn}})&nbsp;]号&nbsp;({{ $shipName->shipName_En }}) {{transBusinessManage("captions.enterstate")}}</strong>
 					@else
-	                    <strong>【&nbsp;{{transBusinessManage("transBusinessManage("captions.companyname")}}&nbsp;】&nbsp;   {{transBusinessManage("captions.waitmember_enterstate")}}</strong>
+	                    <strong>[&nbsp;{{transBusinessManage("transBusinessManage("captions.companyname")}}&nbsp;]&nbsp;   {{transBusinessManage("captions.waitmember_enterstate")}}</strong>
 					@endif
                 </div>
             </div>

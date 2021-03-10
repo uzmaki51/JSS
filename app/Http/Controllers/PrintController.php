@@ -110,7 +110,7 @@ class PrintController extends Controller {
         ]);
     }
 
-    //----------------- 운임계산서 ------------------//
+    //----------------- 运费账单 ------------------//
     public function shipCalc(Request $request)
     {
 
