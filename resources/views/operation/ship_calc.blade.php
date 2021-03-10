@@ -131,7 +131,7 @@
                             </tr>
                             @endforeach
                             <tr>
-                                <td style="text-align: right"><b>계</b></td>
+                                <td style="text-align: right"><b>计</b></td>
                                 <td style="text-align: right"><b>{{ \App\Http\Controllers\Util::getNumberFt($incomeSum) }}</b></td>
                                 <td style="text-align: right"><b>{{ \App\Http\Controllers\Util::getNumberFt($expenseSum) }}</b></td>
                                 <td></td>

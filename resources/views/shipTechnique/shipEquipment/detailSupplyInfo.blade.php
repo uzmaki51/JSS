@@ -18,7 +18,7 @@
         </style>
         <div class="page-content">
             <div class="page-year-view">
-                <div class="col-md-12" style="text-align: center;"><h3>설비부속자재 공급정형 상세검색</h3></div><br>
+                <div class="col-md-12" style="text-align: center;"><h3>设备配件材料 供给情况仔细搜索</h3></div><br>
                 
                 <div class="col-md-12">
                 <table align="center"  >
@@ -26,7 +26,7 @@
                     <td>
                     <div class="col-md-4 form-horizontal">
                         
-                        <label class="control-label no-padding-right" style="float: left;">배이름</label>
+                        <label class="control-label no-padding-right" style="float: left;">船舶名称</label>
                         
                         <div class="col-sm-8">
                             <input  class="form-control" id="shipId" disabled
@@ -41,7 +41,7 @@
                     </td>
                     <td>
                     <div class="col-md-4 form-horizontal">
-                        <label class="control-label no-padding-right" style="float: left;">구분</label>
+                        <label class="control-label no-padding-right" style="float: left;">区分</label>
                         
                         
                         <div class="col-sm-8" id="kindList">
@@ -57,7 +57,7 @@
                     <td>
                     <div class="col-md-4 form-horizontal">
                         
-                        <label class="control-label no-padding-right" style="float: left;">설비명</label>
+                        <label class="control-label no-padding-right" style="float: left;">设备名称</label>
                         
                         <div class="col-sm-8 " id="equipList">
                             <input type="text" class="form-control" id="equipment" disabled
@@ -75,7 +75,7 @@
                       <!--   <div class="col-sm-3">
                         </div> -->
                         <td>
-                        <label class="control-label no-padding-right" style="float: left;">자호(Label)</label>
+                        <label class="control-label no-padding-right" style="float: left;">字号(Label)</label>
 
                         <div class="col-sm-8">
                             <input  type="text" class="form-control" id="equipLabel" disabled 
@@ -84,7 +84,7 @@
                         </div>
                         </td>
                         <td>
-                        <label class="control-label no-padding-right" style="float: left;">형(Type)</label>
+                        <label class="control-label no-padding-right" style="float: left;">形式(Type)</label>
 
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="equipType" disabled
@@ -93,7 +93,7 @@
                         </div>
                         </td>
                         <td>
-                        <label class="control-label no-padding-right" style="float: left;">계렬번호(SN)</label>
+                        <label class="control-label no-padding-right" style="float: left;">编号(SN)</label>
 
                         <div class="col-sm-7">
                             <input type="text" class="form-control" id="equipSn" disabled
@@ -116,7 +116,7 @@
                     <div class="row">
                         <div class="col-md-4" style="text-align: center;">
                             <label class="control-label no-padding-right" style="height: 25px; padding-top: 7px;">
-                                부속자재(Part/Issa/Others)
+                                配件(Part/Issa/Others)
                             </label>
                         </div>
                         <div class="col-md-6" style="text-align: left;" id="partName">
@@ -173,7 +173,7 @@
                     <div class="row">
                         <div class="col-md-4" style="text-align: center;">
                             <label class="control-label no-padding-right" style="height: 25px; padding-top: 7px;">
-                                제안대상
+                                提案对象
                             </label>
                         </div>
                         <div class="col-md-6" style="text-align: left;">
@@ -196,7 +196,7 @@
                     <div class="row">
                         <div class="col-md-4" style="text-align: center;">
                             <label class="control-label no-padding-right" style="height: 25px; padding-top: 7px;">
-                                신청항차
+                                申请航次
                             </label>
                         </div>
                         <div class="col-md-6" style="text-align: left;">
@@ -222,7 +222,7 @@
                     <div class="row">
                         <div class="col-md-4" style="text-align: center;">
                             <label class="control-label no-padding-right" style="height: 25px; padding-top: 7px;">
-                                공급항차
+                                供给航次
                             </label>
                         </div>
                         <div class="col-md-6" style="text-align: left;">
@@ -249,7 +249,7 @@
                     <div class="row">
                         <div class="col-md-4" style="text-align: center;">
                             <label class="control-label no-padding-right" style="height: 25px; padding-top: 7px;">
-                                장소
+                                地点
                             </label>
                         </div>
                         <div class="col-md-6" style="text-align: left;">
@@ -271,7 +271,7 @@
                     <div class="row">
                         <div class="col-md-4" style="text-align: center;">
                             <label class="control-label no-padding-right" style="height: 25px; padding-top: 7px;">
-                                공급자
+                                供给人
                             </label>
                         </div>
                         <div class="col-md-6" style="text-align: left;">
@@ -294,7 +294,7 @@
                     <div  class="row">
                         <div class="col-md-4" style="text-align: center;">
                             <label class="control-label no-padding-right" style="height: 25px; padding-top: 7px;">
-                                공급날자
+                                供给日期
                             </label>
                         </div>
                         <div class="col-md-6" style="text-align: left;">
@@ -319,7 +319,7 @@
                         <span class="input-group-btn" style="padding: 0px 5px;">
                             <button class="btn btn-xs btn-primary no-radius" type="button" onclick="onSearch()" style="width: 80px">
                                 <i class="icon-search"></i>
-                                검색
+                                搜索
                             </button>
                         </span>
                     </div>

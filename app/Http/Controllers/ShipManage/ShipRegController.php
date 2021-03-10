@@ -136,7 +136,7 @@ class ShipRegController extends Controller
         return view('shipManage.shipinfo', array('list'=> $ship_infolist));
     }
 
-    //배등록
+    //배登记
     public function registerShipData(Request $request)
     {
         $GLOBALS['selMenu'] = 52;
@@ -512,7 +512,7 @@ class ShipRegController extends Controller
         return view('shipManage.ship_cert_modify', ['info'=>$certInfo, 'certList'=>$certType]);
     }
 
-    // 배증서 추가 및 수정
+    // 배증서 追加 및 수정
     public function updateCertInfo(Request $request) {
         $certId = $request->get('id');
         $shipName = $request->get('ShipName');
@@ -599,7 +599,7 @@ class ShipRegController extends Controller
         return view('shipManage.cert_modify', ['info'=>$certInfo]);
     }
 
-    // 증서 추가 및 수정
+    // 증서 追加 및 수정
     public function updateCertType(Request $request) {
         $certId = $request->get('id');
         $cert = $request->get('cert');
@@ -852,7 +852,7 @@ class ShipRegController extends Controller
 
     public function getEquipmentDetail(Request $request) {
 
-        $GLOBALS['selMenu'] = 54;  // 설비등록메뉴표
+        $GLOBALS['selMenu'] = 54;  // 설비登记메뉴표
         $GLOBALS['submenu'] = 107; // 배별 설비목록메뉴표
 
         $deviceId = $request->get('equipId');

@@ -104,7 +104,7 @@ class HomeController extends Controller {
             else
                 $attendStatus = 1;  //출근기록가능한 상태
         } else {
-            $attendStatus = 4; // 이미 등록한 상태
+            $attendStatus = 4; // 이미 登记한 상태
         }
 
 
@@ -123,10 +123,10 @@ class HomeController extends Controller {
         $typeList = AttendType::all();
         foreach($units as $unit) {
             if($unit['parentId'] == 0) {
-                $memberList = UserInfo::getDirectlyUserList($unit['id']); // 직속부서의 리용자들의 ID를 반점으로 구분하여 얻는다.
+                $memberList = UserInfo::getDirectlyUserList($unit['id']); // 직속부서의 리용자들의 ID를 반점으로 区分하여 얻는다.
                 $unit['title'] = '경송선박회사';
             } else {
-                $memberList = UserInfo::getUserListByUnit($unit['id']); // 해당부서의 리용자들의 ID를 반점으로 구분하여 얻는다.
+                $memberList = UserInfo::getUserListByUnit($unit['id']); // 해당부서의 리용자들의 ID를 반점으로 区分하여 얻는다.
             }
             $resultList = AttendUser::getAttendStateByDate($memberList, $selDate);
             $valueList = array();
@@ -161,7 +161,7 @@ class HomeController extends Controller {
 
         $shipList = ShipRegister::getShipListByOrigin();
         foreach($shipList as $ship) {
-            $shipMemberList = ShipMember::getMemberListByCommar($ship['RegNo']); // 해당배의 선원들의 ID를 반점으로 구분하여 얻는다.
+            $shipMemberList = ShipMember::getMemberListByCommar($ship['RegNo']); // 해당배의 선원들의 ID를 반점으로 区分하여 얻는다.
             $resultList = AttendShip::getAttendStateByDate($shipMemberList, $selDate);
             $valueList = array();
             $attendCount = 0;
@@ -198,7 +198,7 @@ class HomeController extends Controller {
             $units[] = $ship;
         }
 //var_dump($shipList);die;
-        $shipMemberList = ShipMember::getMemberListByCommar(); // 대기선원들을 반점으로 구분하여 얻는다.
+        $shipMemberList = ShipMember::getMemberListByCommar(); // 대기선원들을 반점으로 区分하여 얻는다.
         $resultList = AttendShip::getAttendStateByDate($shipMemberList, $selDate);
         $valueList = array();
         $attendCount = 0;
@@ -379,7 +379,7 @@ class HomeController extends Controller {
         return false;
     }
 
-    //ID목록으로부터 이름목록을 얻기
+    //ID목록으로从 이름목록을 얻기
     private function getUserNames($idList)
     {
         $idList = explode(',', $idList);
@@ -427,7 +427,7 @@ class HomeController extends Controller {
         }
     }
 
-	//은행시세표 검색
+	//은행시세표 搜索
 	public function searchList(Request $request){
 
 		$RateModel = new Home\RateModel();

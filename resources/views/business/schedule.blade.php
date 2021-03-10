@@ -229,7 +229,7 @@
                     userlist.push(user);
                 }
 
-                //선택된 리용자들을 목록에 추가
+                //선택된 리용자들을 목록에 追加
                 var listitem = $('#attend_user').find('option');
                 for( var i = 0; i < userlist.length; i++)
                 {
@@ -322,7 +322,7 @@
                         checkitems.eq(i).prop('checked', true);
                     }
 
-                    //선택된 리용자들을 목록에 추가
+                    //선택된 리용자들을 목록에 追加
                     var listitem = $('#attend_user').find('option');
                     for( var i = 0; i < userlist.length; i++)
                     {

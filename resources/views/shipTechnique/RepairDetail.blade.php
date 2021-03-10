@@ -8,7 +8,7 @@
         <script src="/KindEditor/plugins/code/prettify.js"></script>
         <div class="page-content">
             <div class="page-header">
-                <h4 class="center"><b>배수리관련기록</b></h4>
+                <h4 class="center"><b>船舶修理关联记录</b></h4>
             </div>
             <div class="col-md-12">
                 <form role="form" method="POST" action="updateRepair" id="correct-add-form" enctype="multipart/form-data">
@@ -19,7 +19,7 @@
                             <table class="table table-bordered">
                                 <tbody class="center">
                                     <tr>
-                                        <td class="td-title">배이름 <span class="require">*</span></td>
+                                        <td class="td-title">船舶名称 <span class="require">*</span></td>
                                         <td style="width: 15%">
                                             @if($readonly)
                                                 <label class="form-control">{{$recovery['shipName_Cn']}}</label>
@@ -33,7 +33,7 @@
                                                 </select>
                                             @endif
                                         </td>
-                                        <td class="td-title">항차번호 <span class="require">*</span></td>
+                                        <td class="td-title">航次号码 <span class="require">*</span></td>
                                         <td id="Voy" style="width: 15%">
                                             @if($readonly)
                                                 <label class="form-control">{{$recovery['Voy_No']}}</label>
@@ -47,7 +47,7 @@
                                                 </select>
                                             @endif
                                         </td>
-                                        <td class="td-title">부터<span class="require">*</span></td>
+                                        <td class="td-title">从<span class="require">*</span></td>
                                         <td style="width:15%">
                                             @if($readonly)
                                                 <label class="form-control">{{convert_date($recovery['FromDate'])}}</label>
@@ -62,7 +62,7 @@
                                                 </div>
                                             @endif
                                         </td>
-                                        <td class="td-title">까지<span class="require">*</span></td>
+                                        <td class="td-title">到<span class="require">*</span></td>
                                         <td style="width:15%">
                                             @if($readonly)
                                                 <label class="form-control">{{convert_date($recovery['ToDate'])}}</label>
@@ -79,7 +79,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="td-title">장소 <span class="require">*</span></td>
+                                        <td class="td-title">地点 <span class="require">*</span></td>
                                         <td>
                                             @if($readonly)
                                                 <label class="form-control">{{$recovery['Place']}}</label>
@@ -87,27 +87,27 @@
                                                 <input type="text" name="Place" class="form-control" value="@if(isset($recovery)){{$recovery['Place']}} @endif">
                                             @endif
                                         </td>
-                                        <td class="td-title">구분 <span class="require">*</span></td>
+                                        <td class="td-title">区分 <span class="require">*</span></td>
                                         <td>
                                             @if($readonly)
                                                 <label class="form-control">
                                                 @if($recovery['RepairKind'] == 1)
-                                                    정기
+                                                    定期
                                                 @elseif($recovery['RepairKind'] == 2)
-                                                    돌발
+                                                    突发
                                                 @elseif($recovery['RepairKind'] == 3)
-                                                    자체
+                                                    自己
                                                 @endif
                                                 </label>
                                             @else
                                                 <select name="RepairKind" class="form-control">
-                                                    <option value="1" @if(isset($recovery) && ($recovery['RepairKind']==1)) selected @endif>정기</option>
-                                                    <option value="2" @if(isset($recovery) && ($recovery['RepairKind']==2)) selected @endif>돌발</option>
-                                                    <option value="3" @if(isset($recovery) && ($recovery['RepairKind']==3)) selected @endif>자체</option>
+                                                    <option value="1" @if(isset($recovery) && ($recovery['RepairKind']==1)) selected @endif>定期</option>
+                                                    <option value="2" @if(isset($recovery) && ($recovery['RepairKind']==2)) selected @endif>突发</option>
+                                                    <option value="3" @if(isset($recovery) && ($recovery['RepairKind']==3)) selected @endif>自己</option>
                                                 </select>
                                             @endif
                                         </td>
-                                        <td class="td-title">지도성원</td>
+                                        <td class="td-title">领导</td>
                                         <td>
                                             @if($readonly)
                                                 <label class="form-control">{{$recovery['D_Officer']}}</label>
@@ -115,7 +115,7 @@
                                                 <input type="text" name="D_Officer" class="form-control" value="@if(isset($recovery)){{$recovery['D_Officer']}}@endif">
                                             @endif
                                         </td>
-                                        <td class="td-title">금액 <span class="require"></span></td>
+                                        <td class="td-title">金额 <span class="require"></span></td>
                                         <td>
                                             @if($readonly)
                                                 <label class="form-control">{{$recovery['Amount']}}</label>
@@ -129,7 +129,7 @@
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
-                                        <td class="td-title">수리내용 <span class="require">*</span></td>
+                                        <td class="td-title">修理内容 <span class="require">*</span></td>
                                         <td>
                                             @if($readonly)
                                                 {{$recovery['Content']}}
@@ -140,7 +140,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="td-title">상세내용</td>
+                                        <td class="td-title">详细内容</td>
                                         <td>
                                             <textarea name="Detail" class="form-control" style="height:210px">
                                                 @if(isset($recovery)) {{$recovery['Detail']}} @endif
@@ -148,7 +148,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="td-title">첨부화일</td>
+                                        <td class="td-title">附件</td>
                                         <td>
                                             <input type="file" name="attachFile" id="attachFile"
                                                    style="display: none;">
@@ -158,7 +158,7 @@
                                             @else
                                                 <button type="button" id="openFile">
                                                     <i class="icon-folder-open-alt"></i>
-                                                    파일선택
+                                                    选择文件
                                                 </button>
                                             @endif
                                             <a href="/fileDownload?type=repaire&path={{$recovery['AddFileServerPath']}}" style="font-size: 14px">{{$recovery['AddFileServerPath']}}</a>
@@ -171,7 +171,7 @@
                                 <div style="text-align: center">
                                     <button type="submit" class="btn btn-inverse btn-sm" style="width: 80px">
                                         <i class="icon-save"></i>
-                                        등록
+                                        登记
                                     </button>
                                 </div>
                             @endif
@@ -208,13 +208,13 @@
                 Content: "required",
             },
             messages: {
-                ShipId : "배이름을 선택하십시오",
-                VoyId: "항차번호를 선택하십시오.",
-                FromDate: "배수리날자를 입력하십시오.",
-                ToDate: "배수리날자를 입력하십시오.",
-                Place: "배수리 장소를 입력하십시오.",
-                RepairKind: "배수리종류를 선택하십시오.",
-                Content: "배수리 내용을 입력하십시오.",
+                ShipId : "请选择船舶名称。",
+                VoyId: "请选择航次号码。",
+                FromDate: "请输入船舶的修理日期。",
+                ToDate: "请输入船舶的修理日期。",
+                Place: "请输入船舶修理的地点",
+                RepairKind: "请选择船舶修理的种类。",
+                Content: "请输入船舶修理的内容。",
             }
         });
 

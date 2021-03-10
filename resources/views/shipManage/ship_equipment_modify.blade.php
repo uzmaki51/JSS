@@ -338,8 +338,8 @@
                     var Items_En = obj.eq(3).find('input').val();
                     if ((Items_Cn.length < 1) || (Items_En.length < 1)) {
                         $.gritter.add({
-                            title: '오유',
-                            text: '기술적제원의 항목이름을 입력하여야 합니다.',
+                            title: '错误',
+                            text: '기술적제원의 项目이름을 입력하여야 합니다.',
                             class_name: 'gritter-error'
                         });
                         return;
@@ -392,8 +392,8 @@
                                 bindPropertyOperation();
                             } else {
                                 $.gritter.add({
-                                    title: '오유',
-                                    text: '기술적제원의 항목이름이 증복되였습니다.',
+                                    title: '错误',
+                                    text: '기술적제원의 项目이름이 증복되였습니다.',
                                     class_name: 'gritter-error'
                                 });
                             }
@@ -452,7 +452,7 @@
                     var Items_En = obj.eq(4).find('input').val();
                     if ((Items_Cn.length < 1) || (Items_En.length < 1)) {
                         $.gritter.add({
-                            title: '오유',
+                            title: '错误',
                             text: '부분품의 이름을 입력하여야 합니다.',
                             class_name: 'gritter-error'
                         });
@@ -495,7 +495,7 @@
                                 obj.eq(11).find('.row_apply').hide();
                             } else {
                                 $.gritter.add({
-                                    title: '오유',
+                                    title: '错误',
                                     text: '부분품의 이름이 증복되였습니다.',
                                     class_name: 'gritter-error'
                                 });
@@ -537,7 +537,7 @@
 
                     bootbox.confirm(Items_Cn + " 부분품을 삭제하겠습니까?", function (result) {
                         if (result) {
-                            //확인단추를 눌렀을 때의 처리
+                            //确认단추를 눌렀을 때의 처리
                             $.post('deleteEquipmentPart', {'_token': token, 'partId': partId}, function (result) {
                                 var code = parseInt(result);
                                 if (code > 0) {
@@ -558,7 +558,7 @@
                                     });
                                 } else {
                                     $.gritter.add({
-                                        title: '오유',
+                                        title: '错误',
                                         text: Items_Cn + ' 부분품이 이미 삭제되였습니다.',
                                         class_name: 'gritter-error'
                                     });
@@ -576,7 +576,7 @@
                     var Items_En = obj.eq(4).find('input').val();
                     if ((Items_Cn.length < 1) || (Items_En.length < 1)) {
                         $.gritter.add({
-                            title: '오유',
+                            title: '错误',
                             text: '부분품의 이름을 입력하여야 합니다.',
                             class_name: 'gritter-error'
                         });
@@ -662,7 +662,7 @@
 
                             } else {
                                 $.gritter.add({
-                                    title: '오유',
+                                    title: '错误',
                                     text: '부분품의 이름이 증복되였습니다.',
                                     class_name: 'gritter-error'
                                 });

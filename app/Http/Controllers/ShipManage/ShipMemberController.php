@@ -120,7 +120,7 @@ class ShipMemberController extends Controller
 //        echo "<script>alert($state)</script>";
         $shipList = ShipRegister::getShipListOnlyOrigin();
         $posList = ShipPosition::orderBy('id')->get();
-        //전체를 의미한다.
+        //全部를 의미한다.
         if($state == 3)
             $list = ShipMember::getShipMemberListByKeyword($shipId, $pos, $name, null);
         else
@@ -171,11 +171,11 @@ class ShipMemberController extends Controller
 
         $memberId = $request->get('memberId');
         if(isset($memberId)) {
-            // 등록자료탭
+            // 登记자료탭
             $info = ShipMember::find($memberId);
             $historyList = ShipBoardCareer::where('memberId', $memberId)->orderBy('FromDate')->get();
 
-            // 등록카드자료
+            // 登记카드자료
             $card = ShipMemberSocial::where('memberId', $memberId)->first();
             $career = ShipMemberCareer::where('memberId', $memberId)->orderBy('fromDate')->get();
 
@@ -186,7 +186,7 @@ class ShipMemberController extends Controller
             $school = ShipMemberSchool::where('memberId', $memberId)->orderBy("id")->get();
             $capacityList = ShipMemberCapacity::all();
 
-            // 훈련등록자료
+            // 훈련登记자료
             $training = ShipMemberTraining::where('memberId', $memberId)->first();
             $securityType = SecurityCert::all();
 
@@ -238,7 +238,7 @@ class ShipMemberController extends Controller
         $memberId = $request->get('memberId');
         if(!empty($memberId)) {
             $info = ShipMember::find($memberId);
-            // 등록자료탭
+            // 登记자료탭
             $shipList = ShipRegister::select('shipName_Cn', 'RegNo')->get();
             $posList = ShipPosition::all();
             $ksList = Ship::all();
@@ -255,7 +255,7 @@ class ShipMemberController extends Controller
             $capacityList = ShipMemberCapacity::all();
             return view('shipMember.member_capacity_tab', ['memberId'=>$memberId, 'capacity'=>$capacity, 'careerList'=>$career, 'schoolList'=>$school, 'capacityList'=>$capacityList]);
 
-            // 훈련등록자료
+            // 훈련登记자료
             $training = ShipMemberTraining::where('memberId', $memberId)->first();
 
             return view('shipMember.member_training_tab', ['memberId'=>$memberId, 'training'=>$training]);

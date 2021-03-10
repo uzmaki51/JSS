@@ -99,7 +99,7 @@ class Util extends Controller
             $parent_id = "";
             if ($keylen > 3) $parent_id = substr($unit->orderkey, 0, $keylen - 3);
             if ($parent_id == "") {
-                $parent->appendChild($child);//제일 웃단위인경우
+                $parent->appendChild($child);//제일 웃单位인경우
             } else {
                 $child = $doc->createElement("li");
                 $child->setAttribute("id", $unit->orderkey);
@@ -118,7 +118,7 @@ class Util extends Controller
                     $cur_parent->setAttribute("class", "folder");
                     $cur_parent->getElementsByTagName("span")->item(0)->setAttribute("class", "icon-folder-open blue");
 
-                } else {//첫번째 자식이 추가된 경우
+                } else {//첫번째 자식이 追加된 경우
                     $prev_parent = $cur_parent->getElementsByTagName("ul")->item(0);
                 }
                 $prev_parent->appendChild($child);
@@ -153,7 +153,7 @@ class Util extends Controller
             $parent_id = "";
             if ($keylen > 3) $parent_id = substr($unit->orderkey, 0, $keylen - 3);
             if ($parent_id == "") {
-                $parent->appendChild($child);//제일 웃단위인경우
+                $parent->appendChild($child);//제일 웃单位인경우
             } else {
                 $cur_parent = $doc->getElementById($parent_id);
                 if ($cur_parent == null) continue;
@@ -161,7 +161,7 @@ class Util extends Controller
                     $tmp = $doc->createElement("ul");
                     $prev_parent = $cur_parent->appendChild($tmp);
 
-                } else {//첫번째 자식이 추가된 경우
+                } else {//첫번째 자식이 追加된 경우
                     $prev_parent = $cur_parent->getElementsByTagName("ul")->item(0);
                 }
                 $prev_parent->appendChild($child);
@@ -278,7 +278,7 @@ class Util extends Controller
         return $dates;
     }
 
-    // 반점으로 구분된 목록에서 처음과 마지막에 붙은 반점을 제거된 목록을 귀환한다.
+    // 반점으로 区分된 목록에서 처음과 마지막에 붙은 반점을 제거된 목록을 귀환한다.
     public static function removeFirstAndEndComma($liststr)
     {
         $templist = explode(',', $liststr);
@@ -291,7 +291,7 @@ class Util extends Controller
         return $list;
     }
 
-    // 반점으로 구분된 목록에서 처음과 마지막에 붙은 반점을 제거된 목록을 귀환한다.
+    // 반점으로 区分된 목록에서 처음과 마지막에 붙은 반점을 제거된 목록을 귀환한다.
     public static function removeFirstAndEndCommaStr($liststr)
     {
         $templist = explode(',', $liststr);

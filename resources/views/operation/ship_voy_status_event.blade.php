@@ -137,7 +137,7 @@
 
                 bootbox.confirm('['+ eventName + ']  ' + "  事件真要删掉吗?", function (result) {
                     if (result) {
-                        //확인단추를 눌렀을 때의 처리
+                        //确认단추를 눌렀을 때의 처리
                         $.post('deleteVoyStatusEvent', {'_token':token, 'eventId':eventId}, function (data) {
                             var result = jQuery.parseJSON(data);
                             if (result.status == 'success') {

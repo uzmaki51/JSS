@@ -161,7 +161,7 @@ $ships = Session::get('shipList');
 
                 bootbox.confirm("项目真要删掉吗?", function (result) {
                     if (result) {
-                        //확인단추를 눌렀을 때의 처리
+                        //确认단추를 눌렀을 때의 처리
                         $.post('deletePayMode', {'_token':token, 'payId':payId}, function (result) {
                             trObj.fadeOut();
                         });

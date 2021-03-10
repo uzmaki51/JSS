@@ -16,14 +16,14 @@
                     <table id="repair_info_table" class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th class="center">배이름</th>
-                            <th class="center">항차번호</th>
-                            <th class="center">날자</th>
-                            <th class="center">내용</th>
-                            <th class="center">장소</th>
-                            <th class="center">구분</th>
-                            <th class="center">지도성원</th>
-                            <th class="center">금액</th>
+                            <th class="center">船舶名称</th>
+                            <th class="center">航次号码</th>
+                            <th class="center">日期</th>
+                            <th class="center">内容</th>
+                            <th class="center">地点</th>
+                            <th class="center">区分</th>
+                            <th class="center">领导</th>
+                            <th class="center">金额</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -37,11 +37,11 @@
                                 <td class="center">{{$RepairInfo['Place']}}</td>
                                 <td class="center">
                                     @if($RepairInfo['RepairKind'] == 1)
-                                        정기
+                                        定期
                                     @elseif($RepairInfo['RepairKind'] == 2)
-                                        돌발
+                                        突发
                                     @elseif($RepairInfo['RepairKind'] == 3)
-                                        자체
+                                        自己
                                     @endif
                                 </td>
                                 <td class="center">{{$RepairInfo['D_Officer']}}</td>

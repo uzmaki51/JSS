@@ -421,7 +421,7 @@
             });
             @if(isset($status))
             $.gritter.add({
-                title: '오유',
+                title: '错误',
                 text: '{{$status}}',
                 class_name: 'gritter-error'
             });
@@ -519,7 +519,7 @@
                             });
                         } else {
                             $.gritter.add({
-                                title: '오유',
+                                title: '错误',
                                 text: '[' + deviceName + '] 是已经被删掉的。',
                                 class_name: 'gritter-error'
                             });

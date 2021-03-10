@@ -6,7 +6,7 @@
             <div class="page-year-view">
                 <div class="page-header">
                     <div class="col-md-6">
-                        <h5><b>배수리</b></h5>
+                        <h5><b>船舶修理</b></h5>
                     </div>
                 </div>
 
@@ -16,14 +16,14 @@
                             <table id="repair_info_table" class="table table-striped table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th class="center" style="width: 15%">배이름</th>
-                                    <th class="center" style="width:10%">항차번호</th>
-                                    <th class="center" style="width: 10%">부터</th>
-                                    <th class="center" style="width: 10%">까지</th>
-                                    <th class="center" style="width: 20%">장소</th>
-                                    <th class="center" style="width: 10%">구분</th>
-                                    <th class="center" style="width: 15%">지도성원</th>
-                                    <th class="center" style="width: 10%">금액</th>
+                                    <th class="center" style="width: 15%">船舶名称</th>
+                                    <th class="center" style="width:10%">航次号码</th>
+                                    <th class="center" style="width: 10%">从</th>
+                                    <th class="center" style="width: 10%">到</th>
+                                    <th class="center" style="width: 20%">地点</th>
+                                    <th class="center" style="width: 10%">区分</th>
+                                    <th class="center" style="width: 15%">领导</th>
+                                    <th class="center" style="width: 10%">金额</th>
                                 </tr>
                                 </thead>
                                 <tbody>

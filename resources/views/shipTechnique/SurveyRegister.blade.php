@@ -9,10 +9,10 @@ $ships = Session::get('shipList');
             <div class="page-header">
                 <div class="col-md-3">
                     <h4>
-                        <b>배검사</b>
+                        <b>船舶检查</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            보고서등록
+                            报告登记
                         </small>
                     </h4>
                 </div>
@@ -21,7 +21,7 @@ $ships = Session::get('shipList');
             <div class="col-sm-12">
                 <div class="row">
                     <div class="col-sm-3">
-                        <label style="float:left;padding-top:5px">배이름 :</label>
+                        <label style="float:left;padding-top:5px">船舶名称 :</label>
                         <div class="col-md-8" style="padding-left:5px">
                             <select class="form-control" id="search_ship_id">
                                 <option value=""> </option>
@@ -40,7 +40,7 @@ $ships = Session::get('shipList');
                         </div>
                     </div>
                     <div class="col-sm-2">
-                        <label style="float:left;padding-top:5px">항차번호:</label>
+                        <label style="float:left;padding-top:5px">航次号码:</label>
                         <div class="col-md-6" style="padding-left:5px" id="Voy">
                             <select class="form-control" id="search_voy_number" >
                                 <option value=""></option>
@@ -55,12 +55,12 @@ $ships = Session::get('shipList');
                     <div class="col-sm-5" style="text-align: right;float:right;">
                         <button class="btn btn-sm btn-primary no-radius search-btn" style="width: 80px">
                             <i class="icon-search"></i>
-                            검색
+                            搜索
                         </button>
                         @if(!$isHolder)
                             <a class="btn btn-sm btn-primary no-radius" href="shipSurveyDetail" style="width: 80px">
                                 <i class="icon-plus-sign-alt"></i>
-                                추가
+                                追加
                             </a>
                         @endif
                     </div>
@@ -70,14 +70,14 @@ $ships = Session::get('shipList');
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr class="black br-hblue">
-                            <th class="center">배이름</th>
-                            <th class="center">항차번호</th>
-                            <th class="center">검사날자</th>
-                            <th class="center">장소</th>
-                            <th class="center">종류</th>
-                            <th class="center">검사내용</th>
-                            <th class="center">검사비</th>
-                            <th class="center">첨부파일</th>
+                            <th class="center">船舶名称</th>
+                            <th class="center">航次号码</th>
+                            <th class="center">检查日期</th>
+                            <th class="center">地点</th>
+                            <th class="center">种类</th>
+                            <th class="center">检查内容</th>
+                            <th class="center">检查费</th>
+                            <th class="center">附件</th>
                             @if(!$isHolder)
                                 <th class="center" width="60px"></th>
                             @endif
@@ -148,18 +148,18 @@ $ships = Session::get('shipList');
                 var voyNo = obj.eq(1).html();
                 var surveyId = obj.eq(0).data('id');
 
-                bootbox.confirm("[" + shipName + "] 호 " + voyNo + "항차 검사기록에 대한 삭제를 진행하겠습니까?", function(result) {
+                bootbox.confirm("[" + shipName + "] 호 " + voyNo + "航次的检查记录真要删掉吗?", function(result) {
                     if(result) {
                         $.post('SurveyDelete', {'_token': token, 'surveyId': surveyId}, function(data){
                             var returnCode = parseInt(data);
                             if (returnCode > 0) {
                                 window.location.reload();
                             } else if(returnCode == -1)
-                                alert("오유, 자료기지에서 검사기록을 찾을수 없습니다.");
+                                alert("错误, 在数据库无法找到检查记录。");
                             else if(returnCode == -2)
-                                alert("오유, 검사기록에 대한 삭제권환이 없습니다.");
+                                alert("错误, 没有检查记录的删掉权限。");
                             else if(returnCode == -2)
-                                alert("오유, 삭제할수 없습니다.");
+                                alert("错误, 无法删掉。");
                         });
                     }
                 });

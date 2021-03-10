@@ -9,10 +9,10 @@ $ships = Session::get('shipList');
             <div class="page-header">
                 <div class="col-md-3">
                     <h4>
-                        <b>배검사</b>
+                        <b>船舶检查</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            보고서열람
+                            报告阅览
                         </small>
                     </h4>
                 </div>
@@ -21,7 +21,7 @@ $ships = Session::get('shipList');
             <div class="col-sm-12">
                 <div class="row">
                     <div class="col-sm-3">
-                        <label style="float:left;padding-top:5px">배이름 :</label>
+                        <label style="float:left;padding-top:5px">船舶名称 :</label>
                         <div class="col-md-8" style="padding-left:5px">
                             <select class="form-control" id="search_ship_id">
                                 <option value=""> </option>
@@ -40,7 +40,7 @@ $ships = Session::get('shipList');
                         </div>
                     </div>
                     <div class="col-sm-2">
-                        <label style="float:left;padding-top:5px">항차번호:</label>
+                        <label style="float:left;padding-top:5px">航次号码:</label>
                         <div class="col-md-6" style="padding-left:5px" id="Voy">
                             <select class="form-control" id="search_voy_number" >
                                 <option value=""></option>
@@ -55,11 +55,11 @@ $ships = Session::get('shipList');
                     <div class="col-sm-5" style="text-align: right;float: right;">
                         <button class="btn btn-sm btn-primary no-radius search-btn" style="width: 80px">
                             <i class="icon-search"></i>
-                            검색
+                            搜索
                         </button>
                         <button class="btn btn-sm btn-primary no-radius print-btn" style="width: 80px">
                             <i class="icon-print"></i>
-                            인쇄
+                            打印
                         </button>
                         <button class="btn btn-sm btn-warning no-radius excel-btn" style="width: 80px">
                             <i class="icon-table"></i>
@@ -72,14 +72,14 @@ $ships = Session::get('shipList');
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr class="black br-hblue">
-                            <th class="center">배이름</th>
-                            <th class="center">항차번호</th>
-                            <th class="center">검사날자</th>
-                            <th class="center">장소</th>
-                            <th class="center">종류</th>
-                            <th class="center">검사내용</th>
-                            <th class="center">검사비</th>
-                            <th class="center">첨부파일</th>
+                            <th class="center">船舶名称</th>
+                            <th class="center">航次号码</th>
+                            <th class="center">检查日期</th>
+                            <th class="center">地点</th>
+                            <th class="center">种类</th>
+                            <th class="center">检查内容</th>
+                            <th class="center">检查费</th>
+                            <th class="center">附件</th>
                             @if(!$isHolder)
                                 <th class="center" width="50px"></th>
                             @endif

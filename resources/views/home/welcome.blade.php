@@ -12,7 +12,7 @@
                     <div data-src="/assets/img/bgimage1.jpg">
                         <div class="camera_caption fadeFromTop">
                             <a href="javascript:showFront()">
-                            <h1>출근등록이 성과적으로 진행되였습니다.</h1>
+                            <h1>출근登记이 성과적으로 진행되였습니다.</h1>
                             </a>
                             <a href="javascript:showFront()">
                             <span>
@@ -25,7 +25,7 @@
                     <div data-src="/assets/img/bgimage2.jpg">
                         <div class="camera_caption fadeFromRight">
                             <a href="javascript:showFront()">
-                            <h1>출근등록이 성과적으로 진행되였습니다.</h1>
+                            <h1>출근登记이 성과적으로 진행되였습니다.</h1>
                             </a>
                             <a href="javascript:showFront()">
                             <span>

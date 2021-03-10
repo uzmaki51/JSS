@@ -28,9 +28,9 @@
                     <div class="row" style="width: 100%;">
                         <div class="col-md-12" style="text-align: center;">
                             @if($action == 'history')
-                                <h2>설비부속자재 신청 및 공급리력</h2>
+                                <h2>设备配件材料 申请及供给历史</h2>
                             @else
-                                <h2>설비부속자재 신청 확인</h2>
+                                <h2>设备配件材料 申请确认</h2>
                             @endif
                         </div>
                         <div style="width: 100%;">
@@ -120,12 +120,12 @@
                                 <div class="col-md-4"></div>
                                 <div class="col-md-2" style="text-align: center;">
                                     <a class="btn btn-xs btn-primary no-radius" onclick="window.opener.addNewSupplyInfo()">
-                                        확인
+                                        确认
                                     </a>
                                 </div>
                                 <div class="col-md-2">
                                     <a class="btn btn-xs btn-danger no-radius" onclick="window.opener.cancelNewSupplyInfo()">
-                                        취소
+                                        取消
                                     </a>
                                 </div>
                                 <div class="col-md-4"></div>

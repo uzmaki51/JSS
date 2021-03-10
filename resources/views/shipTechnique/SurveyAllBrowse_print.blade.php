@@ -19,13 +19,13 @@
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th class="center">배이름</th>
-                            <th class="center">항차번호</th>
-                            <th class="center">검사날자</th>
-                            <th class="center">장소</th>
-                            <th class="center">종류</th>
-                            <th class="center">검사내용</th>
-                            <th class="center">검사비</th>
+                            <th class="center">船舶名称</th>
+                            <th class="center">航次号码</th>
+                            <th class="center">检查日期</th>
+                            <th class="center">地点</th>
+                            <th class="center">种类</th>
+                            <th class="center">检查内容</th>
+                            <th class="center">检查费</th>
                         </tr>
                         </thead>
                         <tbody>

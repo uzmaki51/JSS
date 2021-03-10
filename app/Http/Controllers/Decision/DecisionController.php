@@ -120,7 +120,7 @@ class DecisionController extends Controller
             ]);
     }
 
-    // 결재환경등록
+    // 결재환경登记
     public function envRegister(Request $request)
     {
         $userid = $this->userinfo['id'];
@@ -593,7 +593,7 @@ class DecisionController extends Controller
         $reportList = DecisionReport::getDecisionReportList($decide_name, $flow_type, $userid, $from_date, $to_date);
         $decisionFlowList = DecisionFlow::getDecisionFlow();
 
-        //결재흐름명을 포함하는 결재흐름ID목록을 얻는다. 만일 검색된것이 없으면 검색을 끝낸다.
+        //결재흐름명을 포함하는 결재흐름ID목록을 얻는다. 만일 搜索된것이 없으면 搜索을 끝낸다.
         foreach($reportList as $report)
         {
             $decideIdList = DecisionFlow::deciderList($report['flowid']);
@@ -685,7 +685,7 @@ class DecisionController extends Controller
         return view('decision.flow', ['list' => $flowlist, 'flow'=>$flow_name]);
     }
 
-    //ID목록으로부터 이름목록을 얻기
+    //ID목록으로从 이름목록을 얻기
     private function getUserNames($idList)
     {
         $userlist = '';
@@ -709,7 +709,7 @@ class DecisionController extends Controller
         return $userlist;
     }
 
-    //결재흐름을 추가 및 변경할 때 호출되는 페지.
+    //결재흐름을 追加 및 변경할 때 호출되는 페지.
     public function addFlow(Request $request)
     {
 
@@ -743,7 +743,7 @@ class DecisionController extends Controller
         return view('decision.flowadd', array('result' => $str));
     }
 
-    //결재흐름을 자료기지에 추가하는 동작을 수행한다.
+    //결재흐름을 자료기지에 追加하는 동작을 수행한다.
     public function insertFlow(Request $request)
     {
         $flowinfo = explode('_', $request->get('flowinfo'));
@@ -871,7 +871,7 @@ class DecisionController extends Controller
     }
 
     public function getDecideReportlist(Request $request) {
-        //페지에서 넘어온 검색어들에 따라 검색을 진행한다.
+        //페지에서 넘어온 搜索어들에 따라 搜索을 진행한다.
         $decide_name = $request->get('decide_name');
         $creator = $request->get('creator');
         $flow_type = $request->get('flow_type');
@@ -898,7 +898,7 @@ class DecisionController extends Controller
 	        ));
     }
 
-    //결재문건에 대한 상세페지.
+    //결재문건에 대한 仔细페지.
     public function showDecidingReport(Request $request)
     {
         $GLOBALS['selMenu'] = $request->get('menuId');
@@ -1418,7 +1418,7 @@ class DecisionController extends Controller
 
         $reportList = DecisionReport::getDraftReportList($decide_name, $flow_name, $userid, $from_date, $to_date);
 
-        //결재흐름명을 포함하는 결재흐름ID목록을 얻는다. 만일 검색된것이 없으면 검색을 끝낸다.
+        //결재흐름명을 포함하는 결재흐름ID목록을 얻는다. 만일 搜索된것이 없으면 搜索을 끝낸다.
         foreach ($reportList as $report) {
             //해당 부서명을 얻는다.
             $unitinfo = Unit::find($report['submitUnit']);

@@ -21,22 +21,22 @@
                         <table class="table table-bordered" id="ship_supplyplancollection_table">
                             <thead>
                             <tr>
-                                <td class="center">년도</td>
-                                <td class="center">배이름</td>
-                                <td class="center">부문</td>
-                                <td class="center">1월</td>
-                                <td class="center">2월</td>
-                                <td class="center">3월</td>
-                                <td class="center">4월</td>
-                                <td class="center">5월</td>
-                                <td class="center">6월</td>
-                                <td class="center">7월</td>
-                                <td class="center">8월</td>
-                                <td class="center">9월</td>
-                                <td class="center">10월</td>
-                                <td class="center">11월</td>
-                                <td class="center">12월</td>
-                                <td class="center">합계</td>
+                                <td class="center">年</td>
+                                <td class="center">船舶名称</td>
+                                <td class="center">部门</td>
+                                <td class="center">1月</td>
+                                <td class="center">2月</td>
+                                <td class="center">3月</td>
+                                <td class="center">4月</td>
+                                <td class="center">5月</td>
+                                <td class="center">6月</td>
+                                <td class="center">7月</td>
+                                <td class="center">8月</td>
+                                <td class="center">9月</td>
+                                <td class="center">10月</td>
+                                <td class="center">11月</td>
+                                <td class="center">12月</td>
+                                <td class="center">合计</td>
                             </tr>
                             </thead>
                             <tbody>
@@ -86,7 +86,7 @@
                                             <?php $deptIndex++?>
                                             @endforeach
                                             <tr>
-                                                <td class="center">합계</td>
+                                                <td class="center">合计</td>
                                                 <td class="center">@if(isset($supplyAmounts[$yearCol.'1'.$ship['ShipName']]))
                                                         {{$supplyAmounts[$yearCol.'1'.$ship['ShipName']]}}@endif</td>
                                                 <td class="center">@if(isset($supplyAmounts[$yearCol.'2'.$ship['ShipName']]))
@@ -119,7 +119,7 @@
                                             @endforeach
                                             </tr>
                                             <tr>
-                                                <td class="center" colspan="3">계</td>
+                                                <td class="center" colspan="3">计</td>
                                                 <td class="center">@if(isset($supplyAmounts[$yearCol.'1'.'0']))
                                                         {{$supplyAmounts[$yearCol.'1'.'0']}}@endif</td>
                                                 <td class="center">@if(isset($supplyAmounts[$yearCol.'2'.'0']))

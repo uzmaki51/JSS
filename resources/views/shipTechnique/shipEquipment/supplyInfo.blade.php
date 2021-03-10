@@ -22,17 +22,17 @@ $ships = Session::get('shipList');
             <div class="page-year-view">
                 <div class="page-header">
                     <div class="col-md-3">
-                        <h4><b>설비부속자재</b>
+                        <h4><b>设备配件材料</b>
                             <small>
                                 <i class="icon-double-angle-right"></i>
-                                공급정형열람
+                                供给情况阅览
                             </small>
                         </h4>
                     </div>
                 </div>
                 <div class="col-md-12" style="float: left">
                     <div class="col-md-3 form-horizontal">
-                        <label class="control-label no-padding-right" style="float: left;">배이름</label>
+                        <label class="control-label no-padding-right" style="float: left;">船舶名称</label>
 
                         <div class="col-sm-8">
                             <select id="shipId" name="shipId" class="form-control chosen-select"
@@ -52,7 +52,7 @@ $ships = Session::get('shipList');
                         </div>
                     </div>
                     <div class="col-md-3 form-horizontal">
-                        <label class="control-label no-padding-right" style="float: left;">구분</label>
+                        <label class="control-label no-padding-right" style="float: left;">区分</label>
 
                         <div class="col-sm-8" id="kindList">
                             <select id="kind" name="kind" class="form-control chosen-select"
@@ -65,7 +65,7 @@ $ships = Session::get('shipList');
                         </div>
                     </div>
                     <div class="col-md-3 form-horizontal">
-                        <label class="control-label no-padding-right" style="float: left;">설비명</label>
+                        <label class="control-label no-padding-right" style="float: left;">设备名称</label>
 
                         <div class="col-sm-8" id="equipList">
                             <select name="equipment" id="equipment" class="form-control chosen-select"
@@ -83,7 +83,7 @@ $ships = Session::get('shipList');
                                 <span class="input-group-btn" style="padding: 0px 5px;">
                                     <button class="btn btn-xs btn-primary" type="button" onclick="onSearch()" style="width: 80px">
                                         <i class="icon-search"></i>
-                                        검색
+                                        搜索
                                     </button>
                                 </span>
                                 <span class="input-group-btn" style="padding: 0px 5px;">
@@ -95,28 +95,28 @@ $ships = Session::get('shipList');
                                 {{--<span class="input-group-btn">--}}
                                     {{--<button class="btn btn-xs btn-primary no-radius" type="button" onclick="onDetailSearch()" style="width: 80px">--}}
                                         {{--<i class="icon-eye-open"></i>--}}
-                                        {{--상세검색--}}
+                                        {{--仔细搜索--}}
                                     {{--</button>--}}
                                 {{--</span>--}}
                         </div>
                     </div>
                     <div class="col-md-12 form-horizontal" style="margin-top: 10px; float:left;">
 
-                        <label class="control-label no-padding-right" style="float: left;">자호</label>
+                        <label class="control-label no-padding-right" style="float: left;">编号</label>
 
                         <div class="col-sm-2">
                             <input type="text" class="form-control" id="equipLabel" disabled
                                    @if(isset($temp)) value="{{$temp['Label']}}"
                                    @elseif(count($equipInfos) > 0) value="{{$equipInfos[0]['Label']}}" @endif>
                         </div>
-                        <label class="control-label no-padding-right" style="float: left;">형(Type)</label>
+                        <label class="control-label no-padding-right" style="float: left;">形式(Type)</label>
 
                         <div class="col-sm-2">
                             <input type="text" class="form-control" id="equipType" disabled
                                    @if(isset($temp)) value="{{$temp['Type']}}"
                                    @elseif(count($equipInfos) > 0) value="{{$equipInfos[0]['Type']}}" @endif>
                         </div>
-                        <label class="control-label no-padding-right" style="float: left;">계렬번호(SN)</label>
+                        <label class="control-label no-padding-right" style="float: left;">编号 (SN)</label>
 
                         <div class="col-sm-2">
                             <input type="text" class="form-control" id="equipSn" disabled
@@ -227,13 +227,13 @@ $ships = Session::get('shipList');
 @if(!isset($excel))
                                             <input type="checkbox" disabled @if($supplyInfo['ReciptCheck']==1) checked @endif>
 @else
-                                            @if($supplyInfo['ReciptCheck'] == 1) 공급 @endif
+                                            @if($supplyInfo['ReciptCheck'] == 1) 供给 @endif
 @endif
                                         </td>
                                     </tr>
                                 @endforeach
                                 <tr>
-                                    <td style="text-align: right;width: 74%; word-break: break-all;font-weight: bold;" colspan="8">계(총 {{ $cnt }} 건 중 / 공급 {{ $suppleCnt }} 건)</td>
+                                    <td style="text-align: right;width: 74%; word-break: break-all;font-weight: bold;" colspan="8">计(总 {{ $cnt }} 件 中 / 供给 {{ $suppleCnt }} 件)</td>
                                     <td class="center" style="width: 5%; word-break: break-all;font-weight: bold;">{{ $totalReciptQtty }}</td>
                                     <td style="width: 3%; word-break: break-all;font-weight: bold;"></td>
                                     <td class="center" style="width: 5%;"></td>
@@ -264,7 +264,7 @@ $ships = Session::get('shipList');
             var equipId = $('#equipment').val();
 
             if (curShipId == '-1') {
-                alert('배이름을 선택하십시오.');
+                alert('请选择船舶名称。');
             } else {
                 location.href = '{{url('shipTechnique/showSupplyInfo')}}' + '?shipId=' + curShipId + '&kind=' + voy + '&equip=' + equipId;
             }
@@ -277,7 +277,7 @@ $ships = Session::get('shipList');
             var equipId = $('#equipment').val();
 
             if (curShipId == '-1') {
-                alert('배이름을 선택하십시오.');
+                alert('请选择船舶名称。');
             } else {
                 location.href = '{{url('shipTechnique/showSupplyInfoExcel')}}' + '?shipId=' + curShipId + '&kind=' + voy + '&equip=' + equipId;
             }
@@ -347,7 +347,7 @@ $ships = Session::get('shipList');
             var left = (screen.width - width) / 2;
             var attr = "width=" + width + ",height=" + height + ",left="+ left +"px,top=160px";
             myWindow = window.open('{{url('shipTechnique/detailSupplyInfo')}}' + '?shipId=' + curShipId + '&kind=' + voy + '&equip=' + equipId,
-                    "설비부속자재 공급정형 상세검색", attr);
+                    "设备配件材料 供给情况仔细搜索", attr);
         }
 
         function onDetailSearchResult(shipId, kind, equip, part, QuotObject, ApplicationVoy, ReciptVoy, ReciptPlace, Supplier, ReciptDate) {

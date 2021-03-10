@@ -165,7 +165,7 @@ $ships = Session::get('shipList');
 
                 bootbox.confirm("[" + portName + "] 港口名称真要删掉吗?", function (result) {
                     if (result) {
-                        //확인단추를 눌렀을 때의 처리
+                        //确认단추를 눌렀을 때의 처리
                         $.post('deleteShipPort', {'_token':token, 'portId':portId}, function (result) {
                             var code = parseInt(result);
                             if (code > 0) {

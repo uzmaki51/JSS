@@ -227,13 +227,13 @@
         function deleteUnit(title, unitId) {
             bootbox.confirm("[ " + title + " ] 要删掉部门吗?", function (result) {
                 if (result) {
-                    //확인단추를 눌렀을 때의 처리
+                    //确认단추를 눌렀을 때의 처리
                     $.post('quarterdel', {'_token': token, unitId: unitId}, function (result) {
                         if (result == 'success') {
                             location.reload();
                         } else {
                             $.gritter.add({
-                                title: '오유',
+                                title: '错误',
                                 text: '['+ title + ']' + ' 部门已经被删掉了。',
                                 class_name: 'gritter-error '
                             });

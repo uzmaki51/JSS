@@ -12,7 +12,7 @@
                     </h4>
                 </div>
                 <div class="col-md-6" style="text-align: right;margin-top: 10px">
-                    <button class="btn btn-primary btn-sm new_btn"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus">추가</i></button>
+                    <button class="btn btn-primary btn-sm new_btn"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus">追加</i></button>
                 </div>
             </div>
             <div class="col-md-12">

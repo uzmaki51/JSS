@@ -8,7 +8,7 @@
         <script src="/KindEditor/plugins/code/prettify.js"></script>
         <div class="page-content">
             <div class="page-header">
-                <h4 class="center"><b>배사고기록</b></h4>
+                <h4 class="center"><b>船舶事故记录</b></h4>
             </div>
             <div class="col-md-12">
                 <form role="form" method="POST" action="updateAccident" id="accident-add-form" enctype="multipart/form-data">
@@ -17,7 +17,7 @@
                     <table class="table table-bordered">
                         <tbody class="center">
                         <tr>
-                            <td class="td-title" width="10%">배이름<span class="require">*</span></td>
+                            <td class="td-title" width="10%">船舶名称<span class="require">*</span></td>
                             <td>
                                 @if($readonly)
                                     <label class="form-control">{{$accident['shipName_Cn']}}</label>
@@ -31,7 +31,7 @@
                                     </select>
                                 @endif
                             </td>
-                            <td class="td-title" width="10%">항차번호<span class="require">*</span></td>
+                            <td class="td-title" width="10%">航次号码<span class="require">*</span></td>
                             <td width="10%">
                                 @if($readonly)
                                     <label class="form-control">{{$accident['Voy_No']}}</label>
@@ -48,7 +48,7 @@
                                     </div>
                                 @endif
                             </td>
-                            <td class="td-title" width="10%">날자<span class="require">*</span></td>
+                            <td class="td-title" width="10%">日期<span class="require">*</span></td>
                             <td>
                                 @if($readonly)
                                     <label class="form-control">{{convert_date($accident['AccidentDate'])}}</label>
@@ -63,7 +63,7 @@
                                     </div>
                                 @endif
                             </td>
-                            <td class="td-title" width="10%">항명<span class="require">*</span></td>
+                            <td class="td-title" width="10%">港口名称<span class="require">*</span></td>
                             <td>
                                 @if($readonly)
                                     <label class="form-control">{{$accident['Port_Cn']}}</label>
@@ -79,33 +79,33 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="td-title">종류<span class="require">*</span></td>
+                            <td class="td-title">种类<span class="require">*</span></td>
                             <td>
                                 @if($readonly)
                                     <label class="form-control">
                                         @if($accident['AccidentKind'] == 1)
-                                            좌주
+                                            搁浅
                                         @elseif($accident['AccidentKind'] == 2)
-                                            충돌
+                                            冲突
                                         @elseif($accident['AccidentKind'] == 3)
-                                            고장파손
+                                            故障破损
                                         @elseif($accident['AccidentKind'] == 4)
-                                            분실
+                                            丢失
                                         @elseif($accident['AccidentKind'] == 5)
-                                            화물부족
+                                            货物不足
                                         @endif
                                     </label>
                                 @else
                                     <select name="AccidentKind" class="form-control">
-                                        <option value="1" @if($accident['AccidentKind'] == 1) selected @endif>좌주</option>
-                                        <option value="2" @if($accident['AccidentKind'] == 2) selected @endif>충돌</option>
-                                        <option value="3" @if($accident['AccidentKind'] == 3) selected @endif>고장파손</option>
-                                        <option value="4" @if($accident['AccidentKind'] == 4) selected @endif>분실</option>
-                                        <option value="5" @if($accident['AccidentKind'] == 5) selected @endif>화물부족</option>
+                                        <option value="1" @if($accident['AccidentKind'] == 1) selected @endif>搁浅</option>
+                                        <option value="2" @if($accident['AccidentKind'] == 2) selected @endif>冲突</option>
+                                        <option value="3" @if($accident['AccidentKind'] == 3) selected @endif>故障破损</option>
+                                        <option value="4" @if($accident['AccidentKind'] == 4) selected @endif>丢失</option>
+                                        <option value="5" @if($accident['AccidentKind'] == 5) selected @endif>货物不足</option>
                                     </select>
                                 @endif
                             </td>
-                            <td class="td-title">장소</td>
+                            <td class="td-title">地点</td>
                             <td colspan="5">
                                 @if($readonly)
                                     <label class="form-control">{{$accident['Place']}}</label>
@@ -120,7 +120,7 @@
                     <table class="table table-bordered">
                         <tbody class="center">
                         <tr>
-                            <td class="td-title" width="10%">사고내용<span class="require">*</span></td>
+                            <td class="td-title" width="10%">事故内容<span class="require">*</span></td>
                             <td>
                                 @if($readonly)
                                     {{$accident['Content']}}
@@ -131,7 +131,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="td-title">상세내용</td>
+                            <td class="td-title">详细内容</td>
                             <td class="custom-td-dec-text">
                                 <textarea name="Details" class="form-control" style="height:210px">
                                     @if(isset($accident)) {{$accident['Details']}} @endif
@@ -139,7 +139,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="td-title">첨부화일</td>
+                            <td class="td-title">附件</td>
                             <td colspan="5" style="text-align: left">
                                 <input type="file" name="attachFile" id="attachFile"
                                        style="display: none;">
@@ -150,7 +150,7 @@
                                 @else
                                     <button type="button" id="openFile">
                                         <i class="icon-folder-open-alt"></i>
-                                        파일선택
+                                        选择文件
                                     </button>
                                 @endif
                                 <a href="/fileDownload?type=repaire&path={{$accident['AddFileName']}}" style="font-size: 14px">{{ $accident['AddFileServerPath'] }}</a>
@@ -160,7 +160,7 @@
                     </table>
                     @if($readonly==0)
                         <div style="text-align: center">
-                            <button type="submit" class="btn btn-inverse btn-sm" style="width: 80px"><i class="icon-save"></i>등록</button>
+                            <button type="submit" class="btn btn-inverse btn-sm" style="width: 80px"><i class="icon-save"></i>登记</button>
                         </div>
                     @endif
                 </form>
@@ -192,12 +192,12 @@
                 Content : 'required',
             },
             messages: {
-                ShipId : "배이름을 선택하십시오",
-                VoyId : "항차번호를 선택하십시오.",
-                AccidentDate : "배사고 날자를 입력하십시오.",
-                PortId : "배사고 항구를 입력하십시오.",
-                AccidentKind : "배사고종류를 선택하십시오.",
-                Content : "배사고 내용을 입력하십시오.",
+                ShipId : "请选择船舶名称。",
+                VoyId : "请选择航次号码。",
+                AccidentDate : "请输入船舶事故的日期。",
+                PortId : "请输入船舶事故的港口名称。",
+                AccidentKind : "请选择船舶事故的种类。",
+                Content : "请输入船舶事故的内容。",
             }
         });
 

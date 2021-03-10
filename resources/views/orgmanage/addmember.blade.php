@@ -610,7 +610,7 @@
 
                     } else {
                         $.gritter.add({
-                            title: '오유',
+                            title: '错误',
                             text: result.status,
                             class_name: 'gritter-error'
                         });
@@ -652,7 +652,7 @@
                             } else {
                                 var errMsg = '[' + relationName + ']  ' + result.status;
                                 $.gritter.add({
-                                    title: '오유',
+                                    title: '错误',
                                     text: errMsg,
                                     class_name: 'gritter-error'
                                 });

@@ -47,7 +47,7 @@
     <link href="{{ asset('/assets/css/jquery-ui-1.10.3.full.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
 
-    <!--자체정의 스타일-->
+    <!--自己정의 스타일-->
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     {{--<link href="{{ asset('/css/style.css') }}" rel="stylesheet">--}}
 

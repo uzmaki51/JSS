@@ -19,7 +19,7 @@
                         <ul class="nav nav-tabs" id="myTab">
                             {{--<li class="active">--}}
                                 {{--<a data-toggle="tab" href="#week" onclick="ShowLists('week')">--}}
-                                    {{--부서주보등록--}}
+                                    {{--부서주보登记--}}
                                 {{--</a>--}}
                             {{--</li>--}}
 

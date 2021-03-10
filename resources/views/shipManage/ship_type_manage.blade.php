@@ -142,7 +142,7 @@ $shipList = Session::get('shipList');
         $(function() {
             @if(isset($error))
             $.gritter.add({
-                title: '오유',
+                title: '错误',
                 text: '{{$error}}',
                 class_name: 'gritter-error'
             });

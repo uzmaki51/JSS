@@ -215,26 +215,14 @@
                 <td class="center">
                     <select class="form-control" name="Currency">
                         <option value="">&nbsp;</option>
-                        <option value="원(내)"
-                                @if(!empty($supplyInfo) && $supplyInfo->Currency == '원(내)')
-                                    selected
-                                @endif>원(내)</option>
-                        <option value="원(외)"
-                                @if(!empty($supplyInfo) && $supplyInfo->Currency == '원(외)')
+                        <option value="人民币"
+                                @if(!empty($supplyInfo) && $supplyInfo->Currency == '人民币')
                                 selected
-                                @endif>원(외)</option>
-                        <option value="￥"
-                                @if(!empty($supplyInfo) && $supplyInfo->Currency == '￥')
+                                @endif>人民币</option>
+                        <option value="美元"
+                                @if(!empty($supplyInfo) && $supplyInfo->Currency == '美元')
                                 selected
-                                @endif>￥</option>
-                        <option value="＄"
-                                @if(!empty($supplyInfo) && $supplyInfo->Currency == '＄')
-                                selected
-                                @endif>＄</option>
-                        <option value="€"
-                                @if(!empty($supplyInfo) && $supplyInfo->Currency == '€')
-                                selected
-                                @endif>€</option>
+                                @endif>美元</option>
                     </select>
                 </td>
                 <td class="center">
@@ -395,15 +383,11 @@
                 <td class="center">
                     <select class="form-control" name="QuotObject">
                         <option value="">&nbsp;</option>
-                        <option value="대표부(KSdele)"
-                                @if(!empty($supplyInfo) && $supplyInfo->QuotObject == "대표부(KSdele)")
-                                    selected
-                                @endif>대표부(KSdele)</option>
-                        <option value="회사(KS)"
+                        <option value="公司(JSS)"
                                 @if(!empty($supplyInfo) && $supplyInfo->QuotObject == "회사(KS)")
                                 selected
                                 @endif>회사(KS)</option>
-                        <option value="배(Ship)"
+                        <option value="船舶(Ship)"
                                 @if(!empty($supplyInfo) && $supplyInfo->QuotObject == "배(Ship)")
                                 selected
                                 @endif>배(Ship)</option>
@@ -412,22 +396,22 @@
                 <td class="center">
                     <select class="form-control" name="QuotState">
                         <option value="">&nbsp;</option>
-                        <option value="신"
-                                @if(!empty($supplyInfo) && $supplyInfo->QuotState == "신")
+                        <option value="新"
+                                @if(!empty($supplyInfo) && $supplyInfo->QuotState == "新")
                                     selected
                                 @endif>신</option>
-                        <option value="중"
-                                @if(!empty($supplyInfo) && $supplyInfo->QuotState == "중")
+                        <option value="中"
+                                @if(!empty($supplyInfo) && $supplyInfo->QuotState == "中")
                                 selected
                                 @endif>중</option>
-                        <option value="재생"
-                                @if(!empty($supplyInfo) && $supplyInfo->QuotState == "재생")
+                        <option value="再生"
+                                @if(!empty($supplyInfo) && $supplyInfo->QuotState == "再生")
                                 selected
                                 @endif>재생</option>
-                        <option value="재충진"
-                                @if(!empty($supplyInfo) && $supplyInfo->QuotState == "재충진")
+                        <option value="再充电"
+                                @if(!empty($supplyInfo) && $supplyInfo->QuotState == "再充电")
                                 selected
-                                @endif>재충진</option>
+                                @endif>再充电</option>
                     </select>
                 </td>
                 <td colspan="3" class="center">
@@ -469,15 +453,15 @@
         <div class="col-md-12" style="text-align: center;">
             @if($supplyId == 0)
                 <a class="btn btn-xs btn-primary no-radius" onclick="confirmAdd()">
-                    <i class="icon-edit">신청</i>
+                    <i class="icon-edit">申请</i>
                 </a>
             @else
                 <a class="btn btn-xs btn-primary no-radius" onclick="confirmAdd()">
-                    <i class="icon-edit">편집</i>
+                    <i class="icon-edit">编辑</i>
                 </a>
                 &nbsp;&nbsp;&nbsp;
                 <a class="btn btn-xs btn-danger no-radius" onclick="deleteSupplyInfo()">
-                    <i class="icon-trash">삭제</i>
+                    <i class="icon-trash">删掉</i>
                 </a>
             @endif
         </div>

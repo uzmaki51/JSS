@@ -12,7 +12,7 @@
             <div class="space-2"></div>
             <div class="row" style="margin: 0">
                 <div class="col-md-4">
-                    <div class="col-md-3" style="padding:7px 0;text-align: right">上传港口</div>
+                    <div class="col-md-3" style="padding:7px 0;text-align: right">上船港口</div>
                     <div class="col-md-9">
                         <select class="form-control chosen-select" style="width:70%" id="l_port">
                             <option value=""></option>

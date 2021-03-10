@@ -37,10 +37,10 @@ else $header = 'sidebar';
                 <div class="page-header">
                     <div class="col-md-3">
                         <h4>
-                            <b>설비, 부속, 자재</b>
+                            <b>设备,配件,材料</b>
                             <small>
                                 <i class="icon-double-angle-right"></i>
-                                공급계획등록
+                                供给计划登记
                             </small>
                         </h4>
                     </div>
@@ -49,11 +49,11 @@ else $header = 'sidebar';
                     <div class="tabbable">
                         <ul class="nav nav-tabs" id="myTab4">
                             <li class="active">
-                                <a data-toggle="tab" href="#planinput">계획입력</a>
+                                <a data-toggle="tab" href="#planinput">计划输入</a>
                             </li>
 
                             <li class="">
-                                <a data-toggle="tab" href="#plancollection">계획종합</a>
+                                <a data-toggle="tab" href="#plancollection">计划综合</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -62,11 +62,11 @@ else $header = 'sidebar';
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="col-md-3 form-horizontal">
-                                            <label class="control-label padding-left" style="float: left;">년도</label>
+                                            <label class="control-label padding-left" style="float: left;">年</label>
 
                                             <div class="col-sm-8">
                                                 <select style="width:70%" id="year">
-                                                    <option value="0" @if(!isset($year)) selected @endif>전체</option>
+                                                    <option value="0" @if(!isset($year)) selected @endif>全部</option>
                                                     @for( $i = $year_range->min; $i <= $year_range->max; $i++)
                                                         <option value="{{$i}}"
                                                                 @if(isset($year)&&($year==$i)) selected @endif>{{$i}}
@@ -77,7 +77,7 @@ else $header = 'sidebar';
                                         </div>
                                         <div class="col-md-3 form-horizontal">
                                             <label class="control-label no-padding-right"
-                                                   style="float: left;">배이름</label>
+                                                   style="float: left;">船舶名称</label>
 
                                             <div class="col-sm-8">
                                                 <select style="width:70%" id="shipName">
@@ -99,7 +99,7 @@ else $header = 'sidebar';
                                         <div class="col-md-6 form-horizontal" style="text-align: right">
                                             <button class="btn btn-xs btn-primary" id="id-btn-search" style="width: 80px">
                                                 <i class="icon-search"></i>
-                                                검색
+                                                搜索
                                             </button>
                                             <button class="btn btn-xs btn-warning" id="id-btn-excel" style="width: 80px">
                                                 <i class="icon-table"></i>
@@ -117,13 +117,13 @@ else $header = 'sidebar';
                                                 <table class="table table-bordered table-striped" id="ship_supplyplan_table">
                                                     <thead>
                                                     <tr class="black br-hblue">
-                                                        <th class="center" style="width: 5%;">년도</th>
-                                                        <th class="center" style="width: 5%;">월</th>
-                                                        <th class="center" style="width: 10%;">배이름</th>
-                                                        <th class="center" style="width: 10%;">부문</th>
-                                                        <th class="center" style="width: 25%;">계획내용</th>
-                                                        <th class="center" style="width: 10%;">금액[$]</th>
-                                                        <th class="center" style="width: 35%;">상세내용</th>
+                                                        <th class="center" style="width: 5%;">年</th>
+                                                        <th class="center" style="width: 5%;">月</th>
+                                                        <th class="center" style="width: 10%;">船舶名称</th>
+                                                        <th class="center" style="width: 10%;">部门</th>
+                                                        <th class="center" style="width: 25%;">计划内容</th>
+                                                        <th class="center" style="width: 10%;">金额[$]</th>
+                                                        <th class="center" style="width: 35%;">详细内容</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -143,7 +143,7 @@ else $header = 'sidebar';
                                                         </tr>
                                                     @endforeach
                                                     <tr data-id="0" onclick="supplyPlanListAdd($(this))" id="add">
-                                                        <td class="center" colspan="7">새로 추가</td>
+                                                        <td class="center" colspan="7">新追加</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -157,13 +157,13 @@ else $header = 'sidebar';
                                             <table id="tbl_app" class="table table-striped table-bordered table-hover">
                                                 <thead>
                                                 <tr class="black br-hblue">
-                                                    <th class="center">년도</th>
-                                                    <th class="center">월</th>
-                                                    <th class="center">배이름</th>
-                                                    <th class="center">부문</th>
-                                                    <th class="center">계획내용</th>
-                                                    <th class="center" style="width: 80px">금액[$]</th>
-                                                    <th class="center">비고</th>
+                                                    <th class="center">年</th>
+                                                    <th class="center">月</th>
+                                                    <th class="center">船舶名称</th>
+                                                    <th class="center">部门</th>
+                                                    <th class="center">计划内容</th>
+                                                    <th class="center" style="width: 80px">金额[$]</th>
+                                                    <th class="center">备注</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -218,7 +218,7 @@ else $header = 'sidebar';
                                                 <button class="btn btn-xs btn-primary" id="supplyPlanAdd"
                                                         @if($supplyplanlist->currentPage() < $supplyplanlist->lastPage()) disabled @endif>
                                                     <i class="icon-plus-sign bigger-50"></i>
-                                                    추가
+                                                    追加
                                                 </button>
                                             </div>
                                         </div>
@@ -236,7 +236,7 @@ else $header = 'sidebar';
                                     <div class="col-md-12">
                                         <div class="col-md-3 form-horizontal">
                                             <label class="control-label no-padding-right padding-left"
-                                                   style="float: left;">년도</label>
+                                                   style="float: left;">年</label>
 
                                             <div class="col-sm-8">
                                                 <select style="width:70%" id="yearCol">
@@ -250,7 +250,7 @@ else $header = 'sidebar';
                                         </div>
                                         <div class="col-md-3 form-horizontal">
                                             <label class="control-label no-padding-right"
-                                                   style="float: left;">배이름</label>
+                                                   style="float: left;">船舶名称</label>
 
                                             <div class="col-sm-8">
                                                 <select style="width:70%" id="shipNameCol">
@@ -272,7 +272,7 @@ else $header = 'sidebar';
                                         <div class="col-md-6 form-horizontal" style="text-align: right">
                                             <button class="btn btn-xs btn-primary" id="id-btn-collection-search" style="width: 80px">
                                                 <i class="icon-search"></i>
-                                                검색
+                                                搜索
                                             </button>
                                             <button class="btn btn-xs btn-warning" id="id-btn-collection-excel" style="width: 80px">
                                                 <i class="icon-table"></i>
@@ -298,22 +298,22 @@ else $header = 'sidebar';
                                                        id="ship_supplyplancollection_table">
                                                     <thead>
                                                     <tr class="black br-hblue">
-                                                        <th class="center">년도</th>
-                                                        <th class="center">배이름</th>
-                                                        <th class="center">부문</th>
-                                                        <th class="center">1월</th>
-                                                        <th class="center">2월</th>
-                                                        <th class="center">3월</th>
-                                                        <th class="center">4월</th>
-                                                        <th class="center">5월</th>
-                                                        <th class="center">6월</th>
-                                                        <th class="center">7월</th>
-                                                        <th class="center">8월</th>
-                                                        <th class="center">9월</th>
-                                                        <th class="center">10월</th>
-                                                        <th class="center">11월</th>
-                                                        <th class="center">12월</th>
-                                                        <th class="center">합계</th>
+                                                        <th class="center">年</th>
+                                                        <th class="center">船舶名称</th>
+                                                        <th class="center">部门</th>
+                                                        <th class="center">1月</th>
+                                                        <th class="center">2月</th>
+                                                        <th class="center">3月</th>
+                                                        <th class="center">4月</th>
+                                                        <th class="center">5月</th>
+                                                        <th class="center">6月</th>
+                                                        <th class="center">7月</th>
+                                                        <th class="center">8月</th>
+                                                        <th class="center">9月</th>
+                                                        <th class="center">10月</th>
+                                                        <th class="center">11月</th>
+                                                        <th class="center">12月</th>
+                                                        <th class="center">合计</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -365,7 +365,7 @@ else $header = 'sidebar';
                                                                     <?php $deptIndex++?>
                                                                     @endforeach
                                                                     <tr class="total">
-                                                                        <td class="center">합계</td>
+                                                                        <td class="center">合计</td>
                                                                         <td class="right">@if(isset($supplyAmounts[$yearCol.'1'.$ship['ShipName']]))
                                                                                 {{\App\Http\Controllers\Util::getNumberFtNZ($supplyAmounts[$yearCol.'1'.$ship['ShipName']])}}@endif</td>
                                                                         <td class="right">@if(isset($supplyAmounts[$yearCol.'2'.$ship['ShipName']]))
@@ -398,7 +398,7 @@ else $header = 'sidebar';
                                                                     @endforeach
                                                                     </tr>
                                                                     <tr class="total1">
-                                                                        <td class="center" colspan="3">계</td>
+                                                                        <td class="center" colspan="3">计</td>
                                                                         <td class="right">@if(isset($supplyAmounts[$yearCol.'1'.'0']))
                                                                                 {{\App\Http\Controllers\Util::getNumberFtNZ($supplyAmounts[$yearCol.'1'.'0'])}}@endif</td>
                                                                         <td class="right">@if(isset($supplyAmounts[$yearCol.'2'.'0']))
@@ -501,7 +501,7 @@ else $header = 'sidebar';
                 $('#supplyPlanId').val(id);
                 if (id == 0) {
                     document.getElementById("supplyPlanListAdd").reset();
-                    $('#supplyPlanAdd').html('<i class="icon-plus-sign bigger-50"></i> 추가').removeAttr('disabled');
+                    $('#supplyPlanAdd').html('<i class="icon-plus-sign bigger-50"></i> 追加').removeAttr('disabled');
                 } else {
                     $('#yearly').val(that.find('td').eq(0).text());
                     $('#monthly').val(that.find('td').eq(1).text());
@@ -552,8 +552,8 @@ else $header = 'sidebar';
                         console.log(data);
                         if (data == -1) {
                             $.gritter.add({
-                                title: '오유',
-                                text: '자료가 증복되므로 입력할수 없습니다.갱신을 진행하십시오.',
+                                title: '错误',
+                                text: '资料重复了。请再更新。',
                                 class_name: 'gritter-error'
                             });
                             return;
@@ -582,7 +582,7 @@ else $header = 'sidebar';
                                 </tr>';
                             $('#ship_supplyplan_table tbody').append(tr);
                         }
-                        $('#supplyPlanAdd').html('<i class="icon-edit bigger-50"></i> 변경');
+                        $('#supplyPlanAdd').html('<i class="icon-edit bigger-50"></i> 变更');
                     }
                 });
             });

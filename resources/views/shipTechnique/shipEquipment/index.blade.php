@@ -26,10 +26,10 @@
             <div class="page-header">
                 <div class="col-md-3">
                     <h4>
-                        <b>설비, 부속, 자재</b>
+                        <b>设备,配件,材料</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            공급계획등록
+                            供给计划登记
                         </small>
                     </h4>
                 </div>
@@ -39,11 +39,11 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
                     <li class="active">
-                        <a data-toggle="tab" href="#planinput">계획입력</a>
+                        <a data-toggle="tab" href="#planinput">计划输入</a>
                     </li>
 
                     <li class="">
-                        <a data-toggle="tab" href="#plancollection">계획종합</a>
+                        <a data-toggle="tab" href="#plancollection">计划综合</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -51,11 +51,11 @@
                         <div class="space-10"></div>
                         <div class="row">
                             <div class="col-md-3 form-horizontal">
-                                <label class="control-label no-padding-right padding-left" style="float: left;">년도</label>
+                                <label class="control-label no-padding-right padding-left" style="float: left;">年</label>
 
                                 <div class="col-sm-8">
                                     <select style="width:100%" onchange="yearChange()" id="year">
-                                        <option value="{{0}}" @if(!isset($year)) selected @endif>전체</option>
+                                        <option value="{{0}}" @if(!isset($year)) selected @endif>全部</option>
                                         @for( $i=$year_range->min;$i<=$year_range->max;$i++)
                                             <option value="{{$i}}" @if(isset($year)&&($year==$i)) selected @endif>{{$i}}
                                             </option>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 form-horizontal">
-                                <label class="control-label no-padding-right" style="float: left;">배이름</label>
+                                <label class="control-label no-padding-right" style="float: left;">船舶名称</label>
 
                                 <div class="col-sm-8">
                                     <select style="width:100%" onchange="shipNameChange()" id="shipName">
@@ -80,7 +80,7 @@
                             <div class="col-md-4" style="text-align: right">
                                 <button class="btn btn-xs btn-primary" id="id-btn-adddialog">
                                     <i class="icon-plus-sign bigger-50"></i>
-                                    추가
+                                    追加
                                 </button>
                             </div>
 
@@ -91,13 +91,13 @@
                                 <table class="table table-bordered" id="ship_supplyplan_table">
                                     <thead>
                                     <tr>
-                                        <td class="center">년도</td>
-                                        <td class="center">월</td>
-                                        <td class="center">배이름</td>
-                                        <td class="center">부문</td>
-                                        <td class="center">계획내용</td>
-                                        <td class="center">금액[$]</td>
-                                        <td class="center">상세내용</td>
+                                        <td class="center">年</td>
+                                        <td class="center">月</td>
+                                        <td class="center">船舶名称</td>
+                                        <td class="center">部门</td>
+                                        <td class="center">计划内容</td>
+                                        <td class="center">金额[$]</td>
+                                        <td class="center">详细内容</td>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -121,11 +121,11 @@
                         <div class="space-10"></div>
                         <div class="row">
                             <div class="col-md-3 form-horizontal">
-                                <label class="control-label no-padding-right padding-left" style="float: left;">년도</label>
+                                <label class="control-label no-padding-right padding-left" style="float: left;">年</label>
 
                                 <div class="col-sm-8">
                                     <select style="width:100%" onchange="yearChange_Collection()" id="yearCol">
-                                        <option value="{{0}}" @if(!isset($year)) selected @endif>전체</option>
+                                        <option value="{{0}}" @if(!isset($year)) selected @endif>全部</option>
                                         @for( $i=$year_range->min;$i<=$year_range->max;$i++)
                                             <option value="{{$i}}" @if(isset($year)&&($year==$i)) selected @endif>{{$i}}
                                             </option>
@@ -134,7 +134,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 form-horizontal">
-                                <label class="control-label no-padding-right" style="float: left;">배이름</label>
+                                <label class="control-label no-padding-right" style="float: left;">船舶名称</label>
 
                                 <div class="col-sm-8">
                                     <select style="width:100%" onchange="shipNameChange_Collection()" id="shipNameCol">
@@ -154,21 +154,21 @@
                                 <table class="table table-bordered" id="ship_supplyplancollection_table">
                                     <thead>
                                     <tr>
-                                        <td class="center">년도</td>
-                                        <td class="center">배이름</td>
-                                        <td class="center">부문</td>
-                                        <td class="center">1월</td>
-                                        <td class="center">2월</td>
-                                        <td class="center">3월</td>
-                                        <td class="center">4월</td>
-                                        <td class="center">5월</td>
-                                        <td class="center">6월</td>
-                                        <td class="center">7월</td>
-                                        <td class="center">8월</td>
-                                        <td class="center">9월</td>
-                                        <td class="center">10월</td>
-                                        <td class="center">11월</td>
-                                        <td class="center">12월</td>
+                                        <td class="center">年</td>
+                                        <td class="center">船舶名称</td>
+                                        <td class="center">部门</td>
+                                        <td class="center">1月</td>
+                                        <td class="center">2月</td>
+                                        <td class="center">3月</td>
+                                        <td class="center">4月</td>
+                                        <td class="center">5月</td>
+                                        <td class="center">6月</td>
+                                        <td class="center">7月</td>
+                                        <td class="center">8月</td>
+                                        <td class="center">9月</td>
+                                        <td class="center">10月</td>
+                                        <td class="center">11月</td>
+                                        <td class="center">12月</td>
                                     </tr>
                                     </thead>
                                     <tbody>

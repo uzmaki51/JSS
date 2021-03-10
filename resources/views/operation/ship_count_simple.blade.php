@@ -9,7 +9,7 @@
     <div class="page-content">
         <div class="page-header">
             <div class="col-md-6">
-                <h4><b>항차타산</b>
+                <h4><b>航次타산</b>
                     <small>
                         <i class="icon-double-angle-right"></i>草案
                     </small>

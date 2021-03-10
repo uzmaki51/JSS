@@ -9,10 +9,10 @@ $ships = Session::get('shipList');
             <div class="page-header">
                 <div class="col-md-3">
                     <h4>
-                        <b>배수리</b>
+                        <b>船舶修理</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            보고서종합열람
+                            报告综合阅览
                         </small>
                     </h4>
                 </div>
@@ -20,7 +20,7 @@ $ships = Session::get('shipList');
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-sm-3">
-                        <label style="float:left;padding-top:5px">배이름 :</label>
+                        <label style="float:left;padding-top:5px">船舶名称 :</label>
                         <div class="col-md-8" style="padding-left:5px">
                             <select class="form-control" id="search_ship_id">
                                 <option value=""> </option>
@@ -39,7 +39,7 @@ $ships = Session::get('shipList');
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        <label style="float:left;padding-top:5px">항차번호:</label>
+                        <label style="float:left;padding-top:5px">航次号码:</label>
                         <div class="col-md-6" style="padding-left:5px" id="Voy">
                             <select class="form-control" id="search_voy_number" >
                                 <option value="" > </option>
@@ -56,11 +56,11 @@ $ships = Session::get('shipList');
                     <div class="col-sm-3" style="text-align: right;float:right;">
                         <button class="btn btn-sm btn-primary search-btn" style="width: 80px">
                             <i class="icon-search"></i>
-                            검색
+                            搜索
                         </button>
                         <button class="btn btn-sm btn-primary no-radius print-btn" style="width: 80px">
                             <i class="icon-print"></i>
-                            인쇄
+                            打印
                         </button>
                         <button class="btn btn-sm btn-warning no-radius excel-btn" style="width: 80px">
                             <i class="icon-table"></i>
@@ -73,15 +73,15 @@ $ships = Session::get('shipList');
                     <table id="repair_info_table" class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr class="black br-hblue">
-                            <th class="center">배이름</th>
-                            <th class="center">항차번호</th>
-                            <th class="center">날자</th>
-                            <th class="center">내용</th>
-                            <th class="center">장소</th>
-                            <th class="center">구분</th>
-                            <th class="center">지도성원</th>
-                            <th class="center">금액</th>
-                            <th class="center">첨부파일</th>
+                            <th class="center">船舶名称</th>
+                            <th class="center">航次号码</th>
+                            <th class="center">日期</th>
+                            <th class="center">内容</th>
+                            <th class="center">地点</th>
+                            <th class="center">区分</th>
+                            <th class="center">领导</th>
+                            <th class="center">金额</th>
+                            <th class="center">附件</th>
                             @if(!$isHolder)
                                 <th class="center" width="50px"></th>
                             @endif
@@ -98,11 +98,11 @@ $ships = Session::get('shipList');
                                 <td class="center">{{$RepairInfo['Place']}}</td>
                                 <td class="center">
                                     @if($RepairInfo['RepairKind'] == 1)
-                                        정기
+                                        定期
                                     @elseif($RepairInfo['RepairKind'] == 2)
-                                        돌발
+                                        突发
                                     @elseif($RepairInfo['RepairKind'] == 3)
-                                        자체
+                                        自己
                                     @endif
                                 </td>
                                 <td class="center">{{$RepairInfo['D_Officer']}}</td>

@@ -35,7 +35,7 @@ use App\Models\Board\NewsResponse;
 use App\Models\Board\NewsRecommend;
 use App\Models\Board\NewsHistory;
 
-//선원출근일보등록
+//선원출근일보登记
 use App\Models\Attend\AttendUser;
 use App\Models\Attend\AttendType;
 use App\Models\Attend\AttendTime;
@@ -695,7 +695,7 @@ class BusinessController extends Controller
         return response()->json($currentSchedule);
     }
 
-    //ID목록으로부터 이름목록을 얻기
+    //ID목록으로从 이름목록을 얻기
     private function getUserNames($idList)
     {
         $idList = explode(',', $idList);
@@ -732,7 +732,7 @@ class BusinessController extends Controller
         return view('business.plan.mainplan', ['main_plans'=>$main_plans, 'name'=>$plan_name]);
     }
 
-    //계획항목변경요청처리
+    //계획项目변경요청처리
     public function planUpdate(Request $request)
     {
         $admin = Session::get('admin');
@@ -757,7 +757,7 @@ class BusinessController extends Controller
         return 0;
     }
 
-    //계획항목추가요청처리
+    //계획项目追加요청처리
     public function planAdd(Request $request)
     {
         $admin = Session::get('admin');
@@ -783,7 +783,7 @@ class BusinessController extends Controller
         return 0;
     }
 
-    //계획항목삭제요청처리
+    //계획项目삭제요청처리
     public function planDelete(Request $request)
     {
         $id = $request->get('id');
@@ -901,7 +901,7 @@ class BusinessController extends Controller
         return 1;
     }
 
-    //개인출근일보등록첫페지
+    //개인출근일보登记첫페지
     public function personnelRegister(Request $request)
     {
         Util::getMenuInfo($request);
@@ -941,7 +941,7 @@ class BusinessController extends Controller
         }
     }
 
-    //개인출근등록정보보관
+    //개인출근登记정보보관
     public function savePersonRegisterInfo(Request $request)
     {
         $curtime = date("H:i:s");
@@ -950,7 +950,7 @@ class BusinessController extends Controller
         $user = Auth::user();
         $attendance = AttendUser::where('regDay', $today)->where('userId', $user->id)->get();
         if (count($attendance) > 0) {
-            return 0; // 이미 등록하였음
+            return 0; // 이미 登记하였음
         }
 
         $attendance = new AttendUser;
@@ -1003,7 +1003,7 @@ class BusinessController extends Controller
         return false;
     }
 
-    //선원출근일보등록첫페지(현재날자, 모든 배에 대하여)
+    //선원출근일보登记첫페지(현재날자, 모든 배에 대하여)
     public function shipMemberRegister(Request $request)
     {
         Util::getMenuInfo($request);
@@ -1015,7 +1015,7 @@ class BusinessController extends Controller
         $pos = $request->get('pos');
         $memberName = $request->get('name');
 
-        $shipList = ShipRegister::getShipListByOrigin();//전체 배목록얻기
+        $shipList = ShipRegister::getShipListByOrigin();//全部 배목록얻기
         $attendType = AttendType::all();
         $posList = ShipPosition::all();
 
@@ -1024,7 +1024,7 @@ class BusinessController extends Controller
             $typeHtml .= '<option value="' .$type['id']. '">' .$type['name'] .'</option>';
         $typeHtml .= '</select>';
 
-        //선원출근표에서 오늘 등록된 목록을 얻는다.
+        //선원출근표에서 오늘 登记된 목록을 얻는다.
         $attendMemberList = AttendShip::getAttendShipMemberListByDate($attendDate, $shipId, $pos, $memberName);
         $completeCount = 0;
         foreach ($attendMemberList as $member) {
@@ -1122,7 +1122,7 @@ class BusinessController extends Controller
         return;
     }
 
-    //부서출근일보등록
+    //부서출근일보登记
     public function unitAttendPage(Request $request)
     {
         Util::getMenuInfo($request);
@@ -1148,7 +1148,7 @@ class BusinessController extends Controller
             $typeHtml .= '<option value="' .$type['id']. '">' .$type['name'] .'</option>';
         $typeHtml .= '</select>';
 
-        //직원출근표에서 오늘 등록된 목록을 얻는다.
+        //직원출근표에서 오늘 登记된 목록을 얻는다.
         if($user->isAdmin == 0)
             $attendMemberList = AttendUser::getAttendMemberListByDate($attendDate, $unitId, $page);
         else
@@ -1181,7 +1181,7 @@ class BusinessController extends Controller
             ]);
     }
 
-    //부서출근일보등록
+    //부서출근일보登记
     public function unitAttendDayPage(Request $request)
     {
         $GLOBALS['selMenu'] = 37;
@@ -1198,7 +1198,7 @@ class BusinessController extends Controller
 
         $paginate = UserInfo::where('unit', $unitId)->paginate()->setPath(''); // 리용자의 부서에 속한 직원목록을 얻는다.
 
-        //직원출근표에서 오늘 등록된 목록을 얻는다.
+        //직원출근표에서 오늘 登记된 목록을 얻는다.
         $attendMemberList = AttendUser::getAttendMemberListByDate($attendDate, $unitId, $page);
 
         $isRest = 0;
@@ -1314,7 +1314,7 @@ class BusinessController extends Controller
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 登记되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -1342,7 +1342,7 @@ class BusinessController extends Controller
             }
         }
 
-        // 마지막기록에 대한 추가
+        // 마지막기록에 대한 追加
         if(count($memberList) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -1484,14 +1484,14 @@ class BusinessController extends Controller
                 $totl_absen += $member->attendCount;
             $attendMember['type_'.$member->statusId] = $member->attendCount;
         }
-        if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
+        if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 登记되지 않은 출근은 未确定출근으로 본다.
             $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
             $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
         }
         $attendMember['absence'] = $totl_absen;
         $attendMember['attend'] = $totl_attend;
 
-        //출근합계값을 구한다.
+        //출근合计값을 구한다.
         $totalData = array(
             "days"  =>  $dates['days'],
             "rest"  =>  $dates['rest'],
@@ -1629,7 +1629,7 @@ class BusinessController extends Controller
         $attendMember['absence'] = $totl_absen;
         $attendMember['attend'] = $totl_attend;
 
-        //출근합계값을 구한다.
+        //출근合计값을 구한다.
         $totalData = array(
             "days"  =>  $dates['days'],
             "rest"  =>  $dates['rest'],
@@ -1711,7 +1711,7 @@ class BusinessController extends Controller
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 登记되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -1741,7 +1741,7 @@ class BusinessController extends Controller
             }
         }
 
-        // 마지막기록에 대한 추가
+        // 마지막기록에 대한 追加
         if(count($userAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -1773,7 +1773,7 @@ class BusinessController extends Controller
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 登记되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -1803,7 +1803,7 @@ class BusinessController extends Controller
             }
         }
 
-        // 마지막기록에 대한 추가
+        // 마지막기록에 대한 追加
         if(count($crewAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -1853,10 +1853,10 @@ class BusinessController extends Controller
         $typeList = AttendType::all();
         foreach($units as $unit) {
             if($unit['parentId'] == 0) {
-                $memberList = UserInfo::getDirectlyUserList($unit['id']); // 직속부서의 리용자들의 ID를 반점으로 구분하여 얻는다.
+                $memberList = UserInfo::getDirectlyUserList($unit['id']); // 직속부서의 리용자들의 ID를 반점으로 区分하여 얻는다.
                 $unit['title'] = '경송선박회사';
             } else {
-                $memberList = UserInfo::getUserListByUnit($unit['id']); // 해당부서의 리용자들의 ID를 반점으로 구분하여 얻는다.
+                $memberList = UserInfo::getUserListByUnit($unit['id']); // 해당부서의 리용자들의 ID를 반점으로 区分하여 얻는다.
             }
             $resultList = AttendUser::getAttendStateByDate($memberList, $selDate);
             $valueList = array();
@@ -1891,7 +1891,7 @@ class BusinessController extends Controller
 
         $shipList = ShipRegister::getShipListOnlyOrigin();
         foreach($shipList as $ship){
-            $shipMemberList = ShipMember::getMemberListByCommar($ship['RegNo']); // 해당배의 선원들의 ID를 반점으로 구분하여 얻는다.
+            $shipMemberList = ShipMember::getMemberListByCommar($ship['RegNo']); // 해당배의 선원들의 ID를 반점으로 区分하여 얻는다.
             $resultList = AttendShip::getAttendStateByDate($shipMemberList, $selDate);
             $valueList = array();
             $attendCount = 0;
@@ -1928,7 +1928,7 @@ class BusinessController extends Controller
             $units[] = $ship;
         }
 
-        $shipMemberList = ShipMember::getMemberListByCommar(); // 대기선원들을 반점으로 구분하여 얻는다.
+        $shipMemberList = ShipMember::getMemberListByCommar(); // 대기선원들을 반점으로 区分하여 얻는다.
         $resultList = AttendShip::getAttendStateByDate($shipMemberList, $selDate);
         $valueList = array();
         $attendCount = 0;
@@ -1985,7 +1985,7 @@ class BusinessController extends Controller
 
         $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
 
-        //선원출근표에서 오늘 등록된 목록을 얻는다.
+        //선원출근표에서 오늘 登记된 목록을 얻는다.
         $attendMemberList = AttendShip::getAttendShipMemberListByDate($attendDate, $shipId);
 
         $isRest = 0;
@@ -2093,7 +2093,7 @@ class BusinessController extends Controller
         $user = Auth::user();
         $today = date('Y-m-d');
 
-        // 표에 현시할 자료항목만들기
+        // 표에 현시할 자료项目만들기
         $all_person_plans = array();
         for ($i = 0; $i < 7; $i++) {
             $date = new \DateTime($start_date);
@@ -2169,7 +2169,7 @@ class BusinessController extends Controller
         return view('business.plan.plan_manage_table', with(['sub_plan_list'=>$subReportList]));
     }
 
-    //검색요청처리
+    //搜索요청처리
     public function reportPersonSearch(Request $request)
     {
         $keyword = $request->get('keyword');
@@ -2183,7 +2183,7 @@ class BusinessController extends Controller
         return view('business.plan.planlist', array('main_plans' => $main_plans));
     }
 
-    //계획항목변경요청처리
+    //계획项目변경요청처리
     public function reportPersonUpdate(Request $request)
     {
         $user = Auth::user();
@@ -2213,7 +2213,7 @@ class BusinessController extends Controller
         return 1;
     }
 
-    //분과제 추가
+    //분과제 追加
     public function addSubTask(Request $request)
     {
         $planId = $request->get('planId');
@@ -2443,7 +2443,7 @@ class BusinessController extends Controller
             ]);
     }
 
-    // 기업소전체종업원의 일보열람
+    // 기업소全部종업원의 일보열람
     public function reportPersonUpdateAllList(Request $request)
     {
         $selDate = $request->get('selDate');
@@ -2582,7 +2582,7 @@ class BusinessController extends Controller
         return $list;
     }
 
-    // 부서의 주보등록페지
+    // 부서의 주보登记페지
     public function reportUnitWeek(Request $request) {
         Util::getMenuInfo($request);
 
@@ -2668,7 +2668,7 @@ class BusinessController extends Controller
         return $list;
     }
 
-    // 부서의 월보등록페지
+    // 부서의 월보登记페지
     public function reportUnitMonth(Request $request) {
         $year = $request->get('year');
         if(empty($year))
@@ -2777,7 +2777,7 @@ class BusinessController extends Controller
         return view('business.plan.unit_week_read_table', array('list'=>$list));
     }
 
-    // 부서의 월보등록페지
+    // 부서의 월보登记페지
     public function reportUnitMonthRead(Request $request) {
 
         $year = $request->get('year');
@@ -2924,7 +2924,7 @@ class BusinessController extends Controller
 
 
     // 기업소의 주월보를 관리
-    // 기업소의 주보등록페지
+    // 기업소의 주보登记페지
     public function reportEnterPriseWeek(Request $request) {
 
         Util::getMenuInfo($request);
@@ -2980,7 +2980,7 @@ class BusinessController extends Controller
         return view('business.plan.unit_report_week_table', array('list'=>$list));
     }
 
-    // 부서의 월보등록페지
+    // 부서의 월보登记페지
     public function reportEnterpriseMonth(Request $request) {
 
         $year = $request->get('year');
@@ -3049,7 +3049,7 @@ class BusinessController extends Controller
             return view('business.plan.enterprise_report_read', array('list'=>$list, 'curDate'=>$curDate));
     }
 
-    // 부서의 월보등록페지
+    // 부서의 월보登记페지
     public function reportEnterpriseMonthRead(Request $request) {
 
         $year = $request->get('year');
@@ -3282,7 +3282,7 @@ class BusinessController extends Controller
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 登记되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -3312,7 +3312,7 @@ class BusinessController extends Controller
             }
         }
 
-        // 마지막기록에 대한 추가
+        // 마지막기록에 대한 追加
         if(count($userAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -3344,7 +3344,7 @@ class BusinessController extends Controller
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 登记되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -3374,7 +3374,7 @@ class BusinessController extends Controller
             }
         }
 
-        // 마지막기록에 대한 추가
+        // 마지막기록에 대한 追加
         if(count($crewAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -3546,7 +3546,7 @@ class BusinessController extends Controller
         $attendMember['absence'] = $totl_absen;
         $attendMember['attend'] = $totl_attend;
 
-        //출근합계값을 구한다.
+        //출근合计값을 구한다.
         $totalData = array(
             "days"  =>  $dates['days'],
             "rest"  =>  $dates['rest'],
@@ -3703,7 +3703,7 @@ class BusinessController extends Controller
         $attendMember['absence'] = $totl_absen;
         $attendMember['attend'] = $totl_attend;
 
-        //출근합계값을 구한다.
+        //출근合计값을 구한다.
         $totalData = array(
             "days"  =>  $dates['days'],
             "rest"  =>  $dates['rest'],

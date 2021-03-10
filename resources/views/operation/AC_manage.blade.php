@@ -194,7 +194,7 @@ $ships = Session::get('shipList');
                 var typeName = obj.eq(2).text();
                 bootbox.confirm(typeName + "真要删掉吗?", function (result) {
                     if (result) {
-                        //확인단추를 눌렀을 때의 처리
+                        //确认단추를 눌렀을 때의 처리
                         $.post('deleteACType', {'_token':token, 'typeId':typeId}, function (result) {
                             tr.fadeOut();
                         });
@@ -235,7 +235,7 @@ $ships = Session::get('shipList');
                 var typeId = $('input[name="AC_Item_Detail_Id"]').val();
                 bootbox.confirm("真要删掉吗?", function (result) {
                     if (result) {
-                        //확인단추를 눌렀을 때의 처리
+                        //确认단추를 눌렀을 때의 처리
                         $.post('deleteACDetail', {'_token':token, 'typeId': typeId}, function (result) {
                             tr.fadeOut();
                         });

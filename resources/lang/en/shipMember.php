@@ -188,7 +188,7 @@ return [
         'Duty'  =>  'Duty',
         'ShipName'  =>  'ShipName',
         'Dismissal Date'    =>  '해임날자',
-        'Registration Status'   => '등록상태',
+        'Registration Status'   => '登记상태',
     ],
 
     "memberCertList"  => [

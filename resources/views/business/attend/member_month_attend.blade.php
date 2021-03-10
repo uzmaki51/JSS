@@ -42,8 +42,8 @@
                     </div>
                     <div class="col-md-4 form-horizontal">
                         <div class="col-sm-8">
-                            <button type="button" class="btn btn-primary btn-sm search-btn" style="width: 80px"><i class="icon-search"></i>{{transBusinessManage("captions.exittime")}}검색</button>
-                            <button style="float: right; width: 80px" type="button" class="btn btn-primary btn-sm print-year-attend"><i class="icon-print"></i>{{transBusinessManage("captions.exittime")}}인쇄</button>
+                            <button type="button" class="btn btn-primary btn-sm search-btn" style="width: 80px"><i class="icon-search"></i>{{transBusinessManage("captions.exittime")}}搜索</button>
+                            <button style="float: right; width: 80px" type="button" class="btn btn-primary btn-sm print-year-attend"><i class="icon-print"></i>{{transBusinessManage("captions.exittime")}}打印</button>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                                 <tr class="black br-hblue">
                                     <th class="center" style="width: 10%">{{transBusinessManage("captions.date")}}</th>
                                     <th class="center" style="width: 20%">{{transBusinessManage("captions.enterstate")}}</th>
-                                    <th class="center">{{transBusinessManage("captions.remark")}}비고</th>
+                                    <th class="center">{{transBusinessManage("captions.remark")}}备注</th>
                                 </tr>
                             </thead>
                             <tbody>

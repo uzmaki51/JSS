@@ -157,7 +157,7 @@ class ExcelController extends Controller {
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 登记되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -187,7 +187,7 @@ class ExcelController extends Controller {
             }
         }
 
-        // 마지막기록에 대한 추가
+        // 마지막기록에 대한 追加
         if(count($userAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -219,7 +219,7 @@ class ExcelController extends Controller {
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 登记되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -249,7 +249,7 @@ class ExcelController extends Controller {
             }
         }
 
-        // 마지막기록에 대한 추가
+        // 마지막기록에 대한 追加
         if(count($crewAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -310,10 +310,10 @@ class ExcelController extends Controller {
         $typeList = AttendType::all();
         foreach($units as $unit) {
             if($unit['parentId'] == 0) {
-                $memberList = UserInfo::getDirectlyUserList($unit['id']); // 직속부서의 리용자들의 ID를 반점으로 구분하여 얻는다.
+                $memberList = UserInfo::getDirectlyUserList($unit['id']); // 직속부서의 리용자들의 ID를 반점으로 区分하여 얻는다.
                 $unit['title'] = '大连吉速船舶有限公司';
             } else {
-                $memberList = UserInfo::getUserListByUnit($unit['id']); // 해당부서의 리용자들의 ID를 반점으로 구분하여 얻는다.
+                $memberList = UserInfo::getUserListByUnit($unit['id']); // 해당부서의 리용자들의 ID를 반점으로 区分하여 얻는다.
             }
             $resultList = AttendUser::getAttendStateByDate($memberList, $selDate);
             $valueList = array();
@@ -348,7 +348,7 @@ class ExcelController extends Controller {
 
         $shipList = Ship::all(['id', 'name']);
         foreach($shipList as $ship){
-            $shipMemberList = ShipMember::getMemberListByCommar($ship['id']); // 해당배의 선원들의 ID를 반점으로 구분하여 얻는다.
+            $shipMemberList = ShipMember::getMemberListByCommar($ship['id']); // 해당배의 선원들의 ID를 반점으로 区分하여 얻는다.
             $resultList = AttendShip::getAttendStateByDate($shipMemberList, $selDate);
             $valueList = array();
             $attendCount = 0;
@@ -384,7 +384,7 @@ class ExcelController extends Controller {
             $units[] = $ship;
         }
 
-        $shipMemberList = ShipMember::getMemberListByCommar(0); // 해당배의 선원들의 ID를 반점으로 구분하여 얻는다.
+        $shipMemberList = ShipMember::getMemberListByCommar(0); // 해당배의 선원들의 ID를 반점으로 区分하여 얻는다.
         $resultList = AttendShip::getAttendStateByDate($shipMemberList, $selDate);
         $valueList = array();
         $attendCount = 0;
@@ -458,7 +458,7 @@ class ExcelController extends Controller {
         $user = Auth::user();
         $today = date('Y-m-d');
 
-        // 표에 현시할 자료항목만들기
+        // 표에 현시할 자료项目만들기
         $all_person_plans = array();
         for ($i = 0; $i < 7; $i++) {
             $date = new \DateTime($start_date);
@@ -517,7 +517,7 @@ class ExcelController extends Controller {
             ]);
     }
 
-    //주보등록
+    //주보登记
     public function reportPersonUpdateWeekList(Request $request)
     {
 
@@ -658,7 +658,7 @@ class ExcelController extends Controller {
             ]);
     }
 
-    // 기업소전체종업원의 일보열람
+    // 기업소全部종업원의 일보열람
     public function reportPersonUpdateAllList(Request $request)
     {
         $selDate = $request->get('selDate');
@@ -874,7 +874,7 @@ class ExcelController extends Controller {
         return $list;
     }
 
-    // 부서의 월보등록페지
+    // 부서의 월보登记페지
     public function reportUnitMonthRead(Request $request) {
 
         $year = $request->get('year');
@@ -1533,7 +1533,7 @@ class ExcelController extends Controller {
         ));
     }
 
-    //----------------- 항차타산 (표준) ------------------//
+    //----------------- 航次타산 (표준) ------------------//
     public function shipCountStandard(Request $request)
     {
         Util::getMenuInfo($request);
@@ -1594,7 +1594,7 @@ class ExcelController extends Controller {
             ]);
     }
 
-    // 항차일수분석
+    // 航次일수분석
     public function shipVoyAnalysis(Request $request) {
 
         Util::getMenuInfo($request);
@@ -1864,7 +1864,7 @@ class ExcelController extends Controller {
         ));
     }
 
-    //----------------- 계획수행 / 배별 항차실적종합 ------------------//
+    //----------------- 계획수행 / 배별 航次실적종합 ------------------//
     public function shipCountReport(Request $request)
     {
         $shipList = ShipRegister::getShipListByOrigin();
@@ -1926,7 +1926,7 @@ class ExcelController extends Controller {
         ));
     }
 
-    //설비부속자재 공급계획등록
+    //设备配件材料 供给计划登记
 
     public function supplyPlan(Request $request)
     {
@@ -1951,7 +1951,7 @@ class ExcelController extends Controller {
 
         $tab = $request->get('tab');
         $type = $request->get('type');
-        $excel_title = '年度: ';
+        $excel_title = '年: ';
         if(isset($year) && $year > 0)
             $excel_title .= $year;
         else
@@ -2049,7 +2049,7 @@ class ExcelController extends Controller {
         ]);
     }
 
-    //배수리
+    //船舶修理
     public function shipRepairAllBrowse(Request $request)
     {
         Util::getMenuInfo($request);
@@ -2076,7 +2076,7 @@ class ExcelController extends Controller {
         );
     }
 
-    //배사고
+    //船舶事故
     public function shipAccidentAllBrowse(Request $request)
     {
         Util::getMenuInfo($request);
@@ -2107,7 +2107,7 @@ class ExcelController extends Controller {
             ]);
     }
 
-    //배검사
+    //船舶检查
     public function shipSurveyAllBrowse(Request $request)
     {
         Util::getMenuInfo($request);
@@ -2136,7 +2136,7 @@ class ExcelController extends Controller {
             ]);
     }
 
-    //설비부속자재 신청공급열람
+    //设备配件材料 申请공급열람
 
     public function loadSupplyRecord(Request $request)
     {
@@ -2201,7 +2201,7 @@ class ExcelController extends Controller {
         );
     }
 
-    //설비부속자재 공급정형열람
+    //设备配件材料 供给情况阅览
     public function showSupplyInfo(Request $request)
     {
         Util::getMenuInfo($request);
@@ -2335,7 +2335,7 @@ class ExcelController extends Controller {
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 登记되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -2365,7 +2365,7 @@ class ExcelController extends Controller {
             }
         }
 
-        // 마지막기록에 대한 추가
+        // 마지막기록에 대한 追加
         if(count($userAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -2397,7 +2397,7 @@ class ExcelController extends Controller {
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 登记되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -2427,7 +2427,7 @@ class ExcelController extends Controller {
             }
         }
 
-        // 마지막기록에 대한 추가
+        // 마지막기록에 대한 追加
         if(count($crewAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -2469,7 +2469,7 @@ class ExcelController extends Controller {
             ]);
     }
 
-    // 배등록 기술자격목록
+    // 배登记 기술자격목록
     public function memberCapacityManageExcel() {
         $list = ShipMemberCapacity::totalData();
         $excel_title = '海员适任目录';
@@ -2477,7 +2477,7 @@ class ExcelController extends Controller {
         return view('shipManage.member_capacity_manage', ['list' => $list, 'excel' => 1, 'excel_name' =>$excel_title]);
     }
 
-    // 선원등록부
+    // 선원登记부
     public function loadShipMembersExcel (Request $request) {
 
         $shipId = $request->get('ship');

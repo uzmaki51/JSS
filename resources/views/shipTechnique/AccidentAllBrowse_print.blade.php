@@ -19,13 +19,13 @@
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th class="center" >배이름</th>
-                            <th class="center">항차번호</th>
-                            <th class="center">날자</th>
-                            <th class="center">항명</th>
-                            <th class="center">장소</th>
-                            <th class="center">내용</th>
-                            <th class="center">종류</th>
+                            <th class="center" >船舶名称</th>
+                            <th class="center">航次号码</th>
+                            <th class="center">日期</th>
+                            <th class="center">港口名称</th>
+                            <th class="center">地点</th>
+                            <th class="center">内容</th>
+                            <th class="center">种类</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -39,15 +39,15 @@
                                 <td class="center"><label class="simple_text">{{$AccidentInfo['Content']}}</label></td>
                                 <td class="center">
                                     @if($AccidentInfo['AccidentKind'] == 1)
-                                        좌주
+                                        搁浅
                                     @elseif($AccidentInfo['AccidentKind'] == 2)
-                                        충돌
+                                        冲突
                                     @elseif($AccidentInfo['AccidentKind'] == 3)
-                                        고장파손
+                                        故障破损
                                     @elseif($AccidentInfo['AccidentKind'] == 4)
-                                        분실
+                                        丢失
                                     @elseif($AccidentInfo['AccidentKind'] == 5)
-                                        화물부족
+                                        货物不足
                                     @endif
                                 </td>
                             </tr>

@@ -346,7 +346,7 @@
             }
 
             var allcheck = $('#all-check').prop('checked');
-            if((shipMemberName.length < 1) && allcheck) { // 전체선원들을 선택한 경우
+            if((shipMemberName.length < 1) && allcheck) { // 全部선원들을 선택한 경우
                 var attendType = $('#all-select').val();
                 var memo = $('#all-memo').val();
                 if((attendType == 4) && (memo.length < 1)) {

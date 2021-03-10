@@ -87,7 +87,7 @@
 
                bootbox.confirm('[ ' + flowName + ' ] 要删除批准流程吗?', function (result) {
                    if (result) {
-                       //확인단추를 눌렀을 때의 처리
+                       //确认단추를 눌렀을 때의 처리
                        $.post('flowDelelte', {'_token':token, 'flow_id':flowId}, function (data) {
                            var result = jQuery.parseJSON(data);
                            if (result.status == 'success') {

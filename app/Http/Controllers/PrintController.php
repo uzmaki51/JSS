@@ -60,9 +60,9 @@ class PrintController extends Controller {
 		$this->middleware('auth');
 	}
 
-    //항차타산표준
+    //航次타산표준
 
-    //----------------- 항차타산 (표준) ------------------//
+    //----------------- 航次타산 (표준) ------------------//
     public function shipCountStandard(Request $request)
     {
         Util::getMenuInfo($request);
@@ -160,7 +160,7 @@ class PrintController extends Controller {
             ]);
     }
 
-    //배수리보고서종합열람
+    //船舶修理报告综合阅览
     public function shipRepairAllBrowse(Request $request)
     {
         Util::getMenuInfo($request);
@@ -184,7 +184,7 @@ class PrintController extends Controller {
         ));
     }
 
-    //배수리 공급계획종합
+    //船舶修理 공급计划综合
     public function supplyPlan(Request $request)
     {
         Util::getMenuInfo($request);
@@ -251,7 +251,7 @@ class PrintController extends Controller {
         ]);
     }
 
-    //배사고 보고서종합열람
+    //船舶事故 报告综合阅览
 
     public function shipAccidentAllBrowse(Request $request)
     {
@@ -276,7 +276,7 @@ class PrintController extends Controller {
             ]);
     }
 
-    //배검사보고서종합열람
+    //船舶检查报告综合阅览
 
     public function shipSurveyAllBrowse(Request $request)
     {
@@ -392,7 +392,7 @@ class PrintController extends Controller {
             $signPath = $decEnv->signPath;
         else
             $signPath = null;
-        //출근합계값을 구한다.
+        //출근合计값을 구한다.
         $totalData = array(
             "days"  =>  $request->get("days"),
             "rest"  =>  $request->get("rest"),
@@ -497,7 +497,7 @@ class PrintController extends Controller {
             $signPath = $memberInfo['signPhoto'];
         else
             $signPath = null;
-        //출근합계값을 구한다.
+        //출근合计값을 구한다.
         $totalData = array(
             "days"  =>  $request->get("days"),
             "rest"  =>  $request->get("rest"),
@@ -594,7 +594,7 @@ class PrintController extends Controller {
         else
             $signPath = null;
 
-        //출근합계값을 구한다.
+        //출근合计값을 구한다.
         $totalData = array(
             "days"  =>  $request->get("days"),
             "rest"  =>  $request->get("rest"),
@@ -689,7 +689,7 @@ class PrintController extends Controller {
         else
             $signPath = null;
 
-        //출근합계값을 구한다.
+        //출근合计값을 구한다.
         $totalData = array(
             "days"  =>  $request->get("days"),
             "rest"  =>  $request->get("rest"),

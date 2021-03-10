@@ -27,7 +27,7 @@ else $header = 'sidebar';
 @else
     @include('layout.excel-style')
 @endif
-                    <h5><b>년도별 공급정형</b></h5>
+                    <h5><b>年별 공급정형</b></h5>
                     <table id="yearly" class="arc-std-table table table-striped table-bordered table-hover">
                         <thead>
                         <tr class="black br-hblue">

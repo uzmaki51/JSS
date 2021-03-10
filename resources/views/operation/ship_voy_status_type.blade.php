@@ -143,7 +143,7 @@ $ships = Session::get('shipList');
 
                 bootbox.confirm('['+ itemName + ']  ' + "  项目真要删掉吗?", function (result) {
                     if (result) {
-                        //확인단추를 눌렀을 때의 처리
+                        //确认단추를 눌렀을 때의 처리
                         $.post('deleteVoyStatusType', {'_token':token, 'typeId':typeId}, function (data) {
                             var result = jQuery.parseJSON(data);
                             if (result.status == 'success') {

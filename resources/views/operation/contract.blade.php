@@ -63,7 +63,6 @@ $isHolder = Session::get('IS_HOLDER');
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary btn-sm" style="float: left; width :80px"><i class="icon-search"></i>搜索</button>
-                            <a class="btn btn-success btn-sm no-radius btn-init" style="float: left;margin-left:8px; width :80px"><i class="icon-cogs"></i>초기화</a>
                             <button class="btn btn-warning btn-sm excel-btn" style="float: left; margin-left: 8px; width :80px">
                                 <i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b>
                             </button>

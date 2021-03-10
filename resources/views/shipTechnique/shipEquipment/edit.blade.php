@@ -6,10 +6,10 @@
             <div class="page-header">
                 <div class="col-md-3">
                     <h4>
-                        <b>설비, 부속, 자재</b>
+                        <b>设备,配件,材料</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            공급계획등록
+                            供给计划登记
                         </small>
                     </h4>
                 </div>
@@ -18,11 +18,11 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-3 form-horizontal">
-                    <label class="control-label no-padding-right" style="float: left;">년도</label>
+                    <label class="control-label no-padding-right" style="float: left;">年</label>
 
                     <div class="col-sm-8">
                         <select style="width:100%" onchange="yearChange()" id="year">
-                            <option value="{{0}}" @if(!isset($year)) selected @endif>전체</option>
+                            <option value="{{0}}" @if(!isset($year)) selected @endif>全部</option>
                             @for( $i=$year_range->min;$i<=$year_range->max;$i++)
                                 <option value="{{$i}}" @if(isset($year)&&($year==$i)) selected @endif>{{$i}}
                                 </option>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 form-horizontal">
-                    <label class="control-label no-padding-right" style="float: left;">배이름</label>
+                    <label class="control-label no-padding-right" style="float: left;">船舶名称</label>
 
                     <div class="col-sm-8">
                         <select style="width:100%" onchange="shipNameChange()" id="shipName">
@@ -46,7 +46,7 @@
                 </div>
                 <div style="text-align: right">
                     <a href="http://www.bss.master/shipManage/registerShipData" data-toggle="modal"
-                       class="btn btn-primary" style="border-radius: 3px;width :80px;"><i class="icon-plus-sign-alt"></i><b>추가</b></a>
+                       class="btn btn-primary" style="border-radius: 3px;width :80px;"><i class="icon-plus-sign-alt"></i><b>追加</b></a>
                 </div>
 
             </div>
@@ -55,13 +55,13 @@
                     <table class="table table-bordered" id="ship_supplyplan_table">
                         <thead>
                         <tr>
-                            <td class="center">년도</td>
-                            <td class="center">월</td>
-                            <td class="center">배이름</td>
-                            <td class="center">부문</td>
-                            <td class="center">계획내용</td>
-                            <td class="center">금액[$]</td>
-                            <td class="center">상세내용</td>
+                            <td class="center">年</td>
+                            <td class="center">月</td>
+                            <td class="center">船舶名称</td>
+                            <td class="center">部门</td>
+                            <td class="center">计划内容</td>
+                            <td class="center">金额[$]</td>
+                            <td class="center">详细内容</td>
                         </tr>
                         </thead>
                         <tbody>

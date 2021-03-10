@@ -143,7 +143,7 @@ class shipTechniqueController extends Controller
         ));
     }
 
-    //배수리조종부
+    //船舶修理조종부
     public function shipRepairRegister(Request $request)
     {
         Util::getMenuInfo($request);
@@ -207,7 +207,7 @@ class shipTechniqueController extends Controller
         return view('shipTechnique.RepairDetail',array('shipList'=>$shipList,'cps'=>$cps, 'recovery'=>$recovery, 'readonly'=>$readonly));
     }
 
-    // 보고서 추가 및 수정
+    // 报告 追加 및 수정
     public function updateRepair(Request $request)
     {
         $id = $request->get('id');
@@ -267,7 +267,7 @@ class shipTechniqueController extends Controller
         return redirect('shipTechnique/shipRepairRegister');
     }
 
-    //배사고조종부
+    //船舶事故조종부
     public function shipAccidentRegister(Request $request)
     {
         Util::getMenuInfo($request);
@@ -351,7 +351,7 @@ class shipTechniqueController extends Controller
             ]);
     }
 
-    // 보고서 추가 및 수정
+    // 报告 追加 및 수정
     public function updateAccident(Request $request)
     {
         $id = $request->get('id');
@@ -407,7 +407,7 @@ class shipTechniqueController extends Controller
         return redirect('shipTechnique/shipAccidentRegister');
     }
 
-    //배검사조종부
+    //船舶检查조종부
     public function shipSurveyRegister(Request $request)
     {
         Util::getMenuInfo($request);
@@ -491,7 +491,7 @@ class shipTechniqueController extends Controller
                 ]);
     }
 
-    // 보고서 추가 및 수정
+    // 报告 追加 및 수정
     public function updateSurvey(Request $request)
     {
         $id = $request->get('id');

@@ -7,7 +7,7 @@
             <div class="page-year-view">
                 <div class="page-header">
                     <div class="col-md-3">
-                        <h5><b>공급계획등록</b></h5>
+                        <h5><b>供给计划登记</b></h5>
 
                     </div>
                     <div class="col-md-offset-6 col-md-3">
@@ -18,7 +18,7 @@
                 <div class="row">
                     <div class="col-md-11">
                         <button type="button" id="sendBtn" class="btn btn-primary" style="float: right"><i
-                                    class="icon-save"></i>등록
+                                    class="icon-save"></i>登记
                         </button>
                     </div>
 
@@ -33,13 +33,13 @@
                             <div class="col-md-12">
                                 <table id="tbl_app" class="table table-striped table-bordered table-hover">
                                     <thead>
-                                        <th class="center">년도</th>
-                                        <th class="center">월</th>
-                                        <th class="center">배이름</th>
-                                        <th class="center">부문</th>
-                                        <th class="center">계획내용</th>
-                                        <th class="center" style="width: 80px">수량</th>
-                                        <th class="center">비고</th>
+                                        <th class="center">年</th>
+                                        <th class="center">月</th>
+                                        <th class="center">船舶名称</th>
+                                        <th class="center">部门</th>
+                                        <th class="center">计划内容</th>
+                                        <th class="center" style="width: 80px">数量</th>
+                                        <th class="center">备注</th>
                                     </thead>
                                     <tbody>
                                         <td class="center">

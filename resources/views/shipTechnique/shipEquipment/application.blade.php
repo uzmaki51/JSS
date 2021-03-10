@@ -46,10 +46,10 @@ else $header = 'sidebar';
             </style>
             <div class="page-header">
                 <div class="col-md-3">
-                    <h4><b>설비부속자재</b>
+                    <h4><b>设备配件材料</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            신천공급등록
+                            申请供给登录
                         </small>
                     </h4>
                 </div>
@@ -59,7 +59,7 @@ else $header = 'sidebar';
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header" data-target="#modal-step-contents">
-                            알림
+                            通知
                         </div>
                         <div id="modal-body-content" class="modal-body step-content">
                         </div>
@@ -71,7 +71,7 @@ else $header = 'sidebar';
                     <div class="row">
                         <div class="col-md-6">
                             <div class="col-md-6 form-horizontal">
-                                <label class="control-label no-padding-right" style="float: left;">배이름</label>
+                                <label class="control-label no-padding-right" style="float: left;">船舶名称</label>
 
                                 <div class="col-sm-10">
                                     <select id="shipName" class="form-control chosen-select"
@@ -92,7 +92,7 @@ else $header = 'sidebar';
                                 </div>
                             </div>
                             <div class="col-md-6 form-horizontal">
-                                <label class="control-label no-padding-right" style="float: left;">신청항차</label>
+                                <label class="control-label no-padding-right" style="float: left;">申请航次</label>
 
                                 <div class="col-md-9" id="voyList">
                                     <select id="voy" class="form-control chosen-select" style="height: 25px">
@@ -112,7 +112,7 @@ else $header = 'sidebar';
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary btn-sm" type="button" onclick="onSearch()" style="width: 80px">
                                         <i class="icon-search"></i>
-                                        검색
+                                        搜索
                                     </button>
                                     &nbsp;&nbsp;&nbsp;
                                     <button class="btn btn-warning btn-sm" type="button" onclick="onExcel()" style="width: 80px">
@@ -126,13 +126,13 @@ else $header = 'sidebar';
                     <div class="space-10"></div>
                     <div class="row">
                         <div class="col-md-6" style="color:#126EB9;">
-                            <b>상선항:</b>
+                            <b>上船港口:</b>
                             <strong>
                                 @if(!empty($cpInfo))
                                     {{ $cpInfo->lPortName() }}
                                 @endif
                             </strong>
-                            <b>: 하선항:</b>
+                            <b>: 下船港口:</b>
                             <strong>
                                 @if(!empty($cpInfo))
                                     {{ $cpInfo->dPortName() }}
@@ -146,8 +146,8 @@ else $header = 'sidebar';
     @else
                             @include('layout.excel-style')
                             <br>
-                            <div>상선항: @if(!empty($cpInfo)){{ $cpInfo->lPortName() }}@endif
-                                하선항: @if(!empty($cpInfo)){{ $cpInfo->dPortName() }}@endif</div>
+                            <div>上船港口: @if(!empty($cpInfo)){{ $cpInfo->lPortName() }}@endif
+                                下船港口: @if(!empty($cpInfo)){{ $cpInfo->dPortName() }}@endif</div>
     @endif
                             <div style="overflow-y: scroll;width: 150%;">
                                 <table id="tbl_app" class="table table-striped table-bordered table-hover"
@@ -278,7 +278,7 @@ else $header = 'sidebar';
                                                         <input type="checkbox" disabled
                                                                @if($supplyInfo['ApplCheck'] == 1) checked @endif>
                                                     @else
-                                                        @if($supplyInfo['ApplCheck'] == 1)신청@endif
+                                                        @if($supplyInfo['ApplCheck'] == 1)申请@endif
                                                     @endif
                                                 </td>
                                                 <td class="center" id="QuotDate" data-value="{{ $supplyInfo['QuotDate'] }}"
@@ -311,7 +311,7 @@ else $header = 'sidebar';
                                                         <input type="checkbox" disabled
                                                                @if($supplyInfo['SupplyApplCheck']==1) checked @endif>
                                                     @else
-                                                        @if($supplyInfo['SupplyApplCheck']==1)지시받음@endif
+                                                        @if($supplyInfo['SupplyApplCheck']==1)收到指示@endif
                                                     @endif
                                                 </td>
 
@@ -337,7 +337,7 @@ else $header = 'sidebar';
                                                         <input type="checkbox" disabled
                                                                @if($supplyInfo['ReciptCheck'] == 1) checked @endif>
                                                     @else
-                                                        @if($supplyInfo['ReciptCheck'] == 1)접수@endif
+                                                        @if($supplyInfo['ReciptCheck'] == 1)接受@endif
                                                     @endif
                                                 </td>
                                                 <td rowspan="2" class="center" id="ReciptRemark"
@@ -412,7 +412,7 @@ else $header = 'sidebar';
                                     @endif
                                     @if(!isset($excel) && !$isHolder)
                                         <tr data-id="0">
-                                            <td colspan="23">새 신청항목 추가</td>
+                                            <td colspan="23">追加新申请项目</td>
                                         </tr>
                                     @endif
                                     </tbody>
@@ -452,14 +452,14 @@ else $header = 'sidebar';
                 var voy = $('#voy').val();
                 if (curShipId == null || curShipId == '') {
                     $.gritter.add({
-                        title: '오유',
-                        text: '배이름을 선택해야 합니다.',
+                        title: '错误',
+                        text: '请选择船舶名称。',
                         class_name: 'gritter-error'
                     });
                 } else if (voy == null || voy == '') {
                     $.gritter.add({
-                        title: '오유',
-                        text: '항차번호를 선택해야 합니다.',
+                        title: '错误',
+                        text: '请选择航次号码。',
                         class_name: 'gritter-error'
                     });
                 } else {
@@ -472,14 +472,14 @@ else $header = 'sidebar';
                 var voy = $('#voy').val();
                 if (curShipId == null || curShipId == '') {
                     $.gritter.add({
-                        title: '오유',
-                        text: '배이름을 선택해야 합니다.',
+                        title: '错误',
+                        text: '请选择船舶名称。',
                         class_name: 'gritter-error'
                     });
                 } else if (voy == null || voy == '') {
                     $.gritter.add({
-                        title: '오유',
-                        text: '항차번호를 선택해야 합니다.',
+                        title: '错误',
+                        text: '请选择航次号码。',
                         class_name: 'gritter-error'
                     });
                 } else {
@@ -492,7 +492,7 @@ else $header = 'sidebar';
                 var id = $(this).data('id');
                 $('#supplyrecord tr').removeClass("table-row-selected");
                 $('#supplyrecord tr[data-id="' + id + '"]').addClass('table-row-selected');
-                var htm = '<i class="' + 'icon-spinner icon-spin orange bigger-500"' + '></i>'+'자료 적재중입니다. 잠시 기다려주십시오.';
+                var htm = '<i class="' + 'icon-spinner icon-spin orange bigger-500"' + '></i>'+'正在加载中。请稍等一下。';
                 $("#modal-body-content").html(htm);
                 $('#loading').show();
                 $.ajax({
@@ -658,7 +658,7 @@ else $header = 'sidebar';
             function getHistory(id) {
                 var myWindow = window.open(
                         "{{ url('shipTechnique/getHistory') }}?action=history&supplyId=" + id,
-                        "설비부속자재 신청 및 공급리력",
+                        "设备配件材料 申请及供给历史",
                         "width=" + screen.width +
                         ",height=" + screen.height +
                         "left=0px,top=0px"
@@ -683,7 +683,7 @@ else $header = 'sidebar';
                 confirmWindow = window.open(
                         "{{ url('shipTechnique/getHistory') }}?action=confirm&shipId=" + shipId + "&kindId=" + kindId +
                         "&equipId=" + equipId + "&partId=" + partId + "&issaId=" + issaId + "&otherId=" + otherId,
-                        "설비부속자재 신청 및 공급리력",
+                        "设备配件材料 申请及供给历史",
                         "width=" + screen.width +
                         ",height=" + screen.height +
                         "left=0px,top=0px"
@@ -692,13 +692,13 @@ else $header = 'sidebar';
 
             function deleteSupplyInfo() {
                 var supplyId = $('[name="supplyId"]').val();
-                bootbox.confirm("공급자료에 대한 삭제를 진행하겠습니까?", function(result) {
+                bootbox.confirm("真要删掉供给资料吗?", function(result) {
                     if(result) {
                         $.post('deleteSupplyInfo', {'_token': token, 'supplyId': supplyId}, function(data){
                             if(data == 'success') {
-                                alert('자료가 삭제 되였습니다.');
+                                alert('删掉资料成功！');
                             } else {
-                                alert('오유가 발생하여 삭제 할수 없습니다. 다시 시도해보십시오.');
+                                alert('发生错误,无法删掉. 请再试试一下。');
                             }
                             window.location.reload(true);
                         });

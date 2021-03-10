@@ -733,7 +733,7 @@
         function deleteMemberExaming(that) {
             bootbox.confirm("真要删掉吗?", function (result) {
                 if (result) {
-                    //확인단추를 눌렀을 때의 처리
+                    //确认단추를 눌렀을 때의 처리
                     var parent = that.parentNode;
                     var index = parent.getAttribute('name');
                     var examId = $('#examId_' + index).val();

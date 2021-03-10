@@ -620,9 +620,9 @@ class OperationController extends Controller
         if(isset($status))
             $list->appends(['status'=>$status]);
 
-        $economyList = VoyStatusEvent::getVoyEventList(1); // 경제일수항목
-        $uneconomyList = VoyStatusEvent::getVoyEventList(2); // 경제일수항목
-        $otherList = VoyStatusEvent::getVoyEventList(0); // 경제일수항목
+        $economyList = VoyStatusEvent::getVoyEventList(1); // 경제일수项目
+        $uneconomyList = VoyStatusEvent::getVoyEventList(2); // 경제일수项目
+        $otherList = VoyStatusEvent::getVoyEventList(0); // 경제일수项目
 
         return view('operation.ship_voy_status',
             [   'list'      =>  $list,
@@ -1114,7 +1114,7 @@ class OperationController extends Controller
         ));
     }
 
-    //----------------- 계획수행 / 배별 항차실적종합 ------------------//
+    //----------------- 계획수행 / 배별 航次실적종합 ------------------//
     public function shipCountReport(Request $request)
     {
         Util::getMenuInfo($request);
@@ -1168,7 +1168,7 @@ class OperationController extends Controller
         ));
     }
 
-    // 항차타산 >>
+    // 航次타산 >>
     public function getSailDistance(Request $request){
 
         $LPort = $request->get('lport');
@@ -1187,7 +1187,7 @@ class OperationController extends Controller
         return json_encode($result);
     }
 
-    // 항차일수분석
+    // 航次일수분석
     public function shipVoyAnalysis(Request $request) {
 
         Util::getMenuInfo($request);
@@ -1264,7 +1264,7 @@ class OperationController extends Controller
     }
 
 
-    //----------------- 항차타산 (초본) ------------------//
+    //----------------- 航次타산 (초본) ------------------//
     public function shipCountSimpleList(Request $request)
     {
         Util::getMenuInfo($request);
@@ -1282,7 +1282,7 @@ class OperationController extends Controller
         ));
     }
 
-    //----------------- 항차타산 (초본상세) ------------------//
+    //----------------- 航次타산 (초본仔细) ------------------//
     public function shipCountSimple(Request $request)
     {
         $GLOBALS['selMenu'] = 68;
@@ -1365,7 +1365,7 @@ class OperationController extends Controller
 
         return back();
     }
-    //----------------- 항차타산 (표준) ------------------//
+    //----------------- 航次타산 (표준) ------------------//
     public function shipCountStandard(Request $request)
     {
         Util::getMenuInfo($request);
@@ -1414,7 +1414,7 @@ class OperationController extends Controller
             ]);
     }
 
-    // 배선택시 항차번호목록얻기
+    // 배선택시 航次号码목록얻기
     public function getVoyList(Request $request) {
         $shipId = $request->get('shipId');
         $voyList = Cp::where('Ship_ID', $shipId)->orderBy(DB::raw('CONVERT(Voy_No , DECIMAL(4,0))'), 'DESC')->get(['id', 'Voy_No', 'CP_No']);
@@ -1425,7 +1425,7 @@ class OperationController extends Controller
         return json_encode($voyList);
     }
 
-    // 배선택시 항차번호목록과 배속도얻기
+    // 배선택시 航次号码목록과 배속도얻기
     public function getVoyListAndShipSpeed(Request $request) {
         $shipId = $request->get('shipId');
         $voyList = Cp::where('Ship_ID', $shipId)->orderBy('id', 'DESC')->get(['id', 'Voy_No', 'CP_No']);
@@ -1438,7 +1438,7 @@ class OperationController extends Controller
         return json_encode($data);
     }
 
-    // 배이름과 항차에 의한 항차타산자료 얻기
+    // 船舶名称과 航次에 의한 航次타산자료 얻기
     public function getVoyListAndCaculInfo(Request $request) {
         $shipId = $request->get('shipId');
         $voyId = $request->get('voyId');
@@ -1455,7 +1455,7 @@ class OperationController extends Controller
         return response()->json($data);
     }
 
-    // 항차타산을 위한 기초자료입력페지
+    // 航次타산을 위한 기초자료입력페지
     public function voyCountCalculateInput() {
 
         $GLOBALS['selMenu'] = 68;

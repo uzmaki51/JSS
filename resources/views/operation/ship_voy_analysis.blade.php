@@ -119,19 +119,19 @@ else $header = 'sidebar';
                                     <th class="center" style="width:3%">{{transShipOperation("analysis.Total")}}</th>
                                     @foreach($eventList as $event)
                                         @if($event['Type'] == 1)
-                                            <th class="center" style="width:3%">{{transShipOperation("analysis.{$event['ItemName']}")}}</th>
+                                            <th class="center" style="width:3%">{{$event['ItemName']}}</th>
                                         @endif
                                     @endforeach
                                     <th class="center" style="width: 3%">{{transShipOperation("analysis.Total")}}</th>
                                     @foreach($eventList as $event)
                                         @if($event['Type'] == 2)
-                                            <th class="center" style="width:3%">{{transShipOperation("analysis.{$event['ItemName']}")}}</th>
+                                            <th class="center" style="width:3%">{{$event['ItemName']}}</th>
                                         @endif
                                     @endforeach
                                     <th class="center" style="width:3%">{{transShipOperation("analysis.Other")}}</th>
                                     @foreach($eventList as $event)
                                         @if($event['Type'] == 0)
-                                            <th class="center" style="width:3%">{{transShipOperation("analysis.{$event['ItemName']}")}}</th>
+                                            <th class="center" style="width:3%">{{$event['ItemName']}}</th>
                                         @endif
                                     @endforeach
                                 </tr>

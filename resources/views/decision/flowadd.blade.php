@@ -225,7 +225,7 @@
         }
 
         function OnAddUsers(id){
-            //선택된 리용자들을 검색
+            //선택된 리용자들을 搜索
             var checkitems = document.getElementsByClassName('chkUser');
             var userlist = new Array();
             for (var i = 0; i < checkitems.length; i++) {
@@ -239,7 +239,7 @@
 
                 checkitems[i].checked = false;
             }
-            //선택된 리용자들을 목록에 추가
+            //선택된 리용자들을 목록에 追加
             var listitem = document.getElementById(id);
             for( var i = 0; i < userlist.length; i++)
             {

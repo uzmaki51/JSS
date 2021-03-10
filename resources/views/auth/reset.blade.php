@@ -77,7 +77,7 @@
 				messages: {
 					old_passwd: "이전의 암호를 입력하십시오.",
 					password: "새 암호를 입력하십시오.",
-					password_confirmation: "암호확인을 입력하십시오.",
+					password_confirmation: "암호确认을 입력하십시오.",
 				}
 			});
 		});
