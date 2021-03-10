@@ -19,7 +19,7 @@ return [
 		'change' => '修改',
 		'loginID' => '登录识别',
 		'name' => '名称',
-		'stockholder' => '股东',
+		'stockholder' => '船东',
 		'phoneNumber' => '手机号码',
 		'missDate'    => '卸任日期',
 		'resetPass'   => '暗号初期化',

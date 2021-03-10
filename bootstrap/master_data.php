@@ -78,7 +78,7 @@ define('IS_SHAREHOLDER',    100);
 $UserLabelInfo = array(
 	IS_CAPTAIN          => ['总经理', 'success'],
 	IS_STAFF            => ['职员',   'info'],
-	IS_SHAREHOLDER      => ['股东',   'danger'],
+	IS_SHAREHOLDER      => ['船东',   'danger'],
 	IS_SECRETARY        => ['簿记',   'warning'],
 );
 
