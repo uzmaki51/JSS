@@ -160,7 +160,7 @@
                                 <td class="custom-td-label1" style="width:15%">{{transDecideManage("captions.attachFile")}}1</td>
                                 <td class="custom-td-dec-text" colspan="5">
                                     <input type="file" name="attachFile1" id="attachFile1" style="display: none;">
-                                    <button type="button" id="openFile1"><i class="icon-folder-open-alt"></i>{{transDecideManage("captions.selectFile")}}</button>
+                                    <button type="button" id="openFile1" class="btn btn-info"><i class="icon-folder-open-alt"></i>{{transDecideManage("captions.selectFile")}}</button>
                                     <label style="margin-left:10px" id="labFile1">@if(isset($reportinfo)){{$reportinfo['fileName1']}}@endif</label>
                                     <input class="hidden" id="fileName1" name="fileName1" value="@if(isset($reportinfo)){{$reportinfo['fileName1']}}@endif">
                                 </td>
@@ -169,7 +169,7 @@
                                 <td class="custom-td-label1" style="width:15%">{{transDecideManage("captions.attachFile")}}2</td>
                                 <td class="custom-td-dec-text" colspan="5">
                                     <input type="file" name="attachFile2" id="attachFile2" style="display: none">
-                                    <button type="button" id="openFile2"><i class="icon-folder-open-alt"></i>{{transDecideManage("captions.selectFile")}}</button>
+                                    <button type="button" id="openFile2" class="btn btn-warning"><i class="icon-folder-open-alt"></i>{{transDecideManage("captions.selectFile")}}</button>
                                     <label style="margin-left:10px" id="labFile2">@if(isset($reportinfo)){{$reportinfo['fileName2']}}@endif</label>
                                     <input class="hidden" id="fileName2" name="fileName2" value="@if(isset($reportinfo)){{$reportinfo['fileName2']}}@endif">
                                 </td>
@@ -298,7 +298,6 @@
                     decTitle : "required",
                     flowid : "required",
                     shipNo : "required",
-                    // flowid : "required | regex:/^[0-9]+$/",
                 },
                 messages: {
                     decTitle: "请输入批准名称。",
@@ -307,7 +306,7 @@
                 }
             });
 
-            $('td input:radio').on('click' , function(){
+            $('td input:radio').on('click' , function() {
                 var that = this;
                 if(that.checked == true) {
                     var flowId = $(this).val();
@@ -333,6 +332,10 @@
                 if (flowId == "") {
                     alert("请选择批准流程。");
                 } else {
+                    if(flowId != 1) {
+                        if(!validateForm())
+                            return;
+                    }
                     $('[name=tempBox]').val('flow');
                     $('#submit').trigger('click');
                 }
@@ -386,6 +389,24 @@
                 }
             })
 
-        })
+        });
+
+        function validateForm() {
+            let attachFile1 = $('#attachFile1').val();
+            let attachFile2 = $('#attachFile2').val();
+            let fee_type = $('[name=fee_type]').val();
+            if(attachFile1 == "" && attachFile2 == "") {
+                alert('请选择附件。');
+                return false;
+            }
+
+
+            if(fee_type == "") {
+                alert('请选择收支分类。');
+                return false;
+            }
+
+            return true;
+        }
     </script>
 @stop

@@ -118,7 +118,7 @@
                                         </td>
                                         <td>
                                             @if($reportinfo['isEdit'] == 1)
-                                                <button class="btn btn-xs btn-success del-btn">
+                                                <button class="btn btn-danger del-btn">
                                                     <i class="icon-trash bigger-120"></i>
                                                     {{transDecideManage("captions.delete")}}
                                                 </button>
@@ -159,23 +159,23 @@
                 var reportId = obj.eq(0).data('id');
                 var reportName = obj.eq(3).text();
 
-                bootbox.confirm('[' + reportName + ']  确定要删除批准文件吗?', function(result) {
-                if(result) {
-                    $.post('ReportDelete', {'_token': token, 'reportId': reportId}, function(data){
-                        var returnCode = parseInt(data);
-                        if (returnCode > 0) {
-                            window.location.reload();
-                        } else if(returnCode == -1)
-                            alert("错误, 数据库中未找到批准文件。");
-                        else if(returnCode == -2)
-                            alert("错误, 没有删掉批准文件的权限。");
-                        else if(returnCode == -2)
-                            alert("错误, 已进入批准阶段，不能删除。");
-                    });
-                }
+                bootbox.confirm('[' + reportName + ']  确定要删除批准文件吗?', function (result) {
+                    if (result) {
+                        $.post('ReportDelete', {'_token': token, 'reportId': reportId}, function (data) {
+                            var returnCode = parseInt(data);
+                            if (returnCode > 0) {
+                                window.location.reload();
+                            } else if (returnCode == -1)
+                                alert("错误, 数据库中未找到批准文件。");
+                            else if (returnCode == -2)
+                                alert("错误, 没有删掉批准文件的权限。");
+                            else if (returnCode == -2)
+                                alert("错误, 已进入批准阶段，不能删除。");
+                        });
+                    }
+                });
             });
         });
-
 
         function showDecisionReportList() {
             var decide_name = $("#search_decide_name").val();
@@ -184,13 +184,13 @@
             var to_date = $("#toDate").val();
 
             var param = '';
-            if(decide_name.length > 0)
+            if (decide_name.length > 0)
                 param = '?d_name=' + decide_name;
-            if(flow_type != "")
+            if (flow_type != "")
                 param = (param == '' ? '?' : param + '&') + 'flow=' + flow_type;
-            if(from_date.length > 0)
+            if (from_date.length > 0)
                 param = (param == '' ? '?' : param + '&') + 'from_date=' + from_date;
-            if(to_date.length > 0)
+            if (to_date.length > 0)
                 param = (param == '' ? '?' : param + '&') + 'to_date=' + to_date;
 
             location.href = 'Reportview' + param;

@@ -85,7 +85,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if (count($list) > 0)
+                            @if (isset($list) && count($list) > 0)
 								<?php $index = ($list->currentPage() - 1) * 15 + 1; ?>
                                 @foreach ($list as $userInfo)
 
@@ -109,6 +109,10 @@
                                         <td class="center">{{is_null($userInfo['posTitle']) ? '&nbsp;':$userInfo['posTitle']}}</td>
                                     </tr>
                                 @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="10">{{ trans('common.message.no_data') }}</td>
+                                </tr>
                             @endif
                             </tbody>
                         </table>

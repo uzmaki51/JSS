@@ -39,8 +39,8 @@ $shipList = Session::get('shipList');
                                 <div class="col-md-8"><input type="text" name="type_descript" class="form-control" value=""></div>
                             </div>
                             <div style="padding-right: 20px;padding-bottom:10px;text-align: right">
-                                <input class="btn btn-sm btn-warning cancel_btn" value="{{ transShipManager('captions.cancel') }}" style="width:80px">
-                                <button class="btn btn-sm btn-primary no-radius" style="width: 80px">{{ transShipManager('captions.register') }}</button>
+                                <button type="button" class="btn btn-sm btn-danger cancel_btn" style="width:80px">{{ transShipManager('captions.cancel') }}</button>
+                                <button class="btn btn-sm btn-inverse no-radius" style="width: 80px">{{ transShipManager('captions.register') }}</button>
                             </div>
                         </form>
                     </div>
@@ -122,8 +122,8 @@ $shipList = Session::get('shipList');
                                 <div class="col-md-8"><input type="text" name="remark" class="form-control" value=""></div>
                             </div>
                             <div style="padding-right: 20px;padding-bottom:10px;text-align: right">
-                                <input class="btn btn-sm btn-danger cancel_sub_btn" value="{{ trans('common.label.cancel') }}" style="width:80px">
-                                <button class="btn btn-sm btn-primary btn-inverse save_sub_btn" style = "width :80px" >{{ trans('common.label.register') }}</button>
+                                <button type="button" class="btn btn-sm btn-danger cancel_sub_btn" style="width:80px">{{ trans('common.label.cancel') }}</button>
+                                <button class="btn btn-sm btn-inverse save_sub_btn" style = "width :80px" >{{ transShipManager('captions.register') }}</button>
                             </div>
                         </form>
                     </div>

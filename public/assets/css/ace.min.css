@@ -14408,7 +14408,8 @@ body.breadcrumbs-fixed {
 
 [class*=" icon-"], [class^="icon-"] {
     display: inline-block;
-    text-align: center
+    text-align: center;
+    cursor: pointer;
 }
 
 a:focus, a:active {
@@ -17212,6 +17213,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
 
 .btn {
     display: inline-block;
+    color: #FFF;
     background-image: none !important;
     border-radius: 0.25rem!important;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -17222,7 +17224,8 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
     vertical-align: middle;
     margin: 0;
     padding: 5px;
-    position: relative
+    position: relative;
+    outline: 0!important;
 }
 .btn-lg {
     line-height: 1;

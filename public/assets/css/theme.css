@@ -335,14 +335,23 @@ th {
 .btn {
     min-width: 120px;
 }
-.btn-primary {
+.btn-info {
     background-color: #28c3d7 !important;
     border-color: #28c3d7 !important;
 }
-.btn-primary:hover {
+.btn-info:hover {
     border-color: #00B8CF !important;
     color: #FFFFFF !important;
     box-shadow: 0 8px 25px -8px #00cfe8;
+}
+.btn-default {
+    background-color: #B8C2CC !important;
+    border-color: #B8C2CC !important;
+}
+.btn-default:hover {
+    border-color: #B8C2CC !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 8px 25px -8px #B8C2cc;
 }
 .btn-success:hover {
     border-color: #24B263 !important;
@@ -379,14 +388,15 @@ th {
     border-color: #d9534f !important;
 }
 .btn-danger:hover {
-    box-shadow: #d95338;
+    box-shadow:  0 8px 25px -8px #d95338;
 }
 .btn-inverse {
-    background-color: #1565C0 !important;
-    border-color: #1565C0 !important;
+    background-color: #00CFE8 !important;
+    border-color: #00CFE8 !important;
 }
 .btn-inverse:hover {
-    box-shadow: #1759c0;
+    color: #ffffff!important;
+    box-shadow:  0 8px 25px -8px #00CFE8;
 }
 
 /*.btn:hover {*/

@@ -62,7 +62,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if (count($list) > 0)
+                            @if (isset($list) && count($list) > 0)
 								<?php $index = ($list->currentPage() - 1) * 15 + 1; ?>
                                 @foreach ($list as $userInfo)
 
@@ -78,6 +78,10 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="5">{{ trans('common.message.no_data') }}</td>
+                                </tr>
                             @endif
                             </tbody>
                         </table>
@@ -111,10 +115,7 @@
                 if(realname.length > 0)
                     param = (param == '' ? '?' : param + '&') + 'realname=' + realname;
 
-                if(status.length > 0)
-                    param = (param == '' ? '?' : param + '&') + 'status=' + status;
-
-                location.href = 'userInfoListView' + param;
+                location.href = 'userPrivilege' + param;
             });
 
             $('.init-btn').on('click', function() {
