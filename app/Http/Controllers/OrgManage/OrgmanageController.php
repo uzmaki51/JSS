@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Orgmanage;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Util;
 use App\Models\Member\Career;
-use App\Models\Member\Family;
-use App\Models\Member\FamilyRelease;
 use App\Models\Menu;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\UserInfo;
@@ -326,7 +324,7 @@ class OrgmanageController extends Controller
         $account = $param['account'];
         $isUser = User::where('account', $account)->where('id', '<>', $userid)->first();
         if(!is_null($isUser)) {
-            $error = "错误!  登录识别者重复!";
+            $error = "错误!  登记识别者重复!";
             return back()->with(['state'=> $error]);
         }
 
@@ -413,7 +411,6 @@ class OrgmanageController extends Controller
     	$userid = $params['userid'];
 	    $ret = User::where('id', $userid)->delete();
 	    $ret = Career::where('userId', $userid)->delete();
-	    $ret = Family::where('userId', $userid)->delete();
 	    $ret = UserInfo::where('id', $userid)->delete();
 
     	return response()->json($ret);

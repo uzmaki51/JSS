@@ -27,16 +27,16 @@ $ships = Session::get('shipList');
                 <div class="page-header">
                     <div class="col-md-3">
                         <h4>
-                            <b>船证书</b>
+                            <b>船舶证书</b>
                             <small>
                                 <i class="icon-double-angle-right"></i>
-                                船证书目录
+                                船舶证书目录
                             </small>
                         </h4>
                     </div>
                     @if(isset($shipName['name']))
                         <div class="col-md-6 center" style="font-size: 16px">
-                            <strong>【&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}})&nbsp;】号 &nbsp; 船证书目录 </strong>
+                            <strong>【&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}})&nbsp;】号 &nbsp; 船舶证书目录 </strong>
                         </div>
                     @endif
                 </div>
@@ -60,7 +60,7 @@ $ships = Session::get('shipList');
                             <input type="text" class="form-control" id="certName" style="float:left;margin-left: 10px;width:70%" value="@if(isset($certName)){{$certName}}@endif">
                         </div>
                         <div class="col-md-2" style="width:22%">
-                            <label class="no-padding-right" style="float: left;padding-top:5px">发放部门</label>
+                            <label class="no-padding-right" style="float: left;padding-top:5px">签发部门</label>
                             <input type="text" class="form-control" id="issuUnit" style="float:left;margin-left: 10px;width:70%" value="@if(isset($issuUnit)){{$issuUnit}}@endif">
                         </div>
                         <div class="col-md-2">
@@ -297,8 +297,8 @@ $ships = Session::get('shipList');
                         IssuedAdmin_En: "required",
                     },
                     messages: {
-                        IssuedAdmin_Cn: "请输入发放部门(中文)。",
-                        IssuedAdmin_En: "请输入发放部门(英文)。",
+                        IssuedAdmin_Cn: "请输入签发部门(中文)。",
+                        IssuedAdmin_En: "请输入签发部门(英文)。",
                     }
                 });
 
@@ -363,9 +363,9 @@ $ships = Session::get('shipList');
                         setValidateForm();
                         $('.chosen-select').chosen();
 
-                        var title = shipName_Cn + ' 修改船证书';
+                        var title = shipName_Cn + ' 修改船舶证书';
                         if (id == 0)
-                            title = shipName_Cn + ' 追加船证书'
+                            title = shipName_Cn + ' 追加船舶证书'
                         var dialog = $("#dialog-modify-cert").removeClass('hide').dialog({
                             modal: true,
                             title: title,

@@ -134,7 +134,7 @@
         <div class="col-md-12">
             <div class="col-md-4 col-md-offset-6" >
                 <button type="submit" id="btnRegister" class="btn btn-sm btn-inverse" style="width: 80px">
-                    <i class="icon-save"></i>登录
+                    <i class="icon-save"></i>登记
                 </button>
             </div>
         </div>

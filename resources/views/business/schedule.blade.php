@@ -396,7 +396,7 @@
                                 return;
                             }
                             if (newStart.length < 1) {
-                                $("#message_out").html("请输入开始日子。");
+                                $("#message_out").html("请输入开始日期。");
                                 return;
                             }
                             if (startTime.length < 1) {
@@ -404,14 +404,14 @@
                                 return;
                             }
                             if (newEnd.length < 1) {
-                                $("#message_out").html("请输入完成日子。");
+                                $("#message_out").html("请输入完成日期。");
                                 return;
                             }
                             var startdate = new Date(newStart);
                             var enddate = new Date(newEnd);
                             if (schId.length == 0) {
                                 if(startdate > enddate) {
-                                    $("#message_out").html("错误输入日程日子。");
+                                    $("#message_out").html("错误输入日程日期。");
                                     return;
                                 }
                             }

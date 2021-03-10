@@ -263,7 +263,7 @@ class OperationController extends Controller
         $yearPlan['YEARLY VOY DAY'] = $request->get('VOY_DAY');
         $yearPlan->save();
 
-        $msg = $year.'년 지출계획이 성과적으로 보관되였습니다.';
+        $msg = $year.'的年支出计划被保存成功!';
         $type = $request->get('submit_type');
         if($type == 'calc') {
             $calc_voy_ids = Cp::where('Ship_ID', $shipID)->where('CP_Date', 'like', $year.'-%')->get();
@@ -309,7 +309,7 @@ class OperationController extends Controller
                 $profitInfo['Expense'] = $prac_tt_expense;
                 $profitInfo['Profit'] = $prac_tt_profit;
                 $profitInfo->save();
-                $msg = $year.'년 실리윤계산이 성과적으로 진행되였습니다.';
+                $msg = $year.'年利润计算成功!';
 
             }
 
@@ -566,7 +566,7 @@ class OperationController extends Controller
 
         $isExist = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyNo)->where('Voy_Date', $voyDate)->where('Voy_Status', $voyStatus)->first();
         if(isset($isExist) && ($isExist['id'] != $logId)) {
-            $error = '선택한 배동태가 이미 등록되여 있습니다.';
+            $error = '选择的船舶动态是已经登记的。';
             return back()->with(['error'=>$error]);
         }
 
@@ -736,7 +736,7 @@ class OperationController extends Controller
 
         $isExist = VoyStatusType::where('ItemName', $itemName)->first();
         if(isset($isExist) && ($isExist['id'] != $typeId)) {
-            $error = '항목이름이 증복되였습니다!';
+            $error = '项目名称重复!';
             return back()->with(['error'=>$error]);
         }
 
@@ -848,7 +848,7 @@ class OperationController extends Controller
         $refNo = $request->get('RefNo');
         if(!empty($refNo)) {
             $isExist = Invoice::where('Ref_No', $refNo)->first();
-            if(!empty($isExist) && $isExist->id != $invoiceId) return back()->with(['error' => '참고번호가 중복되였습니다.']);
+            if(!empty($isExist) && $isExist->id != $invoiceId) return back()->with(['error' => '参考号码重复!']);
         }
         	$shipInvoice['Object'] = $request->get('Object');
 
@@ -1606,7 +1606,7 @@ class OperationController extends Controller
 
         $isExist = ShipPort::where('Port_Cn', $portName)->orWhere('Port_En', $portName_en)->first();
         if(!empty($isExist) && ($isExist['id'] != $portId)) {
-            $error = '항구명이 중복되였습니다.';
+            $error = '港口名称重复。';
             return back()->with(['error'=>$error]);
         }
         if(($portId == 0) || empty($portId))
@@ -1650,7 +1650,7 @@ class OperationController extends Controller
 
         $isExist = ShipPort::where('Port_Cn', $cargoName)->orWhere('Port_En', $cargoName_en)->first();
         if(!empty($isExist) && ($isExist['id'] != $cargoId)) {
-            $error = '화물명이 중복되였습니다.';
+            $error = '货物名重复!';
             return back()->with(['error'=>$error]);
         }
         if(($cargoId == 0) || empty($cargoId))
@@ -1773,7 +1773,7 @@ class OperationController extends Controller
             ->orWhere('AccountName_En', $AccountName_En)->first();
 
         if(!empty($isExist) && ($isExist['id'] != $accountId)) {
-            $error = '이름이 중복되였습니다.';
+            $error = '名称重复了。';
             return redirect()->back()->with(['error' => $error]);
         }
 
@@ -1814,7 +1814,7 @@ class OperationController extends Controller
         $isExist = PayMode::where('PayMode_Cn', $PayMode_Cn)
             ->orWhere('PayMode_En', $PayMode_En)->first();
         if(!empty($isExist) && ($isExist['id'] != $payId)) {
-            $error = '이름이 중복되였습니다.';
+            $error = '名称重复了。';
             return redirect()->back()->with(['error' => $error]);
         }
         if(empty($payId) || $payId == 0)
@@ -1859,7 +1859,7 @@ class OperationController extends Controller
 
         $isExist = SailDistance::where('LPortId', $lport)->where('DPortID', $dport)->where('id', '<>', $distanceId)->count();
         if($isExist) {
-            $error = '이름이 중복되였습니다.';
+            $error = '名称重复了。';
             return redirect()->back()->with(['error' => $error]);
         }
 

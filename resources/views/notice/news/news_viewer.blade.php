@@ -29,7 +29,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-sm-4">
-                                    <strong>做成日子:</strong>
+                                    <strong>做成日期:</strong>
                                 </div>
                                 <div class="col-sm-6">
                                     <strong> {{ $tema['create_at'] }}</strong>
@@ -60,8 +60,8 @@
                                 <th class="center">回复</th>
                                 <th class="center">阅览数</th>
                                 <th class="center">点赞数</th>
-                                <th class="center">最近回复日子</th>
-                                <th class="center">投稿日子</th>
+                                <th class="center">最近回复日期</th>
+                                <th class="center">投稿日期</th>
                             </tr>
                             </thead>
                             <tbody>

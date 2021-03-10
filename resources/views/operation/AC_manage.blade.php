@@ -9,10 +9,10 @@ $ships = Session::get('shipList');
             <div class="page-header">
                 <div class="col-md-3">
                     <h4>
-                        <b>기초자료입력</b>
+                        <b>基础资料的输入</b>
                         <small id="parent_Item">
                             <i class="icon-double-angle-right"></i>
-                            AC자료관리
+                            AC资料管理
                         </small>
                     </h4>
                 </div>
@@ -27,10 +27,10 @@ $ships = Session::get('shipList');
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                     <tr class="black br-hblue">
-                                        <th class="center">종류</th>
-                                        <th class="center">종류(영문)</th>
-                                        <th class="center">수입 및 지출</th>
-                                        <th class="center" style="width:120px">설명</th>
+                                        <th class="center">种类</th>
+                                        <th class="center">种类(英文)</th>
+                                        <th class="center">收入及支出</th>
+                                        <th class="center" style="width:120px">说明</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -49,7 +49,7 @@ $ships = Session::get('shipList');
                                     </tbody>
                                 </table>
                                 <div style="padding-right: 20px;padding-bottom:10px;text-align: right">
-                                    <button type="submit" class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-plus-sign-alt"></i>추가</button>
+                                    <button type="submit" class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
                                 </div>                        </form>
                         </div>
                     @endif
@@ -64,10 +64,10 @@ $ships = Session::get('shipList');
                                     <thead>
                                     <tr class="black br-hblue">
                                         <th style="width: 10%;" class="center">No</th>
-                                        <th style="width: 20%;" class="center">종류</th>
-                                        <th style="width: 20%;" class="center">종류(영문)</th>
-                                        <th style="width: 10% !important;" class="center">수입지출</th>
-                                        <th class="center">설명</th>
+                                        <th style="width: 20%;" class="center">种类</th>
+                                        <th style="width: 20%;" class="center">种类(英文)</th>
+                                        <th style="width: 10% !important;" class="center">收入支出</th>
+                                        <th class="center">说明</th>
                                         @if(!$isHolder)
                                             <th class="center" style="width:65px"></th>
                                         @endif
@@ -115,11 +115,11 @@ $ships = Session::get('shipList');
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                     <tr class="black br-hblue">
-                                        <th class="center">종류</th>
-                                        <th class="center">항목</th>
+                                        <th class="center">种类</th>
+                                        <th class="center">项目</th>
                                         <th class="center">Abb</th>
-                                        <th class="center">참고번호</th>
-                                        <th class="center">설명</th>
+                                        <th class="center">参考号码</th>
+                                        <th class="center">说明</th>
                                         <th class="center">Order</th>
                                     </tr>
                                     </thead>
@@ -136,7 +136,7 @@ $ships = Session::get('shipList');
                                     </tbody>
                                 </table>
                                 <div style="padding-right: 20px;padding-bottom:10px;text-align: right">
-                                    <button type="submit" class="btn btn-sm btn-primary save_sub_btn">추가</button>
+                                    <button type="submit" class="btn btn-sm btn-primary save_sub_btn">追加</button>
                                 </div>
                             </form>
                         </div>
@@ -150,11 +150,11 @@ $ships = Session::get('shipList');
                                         <thead>
                                         <tr class="black br-hblue">
                                             <th class="center">No</th>
-                                            <th class="center">종류</th>
-                                            <th class="center">항목</th>
+                                            <th class="center">种类</th>
+                                            <th class="center">项目</th>
                                             <th class="center">Abb</th>
-                                            <th class="center">참고번호</th>
-                                            <th class="center">설명</th>
+                                            <th class="center">参考号码</th>
+                                            <th class="center">说明</th>
                                             <th class="center">Order</th>
                                             <th class="center" style="width:65px"></th>
                                         </tr>
@@ -184,7 +184,7 @@ $ships = Session::get('shipList');
                 $('[name=AC_Item_En]').val(obj.eq(3).text());
                 $('[name=C_D]').val(obj.eq(4).text());
                 $('[name=AC_description]').val(obj.eq(5).text());
-                $('.AC_Item_save').text('보관');
+                $('.AC_Item_save').text('保存');
             });
 
             $('.type_del').on('click',function(){
@@ -192,7 +192,7 @@ $ships = Session::get('shipList');
                 var obj = tr.children();
                 var typeId = obj.eq(1).text();
                 var typeName = obj.eq(2).text();
-                bootbox.confirm(typeName + "를 삭제하겠습니까?", function (result) {
+                bootbox.confirm(typeName + "真要删掉吗?", function (result) {
                     if (result) {
                         //확인단추를 눌렀을 때의 처리
                         $.post('deleteACType', {'_token':token, 'typeId':typeId}, function (result) {
@@ -227,13 +227,13 @@ $ships = Session::get('shipList');
                 $('[name="AC_Item_Detail_Referance"]').val(obj.eq(5).text());
                 $('[name="AC_Detail_Item_Description"]').val(obj.eq(6).text());
                 $('[name="Order_No"]').val(obj.eq(7).text());
-                $('.save_sub_btn').text('보관');
+                $('.save_sub_btn').text('保存');
             });
 
             $('.del_sub_type').on('click',function(){
                 var tr = $(this).closest('tr');
                 var typeId = $('input[name="AC_Item_Detail_Id"]').val();
-                bootbox.confirm("정말 삭제하겠습니까?", function (result) {
+                bootbox.confirm("真要删掉吗?", function (result) {
                     if (result) {
                         //확인단추를 눌렀을 때의 처리
                         $.post('deleteACDetail', {'_token':token, 'typeId': typeId}, function (result) {

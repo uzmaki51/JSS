@@ -45,7 +45,7 @@ $shipList = Session::get('shipList');
                                     </div>
                                     <div class="space-2"></div>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label no-padding-right">训练形态:</label>
+                                        <label class="col-md-4 control-label no-padding-right">培训形态:</label>
                                         <div class="col-md-7">
                                             <select name="TrainingCourseID" class="form-control chosen-select">
                                                 @foreach($typeList as $type)
@@ -69,7 +69,7 @@ $shipList = Session::get('shipList');
                                 <th class="center">规格代码</th>
                                 <th class="center">代码名</th>
                                 <th class="center">代码名(英文)</th>
-                                <th class="center">训练形态</th>
+                                <th class="center">培训形态</th>
                                 @if(!$isHolder)
                                     <th class="center" style="width: 70px"></th>
                                 @endif
@@ -160,7 +160,7 @@ $shipList = Session::get('shipList');
                     STCWRegCode : "请输入规格代码。",
                     Contents: "请输入代码名称。",
                     Contents_En: "请输入英文名称。",
-                    TrainingCourseID: "请选择训练形态。",
+                    TrainingCourseID: "请选择培训形态。",
                 }
             });
 

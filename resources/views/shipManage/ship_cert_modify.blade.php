@@ -20,12 +20,12 @@
     </div>
     <div class="space-2"></div>
     <div class="form-group">
-        <label class="col-md-3 control-label no-padding-right">发放部门(中文):</label>
+        <label class="col-md-3 control-label no-padding-right">签发部门(中文):</label>
         <div class="col-md-8"><input type="text" name="IssuedAdmin_Cn" class="form-control" value="{{$info['IssuedAdmin_Cn']}}"></div>
     </div>
     <div class="space-2"></div>
     <div class="form-group">
-        <label class="col-md-3 control-label no-padding-right">发放部门(英文):</label>
+        <label class="col-md-3 control-label no-padding-right">签发部门(英文):</label>
         <div class="col-md-8"><input type="text" name="IssuedAdmin_En" class="form-control" value="{{$info['IssuedAdmin_En']}}"></div>
     </div>
     <div class="space-2"></div>
@@ -40,7 +40,7 @@
     </div>
     <div class="space-2"></div>
     <div class="form-group">
-        <label class="col-md-3 control-label no-padding-right">发放日期:</label>
+        <label class="col-md-3 control-label no-padding-right">签发日期:</label>
         <div class="input-group  col-md-8">
             <input class="form-control date-picker" name="IssuedDate" type="text" data-date-format="yyyy-mm-dd" value="{{$info['IssuedDate']}}">
             <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
@@ -48,7 +48,7 @@
     </div>
     <div class="space-2"></div>
     <div class="form-group">
-        <label class="col-md-3 control-label no-padding-right">到期日期:</label>
+        <label class="col-md-3 control-label no-padding-right">有效期至:</label>
         <div class="input-group col-md-8">
             <input class="form-control date-picker" name="ExpiredDate" type="text" data-date-format="yyyy-mm-dd" value="{{$info['ExpiredDate']}}">
             <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>

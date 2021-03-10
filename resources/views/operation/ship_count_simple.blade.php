@@ -441,7 +441,7 @@
 
                 if(shipId.length < 1) {
                     $.gritter.add({
-                        title: '오유',
+                        title: '错误',
                         text: '배이름을 먼저 선택하여야 합니다.',
                         class_name: 'gritter-error'
                     });

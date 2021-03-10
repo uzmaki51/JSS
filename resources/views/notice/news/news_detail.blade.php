@@ -21,7 +21,7 @@
                     <h3 class="header smaller lighter center red">{{$news['title']}}</h3>
                     <div>
                         <div class="col-sm-4">
-                            <strong>投稿日子 : </strong>{{$news['create_date']}}
+                            <strong>投稿日期 : </strong>{{$news['create_date']}}
                         </div>
                         <div class="col-sm-4 center">
                             <strong>阅览数 : </strong>{{$news['view']}}

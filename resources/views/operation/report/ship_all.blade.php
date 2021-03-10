@@ -12,13 +12,13 @@ else $header = 'sidebar';
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-6">
-                    <h4><b>계획수행종합</b>
+                    <h4><b>综合业绩</b>
                     </h4>
                 </div>
                 <div class="col-sm-6">
                     <div style="float:right">
                         <button class="btn btn-success btn-sm" id="btn-chart" data-year="" data-ship="" style="width: 80px">
-                            <i class="icon-signal"></i>통계
+                            <i class="icon-signal"></i>统计
                         </button>
                         <a href="yearPlanReportExcel" class="btn btn-warning btn-sm" style="width: 80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></a>
                     </div>
@@ -30,7 +30,7 @@ else $header = 'sidebar';
                 <div class="table-responsive" id="user_list_table">
 @else
     @include('layout.excel-style')
-    <div>계획수행종합</div>
+    <div>综合业绩</div>
 @endif
                     <table class="table table-striped table-bordered table-hover" id="user-table">
                         <thead>
@@ -263,12 +263,12 @@ else $header = 'sidebar';
 
             var dialog = $("#dialog-report-chart").removeClass('hide').dialog({
                 modal: true,
-                title: "계획 및 실적종합 그라프",
+                title: "业绩图表",
                 title_html: true,
                 width:1024,
                 buttons: [
                     {
-                        text: "닫기",
+                        text: "关闭",
                         "class": "btn btn-xs",
                         click: function () {
                             $(this).dialog("close");
@@ -286,12 +286,12 @@ else $header = 'sidebar';
                     enabled:false
                 },
                 title: {
-                    text: '리 익'
+                    text: '利益'
                 },
                 xAxis: {
                     categories: [
-                        '계획',
-                        '실적'
+                        '计划',
+                        '业绩'
                     ],
                     crosshair: true
                 },
@@ -325,12 +325,12 @@ else $header = 'sidebar';
                     enabled:false
                 },
                 title: {
-                    text: '입 금'
+                    text: '存款'
                 },
                 xAxis: {
                     categories: [
-                        '계획',
-                        '실적'
+                        '计划',
+                        '业绩'
                     ],
                     crosshair: true
                 },
@@ -364,12 +364,12 @@ else $header = 'sidebar';
                     enabled:false
                 },
                 title: {
-                    text: '지 출'
+                    text: '支出'
                 },
                 xAxis: {
                     categories: [
-                        '계획',
-                        '실적'
+                        '计划',
+                        '业绩'
                     ],
                     crosshair: true
                 },

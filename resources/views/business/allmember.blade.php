@@ -167,7 +167,7 @@
                                 <th class="center" style="width:7%">{{transBusinessManage("captions.officeposition")}}</th>
                                 <th class="center" style="width:6%">{{transBusinessManage("captions.shipname")}}</th>
                                 <th class="center" style="width:6%">{{transBusinessManage("captions.duty")}}</th>
-                                <th class="center" style="width:6%">{{transBusinessManage("captions.name")}}이름</th>
+                                <th class="center" style="width:6%">{{transBusinessManage("captions.name")}}</th>
                                 <th class="center" style="width:6%">{{transBusinessManage("captions.birthday")}}</th>
                                 <th class="center" style="width:4%">{{transBusinessManage("captions.sex")}}</th>
                                 <th class="center" style="width:5%">{{transBusinessManage("captions.month")}}</th>

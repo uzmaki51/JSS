@@ -112,7 +112,7 @@
                 $('#ReportPersonWeek').html(data);
                 $.gritter.add({
                     title: '成功',
-                    text: '登录周报成功！',
+                    text: '登记周报成功！',
                     class_name: 'gritter-success'
                 });
             });

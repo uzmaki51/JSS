@@ -144,9 +144,9 @@ $shipList = Session::get('shipList');
 
             function editShipOrigin() {
                 var capacityId = $('[name=capacityId]').val();
-                var title = '追加船员资格';
+                var title = '追加海员适任';
                 if(capacityId != '')
-                    title = '修改船员资格';
+                    title = '修改海员适任';
                 var dialog = $( "#dialog_update_ship" ).removeClass('hide').dialog({
                     modal: true,
                     title: title,
@@ -188,8 +188,8 @@ $shipList = Session::get('shipList');
                     },
                     messages: {
                         orderNum: "请选择优先循序",
-                        capacity_Cn: "请选择船员资格的名称。",
-                        capacity_en: "请输入船员资格的英文名称。",
+                        capacity_Cn: "请选择海员适任的名称。",
+                        capacity_en: "请输入海员适任的英文名称。",
                         STCWRegID : "请选择STCW Code"
                     }
                 });

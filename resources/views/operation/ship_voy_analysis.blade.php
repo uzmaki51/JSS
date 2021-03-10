@@ -76,7 +76,7 @@ else $header = 'sidebar';
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary btn-sm btn_search" style="float: left;width :80px"><i class="icon-search"></i>검색</button>
+                    <button class="btn btn-primary btn-sm btn_search" style="float: left;width :80px"><i class="icon-search"></i>搜索</button>
                     <button class="btn btn-warning btn-sm btn_excel" style="float: left;margin-left: 5px; width :80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                 </div>
                 <div class="space-4"></div>
@@ -308,7 +308,7 @@ else $header = 'sidebar';
                 var param = '?shipId=' + shipId;
                 if((firstVoy > 0) && (endVoy > 0) && ((endVoy - firstVoy) < 0)) {
                     $.gritter.add({
-                        title: '오유',
+                        title: '错误',
                         text: '항차번호구간을 바로 설정하십시오.',
                         class_name: 'gritter-error '
                     });
@@ -341,7 +341,7 @@ else $header = 'sidebar';
             var param = '?shipId=' + shipId;
             if((firstVoy > 0) && (endVoy > 0) && ((endVoy - firstVoy) < 0)) {
                 $.gritter.add({
-                    title: '오유',
+                    title: '错误',
                     text: '항차번호구간을 바로 설정하십시오.',
                     class_name: 'gritter-error '
                 });

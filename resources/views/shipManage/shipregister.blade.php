@@ -18,7 +18,7 @@
                             @if(isset($shipinfo))
                                 修改
                             @else
-                                登录
+                                登记
                             @endif
                         </small>
                     </h4>
@@ -352,7 +352,7 @@
                             }
                             $.gritter.add({
                                 title: '错误',
-                                text: posName + ' 职务已经登录了。',
+                                text: posName + ' 职务已经登记了。',
                                 class_name: 'gritter-error'
                             });
                         }
@@ -365,7 +365,7 @@
             if (dutyId == '0') {
                 $.gritter.add({
                     title: '错误',
-                    text: '请选择乘船职务。',
+                    text: '请选择上船职务。',
                     class_name: 'gritter-error'
                 });
                 return;
@@ -485,7 +485,7 @@
                             }
                             $.gritter.add({
                                 title: '错误',
-                                text: posName + ' 职务已经登录了。',
+                                text: posName + ' 职务已经登记了。',
                                 class_name: 'gritter-error'
                             });
                         }

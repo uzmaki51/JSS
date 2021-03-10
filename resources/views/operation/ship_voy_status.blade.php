@@ -9,7 +9,7 @@ $ships = Session::get('shipList');
             <div class="page-header">
                 <div class="col-md-6">
                     <h4>
-                        <b>배동태</b>
+                        <b>船舶动态</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
                             배동태상태관리
@@ -50,7 +50,7 @@ $ships = Session::get('shipList');
                             <tr>
                                 <td style="background-color: #f7f7f7;">Voy_Status</td>
                                 <td ><input type="text" name="Voy_Status" value=""></td>
-                                <td style="background-color: #f7f7f7;">설명</td>
+                                <td style="background-color: #f7f7f7;">说明</td>
                                 <td colspan="2"><input type="text" name="Descript" value=""></td>
                                 <td style="background-color: #f7f7f7;">Description</td>
                                 <td colspan="2"><input type="text" name="Descript_En" value=""></td>
@@ -105,7 +105,7 @@ $ships = Session::get('shipList');
                             <td class="center">No</td>
                             <td class="center">Voy_status</td>
                             <td class="center">배동태항목</td>
-                            <td class="center">설명</td>
+                            <td class="center">说明</td>
                             <td class="center">Description</td>
                             <td class="center">경제일수관련</td>
                             <td class="center">비경제일수관련</td>
@@ -199,7 +199,7 @@ $ships = Session::get('shipList');
                 var statusName = $("[name=Voy_Status]").val();
                 if(statusName.length < 1) {
                     $.gritter.add({
-                        title: '오유',
+                        title: '错误',
                         text: '[Voy_Status]' + ' 마당을 반드시 입력하여야 합니다!',
                         class_name: 'gritter-error '
                     });
@@ -270,7 +270,7 @@ $ships = Session::get('shipList');
                         window.location.reload(true);
                     } else {
                         $.gritter.add({
-                            title: '오유',
+                            title: '错误',
                             text: '['+ statusName + ']' + ' 상태이름이 중복되였습니다.',
                             class_name: 'gritter-error '
                         });
@@ -303,8 +303,8 @@ $ships = Session::get('shipList');
                                 tableBody.deleteRow(row);
                             } else {
                                 $.gritter.add({
-                                    title: '오유',
-                                    text: '['+ statusName + ']' + ' 상태는 이미 삭제되였습니다.',
+                                    title: '错误',
+                                    text: '['+ statusName + ']' + ' 상태是已经被删掉的。',
                                     class_name: 'gritter-error '
                                 });
                             }

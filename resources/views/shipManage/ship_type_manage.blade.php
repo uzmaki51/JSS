@@ -15,7 +15,7 @@ $shipList = Session::get('shipList');
                 <div class="col-md-6">
                     <h4><b>{{ transShipManager('title.input_basic_data') }}</b>
                         <small>
-                            <i class="icon-double-angle-right"></i>船种类管理
+                            <i class="icon-double-angle-right"></i>船舶种类管理
                         </small>
                     </h4>
                 </div>

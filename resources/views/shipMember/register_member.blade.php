@@ -67,7 +67,7 @@
                     </h4>
                 </div>
                 <div class="col-sm-6">
-                    <h5 style="float: right; color: #1565C0;"><a href="javascript: history.back()"><strong>上一个</strong></a></h5>
+                    <h5 style="float: right; color: #1565C0;"><a href="javascript: history.back()"><strong>上一个页</strong></a></h5>
                 </div>
             </div>
             <div class="col-md-12">
@@ -199,12 +199,6 @@
                                     {{transShipMember("title.Register Data")}}
                                 </a>
                             </li>
-
-                            <li>
-                                <a data-toggle="tab" href="#card_data">
-                                    {{transShipMember("title.Register Card")}}
-                                </a>
-                            </li>
                             <li>
                                 <a data-toggle="tab" href="#capacity_data">
                                     {{transShipMember("title.Capacity Data")}}
@@ -225,9 +219,6 @@
                     <div class="tab-content">
                         <div id="main_data" class="tab-pane active">
                             @include('shipMember.member_main_tab', with(['info'=>$info, 'shipList'=>$shipList, 'pos'=>$posList, 'ksList'=>$ksList, 'historyList'=>$historyList, 'typeList'=>$typeList]))
-                        </div>
-                        <div id="card_data" class="tab-pane">
-                            @include('shipMember.member_card_tab', with(['info'=>$info, 'card'=>$card, 'careerList'=>$careerList, 'familyList'=>$familyList]))
                         </div>
                         <div id="capacity_data" class="tab-pane">
                             @include('shipMember.member_capacity_tab', with(['memberId'=>$memberId, 'capacity'=>$capacity, 'capacity_career'=>$capacity_career, 'schoolList'=>$schoolList, 'capacityList'=>$capacityList]))
@@ -293,7 +284,7 @@
             if(state == 'error') {
                 $.gritter.add({
                     title: '错误',
-                    text: '登录号重复了!',
+                    text: '登记号重复了!',
                     class_name: 'gritter-error'
                 });
             }
@@ -529,35 +520,6 @@
             setDatePicker();
         }
 
-        function newFamilyRow() {
-            var tbody = document.getElementById('family_table');
-            var newtr = document.createElement('tr');
-            var leng = tbody.children.length;
-            if(leng < 1)
-                index = 1;
-            else
-                index = Math.floor(tbody.children[leng - 1].children[0].innerText) + 1;
-            var htmlStr = '<td class="center">' + index + '</td>' +
-                    '<td class="hidden"><input type="text" name="family_' + index + '" value="' + index + '"></td>' +
-                    '<td><input type="text" name="relation_' + index + '" style="width: 100%"></td>' +
-                    '<td><input type="text" name="name_' + index + '" style="width: 100%"></td>' +
-                    '<td><select class="form-control chosen-select" name="sex_' + index + '">' +
-                    '<option value="男">男</option><option value="女">女</option></select></td>' +
-                    '<td><div class="input-group"><input class="form-control date-picker" type="text" data-date-format="yyyy/mm/dd" name="birthday_' + index + '">' +
-                    '<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td>' +
-                    '<td><select class="form-control chosen-select" name="isParty_' + index + '"><option value=""></option><option value=""></option></select></td>' +
-                    '<td><input type="text" name="birthPlace_' + index + '" style="width: 100%"></td>' +
-                    '<td><input type="text" name="position_' + index + '" style="width: 100%"></td>' +
-                    '<td><div class="action-buttons"><a class="red" href="javascript:onFamilyDelete(' + index + ')"><i class="icon-trash bigger-130"></i></a></div></td>';
-
-            newtr.innerHTML = htmlStr;
-            tbody.appendChild(newtr);
-            setDatePicker();
-
-			$('[name=sex_' + index + ']').chosen();
-			$('[name=isParty_' + index + ']').chosen();
-        }
-
         function newCapacityRow() {
             var tbody = document.getElementById('capacity_table');
             var newtr = document.createElement('tr');
@@ -627,19 +589,6 @@
 
         function onCareerDelete(id) {
             var tbody = document.getElementById('career_table');
-            var len = tbody.children.length;
-            var row = 0;
-            for (; row < len; row++) {
-                var tds = tbody.children[row];
-                var rowId = Math.floor(tds.children[0].innerText);
-                if(rowId == id)
-                    break;
-            }
-            tbody.deleteRow(row);
-        }
-
-        function onFamilyDelete(id) {
-            var tbody = document.getElementById('family_table');
             var len = tbody.children.length;
             var row = 0;
             for (; row < len; row++) {

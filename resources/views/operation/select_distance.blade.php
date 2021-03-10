@@ -33,7 +33,7 @@
                         </select>
                     </div>
                 </div>
-                <button style="float:left" class="btn btn-sm btn-primary distance-filter">검색</button>
+                <button style="float:left" class="btn btn-sm btn-primary distance-filter">搜索</button>
             </div>
             <div class="space-2"></div>
             <div class="row" style="margin: 0" id="distance-div">

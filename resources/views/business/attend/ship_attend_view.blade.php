@@ -95,7 +95,7 @@
             $("#search-date").bind("change", function () {
                 var selDate = $("#search-date").val();
                 if(selDate.length < 1) {
-                    bootbox.confirm("请选择日子。", function(result) {});
+                    bootbox.confirm("请选择日期。", function(result) {});
                     return;
                 }
                 location.href = 'shipAttendDayPage?ship=' + shipId + '&selDate=' + selDate;

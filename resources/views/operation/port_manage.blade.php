@@ -8,7 +8,7 @@ $ships = Session::get('shipList');
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-6">
-                    <h4><b>기초자료입력</b>
+                    <h4><b>基础资料输入</b>
                         <small>
                             <i class="icon-double-angle-right"></i>항구명관리
                         </small>
@@ -16,7 +16,7 @@ $ships = Session::get('shipList');
                 </div>
                 @if(!$isHolder)
                     <div class="col-md-6" style="text-align: right;margin-top: 50px">
-                        <button class="btn btn-sm btn-primary no-radius"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus-sign-alt"></i>추가</button>
+                        <button class="btn btn-sm btn-primary no-radius"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
                     </div>
                 @endif
             </div>
@@ -36,7 +36,7 @@ $ships = Session::get('shipList');
                                     </div>
                                     <div class="space-2"></div>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label no-padding-right">항구명(영문):</label>
+                                        <label class="col-md-3 control-label no-padding-right">항구명(英文):</label>
                                         <div class="col-md-8"><input type="text" name="port_name_en" class="form-control"></div>
                                     </div>
                                 </form>
@@ -52,7 +52,7 @@ $ships = Session::get('shipList');
                             <tr class="black br-hblue">
                                 <th class="center">No</th>
                                 <th class="center">항구명</th>
-                                <th class="center">항구명(영문)</th>
+                                <th class="center">항구명(英文)</th>
                                 @if(!$isHolder)
                                     <th class="center" style="width: 70px"></th>
                                 @endif
@@ -102,14 +102,14 @@ $ships = Session::get('shipList');
                 title_html: true,
                 buttons: [
                     {
-                        text: "취소",
+                        text: "取消",
                         "class" : "btn btn-xs",
                         click: function() {
                             $( this ).dialog( "close" );
                         }
                     },
                     {
-                        text: "보관",
+                        text: "保存",
                         "class" : "btn btn-primary btn-xs",
                         click: function() {
                             $('#submit_btn').click();
@@ -122,7 +122,7 @@ $ships = Session::get('shipList');
         $(function() {
             @if(isset($error))
             $.gritter.add({
-                title: '오유',
+                title: '错误',
                 text: '{{$error}}',
                 class_name: 'gritter-error'
             });
@@ -135,7 +135,7 @@ $ships = Session::get('shipList');
                 },
                 messages: {
                     port_name: "항구명을 입력하시오.",
-                    port_name_en: "항구명의 영문이름을 입력하시오."
+                    port_name_en: "항구명의 英文이름을 입력하시오."
                 }
             });
 
@@ -171,13 +171,13 @@ $ships = Session::get('shipList');
                             if (code > 0) {
                                 trObj.remove();
                                 $.gritter.add({
-                                    title: '성공',
-                                    text: '['+ portName + '] 항구명이 성과적으로 삭제되였습니다.',
+                                    title: '成功',
+                                    text: '['+ portName + '] 항구명이 删掉成功!',
                                     class_name: 'gritter-success'
                                 });
                             } else {
                                 $.gritter.add({
-                                    title: '오유',
+                                    title: '错误',
                                     text: '['+ portName + '] 항구명이 이미 삭제되였습니다.',
                                     class_name: 'gritter-error'
                                 });

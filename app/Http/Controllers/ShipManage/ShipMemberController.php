@@ -178,7 +178,6 @@ class ShipMemberController extends Controller
             // 등록카드자료
             $card = ShipMemberSocial::where('memberId', $memberId)->first();
             $career = ShipMemberCareer::where('memberId', $memberId)->orderBy('fromDate')->get();
-            $family = ShipMemberFamily::where('memberId', $memberId)->orderBy('orderNum')->get();
 
             // 자격관련자료
             // 자격관련자료
@@ -212,7 +211,6 @@ class ShipMemberController extends Controller
 
                     'card'      =>      $card,
                     'careerList'=>      $career,
-                    'familyList'=>      $family,
 
                     'capacity'  =>      $capacity,
                     'capacity_career'=> $capacity_career,
@@ -248,13 +246,6 @@ class ShipMemberController extends Controller
             $historyList = ShipBoardCareer::where('memberId', $memberId)->orderBy('FromDate')->get();
 
             return view('shipMember.member_main_tab', ['info'=>$info, 'shipList'=>$shipList, 'posList'=>$posList, 'ksList'=>$ksList, 'historyList'=>$historyList, 'typeList'=>$typeList]);
-
-            // 등록카드자료
-            $card = ShipMemberSocial::where('memberId', $memberId)->first();
-            $career = ShipMemberCareer::where('memberId', $memberId)->orderBy('fromDate')->get();
-            $family = ShipMemberFamily::where('memberId', $memberId)->orderBy('orderNum')->get();
-
-            return view('shipMember.member_card_tab', ['info'=>$info, 'card'=>$card, 'careerList'=>$career, 'familyList'=>$family]);
 
             // 자격관련자료
             $capacity = ShipCapacityRegister::where('memberId', $memberId)->first();
@@ -317,7 +308,7 @@ class ShipMemberController extends Controller
 
         $isExist = ShipMember::where('crewNum', $crewNum)->first();
         if(!empty($isExist) && ($isExist['id'] != $memberId)) {
-            $msg = '登录号码是重复了。';
+            $msg = '登记号码是重复了。';
             return back()->with(['state'=>'error', 'msg'=>$msg]);
         }
 
@@ -450,105 +441,6 @@ class ShipMemberController extends Controller
 
         return redirect('shipMember/registerShipMember?memberId='.$memberId);
 
-    }
-
-    public function updateMemberCardData(Request $request) {
-        $memberId = $request->get('memberId');
-        $member = ShipMember::find($memberId);
-        // 선원 키, 몸무게정보 보관
-        $member['Weight'] = $request->get('Weight');
-        $member['Height'] = $request->get('Height');
-        $member['BloodType'] = $request->get('BloodType');
-        $member['ShoeNo'] = $request->get('ShoeNo');
-        $member->save();
-
-        // 선원사회정치관계 보관
-        $social = ShipMemberSocial::where('memberId', $memberId)->first();
-        if(is_null($social)){
-            $social = new ShipMemberSocial();
-            $social['memberId'] = $memberId;
-        }
-        $social['isParty'] = $request->get('isParty');
-        $social['partyNo'] = $request->get('partyNo');
-        $partyDate = $request->get('partyDate');
-        if(empty($partyDate))
-            $partyDate = null;
-        $social['partyDate'] = $partyDate;
-
-        $entryDate = $request->get('entryDate');
-        if(empty($entryDate))
-            $entryDate = null;
-        $social['entryDate'] = $entryDate;
-
-        $social['fromOrigin'] = $request->get('fromOrigin');
-        $social['currOrigin'] = $request->get('currOrigin');
-        $social['cardNum'] = $request->get('cardNum');
-        $social->save();
-
-        ShipMemberCareer::where('memberId', $memberId)->delete();
-        // 선원사회정치경력보관
-        for($i=0;$i<20;$i++) {
-            $varname = 'career_' . $i;
-            $careerId = $request->get($varname);
-            if (isset($careerId)) {
-                $varName = '_' . $i;
-                $career = new ShipMemberCareer();
-
-                $career['memberId'] = $memberId;
-                $fromDate = $request->get('fromDate' . $varName);
-                if (empty($fromDate))
-                    $fromDate = null;
-                $career['fromDate'] = $fromDate;
-
-                $toDate = $request->get('toDate' . $varName);
-                if (empty($toDate))
-                    $toDate = null;
-                if (is_null($fromDate) && is_null($toDate))
-                    continue;
-
-                $career['toDate'] = $toDate;
-                $career['prePosition'] = $request->get('prePosition' . $varName);
-                $career['prePosPlace'] = $request->get('prePosPlace' . $varName);
-                $career['address'] = $request->get('address' . $varName);
-
-                $career->save();
-            }
-        }
-        // 선원가족관계보관
-        ShipMemberFamily::where('memberId', $memberId)->delete();
-        $orderNum = 1;
-        for($i=0;$i<20;$i++) {
-            $varname = 'family_'.$i;
-            $careerId = $request->get($varname);
-            if(isset($careerId)){
-                $varName = '_'.$i;
-                $family = new ShipMemberFamily();
-
-                $family['memberId'] = $memberId;
-                $family['orderNum'] = $orderNum;
-                $family['relation'] = $request->get('relation'.$varName);
-                $family['name'] = $request->get('name'.$varName);
-                $family['sex'] = $request->get('sex'.$varName);
-
-                $birthday = $request->get('birthday'.$varName);
-                if(empty($birthday))
-                    $birthday = null;
-
-                $family['birthday'] = $birthday;
-
-                if(empty($family['relation']) && empty($family['name']) && $family['birthday'])
-                    continue;
-
-                $family['isParty'] = $request->get('isParty'.$varName);
-                $family['birthPlace'] = $request->get('birthPlace'.$varName);
-                $family['position'] = $request->get('position'.$varName);
-
-                $family->save();
-                $orderNum++;
-            }
-        }
-
-        return back();
     }
 
     public function updateMemberCapacityData(Request $request) {

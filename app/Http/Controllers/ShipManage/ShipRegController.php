@@ -615,7 +615,7 @@ class ShipRegController extends Controller
         $isExist = ShipCertList::where('CertNo', $certInfo['CertNo'])->orWhere('CertName_Cn', $certInfo['CertName_Cn'])->orWhere('CertName_En', $certInfo['CertName_En'])->first();
 
         if(isset($isExist) && ($isExist['id'] != $certId)) {
-            $error = "错误!  做成的船证书已经登陆了。";
+            $error = "错误!  做成的船舶证书已经登陆了。";
             return back()->with(['error' => $error]);
         }
         $certInfo['CertKind'] = $request->get('CertKind');
@@ -1348,7 +1348,7 @@ class ShipRegController extends Controller
 
         $isExist = ShipType::where('ShipType_Cn', $type['ShipType_Cn'])->orWhere('ShipType', $type['ShipType'])->first();
         if(isset($isExist) && ($typeId != $isExist['id'])) {
-            $error = $type['ShipType_Cn'].' 是已经被登录了。';
+            $error = $type['ShipType_Cn'].' 是已经被登记了。';
             return back()->with(['error'=>$error]);
         }
 
@@ -1429,7 +1429,7 @@ class ShipRegController extends Controller
 
         $isExist = ShipSTCWCode::where('STCWRegCode',$type['STCWRegCode'])->orWhere('Contents', $type['Contents'])->first();
         if(isset($isExist) && ($typeId != $isExist['id'])) {
-            $error = $type['Contents'].' 是已经被登录了。';
+            $error = $type['Contents'].' 是已经被登记了。';
             return back()->with(['error'=>$error]);
         }
 
@@ -1458,7 +1458,7 @@ class ShipRegController extends Controller
 
         $isExist = ShipMemberCapacity::where('Capacity',$capacity['Capacity'])->orWhere('Capacity_En', $capacity['Capacity_En'])->first();
         if(isset($isExist) && ($capacityId != $isExist['id'])) {
-            $error = $capacity['Capacity'].' 是已经被登录了。';
+            $error = $capacity['Capacity'].' 是已经被登记了。';
             return back()->with(['error'=>$error]);
         }
 
@@ -1503,7 +1503,7 @@ class ShipRegController extends Controller
             ->first();
 
         if(isset($isExist) && ($othersId != $isExist['OthersId'])) {
-            $error = $others['Others_Cn'].' 是已经被登录了。';
+            $error = $others['Others_Cn'].' 是已经被登记了。';
             return back()->with(['error'=>$error]);
         }
         $others['Special'] = $request->get('Special');

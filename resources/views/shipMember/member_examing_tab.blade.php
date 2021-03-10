@@ -7,7 +7,7 @@
                     <tr>
                         <th colspan="6">
                             <h5 style="float: left">{{transShipMember("RealAblility.Career")}}</h5>
-                            <a class="btn btn-sm btn-primary" style="float: right;width :80px;" href="javascript:newExamingRow()"><i class="icon-plus-sign-alt"></i>추가</a>
+                            <a class="btn btn-sm btn-primary" style="float: right;width :80px;" href="javascript:newExamingRow()"><i class="icon-plus-sign-alt"></i>追加</a>
                         </th>
                     </tr>
                     <tr>
@@ -45,9 +45,8 @@
                             </td>
                             <td>
                                 <select class="form-control" name="examSubject_{{$index}}" data-old="{{$exam['Subject']}}" disabled>
-                                    <option value="정치" @if($exam['Subject'] == '정치') selected @endif>정치</option>
-                                    <option value="영어" @if($exam['Subject'] == '영어') selected @endif>영어</option>
-                                    <option value="전공" @if($exam['Subject'] == '전공') selected @endif>전공</option>
+                                    <option value="英文" @if($exam['Subject'] == '英文') selected @endif>英文</option>
+                                    <option value="专业" @if($exam['Subject'] == '专业') selected @endif>专业</option>
                                 </select>
                             </td>
                             <td>
@@ -124,7 +123,7 @@
             <div class="row">
                 <div class="space-2"></div>
                 <div class="col-md-6 col-md-offset-3 center" style="background: #D6E8ED;border: 1px solid #ddd">
-                    <label id="eval_mark">transShipMember('captions.averageScore') : {{round($avg / ($index + 1), 2)}}</label>
+                    <label id="eval_mark">{{transShipMember('captions.averageScore')}} : {{round($avg / ($index + 1), 2)}}</label>
                 </div>
             </div>
         </div>

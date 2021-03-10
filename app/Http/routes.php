@@ -485,7 +485,6 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::post('showShipMemberDataTab', ['uses' => 'ShipManage\ShipMemberController@showShipMemberDataTab']);
 	Route::post('updateMemberMainInfo', ['uses' => 'ShipManage\ShipMemberController@updateMemberMainInfo']);
 	Route::post('updateMemberMainData', ['uses' => 'ShipManage\ShipMemberController@updateMemberMainData']);
-	Route::post('updateMemberCardData', ['uses' => 'ShipManage\ShipMemberController@updateMemberCardData']);
 	Route::post('updateMemberCapacityData', ['uses' => 'ShipManage\ShipMemberController@updateMemberCapacityData']);
 	Route::post('updateMemberTrainingData', ['uses' => 'ShipManage\ShipMemberController@updateMemberTrainingData']);
 	Route::post('registerMemberExamingData', ['uses' => 'ShipManage\ShipMemberController@registerMemberExamingData']);

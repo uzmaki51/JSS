@@ -35,7 +35,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-sm-4">
-                                    <strong>做成日子:</strong>
+                                    <strong>做成日期:</strong>
                                 </div>
                                 <div class="col-sm-6">
                                     <strong> {{ $tema['create_at'] }}</strong>
@@ -53,7 +53,7 @@
                         <div class="widget-header" style="min-height: 30px">
                             <h5>@if(empty($news)) 追加消息 @else 修改消息 @endif</h5>
                             <div class="widget-toolbar">
-                                <button class="btn btn-grey btn-xs radius-3" onclick="submitNewsContent()" style="width: 80px"><i class="icon-save"></i>登录</button>
+                                <button class="btn btn-grey btn-xs radius-3" onclick="submitNewsContent()" style="width: 80px"><i class="icon-save"></i>登记</button>
                             </div>
                         </div>
                         <div class="widget-body">

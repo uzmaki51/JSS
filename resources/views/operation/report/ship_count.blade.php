@@ -18,7 +18,7 @@ else $header = 'sidebar';
                                 <option value="{{ $year->Yearly }}"  <?php echo $year->Yearly == $currentYear ? 'selected' : ''; ?>>{{ $year->Yearly }}</option>
                             @endforeach
                         </select>
-                        <b>년</b>&nbsp;&nbsp;
+                        <b>年</b>&nbsp;&nbsp;
                         <?php $shipName = ''; ?>
                         <select name="selectShip" class="selectShipCtrl">
                             @foreach($shipList as $shipNo)
@@ -26,8 +26,8 @@ else $header = 'sidebar';
                                 <?php if($shipNo->RegNo == $ship) $shipName = $shipNo->shipName_Cn;?>
                             @endforeach
                         </select>&nbsp;&nbsp;
-                        <b>항차별 실적</b> &nbsp;&nbsp;
-                        {{--항차:
+                        <b>安航次业绩</b> &nbsp;&nbsp;
+                        {{--航次:
                         <select name="selectShips" id="">
                             <option value="">12</option>
                         </select>
@@ -40,7 +40,7 @@ else $header = 'sidebar';
                 <div class="col-sm-3">
                     <div style="float:right">
                         <button class="btn btn-success btn-sm" id="btn-chart" data-year="{{$currentYear}}" data-ship="{{$shipName}}" style="width: 80px">
-                            <i class="icon-signal"></i>통계
+                            <i class="icon-signal"></i>统计
                         </button>
                         <button class="btn btn-warning btn-sm btn_excel" style="width: 80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                     </div>
@@ -185,10 +185,10 @@ else $header = 'sidebar';
     <script src="{{ asset('/assets/js/highcharts.js') }}"></script>
 <?php
 $lineChartData = array(
-        array('name'=>'리익','data'=>$profitList),
-        array('name'=>'수입','data'=>$incomeList),
-        array('name'=>'지출','data'=>$expenseList),
-        array('name'=>'순리익','data'=>$realProfitList),
+        array('name'=>'利益','data'=>$profitList),
+        array('name'=>'收入','data'=>$incomeList),
+        array('name'=>'支出','data'=>$expenseList),
+        array('name'=>'纯利益','data'=>$realProfitList),
 );
 
 ?>
@@ -224,12 +224,12 @@ $lineChartData = array(
 
             var dialog = $("#dialog-report-chart").removeClass('hide').dialog({
                 modal: true,
-                title: year + "년 " + ship + "호 항차별 실적 그라프",
+                title: year + "年 " + ship + "号 按航次业绩图表",
                 title_html: true,
                 width:1024,
                 buttons: [
                     {
-                        text: "닫기",
+                        text: "关闭",
                         "class": "btn btn-xs",
                         click: function () {
                             $(this).dialog("close");
@@ -251,7 +251,7 @@ $lineChartData = array(
                 },
                 yAxis: {
                     title: {
-                        text: '금액($)'
+                        text: '金额($)'
                     },
                     plotLines: [{
                         value: 0,

@@ -1314,7 +1314,7 @@ class BusinessController extends Controller
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 미확정출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -1484,7 +1484,7 @@ class BusinessController extends Controller
                 $totl_absen += $member->attendCount;
             $attendMember['type_'.$member->statusId] = $member->attendCount;
         }
-        if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 미확정출근으로 본다.
+        if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
             $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
             $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
         }
@@ -1711,7 +1711,7 @@ class BusinessController extends Controller
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 미확정출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -1773,7 +1773,7 @@ class BusinessController extends Controller
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 미확정출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -1955,7 +1955,7 @@ class BusinessController extends Controller
         }
 
         $ship = [];
-        $ship['title'] = '等待船员';
+        $ship['title'] = '等待海员';
         $ship['id'] = 'empty';
         $ship['unitType'] = 0;
         $ship['attend'] = $attendCount;
@@ -2269,7 +2269,7 @@ class BusinessController extends Controller
         $taskId = $request->get('taskId');
         $task = SubPlan::find($taskId);
         if(empty($task) || ($task->creator != Auth::user()->id)) {
-            $data['msg'] = '任务未登录。请稍后再试试。';
+            $data['msg'] = '任务未登记。请稍后再试试。';
             $data['state'] = -1; // 오유
             return response()->json($data);
         }
@@ -3282,7 +3282,7 @@ class BusinessController extends Controller
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 미확정출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -3344,7 +3344,7 @@ class BusinessController extends Controller
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 미확정출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }

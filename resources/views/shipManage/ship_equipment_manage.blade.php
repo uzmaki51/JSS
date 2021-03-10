@@ -13,7 +13,7 @@
                         <b>{{ transShipManager('title.equipment') }}</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            各船设备登录
+                            各船舶设备登记
                         </small>
                     </h4>
                 </div>
@@ -193,7 +193,7 @@
                             </div>
                             <div class="modal-footer padding-8" style="text-align: right">
                                 <button class="btn btn-primary btn-sm btn-warning" data-dismiss="modal">取消</button>
-                                <button class="btn btn-primary btn-sm btn-danger save_btn">登录</button>
+                                <button class="btn btn-primary btn-sm btn-danger save_btn">登记</button>
                             </div>
                         </div>
                     </div>
@@ -288,7 +288,7 @@
                             </div>
                             <div class="modal-footer padding-8" style="text-align: right">
                                 <button class="btn btn-primary btn-sm btn-warning" data-dismiss="modal">取消</button>
-                                <button class="btn btn-primary btn-sm btn-danger save_btn">登录</button>
+                                <button class="btn btn-primary btn-sm btn-danger save_btn">登记</button>
                             </div>
                         </div>
                     </div>
@@ -308,7 +308,7 @@
 
         var shipName_Cn = '';
         @if(isset($shipName['name']))
-            shipName_Cn = '{!! $shipName['name'] !!}호';
+            shipName_Cn = '{!! $shipName['name'] !!}号';
                 @endif
 
         var tree_data = new Object();

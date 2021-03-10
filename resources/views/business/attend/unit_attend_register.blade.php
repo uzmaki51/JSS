@@ -182,7 +182,7 @@
         function unitAttendStateListSave(){
             var selDate = $("#search-date").val();
             if(selDate.length < 10) {
-                bootbox.confirm("你选择的日子不正确。", function(result) {});
+                bootbox.confirm("你选择的日期不正确。", function(result) {});
                 return;
             }
 

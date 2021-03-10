@@ -9,10 +9,10 @@ $ships = Session::get('shipList');
             <div class="page-header">
                 <div class="col-md-6">
                     <h4>
-                        <b>기초자료입력</b>
+                        <b>基础资料输入</b>
                         <small id="parent_Item">
                             <i class="icon-double-angle-right"></i>
-                            항해거리
+                            航海距离
                         </small>
                     </h4>
                 </div>
@@ -21,7 +21,7 @@ $ships = Session::get('shipList');
                 <div class="row">
                     <form action="navigtionDistance" method="get">
                         <div class="col-md-3">
-                            <label class="control-label no-padding-right" style="float: left;padding-top: 6px">출발항구</label>
+                            <label class="control-label no-padding-right" style="float: left;padding-top: 6px">出发港口</label>
                             <div class="col-sm-9">
                                 <select class="form-control chosen-select" name="lp">
                                     <option value="" @if(empty($lport)) selected @endif>&nbsp;</option>
@@ -34,7 +34,7 @@ $ships = Session::get('shipList');
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label class="control-label no-padding-right" style="float: left;padding-top: 6px">목적항구</label>
+                            <label class="control-label no-padding-right" style="float: left;padding-top: 6px">目的港口</label>
                             <div class="col-sm-9">
                                 <select class="form-control chosen-select" name="dp">
                                     <option value="" @if(empty($dport)) selected @endif>&nbsp;</option>
@@ -47,11 +47,11 @@ $ships = Session::get('shipList');
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm" style="float: left; width :80px">
-                            <i class="icon-search"></i>검색</button>
+                            <i class="icon-search"></i>搜索</button>
                     </form>
                     @if(!$isHolder)
                         <div class="col-md-3" style="float:right;text-align: right;">
-                            <button class="btn btn-sm btn-primary no-radius" style="width: 80px" tyle="border-radius: 3px"><i class="icon-plus-sign-alt"></i>추가</button>
+                            <button class="btn btn-sm btn-primary no-radius" style="width: 80px" tyle="border-radius: 3px"><i class="icon-plus-sign-alt"></i>追加</button>
                         </div>
                     @endif
                 </div>
@@ -62,7 +62,7 @@ $ships = Session::get('shipList');
                             <input type="text" class="hidden" name="distanceId">
                             <button type="submit" class="hidden" id="submit_btn"></button>
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">출발항구명:</label>
+                                <label class="col-md-3 control-label no-padding-right">出发港口名:</label>
                                 <div class="col-md-8">
                                     <select class="form-control chosen-select" name="LPort">
                                         @foreach($ports as $port)
@@ -73,7 +73,7 @@ $ships = Session::get('shipList');
                             </div>
                             <div class="space-2"></div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">목적항구명:</label>
+                                <label class="col-md-3 control-label no-padding-right">目的港口明:</label>
                                 <div class="col-md-8">
                                     <select class="form-control chosen-select" name="DPort">
                                         @foreach($ports as $port)
@@ -84,7 +84,7 @@ $ships = Session::get('shipList');
                             </div>
                             <div class="space-2"></div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">항해거리:</label>
+                                <label class="col-md-3 control-label no-padding-right">航海距离:</label>
                                 <div class="col-md-8">
                                     <input type="number" class="form-control" name="distance">
                                 </div>
@@ -98,9 +98,9 @@ $ships = Session::get('shipList');
                         <thead>
                         <tr class="black br-hblue">
                             <th class="center" style="width:50px">No</th>
-                            <th class="center">출발항구명</th>
-                            <th class="center">목적항구명</th>
-                            <th class="center">항해거리</th>
+                            <th class="center">出发港口名</th>
+                            <th class="center">目的港口名</th>
+                            <th class="center">航海距离</th>
                             @if(!$isHolder)
                                 <th class="center" style="width: 70px"></th>
                             @endif
@@ -145,7 +145,7 @@ $ships = Session::get('shipList');
 
             @if(isset($error))
             $.gritter.add({
-                title: '오유',
+                title: '错误',
                 text: '{{$error}}',
                 class_name: 'gritter-error'
             });
@@ -158,9 +158,9 @@ $ships = Session::get('shipList');
                     distance: "required | min:10"
                 },
                 messages: {
-                    LPort: "출발항구를 선택하시오.",
-                    LPort: "목적항구를 선택하시오.",
-                    distance: "항해거리를 입력하시오."
+                    LPort: "出发请选择港口。.",
+                    LPort: "目的请选择港口。.",
+                    distance: "请输入航海距离。"
                 }
             });
 
@@ -202,7 +202,7 @@ $ships = Session::get('shipList');
                 var LName = obj.eq(1).text();
                 var DName = obj.eq(2).text();
 
-                bootbox.confirm(LName + " - " + DName + "까지의 거리를 삭제하겠습니까?", function (result) {
+                bootbox.confirm(LName + " - " + DName + "的距离项目真要删掉吗?", function (result) {
                     if (result) {
                         //확인단추를 눌렀을 때의 처리
                         $.post('deleteDistance', {'_token':token, 'distanceId':distanceId}, function (result) {
@@ -215,23 +215,23 @@ $ships = Session::get('shipList');
 
         function editNavegatorDistance() {
             var distanceId = $('[name=distanceId]').val();
-            var title = '추가';
+            var title = '追加';
             if(distanceId != '')
-                title = '수정';
+                title = '修改';
             var dialog = $( "#dialog_update_distance" ).removeClass('hide').dialog({
                 modal: true,
                 title: title,
                 title_html: true,
                 buttons: [
                     {
-                        text: "취소",
+                        text: "取消",
                         "class" : "btn btn-xs",
                         click: function() {
                             $( this ).dialog( "close" );
                         }
                     },
                     {
-                        text: "보관",
+                        text: "保存",
                         "class" : "btn btn-primary btn-xs",
                         click: function() {
                             $('#submit_btn').click();

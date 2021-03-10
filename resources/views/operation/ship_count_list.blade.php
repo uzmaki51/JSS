@@ -22,7 +22,7 @@ $ships = Session::get('shipList');
                         <label class="control-label no-padding-right" style="float: left;">{{transShipOperation("simple.ShipName")}}</label>
                         <div class="col-sm-3">
                             <select class="form-control" id="shipName">
-                                <option value="0" @if(is_null($shipId)) selected @endif>전체</option>
+                                <option value="0" @if(is_null($shipId)) selected @endif>全部</option>
                                 @foreach($shipList as $ship)
                                     <option value="{{$ship['RegNo']}}"
                                             @if(isset($shipId) && ($shipId == $ship['RegNo'])) selected @endif>{{$ship['shipName_Cn']}} @if(!empty($ship['name'])) | {{$ship['name']}} @endif
@@ -30,7 +30,7 @@ $ships = Session::get('shipList');
                                 @endforeach
                             </select>
                         </div>
-                        <button class="btn btn-primary btn-sm btn_search" style="float: left; width :80px"><i class="icon-search"></i>검색</button>
+                        <button class="btn btn-primary btn-sm btn_search" style="float: left; width :80px"><i class="icon-search"></i>搜索</button>
                     </div>
                     @if(!$isHolder)
                         <div class="col-md-4" style="text-align: right">

@@ -95,7 +95,7 @@
                     bindWeekTabAction();
                     $.gritter.add({
                         title: '成功성공',
-                        text: '登录企业周报成功！',
+                        text: '登记企业周报成功！',
                         class_name: 'gritter-success'
                     });
                 });
@@ -142,7 +142,7 @@
                     bindMonthTabAction();
                     $.gritter.add({
                         title: '成功',
-                        text: '登录月报成功！',
+                        text: '登记月报成功！',
                         class_name: 'gritter-success'
                     });
                 });

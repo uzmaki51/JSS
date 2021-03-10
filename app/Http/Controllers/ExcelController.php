@@ -157,7 +157,7 @@ class ExcelController extends Controller {
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 미확정출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -219,7 +219,7 @@ class ExcelController extends Controller {
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 미확정출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -411,7 +411,7 @@ class ExcelController extends Controller {
         }
 
         $ship = new Ship();
-        $ship['title'] = '等待船员';
+        $ship['title'] = '等待海员';
         $ship['unitType'] = 0;
         $ship['attend'] = $attendCount;
         $ship['absence'] = $absenceCount;
@@ -513,7 +513,7 @@ class ExcelController extends Controller {
                 'main_plans'     => $main_plans,
                 'excel'          => 1,
                 'excel_title'    => $excel_title,
-                'excel_name'     => '个人事业计划-日报登录-'.$excel_title,
+                'excel_name'     => '个人事业计划-日报登记-'.$excel_title,
             ]);
     }
 
@@ -604,7 +604,7 @@ class ExcelController extends Controller {
                 'cur_date'  =>  $cur_date,
                 'excel' => 1,
                 'excel_title' => $excel_title,
-                'excel_name' => '个人事业计划-周报登录-'.$excel_title,
+                'excel_name' => '个人事业计划-周报登记-'.$excel_title,
             ]);
     }
 
@@ -654,7 +654,7 @@ class ExcelController extends Controller {
                 'cur_date'   => $cur_date,
                 'excel' => 1,
                 'excel_title' => $excel_title,
-                'excel_name' => '个人事业计划-月报登录-'.$excel_title,
+                'excel_name' => '个人事业计划-月报登记-'.$excel_title,
             ]);
     }
 
@@ -1090,7 +1090,7 @@ class ExcelController extends Controller {
         return view('shipManage.shipinfo', array(
             'list'=> $ship_infolist,
             'excel' => 1,
-            'excel_name' => '船诸元'
+            'excel_name' => '船舶诸元'
         ));
     }
 
@@ -1126,7 +1126,7 @@ class ExcelController extends Controller {
                 'expireMonth'=> $expireMonth,
                 'excel' => 1,
                 'excel_title' => $excel_title,
-                'excel_name' => '船证书-'.$excel_title,
+                'excel_name' => '船舶证书-'.$excel_title,
             ]);
     }
 
@@ -1148,7 +1148,7 @@ class ExcelController extends Controller {
             'cert'=>$cert,
             'error'=>$error,
             'excel'=>1,
-            'excel_name'=>'船证书种类',
+            'excel_name'=>'船舶证书种类',
         ]);
     }
 
@@ -1172,7 +1172,7 @@ class ExcelController extends Controller {
         foreach($shipRegList as $ship) {
             if($ship['RegNo'] == $shipId) $shipName = $ship['shipName_Cn'];
         }
-        $excel_title = '船名称: '.$shipName;
+        $excel_title = '船名: '.$shipName;
         return view('shipManage.ship_equipment_table', [
             'list'=>$list,
             'shipId'=>$shipId,
@@ -1226,7 +1226,7 @@ class ExcelController extends Controller {
         foreach($ko_ship_list as $ship) {
             if($ship['id'] == $origShip) $shipKoName = $ship['name'];
         }
-        $excel_title = '船舶名称(乘船): '.$shipName.' 船舶名称(船员证): '.$shipBookName.' 船舶名称(机构编制): '.$shipKoName;
+        $excel_title = '船舶名称(上船): '.$shipName.' 船舶名称(海员证): '.$shipBookName.' 船舶名称(机构编制): '.$shipKoName;
         return view('shipMember.total_member_list', [
             'list'=>$list,
             'shipList'=>$shipList,
@@ -1236,7 +1236,7 @@ class ExcelController extends Controller {
             'origShip'=>$origShip,
             'excel' => 1,
             'excel_title' => $excel_title,
-            'excel_name' => '成员名单-'.$excel_title,
+            'excel_name' => '海员名单-'.$excel_title,
         ]);
     }
 
@@ -1312,7 +1312,7 @@ class ExcelController extends Controller {
         foreach($capacityList as $capacity)
             if($capacityId == $capacity['id'])
                 $Capacity = $capacity['Capacity'];
-        $excel_title = '船舶名称: '.$shipName.' 职务: '.$Duty.' 资格证等级: '.$Capacity;
+        $excel_title = '船舶名称: '.$shipName.' 职务: '.$Duty.' 适任证书等级: '.$Capacity;
         return view('shipMember.excel_member_cert_list',
             [	'list'		=>		$list,
                 'shipList'	=>		$shipList,
@@ -1326,7 +1326,7 @@ class ExcelController extends Controller {
                 'pageHtml'	=>		$pageHtml,
                 'excel' => 1,
                 'excel_title' => $excel_title,
-                'excel_name' => '船员证书-'.$excel_title,
+                'excel_name' => '海员证书-'.$excel_title,
             ]);
     }
 
@@ -1403,7 +1403,7 @@ class ExcelController extends Controller {
             'shipId'=>$shipId,
             'excel' => 1,
             'excel_title' => $excel_title,
-            'excel_name' => '评价船员实力-'.$excel_title,
+            'excel_name' => '评价海员实力-'.$excel_title,
         ]);
     }
 
@@ -1458,7 +1458,7 @@ class ExcelController extends Controller {
             }
         }
         $excel_title = '船舶名称: '.$shipName;
-        if(!empty($fromDate) || !empty($toDate)) $excel_title .= ' 合约日子: ';
+        if(!empty($fromDate) || !empty($toDate)) $excel_title .= ' 合约日期: ';
         if(!empty($fromDate)) $excel_title .= date('从Y年 m月 d日 ', strtotime($fromDate));
         if(!empty($toDate)) $excel_title .= date('到Y年 m月 d日 ', strtotime($toDate));
         $CargoName = '全部';
@@ -1529,7 +1529,7 @@ class ExcelController extends Controller {
             'error'         =>  $error,
             'excel'         =>  1,
             'excel_title'   =>  $excel_title,
-            'excel_name'    =>  '船动态-'.$excel_title,
+            'excel_name'    =>  '船舶动态-'.$excel_title,
         ));
     }
 
@@ -2102,8 +2102,8 @@ class ExcelController extends Controller {
                 'voy'           =>  $voy_number,
                 'outMthd' => 2,
                 'excel' => 1,
-                'excel_title' => '船事故',
-                'excel_name' => '船事故',
+                'excel_title' => '船舶事故',
+                'excel_name' => '船舶事故',
             ]);
     }
 
@@ -2196,7 +2196,7 @@ class ExcelController extends Controller {
                 'shipPorts' => $shipPorts,
                 'excel' => 1,
                 'excel_title' => $excel_title,
-                'excel_name' => '设备配件材料 申请供给登录-'.$excel_title,
+                'excel_name' => '设备配件材料 申请供给登记-'.$excel_title,
             )
         );
     }
@@ -2335,7 +2335,7 @@ class ExcelController extends Controller {
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 미확정출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -2397,7 +2397,7 @@ class ExcelController extends Controller {
                     $totl_absen += $member->attendCount;
                 $attendMember['type_'.$member->statusId] = $member->attendCount;
             } else {
-                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 미확정출근으로 본다.
+                if(($totl_attend + $totl_absen) < $work_days) { // 자료기지에 등록되지 않은 출근은 未确定출근으로 본다.
                     $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
                     $totl_absen +=  $work_days - ($totl_attend + $totl_absen);
                 }
@@ -2472,7 +2472,7 @@ class ExcelController extends Controller {
     // 배등록 기술자격목록
     public function memberCapacityManageExcel() {
         $list = ShipMemberCapacity::totalData();
-        $excel_title = '船员资格目录';
+        $excel_title = '海员适任目录';
 
         return view('shipManage.member_capacity_manage', ['list' => $list, 'excel' => 1, 'excel_name' =>$excel_title]);
     }
@@ -2533,7 +2533,7 @@ class ExcelController extends Controller {
             $excel_title = $excel_title. ' 名称 : '.$name;
 
         if(!empty($state))
-            $excel_title = $excel_title. ' 登录状态 : '. ($state == 1 ? '登录' : '卸任');
+            $excel_title = $excel_title. ' 登记状态 : '. ($state == 1 ? '登记' : '卸任');
 
         return view('shipMember.memberDirectory',
             [   'list'=>$list,
@@ -2545,7 +2545,7 @@ class ExcelController extends Controller {
                 'state' => $state,
                 'excel' => 1,
                 'excel_title' => $excel_title,
-                'excel_name' => $shipName.(empty($shipName) ? '' : '-').'船员登记簿-'.$excel_title,
+                'excel_name' => $shipName.(empty($shipName) ? '' : '-').'海员登记簿-'.$excel_title,
             ]);
     }
 

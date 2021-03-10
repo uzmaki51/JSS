@@ -1480,8 +1480,8 @@ class DecisionController extends Controller
         $mail->Port = 25;                               // TCP port to connect to
 
         $mail->CharSet = "utf-8";
-        $mail->From = 'pgi@google.com';
-        $mail->FromName = '船舶业务管理网站';
+        $mail->From = 'JSS@qq.com';
+        $mail->FromName = 'JSS船舶管理信息系统';
 
         $mail->addAddress('ftb@sts.co.kp', $userName);     // Add a recipient
         $mail->Subject = $reportInfo['title'];

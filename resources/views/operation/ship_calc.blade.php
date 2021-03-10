@@ -38,8 +38,8 @@
                             <div class="col-md-4" style="text-align: center;">
                                 {{transShipOperation("shipCalc.CpType")}}:&nbsp;
                                 <select name="" id="" style="width: 60%;margin-top:4px">
-                                    <option value="1" @if($data->CP_kind == 1) selected="selected" @endif>항차용선계약</option>
-                                    <option value="2" @if($data->CP_kind == 2) selected="selected" @endif>기간용선계약</option>
+                                    <option value="1" @if($data->CP_kind == 1) selected="selected" @endif>航次租船계약</option>
+                                    <option value="2" @if($data->CP_kind == 2) selected="selected" @endif>期租船계약</option>
                                 </select></div>
                             <div class="col-md-4" style="text-align: center;padding-top: 10px;">{{transShipOperation("shipCalc.Ref No")}}:&nbsp;
                                 <span id="">{{ $data->CP_No }}</span></div>

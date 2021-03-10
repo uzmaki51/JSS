@@ -9,7 +9,7 @@
             <div class="page-header">
                 <div class="col-md-6">
                     <h4>
-                        <b>배동태</b>
+                        <b>船舶动态</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
                             경제일수항목
@@ -62,7 +62,7 @@
                             <th class="center">No</th>
                             <th class="center">항차형태</th>
                             <th class="center">사건</th>
-                            <th class="center">설명</th>
+                            <th class="center">说明</th>
                             @if(!$isHolder)
                                 <th class="center" style="width:70px"></th>
                             @endif
@@ -144,7 +144,7 @@
                                 tableBody.deleteRow(row);
                             } else {
                                 $.gritter.add({
-                                    title: '오유',
+                                    title: '错误',
                                     text: '['+ eventName + ']' + ' 사건은 이미 삭제되였습니다.',
                                     class_name: 'gritter-error '
                                 });
@@ -167,7 +167,7 @@
 
             @if(isset($error))
                 $.gritter.add({
-                        title: '오유',
+                        title: '错误',
                         text: '{{$error}}',
                         class_name: 'gritter-error'
                     });
@@ -181,7 +181,7 @@
                 title_html: true,
                 buttons: [
                     {
-                        text: "취소",
+                        text: "取消",
                         "class": "btn btn-xs",
                         click: function () {
                             $(this).dialog("close");

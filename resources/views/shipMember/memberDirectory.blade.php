@@ -40,7 +40,7 @@ else $header = 'sidebar';
                                     <option value="" @if(empty($ship)) selected @endif>@if($locale=='cn') {{transShipMember("captions.total")}} @else Total @endif</option>
                                     @foreach($shipList as $item)
                                         <option value="{{$item['RegNo']}}" @if($item['RegNo'] == $ship) selected @endif>
-                                            {{$item['name']}} | @if($locale == 'Cn'){{ $item['shipName_Cn'] }} @else {{$item['shipName_En']}} @endif</option>
+                                            {{$item['name']}} | @if($locale == 'cn'){{ $item['shipName_Cn'] }} @else {{$item['shipName_En']}} @endif</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -52,7 +52,7 @@ else $header = 'sidebar';
                                     <option value="" @if(empty($pos)) selected @endif>@if($locale=='cn') {{transShipMember("captions.total")}} @else Total @endif</option>
                                     @foreach($posList as $item)
                                         <option value="{{$item['id']}}" @if($item['id'] == $pos) selected @endif>
-                                            @if($locale == 'Cn'){{ $item['Duty'] }}@else{{ $item['Duty_En'] }}@endif
+                                            @if($locale == 'cn'){{ $item['Duty'] }}@else{{ $item['Duty_En'] }}@endif
                                         </option>
                                     @endforeach
                                 </select>
@@ -117,9 +117,9 @@ else $header = 'sidebar';
                                     @foreach($list as $member)
                                         <tr>
                                             <td class="center" style="width:4%;">{{$index++}}</td>
-                                            <td class="center" style="width:7%;">@if($locale == 'Cn'){{ $member['shipName_Cn'] }} @else {{ $member['shipName_En'] }} @endif</td>
-                                            <td class="center" style="width:7%;">@if($locale == 'Cn'){{$member['Duty']}} @else {{$member['Duty_En']}} @endif</td>
-                                            <td class="center" style="width:7%;"><a href='registerShipMember?memberId={{$member['id']}}'>@if($locale == 'Cn') {{$member['realname']}} @else {{$member['Surname']}} {{$member['GivenName']}} @endif</a></td>
+                                            <td class="center" style="width:7%;">@if($locale == 'cn'){{ $member['shipName_Cn'] }} @else {{ $member['shipName_En'] }} @endif</td>
+                                            <td class="center" style="width:7%;">@if($locale == 'cn'){{$member['Duty']}} @else {{$member['Duty_En']}} @endif</td>
+                                            <td class="center" style="width:7%;"><a href='registerShipMember?memberId={{$member['id']}}'>@if($locale == 'cn') {{$member['realname']}} @else {{$member['Surname']}} {{$member['GivenName']}} @endif</a></td>
                                             <td class="center" style="width:7%;">{{convert_date($member['birthday'])}}</td>
                                             <td class="center" style="width:30%;">
                                                 @if($locale == 'cn')

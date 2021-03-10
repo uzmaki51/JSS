@@ -8,15 +8,15 @@ $ships = Session::get('shipList');
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-6">
-                    <h4><b>기초자료입력</b>
+                    <h4><b>基础资料输入</b>
                         <small>
-                            <i class="icon-double-angle-right"></i>화물명관리
+                            <i class="icon-double-angle-right"></i>货名管理
                         </small>
                     </h4>
                 </div>
                 @if(!$isHolder)
                     <div class="col-md-6" style="text-align: right;margin-top: 50px">
-                        <button class="btn btn-sm btn-primary no-radius"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus-sign-alt"></i>추가</button>
+                        <button class="btn btn-sm btn-primary no-radius"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
                     </div>
                 @endif
             </div>
@@ -31,12 +31,12 @@ $ships = Session::get('shipList');
                                     <input type="text" class="hidden" name="cargoId">
                                     <button type="submit" class="hidden" id="submit_btn"></button>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label no-padding-right">화물명:</label>
+                                        <label class="col-md-3 control-label no-padding-right">货物名:</label>
                                         <div class="col-md-8"><input type="text" name="cargo_name" class="form-control"></div>
                                     </div>
                                     <div class="space-2"></div>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label no-padding-right">화물명(영문):</label>
+                                        <label class="col-md-3 control-label no-padding-right">货物名(英文):</label>
                                         <div class="col-md-8"><input type="text" name="cargo_name_en" class="form-control"></div>
                                     </div>
                                 </form>
@@ -51,8 +51,8 @@ $ships = Session::get('shipList');
                             <thead>
                             <tr class="black br-hblue">
                                 <th class="center">No</th>
-                                <th class="center">항구명</th>
-                                <th class="center">항구명(영문)</th>
+                                <th class="center">港口名</th>
+                                <th class="center">港口名(英文)</th>
                                 @if(!$isHolder)
                                     <th class="center" style="width: 70px"></th>
                                 @endif
@@ -93,23 +93,23 @@ $ships = Session::get('shipList');
 
         function editShipCargo() {
             var portId = $('[name=cargoId]').val();
-            var title = '화물명 추가';
+            var title = '追加货物名';
             if(portId != '')
-                title = '화물명 수정';
+                title = '修改货物名';
             var dialog = $( "#dialog_update_port" ).removeClass('hide').dialog({
                 modal: true,
                 title: title,
                 title_html: true,
                 buttons: [
                     {
-                        text: "취소",
+                        text: "取消",
                         "class" : "btn btn-xs",
                         click: function() {
                             $( this ).dialog( "close" );
                         }
                     },
                     {
-                        text: "보관",
+                        text: "保存",
                         "class" : "btn btn-primary btn-xs",
                         click: function() {
                             $('#submit_btn').click();
@@ -122,7 +122,7 @@ $ships = Session::get('shipList');
         $(function() {
             @if(isset($error))
             $.gritter.add({
-                title: '오유',
+                title: '错误',
                 text: '{{$error}}',
                 class_name: 'gritter-error'
             });
@@ -134,8 +134,8 @@ $ships = Session::get('shipList');
                     port_name_en: "required"
                 },
                 messages: {
-                    port_name: "화물명을 입력하시오.",
-                    port_name_en: "화물명의 영문이름을 입력하시오."
+                    port_name: "请输入货物名。",
+                    port_name_en: "请输入货物名(英文)。"
                 }
             });
 
@@ -163,7 +163,7 @@ $ships = Session::get('shipList');
                 var cargoId = obj.eq(0).data('id') * 1;
                 var cargoName = obj.eq(1).text();
 
-                bootbox.confirm("[" + cargoName + "] 화물명을 삭제하겠습니까?", function (result) {
+                bootbox.confirm("[" + cargoName + "] 真要删掉吗?", function (result) {
                     if (result) {
                         //확인단추를 눌렀을 때의 처리
                         $.post('deleteShipCargo', {'_token':token, 'cargoId':cargoId}, function (result) {
@@ -171,14 +171,14 @@ $ships = Session::get('shipList');
                             if (code > 0) {
                                 trObj.remove();
                                 $.gritter.add({
-                                    title: '성공',
-                                    text: '['+ cargoName + '] 화물명이 성과적으로 삭제되였습니다.',
+                                    title: '成功',
+                                    text: '['+ cargoName + '] 删掉成功！',
                                     class_name: 'gritter-success'
                                 });
                             } else {
                                 $.gritter.add({
-                                    title: '오유',
-                                    text: '['+ cargoName + '] 화물명이 이미 삭제되였습니다.',
+                                    title: '错误',
+                                    text: '['+ cargoName + '] 是已经被删掉的。',
                                     class_name: 'gritter-error'
                                 });
                             }

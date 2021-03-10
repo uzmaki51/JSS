@@ -105,7 +105,7 @@
                 $('#ReportPersonMonth').html(data);
                 $.gritter.add({
                     title: '成功',
-                    text: '登录月报成功！',
+                    text: '登记月报成功！',
                     class_name: 'gritter-success'
                 });
             });

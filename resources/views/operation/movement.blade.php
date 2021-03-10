@@ -58,9 +58,9 @@ $ships = Session::get('shipList');
                     </div>
                 </div>
                 <div class="col-md-3 pull-right">
-                    <button class="btn btn-primary btn-sm select_ctrl" style="float: left; margin-left: 5px; width :80px"><i class="icon-search"></i>검색</button>
+                    <button class="btn btn-primary btn-sm select_ctrl" style="float: left; margin-left: 5px; width :80px"><i class="icon-search"></i>搜索</button>
                     @if(!$isHolder)
-                        <button class="btn btn-primary btn-sm add-btn" style="float: left; margin-left: 5px; width :80px"><i class="icon-plus-sign-alt"></i>추가</button>
+                        <button class="btn btn-primary btn-sm add-btn" style="float: left; margin-left: 5px; width :80px"><i class="icon-plus-sign-alt"></i>追加</button>
                     @endif
                     <button class="btn btn-warning btn-sm excel-btn" style="float: left; margin-left: 5px; width :80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                 </div>
@@ -230,7 +230,7 @@ $ships = Session::get('shipList');
                                     <td><input type="number" name="voyFW" style="width:100%"></td>
                                     <td colspan="2"><textarea name="voyRemark" row="1" style="width:100%;"></textarea></td>
                                     <td class="center">
-                                        <button type="submit" class="btn btn-sm btn-primary" style="width: 80px"><i class="icon-plus-sign-alt"></i>추가</button>
+                                        <button type="submit" class="btn btn-sm btn-primary" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -312,7 +312,7 @@ $ships = Session::get('shipList');
                 $("[name=voyLOA]").val('');
                 $("[name=voyFW]").val('');
                 $("[name=voyRemark]").val('');
-                $('button[type="submit"]').text('추가');
+                $('button[type="submit"]').text('追加');
             });
 
             /**/
@@ -341,7 +341,7 @@ $ships = Session::get('shipList');
                 $("[name=voyLOA]").val(obj.eq(8).text());
                 $("[name=voyFW]").val(obj.eq(9).text());
                 $("[name=voyRemark]").val(obj.eq(10).text());
-                $('button[type="submit"]').text('보관');
+                $('button[type="submit"]').text('保存');
 
             });
 
@@ -351,7 +351,7 @@ $ships = Session::get('shipList');
                 var obj = $(this).closest('tr').children();
                 var logId = obj.eq(0).data('id');
                 var logTime = obj.eq(0).html();
-                bootbox.confirm("[" + logTime + "]배동태를 삭제하겠습니까?", function(result) {
+                bootbox.confirm("[" + logTime + "]船舶动态真要删掉吗?", function(result) {
                     if(result) {
                         // save in db
                         $.post("removeMovement", {'_token': token, 'logId': logId
@@ -371,8 +371,8 @@ $ships = Session::get('shipList');
                                 tableBody.deleteRow(row);
                             } else {
                                 $.gritter.add({
-                                    title: '오유',
-                                    text: '['+ logTime + ']' + ' 배동태는 이미 삭제되였습니다.',
+                                    title: '错误',
+                                    text: '['+ logTime + ']' + ' 船舶动态是已经被删掉的。',
                                     class_name: 'gritter-error '
                                 });
                             }
@@ -389,16 +389,16 @@ $ships = Session::get('shipList');
                     voyPos : "required",
                 },
                 messages: {
-                    voyDate : "날자를 입력하시오.",
-                    voyTime : "시간을 입력하시오.",
-                    voyStatus: "상태를 선택하십시오.",
-                    voyPos : "배의 위치를 선택하십시오.",
+                    voyDate : "请输入日期。",
+                    voyTime : "请输入时间。",
+                    voyStatus: "请选择状态。",
+                    voyPos : "请选择船舶的位置。",
                 }
             });
 
             @if(isset($error))
                 $.gritter.add({
-                        title: '오유',
+                        title: '错误',
                         text: '{{$error}}',
                         class_name: 'gritter-error'
                     });

@@ -50,17 +50,17 @@
                             </td>
                             <td class="custom-td-report-text" colspan="2">
                                 <select class="form-control chosen-select" id="RegStatus" name="RegStatus">
-                                    @if(strcasecmp($shipInfo['RegStatus'], '临时登录(PRO)') == 0)
-                                        <option value="临时登录(PRO)" selected>临时登录(PRO)</option>
-                                    @else<option value="临时登录(PRO)">临时登录(PRO)</option>
+                                    @if(strcasecmp($shipInfo['RegStatus'], '临时登记(PRO)') == 0)
+                                        <option value="临时登记(PRO)" selected>临时登记(PRO)</option>
+                                    @else<option value="临时登记(PRO)">临时登记(PRO)</option>
                                     @endif
-                                    @if(strcasecmp($shipInfo['RegStatus'], '完全登录(PER)') == 0)
-                                        <option value="完全登录(PER)" selected>完全登录(PER)</option>
-                                    @else<option value="完全登录(PER)">完全登录(PER)</option>
+                                    @if(strcasecmp($shipInfo['RegStatus'], '完全登记(PER)') == 0)
+                                        <option value="完全登记(PER)" selected>完全登记(PER)</option>
+                                    @else<option value="完全登记(PER)">完全登记(PER)</option>
                                     @endif
-                                    @if(strcasecmp($shipInfo['RegStatus'], '删掉登录(DEL)') == 0)
-                                        <option value="删掉登录(DEL)" selected>删掉登录(DEL)</option>
-                                    @else<option value="删掉登录(DEL)">删掉登录(DEL)</option>
+                                    @if(strcasecmp($shipInfo['RegStatus'], '删掉登记(DEL)') == 0)
+                                        <option value="删掉登记(DEL)" selected>删掉登记(DEL)</option>
+                                    @else<option value="删掉登记(DEL)">删掉登记(DEL)</option>
                                     @endif
                                 </select>
                             </td>
@@ -531,7 +531,7 @@
                                 @if(isset($shipInfo['id']))
                                     <i class="icon-edit"></i>修改
                                 @else
-                                    <i class="icon-save"></i>登录
+                                    <i class="icon-save"></i>登记
                                 @endif
 
                             </button>

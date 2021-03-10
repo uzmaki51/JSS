@@ -9,7 +9,7 @@ $ships = Session::get('shipList');
             <div class="page-header">
                 <div class="col-md-6">
                     <h4>
-                        <b>배동태</b>
+                        <b>船舶动态</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
                             항차일수항목
@@ -34,7 +34,7 @@ $ships = Session::get('shipList');
                             </div>
                             <div class="space-2"></div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">항차일수항목(영문):</label>
+                                <label class="col-md-3 control-label no-padding-right">항차일수항목(英文):</label>
                                 <div class="col-md-8"><input type="text" name="VoyItem" class="form-control"></div>
                             </div>
                             <div class="space-2"></div>
@@ -61,8 +61,8 @@ $ships = Session::get('shipList');
                         <tr class="black br-hblue">
                             <th class="center">No</th>
                             <th class="center">항차일수항목</th>
-                            <th class="center">항차일수항목(영문)</th>
-                            <th class="center">종류</th>
+                            <th class="center">항차일수항목(英文)</th>
+                            <th class="center">种类</th>
                             @if(!$isHolder)
                                 <th class="center" style="width:70px"></th>
                             @endif
@@ -150,7 +150,7 @@ $ships = Session::get('shipList');
                                 tableBody.deleteRow(row);
                             } else {
                                 $.gritter.add({
-                                    title: '오유',
+                                    title: '错误',
                                     text: '['+ itemName + ']' + ' 항목은 이미 삭제되였습니다.',
                                     class_name: 'gritter-error '
                                 });
@@ -175,7 +175,7 @@ $ships = Session::get('shipList');
 
             @if(isset($error))
             $.gritter.add({
-                title: '오유',
+                title: '错误',
                 text: '{{$error}}',
                 class_name: 'gritter-error'
             });
@@ -189,7 +189,7 @@ $ships = Session::get('shipList');
                 title_html: true,
                 buttons: [
                     {
-                        text: "취소",
+                        text: "取消",
                         "class": "btn btn-xs",
                         click: function () {
                             $(this).dialog("close");

@@ -20,7 +20,7 @@ $shipList = explode(',', Auth::user()->shipList);
                     <div class="col-md-6">
                         <h4><b>船舶诸元</b>
                             <small>
-                                <i class="icon-double-angle-right"></i>船目录
+                                <i class="icon-double-angle-right"></i>船舶目录
                             </small>
                         </h4>
                     </div>

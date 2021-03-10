@@ -18,23 +18,23 @@ else $header = 'sidebar';
                                 <option value="{{ $year->Yearly }}"  <?php echo $year->Yearly == $currentYear ? 'selected' : ''; ?>>{{ $year->Yearly }}</option>
                             @endforeach
                         </select>
-                        <b>년</b>&nbsp;&nbsp;
+                        <b>年</b>&nbsp;&nbsp;
                         <select name="selectShip" class="selectShipCtrl">
                             <?php $shipName = ''; ?>
                             @foreach($shipList as $list)
                                 <option value="{{ $list->RegNo }}"  <?php if($list->RegNo == $ship) { echo 'selected'; $shipName = $list->shipName_Cn;} ?>>{{$list->shipName_En}} | {{$list->shipName_Cn}}</option>
                             @endforeach
                         </select>&nbsp;&nbsp;
-                        <b>월별 계획 및 실적종합</b>
+                        <b>综合月业绩</b>
                     </h5>
                 </div>
                 <div class="col-sm-6">
                     <div style="float:right">
                         <button class="btn btn-success btn-sm" id="btn-pie-chart" data-year="{{ $currentYear }}" data-ship="{{ $shipName }}" style="width: 80px">
-                            <i class="icon-trello" ></i>통계
+                            <i class="icon-trello" ></i>统计
                         </button>
                         <button class="btn btn-success btn-sm" id="btn-bar-chart" data-year="{{ $currentYear }}" data-ship="{{ $shipName }}" style="width: 80px">
-                            <i class="icon-signal"></i>통계
+                            <i class="icon-signal"></i>统计
                         </button>
                         <button class="btn btn-warning btn-sm btn_excel" style="width: 80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                     </div>
@@ -93,7 +93,7 @@ else $header = 'sidebar';
                                         <?php  $profit = $list->YearlyMonthIncome - $list->YearlyMonthExpense;
                                         $other = $list->YearlyMonthExpense - $list->YearlyMonthPD - $list->YearlyMonthFO- $list->YearlyMonthDO - $list->YearlyMonthLO -
                                                 $list->YearlyMonthSS - $list->YearlyMonthCTM; ?>
-                                        <td>{{ $list->CP_Month }}</td><?php array_push($monthList,$list->CP_Month.'월'); ?>
+                                        <td>{{ $list->CP_Month }}</td><?php array_push($monthList,$list->CP_Month.'月'); ?>
                                         <td style="text-align: right">{{ data_print($list->PlanProfit) }}</td><?php $sumPlanProfit+=$list->PlanProfit;  array_push($planProfit, $list->PlanProfit); ?>
                                         <td style="text-align: right;@if($profit < 0) color:red; @endif">{{ data_print($profit) }}</td><?php $sumYearlyMonthProfit += $profit; array_push($pracProfit, 2); ?>
                                         <td style="text-align: right">{{ $list->PlanProfit == '' | $list->PlanProfit == 0 ? '' : round(($profit/$list->PlanProfit)*100) }}</td>
@@ -111,7 +111,7 @@ else $header = 'sidebar';
                                         <td style="text-align: right">{{ data_print($list->YearlyMonthCTM) }}</td><?php $sumYearlyMonthCTM += $list->YearlyMonthCTM; ?>
                                         <td style="text-align: right">{{ data_print($other) }}</td><?php $sumYearlyMonthOTHERS += $other; ?>
                                 @else
-                                        <td>{{ $month }}</td><?php array_push($monthList,$month.'월'); ?>
+                                        <td>{{ $month }}</td><?php array_push($monthList,$month.'月'); ?>
                                         <td style="text-align: right"></td><?php array_push($planProfit, $list->PlanProfit); ?>
                                         <td style="text-align: right"></td><?php array_push($pracProfit, 2); ?>
                                         <td style="text-align: right"></td>
@@ -206,12 +206,12 @@ else $header = 'sidebar';
     array('name'=>'Other','y'=>$sumYearlyMonthOTHERS,'sliced'=>'true','selected'=>'true'),
     );
         $lineChartData = array(
-          array('name'=>'리익-계획','data'=>$planProfit),
-          array('name'=>'리익-실적','data'=>$pracProfit),
-          array('name'=>'수입-계획','data'=>$planIncome),
-          array('name'=>'수입-실적','data'=>$pracIncome),
-          array('name'=>'지출-계획','data'=>$planExpense),
-          array('name'=>'지출-실적','data'=>$pracExpense)
+          array('name'=>'利益-计划','data'=>$planProfit),
+          array('name'=>'利益-业绩','data'=>$pracProfit),
+          array('name'=>'收入-计划','data'=>$planIncome),
+          array('name'=>'收入-业绩','data'=>$pracIncome),
+          array('name'=>'支出-计划','data'=>$planExpense),
+          array('name'=>'支出-业绩','data'=>$pracExpense)
         );
 ?>
     <script>
@@ -251,12 +251,12 @@ else $header = 'sidebar';
 
                 var dialog = $("#dialog-report-pie-chart").removeClass('hide').dialog({
                     modal: true,
-                    title: year + "년 [" + ship + "] 호 리윤, 실적 및 지출분석 그라프",
+                    title: year + "年 [" + ship + "] 号 利润和业绩及支出的分析图表",
                     title_html: true,
                     width:500,
                     buttons: [
                         {
-                            text: "닫기",
+                            text: "关闭",
                             "class": "btn btn-xs",
                             click: function () {
                                 $(this).dialog("close");
@@ -309,12 +309,12 @@ else $header = 'sidebar';
 
                 var dialog = $("#dialog-report-bar-chart").removeClass('hide').dialog({
                     modal: true,
-                    title: year + "년 [" + ship + "]호 월별 계획 및 실적종합 그라프",
+                    title: year + "年 [" + ship + "]号 按月业绩的综合图表",
                     title_html: true,
                     width:1024,
                     buttons: [
                         {
-                            text: "닫기",
+                            text: "关闭",
                             "class": "btn btn-xs",
                             click: function () {
                                 $(this).dialog("close");
@@ -336,7 +336,7 @@ else $header = 'sidebar';
                     },
                     yAxis: {
                         title: {
-                            text: '금액($)'
+                            text: '金额($)'
                         },
                         plotLines: [{
                             value: 0,

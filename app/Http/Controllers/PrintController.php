@@ -379,7 +379,7 @@ class PrintController extends Controller {
                 }
                 if($isRegister == 0) {
                     $userAttend['day'] = $day + 1;
-                    $userAttend['name'] = '미확정';
+                    $userAttend['name'] = '未确定';
                     $userAttend['memo'] = '';
                     $userAttend['rest'] = 0;
                     $list[$month.'']['data'][] = $userAttend;
@@ -485,7 +485,7 @@ class PrintController extends Controller {
                 }
                 if($isRegister == 0) {
                     $userAttend['day'] = $day + 1;
-                    $userAttend['name'] = '미확정';
+                    $userAttend['name'] = '未确定';
                     $userAttend['memo'] = '';
                     $userAttend['rest'] = 0;
                     $list[$month.'']['data'][] = $userAttend;
@@ -580,7 +580,7 @@ class PrintController extends Controller {
             }
             if($isRegister == 0) {
                 $userAttend['day'] = $day + 1;
-                $userAttend['name'] = '미확정';
+                $userAttend['name'] = '未确定';
                 $userAttend['memo'] = '';
                 $userAttend['rest'] = 0;
                 $list[] = $userAttend;
@@ -677,7 +677,7 @@ class PrintController extends Controller {
             }
             if($isRegister == 0) {
                 $userAttend['day'] = $day + 1;
-                $userAttend['name'] = '미확정';
+                $userAttend['name'] = '未确定';
                 $userAttend['memo'] = '';
                 $userAttend['rest'] = 0;
                 $list[] = $userAttend;

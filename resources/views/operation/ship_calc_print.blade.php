@@ -57,8 +57,8 @@
                                         <span>
                                             {{transShipOperation("shipCalc.CpType")}}:&nbsp;
                                             <select>
-                                                <option value="1" @if($data->CP_kind == 1) selected="selected" @endif>항차용선계약</option>
-                                                <option value="2" @if($data->CP_kind == 2) selected="selected" @endif>기간용선계약</option>
+                                                <option value="1" @if($data->CP_kind == 1) selected="selected" @endif>航次租船계약</option>
+                                                <option value="2" @if($data->CP_kind == 2) selected="selected" @endif>期租船계약</option>
                                             </select>
                                         </span>
                                         <span>

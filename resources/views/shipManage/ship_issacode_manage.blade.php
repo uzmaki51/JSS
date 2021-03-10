@@ -10,7 +10,7 @@ $shipList = Session::get('shipList');
                 <div class="col-md-6">
                     <h4><b>{{ transShipManager('title.equipment') }}</b>
                         <small>
-                            <i class="icon-double-angle-right"></i>国际船用品规格격
+                            <i class="icon-double-angle-right"></i>国际船舶用品规格격
                         </small>
 
                     </h4>

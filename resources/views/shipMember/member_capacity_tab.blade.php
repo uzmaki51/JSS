@@ -325,7 +325,7 @@
                         <tr>
                             <td colspan="10" class="center">
                                 <span style="float: left;padding-top:7px"><b>{{transShipMember("CapacityData.Capacity Career")}}</b></span>
-                                <a class="btn btn-sm btn-primary" style="float: right;width :80px;" href="javascript:newCapacityRow()"><i class="icon-plus-sign-alt"></i>추가</a>
+                                <a class="btn btn-sm btn-primary" style="float: right;width :80px;" href="javascript:newCapacityRow()"><i class="icon-plus-sign-alt"></i>追加</a>
                             </td>
                         </tr>
                         <tr>
@@ -394,7 +394,7 @@
                         <tr>
                             <td colspan="10" class="center">
                                 <span style="float: left;padding-top:7px"><b>{{transShipMember("CapacityData.School Career")}}  </b></span>
-                                <a class="btn btn-sm btn-primary" style="float: right; width :80px;" href="javascript:newSchoolRow()"><i class="icon-plus-sign-alt"></i>추가</a>
+                                <a class="btn btn-sm btn-primary" style="float: right; width :80px;" href="javascript:newSchoolRow()"><i class="icon-plus-sign-alt"></i>追加</a>
                             </td>
                         </tr>
                         <tr>

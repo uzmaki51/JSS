@@ -28,7 +28,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <label class="control-label no-padding-right" style="float: left;padding-top: 6px">{{ t('contract.ShipName', array(), 'operation') }}</label>
                                 <div class="col-sm-9">
                                     <select class="form-control chosen-select" name="shipId">
-                                        <option value="" @if(empty($shipId)) selected @endif>전체</option>
+                                        <option value="" @if(empty($shipId)) selected @endif>全部</option>
                                         @foreach($shipList as $ship)
                                             <option value="{{$ship['RegNo']}}"
                                                     @if(isset($shipId) && ($shipId == $ship['RegNo'])) selected @endif>{{$ship['shipName_Cn'] .' | ' .$ship['shipName_En']}}
@@ -55,14 +55,14 @@ $isHolder = Session::get('IS_HOLDER');
                                 <label class="control-label no-padding-right" style="float: left;padding-top: 6px">{{ t('contract.Cargo', array(), 'operation') }}</label>
                                 <div class="col-sm-9">
                                     <select class="form-control chosen-select" name="cargo">
-                                        <option value="" @if(empty($cargoId)) selected @endif>전체</option>
+                                        <option value="" @if(empty($cargoId)) selected @endif>全部</option>
                                         @foreach($cargoList as $cargo)
                                             <option value="{{$cargo['id']}}" @if($cargoId == $cargo['id']) selected @endif>{{$cargo['CARGO_En']}} | {{$cargo['CARGO_Cn']}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-sm" style="float: left; width :80px"><i class="icon-search"></i>검색</button>
+                            <button type="submit" class="btn btn-primary btn-sm" style="float: left; width :80px"><i class="icon-search"></i>搜索</button>
                             <a class="btn btn-success btn-sm no-radius btn-init" style="float: left;margin-left:8px; width :80px"><i class="icon-cogs"></i>초기화</a>
                             <button class="btn btn-warning btn-sm excel-btn" style="float: left; margin-left: 8px; width :80px">
                                 <i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b>
@@ -139,7 +139,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 @if(!isset($excel))
                                     <tr>
                                         <td data-id="">{{$index}}</td>
-                                        <td colspan="18">새로 추가</td>
+                                        <td colspan="18">新追加</td>
                                     </tr>
                                 @endif
                                 </tbody>
@@ -171,8 +171,8 @@ $isHolder = Session::get('IS_HOLDER');
                                         <tr>
                                             <td>
                                                 <select class="form-control" name="CP_Kind" onchange="Voy_change(this.value)">
-                                                    <option value="1">Voy | 항차용선</option>
-                                                    <option value="2">TC | 기간용선</option>
+                                                    <option value="1">Voy | 航次租船</option>
+                                                    <option value="2">TC | 期租船</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -199,7 +199,7 @@ $isHolder = Session::get('IS_HOLDER');
                                             </td>
                                             <td>
                                                 <div>
-                                                    <select multiple="multiple" class="width-80 chosen-select" id="cargo_sel" name="Cargo[]" data-placeholder="화물명을 선택하시오">
+                                                    <select multiple="multiple" class="width-80 chosen-select" id="cargo_sel" name="Cargo[]" data-placeholder="请选择货物名。">
                                                         @foreach($cargoList as $cargo)
                                                             <option value="{{ $cargo->id }}">{{ $cargo->CARGO_En }} | {{ $cargo->CARGO_Cn }}</option>
                                                         @endforeach
@@ -230,7 +230,7 @@ $isHolder = Session::get('IS_HOLDER');
                                         <tr>
                                             <td>
                                                 <div>
-                                                    <select multiple="multiple" class="width-80 chosen-select" id="port1" name="LPort[]" data-placeholder="항구를 선택하시오">
+                                                    <select multiple="multiple" class="width-80 chosen-select" id="port1" name="LPort[]" data-placeholder="请选择港口。">
                                                         @foreach($portList as $port)
                                                             <option style="text-align: left;" value="{{ $port->id }}">{{ $port->Port_Cn."|".$port->Port_En }}</option>
                                                         @endforeach
@@ -239,7 +239,7 @@ $isHolder = Session::get('IS_HOLDER');
                                             </td>
                                             <td>
                                                 <div>
-                                                    <select multiple="multiple" class="width-80 chosen-select" id="port2" name="DPort[]" data-placeholder="항구를 선택하시오">
+                                                    <select multiple="multiple" class="width-80 chosen-select" id="port2" name="DPort[]" data-placeholder="请选择港口。">
                                                         @foreach($portList as $port)
                                                             <option value="{{ $port->id }}">{{ $port->Port_Cn."|".$port->Port_En }}</option>
                                                         @endforeach
@@ -273,7 +273,7 @@ $isHolder = Session::get('IS_HOLDER');
                                             <th>{{ t('contract.Consignee', array(), 'operation') }}</th>
                                             <th>{{ t('contract.Remark', array(), 'operation') }}</th>
                                             @if(!$isHolder)
-                                                <th><button type="submit" class="btn btn-sm btn-primary no-radius" id="btn-modify-contract" style="width: 80px"><i class="icon-save"></i>등록</button></th>
+                                                <th><button type="submit" class="btn btn-sm btn-primary no-radius" id="btn-modify-contract" style="width: 80px"><i class="icon-save"></i>登记</button></th>
                                             @endif
                                         </tr>
                                         </thead>
@@ -317,14 +317,14 @@ $isHolder = Session::get('IS_HOLDER');
 
                     if(state == 'error') {
                         $.gritter.add({
-                            title: '오유',
-                            text: '배이름과 항차번호가 중복되였습니다.',
+                            title: '错误',
+                            text: '穿名称和航次号码重复了。',
                             class_name: 'gritter-error'
                         });
                     } else if(state == 'success') {
                         $.gritter.add({
-                            title: '알림',
-                            text: '성과적으로 보관되였습니다.',
+                            title: '通知',
+                            text: '保存成功!',
                             class_name: 'gritter-success'
                         });
                     }
@@ -438,13 +438,13 @@ $isHolder = Session::get('IS_HOLDER');
                             DPort: "required",
                         },
                         messages: {
-                            Ship_ID : '배이름을 선택하시오.',
-                            Voy_No: '항차번호를 입력하시오.',
-                            CP_Date: '계약날자를 선택하시오.',
-                            Cargo: '화물명을 선택하시오.',
-                            Cgo_Qtty: '수량을 입력하시오.',
-                            LPort: "상선항을 선택하시오.",
-                            DPort: "하선항을 선택하시오.",
+                            Ship_ID : '请选择船名称。',
+                            Voy_No: '请输入航次号码。',
+                            CP_Date: '请输入合约日期。',
+                            Cargo: '请选择货物名。.',
+                            Cgo_Qtty: '请输入数量。',
+                            LPort: "请选择上船港口。",
+                            DPort: "请选者下船港口。",
                         }
                     });
 
@@ -456,7 +456,7 @@ $isHolder = Session::get('IS_HOLDER');
                         var shipName = obj.eq(2).text();
                         var voyNo = obj.eq(3).text();
 
-                        bootbox.confirm("[" + shipName + "]호의 " + voyNo + "항차에 대한 용선계약을 삭제하겠습니까?", function(result) {
+                        bootbox.confirm("[" + shipName + "]号的 " + voyNo + "航次租船合同真要删掉吗?", function(result) {
                             if(result) {
                                 // save in db
                                 $.post("removeContract", {'_token': token, 'voyId': voyId}, function (data) {

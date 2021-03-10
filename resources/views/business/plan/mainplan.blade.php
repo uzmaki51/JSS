@@ -187,17 +187,17 @@
                                 }
                                 if (newStart.length < 1) {
                                     err_flag = 1;
-                                    document.getElementById("plan_message_out").innerHTML = "请输入计划的开始日子。";
+                                    document.getElementById("plan_message_out").innerHTML = "请输入计划的开始日期。";
                                 }
                                 if (newEnd.length < 1) {
                                     err_flag = 1;
-                                    document.getElementById("plan_message_out").innerHTML = "请输入计划的完成日子。";
+                                    document.getElementById("plan_message_out").innerHTML = "请输入计划的完成日期。";
                                 }
                                 var startdate = new Date(newStart);
                                 var enddate = new Date(newEnd);
                                 if (startdate > enddate) {
                                     err_flag = 1;
-                                    document.getElementById("plan_message_out").innerHTML = "错误输入计划完成日子。";
+                                    document.getElementById("plan_message_out").innerHTML = "错误输入计划完成日期。";
                                 }
                                 if (err_flag == 1) {
                                     return;
@@ -277,11 +277,11 @@
                             }
                             if (newStart.length < 1) {
                                 err_flag = 1;
-                                document.getElementById("plan_message_out").innerHTML = "请输入计划的开始日子。";
+                                document.getElementById("plan_message_out").innerHTML = "请输入计划的开始日期。";
                             }
                             if (newEnd.length < 1) {
                                 err_flag = 1;
-                                document.getElementById("plan_message_out").innerHTML = "请输入计划的完成日子。";
+                                document.getElementById("plan_message_out").innerHTML = "请输入计划的完成日期。";
                             }
                             if (plan_name == newName && plan_desc == newDesc &&
                                     plan_start == newStart && plan_end == newEnd) {

@@ -189,7 +189,7 @@
                             if ( enddate < curdate )
                             {
                                 err_flag = 1;
-                                document.getElementById("plan_message_out").innerHTML = "任务完成日子已经过了。" ;
+                                document.getElementById("plan_message_out").innerHTML = "任务完成日期已经过了。" ;
                             }
                             if ( err_flag ==1 ){ return; }
 
@@ -206,7 +206,7 @@
                                     return;
                                 } else if (returnCode == -2) {
                                     var plan = data['plan'];
-                                    document.getElementById("plan_message_out").innerHTML = "错误设置日子时间设置。<br/> 这计划要从" +
+                                    document.getElementById("plan_message_out").innerHTML = "错误设置日期时间设置。<br/> 这计划要从" +
                                         plan['startDate'] + "到" + plan['endDate'] + "完成。" ;
                                     return;
                                 } else if (returnCode == -4) {

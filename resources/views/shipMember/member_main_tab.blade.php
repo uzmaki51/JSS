@@ -30,8 +30,8 @@
                             <td style="width: 15%">
 								<div style="float:left; width:40%">
 									<select name="sign_on_off" class="chosen-select" style="float: left; width:80px; height:34px">
-										<option value="승선" @if($info['sign_on_off'] == '승선') selected @endif>승선</option>
-										<option value="하선" @if($info['sign_on_off'] == '하선') selected @endif>하선</option>
+										<option value="上船" @if($info['sign_on_off'] == '上船') selected @endif>上船</option>
+										<option value="下船" @if($info['sign_on_off'] == '下船') selected @endif>下船</option>
 									</select>
 								</div>
                             </td>
@@ -134,7 +134,7 @@
                         <tr>
                             <td colspan="10" style="padding-top: 5px;padding-bottom: 2px">
                                 <h5 style="float: left">{{transShipMember("RegisterData.BoardingCareer")}}</h5>
-                                <a class="btn btn-sm btn-primary" style="float: right; width :80px" href="javascript:newrow()"><i class="icon-plus-sign-alt"></i>추가</a>
+                                <a class="btn btn-sm btn-primary" style="float: right; width :80px" href="javascript:newrow()"><i class="icon-plus-sign-alt"></i>追加</a>
                             </td>
                         </tr>
                         <tr>

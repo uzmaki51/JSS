@@ -13,7 +13,7 @@
                         <b>{{ transShipManager('title.equipment') }}</b>
                         <label>
                             <i class="icon-double-angle-right"></i>
-                            各船设备目录
+                            各船舶设备目录
                         </label>
                         <small>
                             <i class="icon-double-angle-right"></i>
@@ -138,7 +138,7 @@
                                         <div style="display: flex;">
                                             <button type="submit" class="btn btn-xs btn-inverse" style="width: 80px; margin-left: auto;">
                                                 <i class="icon-save"></i>
-                                                登录
+                                                登记
                                             </button>
                                         </div>
                                     </form>

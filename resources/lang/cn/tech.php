@@ -17,10 +17,10 @@ return [
     |
     */
     "supplyRecord"  => [
-        'Application' => '船申请',
+        'Application' => '船舶申请',
         'Quotation' => '建议价格',
         'Instruction' => '供给指示',
-        'Recipt' => '船接受',
+        'Recipt' => '船舶接受',
         'Ship' => '船名',
         'No' => '号码',
         'Dept' => '部门',

@@ -16,7 +16,7 @@ else $header = 'sidebar';
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-6">
-                    <h5><b>연유공급</b></h5>
+                    <h5><b>供给原油</b></h5>
                 </div>
                 <div class="col-md-6">
                     <a href="oilSupplyExcel" class="btn btn-warning btn-sm" style="float: right; width :80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></a>
@@ -81,11 +81,11 @@ else $header = 'sidebar';
                                 <option value="{{ $list->Yearly }}" {{ $year == $list->Yearly ? 'selected' : '' }}>{{ $list->Yearly }}</option>
                             @endforeach
                         </select>
-                        <b>년</b>&nbsp;&nbsp;
-                        <b>배별 공급정형</b></h5>
+                        <b>年</b>&nbsp;&nbsp;
+                        <b>按船供给情况</b></h5>
 @else
     <br>
-    <div>{{$year}}년 배별공급정형</div>
+    <div>{{$year}}年 按船供给情况</div>
     <br>
 @endif
                     <table id="shiply" class="arc-std-table table table-striped table-bordered table-hover">
@@ -144,7 +144,7 @@ else $header = 'sidebar';
                             <option value="{{ $list->Yearly }}" {{ $year == $list->Yearly ? 'selected' : '' }}>{{ $list->Yearly }}</option>
                         @endforeach
                     </select>
-                    <b>년</b>&nbsp;&nbsp;
+                    <b>年</b>&nbsp;&nbsp;
                     <select class="selectShipCtrl">
                         @foreach($shipList as $ship)
                             @if(!$isHolder)
@@ -153,7 +153,7 @@ else $header = 'sidebar';
                                 <option value="{{ $ship->RegNo }}"  {{ $shipID == $ship->RegNo ? 'selected' : '' }}>{{ $ship->shipName_Cn." | ".$ship->shipName_En}} </option>
                             @endif
                         @endforeach
-                    </select>호 공급정형
+                    </select>号的供给情况
                 </h5>
 @else
     <?php
@@ -167,7 +167,7 @@ else $header = 'sidebar';
         }
     ?>
     <br>
-    <div>{{ $year }}년 {{ $shipName }}호 공급정형</div>
+    <div>{{ $year }}年 {{ $shipName }}号的供给情况</div>
     <br>
 @endif
                 <script src="{{ asset('/assets/js/overlib.js') }}"></script>
@@ -366,22 +366,22 @@ else $header = 'sidebar';
                 $refno = $(this).data("refno");
                 $returnHtml = "<table style='font-size: 9pt;'>" +
                                 "<tr style='background: #117fa4;color: white;'>" +
-                                    "<td colspan='6' nowrap='nowrap' style='text-align: left;'>상세자료</td>"+
+                                    "<td colspan='6' nowrap='nowrap' style='text-align: left;'>仔细资料</td>"+
                                 "<tr>" +
                                 "<tr style='background: #d4e7ff;'>" +
-                                    "<td style='text-align: right;white-space: nowrap'>항차번호:<td>" +
+                                    "<td style='text-align: right;white-space: nowrap'>航次号码:<td>" +
                                     "<td style='text-align: left;white-space: nowrap'>"+$voy+"<td>" +
                                 "</tr>" +
                                 "<tr style='background: #d4e7ff;'>" +
-                                    "<td style='text-align: right;white-space: nowrap'>배이름:<td>" +
+                                    "<td style='text-align: right;white-space: nowrap'>穿名称:<td>" +
                                     "<td style='text-align: left;white-space: nowrap'>"+$shipName+"<td>" +
                                 "</tr>" +
                                 "<tr style='background: #d4e7ff;'>" +
-                                    "<td style='text-align: right;white-space: nowrap'>지출내용:<td>" +
+                                    "<td style='text-align: right;white-space: nowrap'>支出内容:<td>" +
                                     "<td style='text-align: left;white-space: nowrap'>"+$discription+"<td>" +
                                 "</tr>" +
                                 "<tr style='background: #d4e7ff;'>" +
-                                    "<td style='text-align: right;white-space: nowrap'>참고번호:<td>" +
+                                    "<td style='text-align: right;white-space: nowrap'>参考号码:<td>" +
                                     "<td style='text-align: left;white-space: nowrap'>"+$refno+"<td>" +
                                 "</tr>" +
                                 "</table>";

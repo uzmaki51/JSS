@@ -54,11 +54,11 @@ $ships = Session::get('shipList');
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-primary btn-sm search_stand" style="width: 80px"><i class="icon-search"></i>검색</button>
+                            <button class="btn btn-primary btn-sm search_stand" style="width: 80px"><i class="icon-search"></i>搜索</button>
                             <button class="btn btn-warning btn-sm excel_stand" style="width: 80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                             <button class="btn btn-primary btn-sm print_stand" style="width: 80px"><i class="icon-print"></i>인쇄</button>
                             @if(!$isHolder)
-                                <button class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-save"></i>등록</button>
+                                <button class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-save"></i>登记</button>
                             @endif
                         </div>
                     </div>
@@ -464,8 +464,8 @@ $ships = Session::get('shipList');
                         var returnCode = parseInt(data);
                         if(returnCode == 1) {
                             $.gritter.add({
-                                title: '성공',
-                                text: '성과적으로 보관되였습니다.',
+                                title: '成功',
+                                text: '保存成功!',
                                 class_name: 'gritter-success'
                             });
                         }

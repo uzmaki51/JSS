@@ -344,7 +344,7 @@ $isHolder = Session::get('IS_HOLDER');
                             </tbody>
                         </table>
                         @if(!$isHolder)
-                            <button type="submit" class="btn btn-sm btn-primary" id="submit-btn" style="float:right; width :80px;"><i class="icon-save"></i>등록</button>
+                            <button type="submit" class="btn btn-sm btn-primary" id="submit-btn" style="float:right; width :80px;"><i class="icon-save"></i>登记</button>
                             <a class="btn btn-sm btn-success" id="re-calc" style="float:right;margin-right: 15px"><i class="icon-keyboard"></i>실리윤계산</a>
                         @endif
                     </form>
@@ -512,7 +512,7 @@ $isHolder = Session::get('IS_HOLDER');
                         break;
                 }
 
-                bootbox.confirm("["+ shipName + "]호의 " + year + "년 운영계획을 삭제하겠습니까?", function(result) {
+                bootbox.confirm("["+ shipName + "]号的 " + year + "년 운영계획을 삭제하겠습니까?", function(result) {
                     if(result) {
                         // save in db
                         $.post("removeYearPlan", {'_token': token, 'year': year, 'shipID': shipID

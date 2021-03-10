@@ -8,7 +8,7 @@
     <div class="page-content">
         <div class="page-header">
             <div class="col-md-3">
-                <h4><b>배동태</b></h4>
+                <h4><b>船舶动态</b></h4>
             </div>
         </div>
         <div class="col-md-12">

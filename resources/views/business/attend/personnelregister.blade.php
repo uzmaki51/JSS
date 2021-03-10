@@ -75,9 +75,9 @@
                                             @elseif ($status == 1)
                                                 <span>上班时间已经过了。</span>
                                             @elseif ($status == 3)
-                                                <span>登录不了了。</span>
+                                                <span>登记不了了。</span>
                                             @elseif($status == 4)
-                                                <span>已经上班登录了。</span>
+                                                <span>已经上班登记了。</span>
                                             @endif
                                         </div>
                                     </div>
@@ -175,7 +175,7 @@
                 if (code == 1) {
                     //보관이 성공한 경우의 처리
                     $('#attend_submit').addClass('disabled');
-                    $('#savedmsg').html("<span>上班登录成功了。</span>");
+                    $('#savedmsg').html("<span>上班登记成功了。</span>");
                 }
                 else if (code == -1) {
                     //공작일이 아닌경우의 처리
@@ -190,7 +190,7 @@
                 else if (code == 0) {
                     //이미 보관된 경우의 처리
                     $('#attend_submit').addClass('disabled')
-                    $('#savedmsg').html("<span>已经上班登录了。</span>");
+                    $('#savedmsg').html("<span>已经上班登记了。</span>");
                 }
             });
         }

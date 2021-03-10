@@ -10,7 +10,7 @@ $shipList = Session::get('shipList');
                 <div class="col-md-6">
                     <h4><b>{{ transShipManager('title.input_basic_data') }}</b>
                         <small>
-                            <i class="icon-double-angle-right"></i>船结构组织管理
+                            <i class="icon-double-angle-right"></i>船舶结构行政管理
                         </small>
                     </h4>
                 </div>
@@ -105,9 +105,9 @@ $shipList = Session::get('shipList');
 
         function editShipOrigin() {
             var shipId = $('[name=shipId]').val();
-            var title = '追加结构组织';
+            var title = '追加结构行政';
             if(shipId != '')
-                title = '修改结构组织';
+                title = '修改结构行政';
             var dialog = $( "#dialog_update_ship" ).removeClass('hide').dialog({
                 modal: true,
                 title: title,

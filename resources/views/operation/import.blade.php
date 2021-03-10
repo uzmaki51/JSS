@@ -95,8 +95,7 @@ $ships = Session::get('shipList');
                             </div>
                         </div>
                         <div class="col-md-2" style="text-align: right; float:right;">
-                            <button type="submit" class="btn btn-primary btn-sm" style="width: 80px"><i class="icon-search"></i>검색</button>
-                            <a class="btn btn-success btn-sm no-radius btn-init" style="width: 80px"><i class="icon-cogs"></i>초기화</a>
+                            <button type="submit" class="btn btn-primary btn-sm" style="width: 80px"><i class="icon-search"></i>搜索</button>
                         </div>
                     </form>
                 </div>
@@ -191,8 +190,8 @@ $ships = Session::get('shipList');
                                             <div style="width: 130px;text-align: left;">
                                                 <select name="Object" class="form-control chosen-select">
                                                     <option value="">&nbsp;</option>
-                                                    <option value="Business">업무 | Business</option>
-                                                    <option value="Budget">예산 | Budget</option>
+                                                    <option value="Business">业务 | Business</option>
+                                                    <option value="Budget">预算 | Budget</option>
                                                 </select>
                                             </div>
                                         </td>
@@ -317,12 +316,12 @@ $ships = Session::get('shipList');
                                         <td>
                                             <textarea class="form-control" rows="1" name="Remark" style="height: 25px;"></textarea>
                                         </td>
-                                        <td class="center"><button class="btn btn-sm btn-primary no-radius" id="btn-add-movement" style="width: 80px"><icon class="icon icon-save"></icon>등록</button></td>
+                                        <td class="center"><button class="btn btn-sm btn-primary no-radius" id="btn-add-movement" style="width: 80px"><icon class="icon icon-save"></icon>登记</button></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <div class="add-oli-box" style="display:none;padding-top:10px">
-                                    연유공급
+                                    供给原油
                                     <table class="table table-bordered table-hover " style="margin-bottom: 8px;">
                                         <thead >
                                         <tr class="black br-hblue">
@@ -443,14 +442,14 @@ $ships = Session::get('shipList');
                 var voyNo = tds.eq(3).text();
                 var invoiceId = tds.eq(0).data('id');
 
-                bootbox.confirm("[" + shipName + "]호의 " + voyNo + "항차에 대한 수입 및 지출표를 삭제하겠습니까?", function (result) {
+                bootbox.confirm("[" + shipName + "]号的 " + voyNo + "航次收入及支出表真要删掉吗?", function (result) {
                     if (result) {
                         $.post('/operation/deleteShipInvoice', {'_token':token, 'invoice':invoiceId}, function(data) {
                             if(data == 'success') {
                                 tr.remove();
                                 $.gritter.add({
-                                    title: '성공',
-                                    text: '성과적으로 삭제되였습니다.',
+                                    title: '成功',
+                                    text: '删掉成功!',
                                     class_name: 'gritter-success'
                                 });
                             }
@@ -577,10 +576,10 @@ $ships = Session::get('shipList');
                     Appl_Date: "required",
                 },
                 messages: {
-                    ShipID : 'ShipName 을 선택하시오',
-                    Voy: "Voy를 선택하시오",
-                    Paid_Voy: "Paid_Voy를 선택하시오",
-                    Appl_Date: "Appl_Date를 입력하시오",
+                    ShipID : '请选择船名。',
+                    Voy: "请选择Voy。",
+                    Paid_Voy: "请选择Paid_Voy。",
+                    Appl_Date: "请选择Appl_Date。",
                 }
             });
 
@@ -605,7 +604,7 @@ $ships = Session::get('shipList');
             var tds = tr.children();
 
             var supplyDate = tds.eq(1).find('input').val();
-            bootbox.confirm(supplyDate + "의 연유공급정형을 삭제하겠습니까?", function (result) {
+            bootbox.confirm(supplyDate + "的原油供给情况真要删掉吗?", function (result) {
                 if (result) {
                     tr.remove();
                 }
@@ -623,8 +622,8 @@ $ships = Session::get('shipList');
 
             if((supplyDate.length < 1) || (place.length < 1) || (count.length < 1) || (price.length < 1)) {
                 $.gritter.add({
-                    title: '오유',
-                    text: '연유공급에 대한 정보를 정확히 입력하십시오.',
+                    title: '错误',
+                    text: '请输入关于供给原油的正确的信息。',
                     class_name: 'gritter-error'
                 });
                 return;

@@ -289,7 +289,7 @@ $shipList = Session::get('shipList');
                 </div>
                 <div class="modal-footer padding-8" style="text-align: right">
                     <button class="btn btn-primary btn-sm btn-warning" data-dismiss="modal">取消</button>
-                    <button class="btn btn-primary btn-sm btn-danger save_btn">登录</button>
+                    <button class="btn btn-primary btn-sm btn-danger save_btn">登记</button>
                 </div>
             </div>
         </div>
