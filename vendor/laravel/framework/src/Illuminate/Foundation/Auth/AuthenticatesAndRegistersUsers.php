@@ -75,7 +75,7 @@ trait AuthenticatesAndRegistersUsers {
 			return redirect($this->loginPath())
 			->withInput($request->only('account', 'remember'))
 			->withErrors([
-				'account' => '请您输入手用户名和密码。',
+				'account' => '请您输入用户名和密码。',
 			]);
 		}
 
