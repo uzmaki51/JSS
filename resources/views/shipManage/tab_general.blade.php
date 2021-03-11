@@ -25,7 +25,7 @@
         border: unset!important;
         font-size: 12px!important;
     }
-    span {
+    .input-group-addon {
         font-size: 12px!important;
         padding: 0!important;
         border: unset!important;
