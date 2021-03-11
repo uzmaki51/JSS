@@ -15,7 +15,7 @@ return [
 		'register' => '登记',
 		'save' => '保存',
 		'delete' => '删掉',
-		'add' => '追加',
+		'add' => '添加',
 		'change' => '修改',
 		'loginID' => '登记识别',
 		'name' => '姓名',

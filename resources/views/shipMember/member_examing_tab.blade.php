@@ -7,7 +7,7 @@
                     <tr>
                         <th colspan="6">
                             <h5 style="float: left">{{transShipMember("RealAblility.Career")}}</h5>
-                            <a class="btn btn-sm btn-primary" style="float: right;width :80px;" href="javascript:newExamingRow()"><i class="icon-plus-sign-alt"></i>追加</a>
+                            <a class="btn btn-sm btn-primary" style="float: right;width :80px;" href="javascript:newExamingRow()"><i class="icon-plus-sign-alt"></i>添加</a>
                         </th>
                     </tr>
                     <tr>

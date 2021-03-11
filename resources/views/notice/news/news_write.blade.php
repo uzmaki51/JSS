@@ -51,7 +51,7 @@
                 <div class="row">
                     <div class="widget-box">
                         <div class="widget-header" style="min-height: 30px">
-                            <h5>@if(empty($news)) 追加消息 @else 修改消息 @endif</h5>
+                            <h5>@if(empty($news)) 添加消息 @else 修改消息 @endif</h5>
                             <div class="widget-toolbar">
                                 <button class="btn btn-grey btn-xs radius-3" onclick="submitNewsContent()" style="width: 80px"><i class="icon-save"></i>登记</button>
                             </div>

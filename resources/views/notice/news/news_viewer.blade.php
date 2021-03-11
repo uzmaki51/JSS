@@ -45,7 +45,7 @@
                 <div class="space-4"></div>
                 <div class="row">
                     <div style="float: right;margin-bottom: 10px">
-                        <button class="btn btn-primary btn-sm" onclick="showCreateNewsPage({{$tema['id']}})" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
+                        <button class="btn btn-primary btn-sm" onclick="showCreateNewsPage({{$tema['id']}})" style="width: 80px"><i class="icon-plus-sign-alt"></i>添加</button>
                     </div>
                 </div>
                 <div class="row">

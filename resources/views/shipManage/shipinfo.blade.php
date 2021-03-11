@@ -18,7 +18,7 @@ $shipList = explode(',', Auth::user()->shipList);
             <div class="page-content">
                 <div class="page-header">
                     <div class="col-md-6">
-                        <h4><b>船舶诸元</b>
+                        <h4><b>船舶规范</b>
                             <small>
                                 <i class="icon-double-angle-right"></i>船舶目录
                             </small>
@@ -28,7 +28,7 @@ $shipList = explode(',', Auth::user()->shipList);
                         @if(!$isShareHolder)
                         <a href="{{ url('shipManage/registerShipData') }}" data-toggle="modal" class="btn btn-sm btn-primary no-radius"
                            style="width: 80px"
-                        ><i class="icon-plus-sign-alt"></i>追加</a>
+                        ><i class="icon-plus-sign-alt"></i>添加</a>
                         @endif
                         <a href="shipinfoExcel" class="btn btn-warning btn-sm"
                         ><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></a>
@@ -244,7 +244,7 @@ $shipList = explode(',', Auth::user()->shipList);
                     var shipId = trObj.data('id');
                     var shipName = trObj.data('name');
 
-                    bootbox.confirm(shipName + "的船舶诸元真要删掉吗?", function (result) {
+                    bootbox.confirm(shipName + "的船舶规范真要删掉吗?", function (result) {
                         if (result) {
                             $.post('deleteShipData', {'_token':token, 'dataId':shipId}, function (result) {
                                 var code = parseInt(result);

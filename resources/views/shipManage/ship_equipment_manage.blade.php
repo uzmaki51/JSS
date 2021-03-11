@@ -358,7 +358,7 @@
                     Euipment_En: "required",
                 },
                 messages: {
-                    mainKind : "请选择设备种类。",
+                    mainKind : "请选择设备类型。",
                     IssaCodeNo : "请输入Issa Code。",
                     Euipment_Cn: "请输入设备名称。",
                     Euipment_En: "请输入英文名称。",
@@ -484,7 +484,7 @@
 
         function newEquipment() {
             if(registerType == true) {
-                $('[name=modify_title]').text('追加新设备');
+                $('[name=modify_title]').text('添加新设备');
                 $('#modify_btn').click();
             } else {
                 $('[name=diligence_title]').text('追歼事实资料');

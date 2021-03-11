@@ -207,7 +207,7 @@ class shipTechniqueController extends Controller
         return view('shipTechnique.RepairDetail',array('shipList'=>$shipList,'cps'=>$cps, 'recovery'=>$recovery, 'readonly'=>$readonly));
     }
 
-    // 报告 追加 및 수정
+    // 报告 添加 및 수정
     public function updateRepair(Request $request)
     {
         $id = $request->get('id');
@@ -350,7 +350,7 @@ class shipTechniqueController extends Controller
             ]);
     }
 
-    // 报告 追加 및 수정
+    // 报告 添加 및 수정
     public function updateAccident(Request $request)
     {
         $id = $request->get('id');
@@ -490,7 +490,7 @@ class shipTechniqueController extends Controller
                 ]);
     }
 
-    // 报告 追加 및 수정
+    // 报告 添加 및 수정
     public function updateSurvey(Request $request)
     {
         $id = $request->get('id');

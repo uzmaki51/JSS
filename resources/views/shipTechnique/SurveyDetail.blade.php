@@ -81,7 +81,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="td-title">种类<span class="require">*</span></td>
+                                    <td class="td-title">类型<span class="require">*</span></td>
                                     <td>
                                         @if($readonly)
                                             <label class="form-control">{{$recovery['SurveyKind_Cn']}}</label>
@@ -206,7 +206,7 @@
                 VoyId : "请选择航次号码。",
                 SurveyDate : "请输入船舶的检查日期。",
                 PortId : "请选择船舶检查的港口。",
-                SurveyKindId : "请选择船舶检查种类。",
+                SurveyKindId : "请选择船舶检查类型。",
                 Amount : '请输入船舶的检查费用。',
                 Content : "请输入船舶的检查内容。",
             }

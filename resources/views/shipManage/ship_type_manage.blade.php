@@ -15,13 +15,13 @@ $shipList = Session::get('shipList');
                 <div class="col-md-6">
                     <h4><b>{{ transShipManager('title.input_basic_data') }}</b>
                         <small>
-                            <i class="icon-double-angle-right"></i>船舶种类管理
+                            <i class="icon-double-angle-right"></i>船舶类型管理
                         </small>
                     </h4>
                 </div>
                 @if(!$isHolder)
                     <div class="col-md-6" style="text-align: right;margin-top: 50px">
-                        <button class="btn btn-sm btn-primary no-radius new_btn"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus"> 追加</i></button>
+                        <button class="btn btn-sm btn-primary no-radius new_btn"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus"> 添加</i></button>
                     </div>
                 @endif
             </div>
@@ -55,8 +55,8 @@ $shipList = Session::get('shipList');
                             <thead>
                             <tr class="black br-hblue">
                                 <th class="center" style="width:10%">No</th>
-                                <th class="center" style="width:25%">种类</th>
-                                <th class="center" style="width:55%">种类(英文)</th>
+                                <th class="center" style="width:25%">类型</th>
+                                <th class="center" style="width:55%">类型(英文)</th>
                                 @if(!$isHolder)
                                     <th class="center" style="width:10% "></th>
                                 @endif
@@ -103,9 +103,9 @@ $shipList = Session::get('shipList');
 
         function editShipType() {
             var typeId = $('[name=typeId]').val();
-            var title = '追加种类';
+            var title = '添加类型';
             if(typeId != '')
-                title = '修改种类';
+                title = '修改类型';
             var dialog = $( "#dialog_update_type" ).removeClass('hide').dialog({
                 modal: true,
                 title: title,
@@ -128,8 +128,8 @@ $shipList = Session::get('shipList');
                                     ShipType: "required",
                                 },
                                 messages: {
-                                    ShipType_Cn : "请输入种类。",
-                                    ShipType: "请输入种类(英文)。",
+                                    ShipType_Cn : "请输入类型。",
+                                    ShipType: "请输入类型(英文)。",
                                 }
                             });
                             $('#submit_btn').click();

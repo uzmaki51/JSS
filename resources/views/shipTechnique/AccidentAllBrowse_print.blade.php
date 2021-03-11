@@ -25,7 +25,7 @@
                             <th class="center">港口名称</th>
                             <th class="center">地点</th>
                             <th class="center">内容</th>
-                            <th class="center">种类</th>
+                            <th class="center">类型</th>
                         </tr>
                         </thead>
                         <tbody>

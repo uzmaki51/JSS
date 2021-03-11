@@ -405,7 +405,7 @@
             $("#modal-wizard").addClass('in');
             $("body").addClass('modal-open');
             $("#modalback").addClass('modal-backdrop ');
-            var htm = '<i class="' + 'icon-spinner icon-spin orange bigger-500"' + '></i>' + '正在追加休息日设置项目。';
+            var htm = '<i class="' + 'icon-spinner icon-spin orange bigger-500"' + '></i>' + '正在添加休息日设置项目。';
             $("#modal-body-content").html(htm);
             $("#modal-wizard").show();
             $.post('restAdd', {'_token' : token , 'rest_day' : rest_day , 'rest_state' : rest_state , 'rest_desc' : rest_desc } , function (data) {

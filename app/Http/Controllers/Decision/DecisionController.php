@@ -709,7 +709,7 @@ class DecisionController extends Controller
         return $userlist;
     }
 
-    //결재흐름을 追加 및 변경할 때 호출되는 페지.
+    //결재흐름을 添加 및 변경할 때 호출되는 페지.
     public function addFlow(Request $request)
     {
 
@@ -743,7 +743,7 @@ class DecisionController extends Controller
         return view('decision.flowadd', array('result' => $str));
     }
 
-    //결재흐름을 자료기지에 追加하는 동작을 수행한다.
+    //결재흐름을 자료기지에 添加하는 동작을 수행한다.
     public function insertFlow(Request $request)
     {
         $flowinfo = explode('_', $request->get('flowinfo'));

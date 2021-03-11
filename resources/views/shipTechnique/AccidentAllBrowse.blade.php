@@ -94,7 +94,7 @@
                             <th class="center">港口名称</th>
                             <th class="center">地点</th>
                             <th class="center">内容</th>
-                            <th class="center">种类</th>
+                            <th class="center">类型</th>
                             <th class="center">附件</th>
                             @if(!$isHolder)
                                 <th class="center" width="50px"></th>

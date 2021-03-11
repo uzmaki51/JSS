@@ -757,7 +757,7 @@ class BusinessController extends Controller
         return 0;
     }
 
-    //계획项目追加요청처리
+    //계획项目添加요청처리
     public function planAdd(Request $request)
     {
         $admin = Session::get('admin');
@@ -1342,7 +1342,7 @@ class BusinessController extends Controller
             }
         }
 
-        // 마지막기록에 대한 追加
+        // 마지막기록에 대한 添加
         if(count($memberList) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -1741,7 +1741,7 @@ class BusinessController extends Controller
             }
         }
 
-        // 마지막기록에 대한 追加
+        // 마지막기록에 대한 添加
         if(count($userAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -1803,7 +1803,7 @@ class BusinessController extends Controller
             }
         }
 
-        // 마지막기록에 대한 追加
+        // 마지막기록에 대한 添加
         if(count($crewAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -2213,7 +2213,7 @@ class BusinessController extends Controller
         return 1;
     }
 
-    //분과제 追加
+    //분과제 添加
     public function addSubTask(Request $request)
     {
         $planId = $request->get('planId');
@@ -3312,7 +3312,7 @@ class BusinessController extends Controller
             }
         }
 
-        // 마지막기록에 대한 追加
+        // 마지막기록에 대한 添加
         if(count($userAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -3374,7 +3374,7 @@ class BusinessController extends Controller
             }
         }
 
-        // 마지막기록에 대한 追加
+        // 마지막기록에 대한 添加
         if(count($crewAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);

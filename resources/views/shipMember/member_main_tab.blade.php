@@ -134,7 +134,7 @@
                         <tr>
                             <td colspan="10" style="padding-top: 5px;padding-bottom: 2px">
                                 <h5 style="float: left">{{transShipMember("RegisterData.BoardingCareer")}}</h5>
-                                <a class="btn btn-sm btn-primary" style="float: right; width :80px" href="javascript:newrow()"><i class="icon-plus-sign-alt"></i>追加</a>
+                                <a class="btn btn-sm btn-primary" style="float: right; width :80px" href="javascript:newrow()"><i class="icon-plus-sign-alt"></i>添加</a>
                             </td>
                         </tr>
                         <tr>

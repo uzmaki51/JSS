@@ -60,7 +60,7 @@ $ships = Session::get('shipList');
                 <div class="col-md-3 pull-right">
                     <button class="btn btn-primary btn-sm select_ctrl" style="float: left; margin-left: 5px; width :80px"><i class="icon-search"></i>搜索</button>
                     @if(!$isHolder)
-                        <button class="btn btn-primary btn-sm add-btn" style="float: left; margin-left: 5px; width :80px"><i class="icon-plus-sign-alt"></i>追加</button>
+                        <button class="btn btn-primary btn-sm add-btn" style="float: left; margin-left: 5px; width :80px"><i class="icon-plus-sign-alt"></i>添加</button>
                     @endif
                     <button class="btn btn-warning btn-sm excel-btn" style="float: left; margin-left: 5px; width :80px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                 </div>
@@ -230,7 +230,7 @@ $ships = Session::get('shipList');
                                     <td><input type="number" name="voyFW" style="width:100%"></td>
                                     <td colspan="2"><textarea name="voyRemark" row="1" style="width:100%;"></textarea></td>
                                     <td class="center">
-                                        <button type="submit" class="btn btn-sm btn-primary" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
+                                        <button type="submit" class="btn btn-sm btn-primary" style="width: 80px"><i class="icon-plus-sign-alt"></i>添加</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -312,7 +312,7 @@ $ships = Session::get('shipList');
                 $("[name=voyLOA]").val('');
                 $("[name=voyFW]").val('');
                 $("[name=voyRemark]").val('');
-                $('button[type="submit"]').text('追加');
+                $('button[type="submit"]').text('添加');
             });
 
             /**/

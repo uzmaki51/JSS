@@ -12,7 +12,7 @@
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
-                    <h4><b>船舶诸元</b>
+                    <h4><b>船舶规范</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
                             @if(isset($shipinfo))

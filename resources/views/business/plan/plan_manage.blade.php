@@ -135,7 +135,7 @@
 
             var dialog = $( "#dialog-add-modify-tema" ).removeClass('hide').dialog({
                 modal: true,
-                title: "追加 任务",
+                title: "添加 任务",
                 title_html: true,
                 buttons: [
                     {

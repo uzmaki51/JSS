@@ -143,7 +143,7 @@ return [
         'Freight Income' => '운임수입',
         'Demurrage' => '체선료',
         'Fee' => '수수료',
-        'Add Income' => '追加수입',
+        'Add Income' => '添加수입',
         'Predict Income' => '수입타산',
         'Expense Income' => '지출타산',
         'Profit Income' => '리윤타산',
@@ -213,7 +213,7 @@ return [
         'Cp [MT]' => '화물数量 [MT]',
         'B/L [MT]' => 'B/L数量 [MT]',
         '$' => '$',
-        'Add In' => '追加수입',
+        'Add In' => '添加수입',
         'Commi' => '용선료',
         'Income' => '수입계',
         'FO' => '중유',
@@ -252,7 +252,7 @@ return [
         'Idle'  =>  '대기일수',
         'Price'  =>  '价格',
         'PD'    =>  '항만비',
-        'Add Income'    =>  '追加수입',
+        'Add Income'    =>  '添加수입',
     ],
 
     "analysis"  => [

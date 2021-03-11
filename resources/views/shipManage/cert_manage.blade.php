@@ -200,7 +200,7 @@ $shipList = Session::get('shipList');
                         setValidateForm();
                         var title = '修改证书';
                         if (id == 0)
-                            title = '追加证书'
+                            title = '添加证书'
                         var dialog = $("#dialog-modify-cert").removeClass('hide').dialog({
                             modal: true,
                             title: title,

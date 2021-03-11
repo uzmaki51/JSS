@@ -20,7 +20,7 @@
                     @if(!$isHolder)
                         <button class="btn btn-sm btn-primary no-radius" style="width: 80px">
                             <i class="icon-plus-sign-alt"></i>
-                            追加
+                            添加
                         </button>
                     @endif
                     <div id="dialog-modify" class="hide">
@@ -108,7 +108,7 @@
                 $('[name=TypeId]').val('');
                 $('[name=Event]').val('');
                 $('[name=Description]').val('');
-                showModifyDialog('追加事件');
+                showModifyDialog('添加事件');
             });
 
             $('.edit-btn').on('click', function () {

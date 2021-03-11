@@ -16,7 +16,7 @@ $shipList = Session::get('shipList');
                 </div>
                 @if(!$isHolder)
                     <div class="col-md-6" style="text-align: right;margin-top: 50px">
-                        <button class="btn btn-sm btn-primary no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
+                        <button class="btn btn-sm btn-primary no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>添加</button>
                     </div>
                 @endif
             </div>
@@ -105,7 +105,7 @@ $shipList = Session::get('shipList');
 
         function editShipOrigin() {
             var shipId = $('[name=shipId]').val();
-            var title = '追加结构行政';
+            var title = '添加结构行政';
             if(shipId != '')
                 title = '修改结构行政';
             var dialog = $( "#dialog_update_ship" ).removeClass('hide').dialog({

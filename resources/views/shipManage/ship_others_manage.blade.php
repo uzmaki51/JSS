@@ -12,7 +12,7 @@
                     </h4>
                 </div>
                 <div class="col-md-6" style="text-align: right;margin-top: 10px">
-                    <button class="btn btn-primary btn-sm new_btn"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus">追加</i></button>
+                    <button class="btn btn-primary btn-sm new_btn"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus">添加</i></button>
                 </div>
             </div>
             <div class="col-md-12">
@@ -25,12 +25,12 @@
                                     <input type="text" class="hidden" name="OthersId">
                                     <button type="submit" class="hidden" id="submit_btn"></button>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label no-padding-right">种类名称:</label>
+                                        <label class="col-md-3 control-label no-padding-right">类型名称:</label>
                                         <div class="col-md-8"><input type="text" name="Others_Cn" class="form-control"></div>
                                     </div>
                                     <div class="space-2"></div>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label no-padding-right">种类名称(英文):</label>
+                                        <label class="col-md-3 control-label no-padding-right">类型名称(英文):</label>
                                         <div class="col-md-8"><input type="text" name="Others_En" class="form-control"></div>
                                     </div>
                                     <div class="space-2"></div>
@@ -55,8 +55,8 @@
                             <thead>
                             <tr class="black br-hblue">
                                 <th class="center" style="width:5%">No</th>
-                                <th class="center" style="width:20%">种类</th>
-                                <th class="center" style="width:25%">种类(英文)</th>
+                                <th class="center" style="width:20%">类型</th>
+                                <th class="center" style="width:25%">类型(英文)</th>
                                 <th class="center" style="width:20%">Special</th>
                                 <th class="center" style="width:20%">Remark</th>
                                 <th class="center" style="width:10% "></th>
@@ -100,9 +100,9 @@
 
         function editShipType() {
             var othersId = $('[name=OthersId]').val();
-            var title = '追加种类';
+            var title = '添加类型';
             if(othersId != '')
-                title = '修改种类';
+                title = '修改类型';
             var dialog = $( "#dialog_update_type" ).removeClass('hide').dialog({
                 modal: true,
                 title: title,

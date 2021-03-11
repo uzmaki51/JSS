@@ -118,7 +118,7 @@ class Util extends Controller
                     $cur_parent->setAttribute("class", "folder");
                     $cur_parent->getElementsByTagName("span")->item(0)->setAttribute("class", "icon-folder-open blue");
 
-                } else {//첫번째 자식이 追加된 경우
+                } else {//첫번째 자식이 添加된 경우
                     $prev_parent = $cur_parent->getElementsByTagName("ul")->item(0);
                 }
                 $prev_parent->appendChild($child);
@@ -161,7 +161,7 @@ class Util extends Controller
                     $tmp = $doc->createElement("ul");
                     $prev_parent = $cur_parent->appendChild($tmp);
 
-                } else {//첫번째 자식이 追加된 경우
+                } else {//첫번째 자식이 添加된 경우
                     $prev_parent = $cur_parent->getElementsByTagName("ul")->item(0);
                 }
                 $prev_parent->appendChild($child);

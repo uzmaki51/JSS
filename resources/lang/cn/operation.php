@@ -51,7 +51,7 @@ return [
 
     "contract"  => [
         'Cargo' => '货物',
-        'Contract' => '合约种类',
+        'Contract' => '合约类型',
         'VoyNo' => '航次',
         'Contract Date' => '合约日期',
         'Plan Year' =>  '年间计划',
@@ -68,7 +68,7 @@ return [
         'Brokerage'  =>  '租船手续费',
         'ShipName'  =>  '船名',
         'totalFreight'  =>  '总运费',
-        'Charterer'  =>  '租船主',
+        'Charterer'  =>  '租船东',
         'Shipper'  =>  '出货主',
         'Consignee'  =>  '收货主',
         'Remark'  =>  '备注',
@@ -143,7 +143,7 @@ return [
         'Freight Income' => '运费收入',
         'Demurrage' => '滞期费',
         'Fee' => '手续费',
-        'Add Income' => '追加收入',
+        'Add Income' => '添加收入',
         'Predict Income' => '收入盘算',
         'Expense Income' => '支出盘算',
         'Profit Income' => '利润盘算',
@@ -213,7 +213,7 @@ return [
         'Cp [MT]' => '货物数量 [MT]',
         'B/L [MT]' => 'B/L数量 [MT]',
         '$' => '$',
-        'Add In' => '追加收入',
+        'Add In' => '添加收入',
         'Commi' => '滞期费',
         'Income' => '收入合计',
         'FO' => '重油',
@@ -252,7 +252,7 @@ return [
         'Idle'  =>  '等待日数',
         'Price'  =>  '价格',
         'PD'    =>  '港口费',
-        'Add Income'    =>  '追加收入',
+        'Add Income'    =>  '添加收入',
     ],
 
     "analysis"  => [
@@ -291,7 +291,7 @@ return [
         'CalcDate' => '合约日期',
         'CpType' => '合约形态',
         'Ref No' => '参考号码',
-        'Charterer' => '租船主주',
+        'Charterer' => '租船东주',
         'Cargo and Count' => '货物及数量',
         'Lp' => '上船港口',
         'Dp' => '下船港口',

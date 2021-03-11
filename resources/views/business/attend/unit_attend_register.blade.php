@@ -190,7 +190,7 @@
             $("#modal-wizard").addClass('in');
             $("body").addClass('modal-open');
             $("#modalback").addClass('modal-backdrop ');
-            var htm = '<i class="' + 'icon-spinner icon-spin orange bigger-500"' + '></i>' + '正在登陆中。';
+            var htm = '<i class="' + 'icon-spinner icon-spin orange bigger-500"' + '></i>' + '正在登记中。';
             $("#modal-body-content").html(htm);
             $("#modal-wizard").show();
 

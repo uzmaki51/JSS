@@ -79,7 +79,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="td-title">种类<span class="require">*</span></td>
+                            <td class="td-title">类型<span class="require">*</span></td>
                             <td>
                                 @if($readonly)
                                     <label class="form-control">
@@ -184,7 +184,7 @@
                 VoyId : "请选择航次号码。",
                 AccidentDate : "请输入船舶事故的日期。",
                 PortId : "请输入船舶事故的港口名称。",
-                AccidentKind : "请选择船舶事故的种类。",
+                AccidentKind : "请选择船舶事故的类型。",
                 Content : "请输入船舶事故的内容。",
             }
         });

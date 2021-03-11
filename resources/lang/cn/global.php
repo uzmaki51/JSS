@@ -50,7 +50,7 @@ return [
     'YEARLY VOY DAY' => '年间航次日数',
     'Contract Plan' => 'Contract Plan',
     'Cargo' => '货物',
-    'Contract' => '合同种类',
+    'Contract' => '合同类型',
     'VoyNo' => '航次 | 参考号码',
     'Contract Date' => '合约日期',
     'Plan Year' =>  '年间计划',

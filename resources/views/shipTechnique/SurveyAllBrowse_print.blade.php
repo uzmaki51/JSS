@@ -23,7 +23,7 @@
                             <th class="center">航次号码</th>
                             <th class="center">检查日期</th>
                             <th class="center">地点</th>
-                            <th class="center">种类</th>
+                            <th class="center">类型</th>
                             <th class="center">检查内容</th>
                             <th class="center">检查费</th>
                         </tr>

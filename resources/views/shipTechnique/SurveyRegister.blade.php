@@ -60,7 +60,7 @@ $ships = Session::get('shipList');
                         @if(!$isHolder)
                             <a class="btn btn-sm btn-primary no-radius" href="shipSurveyDetail" style="width: 80px">
                                 <i class="icon-plus-sign-alt"></i>
-                                追加
+                                添加
                             </a>
                         @endif
                     </div>
@@ -74,7 +74,7 @@ $ships = Session::get('shipList');
                             <th class="center">航次号码</th>
                             <th class="center">检查日期</th>
                             <th class="center">地点</th>
-                            <th class="center">种类</th>
+                            <th class="center">类型</th>
                             <th class="center">检查内容</th>
                             <th class="center">检查费</th>
                             <th class="center">附件</th>

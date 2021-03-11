@@ -58,7 +58,7 @@ $ships = Session::get('shipList');
                             搜索
                         </button>
                         @if(!$isHolder)
-                            <a class="btn btn-sm btn-primary no-radius" href="shipRepairDetail" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</a>
+                            <a class="btn btn-sm btn-primary no-radius" href="shipRepairDetail" style="width: 80px"><i class="icon-plus-sign-alt"></i>添加</a>
                         @endif
                     </div>
                 </div>

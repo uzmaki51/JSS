@@ -23,7 +23,7 @@ $shipList = Session::get('shipList');
             @if(!$isHolder)
                 <button class="btn btn-sm btn-primary" id="new_btn" onclick="newEquipment()" style="float:right;width :80px">
                     <i class="icon-plus-sign-alt"></i>
-                    追加
+                    添加
                 </button>
             @endif
         </ul>

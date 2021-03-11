@@ -46,7 +46,7 @@
                 </div>
                 <div style="text-align: right">
                     <a href="http://www.bss.master/shipManage/registerShipData" data-toggle="modal"
-                       class="btn btn-primary" style="border-radius: 3px;width :80px;"><i class="icon-plus-sign-alt"></i><b>追加</b></a>
+                       class="btn btn-primary" style="border-radius: 3px;width :80px;"><i class="icon-plus-sign-alt"></i><b>添加</b></a>
                 </div>
 
             </div>

@@ -20,7 +20,7 @@ $ships = Session::get('shipList');
                     @if(!$isHolder)
                         <button class="btn btn-sm btn-primary no-radius" style="width: 80px">
                             <i class="icon-plus-sign-alt"></i>
-                            追加
+                            添加
                         </button>
                     @endif
                     <div id="dialog-modify" class="hide">
@@ -39,7 +39,7 @@ $ships = Session::get('shipList');
                             </div>
                             <div class="space-2"></div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label no-padding-right">种类:</label>
+                                <label class="col-md-3 control-label no-padding-right">类型:</label>
                                 <div class="col-md-8">
                                     <select class="form-control" name="Type">
                                         <option value="1">经济日数</option>
@@ -62,7 +62,7 @@ $ships = Session::get('shipList');
                             <th class="center">No</th>
                             <th class="center">航次日数项目</th>
                             <th class="center">航次日数项目(英文)</th>
-                            <th class="center">种类</th>
+                            <th class="center">类型</th>
                             @if(!$isHolder)
                                 <th class="center" style="width:70px"></th>
                             @endif
@@ -114,7 +114,7 @@ $ships = Session::get('shipList');
                 $('[name=ItemName]').val('');
                 $('[name=VoyItem]').val('');
                 $('[name=Type]').val('');
-                showModifyDialog('追加项目');
+                showModifyDialog('添加项目');
             });
 
             $('.edit-btn').on('click', function () {

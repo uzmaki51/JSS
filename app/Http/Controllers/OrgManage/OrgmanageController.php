@@ -103,7 +103,7 @@ class OrgmanageController extends Controller
         if($isExist)
             return;
         
-        //부서를 追加할때에 상위부서를 선택하지 않은 경우에 제일 상위부서로 追加한다.
+        //부서를 添加할때에 상위부서를 선택하지 않은 경우에 제일 상위부서로 添加한다.
         $last = Unit::where('parentId', $parentId)->orderBy('orderkey', 'desc')->first();
         
         if(is_null($last)) {
@@ -226,7 +226,7 @@ class OrgmanageController extends Controller
 
     }
 
-    //부서책임자의 追加
+    //부서책임자의 添加
     public function loadquartermanager() {
         $units = new Unit();
         $units = $units->orderBy('orderkey')->get();
@@ -277,7 +277,7 @@ class OrgmanageController extends Controller
         return view('org/memberadd',   ['profile'=>$userinfo, 'user'=>$user]);
     }
 
-    // 직원정보追加현시action
+    // 직원정보添加현시action
     public function addMemberinfo(Request $request) {
         $units = Unit::unitFullNameList();
         $posts = Post::orderBy('orderNum')->get();

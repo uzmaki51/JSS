@@ -34,7 +34,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {{--追加--}}
+                            {{--添加--}}
                             @foreach($units as $unit)
                                 <tr id="{{'row'.$unit->id}}">
                                     <td>
