@@ -58,7 +58,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <tr data-id="{{ $shipinfo->id }}" data-name="{{ $shipinfo['shipName_Cn'] }}">
                                             <td rowspan="2">{{ $index++ }}</td>
                                             <td class="center">
-                                                @if(Config::get('app.locale') == 'en'){{$shipinfo['shipNo']}}@else{{$shipinfo['name']}}@endif
+                                                {{ $shipinfo['shipName_Cn'] }}
                                                 <div class="action-buttons" style="float: right">
                                                     <a class="blue" href="registerShipData?shipId={{ $shipinfo->id }}">
                                                         <i class="icon-edit"></i>
@@ -71,14 +71,14 @@ $shipList = explode(',', Auth::user()->shipList);
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="center">@if(Config::get('app.locale') == 'en'){{ $shipinfo['shipName_En'] }}@else{{ $shipinfo['shipName_Cn'] }}@endif</td>
+                                            <td class="center">{{ $shipinfo['shipName_En'] }}</td>
                                         </tr>
                                     @elseif($isShareHolder)
                                         @if(in_array($shipinfo['id'], $shipList))
                                             <tr data-id="{{ $shipinfo->id }}" data-name="{{ $shipinfo['shipName_Cn'] }}">
                                                 <td rowspan="2">{{ $index++ }}</td>
                                                 <td class="center">
-                                                    @if(Config::get('app.locale') == 'en'){{$shipinfo['shipNo']}}@else{{$shipinfo['name']}}@endif
+                                                    {{ $shipinfo['shipName_Cn'] }}
                                                     <div class="action-buttons" style="float: right">
                                                         <a class="blue" href="registerShipData?shipId={{ $shipinfo->id }}">
                                                             <i class="icon-edit"></i>
@@ -92,7 +92,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="center">@if(Config::get('app.locale') == 'en'){{ $shipinfo['shipName_En'] }}@else{{ $shipinfo['shipName_Cn'] }}@endif</td>
+                                                <td class="center">{{ $shipinfo['shipName_En'] }}</td>
                                             </tr>
                                         @endif
                                     @endif

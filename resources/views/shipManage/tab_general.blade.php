@@ -2,9 +2,32 @@
     $isHolder = Session::get('IS_HOLDER');
     $shipList = Session::get('shipList');
 ?>
+<style>
+    .table tbody > tr > td {
+        font-size: 12px!important;
+    }
+    .table tbody > tr > .custom-td-label1 {
+        padding: 0 4px!important;
+    }
+    .table tbody > tr > .custom-td-report-text, .table tbody > tr > .custom-td-dec-text {
+        padding: 0!important;
+    }
+
+    .form-control {
+        padding: 0!important;
+        border-radius: 0!important;
+        border: unset!important;
+        font-size: 12px!important;
+    }
+    .chosen-single {
+        padding: 0 4px!important;
+        border-radius: 0!important;
+        border: unset!important;
+        font-size: 12px!important;
+    }
+</style>
 <div class="row">
     <div class="col-md-12">
-        <div class="text-danger m-1">*必要填写的</div>
         <div class="space-6"></div>
         <form role="form" method="POST"
               action="{{url('shipManage/saveShipGenaralData')}}" enctype="multipart/form-data" id="validation-form">
@@ -17,7 +40,7 @@
                     <table class="table table-bordered table-striped table-hover" style="font-weight: bold">
                         <tbody>
                         <tr>
-                            <td class="custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                            <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
                                 {{ transShipManager('General.ShipName') }}
                             </td>
                             <td class="custom-td-report-text" style="width: 25%">
@@ -139,7 +162,7 @@
                             <td class="custom-td-label1" style="text-align: center" rowspan="4">
                                 {{ transShipManager('General.owner') }}
                             </td>
-                            <td style="text-align: right;font-weight: normal;">{{ transShipManager('General.Owner_Cn') }}</td>
+                            <td class="custom-td-label1">{{ transShipManager('General.Owner_Cn') }}</td>
                             <td class="custom-td-report-text">
                                 <input type="text" name="Owner_Cn" class="form-control" style="width:100%" value="@if(isset($shipInfo['Owner_Cn'])){{$shipInfo['Owner_Cn']}}@endif">
                             </td>
@@ -181,7 +204,7 @@
                             <td class="custom-td-label1" style="text-align: center" rowspan="4">
                                 {{ transShipManager('General.ISM') }}
                             </td>
-                            <td style="text-align: right;font-weight: normal;">{{ transShipManager('General.ISM Company_kn') }}</td>
+                            <td class="custom-td-label1">{{ transShipManager('General.ISM Company_kn') }}</td>
                             <td class="custom-td-report-text">
                                 <input type="text" name="ISM_Cn" class="form-control" style="width:100%" value="@if(isset($shipInfo['ISM_Cn'])){{$shipInfo['ISM_Cn']}}@endif">
                             </td>
