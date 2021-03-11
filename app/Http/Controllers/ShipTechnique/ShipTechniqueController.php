@@ -294,8 +294,7 @@ class shipTechniqueController extends Controller
             ]);
     }
 
-    public function shipAccidentAllBrowse(Request $request)
-    {
+    public function shipAccidentAllBrowse(Request $request) {
         Util::getMenuInfo($request);
 
         $shipId = $request->get('ship');

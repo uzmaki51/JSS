@@ -12,8 +12,8 @@ require_once 'Zend/Db.php';
 $mysqlOptions = array(
     'host' => 'localhost',
     'dbname' => 'kyongsong'.'2018'/*date("20y")*/,
-    'username' => 'test',
-    'password' => 'mima123456789',
+    'username' => 'root',
+    'password' => '',
     'port' => 3306,
     'charset' => 'UTF8',
     'persistent' => false

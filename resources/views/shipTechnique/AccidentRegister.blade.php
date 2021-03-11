@@ -93,17 +93,7 @@ $ships = Session::get('shipList');
                                 <td class="center">{{$AccidentInfo['Place']}}</td>
                                 <td class="center"><label class="simple_text">{{$AccidentInfo['Content']}}</label></td>
                                 <td class="center">
-                                    @if($AccidentInfo['AccidentKind'] == 1)
-                                        搁浅
-                                    @elseif($AccidentInfo['AccidentKind'] == 2)
-                                        冲突
-                                    @elseif($AccidentInfo['AccidentKind'] == 3)
-                                        故障破损
-                                    @elseif($AccidentInfo['AccidentKind'] == 4)
-                                        丢失
-                                    @elseif($AccidentInfo['AccidentKind'] == 5)
-                                        货物不足
-                                    @endif
+                                    <span class="badge badge-{{ g_enum('AccidentTypeData')[$AccidentInfo['AccidentKind']][1] }}">{{ g_enum('AccidentTypeData')[$AccidentInfo['AccidentKind']][0] }}</span>  
                                 </td>
                                 <td class="center">
                                     @if(!empty($AccidentInfo['AddFileName']))

@@ -1,7 +1,7 @@
 @extends('layout.sidebar')
 <?php
-$isHolder = Session::get('IS_HOLDER');
-$ships = Session::get('shipList');
+    $isHolder = Session::get('IS_HOLDER');
+    $ships = Session::get('shipList');
 ?>
 @section('content')
     <div class="main-content">
@@ -20,43 +20,59 @@ $ships = Session::get('shipList');
 
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <label style="float:left;padding-top:5px">船舶名称 :</label>
-                        <div class="col-md-8" style="padding-left:5px">
-                            <select class="form-control" id="search_ship_id">
-                                <option value=""> </option>
-                                @foreach($shipList as $ship)
-                                    @if(!$isHolder)
-                                        <option value="{{$ship['RegNo']}}"
-                                                @if(isset($shipId) && ($shipId == $ship['RegNo'])) selected @endif>{{ $ship['shipName_Cn'] .' | ' .$ship['shipName_En']}}
-                                        </option>
-                                    @elseif(in_array($ship->shipID, $ships))
-                                        <option value="{{$ship['RegNo']}}"
-                                                @if(isset($shipId) && ($shipId == $ship['RegNo'])) selected @endif>{{ $ship['shipName_Cn'] .' | ' .$ship['shipName_En']}}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
+                        <select class="form-control" id="search_ship_id">
+                            <option value=""> </option>
+                            @foreach($shipList as $ship)
+                                @if(!$isHolder)
+                                    <option value="{{$ship['RegNo']}}"
+                                            @if(isset($shipId) && ($shipId == $ship['RegNo'])) selected @endif>{{ $ship['shipName_Cn'] .' | ' .$ship['shipName_En']}}
+                                    </option>
+                                @elseif(in_array($ship->shipID, $ships))
+                                    <option value="{{$ship['RegNo']}}"
+                                            @if(isset($shipId) && ($shipId == $ship['RegNo'])) selected @endif>{{ $ship['shipName_Cn'] .' | ' .$ship['shipName_En']}}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-sm-2">
                         <label style="float:left;padding-top:5px">航次号码:</label>
-                        <div class="col-md-6" style="padding-left:5px" id="Voy">
-                            <select class="form-control" id="search_voy_number" >
-                                <option value=""></option>
-                                @foreach($cps as $cp)
-                                    <option value="{{$cp['CP_No']}}" @if(isset($voy)&&($voy==$cp['CP_No'])) selected @endif>
-                                        {{$cp['Voy_No']}} | {{$cp['CP_No']}}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <select class="form-control" id="search_voy_number" >
+                            <option value=""></option>
+                            @foreach($cps as $cp)
+                                <option value="{{$cp['CP_No']}}" @if(isset($voy)&&($voy==$cp['CP_No'])) selected @endif>
+                                    {{$cp['Voy_No']}} | {{$cp['CP_No']}}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="col-sm-5" style="text-align: right;float:right;">
+                    <div class="col-sm-2">
+                        <label style="float:left;padding-top:5px">航次号码:</label>
+                        <select class="form-control" id="search_voy_number" >
+                            <option value=""></option>
+                            @foreach($cps as $cp)
+                                <option value="{{$cp['CP_No']}}" @if(isset($voy)&&($voy==$cp['CP_No'])) selected @endif>
+                                    {{$cp['Voy_No']}} | {{$cp['CP_No']}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="space-6"></div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
                         <button class="btn btn-sm btn-primary no-radius search-btn" style="width: 80px">
                             <i class="icon-search"></i>
                             搜索
                         </button>
+                        @if(!$isHolder)
+                            <a class="btn btn-sm btn-primary no-radius" href="shipAccidentDetail" style="width: 80px">
+                                <i class="icon-plus-sign-alt"></i>
+                                追加
+                            </a>
+                        @endif
                         <button class="btn btn-sm btn-primary no-radius print-btn" style="width: 80px">
                             <i class="icon-print"></i>
                             打印
@@ -95,17 +111,7 @@ $ships = Session::get('shipList');
                                 <td class="center">{{$AccidentInfo['Place']}}</td>
                                 <td class="center"><label class="simple_text">{{$AccidentInfo['Content']}}</label></td>
                                 <td class="center">
-                                    @if($AccidentInfo['AccidentKind'] == 1)
-                                        搁浅
-                                    @elseif($AccidentInfo['AccidentKind'] == 2)
-                                        冲突
-                                    @elseif($AccidentInfo['AccidentKind'] == 3)
-                                        故障破损
-                                    @elseif($AccidentInfo['AccidentKind'] == 4)
-                                        丢失
-                                    @elseif($AccidentInfo['AccidentKind'] == 5)
-                                        货物不足
-                                    @endif
+                                    <span class="badge badge-{{ g_enum('AccidentTypeData')[$AccidentInfo['AccidentKind']][1] }}">{{ g_enum('AccidentTypeData')[$AccidentInfo['AccidentKind']][0] }}</span>
                                 </td>
                                 <td class="center">
                                     @if(!empty($AccidentInfo['AddFileName']))

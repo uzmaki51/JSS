@@ -32,7 +32,8 @@ else $header = 'sidebar';
             </div>
             <div class="col-md-12">
                 <div class="row">
-                    <div class="input-group" style="float: left;width: 80%">
+                <div class="col-md-12">
+                    
                         <div class="col-sm-2 form-group" style="padding: 0">
                             <label style="float:left;padding:5px 0">{{transShipmember("shipMember.ShipName")}}:</label>
                             <div class="col-md-8" style="padding-lefy:5px">
@@ -74,8 +75,8 @@ else $header = 'sidebar';
                                 <input type="text" class="form-control" id="member_name" style="width:100%" value="@if(isset($name)){{$name}}@endif">
                             </div>
                         </div>
-                    </div>
-                    <div style="float: right">
+                        <div class="col-sm-4">
+                        <div>
                         <button class="btn btn-sm btn-primary no-radius" onclick="filterByMemberKeyword()" style="width: 70px">
                             <i class="icon-search"></i>
                             {{transShipMember("captions.search")}}
@@ -85,6 +86,9 @@ else $header = 'sidebar';
                         @endif
                         <button class="btn btn-sm btn-warning excel-btn" style="width: 70px"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                     </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="row">
                     <div style="width:100%;">

@@ -35,7 +35,7 @@
                             <input type="text" class="form-control" id="search_creator_name" style="width:100%" value="{{$creator}}">
                         </div>
                     </div>
-                    <div class="col-sm-3 no-padding" style="width:30%">
+                    <div class="col-sm-3 no-padding" style="width:35%">
                         <label class="search-label">{{transDecideManage("captions.draftDate")}}:</label>
                         <div class=" input-group col-md-4" style="padding-left:5px;width:40%">
                             <input class="form-control date-picker" id="fromDate" type="text" data-date-format="yyyy/mm/dd" style="width:70%" value="{{$from_date}}">

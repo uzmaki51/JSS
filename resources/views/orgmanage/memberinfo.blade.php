@@ -17,8 +17,8 @@
             </div>
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-sm-11">
-                        <div class="col-md-3">
+                    <div class="col-sm-12">
+                        <div class="col-md-2">
                             <label style="float:left;padding-top:7px">{{transOrgManage("captions.department")}}:</label>
                             <div class="col-md-9" style="padding-left:10px">
                                 <select class="form-control chosen-select select_unit">
@@ -29,7 +29,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label style="float:left;padding-top:7px">{{transOrgManage("captions.officePosition")}}:</label>
                             <div class="col-md-9" style="padding-left:10px">
                                 <select class="form-control chosen-select select_pos">
@@ -56,12 +56,15 @@
                                 </select>
                             </div>
                         </div>
-                        <button class="btn btn-primary btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transOrgManage("captions.search")}}</button>
+                        <div class="col-md-1">
+                            <button class="btn btn-primary btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transOrgManage("captions.search")}}</button>
+                        </div>
+                        <div class="col-md-1">
+                            <a href="{{ url('org/memberadd') }}" class="btn btn-primary btn-sm">
+                                <i class="icon-plus-sign-alt"></i>{{transOrgManage("captions.add")}}
+                            </a>
+                        </div>
                     </div>
-                    @if($type != 'privilege')
-                        <a href="{{ url('org/memberadd') }}" class="btn btn-primary btn-sm" style="float: right; width: 80px"
-                        ><i class="icon-plus-sign-alt"></i>{{transOrgManage("captions.add")}}</a>
-                    @endif
                 </div>
                 <div class="row">
                     <div class="space-4"></div>

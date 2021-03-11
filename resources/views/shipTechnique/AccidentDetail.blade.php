@@ -83,25 +83,13 @@
                             <td>
                                 @if($readonly)
                                     <label class="form-control">
-                                        @if($accident['AccidentKind'] == 1)
-                                            搁浅
-                                        @elseif($accident['AccidentKind'] == 2)
-                                            冲突
-                                        @elseif($accident['AccidentKind'] == 3)
-                                            故障破损
-                                        @elseif($accident['AccidentKind'] == 4)
-                                            丢失
-                                        @elseif($accident['AccidentKind'] == 5)
-                                            货物不足
-                                        @endif
+                                        {{ g_enum('AccidentTypeData')[$accident['AccidentKind']][0] }}
                                     </label>
                                 @else
                                     <select name="AccidentKind" class="form-control">
-                                        <option value="1" @if($accident['AccidentKind'] == 1) selected @endif>搁浅</option>
-                                        <option value="2" @if($accident['AccidentKind'] == 2) selected @endif>冲突</option>
-                                        <option value="3" @if($accident['AccidentKind'] == 3) selected @endif>故障破损</option>
-                                        <option value="4" @if($accident['AccidentKind'] == 4) selected @endif>丢失</option>
-                                        <option value="5" @if($accident['AccidentKind'] == 5) selected @endif>货物不足</option>
+                                        @foreach(g_enum('AccidentTypeData') as $key => $item)
+                                            <option value="{{ $key }}" {{ $key == $accident['AccidentKind'] ? 'selected' : '' }}>{{ $item[0] }}</option>
+                                        @endforeach
                                     </select>
                                 @endif
                             </td>

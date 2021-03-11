@@ -253,8 +253,7 @@ class PrintController extends Controller {
 
     //船舶事故 报告综合阅览
 
-    public function shipAccidentAllBrowse(Request $request)
-    {
+    public function shipAccidentAllBrowse(Request $request) {
         Util::getMenuInfo($request);
 
         $shipId = $request->get('ship');

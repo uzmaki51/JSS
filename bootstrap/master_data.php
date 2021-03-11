@@ -135,6 +135,20 @@ $EmployeeStatusData = array(
 	EMPLOYEE_STATUS_WORK            => ['登录', 'primary']
 );
 
+# Accident Status
+define('ACCIDENT_TYPE_RUNGROUND', 	1);
+define('ACCIDENT_TYPE_CLASH', 		2);
+define('ACCIDENT_TYPE_BREAKDOWN', 	3);
+define('ACCIDENT_TYPE_LOSE', 		4);
+define('ACCIDENT_TYPE_SHORTAGE', 	5);
+$AccidentTypeData = array(
+	ACCIDENT_TYPE_RUNGROUND		=> ['搁浅', 'primary'],
+	ACCIDENT_TYPE_CLASH			=> ['冲突', 'info'],
+	ACCIDENT_TYPE_BREAKDOWN		=> ['故障破损', 'warning'],
+	ACCIDENT_TYPE_LOSE			=> ['丢失', 'secondary'],
+	ACCIDENT_TYPE_SHORTAGE		=> ['货物不足', 'danger'],
+);
+
 define('HTTP_METHOD_POST', 'POST');
 
 
@@ -148,5 +162,6 @@ define('HTTP_METHOD_POST', 'POST');
 	    'CurrencyLabel'                 => $CurrencyLabel,
 	    'InventoryStatusData'           => $InventoryStatusData,
 	    'TermData'                      => $TermData,
-	    'EmployeeStatusData'            => $EmployeeStatusData
+		'EmployeeStatusData'            => $EmployeeStatusData,
+		'AccidentTypeData'            	=> $AccidentTypeData
  );
