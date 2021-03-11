@@ -10217,7 +10217,7 @@ ul.attachment-list > li {
 
 .chosen-container > .chosen-single, [class*="chosen-container"] > .chosen-single {
     line-height: 25px;
-    height: 25px;
+    height: auto;
     box-shadow: none;
     background: #fff;
 }
@@ -18743,12 +18743,12 @@ td > label, th > label, label.inline {
 }
 
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
-    border-radius: 0.25rem !important;
+    border-radius: 0.25rem;
     color: #858585;
     background-color: #fff;
     border: 1px solid #d5d5d5;
     padding: 5px 4px;
-    padding: .438rem .875rem!important;
+    padding: .438rem .875rem;
     line-height: 1;
     font-size: 13px;
     font-family: inherit;
@@ -18756,7 +18756,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
     box-shadow: none !important;
     -webkit-transition-duration: .1s;
     transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out,-webkit-box-shadow 0.15s ease-in-out;
-    height: 25px;
+    height: auto;
 }
 
 textarea:hover, input[type="text"]:hover, input[type="password"]:hover, input[type="datetime"]:hover, input[type="datetime-local"]:hover, input[type="date"]:hover, input[type="month"]:hover, input[type="time"]:hover, input[type="week"]:hover, input[type="number"]:hover, input[type="email"]:hover, input[type="url"]:hover, input[type="search"]:hover, input[type="tel"]:hover, input[type="color"]:hover {
@@ -24908,8 +24908,8 @@ ul.attachment-list > li {
 }
 
 .chosen-container > .chosen-single, [class*="chosen-container"] > .chosen-single {
-    line-height: 25px;
-    height: 25px;
+    line-height: 1;
+    height: auto;
     box-shadow: none;
     background: #fff;
 }

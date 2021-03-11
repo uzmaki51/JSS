@@ -3344,7 +3344,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 }
 
 .input-group-addon {
-    height: 25px;
+    height: auto;
     padding: 0px 10px;
     font-size: 14px;
     font-weight: normal;

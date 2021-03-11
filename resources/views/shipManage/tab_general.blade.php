@@ -25,6 +25,11 @@
         border: unset!important;
         font-size: 12px!important;
     }
+    span {
+        font-size: 12px!important;
+        padding: 0!important;
+        border: unset!important;
+    }
 </style>
 <div class="row">
     <div class="col-md-12">
@@ -373,7 +378,7 @@
                                            type="text" data-date-format="yyyy-mm-dd"
                                            value="@if(isset($shipInfo['KeelDate'])){{$shipInfo['KeelDate']}}@endif">
                                     <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
+                                        <i class="icon-calendar "></i>
                                     </span>
                                 </div>
                             </td>
@@ -395,7 +400,7 @@
                                            type="text" data-date-format="yyyy-mm-dd"
                                            value="@if(isset($shipInfo['LaunchDate'])){{$shipInfo['LaunchDate']}}@endif">
                                     <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
+                                        <i class="icon-calendar "></i>
                                     </span>
                                 </div>
                             </td>
@@ -417,7 +422,7 @@
                                            type="text" data-date-format="yyyy-mm-dd"
                                            value="@if(isset($shipInfo['DeliveryDate'])){{$shipInfo['DeliveryDate']}}@endif">
                                     <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
+                                        <i class="icon-calendar "></i>
                                     </span>
                                 </div>
                             </td>
@@ -439,7 +444,7 @@
                                            type="text" data-date-format="yyyy-mm-dd"
                                            value="@if(isset($shipInfo['ConversionDate'])){{$shipInfo['ConversionDate']}}@endif">
                                     <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
+                                        <i class="icon-calendar "></i>
                                     </span>
                                 </div>
                             </td>
@@ -471,7 +476,7 @@
                                            type="text" data-date-format="yyyy-mm-dd"
                                            value="@if(isset($shipInfo['RegDate'])){{$shipInfo['RegDate']}}@endif">
                                     <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
+                                        <i class="icon-calendar "></i>
                                     </span>
                                 </div>
                             </td>
@@ -487,7 +492,7 @@
                                            type="text" data-date-format="yyyy-mm-dd"
                                            value="@if(isset($shipInfo['RenewDate'])){{$shipInfo['RenewDate']}}@endif">
                                     <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
+                                        <i class="icon-calendar "></i>
                                     </span>
                                 </div>
                             </td>
@@ -503,7 +508,7 @@
                                            type="text" data-date-format="yyyy-mm-dd"
                                            value="@if(isset($shipInfo['KCExpiryDate'])){{$shipInfo['KCExpiryDate']}}@endif">
                                     <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
+                                        <i class="icon-calendar "></i>
                                     </span>
                                 </div>
                             </td>
@@ -519,7 +524,7 @@
                                            type="text" data-date-format="yyyy-mm-dd"
                                            value="@if(isset($shipInfo['ConditionalDate'])){{$shipInfo['ConditionalDate']}}@endif">
                                     <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
+                                        <i class="icon-calendar "></i>
                                     </span>
                                 </div>
                             </td>
@@ -535,7 +540,7 @@
                                            type="text" data-date-format="yyyy-mm-dd"
                                            value="@if(isset($shipInfo['DelDate'])){{$shipInfo['DelDate']}}@endif">
                                     <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
+                                        <i class="icon-calendar "></i>
                                     </span>
                                 </div>
                             </td>
