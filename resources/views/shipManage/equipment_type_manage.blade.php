@@ -226,7 +226,7 @@ $shipList = Session::get('shipList');
                 var obj = $(this).closest('tr').children();
                 var typeId = obj.eq(1).text();
                 var typeName = obj.eq(2).text();
-                bootbox.confirm("设备配件种类 " + typeName + "真要删掉吗?", function (result) {
+                bootbox.confirm("设备配件类型 " + typeName + "真要删掉吗?", function (result) {
                     if (result) {
                         $.post('deleteEquipmentMainType', {'_token':token, 'typeId':typeId}, function (result) {
                             var code = parseInt(result);
@@ -298,7 +298,7 @@ $shipList = Session::get('shipList');
                     type_name_en: "required",
                 },
                 messages: {
-                    main_type:"请选择设备的种类。",
+                    main_type:"请选择设备的类型。",
                     type_name: "请输入设备名称。",
                     type_name_en: "请输入设备的英文名称。",
                 }

@@ -80,7 +80,7 @@
                             <div class="col-md-4" style="text-align: right">
                                 <button class="btn btn-xs btn-primary" id="id-btn-adddialog">
                                     <i class="icon-plus-sign bigger-50"></i>
-                                    追加
+                                    添加
                                 </button>
                             </div>
 

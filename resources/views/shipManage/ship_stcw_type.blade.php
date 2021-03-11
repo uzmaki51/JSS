@@ -16,7 +16,7 @@ $shipList = Session::get('shipList');
                 </div>
                 @if(!$isHolder)
                     <div class="col-md-6" style="text-align: right;margin-top: 50px">
-                        <button class="btn btn-sm btn-primary no-radius new_btn"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus"> 追加</i></button>
+                        <button class="btn btn-sm btn-primary no-radius new_btn"  tyle="border-radius: 3px" style="width: 80px"><i class="icon-plus"> 添加</i></button>
                     </div>
                 @endif
             </div>
@@ -114,7 +114,7 @@ $shipList = Session::get('shipList');
 
         function editSTCWCodeType() {
             var typeId = $('[name=typeId]').val();
-            var title = '追加规格代码';
+            var title = '添加规格代码';
             if(typeId != '')
                 title = '修改规格代码';
             var dialog = $( "#dialog_update_type" ).removeClass('hide').dialog({

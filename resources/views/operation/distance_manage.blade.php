@@ -51,7 +51,7 @@ $ships = Session::get('shipList');
                     </form>
                     @if(!$isHolder)
                         <div class="col-md-3" style="float:right;text-align: right;">
-                            <button class="btn btn-sm btn-primary no-radius" style="width: 80px" tyle="border-radius: 3px"><i class="icon-plus-sign-alt"></i>追加</button>
+                            <button class="btn btn-sm btn-primary no-radius" style="width: 80px" tyle="border-radius: 3px"><i class="icon-plus-sign-alt"></i>添加</button>
                         </div>
                     @endif
                 </div>
@@ -215,7 +215,7 @@ $ships = Session::get('shipList');
 
         function editNavegatorDistance() {
             var distanceId = $('[name=distanceId]').val();
-            var title = '追加';
+            var title = '添加';
             if(distanceId != '')
                 title = '修改';
             var dialog = $( "#dialog_update_distance" ).removeClass('hide').dialog({

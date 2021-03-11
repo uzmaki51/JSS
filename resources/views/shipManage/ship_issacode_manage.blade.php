@@ -40,7 +40,7 @@ $shipList = Session::get('shipList');
                         </div>
                         <div class="col-md-2" style="float:right;text-align: right">
                             @if(!$isHolder)
-                                <button class="btn btn-sm btn-primary no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
+                                <button class="btn btn-sm btn-primary no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>添加</button>
                             @endif
                             <div id="dialog_issacode" class="hide">
                                 <form class="form-horizontal" method="post" action="updateIssaCode" id="issacode-form">
@@ -144,7 +144,7 @@ $shipList = Session::get('shipList');
 
         function editISSACode() {
             var id = $('[name=codeId]').val();
-            var title = '追加';
+            var title = '添加';
             if(id.length > 0) {
                 title = '修改';
             }

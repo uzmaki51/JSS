@@ -138,7 +138,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 @if(!isset($excel))
                                     <tr>
                                         <td data-id="">{{$index}}</td>
-                                        <td colspan="18">新追加</td>
+                                        <td colspan="18">新添加</td>
                                     </tr>
                                 @endif
                                 </tbody>

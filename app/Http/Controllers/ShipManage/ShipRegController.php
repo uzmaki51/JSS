@@ -512,7 +512,7 @@ class ShipRegController extends Controller
         return view('shipManage.ship_cert_modify', ['info'=>$certInfo, 'certList'=>$certType]);
     }
 
-    // 배증서 追加 및 수정
+    // 배증서 添加 및 수정
     public function updateCertInfo(Request $request) {
         $certId = $request->get('id');
         $shipName = $request->get('ShipName');
@@ -599,7 +599,7 @@ class ShipRegController extends Controller
         return view('shipManage.cert_modify', ['info'=>$certInfo]);
     }
 
-    // 증서 追加 및 수정
+    // 증서 添加 및 수정
     public function updateCertType(Request $request) {
         $certId = $request->get('id');
         $cert = $request->get('cert');
@@ -615,7 +615,7 @@ class ShipRegController extends Controller
         $isExist = ShipCertList::where('CertNo', $certInfo['CertNo'])->orWhere('CertName_Cn', $certInfo['CertName_Cn'])->orWhere('CertName_En', $certInfo['CertName_En'])->first();
 
         if(isset($isExist) && ($isExist['id'] != $certId)) {
-            $error = "错误!  做成的船舶证书已经登陆了。";
+            $error = "错误!  做成的船舶证书已经登记了。";
             return back()->with(['error' => $error]);
         }
         $certInfo['CertKind'] = $request->get('CertKind');
@@ -1269,7 +1269,7 @@ class ShipRegController extends Controller
         $ship['shipNo'] = $request->get('shipNo');
         $isExist = Ship::where('name', $ship['name'])->orWhere('shipNo', $ship['shipNo'])->first();
         if(isset($isExist) && ($shipId != $isExist['id'])) {
-            $error = $ship['name'].' 是已经被登陆了。';
+            $error = $ship['name'].' 是已经被登记了。';
             return back()->with(['error'=>$error]);
         }
 
@@ -1309,7 +1309,7 @@ class ShipRegController extends Controller
         $position['Duty_En'] = $request->get('Duty_En');
         $isExist = ShipPosition::where('Duty', $position['Duty'])->orWhere('Duty_En', $position['Duty_En'])->first();
         if(isset($isExist) && ($posId != $isExist['id'])) {
-            $error = $position['Duty'].' 职务是已经被登陆了。';
+            $error = $position['Duty'].' 职务是已经被登记了。';
             return back()->with(['error'=>$error]);
         }
 
@@ -1387,7 +1387,7 @@ class ShipRegController extends Controller
 
         $isExist = ShipIssaCode::where('Code', $type['Code'])->orWhere('Code_Cn', $type['Code_Cn'])->first();
         if(isset($isExist) && ($typeId != $isExist['id'])) {
-            $error = $type['Code_Cn'].' 是已经被登陆了。';
+            $error = $type['Code_Cn'].' 是已经被登记了。';
             return back()->with(['error'=>$error]);
         }
 

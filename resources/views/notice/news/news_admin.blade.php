@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div style="text-align: right">
-                            <a href="#" id="btn-add-tema" class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</a>
+                            <a href="#" id="btn-add-tema" class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-plus-sign-alt"></i>添加</a>
                             <div id="dialog-add-tema" class="hide">
                                 <form class="form-horizontal">
                                     <div class="form-group">
@@ -131,7 +131,7 @@
 
                 var dialog = $( "#dialog-add-tema" ).removeClass('hide').dialog({
                     modal: true,
-                    title: "追加讨论场合",
+                    title: "添加讨论场合",
                     title_html: true,
                     buttons: [
                         {

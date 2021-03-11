@@ -187,7 +187,7 @@ class ExcelController extends Controller {
             }
         }
 
-        // 마지막기록에 대한 追加
+        // 마지막기록에 대한 添加
         if(count($userAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -249,7 +249,7 @@ class ExcelController extends Controller {
             }
         }
 
-        // 마지막기록에 대한 追加
+        // 마지막기록에 대한 添加
         if(count($crewAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -1090,7 +1090,7 @@ class ExcelController extends Controller {
         return view('shipManage.shipinfo', array(
             'list'=> $ship_infolist,
             'excel' => 1,
-            'excel_name' => '船舶诸元'
+            'excel_name' => '船舶规范'
         ));
     }
 
@@ -1148,7 +1148,7 @@ class ExcelController extends Controller {
             'cert'=>$cert,
             'error'=>$error,
             'excel'=>1,
-            'excel_name'=>'船舶证书种类',
+            'excel_name'=>'船舶证书类型',
         ]);
     }
 
@@ -2365,7 +2365,7 @@ class ExcelController extends Controller {
             }
         }
 
-        // 마지막기록에 대한 追加
+        // 마지막기록에 대한 添加
         if(count($userAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);
@@ -2427,7 +2427,7 @@ class ExcelController extends Controller {
             }
         }
 
-        // 마지막기록에 대한 追加
+        // 마지막기록에 대한 添加
         if(count($crewAttend) > 0) {
             if (($totl_attend + $totl_absen) < $work_days) {
                 $attendMember['type_4'] = $attendMember['type_4'] + $work_days - ($totl_attend + $totl_absen);

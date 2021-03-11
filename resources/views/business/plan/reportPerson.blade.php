@@ -432,7 +432,7 @@ else $header = 'sidebar';
                             $('#ReportPersonMonth').html(data);
                             $.gritter.add({
                                 title: '成功',
-                                text: '成功登陆月报告。',
+                                text: '成功登记月报告。',
                                 class_name: 'gritter-success'
                             });
                         });

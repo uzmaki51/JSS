@@ -85,7 +85,7 @@ $ships = Session::get('shipList');
                                 @if(isset($shipId))
                                     <button class="btn btn-sm btn-primary" onclick="modifyCertItem('{{$shipId}}', 0)" style="width: 80px">
                                         <i class="icon-plus-sign-alt"></i>
-                                        追加
+                                        添加
                                     </button>
                                 @endif
                             @endif
@@ -365,7 +365,7 @@ $ships = Session::get('shipList');
 
                         var title = shipName_Cn + ' 修改船舶证书';
                         if (id == 0)
-                            title = shipName_Cn + ' 追加船舶证书'
+                            title = shipName_Cn + ' 添加船舶证书'
                         var dialog = $("#dialog-modify-cert").removeClass('hide').dialog({
                             modal: true,
                             title: title,

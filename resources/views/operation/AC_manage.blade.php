@@ -27,8 +27,8 @@ $ships = Session::get('shipList');
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                     <tr class="black br-hblue">
-                                        <th class="center">种类</th>
-                                        <th class="center">种类(英文)</th>
+                                        <th class="center">类型</th>
+                                        <th class="center">类型(英文)</th>
                                         <th class="center">收入及支出</th>
                                         <th class="center" style="width:120px">说明</th>
                                     </tr>
@@ -49,7 +49,7 @@ $ships = Session::get('shipList');
                                     </tbody>
                                 </table>
                                 <div style="padding-right: 20px;padding-bottom:10px;text-align: right">
-                                    <button type="submit" class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
+                                    <button type="submit" class="btn btn-sm btn-primary no-radius" style="width: 80px"><i class="icon-plus-sign-alt"></i>添加</button>
                                 </div>                        </form>
                         </div>
                     @endif
@@ -64,8 +64,8 @@ $ships = Session::get('shipList');
                                     <thead>
                                     <tr class="black br-hblue">
                                         <th style="width: 10%;" class="center">No</th>
-                                        <th style="width: 20%;" class="center">种类</th>
-                                        <th style="width: 20%;" class="center">种类(英文)</th>
+                                        <th style="width: 20%;" class="center">类型</th>
+                                        <th style="width: 20%;" class="center">类型(英文)</th>
                                         <th style="width: 10% !important;" class="center">收入支出</th>
                                         <th class="center">说明</th>
                                         @if(!$isHolder)
@@ -115,7 +115,7 @@ $ships = Session::get('shipList');
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                     <tr class="black br-hblue">
-                                        <th class="center">种类</th>
+                                        <th class="center">类型</th>
                                         <th class="center">项目</th>
                                         <th class="center">Abb</th>
                                         <th class="center">参考号码</th>
@@ -136,7 +136,7 @@ $ships = Session::get('shipList');
                                     </tbody>
                                 </table>
                                 <div style="padding-right: 20px;padding-bottom:10px;text-align: right">
-                                    <button type="submit" class="btn btn-sm btn-primary save_sub_btn">追加</button>
+                                    <button type="submit" class="btn btn-sm btn-primary save_sub_btn">添加</button>
                                 </div>
                             </form>
                         </div>
@@ -150,7 +150,7 @@ $ships = Session::get('shipList');
                                         <thead>
                                         <tr class="black br-hblue">
                                             <th class="center">No</th>
-                                            <th class="center">种类</th>
+                                            <th class="center">类型</th>
                                             <th class="center">项目</th>
                                             <th class="center">Abb</th>
                                             <th class="center">参考号码</th>

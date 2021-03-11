@@ -4,9 +4,9 @@
             <span class="white">&times;</span>
         </button>
         @if(isset($type['id']))
-            修改船舶种类
+            修改船舶类型
         @else
-            追加
+            添加
         @endif
     </div>
 </div>
@@ -14,12 +14,12 @@
 <div class="modal-body">
     <form class="form-horizontal">
         <div class="form-group">
-            <label class="col-md-3 control-label no-padding-right">船舶种类名称(中文):</label>
+            <label class="col-md-3 control-label no-padding-right">船舶类型名称(中文):</label>
             <div class="col-md-8"><input type="text" id="ship_type_Cn" class="form-control" value="{{$type['ShipType_Cn']}}"></div>
         </div>
         <div class="space-2"></div>
         <div class="form-group">
-            <label class="col-md-3 control-label no-padding-right">船舶种类名称(英文):</label>
+            <label class="col-md-3 control-label no-padding-right">船舶类型名称(英文):</label>
             <div class="col-md-8"><input type="text" id="ship_type_en" class="form-control" value="{{$type['ShipType']}}"></div>
         </div>
     </form>

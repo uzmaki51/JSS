@@ -144,7 +144,7 @@ $shipList = Session::get('shipList');
 
             function editShipOrigin() {
                 var capacityId = $('[name=capacityId]').val();
-                var title = '追加海员适任';
+                var title = '添加海员适任';
                 if(capacityId != '')
                     title = '修改海员适任';
                 var dialog = $( "#dialog_update_ship" ).removeClass('hide').dialog({

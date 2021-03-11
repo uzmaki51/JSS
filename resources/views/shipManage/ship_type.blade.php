@@ -4,8 +4,8 @@
             <thead>
             <tr>
                 <th class="center">No</th>
-                <th class="center">种类(中文)</th>
-                <th class="center">种类(英文)</th>
+                <th class="center">类型(中文)</th>
+                <th class="center">类型(英文)</th>
                 <th class="center"></th>
             </tr>
             </thead>

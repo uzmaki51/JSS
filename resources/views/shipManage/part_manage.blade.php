@@ -95,7 +95,7 @@
 
         function editOrAddNormalPart() {
             var typeId = $('[name=typeId]').val();
-            var title = '追加';
+            var title = '添加';
             if(typeId != '0')
                 title = '修正';
             var dialog = $( "#dialog_update_type" ).removeClass('hide').dialog({

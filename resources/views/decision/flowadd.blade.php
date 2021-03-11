@@ -9,7 +9,7 @@
                     <h4><b>{{transDecideManage("title.EnvironmentSetting")}}</b>
                         <small>
                             <i class="icon-double-angle-right"></i>{{transDecideManage("title.ApproveFlow")}}
-                            <i class="icon-double-angle-right"></i>@if(!isset($flowId))追加 @else 修改 @endif
+                            <i class="icon-double-angle-right"></i>@if(!isset($flowId))添加 @else 修改 @endif
                             <div id="flowId" style="display: none">@if(isset($flowId)) {{$flowId}} @else 0 @endif</div>
                         </small>
                     </h4>
@@ -239,7 +239,7 @@
 
                 checkitems[i].checked = false;
             }
-            //선택된 리용자들을 목록에 追加
+            //선택된 리용자들을 목록에 添加
             var listitem = document.getElementById(id);
             for( var i = 0; i < userlist.length; i++)
             {

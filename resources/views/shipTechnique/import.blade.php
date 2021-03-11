@@ -100,7 +100,7 @@
                             </tbody>
                         </table>
                         <div style="float: right;">
-                            <button class="btn btn-sm btn-primary" id="btn-add-movement">追加</button>
+                            <button class="btn btn-sm btn-primary" id="btn-add-movement">添加</button>
                             <button class="btn btn-sm btn-primary" id="btn-close">关闭</button>
                         </div>
                     </div>

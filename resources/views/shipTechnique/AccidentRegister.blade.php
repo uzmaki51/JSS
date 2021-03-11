@@ -60,7 +60,7 @@ $ships = Session::get('shipList');
                         @if(!$isHolder)
                             <a class="btn btn-sm btn-primary no-radius" href="shipAccidentDetail" style="width: 80px">
                                 <i class="icon-plus-sign-alt"></i>
-                                追加
+                                添加
                             </a>
                         @endif
                     </div>
@@ -76,7 +76,7 @@ $ships = Session::get('shipList');
                             <th class="center">港口名称</th>
                             <th class="center">地点</th>
                             <th class="center">内容</th>
-                            <th class="center">种类</th>
+                            <th class="center">类型</th>
                             <th class="center">附件</th>
                             @if(!$isHolder)
                                 <th class="center" width="70px"></th>

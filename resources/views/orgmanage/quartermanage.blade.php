@@ -152,7 +152,7 @@
 
                 var dialog = $("#modal-adddlg").removeClass('hide').dialog({
                     modal: true,
-                    title: "追加部门",
+                    title: "添加部门",
                     title_html: true,
                     buttons: [
                         {
@@ -252,7 +252,7 @@
 
             var dialog = $("#modal-adddlg").removeClass('hide').dialog({
                 modal: true,
-                title: "追加部门",
+                title: "添加部门",
                 title_html: true,
                 buttons: [
                     {

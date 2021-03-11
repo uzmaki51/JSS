@@ -143,7 +143,7 @@ else $header = 'sidebar';
                                                         </tr>
                                                     @endforeach
                                                     <tr data-id="0" onclick="supplyPlanListAdd($(this))" id="add">
-                                                        <td class="center" colspan="7">新追加</td>
+                                                        <td class="center" colspan="7">新添加</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -218,7 +218,7 @@ else $header = 'sidebar';
                                                 <button class="btn btn-xs btn-primary" id="supplyPlanAdd"
                                                         @if($supplyplanlist->currentPage() < $supplyplanlist->lastPage()) disabled @endif>
                                                     <i class="icon-plus-sign bigger-50"></i>
-                                                    追加
+                                                    添加
                                                 </button>
                                             </div>
                                         </div>
@@ -501,7 +501,7 @@ else $header = 'sidebar';
                 $('#supplyPlanId').val(id);
                 if (id == 0) {
                     document.getElementById("supplyPlanListAdd").reset();
-                    $('#supplyPlanAdd').html('<i class="icon-plus-sign bigger-50"></i> 追加').removeAttr('disabled');
+                    $('#supplyPlanAdd').html('<i class="icon-plus-sign bigger-50"></i> 添加').removeAttr('disabled');
                 } else {
                     $('#yearly').val(that.find('td').eq(0).text());
                     $('#monthly').val(that.find('td').eq(1).text());

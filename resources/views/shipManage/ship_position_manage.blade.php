@@ -30,7 +30,7 @@ $shipList = Session::get('shipList');
                     <button class="btn btn-primary btn-sm search-btn" style="float:left; width :80px"><i class="icon-search"></i>搜索</button>
                     @if(!$isHolder)
                         <div class="col-md-3" style="text-align: right;float:right;margin-top:0px">
-                            <button class="btn btn-sm btn-primary no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>追加</button>
+                            <button class="btn btn-sm btn-primary no-radius new_btn" style="width: 80px"><i class="icon-plus-sign-alt"></i>添加</button>
                         </div>
                     @endif
                 </div>
@@ -115,7 +115,7 @@ $shipList = Session::get('shipList');
 
         function editShipPosition() {
             var shipId = $('[name=shipId]').val();
-            var title = '追加职务';
+            var title = '添加职务';
             if(shipId != '')
                 title = '修改职务';
             var dialog = $( "#dialog_update_position" ).removeClass('hide').dialog({

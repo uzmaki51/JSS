@@ -412,7 +412,7 @@ else $header = 'sidebar';
                                     @endif
                                     @if(!isset($excel) && !$isHolder)
                                         <tr data-id="0">
-                                            <td colspan="23">追加新申请项目</td>
+                                            <td colspan="23">添加新申请项目</td>
                                         </tr>
                                     @endif
                                     </tbody>

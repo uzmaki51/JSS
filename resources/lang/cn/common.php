@@ -23,7 +23,7 @@ return [
 	    'nothing'       => '没有',
 	    'data'          => '资料',
 	    'term'          => '期间',
-	    'add'           => '追加',
+	    'add'           => '添加',
 	    'cancel'        => '取消',
 	    'register'      => '注册',
 	    'change_pass'   => '密码更新',

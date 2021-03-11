@@ -34,7 +34,7 @@ $ships = Session::get('shipList');
                     @if(!$isHolder)
                         <div>
                             <button class="btn btn-sm btn-primary no-radius" style="float:right; width :80px;" id="btn-add-status">
-                                <i class="icon-plus" ></i>追加
+                                <i class="icon-plus" ></i>添加
                             </button>
                         </div>
                     @endif
