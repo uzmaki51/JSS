@@ -14,20 +14,20 @@
     }
 
     .form-control {
-        padding: 0!important;
+        padding: 4px!important;
         border-radius: 0!important;
         border: unset!important;
         font-size: 12px!important;
     }
     .chosen-single {
-        padding: 0 4px!important;
+        padding: 4px!important;
         border-radius: 0!important;
         border: unset!important;
         font-size: 12px!important;
     }
     .input-group-addon {
         font-size: 12px!important;
-        padding: 0!important;
+        padding: 0 4px!important;
         border: unset!important;
     }
 </style>
@@ -46,12 +46,17 @@
                         <tbody>
                         <tr>
                             <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                                {{ transShipManager('General.ShipName') }}
+                                {{ transShipManager('General.ShipName') }}({{ trans("common.label.chinese") }})
                             </td>
-                            <td class="custom-td-report-text" style="width: 25%">
+                            <td class="custom-td-report-text" style="width: 80%" colspan="2">
                                 <input type="text" name="shipName_Cn" class="form-control" placeholder="中文" style="width:100%" value="@if(isset($shipInfo['shipName_Cn'])){{$shipInfo['shipName_Cn']}}@endif">
                             </td>
-                            <td class="custom-td-report-text" style="width: 25%">
+                        </tr>
+                        <tr>
+                            <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                                {{ transShipManager('General.ShipName') }}({{ trans("common.label.english") }})
+                            </td>
+                            <td class="custom-td-report-text" style="width: 80%" colspan="2">
                                 <input type="text" name="shipName_En" class="form-control" placeholder="英文" style="width:100%" value="@if(isset($shipInfo['shipName_En'])){{$shipInfo['shipName_En']}}@endif">
                             </td>
                         </tr>
@@ -145,24 +150,26 @@
                             <td class="custom-td-label1" style="text-align: left" colspan="2">
                                 {{ transShipManager('General.Flag') }}
                             </td>
-                            <td class="custom-td-report-text" style="width: 25%">
+                            <td class="custom-td-report-text" style="width: 25%" colspan="2">
                                 <input type="text" name="Flag_Cn" class="form-control" placeholder="中文" style="width:100%" value="@if(isset($shipInfo['Flag_Cn'])){{$shipInfo['Flag_Cn']}}@endif">
-                            </td>
-                            <td class="custom-td-report-text" style="width: 25%">
-                                <input type="text" name="Flag" class="form-control" placeholder="英文" style="width:100%" value="@if(isset($shipInfo['Flag'])){{$shipInfo['Flag']}}@endif">
                             </td>
                         </tr>
                         <tr>
                             <td class="custom-td-label1" style="text-align: left" colspan="2">
-                                {{ transShipManager('General.port of Reg') }}
+                                {{ transShipManager('General.port of Reg') }}({{ trans('common.label.chinese') }})
                             </td>
-                            <td class="custom-td-report-text" style="width: 25%">
+                            <td class="custom-td-report-text" style="width: 25%" colspan="2">
                                 <input type="text" name="PortOfRegistry_Cn" class="form-control" placeholder="中文" style="width:100%" value="@if(isset($shipInfo['PortOfRegistry_Cn'])){{$shipInfo['PortOfRegistry_Cn']}}@endif">
                             </td>
-                            <td class="custom-td-report-text" style="width: 25%">
+                        </tr>
+                        <tr>
+                            <td class="custom-td-label1" style="text-align: left" colspan="2">
+                                {{ transShipManager('General.port of Reg') }}({{ trans('common.label.english') }})
+                            </td>
+                            <td class="custom-td-report-text" style="width: 25%" colspan="2">
                                 <input type="text" name="PortOfRegistry" class="form-control" placeholder="英文" style="width:100%" value="@if(isset($shipInfo['PortOfRegistry'])){{$shipInfo['PortOfRegistry']}}@endif">
                             </td>
-                        </tr>
+                        </tr>                        
                         <tr>
                             <td class="custom-td-label1" style="text-align: center" rowspan="4">
                                 {{ transShipManager('General.owner') }}
