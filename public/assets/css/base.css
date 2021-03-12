@@ -50,7 +50,7 @@ a:hover {
   border-bottom: 1px solid #c8d0d7;
   border-top: 0 solid #c8d0d7;
   width: 702px;
-  height: 367px;
+  height: auto;
   padding: 12px 20px 0px 20px;
   background: #f9fdff;
   position: absolute;
