@@ -19,7 +19,7 @@
         }
     </style>
 
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar menu-min" id="sidebar">
 
     <ul class="nav nav-list">
         @foreach($GLOBALS['menulist'] as $menu)

@@ -32,6 +32,15 @@ class OrgmanageController extends Controller
         if($admin == 0)
             $query = $query->where('admin', '0');
         $topMenu = $query->get();
+
+		foreach($topMenu as $menu) {
+            $menu['submenu'] = Menu::where('parentId', '=', $menu['id'])->get();
+            foreach($menu['submenu'] as $submenu)
+            {
+                $submenu['thirdmenu'] = Menu::where('parentId', '=', $submenu['id'])->get();
+            }
+        }
+
         $GLOBALS['topMenu'] = $topMenu;
         $GLOBALS['topMenuId'] = 1;
 

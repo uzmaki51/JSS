@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/ace-rtl.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/ace-skins.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/jquery.gritter.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/base.css') }}" />
 
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="{{ asset('/assets/css/ace-ie.min.css') }}"/>
@@ -85,6 +86,9 @@
     <script src="{{ asset('/assets/js/jquery.gritter.min.js')}}"></script>
     <script src="{{ asset('/assets/js/jquery.toast.min.js')}}"></script>
 
+    <script src="{{ asset('/assets/js/jquery.slides.js')}}"></script>
+    <script src="{{ asset('/assets/js/util.js')}}"></script>
+
 </head>
 
 <body class="skin-1">
@@ -97,18 +101,31 @@
                 </a>
                 <?php $routeName = Route::getCurrentRoute()->getPath();?>
                 <div class="parent-menu">
-                    <ul class="nav navbar-nav">
+                    <ul id="topmenu" class="nav navbar-nav">
                         <li class="{{ $routeName == 'home' ? 'active' : '' }}">
                             <a href="/">{{ trans('home.title.dashboard') }}</a>
                         </li>
                         @foreach($GLOBALS['topMenu'] as $topMenu)
-							<?php
-							if ($routeName != 'home' && $GLOBALS['topMenuId'] == $topMenu->id) {
-								echo "<li class=\"active\">"."<a href=\"".$topMenu->controller."\">".$topMenu->title."</a></li>";
-							} else {
-								echo "<li><a href=\"".$topMenu->controller."\">".$topMenu->title."</a></li>";
-							}
-							?>
+                            @if ($routeName != 'home' && $GLOBALS['topMenuId'] == $topMenu->id)
+                                <li class="" style="background: #9ecbff!important;">
+                            @else
+                                <li class="">
+                            @endif
+                                <a id="n0" class="home " href='{{$topMenu->controller}}'>{{$topMenu->title}}</a>
+                                <ul class="sub-menu" style="display: none;">
+                                    @foreach($topMenu['submenu'] as $submenu)
+                                    <li>
+                                        <a href="{{ url($submenu['controller']).'?menuId='.$submenu['id'] }}">{{$submenu->title}}</a>
+                                        <ul class="third-menu clearfix" style="display: none;">
+                                            @foreach($submenu['thirdmenu'] as $thirdmenu)
+                                            <li><a href="{{ url($submenu['controller']).'?menuId='.$topMenu['id'].'&submenu='.$submenu['id'] }}">{{$thirdmenu->title}}</a></li>
+                                            @endforeach
+                                            <br/>
+                                        </ul>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </li>
                         @endforeach
                     </ul>
                 </div>

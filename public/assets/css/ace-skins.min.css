@@ -19,7 +19,7 @@
 .skin-1 .nav-list > li > a, .skin-1 .menu-min .nav-list > li.open > a {
     background-color: #2e323a;
     color: #838790;
-    padding: 1.75rem 1rem;
+    padding: 0.75rem 1rem;
 }
 
 .skin-1 .nav-list > li:hover > a {
@@ -41,7 +41,7 @@
 
 .skin-1 .nav-list > li.active .submenu > li > a {
     border-top-color: unset;
-    padding: 1.75rem 1rem;
+    padding: 0.75rem 1rem;
 }
 
 .skin-1 .nav-list li.active > a:after {
@@ -75,7 +75,7 @@
 .skin-1 .nav-list > li.active > a, .skin-1 .nav-list > li.active > a:hover, .skin-1 .menu-min .nav-list > li.active > a, .skin-1 .menu-min .nav-list > li.active > a:hover {
     background-color: transparent;
     color: #ffffff;
-    padding: 1.75rem 1rem;
+    padding: 0.75rem 1rem;
 }
 
 .skin-1 .nav-list > li > ul.submenu {

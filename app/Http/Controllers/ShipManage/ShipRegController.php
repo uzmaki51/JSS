@@ -73,7 +73,14 @@ class ShipRegController extends Controller
         } else {
             $topMenu = Util::getTopMemu($this->userInfo['menu']);
         }
-        $GLOBALS['topMenu'] = $topMenu;
+        foreach($topMenu as $menu) {
+            $menu['submenu'] = Menu::where('parentId', '=', $menu['id'])->get();
+            foreach($menu['submenu'] as $submenu)
+            {
+                $submenu['thirdmenu'] = Menu::where('parentId', '=', $submenu['id'])->get();
+            }
+        }
+		$GLOBALS['topMenu'] = $topMenu;
         $GLOBALS['topMenuId'] = 4;
 
         if ($admin > 0) {

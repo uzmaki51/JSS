@@ -1,0 +1,122 @@
+@charset "utf-8";
+/* 默认Blue色系 */
+/*主页宽度设置*/
+/*常用设定*/
+a:hover {
+  color: #ff6000 !important;
+}
+
+#topmenu li {
+  float: left;
+}
+
+#topmenu li a.home:hover {
+  color: #0077cc;
+  background: #f9fdff;
+}
+#topmenu li .home-selected {
+  color: #0077cc;
+  background: #f9fdff;
+}
+#topmenu li a {
+  text-align: center;
+  color: #ffffff;
+  font-size: 16px;
+  display: block;
+  text-decoration: none;
+  font-weight: bold;
+  overflow: hidden;
+  outline: none;
+}
+#topmenu li a.selected,
+#topmenu li a:hover {
+  color: #0077cc !important;
+  background: #f9fdff;
+}
+#topmenu li a.selected{
+  color: #0077cc !important;
+}
+#topmenu li a:hover {
+  color: #ff6600 !important;
+}
+#topmenu li a:hover ul.sub-menu,
+#topmenu li a:hover ul.third-menu {
+  display: block;
+}
+#topmenu ul.sub-menu {
+  display: none;
+  border-left: 1px solid #c8d0d7;
+  border-right: 1px solid #c8d0d7;
+  border-bottom: 1px solid #c8d0d7;
+  border-top: 0 solid #c8d0d7;
+  width: 702px;
+  height: 367px;
+  padding: 12px 20px 0px 20px;
+  background: #f9fdff;
+  position: absolute;
+  margin-left: 0px;
+}
+#topmenu ul.sub-menu li {
+  height: 29px;
+  line-height: 29px;
+  float: none;
+  position: relative;
+}
+#topmenu ul.sub-menu li a {
+  color: #0077cc;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: "SimHei", "Arial";
+  float: none;
+  width: 127px;
+  padding-left: 15px;
+  height: 29px;
+  line-height: 29px;
+  position: relative;
+  color: #555555;
+  text-align: left;
+}
+#topmenu ul.sub-menu li a:hover {
+  background: none;
+  color: #ff6000 !important;
+}
+#topmenu ul.sub-menu ul.third-menu {
+  display: none;
+  width: 560px;
+  left: 142px;
+  top: 0px;
+  position: absolute;
+}
+#topmenu ul.sub-menu ul.third-menu li {
+  float: left;
+  width: 140px;
+  padding: 0;
+  overflow: hidden;
+}
+#topmenu ul.sub-menu ul.third-menu li a {
+  float: left;
+  width: 128px;
+  color: #666666;
+  font-size: 12px;
+  font-weight: normal;
+  height: 17px;
+  line-height: 17px;
+  margin-top: 7px;
+  text-align: left;
+  padding-left: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  background: url("images/icons.gif") no-repeat -216px -346px;
+  font-family: "Microsoft YaHei", "Arial";
+}
+#topmenu ul.sub-menu ul.third-menu li a:hover {
+  color: #ff0022 !important;
+  background: url("images/icons.gif") no-repeat -216px -366px;
+}
+
+#topmenu ul li {
+  margin-right: -20px!important;
+  height: auto!important;
+  border-radius: 4px!important;
+}
