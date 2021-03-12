@@ -115,13 +115,16 @@
                                 <ul class="sub-menu" style="display: none;">
                                     @foreach($topMenu['submenu'] as $submenu)
                                     <li>
-                                        <a href="{{ url($submenu['controller']).'?menuId='.$submenu['id'] }}">{{$submenu->title}}</a>
+                                        @if (count($submenu['thirdmenu']) > 0)
+                                        <a href="">{{$submenu->title}}</a>
                                         <ul class="third-menu clearfix" style="display: none;">
                                             @foreach($submenu['thirdmenu'] as $thirdmenu)
-                                            <li><a href="{{ url($submenu['controller']).'?menuId='.$topMenu['id'].'&submenu='.$submenu['id'] }}">{{$thirdmenu->title}}</a></li>
+                                            <li><a href="{{ url($thirdmenu['controller']).'?menuId='.$submenu['id'].'&submenu='.$thirdmenu['id'] }}">{{$thirdmenu->title}}</a></li>
                                             @endforeach
-                                            <br/>
                                         </ul>
+                                        @else
+                                        <a href="{{ url($submenu['controller']).'?menuId='.$submenu['id'] }}">{{$submenu->title}}</a>
+                                        @endif
                                     </li>
                                     @endforeach
                                 </ul>
