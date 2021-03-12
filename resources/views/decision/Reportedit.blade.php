@@ -8,10 +8,47 @@
         <script src="/KindEditor/plugins/code/prettify.js"></script>
 
         <style>
-            .td-stamp {
-                width : 450px;
+            /* .page-content * {
+                border: unset!impor
+            } */
+            .table tr {
+                height: 24px;
+            }
+            .table tbody > tr > td {
+                font-size: 13px!important;
+            }
+            .table tbody > tr > .custom-td-label1 {
+                padding: 0 4px!important;
+                height: auto!important;
+            }
+            .table tbody > tr > .custom-td-text1, .table tbody > tr > .custom-td-dec-text {
+                padding: 0!important;
             }
 
+            .form-control {
+                padding: 4px!important;
+                border-radius: 0!important;
+                border: unset!important;
+                font-size: 14px!important;
+                line-height: 1!important;
+            }
+            .chosen-single {
+                padding: 4px!important;
+                border-radius: 0!important;
+                border: unset!important;
+                font-size: 14px!important;
+                line-height: 1!important;
+            }
+            .input-group-addon {
+                font-size: 14px!important;
+                padding: 0 4px!important;
+                border: unset!important;
+                line-height: 1!important;
+            }
+            .btn {
+                height: 25px!important;
+                font-size: 13px;
+            }
         </style>
 
         <div class="page-content">
@@ -34,149 +71,180 @@
             </div>
             <div class="col-md-12">
                 <div class="row">
-                    <form role="form" method="POST" action="{{url('decision/Reportsave')}}" enctype="multipart/form-data" id="validation-form">
-                        <input type="submit" class="hidden" id="submit">
-                        <input type="text" name="reportId" class="hidden" value="@if(isset($reportinfo)) {{$reportinfo['id']}} @else 0 @endif">
-                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                        <input type="text" class="hidden" name="tempBox">
-                        {{--<input type="number" class="hidden" name="flowid" value="@if(isset($reportinfo)){{ $reportinfo['flowid'] }}@endif">--}}
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <td class="custom-td-label1" style="width:15%">
-                                    起草
-                                </td>
-                                <td class="custom-td-text1">
-                                    <select name="flowid" class="form-control width-100">
-                                        <option value="">请选择起草。</option>
-                                        @foreach($flows as $key => $item)
-                                            <option value="{{ $item['id'] }}" {{ isset($reportinfo) && $reportinfo['flowid'] == $item['id'] ? "selected" : "" }}>{{ $item['title'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td class="custom-td-label1">收支分类</td>
-                                <td class="custom-td-text1">
-                                    <select name="fee_type" class="form-control width-100">
-                                        <option value="">请选择收支分类。</option>
-                                        @if(isset($reportinfo) && $reportinfo['flowid'] != 1)
-                                            @foreach($acList as $key => $item)
-                                                <option value="{{ $item->id }}" {{ isset($reportinfo) &&  $item->id == $reportinfo['profit_type'] ? "selected" : "" }}>{{ $item->AC_Item_En }}</option>
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-8">
+                        <form role="form" method="POST" action="{{url('decision/Reportsave')}}" enctype="multipart/form-data" id="validation-form">
+                            <input type="submit" class="hidden" id="submit">
+                            <input type="text" name="reportId" class="hidden" value="@if(isset($reportinfo)) {{$reportinfo['id']}} @else 0 @endif">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                            <input type="text" class="hidden" name="tempBox">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td class="custom-td-label1" style="width:15%">
+                                        起草
+                                    </td>
+                                    <td class="custom-td-text1">
+                                        <select name="flowid" class="form-control width-100">
+                                            <option value="">请选择起草。</option>
+                                            @foreach($flows as $key => $item)
+                                                <option value="{{ $item['id'] }}" {{ isset($reportinfo) && $reportinfo['flowid'] == $item['id'] ? "selected" : "" }}>{{ $item['title'] }}</option>
                                             @endforeach
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-td-label1">收支分类</td>
+                                        <td class="custom-td-text1">
+                                            <select name="fee_type" class="form-control width-100">
+                                            <option value="">请选择收支分类。</option>
+                                            @if(isset($reportinfo) && $reportinfo['flowid'] != 1)
+                                                @foreach($acList as $key => $item)
+                                                    <option value="{{ $item->id }}" {{ isset($reportinfo) &&  $item->id == $reportinfo['profit_type'] ? "selected" : "" }}>{{ $item->AC_Item_En }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-td-label1" style="width:15%">
+                                        金额
+                                    </td>
+                                    <td class="custom-td-text1" colspan="3">
+                                        <div style="display: flex;">
+                                            <input type="text" name="amount" style="display: inline-block;" class="form-control" value="{{ isset($reportinfo['amount']) ? $reportinfo['amount'] : '' }}">
+                                            <select name="currency" class="form-control width-auto"  style="display: inline-block;">
+                                                <option value="CNY" {{ isset($reportinfo) && $reportinfo['currency'] == "CNY" ? "selected" : "" }}>￥</option>
+                                                <option value="USD" {{ isset($reportinfo) && $reportinfo['currency'] == "USD" ? "selected" : "" }}>$</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-td-label1" style="width:15%">
+                                        船名
+                                    </td>
+                                    <td class="custom-td-text1">
+                                        <select name="shipNo" class="form-control width-100">
+                                            <option value="">请选择船舶。</option>
+                                            @foreach($shipList as $key => $item)
+                                                <option value="{{ $item['attributes']['shipID'] }}" {{ isset($reportinfo) && $item['attributes']['shipID'] == $reportinfo['shipNo'] ? "selected" : "" }}>{{ $item['attributes']['shipName_En'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-td-label1" style="width:15%">
+                                        항차번호
+                                    </td>
+                                    <td class="custom-td-text1">
+                                        <select name="shipNo" class="form-control width-100">
+                                            <option value="">항차번호를 선택하십시오.</option>
+                                            @foreach($shipList as $key => $item)
+                                                <option value="{{ $item['attributes']['shipID'] }}" {{ isset($reportinfo) && $item['attributes']['shipID'] == $reportinfo['shipNo'] ? "selected" : "" }}>{{ $item['attributes']['shipName_En'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                </tr>
+                                <!--
+                                <tr>
+                                    <td class="custom-td-label1" style="width: 15%">
+                                    {{transDecideManage("captions.docNumber")}}
+                                    </td>
+                                    <td class="custom-td-text1 center" colspan="3">
+                                        @if(isset($reportinfo))
+                                            {{ $reportinfo['docNo'] }}
+                                        @else
+                                            {{ $report_num }}
                                         @endif
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="custom-td-label1" style="width:15%">
-                                    船名
-                                </td>
-                                <td class="custom-td-text1">
-                                    <select name="shipNo" class="form-control width-100">
-                                        <option value="">请选择船舶。</option>
-                                        @foreach($shipList as $key => $item)
-                                            <option value="{{ $item['attributes']['shipID'] }}" {{ isset($reportinfo) && $item['attributes']['shipID'] == $reportinfo['shipNo'] ? "selected" : "" }}>{{ $item['attributes']['shipName_En'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td class="custom-td-label1" style="width:15%">
-                                    金额
-                                </td>
-                                <td class="custom-td-text1" colspan="3">
-                                    <input type="text" name="amount" class="width-70" align="right" value="{{ isset($reportinfo['amount']) ? $reportinfo['amount'] : '' }}">
-                                    <select name="currency" class="form-control width-auto"  style="display: inline-block;">
-                                        <option value="CNY" {{ isset($reportinfo) && $reportinfo['currency'] == "CNY" ? "selected" : "" }}>￥</option>
-                                        <option value="USD" {{ isset($reportinfo) && $reportinfo['currency'] == "USD" ? "selected" : "" }}>$</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="custom-td-label1" style="width: 15%">
-                                {{transDecideManage("captions.docNumber")}}
-                                </td>
-                                <td class="custom-td-text1 center" colspan="3">
-                                    @if(isset($reportinfo))
-                                        {{ $reportinfo['docNo'] }}
-                                    @else
-                                        {{ $report_num }}
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="custom-td-label1">
-                                {{transDecideManage("captions.departName")}}
-                                </td>
-                                <td class="custom-td-text1" colspan="3">
-                                    <label class="form-control">{{$userInfo1['unit']}}</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="custom-td-label1">
-                                {{transDecideManage("captions.approver")}}
-                                </td>
-                                <td class="custom-td-dec-text">
-                                    <label class="form-control">{{$user['realname']}}</label>
-                                </td>
-                                <td class="custom-td-dec-text">
-                                    <label class="form-control">{{$userInfo1['pos']}}</label>
+                                    </td>
+                                </tr>
+                                -->
+                                <!--
+                                <tr>
+                                    <td class="custom-td-label1">
+                                    {{transDecideManage("captions.departName")}}
+                                    </td>
+                                    <td class="custom-td-text1" colspan="3">
+                                        <label class="form-control">{{$userInfo1['unit']}}</label>
+                                    </td>
+                                </tr>
+                                -->
+                                <!--
+                                <tr>
+                                    <td class="custom-td-label1">
+                                    {{transDecideManage("captions.approver")}}
+                                    </td>
+                                    <td class="custom-td-dec-text">
+                                        <label class="form-control">{{$user['realname']}}</label>
+                                    </td>
+                                    <td class="custom-td-dec-text">
+                                        <label class="form-control">{{$userInfo1['pos']}}</label>
 
-                                </td>
-                                <td class="custom-td-dec-text">
-                                    <label class="form-control">@if($user['isAdmin']==1) 管理者 @else
-                                            一般使用者 @endif</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="custom-td-label1">{{transDecideManage("captions.draftDate")}}</td>
-                                <td class="custom-td-dec-text">
-                                    <label class="form-control">@if(isset($reportinfo)){{$reportinfo['draftDate']}}@else{!! date('Y/m/d') !!}@endif</label>
-                                </td>
-                                <td class="custom-td-dec-text" style="text-align: right;">{{transDecideManage("captions.savePeriod")}} <span class="require">*</span></td>
-                                <td class="custom-td-dec-text">
-                                    <select id="saveYears" name="saveYears">
-                                        @for($i=1; $i<23; $i++)
-                                            <option value="{{$i}}" @if(isset($reportinfo) && ($i == $reportinfo['storage'])) selected @elseif(empty($reportinfo) && ($i == 13)) selected @endif>@if($i<13){{$i}}月@else{{$i-12}}年@endif</option>
-                                        @endfor
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="custom-td-label1">{{transDecideManage("captions.approveName")}} <span class="require">*</span></td>
-                                <td class="custom-td-dec-text" colspan="5">
-                                    <input type="text" name="decTitle" id="decTitle" class="form-control" style="width: 100%"
-                                           value="@if(isset($reportinfo)){{$reportinfo['title']}}@endif">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="custom-td-dec-text" colspan="6">
-                                    <div class="alert alert-info" id="decidealert" style="height: 20px;display: none">
-                                    {{transDecideManage("captions.input_content_msg")}}
-                                    </div>
-                                    <textarea name="comment" class="form-control" style="height:310px">
-                                            @if(isset($reportinfo)){{$reportinfo['content']}}@endif
-                                        </textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="custom-td-label1" style="width:15%">{{transDecideManage("captions.attachFile")}}1</td>
-                                <td class="custom-td-dec-text" colspan="5">
-                                    <input type="file" name="attachFile1" id="attachFile1" style="display: none;">
-                                    <button type="button" id="openFile1" class="btn btn-info"><i class="icon-folder-open-alt"></i>{{transDecideManage("captions.selectFile")}}</button>
-                                    <label style="margin-left:10px" id="labFile1">@if(isset($reportinfo)){{$reportinfo['fileName1']}}@endif</label>
-                                    <input class="hidden" id="fileName1" name="fileName1" value="@if(isset($reportinfo)){{$reportinfo['fileName1']}}@endif">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="custom-td-label1" style="width:15%">{{transDecideManage("captions.attachFile")}}2</td>
-                                <td class="custom-td-dec-text" colspan="5">
-                                    <input type="file" name="attachFile2" id="attachFile2" style="display: none">
-                                    <button type="button" id="openFile2" class="btn btn-warning"><i class="icon-folder-open-alt"></i>{{transDecideManage("captions.selectFile")}}</button>
-                                    <label style="margin-left:10px" id="labFile2">@if(isset($reportinfo)){{$reportinfo['fileName2']}}@endif</label>
-                                    <input class="hidden" id="fileName2" name="fileName2" value="@if(isset($reportinfo)){{$reportinfo['fileName2']}}@endif">
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </form>
+                                    </td>
+                                    <td class="custom-td-dec-text">
+                                        <label class="form-control">@if($user['isAdmin']==1) 管理者 @else
+                                                一般使用者 @endif</label>
+                                    </td>
+                                </tr>
+                                -->
+                                <tr>
+                                    <td class="custom-td-label1">{{transDecideManage("captions.draftDate")}}</td>
+                                    <td class="custom-td-dec-text">
+                                        <label class="form-control">@if(isset($reportinfo)){{$reportinfo['draftDate']}}@else{!! date('Y/m/d') !!}@endif</label>
+                                    </td>
+                                    <!--
+                                    <td class="custom-td-dec-text" style="text-align: right;">{{transDecideManage("captions.savePeriod")}} <span class="require">*</span></td>
+                                    
+                                    <td class="custom-td-dec-text">
+                                        <select id="saveYears" name="saveYears">
+                                            @for($i=1; $i<23; $i++)
+                                                <option value="{{$i}}" @if(isset($reportinfo) && ($i == $reportinfo['storage'])) selected @elseif(empty($reportinfo) && ($i == 13)) selected @endif>@if($i<13){{$i}}月@else{{$i-12}}年@endif</option>
+                                            @endfor
+                                        </select>
+                                    </td>
+                                    -->
+                                </tr>
+                                <tr>
+                                    <td class="custom-td-label1">{{transDecideManage("captions.approveName")}} <span class="require">*</span></td>
+                                    <td class="custom-td-dec-text" colspan="5">
+                                        <input type="text" name="decTitle" id="decTitle" class="form-control" style="width: 100%"
+                                            value="@if(isset($reportinfo)){{$reportinfo['title']}}@endif">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-td-dec-text" colspan="6">
+                                        <div class="alert alert-info" id="decidealert" style="height: 20px;display: none">
+                                        {{transDecideManage("captions.input_content_msg")}}
+                                        </div>
+                                        <textarea name="comment" class="form-control" style="height:160px">@if(isset($reportinfo)){{$reportinfo['content']}}@endif</textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-td-label1" style="width:15%">{{transDecideManage("captions.attachFile")}}1</td>
+                                    <td class="custom-td-dec-text" colspan="5">
+                                        <input type="file" name="attachFile1" id="attachFile1" style="display: none;">
+                                        <button type="button" id="openFile1" class="btn btn-info"><i class="icon-folder-open-alt"></i>{{transDecideManage("captions.selectFile")}}</button>
+                                        <label style="margin-left:10px" id="labFile1">@if(isset($reportinfo)){{$reportinfo['fileName1']}}@endif</label>
+                                        <input class="hidden" id="fileName1" name="fileName1" value="@if(isset($reportinfo)){{$reportinfo['fileName1']}}@endif">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom-td-label1" style="width:15%">{{transDecideManage("captions.attachFile")}}2</td>
+                                    <td class="custom-td-dec-text" colspan="5">
+                                        <input type="file" name="attachFile2" id="attachFile2" style="display: none">
+                                        <button type="button" id="openFile2" class="btn btn-warning"><i class="icon-folder-open-alt"></i>{{transDecideManage("captions.selectFile")}}</button>
+                                        <label style="margin-left:10px" id="labFile2">@if(isset($reportinfo)){{$reportinfo['fileName2']}}@endif</label>
+                                        <input class="hidden" id="fileName2" name="fileName2" value="@if(isset($reportinfo)){{$reportinfo['fileName2']}}@endif">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -282,16 +350,16 @@
                 }
             }
 
-            editor = KindEditor.create('textarea[name="comment"]', {
-                cssPath: '/KindEditor/plugins/code/prettify.css',
-                newlineTag: 'br',
-                allowPreviewEmoticons: false,
-                language: 'cn',
-                allowImageUpload: false,
-                items: ['fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                    'insertunorderedlist', '|', 'emoticons', 'link']
-            });
+            // editor = KindEditor.create('textarea[name="comment"]', {
+            //     cssPath: '/KindEditor/plugins/code/prettify.css',
+            //     newlineTag: 'br',
+            //     allowPreviewEmoticons: false,
+            //     language: 'cn',
+            //     allowImageUpload: false,
+            //     items: ['fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+            //         'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+            //         'insertunorderedlist', '|', 'emoticons', 'link']
+            // });
 
             $("#validation-form").validate({
                 rules: {

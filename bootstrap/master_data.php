@@ -87,9 +87,9 @@ define('REPORT_CONTACT',        1);
 define('REPORT_EVIDENCE_OUT',   2);
 define('REPORT_EVIDENCE_IN',    3);
 $ReportTypeLabelData = array(
-	REPORT_CONTACT          => ['Contract',    'primary'],
-	REPORT_EVIDENCE_OUT     => ['Debit',       'info'],
-	REPORT_EVIDENCE_IN      => ['Credit',      'danger'],
+	REPORT_CONTACT          => ['合同',    'primary'],
+	REPORT_EVIDENCE_OUT     => ['收入',       'info'],
+	REPORT_EVIDENCE_IN      => ['支出',      'danger'],
 );
 
 define('USD_LABEL', 'USD');

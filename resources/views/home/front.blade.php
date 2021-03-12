@@ -1,6 +1,8 @@
 @extends('layout.header')
 
 @section('sidebar')
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <link href="{{ cAsset('assets/css/home.css') }}" rel="stylesheet"/>
     <script src="{{ cAsset('assets/js/chartjs/chartjs.js') }}"></script>
     <script src="{{ cAsset('js/dashboards_dashboard-1.js') }}"></script>
@@ -10,73 +12,30 @@
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <div class="card-title">
-                                        <span class="bigger-200" style="vertical-align: middle;">{{ trans('home.title.sign_off') }}</span>
-                                    </div>
-                                </div>
+                            <div class="card mb-4">                                
                                 <div class="card-body">
-                                    <div class="table-responsive" id="decidemanage_list_table">
-                                        <table class="table table-striped table-bordered table-hover">
-                                            <thead>
-                                            <tr class="black br-hblue">
-                                                <th style="text-align: center;width: 60px">{{ trans('home.table.no') }}</th>
-                                                <th class="center" style="width:70px">{{ trans('home.table.attach') }}</th>
-                                                <th class="center" style="width:80px">{{ trans('home.table.percentage') }}</th>
-                                                <th class="center">{{ trans('home.table.sign_name') }}</th>
-                                                <th class="center" style="width:15%">{{ trans('home.table.sign_type') }}</th>
-                                                <th class="center" style="width:100px">{{ trans('home.table.sign_sender') }}</th>
-                                                <th class="center" style="width:125px">{{ trans('home.table.sign_at') }}</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
+                                    <div class="advertise">
+                                        <div style="width: 10%; padding-left: 16px;">
+                                            <h5 style="font-weight: bold;">重要公告 : </h5>
+                                        </div>
+                                        <div class="sign_list slider" style="width: 85%;">
                                             @if(isset($reportList) && count($reportList) > 0)
-												<?php $index = 1?>
-                                                @foreach ($reportList as $reportinfo)
-                                                    <tr>
-                                                        <td class="center">{{$index++}}</td>
-                                                        <td class="center">
-                                                            @if(!empty($reportinfo->file1))
-                                                                <a href="/fileDownload?type=report&path={{$reportinfo->file1}}" class="hide-option"
-                                                                   @if(!empty($reportinfo->fileName1)) title="{{$reportinfo->fileName1}}" @endif>
-                                                                    <i class="icon-file bigger-125"></i>
-                                                                </a>
-                                                            @endif
-                                                            @if(!empty($reportinfo->file2))
-                                                                <a href="/fileDownload?type=report&path={{$reportinfo->file2}}" class="hide-option"
-                                                                   @if(!empty($reportinfo->fileName2)) title="{{$reportinfo->fileName2}}" @endif>
-                                                                    <i class="icon-file bigger-125"></i>
-                                                                </a>
-                                                            @endif
-                                                        </td>
-                                                        <td class="center">
-                                                            <div class="progress progress-striped" data-percent="{{$reportinfo->decideCount}}/{{$reportinfo->totalCount}}">
-																<?php $rate = ($reportinfo->decideCount / $reportinfo->totalCount) * 100; ?>
-                                                                <div class="progress-bar progress-bar-success" style="width:{{$rate}}%;"></div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <a href="/decision/decideShow?reportId={{$reportinfo->id}}">{{$reportinfo->title}}</a>
-                                                        </td>
-                                                        <td class="center">
-                                                            {{$reportinfo->flowTitle}}
-                                                        </td>
-                                                        <td class="center">
-                                                            {{$reportinfo->realname}}
-                                                        </td>
-                                                        <td class="center">
-                                                            {!! convert_datetime($reportinfo->draftDate) !!}
-                                                        </td>
-                                                    </tr>
+                                                @foreach ($reportList as $item)
+                                                    <div style="margin-top: 4px; height: 40px; outline: unset;">
+                                                        <h5>
+                                                            <a href="/decision/decideShow?reportId={{$item->id}}" style="color: white; outline: unset;" target="_blank">
+                                                                【{{ $item->realname }}】<span>으로부터 【{{ $shipForDecision[$item->shipNo] }}】호에 대한 {{ g_enum('ReportTypeLabelData')[$item->flowid][0] }}결재문건이 도착하였습니다.
+                                                            </a>
+                                                        </h5>
+                                                    </div>
                                                 @endforeach
                                             @else
-                                                <tr>
-                                                    <td colspan="8">{{ trans('home.message.no_data') }}</td>
-                                                </tr>
+                                                <span>{{ trans('home.message.no_data') }}</span>
                                             @endif
-                                            </tbody>
-                                        </table>
+                                        </div>
+                                        <div class="text-right" style="width: 5%; padding-right: 16px;">
+                                            <a href="/decision/decidemanage" style="color: white; text-decoration: underline;" target="_blank">更多</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -225,6 +184,19 @@
     <script>
         var token = '{!! csrf_token() !!}';
         var attendStatus = '{{$attendStatus}}';
+
+        $(".sign_list").slick({
+            dots: false,
+            vertical: true,
+            centerMode: false,
+            autoplay: true,
+            prevArrow: false,
+            nextArrow: false,
+            autoplaySpeed: 3000,
+            swipe: false,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        });
 
         $(function() {
             var chart1 = new Chart(document.getElementById('statistics-chart-1').getContext("2d"), {

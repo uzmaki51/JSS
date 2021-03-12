@@ -209,7 +209,7 @@ class HomeController extends Controller {
 
             $units[] = $ship;
         }
-//var_dump($shipList);die;
+
         $shipMemberList = ShipMember::getMemberListByCommar(); // 대기선원들을 반점으로 区分하여 얻는다.
         $resultList = AttendShip::getAttendStateByDate($shipMemberList, $selDate);
         $valueList = array();
@@ -290,7 +290,13 @@ class HomeController extends Controller {
 
         if (empty($year))
             $year = date('Y');
-
+        // var_dump($reportList);die;
+        $tmp = ShipRegister::getSimpleDataList();
+        $shipForDecision = array();
+        foreach($tmp as $key => $item) {
+            $shipForDecision[$item->id] = $item->shipName_Cn;
+        }
+        // var_dump($shipForDecision);die;
         $searchData = $RateModel->getSearchRate($year);
 
             return view('home.front', [
@@ -298,6 +304,7 @@ class HomeController extends Controller {
                 'units'             => $units,
                 'typeList'          => $typeList,
                 'shipList'          => $shipList,
+                'shipForDecision'   => $shipForDecision,
                 'selDate'           => $selDate,
                 'reportList'        => $reportList,
                 'movement'          => $movement,
