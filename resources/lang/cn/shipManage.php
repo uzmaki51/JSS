@@ -54,7 +54,7 @@ return [
     ],
 
     "shipinfo"  => [
-        'No' => '号码',
+        'No' => 'No',
         'ShipName(structure)' => '船名(机构行政)',
         'shipName' => '船名',
         'Owner' => '登记船东',
