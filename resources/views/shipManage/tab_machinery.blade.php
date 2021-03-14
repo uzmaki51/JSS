@@ -2,6 +2,35 @@
     $isHolder = Session::get('IS_HOLDER');
     $shipList = Session::get('shipList');
 ?>
+<style>
+    .table tbody > tr > td {
+        font-size: 12px!important;
+    }
+    .table tbody > tr > td {
+        padding: 0!important;
+    }
+    .table tbody > tr > .custom-td-report-text, .table tbody > tr > .custom-td-dec-text {
+        padding: 0!important;
+    }
+
+    .form-control {
+        padding: 4px!important;
+        border-radius: 0!important;
+        border: unset!important;
+        font-size: 12px!important;
+    }
+    .chosen-single {
+        padding: 4px!important;
+        border-radius: 0!important;
+        border: unset!important;
+        font-size: 12px!important;
+    }
+    .input-group-addon {
+        font-size: 12px!important;
+        padding: 0 4px!important;
+        border: unset!important;
+    }
+</style>
 <form role="form" method="POST"
       action="{{url('shipManage/saveShipMahcineryData')}}" enctype="multipart/form-data" id="validation-form">
     <div class="row">
@@ -182,7 +211,7 @@
                         <div class="tab-pane in active">
                             <table class="table table-bordered" style="margin-bottom: 0">
                                 <tbody>
-                                    <tr style="background-color: #FCFAE3;height: 35px">
+                                    <tr style="height: 21px">
                                         <td></td>
                                         <td class="custom-td-label1 center" style="width:145px">{{ transShipManager('Machinery.Fuel') }}\{{ transShipManager('Machinery.Cond') }}</td>
                                         <td class="custom-td-label1">{{ transShipManager('Machinery.Sail') }}</td>
@@ -246,13 +275,13 @@
                         <div class="tab-pane in active">
                             <table class="table table-bordered" style="margin-bottom: 0">
                                 <tbody>
-                                <tr style="height: 35px">
+                                <tr style="height: 21px">
                                     <td class="custom-td-label1">No</td>
                                     <td class="custom-td-label1">{{ transShipManager('Machinery.Kind') }}</td>
                                     <td class="custom-td-label1">{{ transShipManager('Machinery.Capacity') }}</td>
                                     <td class="custom-td-label1">{{ transShipManager('Machinery.Descript') }}</td>
                                 </tr>
-                                <tr style="background-color: #FCFAE3;height: 35px">
+                                <tr>
                                     <td>1</td>
                                     <td class="custom-td-label1" style="width:145px">{{ transShipManager('Machinery.FOT') }}</td>
                                     <td><input type="text" name="FO_tank_capacity" class="form-control" style="width:100%;text-align: center" value="@if(isset($shipInfo['FO_tank_capacity'])){{$shipInfo['FO_tank_capacity']}}@endif"></td>

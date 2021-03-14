@@ -51,7 +51,7 @@
                                     {{ transShipManager('tabMenu.Hull/Cargo') }}
                                 </a>
                             </li>
-                            <li class="{{ $tabName == '#hull' ? 'machiery' : '' }}">
+                            <li class="{{ $tabName == '#machiery' ? 'machiery' : '' }}">
                                 <a data-toggle="tab" href="#machiery" onclick="ShowTabPage('#machiery')">
                                     {{ transShipManager('tabMenu.Machinery') }}
                                 </a>
