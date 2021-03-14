@@ -58,7 +58,7 @@
                                         <div class="sign_list slider" style="width: 85%;">
                                             @if(isset($reportList) && count($reportList) > 0)
                                                 @foreach ($reportList as $item)
-                                                    <div style="margin-top: 4px; height: 40px; outline: unset;">
+                                                    <div style="height: auto; outline: unset;">
                                                         <h5>
                                                             <a href="/decision/decideShow?reportId={{$item->id}}" style="color: white; outline: unset;" target="_blank">
                                                                 <span>从[{{ $item->realname }}]收到了[{{ $shipForDecision[$item->shipNo] }}]号的{{ g_enum('ReportTypeLabelData')[$item->flowid][0] }}审批文件.
@@ -227,7 +227,7 @@
             autoplay: true,
             prevArrow: false,
             nextArrow: false,
-            autoplaySpeed: 3000,
+            autoplaySpeed: 30000,
             swipe: false,
             slidesToShow: 1,
             slidesToScroll: 1
