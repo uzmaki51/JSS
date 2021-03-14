@@ -56,7 +56,7 @@
                                     {{ transShipManager('tabMenu.Machinery') }}
                                 </a>
                             </li>
-                            <li class="{{ $tabName == '#saftey' ? 'active' : '' }}">
+                            <!--li class="{{ $tabName == '#saftey' ? 'active' : '' }}">
                                 <a data-toggle="tab" href="#safety" onclick="ShowTabPage('#safety')">
                                     {{ transShipManager('tabMenu.MSMC') }}
                                 </a>
@@ -65,7 +65,7 @@
                                 <a data-toggle="tab" href="#photo" onclick="ShowTabPage('#photo')">
                                     {{ transShipManager('tabMenu.Photo') }}
                                 </a>
-                            </li>
+                            </li-->
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -136,7 +136,7 @@
 
             if(preTabName == '#general' && tabName != '#general') {
                 bootbox.confirm({
-                    message: "真要保存吗?",
+                    message: "需要保存内容吗吗?",
                     buttons: {
                         confirm: {
                             label: '是',

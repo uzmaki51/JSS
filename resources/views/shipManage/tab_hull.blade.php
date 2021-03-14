@@ -13,34 +13,50 @@
             <input type="hidden" name="_tabName" value="#hull">
 
             <div class="col-md-8 col-md-offset-2">
-                <table class="table table-bordered table-striped table-hover">
-                    <tbody>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover" style="font-weight: bold">
+                        <tbody>
                         <tr>
-                            <td style="text-align: center;">
-                                {{ transShipManager('Hull.HullNo') }}
+                            <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                                {{ transShipManager('General.ShipName') }}({{ trans("common.label.chinese") }})
                             </td>
-                            <td>
-                                <input type="text" name="HullNo" class="form-control" style="width:100%" value="@if(isset($shipInfo['HullNo'])){{$shipInfo['HullNo']}}@endif">
+                            <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                                <input type="text" name="shipName_Cn" class="form-control" placeholder="中文" style="width:100%" value="@if(isset($shipInfo['shipName_Cn'])){{$shipInfo['shipName_Cn']}}@endif">
                             </td>
                         </tr>
-                        <tr>
-                            <td style="text-align: center;">
-                                {{ transShipManager('Hull.Decks') }}
-                            </td>
-                            <td>
-                                <input type="text" name="Decks" class="form-control" style="width:100%" value="@if(isset($shipInfo['Decks'])){{$shipInfo['Decks']}}@endif">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center;">
-                                {{ transShipManager('Hull.Bulkheads') }}
-                            </td>
-                            <td>
-                                <input type="text" name="Bulkheads" class="form-control" style="width:100%" value="@if(isset($shipInfo['Bulkheads'])){{$shipInfo['Bulkheads']}}@endif">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center;">
+                                    {{ transShipManager('Hull.HullNo') }}
+                                </td>
+                                <td>
+                                    <input type="text" name="HullNo" class="form-control" style="width:100%" value="@if(isset($shipInfo['HullNo'])){{$shipInfo['HullNo']}}@endif">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">
+                                    {{ transShipManager('Hull.Decks') }}
+                                </td>
+                                <td>
+                                    <input type="text" name="Decks" class="form-control" style="width:100%" value="@if(isset($shipInfo['Decks'])){{$shipInfo['Decks']}}@endif">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">
+                                    {{ transShipManager('Hull.Bulkheads') }}
+                                </td>
+                                <td>
+                                    <input type="text" name="Bulkheads" class="form-control" style="width:100%" value="@if(isset($shipInfo['Bulkheads'])){{$shipInfo['Bulkheads']}}@endif">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
