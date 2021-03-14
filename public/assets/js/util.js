@@ -25,5 +25,7 @@ $(function () {
             $submenu.prev("a").removeClass("selected");
             
         });
+
+        $( "#news" ).load( "http://www.cnshipnet.com/news/" );
 	
 });

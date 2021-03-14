@@ -6,6 +6,13 @@
     <link href="{{ cAsset('assets/css/home.css') }}" rel="stylesheet"/>
     <script src="{{ cAsset('assets/js/chartjs/chartjs.js') }}"></script>
     <script src="{{ cAsset('js/dashboards_dashboard-1.js') }}"></script>
+
+    <link href="{{ cAsset('assets/css/slides.css') }}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{{ cAsset('assets/css/koala.min.1.5.js') }}"></script>
+
+    <style>
+        embed:scroll-bar{display:none}
+    </style>
     <div class="main-content">
         <div class="page-content">
             <div class="row">
@@ -13,6 +20,36 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card mb-4">                                
+                                <div class="card-body">
+                                    <div id="fsD1" class="focus" style="margin-left:0px">  
+                                        <div id="D1pic1" class="fPic">  
+                                            <div class="fcon" style="display: none;">
+                                                <a target="_blank" href="http://www.cnshipnet.com/news/14/67739.html"><img src="{{ cAsset('assets/img/1.jpg') }}" alt="江龙船艇30米级钢铝交通船试航" style="opacity: 1;"></a>
+                                                <span class="shadow"><h3><a target="_blank" href="http://www.cnshipnet.com/news/14/67739.html">江龙船艇30米级钢铝交通船试航</a></h3></span>
+                                            </div><div class="fcon" style="display: none;">
+                                                <a target="_blank" href="http://www.cnshipnet.com/news/14/67193.html"><img src="{{ cAsset('assets/img/2.jpg') }}" alt="启东中远海运海工风电安装船按计划完工" style="opacity: 1;"></a>
+                                                <span class="shadow"><h3><a target="_blank" href="http://www.cnshipnet.com/news/14/67193.html">启东中远海运海工风电安装船按计划完工</a></h3></span>
+                                            </div><div class="fcon" style="display: none;">
+                                                <a target="_blank" href="http://www.cnshipnet.com/news/14/67089.html"><img src="{{ cAsset('assets/img/3.jpg') }}" alt="重庆中江船业130米集散货船顺利开航离港" style="opacity: 1;"></a>
+                                                <span class="shadow"><h3><a target="_blank" href="http://www.cnshipnet.com/news/14/67089.html">重庆中江船业130米集散货船顺利开航离港</a></h3></span>
+                                            </div><div class="fcon" style="display: block;">
+                                                <a target="_blank" href="http://www.cnshipnet.com/news/14/66776.html"><img src="{{ cAsset('assets/img/4.jpg') }}" alt="达门新推双体深绞吸式挖泥船DCSD500" style="opacity: 0.91;"></a>
+                                                <span class="shadow"><h3><a target="_blank" href="http://www.cnshipnet.com/news/14/66776.html">达门新推双体深绞吸式挖泥船DCSD500</a></h3></span>
+                                            </div>    
+                                        </div>
+                                        <div class="fbg">  
+                                        <div class="D1fBt" id="D1fBt">  
+                                            <a href="javascript:void(0)" hidefocus="true" target="_self" class=""><i>1</i></a>  
+                                            <a href="javascript:void(0)" hidefocus="true" target="_self" class=""><i>2</i></a>  
+                                            <a href="javascript:void(0)" hidefocus="true" target="_self" class=""><i>3</i></a>  
+                                            <a href="javascript:void(0)" hidefocus="true" target="_self" class="current"><i>4</i></a>  
+                                        </div>  
+                                        </div>  
+                                        <span class="prev" style="opacity: 0.3;"></span>   
+                                        <span class="next" style="opacity: 0.3;"></span>    
+                                    </div>
+                                </div>
+                                
                                 <div class="card-body">
                                     <div class="advertise">
                                         <div style="width: 10%; padding-left: 16px;">
@@ -41,7 +78,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-4">
+                    <!-- div class="row mb-4">
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header">
@@ -114,18 +151,18 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div -->
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">
-                                        <span class="bigger-200" style="vertical-align: middle;">{{ trans('home.title.profit') }}</span>
-                                    </div>
-                                </div>
+                                
+                                
                                 <div class="card-body">
                                     <div style="height: 210px; width: 100%;" class="mb-4">
                                         <canvas id="statistics-chart-1"></canvas>
+                                    </div>
+                                    <div class="w-100" style="height: 200px;">
+                                        <canvas id="statistics-chart-3"></canvas>
                                     </div>
                                     <div class="table-responsive" id="decidemanage_list_table">
                                         <table class="table table-striped table-bordered table-hover">
@@ -156,9 +193,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="w-100" style="height: 200px;">
-                                    <canvas id="statistics-chart-3"></canvas>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -202,7 +237,7 @@
             var chart1 = new Chart(document.getElementById('statistics-chart-1').getContext("2d"), {
                 type: 'line',
                 data: {
-                    labels: ['2016-10', '2016-11', '2016-12', '2017-01', '2017-02', '2017-03', '2017-04', '2017-05'],
+                    labels: ['2020-08', '2020-09', '2020-10', '2020-11', '2020-12', '2021-01', '2021-02', '2021-03'],
                     datasets: [{
                         label: '收益',
                         data: [93, 25, 95, 59, 46, 68, 4, 41],
@@ -241,8 +276,12 @@
                 data: {
                     datasets: [{
                         data: [24, 92, 77, 90, 91, 78, 28, 49, 23, 81],
-                        borderWidth: 10,
-                        backgroundColor: '#628cb7',
+                        borderWidth: 1,
+                        barPercentage: 0.5,
+                        barThickness: 6,
+                        maxBarThickness: 8,
+                        minBarLength: 2,
+                        backgroundColor: '#82ccff',
                     }],
                     labels: ['船舶1', '船舶2', '船舶3', '船舶4', '船舶5', '船舶6', '船舶7', '船舶8', '船舶9', '船舶10']
                 },
@@ -250,6 +289,10 @@
                 options: {
                     scales: {
                         xAxes: [{
+                            barPercentage: 0.5,
+                            barThickness: 30,
+                            maxBarThickness: 30,
+                            minBarLength: 2,
                             display: true,
                         }],
                         yAxes: [{
@@ -264,5 +307,23 @@
                 }
             });
         });
+    </script>
+    <script type="text/javascript">
+        Qfast.add('widgets', { path: "{{ cAsset('assets/css/terminator.js') }}", type: "js", requires: ['fx'] });  
+        Qfast(false, 'widgets', function () {
+        K.tabs({
+        id: 'fsD1',   //焦点图包裹id  
+        conId: "D1pic1",  //** 大图域包裹id  
+        tabId:"D1fBt",  
+        tabTn:"a",
+        conCn: '.fcon', //** 大图域配置class       
+        auto: 1,   //自动播放 1或0
+        effect: 'fade',   //效果配置
+        eType: 'click', //** 鼠标事件
+        pageBt:true,//是否有按钮切换页码
+        bns: ['.prev', '.next'],//** 前后按钮配置class                          
+        interval: 3000  //** 停顿时间  
+        }) 
+        }) 
     </script>
 @endsection
