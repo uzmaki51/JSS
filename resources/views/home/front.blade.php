@@ -61,7 +61,7 @@
                                                     <div style="margin-top: 4px; height: 40px; outline: unset;">
                                                         <h5>
                                                             <a href="/decision/decideShow?reportId={{$item->id}}" style="color: white; outline: unset;" target="_blank">
-                                                                【{{ $item->realname }}】<span>으로부터 【{{ $shipForDecision[$item->shipNo] }}】호에 대한 {{ g_enum('ReportTypeLabelData')[$item->flowid][0] }}결재문건이 도착하였습니다.
+                                                                <span>从[{{ $item->realname }}]收到了[{{ $shipForDecision[$item->shipNo] }}]号的{{ g_enum('ReportTypeLabelData')[$item->flowid][0] }}审批文件.
                                                             </a>
                                                         </h5>
                                                     </div>
