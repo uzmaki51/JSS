@@ -129,7 +129,7 @@
 
         function ShowTabPage(tabName) {
             if(shipId.length < 1) {
-                $('#msg-content').html('  现需要保存一般信息。  ');
+                $('#msg-content').html("  现需要保存一般信息(Ship's Particulars)。  ");
                 $('.alert').show();
                 return;
             }
