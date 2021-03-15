@@ -17,7 +17,7 @@ return [
     |
     */
 
-
+    'Title'    => 'JSS船舶管理信息系统',
     'ShipName' => 'ShipName',
     'Income' => 'Income',
     'INCOME' => 'INCOME',

@@ -137,7 +137,7 @@ return [
         'Tel No' => '电话',
         'Fax No' => 'Fax',
         'Email Address' => '邮件地址',
-        'ISM Company_kn' => '公司名(中文)',
+        'ISM Company_cn' => '公司名(中文)',
         'ISM Company_en' => '管理公司(英文)',
         'ISM' => '管理公司',
         'Ship Type' => '船舶类型',

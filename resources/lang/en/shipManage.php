@@ -16,6 +16,42 @@ return [
     | The following language lines are used by the global website.
     |
     */
+    "title" => [
+        'ShipCert' => '船舶证书',
+        'CertKind' => '证书类型',
+        'search' => '搜索',
+        'part' => '配件',
+        'tech_assistance' => '技术规范',
+        'equipment' => '设备配件',
+        'eqip_preg_management' => '设备登记管理',
+        'equip_mark_table' => '设备配件区分表',
+        'input_basic_data' => '基础资料输入',
+        'ship_cert_management' => '海员适任管理',
+        'general_equipment' => '一般配件',
+        'equipment_unit_table'  => '设备单位阅览表'
+    ],
+
+    "captions" => [
+        'search' => '搜索',
+        'add' => '添加',
+        'nationality' => '国籍',
+        'shiplevel' => '船舶等级',
+        'insurance' => '保险',
+        'safetyequip' => '安全设备',
+        'product_name(cn)' => '品名(中文)',
+        'product_name(en)' => '品名(英文)',
+        'product_no' => '配件号码(PartNo)',
+        'codenumber' => '代码(IssaCode)',
+        'unit' => '单位(Unit)',
+        'qtty' => '数量(Qtty)',
+        'special' => '特性(Special)',
+        'remark' => '备注(Remark)',
+        'item(cn)' => '项目(中文)',
+        'item(en)' => '项目(英文)',
+        'particular' => '技术特性(Particular)',
+        'cancel' => '取消',
+        'register' => '登记',
+    ],
 
     "shipinfo"  => [
         'No' => 'No',
@@ -82,6 +118,7 @@ return [
         'ShipName(structure)' => 'ShipName(structure)',
         'Class' => 'Class',
         'RegNo' => 'RegNo',
+        'RegType' => 'RegStatus',
         'SerialNo' => 'SerialNo',
         'CallSign' => 'CallSign',
         'MMSI' => 'MMSI',
@@ -90,17 +127,17 @@ return [
         'OriginalName' => 'OriginalName',
         'Flag' => 'Flag',
         'port of Reg' => 'Port of Reg',
-        'Owner_Cn' => 'Name(Ko/En)',
+        'Owner_Cn' => 'Name',
         'Owner_en' => 'Owner(English)',
-        'Owner_Address_Cn'  =>  'Address(Ko/En)',
+        'Owner_Address_Cn'  =>  'Address',
         'Owner_Address_en' => 'Owner_Address(English)',
         'owner' =>  'Owner',
-        'Address_Cn'  =>  'Address(Korean)',
+        'Address_Cn'  =>  'Address',
         'Address_en' => 'Address(English)',
         'Tel No' => 'Tel No',
         'Fax No' => 'Fax No',
         'Email Address' => 'Email Address',
-        'ISM Company_kn' => 'Name(Ko/En)',
+        'ISM Company_cn' => 'Name',
         'ISM Company_en' => 'Company_en',
         'ISM' => 'ISM CO.',
         'Ship Type' => 'Ship Type',
@@ -210,7 +247,7 @@ return [
     "CertManage"  => [
         'No' => 'No',
         'RefNo' => 'RefNo',
-        'CertName_Cn' => 'CertName(Ko)',
+        'CertName_Cn' => 'CertName',
         'CertName_En' => 'CertName(En)',
         'Kind' => 'Kind',
         'Description' => 'Description',
@@ -218,7 +255,7 @@ return [
 
     "EquipmentManage"  => [
         'PIC' => 'PIC',
-        'Equipment_Cn' => 'Equipment(ko)',
+        'Equipment_Cn' => 'Equipment',
         'Equipment_en' => 'Equipment(En)',
         'Label' => 'Label',
         'Type/Model' => 'Type/Model',
@@ -231,11 +268,22 @@ return [
         'Select of Equipment Dept'  =>  'Select of Equipment Dept',
         'Equipment Type'    =>  'Equipment Type',
         'Tool Type'    =>  'Tool Type',
+	    'supply'        => 'Supply',
+	    'diligence'     => 'Diligence',
+	    'date'          => 'Date',
+	    'operation'     => 'Operation',
+	    'status'        => 'Status',
+	    'supplied_at'   => 'Supplied_At',
+	    'unit'          => 'Unit',
+	    'unknown'       => 'Unknown',
+	    'not_registered'       => 'Not_Registered',
+	    'diligence_at'         => 'Diligence_At',
+	    'remain_count'          => 'Remain_Count',
     ],
 
     "EquipmentDetail"  => [
         'PIC' => 'PIC',
-        'Equipment_Cn' => 'Equipment(Ko)',
+        'Equipment_Cn' => 'Equipment',
         'Equipment_en' => 'Equipment(En)',
         'Label' => 'Label',
         'Type/Model' => 'Type/Model',
@@ -268,10 +316,10 @@ return [
     ],
 
     "EquipmentTypeManage"  => [
-        'type_Cn' => 'Type(ko)',
+        'type_Cn' => 'Type',
         'type_en' => 'Type(en)',
         'description' => 'description',
-        'Equipment_Cn' => 'Equipment(ko)',
+        'Equipment_Cn' => 'Equipment',
         'Equipment_en' => 'Equipment(en)',
         'Remark'    =>  'Remark',
         'type'  =>  'Type'
@@ -283,16 +331,18 @@ return [
         'Index Content' => 'Index Content',
         'ISSA Code' => 'ISSA Code',
         'Content' => 'Content',
-        'Content_Cn' => 'Content(Ko)',
+        'Content_Cn' => 'Content',
         'Content_en' => 'Content(En)',
         'Special'    =>  'Special',
     ],
 
     "shipNameManage"  => [
         'RegNo' => 'RegNo',
-        'ShipName of Structure_Cn' => 'ShipName of Structure(ko)',
+        'ShipName of Structure_Cn' => 'ShipName of Structure',
         'ShipName of Structure_en' => 'ShipName of Structure(en)',
         'Persons' => 'Persons',
     ],
-
+	'message'       => [
+		'nothing'       => 'NoData'
+	],
 ];
