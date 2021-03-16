@@ -149,6 +149,18 @@ $AccidentTypeData = array(
 	ACCIDENT_TYPE_SHORTAGE		=> ['货物不足', 'danger'],
 );
 
+# ShipTypeData
+define('SHIP_TYPE_A_1', 1);
+define('SHIP_TYPE_B_1', 2);
+define('SHIP_TYPE_B_2', 3);
+define('SHIP_TYPE_B_3', 4);
+$ShipTypeData = array(
+	SHIP_TYPE_A_1		=> 'Type "A"',
+	SHIP_TYPE_B_1		=> 'Type "B"',
+	SHIP_TYPE_B_2		=> 'Type "B" with reduced freeboard',
+	SHIP_TYPE_B_3		=> 'Type "B" with increased freeboard',
+);
+
 define('HTTP_METHOD_POST', 'POST');
 
 
@@ -163,5 +175,6 @@ define('HTTP_METHOD_POST', 'POST');
 	    'InventoryStatusData'           => $InventoryStatusData,
 	    'TermData'                      => $TermData,
 		'EmployeeStatusData'            => $EmployeeStatusData,
-		'AccidentTypeData'            	=> $AccidentTypeData
+		'AccidentTypeData'            	=> $AccidentTypeData,
+		'ShipTypeData'					=> $ShipTypeData
  );

@@ -15,7 +15,21 @@ return [
 		'Drafting' => '起草',
 		'Drafted List' => '起草目录',
 		'Draft Change' => '起草修改',
-    ],
+	],
+	
+	'table'		=> [
+		'no'				=> 'No',
+		'type'				=> 'Type',
+		'date'				=> 'Date',
+		'shipName'			=> 'Ship Name',
+		'voy_no'			=> 'Voy No',
+		'profit_type'		=> 'Profit Type',
+		'content'			=> 'Content',
+		'currency'			=> 'Currency',
+		'amount'			=> 'Amount',
+		'reporter'			=> 'Reporter',
+		'attachment'		=> 'Attachment'
+	],
 
 	"captions" => [
 		'prevPage' => '上一个页',

@@ -39,6 +39,7 @@ use App\Models\ShipManage\ShipEquipmentPart;
 use App\Models\ShipManage\ShipEquipmentProperty;
 use App\Models\ShipManage\ShipIssaCode;
 use App\Models\ShipManage\ShipIssaCodeNo;
+use App\Models\ShipManage\ShipFreeBoard;
 
 use App\Models\ShipTechnique\EquipmentUnit;
 
@@ -113,39 +114,21 @@ class ShipRegController extends Controller
         }
     }
 
-    public function index()
-    {
+    public function index() {
         return redirect('shipManage/shipinfo');
     }
 
     //배제원현시부분
-    public function loadShipGeneralInfos(Request $request)
-    {
+    public function loadShipGeneralInfos(Request $request) {
         Util::getMenuInfo($request);
-        $ship_infolist = ShipRegister::select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
-                        ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
-                        ->leftJoin('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
-                        ->orderBy('num')
-                        ->get();
 
-        foreach($ship_infolist as $info) {
-            $query = "SELECT COUNT(*) AS navi_count, member.personSum FROM tb_ship_member
-                        LEFT JOIN ( SELECT RegNo, SUM(PersonNum) AS personSum FROM tb_ship_msmcdata WHERE RegNo = '".$info['RegNo']."') AS member
-                        ON  tb_ship_member.ShipId = member.RegNo
-                        WHERE ShipId = '".$info->RegNo."'";
-            $result = DB::select($query);
-            if(count($result) > 0)
-                $result = $result[0];
-            $info['navi_count'] = $result->navi_count;
-            $info['personSum'] = $result->personSum;
-        }
+        $ship_infolist = $this->getShipGeneralInfo();
 
         return view('shipManage.shipinfo', array('list'=> $ship_infolist));
     }
 
     //배登记
-    public function registerShipData(Request $request)
-    {
+    public function registerShipData(Request $request) {
         $GLOBALS['selMenu'] = 52;
         $GLOBALS['submenu'] = 0;
 
@@ -155,32 +138,48 @@ class ShipRegController extends Controller
         $shipId = $request->get('shipId');
         if(is_null($shipId))
             $shipId = '0';
-
-        if($shipId != '0')
+        
+        if($shipId != '0') {
             $shipInfo = ShipRegister::where('id', $shipId)->first();
-        else
+            $freeBoard = ShipFreeBoard::where('shipId', $shipId)->first();
+        } else {
             $shipInfo = new ShipRegister();
-
+            $freeBoard = new ShipFreeBoard();
+        }
+        // var_dump($shipInfo);die;
         $status = Session::get('status');
+        if(!empty($request->get('_tabName')))
+            $tabName =  $request->get('_tabName');
+        else
+            $tabName = '#general';
 
-        $tabName = Session::get('tabName');
-        Session::forget('tabName');
-        $tabName = isset($tabName) ? $tabName : "#general";
-        return view('shipManage.shipregister', ['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo, 'status'=>$status, 'tabName'   => $tabName]);
+        $ship_infolist = $this->getShipGeneralInfo();
+        return view('shipManage.shipregister', [
+                        'shipList'      =>  $shipList, 
+                        'shipType'      =>  $shipType, 
+                        'shipInfo'      =>  $shipInfo, 
+                        'freeBoard'     =>  $freeBoard, 
+                        'status'        =>  $status, 
+                        'tabName'       =>  $tabName,
+                        'list'          =>  $ship_infolist
+                    ]);
     }
 
     public function saveShipGenaralData(Request $request) {
         $shipId = trim($request->get('shipId')) * 1;
         $tabName = $request->get('_tabName');
-        Session::put('tabName', $tabName);
+        
         if($shipId > 0) {
             $shipData = ShipRegister::find($shipId);
+            $isRegister = false;
         } else {
             $shipData = new ShipRegister();
+            $isRegister = true;
         }
 
         $shipData['shipName_Cn'] = $request->get('shipName_Cn');
         $shipData['shipName_En'] = $request->get('shipName_En');
+        $shipData['NickName'] = $request->get('NickName');
         $shipData['Shipid'] = $request->get('Shipid');
         $shipData['Class'] = $request->get('Class');
         $shipData['RegNo'] = $request->get('RegNo');
@@ -191,7 +190,9 @@ class ShipRegController extends Controller
         $shipData['IMO_No'] = $request->get('IMO_No');
         $shipData['INMARSAT'] = $request->get('INMARSAT');
         $shipData['OriginalShipName'] = $request->get('OriginalShipName');
-        $shipData['Flag_Cn'] = $request->get('Flag_Cn');
+        $shipData['FormerShipName'] = $request->get('FormerShipName');
+        $shipData['SecondFormerShipName'] = $request->get('SecondFormerShipName');
+        $shipData['ThirdFormerShipName'] = $request->get('ThirdFormerShipName');
         $shipData['Flag'] = $request->get('Flag');
         $shipData['PortOfRegistry_Cn'] = $request->get('PortOfRegistry_Cn');
         $shipData['PortOfRegistry'] = $request->get('PortOfRegistry');
@@ -240,13 +241,48 @@ class ShipRegController extends Controller
         $shipData->save();
 
         if($shipId == 0)
-            $shipId = ShipRegister::all()->last()->id;
+            $newId = ShipRegister::all()->last()->id;
 
-        return redirect('shipManage/registerShipData?shipId='.$shipId)->with('status', 'success');
+        $GLOBALS['selMenu'] = 52;
+        $GLOBALS['submenu'] = 0;
+
+        $shipList = Ship::all();
+        $shipType = ShipType::all();
+
+        $shipId = $request->get('shipId');
+        if(is_null($shipId))
+            $shipId = '0';
+
+        if($shipId != '0') {
+            $shipInfo = ShipRegister::where('id', $shipId)->first();
+            $freeBoard = ShipFreeBoard::where('shipId', $shipId)->first();
+        } else {
+            $shipInfo = new ShipRegister();
+            $freeBoard = new ShipFreeBoard();
+        }
+
+        $status = Session::get('status');
+
+        $ship_infolist = $this->getShipGeneralInfo();
+        if(!$isRegister)
+        return view('shipManage.shipregister', [
+                        'shipList'      =>  $shipList, 
+                        'shipType'      =>  $shipType, 
+                        'shipInfo'      =>  $shipInfo, 
+                        'freeBoard'     =>  $freeBoard, 
+                        'status'        =>  $status, 
+                        'tabName'       =>  $tabName,
+                        'list'          =>  $ship_infolist
+                    ]);
+        else
+            return redirect('shipManage/registerShipData?shipId='.$newId)->with('status', 'success');
     }
 
     public function saveShipHullData(Request $request) {
         $shipId = trim($request->get('shipId')) * 1;
+        $freeId = $request->get('freeId');
+        $tabName = $request->get('_tabName');
+        
         if($shipId > 0) {
             $shipData = ShipRegister::find($shipId);
         } else {
@@ -267,14 +303,119 @@ class ShipRegController extends Controller
         $shipData['LiftingDevice'] = $request->get('LiftingDevice');
         $shipData->save();
 
+        if($freeId > 0)
+            $freeData = ShipFreeBoard::find($freeId);
+        else
+            $freeData = new ShipFreeBoard();
+
+        $freeData['shipId'] = $request->get('shipId');
+        $freeData['ship_type'] = $request->get('ship_type');
+        $freeData['new_ship'] = $request->get('new_ship') == 'on' ? 1 : 0;
+        $freeData['new_free_tropical'] = $request->get('new_free_tropical');
+        $freeData['new_load_tropical'] = $request->get('new_load_tropical');
+        $freeData['new_free_summer'] = $request->get('new_free_summer');
+        $freeData['new_free_winter'] = $request->get('new_free_winter');
+        $freeData['new_load_winter'] = $request->get('new_load_winter');
+        $freeData['new_free_winteratlantic'] = $request->get('new_free_winteratlantic');
+        $freeData['new_load_winteratlantic'] = $request->get('new_load_winteratlantic');
+        $freeData['new_free_fw'] = $request->get('new_free_fw');
+        $freeData['timber'] = $request->get('timber') == 'on' ? 1 : 0;
+        $freeData['timber_free_tropical'] = $request->get('timber_free_tropical');
+        $freeData['timber_load_tropical'] = $request->get('timber_load_tropical');
+        $freeData['timber_free_summer'] = $request->get('timber_free_summer');
+        $freeData['timber_free_winter'] = $request->get('timber_free_winter');
+        $freeData['timber_load_winter'] = $request->get('timber_load_winter');
+        $freeData['timber_free_winteratlantic'] = $request->get('timber_free_winteratlantic');
+        $freeData['timber_load_winteratlantic'] = $request->get('timber_load_winteratlantic');
+        $freeData['timber_free_fw'] = $request->get('timber_free_fw');
+        $freeData['deck_line_amount'] = $request->get('deck_line_amount');
+        $freeData['deck_line_content'] = $request->get('deck_line_content');
+        $freeData->save();
+
         if($shipId == 0)
             $shipId = ShipRegister::all()->last()->id;
 
-        return redirect('shipManage/registerShipData?shipId='.$shipId)->with('status', 'success');
+            $GLOBALS['selMenu'] = 52;
+            $GLOBALS['submenu'] = 0;
+    
+            $shipList = Ship::all();
+            $shipType = ShipType::all();
+    
+            $shipId = $request->get('shipId');
+            if(is_null($shipId))
+                $shipId = '0';
+    
+            if($shipId != '0') {
+                $shipInfo = ShipRegister::where('id', $shipId)->first();
+                $freeBoard = ShipFreeBoard::where('shipId', $shipId)->first();
+            } else {
+                $shipInfo = new ShipRegister();
+                $freeBoard = new ShipFreeBoard();
+            }
+    
+            $status = Session::get('status');
+    
+            $ship_infolist = $this->getShipGeneralInfo();
+            return view('shipManage.shipregister', [
+                            'shipList'      =>  $shipList, 
+                            'shipType'      =>  $shipType, 
+                            'shipInfo'      =>  $shipInfo, 
+                            'freeBoard'     =>  $freeBoard, 
+                            'status'        =>  $status, 
+                            'tabName'       =>  $tabName,
+                            'list'          =>  $ship_infolist
+                        ]);
+    }
+
+    public function saveShipRemarksData(Request $request) {
+        $shipId = trim($request->get('shipId')) * 1;
+        $tabName = $request->get('_tabName');
+        
+        if($shipId > 0) {
+            $shipData = ShipRegister::find($shipId);
+        } else {
+            return redirect()->back();
+        }
+
+        $shipData['Remarks'] = $request->get('Remarks');
+        $shipData->save();
+
+        $GLOBALS['selMenu'] = 52;
+        $GLOBALS['submenu'] = 0;
+
+        $shipList = Ship::all();
+        $shipType = ShipType::all();
+
+        $shipId = $request->get('shipId');
+        if(is_null($shipId))
+            $shipId = '0';
+
+        if($shipId != '0') {
+            $shipInfo = ShipRegister::where('id', $shipId)->first();
+            $freeBoard = ShipFreeBoard::where('shipId', $shipId)->first();
+        } else {
+            $shipInfo = new ShipRegister();
+            $freeBoard = new ShipFreeBoard();
+        }
+
+        $status = Session::get('status');
+        $ship_infolist = $this->getShipGeneralInfo();
+
+        return view('shipManage.shipregister', [
+                        'shipList'      =>  $shipList, 
+                        'shipType'      =>  $shipType, 
+                        'shipInfo'      =>  $shipInfo, 
+                        'freeBoard'     =>  $freeBoard, 
+                        'status'        =>  $status, 
+                        'tabName'       =>  $tabName,
+                        'list'          =>  $ship_infolist
+                    ]);
     }
 
     public function saveShipMahcineryData(Request $request) {
         $shipId = trim($request->get('shipId')) * 1;
+        $tabName = $request->get('_tabName');
+        
         if($shipId > 0) {
             $shipData = ShipRegister::find($shipId);
         } else {
@@ -330,7 +471,34 @@ class ShipRegController extends Controller
         if($shipId == 0)
             $shipId = ShipRegister::all()->last()->id;
 
-        return redirect('shipManage/registerShipData?shipId='.$shipId)->with('status', 'success');
+            $GLOBALS['selMenu'] = 52;
+            $GLOBALS['submenu'] = 0;
+    
+            $shipList = Ship::all();
+            $shipType = ShipType::all();
+    
+            $shipId = $request->get('shipId');
+            if(is_null($shipId))
+                $shipId = '0';
+    
+            if($shipId != '0') {
+                $shipInfo = ShipRegister::where('id', $shipId)->first();
+                $freeBoard = ShipFreeBoard::where('shipId', $shipId)->first();
+            } else {
+                $shipInfo = new ShipRegister();
+                $freeBoard = new ShipFreeBoard();
+            }
+            $status = Session::get('status');
+            $ship_infolist = $this->getShipGeneralInfo();
+            return view('shipManage.shipregister', [
+                            'shipList'      =>  $shipList, 
+                            'shipType'      =>  $shipType, 
+                            'shipInfo'      =>  $shipInfo, 
+                            'freeBoard'     =>  $freeBoard, 
+                            'status'        =>  $status, 
+                            'tabName'       =>  $tabName,
+                            'list'          =>  $ship_infolist
+                        ]);
     }
 
     //배삭제
@@ -381,18 +549,12 @@ class ShipRegController extends Controller
             $shipType = ShipType::all();
             return view('shipManage.tab_general', ['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo]);
         } else if($tabName == '#hull') {
-            return view('shipManage.tab_hull', ['shipInfo'=>$shipInfo]);
+            $freeBoard = ShipFreeBoard::where('shipId', $shipId)->first();
+            return view('shipManage.tab_hull', ['shipInfo'=>$shipInfo, 'freeBoard' => $freeBoard]);
         } else if($tabName == '#machiery') {
             return view('shipManage.tab_machinery', ['shipInfo'=>$shipInfo]);
-        } else if($tabName == '#safety') {
-            $posList = ShipPosReg::getPostionListByShip($shipInfo['RegNo']);
-            $position = ShipPosition::all();
-            $codeList = ShipSTCWCode::all();
-
-            return view('shipManage.tab_safety', ['shipInfo'=>$shipInfo, 'posList'=>$posList, 'shipPos'=>$position, 'codeList'=>$codeList]);
-        } else if($tabName == '#photo') {
-            $imageList = ShipPhoto::where('RegNo', $shipInfo['RegNo'])->get();
-            return view('shipManage.tab_photo', ['shipIs'=>$shipInfo['id'], 'imageList'=>$imageList]);
+        } else if($tabName == '#remarks') {
+            return view('shipManage.tab_remarks', ['shipInfo'=>$shipInfo]);
         }
     }
 
@@ -1551,4 +1713,25 @@ class ShipRegController extends Controller
     	return response()->json(1);
     }
 
+    public function getShipGeneralInfo() {
+        $ship_infolist = ShipRegister::select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
+                        ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
+                        ->leftJoin('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
+                        ->orderBy('num')
+                        ->get();
+
+        foreach($ship_infolist as $info) {
+            $query = "SELECT COUNT(*) AS navi_count, member.personSum FROM tb_ship_member
+                        LEFT JOIN ( SELECT RegNo, SUM(PersonNum) AS personSum FROM tb_ship_msmcdata WHERE RegNo = '".$info['RegNo']."') AS member
+                        ON  tb_ship_member.ShipId = member.RegNo
+                        WHERE ShipId = '".$info->RegNo."'";
+            $result = DB::select($query);
+            if(count($result) > 0)
+                $result = $result[0];
+            $info['navi_count'] = $result->navi_count;
+            $info['personSum'] = $result->personSum;
+        }
+
+        return $ship_infolist;
+    }
 }

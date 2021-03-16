@@ -1,4 +1,9 @@
 @extends('layout.sidebar')
+
+@section('styles')
+    <link href="{{ cAsset('assets/css/no-padding.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
     <div class="main-content">
         <div class="page-content">
@@ -23,14 +28,13 @@
                     </div>
                 </div>
                 <div class="widget-box">
-                    <div class="widget-header"><h5>{{transOrgManage("captions.officePositionManage")}}</h5></div>
                     <div class="widget-body">
                         <div class="widget-main no-padding">
-                            <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                            <table id="sample-table-1" class="table table-bordered">
                                 <thead>
-                                <tr class="black br-hblue">
+                                <tr>
                                     <th style="width: 70px">{{transOrgManage("captions.priority")}}</th>
-                                    <th>{{transOrgManage("captions.officePositionName")}}</th>
+                                    <th class="center">{{transOrgManage("captions.officePositionName")}}</th>
                                     <th class="hidden-480"></th>
                                 </tr>
                                 </thead>
@@ -49,7 +53,7 @@
                                         </td>
                                         <td>
                                             <input type="text" placeholder="请填写职位名称…" style="width:100%;"
-                                                   value="{{$post->title}}" oldvalue="{{$post->title}}">
+                                                   value="{{$post->title}}" oldvalue="{{$post->title}}" class="form-control">
                                         </td>
                                         <td style="text-align: center">
                                             <a href="javascript:onUpdate({{$post->id}})" class="primary">

@@ -5,6 +5,7 @@ html, body {
 
 body * {
     font-family: FontAwesome, Arial,sans-serif, SimSun!important;
+    outline: none;
 }
 .login-div {
     display: flex;
@@ -145,7 +146,7 @@ body * {
 
 .table tbody > tr > td {
     vertical-align: middle;
-    padding: 8px!important;
+    padding: 8px;
 }
 
 
@@ -327,9 +328,6 @@ input {
 
 table {
     font-size: 14px !important;
-}
-th {
-    font-weight: normal!important;
 }
 
 .btn {

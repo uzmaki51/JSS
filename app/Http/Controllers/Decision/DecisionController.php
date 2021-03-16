@@ -851,8 +851,7 @@ class DecisionController extends Controller
     }
 
     //////////////////////결재할 문서관리부분///////////////////////////////////
-    public function decidemanage(Request $request)
-    {
+    public function decidemanage(Request $request) {
         Util::getMenuInfo($request);
 
         $userid = $this->userinfo['id'];
@@ -866,6 +865,17 @@ class DecisionController extends Controller
         $pageCount = DecisionReport::countWillDecisionReportList($userid, '', '', '', '', '');
 
         $paginate = Util::makePaginateHtml($pageCount, $page);
+
+        foreach($reportList as $key => $item) {
+            $shipName = ShipRegister::where('id', $item->shipNo)->first()->shipName_Cn;
+            $reporter = User::where('id', $item->creator)->first()->realname;
+            $profit = ACItem::where('id', $item->profit_type)->first()->AC_Item_Cn;
+
+            $reportList[$key]->shipName = $shipName;
+            $reportList[$key]->realname = $reporter;
+            $reportList[$key]->profit_type = $profit;
+            
+        }
 
         return view('decision.decide_manage', array(
 	            'list'                  => $reportList,

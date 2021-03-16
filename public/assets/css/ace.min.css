@@ -20619,11 +20619,11 @@ th, td, .table-bordered {
 .table thead tr {
     color: #505050;
     font-weight: normal;
-    height: 50px;
+    height: 40px;
 }
 
 .table thead tr th {
-    border-color: #8ab2c9;
+    border-color: #cccccc;
 
 }
 
@@ -21421,7 +21421,11 @@ th .lbl:only-child, td .lbl:only-child {
 }
 
 .widget-body .table thead:first-child tr {
-    background: #F9F9F9;
+    white-space: nowrap;
+    background: #3498db;
+    color: white;
+    padding: 4px!important;
+    font-weight: bold!important;
 }
 
 [class*="header-color-"] + .widget-body .table thead:first-child tr {

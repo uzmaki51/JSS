@@ -25,7 +25,7 @@
                 </div>
                 <div class="row">
                     <div class="table-responsive">
-                        <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                        <table id="sample-table-1" class="table table-bordered">
                             <thead>
                             <tr class="black br-hblue">
                                 <th>{{transOrgManage("captions.office")}}</th>

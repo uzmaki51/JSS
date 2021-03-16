@@ -3,25 +3,16 @@
 
 <!-- Mirrored from 192.69.216.111/themes/preview/ace/ by HTTrack Website Copier/3.x [XR&CO'2013], Tue, 10 Dec 2013 00:48:04 GMT -->
 <head>
-    <meta charset="utf-8"/>
     <title>{{ env('APP_NAME') }}</title>
-
+    <meta charset="utf-8"/>
     <meta name="description" content="overview &amp; stats"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <!-- basic styles -->
 
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/css/bootstrap-overrides.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/font-awesome.min.css') }}"/>
 
     <link rel="icon" type="image/png" href="{{ cAsset('/assets/css/img/logo.png') }}" sizes="192x192">
-
-    <!--[if IE 7]>
-    <link rel="stylesheet" href="{{ asset('/assets/css/font-awesome-ie7.min.css') }}"/>
-    <![endif]-->
-
-    <!-- ace styles -->
     <link href="{{ asset('/assets/css/chosen.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/assets/css/colorbox.css') }}" />
     <link rel="stylesheet" href="{{ asset('/assets/css/ace.min.css') }}"/>
@@ -29,54 +20,23 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/ace-skins.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/jquery.gritter.css') }}" />
     <link rel="stylesheet" href="{{ asset('/assets/css/base.css') }}" />
-
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="{{ asset('/assets/css/ace-ie.min.css') }}"/>
-    <![endif]-->
-
-    <!-- inline styles related to this page -->
-
-
     <link href="{{ asset('/assets/css/datepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/bootstrap-timepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/daterangepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/colorpicker.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery-ui-1.10.3.full.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
-
     <link rel="stylesheet" href="{{ asset('/assets/css/theme.css') }}"/>
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/common.css') }}" rel="stylesheet">
-
-    <!-- ace settings handler -->
-
+    @yield('styles')
     <script src="{{ asset('/assets/js/ace-extra.min.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery-2.0.3.min.js') }}"></script>
-
     <script src="{{ asset('/assets/js/ace-elements.min.js') }}"></script>
     <script src="{{ asset('/assets/js/fuelux/fuelux.tree.min.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery.treeview.js') }}"></script>
     <script src="{{ asset('/assets/js/bootbox.min.js') }}"></script>
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-
-    <!--[if lt IE 9]>
-    <script src="{{ asset('/assets/js/html5shiv.js') }}"></script>
-    <script src="{{ asset('/assets/js/respond.min.js') }}"></script>
-
-    <![endif]-->
-
-    <!-- page specific plugin scripts -->
-
-    <!--[if lte IE 8]>
-    <script src="{{ asset('/assets/js/excanvas.min.js') }}"></script>
-    <![endif]-->
-
-    <!-- ace scripts -->
-
     <script src="{{ asset('/assets/js/ace.min.js') }}"></script>
-
-    <!-- inline scripts related to this page -->
     <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/assets/js/typeahead-bs2.min.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery-ui-1.10.3.full.min.js') }}"></script>
@@ -85,10 +45,8 @@
     <script src="{{ asset('/assets/js/chosen.jquery.min.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery.gritter.min.js')}}"></script>
     <script src="{{ asset('/assets/js/jquery.toast.min.js')}}"></script>
-
     <script src="{{ asset('/assets/js/jquery.slides.js')}}"></script>
     <script src="{{ asset('/assets/js/util.js')}}"></script>
-
 </head>
 
 <body class="skin-1">

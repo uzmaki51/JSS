@@ -56,20 +56,20 @@ $shipList = explode(',', Auth::user()->shipList);
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr class="black">
-                                        <th>No</th>
-                                        <th>ShipName</th>
-                                        <th>IMO NO</th>
-                                        <th>Flag</th>
-                                        <th>Port of Registry</th>
-                                        <th>Class</th>
-                                        <th>GT</th>
-                                        <th>NT</th>
-                                        <th>DWT</th>
-                                        <th>ShipType</th>
-                                        <th>LOA</th>
-                                        <th>MB</th>
-                                        <th>DM</th>
-                                        <th>Draught</th>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center">ShipName</th>
+                                        <th class="text-center">IMO NO</th>
+                                        <th class="text-center">Flag</th>
+                                        <th class="text-center">Port of Registry</th>
+                                        <th class="text-center">Class</th>
+                                        <th class="text-center">GT</th>
+                                        <th class="text-center">NT</th>
+                                        <th class="text-center">DWT</th>
+                                        <th class="text-center">ShipType</th>
+                                        <th class="text-center">LOA</th>
+                                        <th class="text-center">MB</th>
+                                        <th class="text-center">DM</th>
+                                        <th class="text-center">Draught</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -79,27 +79,27 @@ $shipList = explode(',', Auth::user()->shipList);
                                     @foreach ($list as $shipInfo)
                                         @if(!$isShareHolder || ($isShareHolder == true && in_array($shipInfo['id'], $shipList)))
                                             <tr>
-                                                <td>{{ $index }}</td>
-                                                <td>{{ $shipInfo['shipName_Cn'] }}</td>
-                                                <td>{{ $shipInfo['IMO_No'] }}</td>
-                                                <td>{{ $shipInfo['Flag'] }}</td>
-                                                <td>{{ $shipInfo['PortOfRegistry'] }}</td>
-                                                <td>{{ $shipInfo['Class'] }}</td>
-                                                <td>{{ $shipInfo['GrossTon'] }}</td>
-                                                <td>{{ $shipInfo['NetTon'] }}</td>
-                                                <td>{{ $shipInfo['Deadweight'] }}</td>
-                                                <td>{{ $shipInfo['ShipType'] }}</td>
-                                                <td>{{ $shipInfo['LOA'] }}</td>
-                                                <td>{{ $shipInfo['BM'] }}</td>
-                                                <td>{{ $shipInfo['DM'] }}</td>
-                                                <td>{{ $shipInfo['Draught'] }}</td>
-                                                <td class="text-center">
+                                                <td class="text-center">{{ $index }}</td>
+                                                <td class="text-center">{{ $shipInfo['shipName_Cn'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['IMO_No'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['Flag'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['PortOfRegistry'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['Class'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['GrossTon'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['NetTon'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['Deadweight'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['ShipType'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['LOA'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['BM'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['DM'] }}</td>
+                                                <td class="text-center">{{ $shipInfo['Draught'] }}</td>
+                                                <td class="text-center" id="{{ $shipInfo['id'] }}" name="{{ $shipInfo['shipName_Cn'] }}">
                                                     <div class="action-buttons">
                                                         <a class="blue" href="registerShipData?shipId={{ $shipInfo->id }}">
                                                             <i class="icon-edit"></i>
                                                         </a>
                                                         @if(!$isShareHolder)
-                                                            <a class="red del-btn" href="#">
+                                                            <a class="red" href="javascript:deleteItem('{{ $shipInfo['id'] }}', '{{ $shipInfo['shipName_Cn'] }}')">
                                                                 <i class="icon-trash"></i>
                                                             </a>
                                                         @endif
@@ -125,27 +125,20 @@ $shipList = explode(',', Auth::user()->shipList);
         <script>
             var pageNum = 0;
             var token = '<?php echo csrf_token() ?>';
+            function deleteItem(shipId, shipName) {
+                bootbox.confirm(shipName + "的船舶规范真要删掉吗?", function (result) {
+                    if (result) {
+                        $.post('deleteShipData', {'_token':token, 'dataId':shipId}, function (result) {
+                            var code = parseInt(result);
+                            if (code > 0) {
+                                location.reload();
+                            } else {
 
-            $(function() {
-                $('.del-btn').on('click', function () {
-                    var trObj = $(this).closest('tr');
-                    var shipId = trObj.data('id');
-                    var shipName = trObj.data('name');
-
-                    bootbox.confirm(shipName + "的船舶规范真要删掉吗?", function (result) {
-                        if (result) {
-                            $.post('deleteShipData', {'_token':token, 'dataId':shipId}, function (result) {
-                                var code = parseInt(result);
-                                if (code > 0) {
-                                    location.reload();
-                                } else {
-
-                                }
-                            });
-                        }
-                    });
-                })
-            });
+                            }
+                        });
+                    }
+                });
+            }
 
         </script>
     @endif

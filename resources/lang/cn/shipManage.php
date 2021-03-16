@@ -116,7 +116,7 @@ return [
     "General"  => [
         'ShipName' => '船名',
         'ShipName(structure)' => '船名(机构)',
-        'Class' => 'Class',
+        'Class' => 'Class/IMO_No',
         'RegNo' => 'RegNo',
         'RegType' => 'RegType',
         'SerialNo' => 'SerialNo',

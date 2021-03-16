@@ -54,3 +54,16 @@
     flex: 1 1 auto;
     padding: 1.5rem;
 }
+
+.d-in-block {
+    display: inline-block!important;
+}
+
+.v-middle {
+    vertical-align: middle;
+    margin-top: 0!important;
+}
+.selected td {
+    background: rgb(134 188 193)!important;
+    color: white!important;
+}

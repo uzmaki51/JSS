@@ -384,6 +384,7 @@ Route::group(['prefix' => 'shipManage'], function()
 	Route::post('saveShipGenaralData', ['uses'=>'ShipManage\ShipRegController@saveShipGenaralData']);
 	Route::post('saveShipHullData', ['uses'=>'ShipManage\ShipRegController@saveShipHullData']);
 	Route::post('saveShipMahcineryData', ['uses'=>'ShipManage\ShipRegController@saveShipMahcineryData']);
+	Route::post('saveShipRemarksData', ['uses'=>'ShipManage\ShipRegController@saveShipRemarksData']);
 	Route::post('saveShipSafetyData', ['uses'=>'ShipManage\ShipRegController@saveShipSafetyData']);
 	Route::post('deleteShipSafetyData', ['uses'=>'ShipManage\ShipRegController@deleteShipSafetyData']);
 	Route::post('uploadShipPicture', ['uses'=>'ShipManage\ShipRegController@uploadShipPicture']);
