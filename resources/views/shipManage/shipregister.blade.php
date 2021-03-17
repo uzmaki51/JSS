@@ -1,7 +1,7 @@
 @extends('layout.sidebar')
 <?php
-    $isHolder = Session::get('IS_HOLDER');
-    $shipList = Session::get('shipList');
+$isHolder = Session::get('IS_HOLDER');
+$shipList = Session::get('shipList');
 ?>
 
 @section('content')
@@ -11,8 +11,34 @@
             .custom-td-report-text{
                 width: 25%;
             }
-            .ship-register {
-                pointer-events: none;
+            .ship-list thead tr th {
+                height: 20px!important;
+                padding: 4px!important;
+                font-weight: normal;
+                background: #3498db;
+                color: white;
+                font-size: 12px!important;
+                border: 1px solid #cccccc;
+            }
+            .ship-list tr {
+                border: unset!important;
+                display: table; /* display purpose; th's border */
+                width: 100%;
+                box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
+            }
+            .ship-list tr td {
+                border-bottom: 1px solid #cccccc!important;
+                border-left: 1px solid #cccccc!important;
+                border-bottom: none!important;
+                border-left: none!important;
+                padding: 4px 0!important;
+            }
+            .ship-list tbody::-webkit-scrollbar {
+                display: none;
+            }
+            .ship-list tbody {
+                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: none;  /* Firefox */
             }
         </style>
 
@@ -41,51 +67,50 @@
                 </div>
             </div>
             <div class="col-md-12">
+                <div id="item-manage-dialog" class="hide"></div>
 
-                <div id="item-manage-dialog" class="hide">
-                </div>
-                <div class="row" style="max-height: 200px; overflow-y: scroll">
-                    <table class="table table-striped table-bordered table-hover">
+                <div class="row">
+                    <table class="table table-bordered table-hover ship-list">
                         <thead>
-                            <tr class="black">
-                                <th class="text-center">No</th>
-                                <th class="text-center">ShipName</th>
-                                <th class="text-center">IMO NO</th>
-                                <th class="text-center">Flag</th>
-                                <th class="text-center">Port of Registry</th>
-                                <th class="text-center">Class</th>
-                                <th class="text-center">GT</th>
-                                <th class="text-center">NT</th>
-                                <th class="text-center">DWT</th>
-                                <th class="text-center">ShipType</th>
-                                <th class="text-center">LOA</th>
-                                <th class="text-center">MB</th>
-                                <th class="text-center">DM</th>
-                                <th class="text-center">Draught</th>
-                                <th></th>
-                            </tr>
+                        <tr>
+                            <th class="text-center" style="width: 5%;">No</th>
+                            <th class="text-center" style="width: 10%;">ShipName</th>
+                            <th class="text-center" style="width: 7%;">IMO NO</th>
+                            <th class="text-center" style="width: 7%;">Flag</th>
+                            <th class="text-center" style="width: 8%;">Port of Registry</th>
+                            <th class="text-center" style="width: 7%;">Class</th>
+                            <th class="text-center" style="width: 6%;">GT</th>
+                            <th class="text-center" style="width: 6%;">NT</th>
+                            <th class="text-center" style="width: 6%;">DWT</th>
+                            <th class="text-center" style="width: 7%;">ShipType</th>
+                            <th class="text-center" style="width: 6%;">LOA</th>
+                            <th class="text-center" style="width: 7%;">MB</th>
+                            <th class="text-center" style="width: 7%;">DM</th>
+                            <th class="text-center" style="width: 7%;">Draught</th>
+                            <th style="width: 4%;"></th>
+                        </tr>
                         </thead>
-                        <tbody>
-                        <?php $index = 1; ?>
+                        <tbody style="max-height: 66px; overflow-y: scroll; display: block; width: 100%;">
+			            <?php $index = 1; ?>
                         @if(isset($list) && count($list) > 0)
                             @foreach ($list as $item)
                                 @if(!$isHolder || ($isHolder == true && in_array($item['id'], $shipList)))
                                     <tr class="ship-item {{ $item['id'] == $shipInfo['id'] ? 'selected' : '' }}" data-index="{{ $item['id'] }}">
-                                        <td class="text-center">{{ $index }}</td>
-                                        <td class="text-center">{{ $item['shipName_Cn'] }}</td>
-                                        <td class="text-center">{{ $item['IMO_No'] }}</td>
-                                        <td class="text-center">{{ $item['Flag'] }}</td>
-                                        <td class="text-center">{{ $item['PortOfRegistry'] }}</td>
-                                        <td class="text-center">{{ $item['Class'] }}</td>
-                                        <td class="text-center">{{ $item['GrossTon'] }}</td>
-                                        <td class="text-center">{{ $item['NetTon'] }}</td>
-                                        <td class="text-center">{{ $item['Deadweight'] }}</td>
-                                        <td class="text-center">{{ $item['ShipType'] }}</td>
-                                        <td class="text-center">{{ $item['LOA'] }}</td>
-                                        <td class="text-center">{{ $item['BM'] }}</td>
-                                        <td class="text-center">{{ $item['DM'] }}</td>
-                                        <td class="text-center">{{ $item['Draught'] }}</td>
-                                        <td class="text-center">
+                                        <td class="text-center" style="width: 5%;">{{ $index }}</td>
+                                        <td class="text-center" style="width: 10%;">{{ $item['shipName_Cn'] }}</td>
+                                        <td class="text-center" style="width: 7%;">{{ $item['IMO_No'] }}</td>
+                                        <td class="text-center" style="width: 7%;">{{ $item['Flag'] }}</td>
+                                        <td class="text-center" style="width: 8%;">{{ $item['PortOfRegistry'] }}</td>
+                                        <td class="text-center" style="width: 7%;">{{ $item['Class'] }}</td>
+                                        <td class="text-center" style="width: 6%;">{{ $item['GrossTon'] }}</td>
+                                        <td class="text-center" style="width: 6%;">{{ $item['NetTon'] }}</td>
+                                        <td class="text-center" style="width: 6%;">{{ $item['Deadweight'] }}</td>
+                                        <td class="text-center" style="width: 7%;">{{ $item['ShipType'] }}</td>
+                                        <td class="text-center" style="width: 6%;">{{ $item['LOA'] }}</td>
+                                        <td class="text-center" style="width: 7%;">{{ $item['BM'] }}</td>
+                                        <td class="text-center" style="width: 7%;">{{ $item['DM'] }}</td>
+                                        <td class="text-center" style="width: 7%;">{{ $item['Draught'] }}</td>
+                                        <td class="text-center" style="width: 4%;">
                                             <div class="action-buttons">
                                                 @if(!$isHolder)
                                                     <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">
@@ -96,7 +121,7 @@
                                         </td>
                                     </tr>
                                 @endif
-                                <?php $index ++; ?>
+					            <?php $index ++; ?>
                             @endforeach
                         @else
                             <div>
@@ -106,6 +131,7 @@
                         </tbody>
                     </table>
                 </div>
+
                 <div class="row">
                     <div class="tabbable">
                         <ul class="nav nav-tabs ship-register" id="myTab">
@@ -130,23 +156,13 @@
                                     {{ transShipManager('tabMenu.Remarks') }}
                                 </a>
                             </li>
-                            <!--li class="{{ $tabName == '#saftey' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#safety" onclick="ShowTabPage('#safety')">
-                                    {{ transShipManager('tabMenu.MSMC') }}
-                                </a>
-                            </li>
-                            <li class="{{ $tabName == '#photo' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#photo" onclick="ShowTabPage('#photo')">
-                                    {{ transShipManager('tabMenu.Photo') }}
-                                </a>
-                            </li-->
                             <li style="float: right;">
                                 @if(!$isHolder)
                                     <div class="row">
                                         <div class="col-md-12">
-                                                <button type="submit" id="btnRegister" class="btn btn-sm btn-inverse" style="width: 80px">
-                                                    <i class="icon-save"></i>登记
-                                                </button>
+                                            <button type="submit" id="btnRegister" class="btn btn-sm btn-inverse" style="width: 80px">
+                                                <i class="icon-save"></i>登记
+                                            </button>
                                         </div>
                                     </div>
                                 @endif
@@ -175,8 +191,7 @@
                             @endif
                         </div>
                     </div>
-                </div><!-- /span -->
-
+                </div>
                 <div class="vspace-xs-12"></div>
             </div>
             <a href="#modify-dialog" role="button" class="hidden" data-toggle="modal" id="dialog-show-btn"></a>
@@ -199,7 +214,7 @@
         var token = '{!! csrf_token() !!}';
         var shipId = '{!! $shipInfo['id'] !!}';
         var activeTabName = '{{ $tabName }}';
-        var preTabName = activeTabName; 
+        var preTabName = activeTabName;
 
         //editables on first profile page
         $.fn.editable.defaults.mode = 'inline';
@@ -223,7 +238,7 @@
                 $('[name=_tabName]').val(tabName);
                 $(preTabName + '-form').submit();
             }
-            
+
             $.post("shipDataTabPage", {'_token':token, 'shipId':shipId, 'tabName':tabName}, function(data) {
                 switch (tabName) {
                     case '#general':
@@ -249,10 +264,10 @@
             preTabName = tabName;
         }
 
-            
+
         $('#btnRegister').on('click', function() {
             if(activeTabName == '#general') {
-                $(activeTabName + '-form').validate();                
+                $(activeTabName + '-form').validate();
             }
 
             $(activeTabName + '-form').submit();
@@ -261,7 +276,7 @@
         $('.ship-item').on('click', function() {
             if($(this).hasClass('selected'))
                 return;
-                
+
             let ship_id = $(this).attr('data-index');
             location.href = BASE_URL + 'shipManage/registerShipData?shipId=' + ship_id;
         });

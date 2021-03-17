@@ -14378,9 +14378,8 @@ body.breadcrumbs-fixed {
 }
 
 .page-content {
-    /* background:#fff; */
     margin: 0;
-    padding: 15px 20px 24px;
+    padding: 0 20px 24px;
 }
 
 .page-header {
@@ -20619,7 +20618,7 @@ th, td, .table-bordered {
 .table thead tr {
     color: #505050;
     font-weight: normal;
-    height: 40px;
+    height: auto;
 }
 
 .table thead tr th {
