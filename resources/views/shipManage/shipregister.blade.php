@@ -18,6 +18,7 @@ $shipList = Session::get('shipList');
                 background: #c9dfff;
                 color: black;
                 font-size: 12px!important;
+                font-style: italic;
                 /*border: unset!important;*/
             }
             .ship-list tr {
@@ -51,14 +52,9 @@ $shipList = Session::get('shipList');
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
-                    <h4><b>船舶规范</b>
+                    <h4><b>Ship Register</b>
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            @if(isset($shipinfo))
-                                修改
-                            @else
-                                登记
-                            @endif
                         </small>
                     </h4>
                 </div>

@@ -16441,7 +16441,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
 }
 
 .nav-list > li.active {
-    background-color: #2e323a;
+    background-color: rgb(40, 104, 194);
 }
 
 .nav-list > li.active > a, .nav-list > li.active > a:hover, .nav-list > li.active > a:focus, .nav-list > li.active > a:active {

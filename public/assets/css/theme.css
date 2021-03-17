@@ -36,19 +36,19 @@ body * {
 }
 
 .navbar {
-    padding: 10px 0px 2px 0px;
+    padding: unset; /*10px 0px 2px 0px;*/
 }
 .navbar.navbar-inverse {
     background: rgba(0, 0, 0, 0.4);
     border-bottom: unset;
 }
 .navbar.navbar-inverse.navbar-static-top {
-    background-color: #000e00;/* #0a79c4;*/
+    background-image: linear-gradient(to right, rgb(0, 49, 118) , rgb(40, 104, 194));
     background-size: cover!important;
 }
 .navbar.navbar-inverse.navbar-static-top .container {
     height: 49px;
-    margin-top: -5px;
+    margin-top: 0px;
     margin-bottom: 0; }
 .navbar.navbar-inverse .nav > li > a {
     font-size: 14px;
@@ -88,7 +88,8 @@ body * {
     padding: 0px 20px 0px;
 }
 .navbar .container .navbar-header .navbar-brand .navbar-img {
-    height: 55px;
+    /*height: 55px;*/
+    height: 100%;
     position:absolute;
 }
 
@@ -298,7 +299,7 @@ td > a {
     z-index: 1000;
     display: inline-block;
     width: 100%;
-    height: 61px;
+    height: 62px;
     top: 0;
     left: 0;
     background-color: #ffffff;
@@ -313,7 +314,7 @@ td > a {
 #main-container {
     /*height: 100%;*/
     /*position: relative;*/
-    margin-top :61px;
+    margin-top :62px;
     min-height: calc(100% - 187px);
 }
 
@@ -455,7 +456,7 @@ footer {
 .parent-menu {
     /* bottom: 1px; */
     position: absolute;
-    left: 240px;
+    left: 280px;
     margin-top: 8px!important;
     width: 90%;
     vertical-align: center!important;

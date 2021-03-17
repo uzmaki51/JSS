@@ -3637,7 +3637,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 .navbar {
     position: relative;
     z-index: 1000;
-    min-height: 60px; /* margin-bottom: 0px; */
+    min-height: 62px; /* margin-bottom: 0px; */
     border: 1px solid transparent;
 }
 
