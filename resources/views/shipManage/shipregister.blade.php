@@ -15,10 +15,10 @@ $shipList = Session::get('shipList');
                 height: 20px!important;
                 padding: 4px!important;
                 font-weight: normal;
-                background: #3498db;
-                color: white;
+                background: #c9dfff;
+                color: black;
                 font-size: 12px!important;
-                border: 1px solid #cccccc;
+                /*border: unset!important;*/
             }
             .ship-list tr {
                 border: unset!important;
@@ -40,6 +40,12 @@ $shipList = Session::get('shipList');
                 -ms-overflow-style: none;  /* IE and Edge */
                 scrollbar-width: none;  /* Firefox */
             }
+            /*.ship-list tr span {*/
+                /*border: 1px solid red;*/
+                /*padding: 4px;*/
+                /*display: block;*/
+                /**/
+            /*}*/
         </style>
 
         <div class="page-content">
@@ -70,24 +76,24 @@ $shipList = Session::get('shipList');
                 <div id="item-manage-dialog" class="hide"></div>
 
                 <div class="row">
-                    <table class="table table-bordered table-hover ship-list">
+                    <table class="table table-bordered ship-list">
                         <thead>
                         <tr>
-                            <th class="text-center" style="width: 5%;">No</th>
-                            <th class="text-center" style="width: 10%;">ShipName</th>
-                            <th class="text-center" style="width: 7%;">IMO NO</th>
-                            <th class="text-center" style="width: 7%;">Flag</th>
-                            <th class="text-center" style="width: 8%;">Port of Registry</th>
-                            <th class="text-center" style="width: 7%;">Class</th>
-                            <th class="text-center" style="width: 6%;">GT</th>
-                            <th class="text-center" style="width: 6%;">NT</th>
-                            <th class="text-center" style="width: 6%;">DWT</th>
-                            <th class="text-center" style="width: 7%;">ShipType</th>
-                            <th class="text-center" style="width: 6%;">LOA</th>
-                            <th class="text-center" style="width: 7%;">MB</th>
-                            <th class="text-center" style="width: 7%;">DM</th>
-                            <th class="text-center" style="width: 7%;">Draught</th>
-                            <th style="width: 4%;"></th>
+                            <th class="text-center" style="width: 2%;"><span>No</span></th>
+                            <th class="text-center" style="width: 10%;"><span>ShipName</span></th>
+                            <th class="text-center" style="width: 8%;"><span>IMO NO</span></th>
+                            <th class="text-center" style="width: 7%;"><span>Flag</span></th>
+                            <th class="text-center" style="width: 8%;"><span>Port of Registry</span></th>
+                            <th class="text-center" style="width: 7%;"><span>Class</span></th>
+                            <th class="text-center" style="width: 6%;"><span>GT</span></th>
+                            <th class="text-center" style="width: 6%;"><span>NT</span></th>
+                            <th class="text-center" style="width: 6%;"><span>DWT</span></th>
+                            <th class="text-center" style="width: 9%;"><span>ShipType</span></th>
+                            <th class="text-center" style="width: 7%;"><span>LOA</span></th>
+                            <th class="text-center" style="width: 8%;"><span>MB</span></th>
+                            <th class="text-center" style="width: 7%;"><span>DM</span></th>
+                            <th class="text-center" style="width: 7%;"><span>Draught</span></th>
+                            <th style="width: 2%;"></th>
                         </tr>
                         </thead>
                         <tbody style="max-height: 66px; overflow-y: scroll; display: block; width: 100%;">
@@ -96,21 +102,21 @@ $shipList = Session::get('shipList');
                             @foreach ($list as $item)
                                 @if(!$isHolder || ($isHolder == true && in_array($item['id'], $shipList)))
                                     <tr class="ship-item {{ $item['id'] == $shipInfo['id'] ? 'selected' : '' }}" data-index="{{ $item['id'] }}">
-                                        <td class="text-center" style="width: 5%;">{{ $index }}</td>
+                                        <td class="text-center" style="width: 2%;">{{ $index }}</td>
                                         <td class="text-center" style="width: 10%;">{{ $item['shipName_Cn'] }}</td>
-                                        <td class="text-center" style="width: 7%;">{{ $item['IMO_No'] }}</td>
+                                        <td class="text-center" style="width: 8%;">{{ $item['IMO_No'] }}</td>
                                         <td class="text-center" style="width: 7%;">{{ $item['Flag'] }}</td>
                                         <td class="text-center" style="width: 8%;">{{ $item['PortOfRegistry'] }}</td>
                                         <td class="text-center" style="width: 7%;">{{ $item['Class'] }}</td>
                                         <td class="text-center" style="width: 6%;">{{ $item['GrossTon'] }}</td>
                                         <td class="text-center" style="width: 6%;">{{ $item['NetTon'] }}</td>
                                         <td class="text-center" style="width: 6%;">{{ $item['Deadweight'] }}</td>
-                                        <td class="text-center" style="width: 7%;">{{ $item['ShipType'] }}</td>
-                                        <td class="text-center" style="width: 6%;">{{ $item['LOA'] }}</td>
-                                        <td class="text-center" style="width: 7%;">{{ $item['BM'] }}</td>
+                                        <td class="text-center" style="width: 9%;">{{ $item['ShipType'] }}</td>
+                                        <td class="text-center" style="width: 7%;">{{ $item['LOA'] }}</td>
+                                        <td class="text-center" style="width: 8%;">{{ $item['BM'] }}</td>
                                         <td class="text-center" style="width: 7%;">{{ $item['DM'] }}</td>
                                         <td class="text-center" style="width: 7%;">{{ $item['Draught'] }}</td>
-                                        <td class="text-center" style="width: 4%;">
+                                        <td class="text-center" style="width: 2%;">
                                             <div class="action-buttons">
                                                 @if(!$isHolder)
                                                     <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">
