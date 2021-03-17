@@ -65,7 +65,7 @@ body.breadcrumbs-fixed {
 
 .page-header {
     margin: 0 0 12px;
-    border-bottom: 1px dotted #e2e2e2;
+    border-bottom: unset;
     padding-bottom: 16px;
     padding-top: 7px;
     height: 64px;
@@ -14384,10 +14384,10 @@ body.breadcrumbs-fixed {
 
 .page-header {
     margin: 0 0 12px;
-    border-bottom: 1px dotted #e2e2e2;
+    border-bottom: unset;
     padding-bottom: 16px;
     padding-top: 7px;
-    height: 48px;
+    height: auto;
 }
 
 .page-header h1 {
