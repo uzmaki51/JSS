@@ -42,11 +42,15 @@ $shipList = Session::get('shipList');
                 scrollbar-width: none;  /* Firefox */
             }
             /*.ship-list tr span {*/
-                /*border: 1px solid red;*/
-                /*padding: 4px;*/
-                /*display: block;*/
-                /**/
+            /*border: 1px solid red;*/
+            /*padding: 4px;*/
+            /*display: block;*/
+            /**/
             /*}*/
+
+            .ship-register a {
+                padding: 4px!important;
+            }
         </style>
 
         <div class="page-content">
@@ -58,12 +62,7 @@ $shipList = Session::get('shipList');
                         </small>
                     </h4>
                 </div>
-                <div class="col-sm-6" style="visibility: hidden;">
-                    <div class="col-md-8 alert alert-block alert-success center" @if(is_null($status)) style="display: none @endif">
-                        <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
-                        <strong id="msg-content"> @if($status == 'success') 保存成功。 @else {{ $status }} @endif</strong>
-                    </div>
-                </div>
+                <div class="col-sm-6"></div>
                 <div class="col-sm-3">
                     <h5 style="float: right"><a href="shipinfo"><strong>上一个页</strong></a></h5>
                 </div>
@@ -93,7 +92,7 @@ $shipList = Session::get('shipList');
                         </tr>
                         </thead>
                         <tbody style="max-height: 66px; overflow-y: scroll; display: block; width: 100%;">
-			            <?php $index = 1; ?>
+						<?php $index = 1; ?>
                         @if(isset($list) && count($list) > 0)
                             @foreach ($list as $item)
                                 @if(!$isHolder || ($isHolder == true && in_array($item['id'], $shipList)))
@@ -123,7 +122,7 @@ $shipList = Session::get('shipList');
                                         </td>
                                     </tr>
                                 @endif
-					            <?php $index ++; ?>
+								<?php $index ++; ?>
                             @endforeach
                         @else
                             <div>
@@ -161,11 +160,9 @@ $shipList = Session::get('shipList');
                             <li style="float: right;">
                                 @if(!$isHolder)
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <button type="submit" id="btnRegister" class="btn btn-sm btn-inverse" style="width: 80px">
-                                                <i class="icon-save"></i>登记
-                                            </button>
-                                        </div>
+                                        <button type="submit" id="btnRegister" class="btn btn-sm btn-inverse" style="width: 80px">
+                                            <i class="icon-save"></i>登记
+                                        </button>
                                     </div>
                                 @endif
                             </li>

@@ -8,7 +8,7 @@ $shipList = Session::get('shipList');
         padding: 0px;
     }
     .table tbody > tr > .custom-td-label1 {
-        padding: 4px!important;
+        padding: 2px!important;
         border: unset!important;
         width: 150px!important;
         white-space: nowrap;
@@ -42,7 +42,7 @@ $shipList = Session::get('shipList');
     }
 
     .form-control {
-        padding: 4px!important;
+        padding: 0 4px!important;
         border-radius: 0!important;
         border: unset!important;
         font-size: 12px!important;
