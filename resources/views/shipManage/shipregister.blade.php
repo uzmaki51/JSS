@@ -8,6 +8,9 @@ $shipList = Session::get('shipList');
 
     <div class="main-content">
         <style>
+            .table {
+                margin-bottom: 2px!important;
+            }
             .custom-td-report-text{
                 width: 25%;
             }
