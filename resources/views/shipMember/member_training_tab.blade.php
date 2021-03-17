@@ -1,7 +1,6 @@
 <div class="space-10"></div>
 <div class="row">
     <div class="col-md-12">
-        <form role="form" method="POST" enctype="multipart/form-data" action="updateMemberTrainingData">
             <input class="hidden" name="_token" value="{{csrf_token()}}">
             <input class="hidden" name="memberId" value="{{$memberId}}">
             <div class="space-4"></div>
@@ -171,9 +170,11 @@
                                 <select class="form-control chosen-select" name="TCP_certID">
 
                                     <option value="" @if(empty($training['TCP_certID'])) selected @endif>&nbsp;</option>
+                                    @if($security != null)
                                     @foreach($security as $cert)
                                         <option value="{{$cert['id']}}" @if(($training['TCP_certID'] == $cert['id']))  @endif>{{$cert['title']}}</option>
                                     @endforeach
+                                    @endif
                                 </select>
                             </td>
                             <td>
@@ -217,9 +218,11 @@
                             <td>
                                 <select class="form-control chosen-select" name="SSO_certID">
                                     <option value="" @if(empty($training['SSO_certID'])) selected @endif>&nbsp;</option>
+                                    @if($security != null)
                                     @foreach($security as $cert)
                                         <option value="{{$cert['id']}}" @if(($training['SSO_certID'] == $cert['id']))  @endif>{{$cert['title']}}</option>
                                     @endforeach
+                                    @endif
                                 </select>
                             </td>
                             <td>
@@ -364,7 +367,6 @@
                     </button>
                 </div>
             </div>
-        </form>
     </div>
 </div>
 

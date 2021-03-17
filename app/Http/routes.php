@@ -484,6 +484,7 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::get('shipMember', ['uses' => 'ShipManage\ShipMemberController@loadShipMembers']);
 	Route::get('registerShipMember', ['uses' => 'ShipManage\ShipMemberController@registerShipMember']);
 	Route::post('showShipMemberDataTab', ['uses' => 'ShipManage\ShipMemberController@showShipMemberDataTab']);
+	Route::post('updateMemberInfo', ['uses' => 'ShipManage\ShipMemberController@updateMemberInfo']);
 	Route::post('updateMemberMainInfo', ['uses' => 'ShipManage\ShipMemberController@updateMemberMainInfo']);
 	Route::post('updateMemberMainData', ['uses' => 'ShipManage\ShipMemberController@updateMemberMainData']);
 	Route::post('updateMemberCapacityData', ['uses' => 'ShipManage\ShipMemberController@updateMemberCapacityData']);

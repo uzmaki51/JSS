@@ -21,6 +21,7 @@
                 </thead>
                 <tbody id="examing_table">
                     <?php $index = -1; ?>
+                    @if($examingList != null)
                     @foreach($examingList as $exam)
                         <?php $index++; ?>
                         <tr>
@@ -68,6 +69,7 @@
                             </td>
                         </tr>
                     @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

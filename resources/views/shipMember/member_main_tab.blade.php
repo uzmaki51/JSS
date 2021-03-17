@@ -1,7 +1,6 @@
 <div class="space-4"></div>
 <div class="row">
     <div class="col-md-12">
-        <form role="form" method="POST" enctype="multipart/form-data" action="updateMemberMainData">
             <input class="hidden" name="_token" value="{{csrf_token()}}">
             <input class="hidden" name="memberId" value="{{$info['id']}}">
             <div class="row" style="margin-left: 10px;margin-right: 10px">
@@ -152,6 +151,8 @@
                     </thead>
                     <tbody id="history_table">
                         <?php $index = 0; ?>
+                        
+                        @if($historyList != null)
                         @foreach($historyList as $career)
                             <tr>
                                 <td class="hidden">{{$index}}</td>
@@ -224,6 +225,7 @@
                             </tr>
                             <?php $index++ ?>
                         @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -234,6 +236,5 @@
                     </button>
                 </div>
             </div>
-        </form>
     </div>
 </div>

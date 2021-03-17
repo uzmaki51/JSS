@@ -173,11 +173,12 @@ class ShipMemberController extends Controller
         $posList = ShipPosition::all();
         $ksList = Ship::all();
         $typeList = ShipType::all();
+        $capacityList = ShipMemberCapacity::all();
 
         $state = Session::get('state');
 
         $memberId = $request->get('memberId');
-        if(isset($memberId)) {
+        if($memberId != "") {
             // 登记자료탭
             $info = ShipMember::find($memberId);
             $historyList = ShipBoardCareer::where('memberId', $memberId)->orderBy('FromDate')->get();
@@ -191,8 +192,7 @@ class ShipMemberController extends Controller
             $capacity = ShipCapacityRegister::where('memberId', $memberId)->first();
             $capacity_career = ShipMemberCapacityCareer::where('memberId', $memberId)->orderBy("RegDate")->get();
             $school = ShipMemberSchool::where('memberId', $memberId)->orderBy("id")->get();
-            $capacityList = ShipMemberCapacity::all();
-
+            
             // 훈련登记자료
             $training = ShipMemberTraining::where('memberId', $memberId)->first();
             $securityType = SecurityCert::all();
@@ -232,13 +232,39 @@ class ShipMemberController extends Controller
                     'subList'   =>      $subList,
                     'codeList'  =>      $codeList,
 
-                    'state'=>$state,
-
-
-
+                    'state'     =>      $state,
                 ]);
         }
-        return view('shipMember.register_member', ['shipList'=>$shipList, 'posList'=>$posList, 'ksList'=>$ksList, 'typeList'=>$typeList, 'state'=>$state]);
+        //return view('shipMember.register_member', ['shipList'=>$shipList, 'posList'=>$posList, 'ksList'=>$ksList, 'typeList'=>$typeList, 'state'=>$state]);
+        return view('shipMember.register_member',
+                //[   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'Surname' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => ''],
+                  [   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'Surname' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => ''],
+                    'shipList'  =>      $shipList,
+                    'posList'   =>      $posList,
+                    'ksList'    =>      $ksList,
+                    'memberId'  =>      null,
+
+                    'historyList'=>     null,
+                    'typeList'  =>      $typeList,
+
+                    'card'      =>      null,
+                    'careerList'=>      null,
+
+                    'capacity'  =>      null,
+                    'capacity_career'=> null,
+                    'schoolList'=>      null,
+                    'capacityList'=>    $capacityList,
+
+                    'security'  =>      null,
+                    'training'  =>      null,
+
+                    'examingList'=>     null,
+                    'examId'    =>      null,
+                    'subList'   =>      null,
+                    'codeList'  =>      null,
+
+                    'state'     =>      $state,
+                ]);
     }
 
     public function showShipMemberDataTab(Request $request) {
@@ -308,22 +334,33 @@ class ShipMemberController extends Controller
         return round($avg, 2);
     }
 
+    public function updateMemberInfo(Request $request) {
+        //dump($request);
+        //die();
+        $memberId = $this->updateMemberMainInfo($request);
+        if ($memberId != "")
+        {
+            $this->updateMemberMainData($request, $memberId);
+            $this->updateMemberCapacityData($request, $memberId);
+            $this->updateMemberTrainingData($request, $memberId);
+        }
+        return redirect('shipMember/registerShipMember?memberId='.$memberId);
+    }
+
     public function updateMemberMainInfo(Request $request) {
 
         $memberId = $request->get('memberId');
         $crewNum = $request->get('crewNum');
 
         $isExist = ShipMember::where('crewNum', $crewNum)->first();
-        if(!empty($isExist) && ($isExist['id'] != $memberId)) {
+        if(!empty($isExist) && ($isExist['id'] != $memberId) && $crewNum != "") {
             $msg = '登记号码是重复了。';
             return back()->with(['state'=>'error', 'msg'=>$msg]);
         }
-
-        if(isset($memberId))
+        if($memberId != "")
             $member = ShipMember::find($memberId);
         else
             $member = new ShipMember();
-
 
         $member['crewNum'] = $crewNum;
         $member['realname'] = $request->get('realname');
@@ -367,16 +404,14 @@ class ShipMemberController extends Controller
 
         $member->save();
 
-        if(!isset($memberId)) {
+        if($memberId == "") {
             $memberId = ShipMember::all()->last()->id;
         }
 
-        return redirect('shipMember/registerShipMember?memberId='.$memberId);
+        return $memberId;
     }
 
-    public function updateMemberMainData(Request $request) {
-
-        $memberId = $request->get('memberId');
+    public function updateMemberMainData(Request $request, $memberId) {
         $member = ShipMember::find($memberId);
 
         $member['ShipId'] = $request->get('ShipId');
@@ -445,13 +480,9 @@ class ShipMemberController extends Controller
                 $career->save();
             }
         }
-
-        return redirect('shipMember/registerShipMember?memberId='.$memberId);
-
     }
 
-    public function updateMemberCapacityData(Request $request) {
-        $memberId = $request->get('memberId');
+    public function updateMemberCapacityData(Request $request, $memberId) {
         $capacity = ShipCapacityRegister::where('memberId', $memberId)->first();
         if(is_null($capacity)) {
             $capacity = new ShipCapacityRegister();
@@ -654,12 +685,9 @@ class ShipMemberController extends Controller
                 $school->save();
             }
         }
-
-        return back();
     }
 
-    public function updateMemberTrainingData(Request $request) {
-        $memberId =$request->get('memberId');
+    public function updateMemberTrainingData(Request $request, $memberId) {
         $training = ShipMemberTraining::where('memberId', $memberId)->first();
         if(is_null($training)) {
             $training = new ShipMemberTraining();
@@ -809,7 +837,6 @@ class ShipMemberController extends Controller
         }
 
         $training->save();
-        return back();
     }
 
     public function registerMemberExamingData(Request $request) {

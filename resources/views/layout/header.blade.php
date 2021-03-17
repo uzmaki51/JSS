@@ -94,10 +94,10 @@
             <!-- /.navbar-header -->
 
             <div class="collapse navbar-collapse navbar-ex1-collapse" role="navigation">
-                <ul class="nav navbar-nav navbar-right" style="bottom: 50px; position: absolute; right: 2%;">
+                <ul class="nav navbar-nav navbar-right" style="position: absolute; right: 2%;">
                     <li class="dropdown" style="height: auto;">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background: transparent;">
-                            <img src="{{url('img/user.png')}}" height="32" width="32" style="vertical-align: middle; border-radius: 50%;">
+                            <img src="{{url('img/user.png')}}" height="24" width="24" style="vertical-align: middle; border-radius: 50%;">
                             欢迎 | {{ Auth::user()->realname }}<b class="caret"></b></a>
                         <ul class="dropdown-menu" style="background: #5b79a5;">
                             <li><a href="{{ url('/home/resetPassword') }}"><i class="icon-lock"></i>&nbsp;&nbsp;&nbsp;{{ trans('common.label.change_pass') }}</a></li>

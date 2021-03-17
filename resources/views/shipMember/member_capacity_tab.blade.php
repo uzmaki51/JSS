@@ -1,7 +1,6 @@
 <div class="space-10"></div>
 <div class="row">
     <div class="col-md-12">
-        <form role="form" method="POST" enctype="multipart/form-data" action="updateMemberCapacityData">
             <input class="hidden" name="_token" value="{{csrf_token()}}">
             <input class="hidden" name="memberId" value="{{$memberId}}">
             <div class="row" style="margin-left: 10px;margin-right: 10px">
@@ -339,6 +338,7 @@
                     </thead>
                     <tbody id="capacity_table">
                     <?php $index = 0; ?>
+                    @if($capacity_career != null)
                     @foreach($capacity_career as $career)
                         <tr>
                             <td class="hidden">{{$index}}</td>
@@ -384,6 +384,7 @@
                         </tr>
                         <?php $index++ ?>
                     @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
@@ -412,6 +413,7 @@
                     </thead>
                     <tbody id="school_table">
                     <?php $index = 0; ?>
+                    @if($schoolList != null)
                     @foreach($schoolList as $school)
                         <tr>
                             <td class="hidden">{{$index}}</td>
@@ -483,6 +485,7 @@
                         </tr>
                         <?php $index++ ?>
                     @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
@@ -493,7 +496,6 @@
                     </button>
                 </div>
             </div>
-        </form>
     </div>
 </div>
 

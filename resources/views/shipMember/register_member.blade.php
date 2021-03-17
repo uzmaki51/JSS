@@ -70,8 +70,8 @@
                     <h5 style="float: right; color: #1565C0;"><a href="javascript: history.back()"><strong>上一个页</strong></a></h5>
                 </div>
             </div>
-            <div class="col-md-12">
-                <form action="updateMemberMainInfo" role="form" method="POST" enctype="multipart/form-data">
+            <form action="updateMemberInfo" role="form" method="POST" enctype="multipart/form-data">
+                <div class="col-md-12">
                     <div class="row">
                         <div style="text-align: right">
                             @if(isset($info))
@@ -187,54 +187,52 @@
                             </span>
                         </div>
                     </div>
-                </form>
-            </div>
-            @if(isset($info))
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="tabbable">
-                        <ul class="nav nav-tabs" id="memberTab">
-                            <li class="active">
-                                <a data-toggle="tab" href="#main_data">
-                                    {{transShipMember("title.Register Data")}}
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#capacity_data">
-                                    {{transShipMember("title.Capacity Data")}}
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#training_data">
-                                    {{transShipMember("title.Train Register")}}
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#examing_data">
-                                    {{transShipMember("title.Real ablility")}}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-content">
-                        <div id="main_data" class="tab-pane active">
-                            @include('shipMember.member_main_tab', with(['info'=>$info, 'shipList'=>$shipList, 'pos'=>$posList, 'ksList'=>$ksList, 'historyList'=>$historyList, 'typeList'=>$typeList]))
-                        </div>
-                        <div id="capacity_data" class="tab-pane">
-                            @include('shipMember.member_capacity_tab', with(['memberId'=>$memberId, 'capacity'=>$capacity, 'capacity_career'=>$capacity_career, 'schoolList'=>$schoolList, 'capacityList'=>$capacityList]))
-                        </div>
-                        <div id="training_data" class="tab-pane">
-                            @include('shipMember.member_training_tab', with(['memberId'=>$memberId, 'security'=>$security, 'training'=>$training]))
-                        </div>
-                        <div id="examing_data" class="tab-pane">
-                            @include('shipMember.member_examing_tab', with(['examingList'=>$examingList, 'subList'=>$subList, 'codeList'=>$codeList]))
-                        </div>
-                        <p id="err_message_out" class="error-message"></p>
-                    </div>
-
                 </div>
-            </div>
-            @endif
+            
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs" id="memberTab">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#main_data">
+                                        {{transShipMember("title.Register Data")}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#capacity_data">
+                                        {{transShipMember("title.Capacity Data")}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#training_data">
+                                        {{transShipMember("title.Train Register")}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#examing_data">
+                                        {{transShipMember("title.Real ablility")}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div id="main_data" class="tab-pane active">
+                                @include('shipMember.member_main_tab', with(['info'=>$info, 'shipList'=>$shipList, 'pos'=>$posList, 'ksList'=>$ksList, 'historyList'=>$historyList, 'typeList'=>$typeList]))
+                            </div>
+                            <div id="capacity_data" class="tab-pane">
+                                @include('shipMember.member_capacity_tab', with(['memberId'=>$memberId, 'capacity'=>$capacity, 'capacity_career'=>$capacity_career, 'schoolList'=>$schoolList, 'capacityList'=>$capacityList]))
+                            </div>
+                            <div id="training_data" class="tab-pane">
+                                @include('shipMember.member_training_tab', with(['memberId'=>$memberId, 'security'=>$security, 'training'=>$training]))
+                            </div>
+                            <div id="examing_data" class="tab-pane">
+                                @include('shipMember.member_examing_tab', with(['examingList'=>$examingList, 'subList'=>$subList, 'codeList'=>$codeList]))
+                            </div>
+                            <p id="err_message_out" class="error-message"></p>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -633,7 +631,7 @@
         }
 
         @if(isset($info))
-        var memberId = {{$memberId}};
+        //var memberId = {{$memberId}};
         var save = '<a class="red" onclick="javascript:saveMemberExaming(this)"><i class="icon-save bigger-110"></i></a>';
         var cancel = '<a class="red" onclick="javascript:cancelMemberExaming(this)"><i class="icon-remove bigger-110"></i></a>';
         var edit = '<a class="blue" onclick="javascript:editMemberExaming(this)"><i class="icon-edit bigger-110"></i></a>';
