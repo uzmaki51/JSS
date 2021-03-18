@@ -72,9 +72,9 @@ $shipList = Session::get('shipList');
             <div class="page-header">
                 <div class="col-sm-3">
                     <h4><b>Ship Register</b>
-                        <small>
+                        <!--small>
                             <i class="icon-double-angle-right"></i>
-                        </small>
+                        </small-->
                     </h4>
                 </div>
                 <div class="col-sm-6"></div>
