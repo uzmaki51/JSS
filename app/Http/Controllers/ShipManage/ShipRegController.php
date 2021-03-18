@@ -165,117 +165,94 @@ class ShipRegController extends Controller
                     ]);
     }
 
-    public function saveShipGenaralData(Request $request) {
-        $shipId = trim($request->get('shipId')) * 1;
-        $tabName = $request->get('_tabName');
-        
-        if($shipId > 0) {
-            $shipData = ShipRegister::find($shipId);
-            $isRegister = false;
-        } else {
-            $shipData = new ShipRegister();
-            $isRegister = true;
-        }
+    public function saveShipData(Request $request) {
+//    	$request->validate()
+	    $params = $request->all();
+	    $shipId = trim($request->get('shipId')) * 1;
+	    $tabName = $request->get('_tabName');
 
-        $shipData['shipName_Cn'] = $request->get('shipName_Cn');
-        $shipData['shipName_En'] = $request->get('shipName_En');
-        $shipData['NickName'] = $request->get('NickName');
-        $shipData['Shipid'] = $request->get('Shipid');
-        $shipData['Class'] = $request->get('Class');
-        $shipData['RegNo'] = $request->get('RegNo');
-        $shipData['RegStatus'] = $request->get('RegStatus');
-        $shipData['SerialNo'] = $request->get('SerialNo');
-        $shipData['CallSign'] = $request->get('CallSign');
-        $shipData['MMSI'] = $request->get('MMSI');
-        $shipData['IMO_No'] = $request->get('IMO_No');
-        $shipData['INMARSAT'] = $request->get('INMARSAT');
-        $shipData['OriginalShipName'] = $request->get('OriginalShipName');
-        $shipData['FormerShipName'] = $request->get('FormerShipName');
-        $shipData['SecondFormerShipName'] = $request->get('SecondFormerShipName');
-        $shipData['ThirdFormerShipName'] = $request->get('ThirdFormerShipName');
-        $shipData['Flag'] = $request->get('Flag');
-        $shipData['PortOfRegistry_Cn'] = $request->get('PortOfRegistry_Cn');
-        $shipData['PortOfRegistry'] = $request->get('PortOfRegistry');
-        $shipData['Owner_Cn'] = $request->get('Owner_Cn');
-        $shipData['Owner_En'] = $request->get('Owner_En');
-        $shipData['OwnerAddress_Cn'] = $request->get('OwnerAddress_Cn');
-        $shipData['OwnerAddress_En'] = $request->get('OwnerAddress_En');
-        $shipData['OwnerTelnumber'] = $request->get('OwnerTelnumber');
-        $shipData['OwnerFax'] = $request->get('OwnerFax');
-        $shipData['OwnerEmail'] = $request->get('OwnerEmail');
-        $shipData['ISM_Cn'] = $request->get('ISM_Cn');
-        $shipData['ISM_En'] = $request->get('ISM_En');
-        $shipData['ISMAddress_Cn'] = $request->get('ISMAddress_Cn');
-        $shipData['ISMAddress_En'] = $request->get('ISMAddress_En');
-        $shipData['ISMTelnumber'] = $request->get('ISMTelnumber');
-        $shipData['ISMFax'] = $request->get('ISMFax');
-        $shipData['ISMEmail'] = $request->get('ISMEmail');
-        $shipData['ShipType'] = $request->get('ShipType');
-        $shipData['GrossTon'] = $request->get('GrossTon');
-        $shipData['LOA'] = $request->get('LOA');
-        $shipData['NetTon'] = $request->get('NetTon');
-        $shipData['LBP'] = $request->get('LBP');
-        $shipData['Deadweight'] = $request->get('Deadweight');
-        $shipData['Length'] = $request->get('Length');
-        $shipData['Displacement'] = $request->get('Displacement');
-        $shipData['BM'] = $request->get('BM');
-        $shipData['Ballast'] = $request->get('Ballast');
-        $shipData['DM'] = $request->get('DM');
-        $shipData['FuelBunker'] = $request->get('FuelBunker');
-        $shipData['ShipBuilder'] = $request->get('ShipBuilder');
-        $shipData['KeelDate'] = $request->get('KeelDate');
-        $shipData['DeckErection_B'] = $request->get('DeckErection_B');
-        $shipData['LaunchDate'] = $request->get('LaunchDate');
-        $shipData['DeckErection_F'] = $request->get('DeckErection_F');
-        $shipData['DeliveryDate'] = $request->get('DeliveryDate');
-        $shipData['DeckErection_P'] = $request->get('DeckErection_P');
-        $shipData['ConversionDate'] = $request->get('ConversionDate');
-        $shipData['DeckErection_H'] = $request->get('DeckErection_H');
-        $shipData['RegDate'] = $request->get('RegDate');
-        $shipData['RenewDate'] = $request->get('RenewDate');
-        $shipData['KCExpiryDate'] = $request->get('KCExpiryDate');
-        $shipData['ConditionalDate'] = $request->get('ConditionalDate');
-        $shipData['DelDate'] = $request->get('DelDate');
-        $shipData['Draught'] = $request->get('Draught');
-        $shipData['BuildPlace_Cn'] = $request->get('BuildPlace_Cn');
-        $shipData->save();
+	    if($shipId > 0) {
+		    $shipData = ShipRegister::find($shipId);
+		    $isRegister = false;
+	    } else {
+		    $shipData = new ShipRegister();
+		    $isRegister = true;
+	    }
 
-        if($shipId == 0)
-            $newId = ShipRegister::all()->last()->id;
+	    $ret = $this->saveShipGeneralData($params, $shipData);
+	    var_dump($ret);die;
 
-        $GLOBALS['selMenu'] = 52;
-        $GLOBALS['submenu'] = 0;
+    }
 
-        $shipList = Ship::all();
-        $shipType = ShipType::all();
+    public function saveShipGeneralData($params, $shipId) {
+    	try {
+		    $shipData['shipName_Cn'] = $params['shipName_Cn'];
+		    $shipData['shipName_En'] = $params['shipName_En'];
+		    $shipData['NickName'] = $params['NickName'];
+		    $shipData['Shipid'] = $params['Shipid'];
+		    $shipData['Class'] = $params['Class'];
+		    $shipData['RegNo'] = $params['RegNo'];
+		    $shipData['RegStatus'] = $params['RegStatus'];
+		    $shipData['SerialNo'] = $params['SerialNo'];
+		    $shipData['CallSign'] = $params['CallSign'];
+		    $shipData['MMSI'] = $params['MMSI'];
+		    $shipData['IMO_No'] = $params['IMO_No'];
+		    $shipData['INMARSAT'] = $params['INMARSAT'];
+		    $shipData['OriginalShipName'] = $params['OriginalShipName'];
+		    $shipData['FormerShipName'] = $params['FormerShipName'];
+		    $shipData['SecondFormerShipName'] = $params['SecondFormerShipName'];
+		    $shipData['ThirdFormerShipName'] = $params['ThirdFormerShipName'];
+		    $shipData['Flag'] = $params['Flag'];
+		    $shipData['PortOfRegistry_Cn'] = $params['PortOfRegistry_Cn'];
+		    $shipData['PortOfRegistry'] = $params['PortOfRegistry'];
+		    $shipData['Owner_Cn'] = $params['Owner_Cn'];
+		    $shipData['Owner_En'] = $params['Owner_En'];
+		    $shipData['OwnerAddress_Cn'] = $params['OwnerAddress_Cn'];
+		    $shipData['OwnerAddress_En'] = $params['OwnerAddress_En'];
+		    $shipData['OwnerTelnumber'] = $params['OwnerTelnumber'];
+		    $shipData['OwnerFax'] = $params['OwnerFax'];
+		    $shipData['OwnerEmail'] = $params['OwnerEmail'];
+		    $shipData['ISM_Cn'] = $params['ISM_Cn'];
+		    $shipData['ISM_En'] = $params['ISM_En'];
+		    $shipData['ISMAddress_Cn'] = $params['ISMAddress_Cn'];
+		    $shipData['ISMAddress_En'] = $params['ISMAddress_En'];
+		    $shipData['ISMTelnumber'] = $params['ISMTelnumber'];
+		    $shipData['ISMFax'] = $params['ISMFax'];
+		    $shipData['ISMEmail'] = $params['ISMEmail'];
+		    $shipData['ShipType'] = $params['ShipType'];
+		    $shipData['GrossTon'] = $params['GrossTon'];
+		    $shipData['LOA'] = $params['LOA'];
+		    $shipData['NetTon'] = $params['NetTon'];
+		    $shipData['LBP'] = $params['LBP'];
+		    $shipData['Deadweight'] = $params['Deadweight'];
+		    $shipData['Length'] = $params['Length'];
+		    $shipData['Displacement'] = $params['Displacement'];
+		    $shipData['BM'] = $params['BM'];
+		    $shipData['Ballast'] = $params['Ballast'];
+		    $shipData['DM'] = $params['DM'];
+		    $shipData['FuelBunker'] = $params['FuelBunker'];
+		    $shipData['ShipBuilder'] = $params['ShipBuilder'];
+		    $shipData['KeelDate'] = $params['KeelDate'];
+		    $shipData['DeckErection_B'] = $params['DeckErection_B'];
+		    $shipData['LaunchDate'] = $params['LaunchDate'];
+		    $shipData['DeckErection_F'] = $params['DeckErection_F'];
+		    $shipData['DeliveryDate'] = $params['DeliveryDate'];
+		    $shipData['DeckErection_P'] = $params['DeckErection_P'];
+		    $shipData['ConversionDate'] = $params['ConversionDate'];
+		    $shipData['DeckErection_H'] = $params['DeckErection_H'];
+		    $shipData['RegDate'] = $params['RegDate'];
+		    $shipData['RenewDate'] = $params['RenewDate'];
+		    $shipData['KCExpiryDate'] = $params['KCExpiryDate'];
+		    $shipData['ConditionalDate'] = $params['ConditionalDate'];
+		    $shipData['DelDate'] = $params['DelDate'];
+		    $shipData['Draught'] = $params['Draught'];
+		    $shipData['BuildPlace_Cn'] = $params['BuildPlace_Cn'];
+		    $shipData->save();
 
-        $shipId = $request->get('shipId');
-        if(is_null($shipId))
-            $shipId = '0';
-
-        if($shipId != '0') {
-            $shipInfo = ShipRegister::where('id', $shipId)->first();
-            $freeBoard = ShipFreeBoard::where('shipId', $shipId)->first();
-        } else {
-            $shipInfo = new ShipRegister();
-            $freeBoard = new ShipFreeBoard();
-        }
-
-        $status = Session::get('status');
-
-        $ship_infolist = $this->getShipGeneralInfo();
-        if(!$isRegister)
-        return view('shipManage.shipregister', [
-                        'shipList'      =>  $shipList, 
-                        'shipType'      =>  $shipType, 
-                        'shipInfo'      =>  $shipInfo, 
-                        'freeBoard'     =>  $freeBoard, 
-                        'status'        =>  $status, 
-                        'tabName'       =>  $tabName,
-                        'list'          =>  $ship_infolist
-                    ]);
-        else
-            return redirect('shipManage/registerShipData?shipId='.$newId)->with('status', 'success');
+		    return true;
+	    } catch (\Exception $exception) {
+    		return false;
+	    }
     }
 
     public function saveShipHullData(Request $request) {

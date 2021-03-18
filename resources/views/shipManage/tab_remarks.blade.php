@@ -1,6 +1,6 @@
 <?php
-    $isHolder = Session::get('IS_HOLDER');
-    $shipList = Session::get('shipList');
+$isHolder = Session::get('IS_HOLDER');
+$shipList = Session::get('shipList');
 ?>
 <style>
     .table tbody > tr > td {
@@ -34,18 +34,13 @@
         border: unset!important;
     }
 </style>
-<form role="form" method="POST"
-      action="{{url('shipManage/saveShipRemarksData')}}" enctype="multipart/form-data" id="remarks-form">
-    <div class="row">
-        <div class="col-md-12">
-            <input type="hidden" name="shipId"
-                   value="@if(isset($shipInfo['id'])) {{$shipInfo['id']}} @else 0 @endif">
-            <input type="hidden" name="_token" value="{{csrf_token()}}">
-            <input type="hidden" name="_tabName" value="#remarks">
-            
-            <textarea class="form-control" name="Remarks" rows="20">{{ isset($shipInfo['Remarks']) ? $shipInfo['Remarks'] : '' }}</textarea>
-        </div>
-    </div>
-    <div class="space-4"></div>
+<div class="row">
+    <div class="col-md-12">
+        <input type="hidden" name="shipId"
+               value="@if(isset($shipInfo['id'])) {{$shipInfo['id']}} @else 0 @endif">
+        <input type="hidden" name="_token" value="{{csrf_token()}}">
+        <input type="hidden" name="_tabName" value="#remarks">
 
-</form>
+        <textarea class="form-control" name="Remarks" rows="20">{{ isset($shipInfo['Remarks']) ? $shipInfo['Remarks'] : '' }}</textarea>
+    </div>
+</div>

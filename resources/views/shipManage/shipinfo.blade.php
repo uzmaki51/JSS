@@ -22,55 +22,73 @@ $shipList = explode(',', Auth::user()->shipList);
                     padding: 4px!important;
                     font-weight: bold!important;
                 }
-
-                td, th {
-                    border: 1px solid #ccc!important;
+                .ship-list thead tr th {
+                    height: 20px!important;
+                    padding: 4px 0!important;
+                    font-weight: normal;
+                    background: #c9dfff;
+                    color: black;
+                    font-size: 12px!important;
+                    font-style: italic;
+                    border-left: 1px solid #484f5b!important;
                 }
+                .ship-list tr {
+                    border: unset!important;
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+                .ship-list tr td {
+                    border-bottom: 1px solid #cccccc!important;
+                    border-left: 1px solid #cccccc!important;
+                    border-bottom: none!important;
+                    border-left: none!important;
+                    padding: 4px 0!important;
+                }
+                .ship-list tbody::-webkit-scrollbar {
+                    display: none;
+                }
+
             </style>
             <div class="page-content">
                 <div class="page-header">
                     <div class="col-md-6">
-                        <h4><b>船舶规范</b>
-                            <small>
-                                <i class="icon-double-angle-right"></i>船舶目录
-                            </small>
-                        </h4>
+                        <h4><b>Ship List</b></h4>
                     </div>
-                    <div class="col-sm-6" style="text-align: right; margin-top: 50px">
+                    <div class="col-sm-6">
+                        <div class="btn-group f-right">
                         @if(!$isShareHolder)
-                        <a href="{{ url('shipManage/registerShipData') }}" data-toggle="modal" class="btn btn-sm btn-primary no-radius"
-                           style="width: 80px"
-                        ><i class="icon-plus-sign-alt"></i>添加</a>
+                            <a href="{{ url('shipManage/registerShipData') }}" data-toggle="modal" class="btn btn-sm btn-primary no-radius"><i class="icon-plus"></i>{{ trans('common.label.add') }}</a>
                         @endif
-                        <a href="shipInfoExcel" class="btn btn-warning btn-sm"
-                        ><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></a>
+                            <a href="shipInfoExcel" class="btn btn-warning btn-sm">
+                                <i class="icon-table"></i>{{ trans('common.label.excel') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="space-4"></div>
                         @else
                             @include('layout.excel-style')
                         @endif
                         <div class="col-md-12 no-padding">
-                            <table class="table table-striped table-bordered table-hover">
+                            <table class="table table-bordered table-hover ship-list">
                                 <thead>
                                     <tr class="black">
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">ShipName</th>
-                                        <th class="text-center">IMO NO</th>
-                                        <th class="text-center">Flag</th>
-                                        <th class="text-center">Port of Registry</th>
-                                        <th class="text-center">Class</th>
-                                        <th class="text-center">GT</th>
-                                        <th class="text-center">NT</th>
-                                        <th class="text-center">DWT</th>
-                                        <th class="text-center">ShipType</th>
-                                        <th class="text-center">LOA</th>
-                                        <th class="text-center">MB</th>
-                                        <th class="text-center">DM</th>
-                                        <th class="text-center">Draught</th>
-                                        <th></th>
+                                        <th class="text-center" style="width: 2%;"><span>No</span></th>
+                                        <th class="text-center" style="width: 10%;"><span>ShipName</span></th>
+                                        <th class="text-center" style="width: 8%;"><span>IMO NO</span></th>
+                                        <th class="text-center" style="width: 7%;"><span>Flag</span></th>
+                                        <th class="text-center" style="width: 8%;"><span>Port of Registry</span></th>
+                                        <th class="text-center" style="width: 7%;"><span>Class</span></th>
+                                        <th class="text-center" style="width: 6%;"><span>GT</span></th>
+                                        <th class="text-center" style="width: 6%;"><span>NT</span></th>
+                                        <th class="text-center" style="width: 6%;"><span>DWT</span></th>
+                                        <th class="text-center" style="width: 9%;"><span>ShipType</span></th>
+                                        <th class="text-center" style="width: 7%;"><span>LOA</span></th>
+                                        <th class="text-center" style="width: 8%;"><span>MB</span></th>
+                                        <th class="text-center" style="width: 6%;"><span>DM</span></th>
+                                        <th class="text-center" style="width: 6%;"><span>Draught</span></th>
+                                        <th style="width: 4%;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -79,21 +97,21 @@ $shipList = explode(',', Auth::user()->shipList);
                                     @foreach ($list as $shipInfo)
                                         @if(!$isShareHolder || ($isShareHolder == true && in_array($shipInfo['id'], $shipList)))
                                             <tr>
-                                                <td class="text-center">{{ $index }}</td>
-                                                <td class="text-center">{{ $shipInfo['shipName_Cn'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['IMO_No'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['Flag'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['PortOfRegistry'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['Class'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['GrossTon'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['NetTon'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['Deadweight'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['ShipType'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['LOA'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['BM'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['DM'] }}</td>
-                                                <td class="text-center">{{ $shipInfo['Draught'] }}</td>
-                                                <td class="text-center" id="{{ $shipInfo['id'] }}" name="{{ $shipInfo['shipName_Cn'] }}">
+                                                <td class="text-center" style="width: 2%;">{{ $index }}</td>
+                                                <td class="text-center" style="width: 10%;">{{ $shipInfo['shipName_Cn'] }}</td>
+                                                <td class="text-center" style="width: 8%;">{{ $shipInfo['IMO_No'] }}</td>
+                                                <td class="text-center" style="width: 7%;">{{ $shipInfo['Flag'] }}</td>
+                                                <td class="text-center" style="width: 8%;">{{ $shipInfo['PortOfRegistry'] }}</td>
+                                                <td class="text-center" style="width: 7%;">{{ $shipInfo['Class'] }}</td>
+                                                <td class="text-center" style="width: 6%;">{{ $shipInfo['GrossTon'] }}</td>
+                                                <td class="text-center" style="width: 6%;">{{ $shipInfo['NetTon'] }}</td>
+                                                <td class="text-center" style="width: 6%;">{{ $shipInfo['Deadweight'] }}</td>
+                                                <td class="text-center" style="width: 9%;">{{ $shipInfo['ShipType'] }}</td>
+                                                <td class="text-center" style="width: 7%;">{{ $shipInfo['LOA'] }}</td>
+                                                <td class="text-center" style="width: 8%;">{{ $shipInfo['BM'] }}</td>
+                                                <td class="text-center" style="width: 6%;">{{ $shipInfo['DM'] }}</td>
+                                                <td class="text-center" style="width: 6%;">{{ $shipInfo['Draught'] }}</td>
+                                                <td class="text-center" style="width: 4%;" id="{{ $shipInfo['id'] }}" name="{{ $shipInfo['shipName_Cn'] }}">
                                                     <div class="action-buttons">
                                                         <a class="blue" href="registerShipData?shipId={{ $shipInfo->id }}">
                                                             <i class="icon-edit"></i>

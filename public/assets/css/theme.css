@@ -6,6 +6,7 @@ html, body {
 body * {
     font-family: FontAwesome, Arial,sans-serif, SimSun!important;
     outline: none;
+    scroll-behavior: smooth;
 }
 .login-div {
     display: flex;
@@ -268,7 +269,7 @@ td > a {
 }
 
 .br-hblue{
-    background: #ebf9ff !important;
+    background: #c9dfff !important;
 }
 
 .br-lblue{
@@ -327,11 +328,12 @@ input {
 }
 
 table {
-    font-size: 14px !important;
+    font-size: 12px !important;
 }
 
 .btn {
     min-width: 120px;
+    margin-left: 10px!important;
 }
 .btn-info {
     background-color: #28c3d7 !important;

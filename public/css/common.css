@@ -63,6 +63,12 @@
     vertical-align: middle;
     margin-top: 0!important;
 }
+.f-right {
+    float: right!important;
+}
+.f-left {
+    float: left!important;
+}
 /*.selected td {*/
     /*background: rgb(134 188 193)!important;*/
     /*color: white!important;*/

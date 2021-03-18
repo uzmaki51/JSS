@@ -14386,7 +14386,7 @@ body.breadcrumbs-fixed {
     margin: 0 0 12px;
     border-bottom: unset;
     padding-bottom: 16px;
-    padding-top: 7px;
+    padding-top: 16px;
     height: auto;
 }
 
@@ -14394,6 +14394,9 @@ body.breadcrumbs-fixed {
     border-bottom: 1px solid;
 }
 
+.page-header h4 {
+    margin: 0!important;
+}
 .page-header h1 {
     padding: 0;
     margin: 0 8px;
@@ -17226,7 +17229,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
     cursor: pointer;
     vertical-align: middle;
     margin: 0;
-    padding: 4px;
+    padding: 6px;
     position: relative;
     outline: 0!important;
 }
@@ -17510,7 +17513,7 @@ button.btn:active {
 }
 
 .btn-group > .btn-sm, .btn-group + .btn-sm {
-    border-width: 2px
+    border-width: 0
 }
 
 .btn-group > .btn-sm.active:after, .btn-group + .btn-sm.active:after {
@@ -17543,7 +17546,7 @@ button.btn:active {
 }
 
 .btn-group > .btn {
-    border-radius: 0 !important
+    border-radius: 0.25rem !important
 }
 
 .btn-group-vertical > .btn, .btn-group-vertical > .btn + .btn {
@@ -20626,7 +20629,7 @@ th, td, .table-bordered {
 }
 
 .table thead tr th {
-    border-color: #cccccc;
+    border-color: #484f5b;
 
 }
 

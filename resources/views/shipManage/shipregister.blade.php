@@ -44,6 +44,9 @@ $shipList = Session::get('shipList');
                 -ms-overflow-style: none;  /* IE and Edge */
                 scrollbar-width: none;  /* Firefox */
             }
+            .selected td {
+                background: #b0f5eb;
+            }
 
             .ship-register a {
                 padding: 4px!important;
@@ -79,12 +82,21 @@ $shipList = Session::get('shipList');
                 </div>
                 <div class="col-sm-6"></div>
                 <div class="col-sm-3">
-                    <h5 style="float: right"><a href="shipinfo"><strong>上一个页</strong></a></h5>
+                    @if(!$isHolder)
+                        <div class="btn-group f-right">
+                            <a href="/shipManage/registerShipData" class="btn btn-sm btn-primary btn-add" style="width: 80px">
+                                <i class="icon-plus"></i>{{ trans('common.label.add') }}
+                            </a>
+                            <button type="submit" id="btnRegister" class="btn btn-sm btn-info" style="width: 80px">
+                                <i class="icon-save"></i>{{ trans('common.label.save') }}
+                            </button>
+                        </div>
+                    @endif
                 </div>
+
             </div>
             <div class="col-md-12">
                 <div id="item-manage-dialog" class="hide"></div>
-
                 <div class="row">
                     <table class="table table-bordered ship-list">
                         <thead>
@@ -158,17 +170,17 @@ $shipList = Session::get('shipList');
                             </li>
 
                             <li class="{{ $tabName == '#hull' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#hull" onclick="ShowTabPage('#hull')">
+                                <a data-toggle="tab" href="#hull">
                                     {{ transShipManager('tabMenu.Hull/Cargo') }}
                                 </a>
                             </li>
                             <li class="{{ $tabName == '#machiery' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#machiery" onclick="ShowTabPage('#machiery')">
+                                <a data-toggle="tab" href="#machiery">
                                     {{ transShipManager('tabMenu.Machinery') }}
                                 </a>
                             </li>
                             <li class="{{ $tabName == '#remarks' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#remarks" onclick="ShowTabPage('#remarks')">
+                                <a data-toggle="tab" href="#remarks">
                                     {{ transShipManager('tabMenu.Remarks') }}
                                 </a>
                             </li>
@@ -178,48 +190,25 @@ $shipList = Session::get('shipList');
                                     <strong id="msg-content"> Please register a new ship.</strong>
                                 </div>
                             </li>
-                            <li style="float: right;">
-                                @if(!$isHolder)
-                                    <div class="row">
-                                        <button type="submit" id="btnRegister" class="btn btn-sm btn-inverse" style="width: 80px">
-                                            <i class="icon-save"></i>Save
-                                        </button>
-                                    </div>
-                                @endif
-                            </li>
-                            <li style="float: right; margin-right: 10px;">
-                                @if(!$isHolder)
-                                    <div class="row">
-                                        <a href="/shipManage/registerShipData" class="btn btn-sm btn-primary btn-add" style="width: 80px">
-                                            <i class="icon-plus"></i>Add
-                                        </a>
-                                    </div>
-                                @endif
-                            </li>
                         </ul>
                     </div>
-                    <div class="tab-content">
-                        <div id="general" class="tab-pane {{ $tabName == '#general' ? 'active' : '' }}">
-                            @if($tabName == '#general')
+                    <form role="form" method="POST" action="{{url('shipManage/saveShipData')}}" enctype="multipart/form-data" id="general-form">
+                        <div class="tab-content">
+                            <div id="general" class="tab-pane {{ $tabName == '#general' ? 'active' : '' }}">
                                 @include('shipManage.tab_general', with(['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo]))
-                            @endif
-                        </div>
-                        <div id="hull" class="tab-pane {{ $tabName == '#hull' ? 'active' : '' }}">
-                            @if($tabName == '#hull')
+                            </div>
+                            <div id="hull" class="tab-pane {{ $tabName == '#hull' ? 'active' : '' }}">
                                 @include('shipManage.tab_hull', with(['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo, 'freeBoard'=>$freeBoard]))
-                            @endif
-                        </div>
-                        <div id="machiery" class="tab-pane {{ $tabName == '#machiery' ? 'active' : '' }}">
-                            @if($tabName == '#machiery')
+                            </div>
+                            <div id="machiery" class="tab-pane {{ $tabName == '#machiery' ? 'active' : '' }}">
                                 @include('shipManage.tab_machinery', with(['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo]))
-                            @endif
-                        </div>
-                        <div id="remarks" class="tab-pane {{ $tabName == '#remarks' ? 'active' : '' }}">
-                            @if($tabName == '#remarks')
+                            </div>
+                            <div id="remarks" class="tab-pane {{ $tabName == '#remarks' ? 'active' : '' }}">
                                 @include('shipManage.tab_remarks', with(['shipInfo'=>$shipInfo]))
-                            @endif
+                            </div>
+                            <div class="space-4"></div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="vspace-xs-12"></div>
             </div>
@@ -251,44 +240,44 @@ $shipList = Session::get('shipList');
         $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary editable-submit"><i class="icon-ok icon-white"></i></button>';
 
         function ShowTabPage(tabName) {
-            if(shipId.length < 1) {
-                // $('#msg-content').html("Please register a new ship.");
-                $('.alert').show();
-                if(tabName != '#general')
-                    $('#btnRegister').attr('disabled', 'disabled');
-                else
-                    $('#btnRegister').removeAttr('disabled', 'disabled');
+            // if(shipId.length < 1) {
+            //     // $('#msg-content').html("Please register a new ship.");
+            //     $('.alert').show();
+            //     if(tabName != '#general')
+            //         $('#btnRegister').attr('disabled', 'disabled');
+            //     else
+            //         $('#btnRegister').removeAttr('disabled', 'disabled');
+            //
+            //     return;
+            // }
 
-                return;
-            }
-
-            $('.ship-register li').css({'pointer-events': 'none'});
+            // $('.ship-register li').css({'pointer-events': 'none'});
             if(preTabName != tabName) {
                 $('[name=_tabName]').val(tabName);
                 $(preTabName + '-form').submit();
             }
 
-            $.post("shipDataTabPage", {'_token':token, 'shipId':shipId, 'tabName':tabName}, function(data) {
-                switch (tabName) {
-                    case '#general':
-                        $('#general').html(data);
-                        $('.chosen-select').chosen();
-                        $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-                            $(this).prev().focus();
-                        });
-                        break;
-                    case '#hull':
-                        $('#hull').html(data);
-                        break;
-                    case '#machiery':
-                        $('#machiery').html(data);
-                        break;
-                    case '#remarks':
-                        $('#remarks').html(data);
-                        break;
-                }
-                $('.ship-register li').css({'pointer-events': 'all'});
-            });
+            // $.post("shipDataTabPage", {'_token':token, 'shipId':shipId, 'tabName':tabName}, function(data) {
+            //     switch (tabName) {
+            //         case '#general':
+            //             $('#general').html(data);
+            //             $('.chosen-select').chosen();
+            //             $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+            //                 $(this).prev().focus();
+            //             });
+            //             break;
+            //         case '#hull':
+            //             $('#hull').html(data);
+            //             break;
+            //         case '#machiery':
+            //             $('#machiery').html(data);
+            //             break;
+            //         case '#remarks':
+            //             $('#remarks').html(data);
+            //             break;
+            //     }
+            //     $('.ship-register li').css({'pointer-events': 'all'});
+            // });
 
             preTabName = tabName;
         }

@@ -28,7 +28,9 @@ return [
 	    'register'      => '注册',
 	    'change_pass'   => '更新密码',
 	    'logout'        => '退出',
-	    'excel'         => '导出Excel'
+	    'excel'         => '导出',
+	    'save'          => '保存',
+	    'delete'        => '删除'
     ],
 
 	"message"   => [

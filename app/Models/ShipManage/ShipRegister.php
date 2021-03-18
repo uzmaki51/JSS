@@ -87,4 +87,8 @@ class ShipRegister extends Model
         return $nameInfo;
     }
 
+    public function saveShipGeneralData($params, $shipData) {
+
+    }
+
 }
