@@ -2,60 +2,25 @@
     $isHolder = Session::get('IS_HOLDER');
     $shipList = Session::get('shipList');
 ?>
-<style>
-    .table tbody > tr > td {
-        font-size: 12px!important;
-    }
-    .table tbody > tr > td {
-        padding: 0!important;
-    }
-    .table tbody > tr > .custom-td-report-text, .table tbody > tr > .custom-td-dec-text {
-        padding: 0!important;
-    }
-    .table .custom-td-label1 {
-        width: 40%;
-    }
 
-    .form-control {
-        padding: 4px!important;
-        border-radius: 0!important;
-        border: unset!important;
-        font-size: 12px!important;
-    }
-    .chosen-single {
-        padding: 4px!important;
-        border-radius: 0!important;
-        border: unset!important;
-        font-size: 12px!important;
-    }
-    .input-group-addon {
-        font-size: 12px!important;
-        padding: 0 4px!important;
-        border: unset!important;
-    }
-</style>
 <div class="row">
     <div class="col-md-12">
         <div class="space-6"></div>
-        <input type="hidden" name="shipId"
-               value="@if(isset($shipInfo['id'])) {{$shipInfo['id']}} @else 0 @endif">
-        <input type="hidden" name="_token" value="{{csrf_token()}}">
-        <input type="hidden" name="_tabName" value="#machiery">
-
-        <div class="col-md-6">
-            <table class="table table-bordered">
+        <div class="col-md-4">
+        <div class="col-md-12">
+            <table class="table table-bordered general">
                 <tbody>
                 <tr>
                     <td class="custom-td-label1 center">{{ transShipManager('Machinery.No/Type Engine') }}</td>
-                    <td>
-                        <input type="text" name="No_TypeOfEngine" class="form-control" style="width:100%" value="@if(isset($shipInfo['No_TypeOfEngine'])){{$shipInfo['No_TypeOfEngine']}}@endif">
+                    <td class="custom-td-report-text">
+                        <textarea name="No_TypeOfEngine" class="form-control" rows="2">{{ isset($shipInfo['No_TypeOfEngine']) ? $shipInfo['No_TypeOfEngine'] : '' }}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.Cylinder Bore/Stroke') }}
                     </td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="Cylinder_Bore_Stroke" class="form-control" style="width:100%" value="@if(isset($shipInfo['Cylinder_Bore_Stroke'])){{$shipInfo['Cylinder_Bore_Stroke']}}@endif">
                     </td>
                 </tr>
@@ -63,7 +28,7 @@
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.Power') }}
                     </td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="Power" class="form-control" style="width:100%" value="@if(isset($shipInfo['Power'])){{$shipInfo['Power']}}@endif">
                     </td>
                 </tr>
@@ -71,7 +36,7 @@
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.rpm') }}
                     </td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="rpm" class="form-control" style="width:100%" value="@if(isset($shipInfo['rpm'])){{$shipInfo['rpm']}}@endif">
                     </td>
                 </tr>
@@ -79,7 +44,7 @@
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.Manufacturer') }}
                     </td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="EngineManufacturer" class="form-control" style="width:100%" value="@if(isset($shipInfo['EngineManufacturer'])){{$shipInfo['EngineManufacturer']}}@endif">
                     </td>
                 </tr>
@@ -87,7 +52,7 @@
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.AddressEngMaker') }}
                     </td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="AddressEngMaker" class="form-control" style="width:100%" value="@if(isset($shipInfo['AddressEngMaker'])){{$shipInfo['AddressEngMaker']}}@endif">
                     </td>
                 </tr>
@@ -95,7 +60,7 @@
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.EngineDate') }}
                     </td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="EngineDate" class="form-control" style="width:100%" value="@if(isset($shipInfo['EngineDate'])){{$shipInfo['EngineDate']}}@endif">
                     </td>
                 </tr>
@@ -103,51 +68,53 @@
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.Speed') }}
                     </td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="Speed" class="form-control" style="width:100%" value="@if(isset($shipInfo['Speed'])){{$shipInfo['Speed']}}@endif">
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <table class="table table-bordered">
+            <div class="space-6"></div>
+            <table class="table table-bordered general">
                 <tbody>
                 <tr>
                     <td class="custom-td-label1 center">{{ transShipManager('Machinery.Generator Set') }}</td>
-                    <td>
-                        <input type="text" name="PrimeMover" class="form-control" style="width:100%" value="@if(isset($shipInfo['PrimeMover'])){{$shipInfo['PrimeMover']}}@endif">
+                    <td class="custom-td-report-text">
+                        <textarea name="PrimeMover" class="form-control" style="width:100%">{{ isset($shipInfo['PrimeMover']) ? $shipInfo['PrimeMover'] : '' }}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.Output') }}
                     </td>
-                    <td>
-                        <input type="text" name="GeneratorOutput" class="form-control" style="width:100%" value="@if(isset($shipInfo['GeneratorOutput'])){{$shipInfo['GeneratorOutput']}}@endif">
+                    <td class="custom-td-report-text">
+                        <textarea name="GeneratorOutput" class="form-control" style="width:100%">{{ isset($shipInfo['GeneratorOutput']) ? $shipInfo['GeneratorOutput'] : '' }}</textarea>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <table class="table table-bordered">
+            <div class="space-6"></div>
+            <table class="table table-bordered general">
                 <tbody>
                 <tr>
                     <td class="custom-td-label1 center">{{ transShipManager('Machinery.Boiler Type & Number') }}</td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="Boiler" class="form-control" style="width:100%" value="@if(isset($shipInfo['Boiler'])){{$shipInfo['Boiler']}}@endif">
                     </td>
                 </tr>
                 <tr>
-                    <td class="custom-td-label1 center">
+                    <td class="custom-td-label1" style="text-align: left!important;">
                         {{ transShipManager('Machinery.Boiler * Pressure * HeatingSurface') }}<br>{{ transShipManager('Machinery.Boiler Heating') }}
                     </td>
-                    <td>
-                        <input type="text" name="BoilerPressure" class="form-control" style="width:100%" value="@if(isset($shipInfo['BoilerPressure'])){{$shipInfo['BoilerPressure']}}@endif">
+                    <td class="custom-td-report-text">
+                        <textarea name="BoilerPressure" class="form-control" style="width:100%">{{ isset($shipInfo['BoilerPressure']) ? $shipInfo['BoilerPressure'] : ''}}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.BManufacturer') }}
                     </td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="BoilerManufacturer" class="form-control" style="width:100%" value="@if(isset($shipInfo['BoilerManufacturer'])){{$shipInfo['BoilerManufacturer']}}@endif">
                     </td>
                 </tr>
@@ -155,7 +122,7 @@
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.AddressBoilerMaker') }}
                     </td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="AddressBoilerMaker" class="form-control" style="width:100%" value="@if(isset($shipInfo['AddressBoilerMaker'])){{$shipInfo['AddressBoilerMaker']}}@endif">
                     </td>
                 </tr>
@@ -163,14 +130,15 @@
                     <td class="custom-td-label1 center">
                         {{ transShipManager('Machinery.BoilerDate') }}
                     </td>
-                    <td>
+                    <td class="custom-td-report-text">
                         <input type="text" name="BoilerDate" class="form-control" style="width:100%" value="@if(isset($shipInfo['BoilerDate'])){{$shipInfo['BoilerDate']}}@endif">
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6">
+        </div>
+        <div class="col-md-4">
             <div class="tabbable">
                 <ul class="nav nav-tabs">
                     <li class="active">
@@ -187,10 +155,10 @@
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr style="height: 21px">
-                                    <td class="custom-td-label1 center" style="width:25%">{{ transShipManager('Machinery.Fuel') }}/{{ transShipManager('Machinery.Cond') }}</td>
-                                    <td class="custom-td-label1" style="width:25%">{{ transShipManager('Machinery.Sail') }}</td>
-                                    <td class="custom-td-label1" style="width:25%">{{ transShipManager('Machinery.Works_in_port') }}</td>
-                                    <td class="custom-td-label1" style="width:25%">{{ transShipManager('Machinery.Idle') }}</td>
+                                    <td style="width:25%; text-align: center;">{{ transShipManager('Machinery.Fuel') }}/{{ transShipManager('Machinery.Cond') }}</td>
+                                    <td style="width:25%; text-align: center;">{{ transShipManager('Machinery.Sail') }}</td>
+                                    <td style="width:25%; text-align: center;">{{ transShipManager('Machinery.Works_in_port') }}</td>
+                                    <td style="width:25%; text-align: center;">{{ transShipManager('Machinery.Idle') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="center">{{ transShipManager('Machinery.FO') }}</td>
@@ -218,10 +186,10 @@
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr style="height: 21px">
-                                    <td class="custom-td-label1 center" style="width:25%">{{ transShipManager('Machinery.Fuel') }}/{{ transShipManager('Machinery.Cond') }}</td>
-                                    <td class="custom-td-label1" style="width:25%">{{ transShipManager('Machinery.Sail') }}</td>
-                                    <td class="custom-td-label1" style="width:25%">{{ transShipManager('Machinery.Works_in_port') }}</td>
-                                    <td class="custom-td-label1" style="width:25%">{{ transShipManager('Machinery.Idle') }}</td>
+                                    <td style="width:25%; text-align: center;">{{ transShipManager('Machinery.Fuel') }}/{{ transShipManager('Machinery.Cond') }}</td>
+                                    <td style="width:25%; text-align: center;">{{ transShipManager('Machinery.Sail') }}</td>
+                                    <td style="width:25%; text-align: center;">{{ transShipManager('Machinery.Works_in_port') }}</td>
+                                    <td style="width:25%; text-align: center;">{{ transShipManager('Machinery.Idle') }}</td>
                                 </tr>
                                 <tr>
                                     <td class="center">{{ transShipManager('Machinery.FO') }}</td>

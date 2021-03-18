@@ -1,76 +1,15 @@
 @extends('layout.sidebar')
 <?php
-$isHolder = Session::get('IS_HOLDER');
-$shipList = Session::get('shipList');
+    $isHolder = Session::get('IS_HOLDER');
+    $shipList = Session::get('shipList');
 ?>
 
+@section('styles')
+    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
-
     <div class="main-content">
-        <style>
-            .table {
-                margin-bottom: 2px!important;
-            }
-            .custom-td-report-text {
-                width: 25%;
-            }
-            .ship-list thead tr th {
-                height: 20px!important;
-                padding: 4px 0!important;
-                font-weight: normal;
-                background: #c9dfff;
-                color: black;
-                font-size: 12px!important;
-                font-style: italic;
-                border-left: 1px solid #cccccc!important;
-            }
-            .ship-list tr {
-                border: unset!important;
-                display: table; /* display purpose; th's border */
-                width: 100%;
-                box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
-            }
-            .ship-list tr td {
-                border-bottom: 1px solid #cccccc!important;
-                border-left: 1px solid #cccccc!important;
-                border-bottom: none!important;
-                border-left: none!important;
-                padding: 4px 0!important;
-            }
-            .ship-list tbody::-webkit-scrollbar {
-                display: none;
-            }
-            .ship-list tbody {
-                -ms-overflow-style: none;  /* IE and Edge */
-                scrollbar-width: none;  /* Firefox */
-            }
-            .selected td {
-                background: #b0f5eb;
-            }
-
-            .ship-register a {
-                padding: 4px!important;
-            }
-
-            .alert {
-                padding: 4px!important;
-                margin-bottom: 0;
-                margin-left: 15vw;
-                transition: 0.3s ease-in-out;
-            }
-            .visuallyhidden {
-                position: absolute;
-                overflow: hidden;
-                clip: rect(0 0 0 0);
-                height: 1px;
-                width: 1px;
-                margin: -1px;
-                padding: 0;
-                border: 1px solid transparent;
-
-            }
-        </style>
-
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
@@ -116,6 +55,7 @@ $shipList = Session::get('shipList');
                             <th class="text-center" style="width: 7%;"><span>DM</span></th>
                             <th class="text-center" style="width: 7%;"><span>Draught</span></th>
                             <th style="width: 2%;"></th>
+
                         </tr>
                         </thead>
                         <tbody style="max-height: 66px; overflow-y: scroll; display: block; width: 100%;">
@@ -163,24 +103,24 @@ $shipList = Session::get('shipList');
                 <div class="row">
                     <div class="tabbable">
                         <ul class="nav nav-tabs ship-register" id="myTab">
-                            <li class="{{ $tabName == '#general' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#general" onclick="ShowTabPage('#general')">
+                            <li class="{{ !isset($tabName) || $tabName == 'general' ? 'active' : '' }}">
+                                <a data-toggle="tab" href="#general" onclick="ShowTabPage('general')">
                                     {{ transShipManager('tabMenu.General') }}
                                 </a>
                             </li>
 
-                            <li class="{{ $tabName == '#hull' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#hull">
+                            <li class="{{ $tabName == 'hull' ? 'active' : '' }}">
+                                <a data-toggle="tab" href="#hull"  onclick="ShowTabPage('hull')">
                                     {{ transShipManager('tabMenu.Hull/Cargo') }}
                                 </a>
                             </li>
-                            <li class="{{ $tabName == '#machiery' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#machiery">
+                            <li class="{{ $tabName == 'machiery' ? 'active' : '' }}">
+                                <a data-toggle="tab" href="#machiery" onclick="ShowTabPage('machiery')">
                                     {{ transShipManager('tabMenu.Machinery') }}
                                 </a>
                             </li>
-                            <li class="{{ $tabName == '#remarks' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#remarks">
+                            <li class="{{ $tabName == 'remarks' ? 'active' : '' }}">
+                                <a data-toggle="tab" href="#remarks" onclick="ShowTabPage('remarks')">
                                     {{ transShipManager('tabMenu.Remarks') }}
                                 </a>
                             </li>
@@ -193,17 +133,21 @@ $shipList = Session::get('shipList');
                         </ul>
                     </div>
                     <form role="form" method="POST" action="{{url('shipManage/saveShipData')}}" enctype="multipart/form-data" id="general-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="shipId"
+                               value="@if(isset($shipInfo['id'])) {{$shipInfo['id']}} @else 0 @endif">
+                        <input type="hidden" name="_tabName" value="general">
                         <div class="tab-content">
-                            <div id="general" class="tab-pane {{ $tabName == '#general' ? 'active' : '' }}">
+                            <div id="general" class="tab-pane {{ !isset($tabName) || $tabName == 'general' ? 'active' : '' }}">
                                 @include('shipManage.tab_general', with(['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo]))
                             </div>
-                            <div id="hull" class="tab-pane {{ $tabName == '#hull' ? 'active' : '' }}">
+                            <div id="hull" class="tab-pane {{ $tabName == 'hull' ? 'active' : '' }}">
                                 @include('shipManage.tab_hull', with(['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo, 'freeBoard'=>$freeBoard]))
                             </div>
-                            <div id="machiery" class="tab-pane {{ $tabName == '#machiery' ? 'active' : '' }}">
+                            <div id="machiery" class="tab-pane {{ $tabName == 'machiery' ? 'active' : '' }}">
                                 @include('shipManage.tab_machinery', with(['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo]))
                             </div>
-                            <div id="remarks" class="tab-pane {{ $tabName == '#remarks' ? 'active' : '' }}">
+                            <div id="remarks" class="tab-pane {{ $tabName == 'remarks' ? 'active' : '' }}">
                                 @include('shipManage.tab_remarks', with(['shipInfo'=>$shipInfo]))
                             </div>
                             <div class="space-4"></div>
@@ -232,7 +176,6 @@ $shipList = Session::get('shipList');
         var token = '{!! csrf_token() !!}';
         var shipId = '{!! $shipInfo['id'] !!}';
         var activeTabName = '{{ $tabName }}';
-        var preTabName = activeTabName;
 
         //editables on first profile page
         $.fn.editable.defaults.mode = 'inline';
@@ -240,55 +183,12 @@ $shipList = Session::get('shipList');
         $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary editable-submit"><i class="icon-ok icon-white"></i></button>';
 
         function ShowTabPage(tabName) {
-            // if(shipId.length < 1) {
-            //     // $('#msg-content').html("Please register a new ship.");
-            //     $('.alert').show();
-            //     if(tabName != '#general')
-            //         $('#btnRegister').attr('disabled', 'disabled');
-            //     else
-            //         $('#btnRegister').removeAttr('disabled', 'disabled');
-            //
-            //     return;
-            // }
-
-            // $('.ship-register li').css({'pointer-events': 'none'});
-            if(preTabName != tabName) {
-                $('[name=_tabName]').val(tabName);
-                $(preTabName + '-form').submit();
-            }
-
-            // $.post("shipDataTabPage", {'_token':token, 'shipId':shipId, 'tabName':tabName}, function(data) {
-            //     switch (tabName) {
-            //         case '#general':
-            //             $('#general').html(data);
-            //             $('.chosen-select').chosen();
-            //             $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-            //                 $(this).prev().focus();
-            //             });
-            //             break;
-            //         case '#hull':
-            //             $('#hull').html(data);
-            //             break;
-            //         case '#machiery':
-            //             $('#machiery').html(data);
-            //             break;
-            //         case '#remarks':
-            //             $('#remarks').html(data);
-            //             break;
-            //     }
-            //     $('.ship-register li').css({'pointer-events': 'all'});
-            // });
-
-            preTabName = tabName;
+            $("[name=_tabName]").val(tabName);
         }
 
 
         $('#btnRegister').on('click', function() {
-            if(activeTabName == '#general') {
-                $(activeTabName + '-form').validate();
-            }
-
-            $(activeTabName + '-form').submit();
+            $('form').submit();
         });
 
         $('.ship-item').on('click', function() {
@@ -317,7 +217,6 @@ $shipList = Session::get('shipList');
 
 
         $(function() {
-            ShowTabPage(activeTabName);
             if(shipId.length < 1) {
                 $('.alert').toggleClass('visuallyhidden');
                 setTimeout(function() {

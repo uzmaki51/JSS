@@ -11,7 +11,7 @@ table>tbody>tr>td:first-child{
     text-align: center;
 }
 table>tbody>tr>td{
-    padding: 8px !important;
+    padding: 2px 0!important;
 }
 
 .table-row-selected>td{

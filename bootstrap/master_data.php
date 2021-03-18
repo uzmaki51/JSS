@@ -161,6 +161,18 @@ $ShipTypeData = array(
 	SHIP_TYPE_B_3		=> 'Type "B" with increased freeboard',
 );
 
+# ShipRegStatusType
+define('SHIP_REG_STATUS_PRO', 1);
+define('SHIP_REG_STATUS_PER', 2);
+define('SHIP_REG_STATUS_DEL', 3);
+$ShipRegStatus = array(
+	SHIP_REG_STATUS_PRO     => 'PRO',
+	SHIP_REG_STATUS_PER     => 'PER',
+	SHIP_REG_STATUS_DEL     => 'DEL',
+);
+
+
+
 define('HTTP_METHOD_POST', 'POST');
 
 
@@ -176,5 +188,7 @@ define('HTTP_METHOD_POST', 'POST');
 	    'TermData'                      => $TermData,
 		'EmployeeStatusData'            => $EmployeeStatusData,
 		'AccidentTypeData'            	=> $AccidentTypeData,
-		'ShipTypeData'					=> $ShipTypeData
+		'ShipTypeData'					=> $ShipTypeData,
+	    'ShipRegStatus'					=> $ShipRegStatus,
+
  );

@@ -191,7 +191,7 @@ return [
         'HatchWays' => 'HatchWays',
         'Hold' => 'Hold',
         'Number' => 'Number',
-        'Size' => 'Size, Type',
+        'Size' => 'Size',
         'Containers' => 'Containers',
         'On Deck' => 'On Deck',
         'In Hold (TEU)' => 'In Hold (TEU)',

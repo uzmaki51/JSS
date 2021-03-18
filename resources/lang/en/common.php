@@ -36,6 +36,14 @@ return [
 	"message"   => [
 		'please_select'     => 'Please Select',
 		'no_data'           => 'No Data',
-		'delete'            => 'Are you sure to delete?'
+		'delete'            => 'Are you sure to delete?',
+		'register'          =>      [
+				'success'       => '登录操作成功了。',
+				'failed'        => '登录操作失败了。',
+		],
+		'update'          =>      [
+			'success'       => '更新操作成功了。',
+			'failed'        => '更新操作失败了。',
+		],
 	]
 ];

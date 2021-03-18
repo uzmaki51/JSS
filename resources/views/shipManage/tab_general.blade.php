@@ -2,86 +2,10 @@
 $isHolder = Session::get('IS_HOLDER');
 $shipList = Session::get('shipList');
 ?>
-<style>
-    .table tbody > tr > td {
-        font-size: 12px!important;
-        padding: 0px;
-    }
-    .table tbody > tr > .custom-td-label1 {
-        padding: 2px!important;
-        border: unset!important;
-        width: 150px!important;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        display: block;
-    }
-    .first-input {
-        width:48%;
-        display: inline-block!important;
-    }
-    .second-input {
-        width: 50%;
-        display: inline-block!important;
-    }
-    .two-input {
-        padding: 0!important;
-        width: 50%;
-    }
-    .table tbody > tr > .custom-td-label1:after {
-        content: '........................................................................................................';
-        overflow: hidden;
-        width: 165px;
-    }
-    .table .keel-date {
-        width: 40% !important;
-    }
-    .table tbody > tr > .custom-td-report-text, .table tbody > tr > .custom-td-dec-text {
-        padding: 0!important;
-        width: 80%;
-    }
 
-    .form-control {
-        padding: 0 4px!important;
-        border-radius: 0!important;
-        border: unset!important;
-        font-size: 12px!important;
-    }
-    .chosen-single {
-        padding: 4px!important;
-        border-radius: 0!important;
-        border: unset!important;
-        font-size: 12px!important;
-    }
-    .input-group-addon {
-        font-size: 12px!important;
-        padding: 0 4px!important;
-        border: unset!important;
-    }
-    .general tr >td:first-child {
-        width: 20%;
-    }
-    .general {
-        border: unset!important;
-    }
-    .sub-title {
-        padding-left: 20px;
-    }
-    .small-title {
-        text-align: right!important;
-        padding: 0 4px 0 0!important;
-        font-weight: normal;
-        border: unset!important;
-    }
-
-</style>
 <div class="row">
     <div class="col-md-12">
         <div class="space-6"></div>
-        <input type="hidden" name="shipId"
-               value="@if(isset($shipInfo['id'])) {{$shipInfo['id']}} @else 0 @endif">
-        <input type="hidden" name="_token" value="{{csrf_token()}}">
-        <input type="hidden" name="_tabName" value="#general">
         <div class="col-md-4">
             <div class="table-responsive">
                 <table class="table table-bordered general" style="font-weight: bold">
@@ -144,18 +68,9 @@ $shipList = Session::get('shipList');
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <select class="form-control" id="RegStatus" name="RegStatus">
-                                @if(strcasecmp($shipInfo['RegStatus'], '临时登记(PRO)') == 0)
-                                    <option value="临时登记(PRO)" selected>PRO</option>
-                                @else<option value="临时登记(PRO)">PRO</option>
-                                @endif
-                                @if(strcasecmp($shipInfo['RegStatus'], '完全登记(PER)') == 0)
-                                    <option value="完全登记(PER)" selected>PER</option>
-                                @else<option value="完全登记(PER)">PER</option>
-                                @endif
-                                    @if(strcasecmp($shipInfo['RegStatus'], '删除登记(DEL)') == 0)
-                                        <option value="删除登记(DEL)" selected>DEL</option>
-                                    @else<option value="删除登记(DEL)">DEL</option>
-                                @endif
+                                @foreach(g_enum('ShipRegStatus') as $key => $item)
+                                    <option value="{{ $key }}" {{ isset($shipInfo['RegStatus']) && $shipInfo['RegStatus'] == $key ? 'selected' : '' }}>{{ $item }}</option>
+                                @endforeach
                             </select>
                         </td>
                     </tr>
