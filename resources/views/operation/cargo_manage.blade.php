@@ -163,7 +163,7 @@ $ships = Session::get('shipList');
                 var cargoId = obj.eq(0).data('id') * 1;
                 var cargoName = obj.eq(1).text();
 
-                bootbox.confirm("[" + cargoName + "] 真要删掉吗?", function (result) {
+                bootbox.confirm("[" + cargoName + "] 真要删除吗?", function (result) {
                     if (result) {
                         //确认단추를 눌렀을 때의 처리
                         $.post('deleteShipCargo', {'_token':token, 'cargoId':cargoId}, function (result) {
@@ -172,13 +172,13 @@ $ships = Session::get('shipList');
                                 trObj.remove();
                                 $.gritter.add({
                                     title: '成功',
-                                    text: '['+ cargoName + '] 删掉成功！',
+                                    text: '['+ cargoName + '] 删除成功！',
                                     class_name: 'gritter-success'
                                 });
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ cargoName + '] 是已经被删掉的。',
+                                    text: '['+ cargoName + '] 是已经被删除的。',
                                     class_name: 'gritter-error'
                                 });
                             }

@@ -55,15 +55,7 @@
             <div class="page-header">
                 <div class="col-md-6">
                     <h4>
-                        <b>{{transShipMember("title.Register Folder")}}</b>
-                        <small>
-                            <i class="icon-double-angle-right"></i>
-                            @if(isset($info))
-                                {{transShipMember('captions.registerInfoChange')}}
-                            @else
-                                {{transShipMember('captions.registerMember')}}
-                            @endif
-                        </small>
+                        <b>Crew Register</b>
                     </h4>
                 </div>
                 <div class="col-sm-6">
@@ -91,7 +83,7 @@
                                 <tr style="height: 35px">
                                     <td class="center" style="width:10%">{{transShipMember("registerShipMember.Passport No")}}</td>
                                     <td style="width: 15%;">
-                                        <input type="text" name="crewNum" class="form-control" value="@if(isset($info)){{$info['crewNum']}}@endif">
+                                        <input type="text" name="crewNum" class="form-control" value="@if(isset($info)){{$info['crewNum']}}@endif" required>
                                     </td>
                                     <td class="center" style="width:10%">{{transShipMember("registerShipMember.Name")}}</td>
                                     <td style="width:15%">
@@ -729,7 +721,7 @@
         }
 
         function deleteMemberExaming(that) {
-            bootbox.confirm("真要删掉吗?", function (result) {
+            bootbox.confirm("真要删除吗?", function (result) {
                 if (result) {
                     //确认단추를 눌렀을 때의 처리
                     var parent = that.parentNode;
@@ -849,7 +841,7 @@
         }
 
         function deleteSubMarkRow(that) {
-            bootbox.confirm("真要删掉吗?", function (result) {
+            bootbox.confirm("真要删除吗?", function (result) {
                 if (result) {
                     var parent = that.parentNode;
                     var index = parent.getAttribute('name');

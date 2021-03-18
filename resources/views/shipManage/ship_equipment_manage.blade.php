@@ -496,7 +496,7 @@
             var deviceId = obj.eq(1).text() * 1;
             var deviceName = obj.eq(3).text();
             console.log(deviceId);
-            bootbox.confirm(deviceName + " 真要删掉吗?", function (result) {
+            bootbox.confirm(deviceName + " 真要删除吗?", function (result) {
                 if (result) {
                     $.post('deleteShipEquipment', {'_token':token, 'deviceId':deviceId}, function (result) {
                         var code = parseInt(result);
@@ -514,13 +514,13 @@
                             tbody.deleteRow(row+0.5);
                             $.gritter.add({
                                 title: '성공',
-                                text: '[' + deviceName + '] 删掉成功！',
+                                text: '[' + deviceName + '] 删除成功！',
                                 class_name: 'gritter-success'
                             });
                         } else {
                             $.gritter.add({
                                 title: '错误',
-                                text: '[' + deviceName + '] 是已经被删掉的。',
+                                text: '[' + deviceName + '] 是已经被删除的。',
                                 class_name: 'gritter-error'
                             });
                         }

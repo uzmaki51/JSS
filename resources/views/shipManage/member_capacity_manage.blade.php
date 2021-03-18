@@ -232,7 +232,7 @@ $shipList = Session::get('shipList');
                     var capacityId = obj.eq(1).text() * 1;
                     var capacity_Cn = obj.eq(2).text();
 
-                    bootbox.confirm(capacity_Cn + " 真要删掉吗?", function (result) {
+                    bootbox.confirm(capacity_Cn + " 真要删除吗?", function (result) {
                         if (result) {
                             $.post('deleteMemberCapacity', {'_token':token, 'capacityId':capacityId}, function (result) {
                                 var code = parseInt(result);
@@ -249,13 +249,13 @@ $shipList = Session::get('shipList');
                                     tbody.deleteRow(row);
                                     $.gritter.add({
                                         title: '成功',
-                                        text: capacity_Cn + ' 删掉成功！',
+                                        text: capacity_Cn + ' 删除成功！',
                                         class_name: 'gritter-success'
                                     });
                                 } else {
                                     $.gritter.add({
                                         title: '错误',
-                                        text: capacity_Cn + ' 是已经被删掉的。',
+                                        text: capacity_Cn + ' 是已经被删除的。',
                                         class_name: 'gritter-error'
                                     });
                                 }

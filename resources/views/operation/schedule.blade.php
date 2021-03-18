@@ -512,7 +512,7 @@ $isHolder = Session::get('IS_HOLDER');
                         break;
                 }
 
-                bootbox.confirm("["+ shipName + "]号的 " + year + "年运用计划真要删掉吗?", function(result) {
+                bootbox.confirm("["+ shipName + "]号的 " + year + "年运用计划真要删除吗?", function(result) {
                     if(result) {
                         // save in db
                         $.post("removeYearPlan", {'_token': token, 'year': year, 'shipID': shipID

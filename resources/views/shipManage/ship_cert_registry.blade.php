@@ -318,7 +318,7 @@ $ships = Session::get('shipList');
 
                 var tableRow = rows[row];
                 var certName = tableRow.children[2].innerHTML;
-                bootbox.confirm(certName + "  真要删掉吗?", function (result) {
+                bootbox.confirm(certName + "  真要删除吗?", function (result) {
                     if (result) {
                         $.post('deleteShipCert', {'_token':token, 'certId':id}, function (result) {
                             var code = parseInt(result);
@@ -327,7 +327,7 @@ $ships = Session::get('shipList');
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ certName + ']' + ' 是已经被删掉的。',
+                                    text: '['+ certName + ']' + ' 是已经被删除的。',
                                     class_name: 'gritter-error '
                                 });
                             }

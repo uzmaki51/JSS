@@ -455,7 +455,7 @@ $isHolder = Session::get('IS_HOLDER');
                         var shipName = obj.eq(2).text();
                         var voyNo = obj.eq(3).text();
 
-                        bootbox.confirm("[" + shipName + "]号的 " + voyNo + "航次租船合同真要删掉吗?", function(result) {
+                        bootbox.confirm("[" + shipName + "]号的 " + voyNo + "航次租船合同真要删除吗?", function(result) {
                             if(result) {
                                 // save in db
                                 $.post("removeContract", {'_token': token, 'voyId': voyId}, function (data) {

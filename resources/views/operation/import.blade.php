@@ -442,14 +442,14 @@ $ships = Session::get('shipList');
                 var voyNo = tds.eq(3).text();
                 var invoiceId = tds.eq(0).data('id');
 
-                bootbox.confirm("[" + shipName + "]号的 " + voyNo + "航次收入及支出表真要删掉吗?", function (result) {
+                bootbox.confirm("[" + shipName + "]号的 " + voyNo + "航次收入及支出表真要删除吗?", function (result) {
                     if (result) {
                         $.post('/operation/deleteShipInvoice', {'_token':token, 'invoice':invoiceId}, function(data) {
                             if(data == 'success') {
                                 tr.remove();
                                 $.gritter.add({
                                     title: '成功',
-                                    text: '删掉成功!',
+                                    text: '删除成功!',
                                     class_name: 'gritter-success'
                                 });
                             }
@@ -604,7 +604,7 @@ $ships = Session::get('shipList');
             var tds = tr.children();
 
             var supplyDate = tds.eq(1).find('input').val();
-            bootbox.confirm(supplyDate + "的原油供给情况真要删掉吗?", function (result) {
+            bootbox.confirm(supplyDate + "的原油供给情况真要删除吗?", function (result) {
                 if (result) {
                     tr.remove();
                 }

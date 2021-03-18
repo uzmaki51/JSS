@@ -14,7 +14,7 @@ return [
 		'nextPage' => '下一个页',
 		'register' => '登记',
 		'save' => '保存',
-		'delete' => '删掉',
+		'delete' => '删除',
 		'add' => '添加',
 		'change' => '修改',
 		'loginID' => '登记识别',

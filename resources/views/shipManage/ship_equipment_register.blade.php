@@ -312,14 +312,14 @@ $shipList = Session::get('shipList');
         });
 
         function deleteItem(equipName, id, type) {console.log(equipName, id, type)
-            bootbox.confirm(equipName + " 真要删掉吗?", function (result) {
+            bootbox.confirm(equipName + " 真要删除吗?", function (result) {
                 if (result) {
                     $.post('deleteShipEquipment', {'_token':token, 'deviceId':id, 'type': type}, function (result) {
                         var code = parseInt(result);
                         if (code > 0) {
                             $.gritter.add({
                                 title: '成功',
-                                text: '[' + equipName + '] 删掉成功!',
+                                text: '[' + equipName + '] 删除成功!',
                                 class_name: 'gritter-success'
                             });
                             if(type == 'supply') {
@@ -333,7 +333,7 @@ $shipList = Session::get('shipList');
                         } else {
                             $.gritter.add({
                                 title: '错误',
-                                text: '[' + equipName + '] 是已经被删掉的。',
+                                text: '[' + equipName + '] 是已经被删除的。',
                                 class_name: 'gritter-error'
                             });
                         }

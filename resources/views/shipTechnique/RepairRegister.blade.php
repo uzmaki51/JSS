@@ -155,7 +155,7 @@ $ships = Session::get('shipList');
                 var shipName = obj.eq(0).html();
                 var voyNo = obj.eq(1).html();
                 var repairId = obj.eq(0).data('id');
-                bootbox.confirm("[" + shipName + "] 호 " + voyNo + "航次的修理记录真要删掉吗?", function(result) {
+                bootbox.confirm("[" + shipName + "] 호 " + voyNo + "航次的修理记录真要删除吗?", function(result) {
                     if(result) {
                         $.post('RepairDelete', {'_token': token, 'repairId': repairId}, function(data){
                             var returnCode = parseInt(data);
@@ -164,9 +164,9 @@ $ships = Session::get('shipList');
                             } else if(returnCode == -1)
                                 alert("错误, 在数据库无法找到修理记录。");
                             else if(returnCode == -2)
-                                alert("错误, 没有关于修理记录的删掉权限。");
+                                alert("错误, 没有关于修理记录的删除权限。");
                             else if(returnCode == -2)
-                                alert("错误, 无法删掉。");
+                                alert("错误, 无法删除。");
                         });
                     }
                 });

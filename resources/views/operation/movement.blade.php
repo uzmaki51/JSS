@@ -351,7 +351,7 @@ $ships = Session::get('shipList');
                 var obj = $(this).closest('tr').children();
                 var logId = obj.eq(0).data('id');
                 var logTime = obj.eq(0).html();
-                bootbox.confirm("[" + logTime + "]船舶动态真要删掉吗?", function(result) {
+                bootbox.confirm("[" + logTime + "]船舶动态真要删除吗?", function(result) {
                     if(result) {
                         // save in db
                         $.post("removeMovement", {'_token': token, 'logId': logId
@@ -372,7 +372,7 @@ $ships = Session::get('shipList');
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ logTime + ']' + ' 船舶动态是已经被删掉的。',
+                                    text: '['+ logTime + ']' + ' 船舶动态是已经被删除的。',
                                     class_name: 'gritter-error '
                                 });
                             }

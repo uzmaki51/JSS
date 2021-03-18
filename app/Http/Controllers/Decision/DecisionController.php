@@ -704,7 +704,7 @@ class DecisionController extends Controller
             $user = UserInfo::where('id', $userid)->first();
 
             if(is_null($user))
-                $userName = '(删掉的用户)';
+                $userName = '(删除的用户)';
             else
                 $userName = $user['realname'];
 
@@ -840,7 +840,7 @@ class DecisionController extends Controller
         // 현재 결재에 리용되였는가를 판정한다.
         $nowDecide = DecisionReport::where('creator', $userid)->where('flowid', $flowId)->get();
         if(count($nowDecide)) {
-            $result = array('status' => '正在利用中就而不可以删掉。');
+            $result = array('status' => '正在利用中就而不可以删除。');
             return json_encode($result);
         }
         $flow = DecisionFlow::find($flowId);

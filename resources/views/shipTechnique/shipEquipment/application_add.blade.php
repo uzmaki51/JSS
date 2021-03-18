@@ -461,7 +461,7 @@
                 </a>
                 &nbsp;&nbsp;&nbsp;
                 <a class="btn btn-xs btn-danger no-radius" onclick="deleteSupplyInfo()">
-                    <i class="icon-trash">删掉</i>
+                    <i class="icon-trash">删除</i>
                 </a>
             @endif
         </div>

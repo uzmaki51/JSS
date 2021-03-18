@@ -284,7 +284,7 @@ $ships = Session::get('shipList');
                 var obj = $(this).closest('tr').children();
                 var statusId = obj.eq(1).data('id');
                 var statusName = obj.eq(1).html();
-                bootbox.confirm('[' + statusName + '] 真要删掉吗?', function(result) {
+                bootbox.confirm('[' + statusName + '] 真要删除吗?', function(result) {
                     if(result) {
                         // save in db
                         $.post("removeVoyStatus", {'_token': token, 'statusId': statusId}, function (data) {
@@ -304,7 +304,7 @@ $ships = Session::get('shipList');
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ statusName + ']' + ' 是已经被删掉的。',
+                                    text: '['+ statusName + ']' + ' 是已经被删除的。',
                                     class_name: 'gritter-error '
                                 });
                             }

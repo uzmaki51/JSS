@@ -141,7 +141,7 @@ $ships = Session::get('shipList');
                         break;
                 }
 
-                bootbox.confirm('['+ itemName + ']  ' + "  项目真要删掉吗?", function (result) {
+                bootbox.confirm('['+ itemName + ']  ' + "  项目真要删除吗?", function (result) {
                     if (result) {
                         //确认단추를 눌렀을 때의 처리
                         $.post('deleteVoyStatusType', {'_token':token, 'typeId':typeId}, function (data) {
@@ -151,7 +151,7 @@ $ships = Session::get('shipList');
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ itemName + ']' + ' 是已经被删掉了。',
+                                    text: '['+ itemName + ']' + ' 是已经被删除了。',
                                     class_name: 'gritter-error '
                                 });
                             }

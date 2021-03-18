@@ -2283,13 +2283,13 @@ class BusinessController extends Controller
 
         $planCount = ReportPerson::where('itemId', $task->id)->count();
         if($planCount) {
-            $data['msg'] = '['.$task->planTitle.'] 的日白正在心境中就而删掉不了。';
+            $data['msg'] = '['.$task->planTitle.'] 的日白正在心境中就而删除不了。';
             $data['state'] = -1; // 오유
             return response()->json($data);
         }
 
         $task->delete();
-        $data['msg'] = '['.$task->planTitle.'] 任务删掉成功。';
+        $data['msg'] = '['.$task->planTitle.'] 任务删除成功。';
         $data['state'] = 1; // 삭제성공
         return $data;
     }

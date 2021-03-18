@@ -275,7 +275,7 @@
             var taskName = row.eq(2).text();
             var taskId = row.eq(0).data('id');
 
-            bootbox.confirm('[' + taskName + ']  ' + "  真要删掉任务吗？", function (result) {
+            bootbox.confirm('[' + taskName + ']  ' + "  真要删除任务吗？", function (result) {
                 if (result) {
                     $.post('deleteSubTask', {'_token': token, 'taskId': taskId}, function (data) {
                         if (data['state'] == 1) {

@@ -107,7 +107,7 @@
             $('.del-action').on('click', function () {
                 var obj = $(this).closest('tr').children();
                 var temaId = obj.eq(0).data('id');
-                bootbox.confirm("真要删掉讨论场合吗?\n 삭제되는 경우 토론마당안의 모든 기사들도 없어집니다.", function(result) {
+                bootbox.confirm("真要删除讨论场合吗?\n 삭제되는 경우 토론마당안의 모든 기사들도 없어집니다.", function(result) {
                     if(result) {
                         $.post('deleteNewsTema', {'_token': token, 'temaId': temaId}, function(data){
                             var returnCode = parseInt(data);

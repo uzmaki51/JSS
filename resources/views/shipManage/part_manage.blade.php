@@ -169,7 +169,7 @@
                 alert(typeId);
                 var typeName = obj.eq(3).text();
 
-                bootbox.confirm('[ ' + typeName + ' ] 真要删掉吗?', function (result) {
+                bootbox.confirm('[ ' + typeName + ' ] 真要删除吗?', function (result) {
                     if (result) {
                         $.post('deleteShipOthers', {'_token':token, 'OthersId':typeId}, function (result) {
                             var code = parseInt(result);
@@ -186,13 +186,13 @@
                                 tbody.deleteRow(row);
                                 $.gritter.add({
                                     title: '成功',
-                                    text: '[ ' + typeName + ' ] 删掉成功！',
+                                    text: '[ ' + typeName + ' ] 删除成功！',
                                     class_name: 'gritter-success'
                                 });
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '[ ' + typeName + '] 是已经被删掉的。',
+                                    text: '[ ' + typeName + '] 是已经被删除的。',
                                     class_name: 'gritter-error'
                                 });
                             }

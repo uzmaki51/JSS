@@ -48,6 +48,6 @@ return [
 	"message"   => [
 		'please_select'     => '选择吧。',
 		'no_data'           => '没有资料。',
-		'delete'            => '真要删掉吗？'
+		'delete'            => '真要删除吗？'
 	]
 ];

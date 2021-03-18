@@ -148,7 +148,7 @@ $ships = Session::get('shipList');
                 var voyNo = obj.eq(1).html();
                 var surveyId = obj.eq(0).data('id');
 
-                bootbox.confirm("[" + shipName + "] 호 " + voyNo + "航次的检查记录真要删掉吗?", function(result) {
+                bootbox.confirm("[" + shipName + "] 호 " + voyNo + "航次的检查记录真要删除吗?", function(result) {
                     if(result) {
                         $.post('SurveyDelete', {'_token': token, 'surveyId': surveyId}, function(data){
                             var returnCode = parseInt(data);
@@ -157,9 +157,9 @@ $ships = Session::get('shipList');
                             } else if(returnCode == -1)
                                 alert("错误, 在数据库无法找到检查记录。");
                             else if(returnCode == -2)
-                                alert("错误, 没有检查记录的删掉权限。");
+                                alert("错误, 没有检查记录的删除权限。");
                             else if(returnCode == -2)
-                                alert("错误, 无法删掉。");
+                                alert("错误, 无法删除。");
                         });
                     }
                 });

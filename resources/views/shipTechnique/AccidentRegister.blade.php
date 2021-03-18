@@ -151,7 +151,7 @@ $ships = Session::get('shipList');
                 var voyNo = obj.eq(1).html();
                 var accidentId = obj.eq(0).data('id');
 
-                bootbox.confirm("[" + shipName + "] 号 " + voyNo + "航次的事故记录真要删掉吗?", function(result) {
+                bootbox.confirm("[" + shipName + "] 号 " + voyNo + "航次的事故记录真要删除吗?", function(result) {
                     if(result) {
                         $.post('AccidentDelete', {'_token': token, 'accidentId': accidentId}, function(data){
                             var returnCode = parseInt(data);
@@ -160,9 +160,9 @@ $ships = Session::get('shipList');
                             } else if(returnCode == -1)
                                 alert("错误, 在数据库无法找到事故记录。");
                             else if(returnCode == -2)
-                                alert("错误, 没有对于事故记录的删掉权限。");
+                                alert("错误, 没有对于事故记录的删除权限。");
                             else if(returnCode == -2)
-                                alert("错误, 无法删掉。");
+                                alert("错误, 无法删除。");
                         });
                     }
                 });

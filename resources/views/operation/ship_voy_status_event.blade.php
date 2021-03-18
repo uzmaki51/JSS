@@ -135,7 +135,7 @@
                         break;
                 }
 
-                bootbox.confirm('['+ eventName + ']  ' + "  事件真要删掉吗?", function (result) {
+                bootbox.confirm('['+ eventName + ']  ' + "  事件真要删除吗?", function (result) {
                     if (result) {
                         //确认단추를 눌렀을 때의 처리
                         $.post('deleteVoyStatusEvent', {'_token':token, 'eventId':eventId}, function (data) {
@@ -145,7 +145,7 @@
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ eventName + ']' + ' 是已经被删掉了。',
+                                    text: '['+ eventName + ']' + ' 是已经被删除了。',
                                     class_name: 'gritter-error '
                                 });
                             }

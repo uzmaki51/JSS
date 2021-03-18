@@ -168,7 +168,7 @@
                             } else if (returnCode == -1)
                                 alert("错误, 数据库中未找到批准文件。");
                             else if (returnCode == -2)
-                                alert("错误, 没有删掉批准文件的权限。");
+                                alert("错误, 没有删除批准文件的权限。");
                             else if (returnCode == -2)
                                 alert("错误, 已进入批准阶段，不能删除。");
                         });

@@ -692,13 +692,13 @@ else $header = 'sidebar';
 
             function deleteSupplyInfo() {
                 var supplyId = $('[name="supplyId"]').val();
-                bootbox.confirm("真要删掉供给资料吗?", function(result) {
+                bootbox.confirm("真要删除供给资料吗?", function(result) {
                     if(result) {
                         $.post('deleteSupplyInfo', {'_token': token, 'supplyId': supplyId}, function(data){
                             if(data == 'success') {
-                                alert('删掉资料成功！');
+                                alert('删除资料成功！');
                             } else {
-                                alert('发生错误,无法删掉. 请再试试一下。');
+                                alert('发生错误,无法删除. 请再试试一下。');
                             }
                             window.location.reload(true);
                         });

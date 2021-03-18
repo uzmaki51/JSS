@@ -175,7 +175,7 @@ $shipList = Session::get('shipList');
                 var shipId = obj.eq(1).text() * 1;
                 var shipName = obj.eq(2).text();
 
-                bootbox.confirm(shipName + " 真要删掉吗", function (result) {
+                bootbox.confirm(shipName + " 真要删除吗", function (result) {
                     if (result) {
                         $.post('deleteOriginShip', {'_token':token, 'shipId':shipId}, function (result) {
                             var code = parseInt(result);
@@ -192,13 +192,13 @@ $shipList = Session::get('shipList');
                                 tbody.deleteRow(row);
                                 $.gritter.add({
                                     title: '成功',
-                                    text: shipName + ' 删掉成功!',
+                                    text: shipName + ' 删除成功!',
                                     class_name: 'gritter-success'
                                 });
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: shipName + ' 是已经被删掉的。',
+                                    text: shipName + ' 是已经被删除的。',
                                     class_name: 'gritter-error'
                                 });
                             }

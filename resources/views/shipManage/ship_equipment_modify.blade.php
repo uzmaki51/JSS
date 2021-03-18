@@ -294,7 +294,7 @@
                     var propertyId = obj.eq(1).text();
                     var Items_Cn = obj.eq(2).text();
 
-                    bootbox.confirm(Items_Cn + "真要删掉吗?", function (result) {
+                    bootbox.confirm(Items_Cn + "真要删除吗?", function (result) {
                         if (result) {
                             $.post('deleteEquipmentProperty', {
                                 '_token': token,
@@ -314,13 +314,13 @@
                                     tbody.deleteRow(row);
                                     $.gritter.add({
                                         title: '成功',
-                                        text: Items_Cn + ' 删掉成功!',
+                                        text: Items_Cn + ' 删除成功!',
                                         class_name: 'gritter-success'
                                     });
                                 } else {
                                     $.gritter.add({
                                         title: '错误',
-                                        text: Items_Cn + ' 是已经被删掉的。',
+                                        text: Items_Cn + ' 是已经被删除的。',
                                         class_name: 'gritter-error'
                                     });
                                 }

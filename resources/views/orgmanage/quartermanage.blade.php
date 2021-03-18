@@ -213,7 +213,7 @@
                                 } else {
                                     $.gritter.add({
                                         title: '错误',
-                                        text: '['+ unitName + ']' + ' 部门已被删掉了。',
+                                        text: '['+ unitName + ']' + ' 部门已被删除了。',
                                         class_name: 'gritter-error '
                                     });
                                 }
@@ -225,7 +225,7 @@
         }
 
         function deleteUnit(title, unitId) {
-            bootbox.confirm("[ " + title + " ] 要删掉部门吗?", function (result) {
+            bootbox.confirm("[ " + title + " ] 要删除部门吗?", function (result) {
                 if (result) {
                     //确认단추를 눌렀을 때의 처리
                     $.post('quarterdel', {'_token': token, unitId: unitId}, function (result) {
@@ -234,7 +234,7 @@
                         } else {
                             $.gritter.add({
                                 title: '错误',
-                                text: '['+ title + ']' + ' 部门已经被删掉了。',
+                                text: '['+ title + ']' + ' 部门已经被删除了。',
                                 class_name: 'gritter-error '
                             });
                         }

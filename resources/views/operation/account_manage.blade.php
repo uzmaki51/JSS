@@ -174,7 +174,7 @@ $ships = Session::get('shipList');
                 var obj = trObj.children();
                 var accountId = obj.eq(0).data('id') * 1;
 
-                bootbox.confirm("项目真要删掉吗?", function (result) {
+                bootbox.confirm("项目真要删除吗?", function (result) {
                     if (result) {
                         //确认단추를 눌렀을 때의 처리
                         $.post('deleteAccount', {'_token':token, 'accountId':accountId}, function (result) {

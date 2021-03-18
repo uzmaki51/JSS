@@ -144,7 +144,7 @@ $shipList = explode(',', Auth::user()->shipList);
             var pageNum = 0;
             var token = '<?php echo csrf_token() ?>';
             function deleteItem(shipId, shipName) {
-                bootbox.confirm(shipName + "的船舶规范真要删掉吗?", function (result) {
+                bootbox.confirm(shipName + "的船舶规范真要删除吗?", function (result) {
                     if (result) {
                         $.post('deleteShipData', {'_token':token, 'dataId':shipId}, function (result) {
                             var code = parseInt(result);

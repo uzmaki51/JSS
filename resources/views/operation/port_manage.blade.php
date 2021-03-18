@@ -163,7 +163,7 @@ $ships = Session::get('shipList');
                 var portId = obj.eq(0).data('id') * 1;
                 var portName = obj.eq(1).text();
 
-                bootbox.confirm("[" + portName + "] 港口名称真要删掉吗?", function (result) {
+                bootbox.confirm("[" + portName + "] 港口名称真要删除吗?", function (result) {
                     if (result) {
                         //确认단추를 눌렀을 때의 처리
                         $.post('deleteShipPort', {'_token':token, 'portId':portId}, function (result) {
@@ -172,13 +172,13 @@ $ships = Session::get('shipList');
                                 trObj.remove();
                                 $.gritter.add({
                                     title: '成功',
-                                    text: '['+ portName + '] 港口名称 删掉成功!',
+                                    text: '['+ portName + '] 港口名称 删除成功!',
                                     class_name: 'gritter-success'
                                 });
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '['+ portName + '] 港口名称是已经被删掉了。',
+                                    text: '['+ portName + '] 港口名称是已经被删除了。',
                                     class_name: 'gritter-error'
                                 });
                             }

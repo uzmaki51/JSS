@@ -191,7 +191,7 @@ $shipList = Session::get('shipList');
                 var typeId = obj.eq(1).text() * 1;
                 var typeName = obj.eq(3).text();
 
-                bootbox.confirm('[ ' + typeName + ' ] 真要删掉吗?', function (result) {
+                bootbox.confirm('[ ' + typeName + ' ] 真要删除吗?', function (result) {
                     if (result) {
                         $.post('deleteSTCWType', {'_token':token, 'typeId':typeId}, function (result) {
                             var code = parseInt(result);
@@ -208,13 +208,13 @@ $shipList = Session::get('shipList');
                                 tbody.deleteRow(row);
                                 $.gritter.add({
                                     title: '成功',
-                                    text: '[ ' + typeName + ' ] 删掉成功!',
+                                    text: '[ ' + typeName + ' ] 删除成功!',
                                     class_name: 'gritter-success'
                                 });
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: '[ ' + typeName + '] 是已经被删掉的',
+                                    text: '[ ' + typeName + '] 是已经被删除的',
                                     class_name: 'gritter-error'
                                 });
                             }

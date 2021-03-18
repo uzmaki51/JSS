@@ -237,7 +237,7 @@ $shipList = Session::get('shipList');
                 var codeId = obj.eq(1).text() * 1;
                 var codeName = obj.eq(6).text();
 
-                bootbox.confirm(codeName + " ISSA代码 真要删掉吗?", function (result) {
+                bootbox.confirm(codeName + " ISSA代码 真要删除吗?", function (result) {
                     if (result) {
                         $.post('deleteIssaCode', {'_token':token, 'codeId':codeId}, function (result) {
                             var code = parseInt(result);
@@ -255,13 +255,13 @@ $shipList = Session::get('shipList');
                                 tbody.deleteRow(row+0.5);
                                 $.gritter.add({
                                     title: '成功',
-                                    text: codeName + ' 删掉成功!',
+                                    text: codeName + ' 删除成功!',
                                     class_name: 'gritter-success'
                                 });
                             } else {
                                 $.gritter.add({
                                     title: '错误',
-                                    text: codeName + ' 是已经被删掉的。',
+                                    text: codeName + ' 是已经被删除的。',
                                     class_name: 'gritter-error'
                                 });
                             }

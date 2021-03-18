@@ -522,7 +522,7 @@
             var id = row.eq(0).data('id');
             var school_name = row.eq(3).html();
 
-            bootbox.confirm("[" + school_name + "] 要删掉吗?", function (result) {
+            bootbox.confirm("[" + school_name + "] 要删除吗?", function (result) {
                 if (result) {
                     $.post('deleteSchoolCarrer', {'_token': token, 'id': id}, function (data) {
                         if (data = 'success') {
@@ -622,7 +622,7 @@
                 var row = $(this).closest('tr').children();
                 var relationName = row.eq(1).html();
                 var relationId = row.eq(1).data('id');
-                bootbox.confirm("[" + relationName + "] 的关系要删掉吗?", function (result) {
+                bootbox.confirm("[" + relationName + "] 的关系要删除吗?", function (result) {
                     if (result) {
                         $.post('deleteRelationItem', {'_token': token, 'relationId': relationId}, function (data) {
                             var result = jQuery.parseJSON(data);

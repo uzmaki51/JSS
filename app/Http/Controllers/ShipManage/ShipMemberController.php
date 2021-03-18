@@ -348,7 +348,6 @@ class ShipMemberController extends Controller
     }
 
     public function updateMemberMainInfo(Request $request) {
-
         $memberId = $request->get('memberId');
         $crewNum = $request->get('crewNum');
 
@@ -415,11 +414,21 @@ class ShipMemberController extends Controller
         $member = ShipMember::find($memberId);
 
         $member['ShipId'] = $request->get('ShipId');
-        $member['Duty'] = $request->get('Duty');
+        if($request->has('Duty')) {
+            $member['Duty'] = $request->get('Duty');
+        }
+
         $member['sign_on_off'] = $request->get('sign_on_off');
-        $member['DateOnboard'] = $request->get('DateOnboard');
-        $member['ShipID_Book'] = $request->get('ShipID_Book');
-        $member['DutyID_Book'] = $request->get('DutyID_Book');
+        if ($request->has('DateOnboard')) {
+            $member['DateOnboard'] = $request->get('DateOnboard');
+        }
+        if ($request->has('ShipID_Book')) {
+            $member['ShipID_Book'] = $request->get('ShipID_Book');
+        }
+
+        if ($request->has('DutyID_Book')) {
+            $member['DutyID_Book'] = $request->get('DutyID_Book');
+        }
         $issuedDate = $request->get('IssuedDate');
         if(empty($issuedDate))
             $issuedDate = null;
@@ -430,8 +439,13 @@ class ShipMemberController extends Controller
             $expiryDate = null;
         $member['ExpiryDate'] = $expiryDate;
 
-        $member['ShipID_organization'] = $request->get('ShipID_organization');
-        $member['pos'] = $request->get('pos');
+        if($request->has('ShipID_organization')) {
+            $member['ShipID_organization'] = $request->get('ShipID_organization');
+        }
+        
+        if($request->has('pos')) {
+            $member['pos'] = $request->get('pos');
+        }
         $member['Remarks'] = $request->get('Remarks');
 
         $file = $request->file('crewCard');
@@ -756,7 +770,10 @@ class ShipMemberController extends Controller
 
         // 안전
         $training['TCPNo'] = $request->get('TCPNo');
-        $training['TCP_certID'] = $request->get('TCP_certID');
+
+        if($request->has('TCP_certID')) {
+            $training['TCP_certID'] = $request->get('TCP_certID');
+        }
         $dateStr = $request->get('TCPIssuedDate');
         if(empty($dateStr))
             $dateStr = null;
@@ -778,7 +795,9 @@ class ShipMemberController extends Controller
 
         // 안전보장인증서
         $training['SSONo'] = $request->get('SSONo');
-        $training['SSO_certID'] = $request->get('SSO_certID');
+        if($request->has('SSO_certID')) {
+            $training['SSO_certID'] = $request->get('SSO_certID');
+        }
         $dateStr = $request->get('SSOIssuedDate');
         if(empty($dateStr))
             $dateStr = null;
@@ -800,7 +819,9 @@ class ShipMemberController extends Controller
 
         // 숙련(갑판/조기)원
         $training['ASDNo'] = $request->get('ASDNo');
-        $training['ASD_typeID'] = $request->get('ASD_typeID');
+        if($request->has('ASD_typeID')) {
+            $training['ASD_typeID'] = $request->get('ASD_typeID');
+        }
         $dateStr = $request->get('ASDIssuedDate');
         if(empty($dateStr))
             $dateStr = null;

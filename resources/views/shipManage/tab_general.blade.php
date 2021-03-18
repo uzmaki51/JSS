@@ -152,9 +152,9 @@ $shipList = Session::get('shipList');
                                     <option value="完全登记(PER)" selected>PER</option>
                                 @else<option value="完全登记(PER)">PER</option>
                                 @endif
-                                @if(strcasecmp($shipInfo['RegStatus'], '删掉登记(DEL)') == 0)
-                                    <option value="删掉登记(DEL)" selected>DEL</option>
-                                @else<option value="删掉登记(DEL)">DEL</option>
+                                    @if(strcasecmp($shipInfo['RegStatus'], '删除登记(DEL)') == 0)
+                                        <option value="删除登记(DEL)" selected>DEL</option>
+                                    @else<option value="删除登记(DEL)">DEL</option>
                                 @endif
                             </select>
                         </td>

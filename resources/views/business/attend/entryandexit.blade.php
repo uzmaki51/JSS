@@ -365,13 +365,13 @@
         }
         function onDelete(id) {
             var uri = decodeURI('{{$_SERVER['REQUEST_URI']}}');
-            bootbox.confirm("真要删掉休息日设置项目吗？", function(result) {
+            bootbox.confirm("真要删除休息日设置项目吗？", function(result) {
                 if(result) {
                     $("#modal-wizard").attr('aria-hidden', 'false');
                     $("#modal-wizard").addClass('in');
                     $("body").addClass('modal-open');
                     $("#modalback").addClass('modal-backdrop ');
-                    var htm = '<i class="' + 'icon-spinner icon-spin orange bigger-500"' + '></i>' + '正在删掉休息日设置项目。';
+                    var htm = '<i class="' + 'icon-spinner icon-spin orange bigger-500"' + '></i>' + '正在删除休息日设置项目。';
                     $("#modal-body-content").html(htm);
                     $("#modal-wizard").show();
                     $.post('restDelete', {'_token': token, 'id':id}, function (data) {

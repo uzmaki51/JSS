@@ -226,14 +226,14 @@ $shipList = Session::get('shipList');
                 var obj = $(this).closest('tr').children();
                 var typeId = obj.eq(1).text();
                 var typeName = obj.eq(2).text();
-                bootbox.confirm("设备配件类型 " + typeName + "真要删掉吗?", function (result) {
+                bootbox.confirm("设备配件类型 " + typeName + "真要删除吗?", function (result) {
                     if (result) {
                         $.post('deleteEquipmentMainType', {'_token':token, 'typeId':typeId}, function (result) {
                             var code = parseInt(result);
                             if (code > 0) {
                                 location.reload();
                             } else {
-                                alert(typeName + "是已经被删掉的。");
+                                alert(typeName + "是已经被删除的。");
                             }
                         });
                     }
@@ -273,7 +273,7 @@ $shipList = Session::get('shipList');
                             if (code > 0) {
                                 location.reload();
                             } else {
-                                alert(typeName + "是已经被删掉了。");
+                                alert(typeName + "是已经被删除了。");
                             }
                         });
                     }

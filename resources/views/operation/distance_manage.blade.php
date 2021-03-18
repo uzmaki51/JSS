@@ -202,7 +202,7 @@ $ships = Session::get('shipList');
                 var LName = obj.eq(1).text();
                 var DName = obj.eq(2).text();
 
-                bootbox.confirm(LName + " - " + DName + "的距离项目真要删掉吗?", function (result) {
+                bootbox.confirm(LName + " - " + DName + "的距离项目真要删除吗?", function (result) {
                     if (result) {
                         //确认단추를 눌렀을 때의 처리
                         $.post('deleteDistance', {'_token':token, 'distanceId':distanceId}, function (result) {

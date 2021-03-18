@@ -159,7 +159,7 @@ $ships = Session::get('shipList');
                 var obj = trObj.children();
                 var payId = obj.eq(0).data('id') * 1;
 
-                bootbox.confirm("项目真要删掉吗?", function (result) {
+                bootbox.confirm("项目真要删除吗?", function (result) {
                     if (result) {
                         //确认단추를 눌렀을 때의 처리
                         $.post('deletePayMode', {'_token':token, 'payId':payId}, function (result) {

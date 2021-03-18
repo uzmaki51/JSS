@@ -319,13 +319,13 @@
             document.getElementById("plan_message_out").innerHTML = "";
         }
         function onDelete(id) {
-            bootbox.confirm("真要删掉计划项目吗？", function (result) {
+            bootbox.confirm("真要删除计划项目吗？", function (result) {
                 if (result) {
                     $("#modal-wizard").attr('aria-hidden', 'false');
                     $("#modal-wizard").addClass('in');
                     $("body").addClass('modal-open');
                     $("#modalback").addClass('modal-backdrop ');
-                    var htm = '<i class="' + 'icon-spinner icon-spin orange bigger-500"' + '></i>' + '正在删掉计划设置项目。';
+                    var htm = '<i class="' + 'icon-spinner icon-spin orange bigger-500"' + '></i>' + '正在删除计划设置项目。';
                     $("#modal-body-content").html(htm);
                     $("#modal-wizard").show();
                     $.post('planDelete', {'_token': token, 'id': id}, function (data) {
