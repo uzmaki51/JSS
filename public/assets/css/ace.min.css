@@ -17226,7 +17226,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
     cursor: pointer;
     vertical-align: middle;
     margin: 0;
-    padding: 5px;
+    padding: 4px;
     position: relative;
     outline: 0!important;
 }

@@ -147,16 +147,16 @@ $shipList = Session::get('shipList');
                             <td class="custom-td-report-text" colspan="2">
                                 <select class="form-control" id="RegStatus" name="RegStatus">
                                     @if(strcasecmp($shipInfo['RegStatus'], '临时登记(PRO)') == 0)
-                                        <option value="临时登记(PRO)" selected>临时登记(PRO)</option>
-                                    @else<option value="临时登记(PRO)">临时登记(PRO)</option>
+                                        <option value="临时登记(PRO)" selected>PRO</option>
+                                    @else<option value="临时登记(PRO)">PRO</option>
                                     @endif
                                     @if(strcasecmp($shipInfo['RegStatus'], '完全登记(PER)') == 0)
-                                        <option value="完全登记(PER)" selected>完全登记(PER)</option>
-                                    @else<option value="完全登记(PER)">完全登记(PER)</option>
+                                        <option value="完全登记(PER)" selected>PER</option>
+                                    @else<option value="完全登记(PER)">PER</option>
                                     @endif
                                     @if(strcasecmp($shipInfo['RegStatus'], '删掉登记(DEL)') == 0)
-                                        <option value="删掉登记(DEL)" selected>删掉登记(DEL)</option>
-                                    @else<option value="删掉登记(DEL)">删掉登记(DEL)</option>
+                                        <option value="删掉登记(DEL)" selected>DEL</option>
+                                    @else<option value="删掉登记(DEL)">DEL</option>
                                     @endif
                                 </select>
                             </td>
@@ -309,7 +309,7 @@ $shipList = Session::get('shipList');
                                     <td class="custom-td-dec-text">
                                         <select class="form-control" id="ShipType" name="ShipType">
                                             @foreach($shipType as $type)
-                                                <option value="{{$type['id']}}" @if($type['id'] == $shipInfo['ShipType']) selected @endif>{{$type['ShipType_Cn']}}</option>
+                                                <option value="{{$type['id']}}" @if($type['id'] == $shipInfo['ShipType']) selected @endif>{{$type['ShipType']}}</option>
                                             @endforeach
                                         </select>
                                     </td>

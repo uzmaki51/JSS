@@ -11,18 +11,18 @@ $shipList = Session::get('shipList');
             .table {
                 margin-bottom: 2px!important;
             }
-            .custom-td-report-text{
+            .custom-td-report-text {
                 width: 25%;
             }
             .ship-list thead tr th {
                 height: 20px!important;
-                padding: 4px!important;
+                padding: 4px 0!important;
                 font-weight: normal;
                 background: #c9dfff;
                 color: black;
                 font-size: 12px!important;
                 font-style: italic;
-                /*border: unset!important;*/
+                border-left: 1px solid #cccccc!important;
             }
             .ship-list tr {
                 border: unset!important;
@@ -44,15 +44,27 @@ $shipList = Session::get('shipList');
                 -ms-overflow-style: none;  /* IE and Edge */
                 scrollbar-width: none;  /* Firefox */
             }
-            /*.ship-list tr span {*/
-            /*border: 1px solid red;*/
-            /*padding: 4px;*/
-            /*display: block;*/
-            /**/
-            /*}*/
 
             .ship-register a {
                 padding: 4px!important;
+            }
+
+            .alert {
+                padding: 4px!important;
+                margin-bottom: 0;
+                margin-left: 15vw;
+                transition: 0.3s ease-in-out;
+            }
+            .visuallyhidden {
+                position: absolute;
+                overflow: hidden;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                width: 1px;
+                margin: -1px;
+                padding: 0;
+                border: 1px solid transparent;
+
             }
         </style>
 
@@ -160,12 +172,27 @@ $shipList = Session::get('shipList');
                                     {{ transShipManager('tabMenu.Remarks') }}
                                 </a>
                             </li>
+                            <li>
+                                <div class="alert alert-block alert-success center visuallyhidden">
+                                    <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+                                    <strong id="msg-content"> Please register a new ship.</strong>
+                                </div>
+                            </li>
                             <li style="float: right;">
                                 @if(!$isHolder)
                                     <div class="row">
                                         <button type="submit" id="btnRegister" class="btn btn-sm btn-inverse" style="width: 80px">
-                                            <i class="icon-save"></i>登记
+                                            <i class="icon-save"></i>Save
                                         </button>
+                                    </div>
+                                @endif
+                            </li>
+                            <li style="float: right; margin-right: 10px;">
+                                @if(!$isHolder)
+                                    <div class="row">
+                                        <a href="/shipManage/registerShipData" class="btn btn-sm btn-primary btn-add" style="width: 80px">
+                                            <i class="icon-plus"></i>Add
+                                        </a>
                                     </div>
                                 @endif
                             </li>
@@ -225,7 +252,7 @@ $shipList = Session::get('shipList');
 
         function ShowTabPage(tabName) {
             if(shipId.length < 1) {
-                $('#msg-content').html("  现需要保存一般信息(Ship's Particulars)。  ");
+                // $('#msg-content').html("Please register a new ship.");
                 $('.alert').show();
                 if(tabName != '#general')
                     $('#btnRegister').attr('disabled', 'disabled');
@@ -298,8 +325,17 @@ $shipList = Session::get('shipList');
             });
         }
 
+
+
         $(function() {
             ShowTabPage(activeTabName);
+            if(shipId.length < 1) {
+                $('.alert').toggleClass('visuallyhidden');
+                setTimeout(function() {
+                    $('.alert').toggleClass('visuallyhidden');
+                }, 2000);
+                $('[name=shipName_Cn]').focus();
+            }
         })
 
     </script>
