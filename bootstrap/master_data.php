@@ -15,6 +15,10 @@ define('IS_NOT_ERROR', 0);
 
 define('DEFAULT_PASS', '123456');
 
+
+#UserRole
+define('SUPER_ADMIN', 1);
+
 # Status
 define('STATUS_BANNED', 0);
 define('STATUS_ACTIVE', 1);
@@ -28,9 +32,9 @@ define('REPORT_TYPE_CONTRACT',      'Contract');
 define('REPORT_TYPE_EVIDENCE_OUT',  'Debit');
 define('REPORT_TYPE_EVIDENCE_IN',   'Credit');
 $ReportTypeData = array(
-    1       => 'Contract',
-    2       => 'Credit',
-	3       => 'Debit',
+	REPORT_TYPE_CONTRACT            => '合同',
+	REPORT_TYPE_EVIDENCE_OUT        => '收入',
+	REPORT_TYPE_EVIDENCE_IN         => '支出',
 );
 
 # IncomeData
@@ -171,6 +175,19 @@ $ShipRegStatus = array(
 	SHIP_REG_STATUS_DEL     => 'DEL',
 );
 
+# ReportStatusData
+define('REPORT_STATUS_REQUEST',     0);
+define('REPORT_STATUS_ACCEPT',      1);
+define('REPORT_STATUS_REJECT',      2);
+define('REPORT_STATUS_DRAFT',      3);
+
+$ReportStatusData = array(
+	REPORT_STATUS_REQUEST   => ['等批', 'primary'],
+	REPORT_STATUS_ACCEPT    => ['通过', 'info'],
+	REPORT_STATUS_REJECT    => ['否决', 'secondary'],
+);
+
+
 
 
 define('HTTP_METHOD_POST', 'POST');
@@ -190,5 +207,6 @@ define('HTTP_METHOD_POST', 'POST');
 		'AccidentTypeData'            	=> $AccidentTypeData,
 		'ShipTypeData'					=> $ShipTypeData,
 	    'ShipRegStatus'					=> $ShipRegStatus,
+	    'ReportStatusData'			    => $ReportStatusData,
 
  );

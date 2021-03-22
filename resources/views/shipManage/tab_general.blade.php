@@ -12,10 +12,10 @@ $shipList = Session::get('shipList');
                     <tbody>
                     <tr>
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            {{ transShipManager('General.ShipName') }}
+                            <span class="text-danger">{{ transShipManager('General.ShipName') }}*</span>
                         </td>
                         <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <input type="text" name="shipName_Cn" class="form-control" placeholder="中文" style="width:100%" value="@if(isset($shipInfo['shipName_Cn'])){{$shipInfo['shipName_Cn']}}@endif">
+                            <input type="text" name="shipName_Cn" class="form-control" placeholder="中文" style="width:100%" value="@if(isset($shipInfo['shipName_Cn'])){{$shipInfo['shipName_Cn']}}@endif" required>
                         </td>
                     </tr>
                     <tr>

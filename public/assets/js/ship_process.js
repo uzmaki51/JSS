@@ -13,14 +13,14 @@ $(function () {
 
     $('.chosen-select').chosen();
 
-    setInterval(function () {
-        checkNewDecideReport();
-        checkNewRecvDecideReport();
-    }, 200000);
-
-    setInterval(function () {
-        checkPersonSchedule();
-    }, 60000);
+    // setInterval(function () {
+    //     checkNewDecideReport();
+    //     checkNewRecvDecideReport();
+    // }, 200000);
+    //
+    // setInterval(function () {
+    //     checkPersonSchedule();
+    // }, 60000);
 
 	$( ".hide-option" ).tooltip({
 		hide: {

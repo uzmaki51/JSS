@@ -16,8 +16,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
-class DecisionReport extends Model {
-    protected $table = 'tb_decision_report';
+class DecisionReportAttachment extends Model {
+    protected $table = 'tb_decision_report_attachment';
 
     public function getForDatatable($params, $status = 0) {
 	    $user_id = Auth::user()->id;

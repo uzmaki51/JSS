@@ -160,3 +160,19 @@
 .no-border td {
     border: unset!important;
 }
+.custom-label {
+    font-size: 12px!important;
+}
+.summer-bg {
+    background: #fce6d4!important;
+}
+.winter-bg {
+    background: #d0e6dd!important;
+}
+.custom-td-label {
+    text-align: left!important;
+    width: 100px;
+}
+.report-status {
+    cursor: pointer;
+}

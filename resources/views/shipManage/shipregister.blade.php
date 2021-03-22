@@ -188,6 +188,7 @@
 
 
         $('#btnRegister').on('click', function() {
+            $('form').validate();
             $('form').submit();
         });
 

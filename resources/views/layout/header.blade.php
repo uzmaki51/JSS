@@ -115,14 +115,21 @@
     </div>
 </header>
 
+<script>
+    var PUBLIC_URL = '{{ cAsset('/') . '/' }}';
+    var BASE_URL = PUBLIC_URL;
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        }
+    });
+
+</script>
+
 <div class="main-container" id="main-container">
     <div class="main-container-inner">
-
         @yield('sidebar')
-
     </div>
-
-    <!-- /.main-container-inner -->
 
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="icon-double-angle-up icon-only bigger-110"></i>
@@ -136,27 +143,14 @@
 
 </footer>
 
-<!-- <![endif]-->
-
-<!--[if IE]>
 <script type="text/javascript">
     window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>" + "<" + "/script>");
 </script>
-<![endif]-->
-<!-- Scripts -->
-<script>
-    var PUBLIC_URL = '{{ cAsset('/') . '/' }}';
-    var BASE_URL = PUBLIC_URL;
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        }
-    });
 
-</script>
 <script>
     var myAlarm = document.getElementById("alarm-sound");
 </script>
+<script src="{{ asset('js/__common.js') }}"></script>
 <script src="{{ asset('/assets/js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('/assets/js/jquery.inputlimiter.min.js') }}"></script>
 <script src="{{ asset('/assets/js/jquery.maskedinput.min.js') }}"></script>

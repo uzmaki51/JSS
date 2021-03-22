@@ -146,7 +146,7 @@
             </tr>
             <tr>
                 <td class="no-padding custom-td-label1">
-                    <label class="form-control-label" for="isNewShip">
+                    <label class="form-control-label custom-label" for="isNewShip">
                         NewShip
                     </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="checkbox" id="isNewShip" name="new_ship" class="v-middle" {{ isset($freeBoard['new_ship']) && $freeBoard['new_ship'] == 1 ? 'checked' : '' }}>
@@ -192,7 +192,7 @@
             <tr>
                 <td colspan="3" style="text-align: left!important; border: unset!important;">
                     <input type="checkbox" id="isTimber" name="timber" class="v-middle" {{ isset($freeBoard['timber']) && $freeBoard['timber'] == 1 ? 'checked' : '' }}>
-                    <label class="form-control-label" for="isTimber">
+                    <label class="form-control-label custom-label" for="isTimber">
                         <span class="text-pink" style="font-weight: bold;">Timber</span>
                     </label>
                 </td>

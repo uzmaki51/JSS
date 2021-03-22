@@ -1,36 +1,12 @@
 @extends('layout.sidebar')
-<style>
-    .table tbody > tr > td {
-        font-size: 12px!important;
-    }
-    .table tbody > tr > td {
-        padding: 4px!important;
-    }
-    .table tbody > tr > .custom-td-report-text, .table tbody > tr > .custom-td-dec-text {
-        padding: 0!important;
-    }
-    .table .custom-td-label1 {
-        width: 40%;
-    }
 
-    .form-control {
-        padding: 4px!important;
-        border-radius: 0!important;
-        border: unset!important;
-        font-size: 12px!important;
-    }
-    .chosen-single {
-        padding: 4px!important;
-        border-radius: 0!important;
-        border: unset!important;
-        font-size: 12px!important;
-    }
-    .input-group-addon {
-        font-size: 12px!important;
-        padding: 0 4px!important;
-        border: unset!important;
-    }
-</style>
+@section('styles')
+    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+@endsection
+
+@section('scripts')
+    <script src="{{ cAsset('assets/js/jquery.dataTables.min.js') }}"></script>
+@endsection
 @section('content')
 <div class="main-content">
     <div class="page-content">
@@ -91,7 +67,7 @@
             <div class="row">
                 <div class="space-4"></div>
                 <div class="table-responsive" id="decidemanage_list_table">
-                    <table id="decide_info_table" class="table table-striped table-bordered table-hover">
+                    <table id="decide_info_table" class="table table-bordered">
                         <thead>
                         <tr class="black br-hblue">
                             <th>{{ trans('decideManage.table.no') }}</th>

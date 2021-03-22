@@ -66,7 +66,6 @@ Route::group(['prefix' => 'decision'], function()
 	Route::get('updateSuspendReport', ['uses'=>'Decision\DecisionController@updateSuspendReport']);
 	Route::get('Reportview', ['uses'=>'Decision\DecisionController@Reportview']);
 	Route::post('reportViewList', ['uses'=>'Decision\DecisionController@getReportViewlist']);
-	Route::post('Reportsave', ['uses'=>'Decision\DecisionController@saveReport']);
 	Route::post('ReportDelete', ['uses'=>'Decision\DecisionController@deleteReport']);
 
 	Route::get('flowmanage', ['uses'=>'Decision\DecisionController@flowmanage']);
@@ -77,6 +76,7 @@ Route::group(['prefix' => 'decision'], function()
 
 	Route::get('decidemanage', ['uses'=>'Decision\DecisionController@decidemanage']);
 	Route::post('decideReportList', ['uses'=>'Decision\DecisionController@getDecideReportlist']);
+	Route::post('report/submit', ['uses'=>'Decision\DecisionController@reportSubmit']);
 	Route::get('validate', ['uses'=>'Decision\DecisionController@validateReport']);
 	Route::get('decideShow', ['uses'=>'Decision\DecisionController@showDecidingReport']);
 	Route::post('submitDecideState', ['uses'=>'Decision\DecisionController@submitDecideState']);
@@ -90,6 +90,17 @@ Route::group(['prefix' => 'decision'], function()
 
 	// Ajax
 	Route::post('getACList', ['uses'=>'Decision\DecisionController@getACList']);
+});
+
+// Ajax
+Route::group(['prefix'  => 'ajax'], function() {
+	Route::post('decide/receive',   ['uses'=>'Decision\DecisionController@ajaxGetReceive']);
+	Route::post('report/decide',    ['uses'=>'Decision\DecisionController@ajaxReportDecide']);
+	Route::post('report/detail',    ['uses'=>'Decision\DecisionController@ajaxReportDetail']);
+	Route::post('report/getData',    ['uses'=>'Decision\DecisionController@ajaxReportData']);
+
+	Route::post('ship/voyList',    ['uses'=>'Decision\DecisionController@ajaxGetVoyList']);
+	Route::post('profit/list',    ['uses'=>'Decision\DecisionController@ajaxProfitList']);
 });
 
 // Administrative Affairs
