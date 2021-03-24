@@ -8,6 +8,7 @@
     <meta name="description" content="overview &amp; stats"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+    <link rel="stylesheet" href="{{ asset('/assets/css/theme.css') }}"/>
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/css/bootstrap-overrides.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ asset('/assets/css/font-awesome.min.css') }}"/>
@@ -26,7 +27,6 @@
     <link href="{{ asset('/assets/css/colorpicker.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery-ui-1.10.3.full.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('/assets/css/theme.css') }}"/>
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/common.css') }}" rel="stylesheet">
     @yield('styles')

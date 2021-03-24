@@ -1,7 +1,7 @@
 @extends('layout.sidebar')
 <?php
-    $isHolder = Session::get('IS_HOLDER');
-    $shipList = Session::get('shipList');
+$isHolder = Session::get('IS_HOLDER');
+$shipList = Session::get('shipList');
 ?>
 
 @section('styles')
@@ -37,67 +37,68 @@
             <div class="col-md-12">
                 <div id="item-manage-dialog" class="hide"></div>
                 <div class="row">
-                    <table class="table table-bordered ship-list">
-                        <thead>
-                        <tr>
-                            <th class="text-center" style="width: 2%;"><span>No</span></th>
-                            <th class="text-center" style="width: 10%;"><span>ShipName</span></th>
-                            <th class="text-center" style="width: 8%;"><span>IMO NO</span></th>
-                            <th class="text-center" style="width: 7%;"><span>Flag</span></th>
-                            <th class="text-center" style="width: 8%;"><span>Port of Registry</span></th>
-                            <th class="text-center" style="width: 7%;"><span>Class</span></th>
-                            <th class="text-center" style="width: 6%;"><span>GT</span></th>
-                            <th class="text-center" style="width: 6%;"><span>NT</span></th>
-                            <th class="text-center" style="width: 6%;"><span>DWT</span></th>
-                            <th class="text-center" style="width: 9%;"><span>ShipType</span></th>
-                            <th class="text-center" style="width: 7%;"><span>LOA</span></th>
-                            <th class="text-center" style="width: 8%;"><span>MB</span></th>
-                            <th class="text-center" style="width: 7%;"><span>DM</span></th>
-                            <th class="text-center" style="width: 7%;"><span>Draught</span></th>
-                            <th style="width: 2%;"></th>
-
-                        </tr>
-                        </thead>
-                        <tbody style="max-height: 66px; overflow-y: scroll; display: block; width: 100%;">
-						<?php $index = 1; ?>
-                        @if(isset($list) && count($list) > 0)
-                            @foreach ($list as $item)
-                                @if(!$isHolder || ($isHolder == true && in_array($item['id'], $shipList)))
-                                    <tr class="ship-item {{ $item['id'] == $shipInfo['id'] ? 'selected' : '' }}" data-index="{{ $item['id'] }}">
-                                        <td class="text-center" style="width: 2%;">{{ $index }}</td>
-                                        <td class="text-center" style="width: 10%;">{{ $item['shipName_Cn'] }}</td>
-                                        <td class="text-center" style="width: 8%;">{{ $item['IMO_No'] }}</td>
-                                        <td class="text-center" style="width: 7%;">{{ $item['Flag'] }}</td>
-                                        <td class="text-center" style="width: 8%;">{{ $item['PortOfRegistry'] }}</td>
-                                        <td class="text-center" style="width: 7%;">{{ $item['Class'] }}</td>
-                                        <td class="text-center" style="width: 6%;">{{ $item['GrossTon'] }}</td>
-                                        <td class="text-center" style="width: 6%;">{{ $item['NetTon'] }}</td>
-                                        <td class="text-center" style="width: 6%;">{{ $item['Deadweight'] }}</td>
-                                        <td class="text-center" style="width: 9%;">{{ $item['ShipType'] }}</td>
-                                        <td class="text-center" style="width: 7%;">{{ $item['LOA'] }}</td>
-                                        <td class="text-center" style="width: 8%;">{{ $item['BM'] }}</td>
-                                        <td class="text-center" style="width: 7%;">{{ $item['DM'] }}</td>
-                                        <td class="text-center" style="width: 7%;">{{ $item['Draught'] }}</td>
-                                        <td class="text-center" style="width: 2%;">
-                                            <div class="action-buttons">
-                                                @if(!$isHolder)
-                                                    <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">
-                                                        <i class="icon-trash"></i>
-                                                    </a>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endif
-								<?php $index ++; ?>
-                            @endforeach
-                        @else
-                            <div>
-                                {{ trans('common.message.no_data') }}
-                            </div>
-                        @endif
-                        </tbody>
-                    </table>
+                    <div class="head-fix-div">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="text-center" style="width: 2%;"><span>No</span></th>
+                                <th class="text-center" style="width: 10%;"><span>ShipName</span></th>
+                                <th class="text-center" style="width: 8%;"><span>IMO NO</span></th>
+                                <th class="text-center" style="width: 7%;"><span>Flag</span></th>
+                                <th class="text-center" style="width: 8%;"><span>Port of Registry</span></th>
+                                <th class="text-center" style="width: 7%;"><span>Class</span></th>
+                                <th class="text-center" style="width: 6%;"><span>GT</span></th>
+                                <th class="text-center" style="width: 6%;"><span>NT</span></th>
+                                <th class="text-center" style="width: 6%;"><span>DWT</span></th>
+                                <th class="text-center" style="width: 9%;"><span>ShipType</span></th>
+                                <th class="text-center" style="width: 7%;"><span>LOA</span></th>
+                                <th class="text-center" style="width: 8%;"><span>MB</span></th>
+                                <th class="text-center" style="width: 7%;"><span>DM</span></th>
+                                <th class="text-center" style="width: 7%;"><span>Draught</span></th>
+                                <th style="width: 2%;"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+							<?php $index = 1; ?>
+                            @if(isset($list) && count($list) > 0)
+                                @foreach ($list as $item)
+                                    @if(!$isHolder || ($isHolder == true && in_array($item['id'], $shipList)))
+                                        <tr class="ship-item {{ $item['id'] == $shipInfo['id'] ? 'selected' : '' }}" data-index="{{ $item['id'] }}">
+                                            <td class="text-center" style="width: 2%;">{{ $index }}</td>
+                                            <td class="text-center" style="width: 10%;">{{ $item['shipName_Cn'] }}</td>
+                                            <td class="text-center" style="width: 8%;">{{ $item['IMO_No'] }}</td>
+                                            <td class="text-center" style="width: 7%;">{{ $item['Flag'] }}</td>
+                                            <td class="text-center" style="width: 8%;">{{ $item['PortOfRegistry'] }}</td>
+                                            <td class="text-center" style="width: 7%;">{{ $item['Class'] }}</td>
+                                            <td class="text-center" style="width: 6%;">{{ $item['GrossTon'] }}</td>
+                                            <td class="text-center" style="width: 6%;">{{ $item['NetTon'] }}</td>
+                                            <td class="text-center" style="width: 6%;">{{ $item['Deadweight'] }}</td>
+                                            <td class="text-center" style="width: 9%;">{{ $item['ShipType'] }}</td>
+                                            <td class="text-center" style="width: 7%;">{{ $item['LOA'] }}</td>
+                                            <td class="text-center" style="width: 8%;">{{ $item['BM'] }}</td>
+                                            <td class="text-center" style="width: 7%;">{{ $item['DM'] }}</td>
+                                            <td class="text-center" style="width: 7%;">{{ $item['Draught'] }}</td>
+                                            <td class="text-center" style="width: 2%;">
+                                                <div class="action-buttons">
+                                                    @if(!$isHolder)
+                                                        <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">
+                                                            <i class="icon-trash"></i>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
+									<?php $index ++; ?>
+                                @endforeach
+                            @else
+                                <div>
+                                    {{ trans('common.message.no_data') }}
+                                </div>
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="row">
