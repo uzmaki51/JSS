@@ -174,6 +174,7 @@ class ShipMemberController extends Controller
         $ksList = Ship::all();
         $typeList = ShipType::all();
         $capacityList = ShipMemberCapacity::all();
+        $list = $this->getMemberGeneralInfo();
 
         $state = Session::get('state');
 
@@ -231,14 +232,14 @@ class ShipMemberController extends Controller
                     'examId'    =>      $examId,
                     'subList'   =>      $subList,
                     'codeList'  =>      $codeList,
-
+                    'list'      =>      $list,
                     'state'     =>      $state,
                 ]);
         }
         //return view('shipMember.register_member', ['shipList'=>$shipList, 'posList'=>$posList, 'ksList'=>$ksList, 'typeList'=>$typeList, 'state'=>$state]);
         return view('shipMember.register_member',
                 //[   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'Surname' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => ''],
-                  [   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'Surname' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => ''],
+                  [   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'Surname' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => '', 'DateOffboard' => '', 'Nationality' => '', 'CertNo' => '', 'OtherContacts' => '', 'BankInformation' => '', 'PassportNo' => '', 'PassportIssuedDate' => '', 'PassportExpiryDate' => ''],
                     'shipList'  =>      $shipList,
                     'posList'   =>      $posList,
                     'ksList'    =>      $ksList,
@@ -262,6 +263,7 @@ class ShipMemberController extends Controller
                     'examId'    =>      null,
                     'subList'   =>      null,
                     'codeList'  =>      null,
+                    'list'      =>      $list,
 
                     'state'     =>      $state,
                 ]);
@@ -375,6 +377,11 @@ class ShipMemberController extends Controller
         $member['tel'] = $request->get('tel');
         $member['address'] = $request->get('address');
         $member['phone'] = $request->get('phone');
+        $member['Nationality'] = $request->get('Nationality');
+        $member['BankInformation'] = $request->get('BankInformation');
+        $member['OtherContacts'] = $request->get('OtherContacts');
+        $member['PassportNo'] = $request->get('PassportNo');
+        $member['CertNo'] = $request->get('CertNo');
         $regDate = $request->get('RegDate');
         if(empty($regDate))
             $regDate = date('Y-m-d');
@@ -422,6 +429,9 @@ class ShipMemberController extends Controller
         if ($request->has('DateOnboard')) {
             $member['DateOnboard'] = $request->get('DateOnboard');
         }
+        if ($request->has('DateOffboard')) {
+            $member['DateOffboard'] = $request->get('DateOffboard');
+        }
         if ($request->has('ShipID_Book')) {
             $member['ShipID_Book'] = $request->get('ShipID_Book');
         }
@@ -429,15 +439,14 @@ class ShipMemberController extends Controller
         if ($request->has('DutyID_Book')) {
             $member['DutyID_Book'] = $request->get('DutyID_Book');
         }
-        $issuedDate = $request->get('IssuedDate');
-        if(empty($issuedDate))
-            $issuedDate = null;
-        $member['IssuedDate'] = $issuedDate;
 
-        $expiryDate = $request->get('ExpiryDate');
-        if(empty($expiryDate))
-            $expiryDate = null;
-        $member['ExpiryDate'] = $expiryDate;
+        if ($request->has('PassportIssuedDate')) {
+            $member['PassportIssuedDate'] = $request->get('PassportIssuedDate');
+        }
+
+        if ($request->has('PassportExpiryDate')) {
+            $member['PassportExpiryDate'] = $request->get('PassportExpiryDate');
+        }
 
         if($request->has('ShipID_organization')) {
             $member['ShipID_organization'] = $request->get('ShipID_organization');
@@ -457,8 +466,6 @@ class ShipMemberController extends Controller
             $member['ScanState'] = 1;
             $member['scanPath'] = $cardPath;
         }
-
-
         $member->save();
 
         ShipBoardCareer::where('memberId', $memberId)->delete();
@@ -655,47 +662,39 @@ class ShipMemberController extends Controller
         // 선원학력보관
         $school_goc = ShipMemberSchool::where('memberId', $memberId)->get();
         ShipMemberSchool::where('memberId', $memberId)->delete();
-        for($i=0;$i<20;$i++) {
-            $varname = 'school_'.$i;
-            $schoolId = $request->get($varname);
-            if(isset($schoolId)){
-                $varName = '_'.$i;
-                $school = new ShipMemberSchool();
 
+        $FromDate = $request->get('FromDate');
+        $ToDate = $request->get('ToDate');
+        $SchoolName = $request->get('SchoolName');
+        $Major = $request->get('Major');
+        $Grade = $request->get('Grade');
+        $TechQualification = $request->get('TechQualification');
+        $SchoolRemarks = $request->get('School_Remarks');
+
+        foreach($FromDate as $index => $data) {
+
+            if ($FromDate[$index] == "" && $ToDate[$index] == "" && $SchoolName[$index] == "" && $Major[$index] == "" && $Grade[$index] == "" && $TechQualification[$index] == "" && $SchoolRemarks[$index] == "") {
+                continue;
+            }
+            else
+            {
+                $school = new ShipMemberSchool();
                 $school['memberId'] = $memberId;
-                $dateStr = $request->get('FromDate'.$varName);
-                if(empty($dateStr))
+                $dateStr = $FromDate[$index];
+                if($dateStr == "")
                     $dateStr = null;
                 $school['FromDate'] = $dateStr;
 
-                $dateStr = $request->get('ToDate'.$varName);
-                if(empty($dateStr))
+                $dateStr = $ToDate[$index];
+                if($dateStr == "")
                     $dateStr = null;
                 $school['ToDate'] = $dateStr;
 
-                $school['SchoolName'] = $request->get('SchoolName'.$varName);
-
-                if(is_null($school['FromDate']) && is_null($school['ToDate']) && empty($school['SchoolName']))
-                    continue;
-
-                $school['Major'] = $request->get('Major'.$varName);
-                $school['Grade'] = $request->get('Grade'.$varName);
-                $school['TechQualification'] = $request->get('TechQualification'.$varName);
-                $school['Remarks'] = $request->get('Remarks'.$varName);
-
-                $file = $request->file('school_goc_'.$i);
-                if (isset($file)) {
-                    $ext = $file->getClientOriginalExtension();
-                    $schoolPath = Util::makeUploadFileName().'.'.$ext;
-                    $file->move(public_path('uploads/school'), $schoolPath);
-                    $school['GOC'] = $schoolPath;
-                } else {
-                    $school_goc_item = isset($school_goc[$i]) ? $school_goc[$i]->GOC : '';
-                    if (!empty($school_goc_item)) {
-                        $school['GOC'] = $school_goc_item;
-                    }
-                }
-
+                $school['SchoolName'] = $SchoolName[$index];
+                $school['Major'] = $Major[$index];
+                $school['Grade'] = $Grade[$index];
+                $school['TechQualification'] = $TechQualification[$index];
+                $school['Remarks'] = $SchoolRemarks[$index];
                 $school->save();
             }
         }
@@ -1073,5 +1072,15 @@ class ShipMemberController extends Controller
         }
         return view('shipMember.member_examing_total', ['memberList'=>$members, 'shipList'=>$shipList, 'examingList'=>$examCodes, 'shipId'=>$shipId, 'examCodes'=>$tExamCodes,
             'paramExamCode' => $paramExamCode]);
+    }
+
+    
+    public function getMemberGeneralInfo() {
+        $member_infolist = ShipMember::select('id', 'crewNum', 'realname', 'Sex', 'birthday', 'Nationality', 'RegStatus')
+            ->orderBy('id', 'desc')
+            ->take(10)
+            ->get();
+
+        return $member_infolist;
     }
 }

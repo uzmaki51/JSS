@@ -1,10 +1,77 @@
 @extends('layout.sidebar')
+<?php
+$isHolder = Session::get('IS_HOLDER');
+?>
 
-
+@section('styles')
+    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+@endsection
 @section('content')
 
     <div class="main-content">
         <style>
+            .table {
+                margin-bottom: 2px!important;
+            }
+            .custom-td-report-text {
+                width: 25%;
+            }
+            .member-list thead tr th {
+                height: 20px!important;
+                padding: 4px 0!important;
+                font-weight: normal;
+                background: #c9dfff;
+                color: black;
+                font-size: 12px!important;
+                font-style: italic;
+                border-left: 1px solid #cccccc!important;
+            }
+            .member-list tr {
+                border: unset!important;
+                display: table; /* display purpose; th's border */
+                width: 100%;
+                box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
+            }
+            .member-list tr td {
+                border-bottom: 1px solid #cccccc!important;
+                border-left: 1px solid #cccccc!important;
+                border-bottom: none!important;
+                border-left: none!important;
+                padding: 4px 0!important;
+            }
+            .member-list tbody::-webkit-scrollbar {
+                display: none;
+            }
+            .member-list tbody {
+                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: none;  /* Firefox */
+            }
+            .selected td {
+                background: #b0f5eb;
+            }
+
+            .member-register a {
+                padding: 4px!important;
+            }
+
+            .alert {
+                padding: 4px!important;
+                margin-bottom: 0;
+                margin-left: 15vw;
+                transition: 0.3s ease-in-out;
+            }
+            .visuallyhidden {
+                position: absolute;
+                overflow: hidden;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                width: 1px;
+                margin: -1px;
+                padding: 0;
+                border: 1px solid transparent;
+
+            }
+
             .ace-file-multiple .file-label .file-name [class*="icon-"]{
                 position: inherit;
                 display:block;
@@ -47,126 +114,203 @@
                 font-size: 15px !important;
                 line-height: 0px !important;
             }
-             .chosen-drop{
+            .chosen-drop{
                  width: 350px !important;
              }
+
+            .small-title {
+                text-align: right!important;
+                padding: 0 4px 0 0!important;
+                font-weight: normal;
+                border: unset!important;
+            }
+
+            .table tbody > tr > .custom-td-label1 {
+                padding: 2px!important;
+                border: unset!important;
+                width: 120px!important;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: block;
+            }
+            
+            .table tbody > tr > .custom-td-label1:after {
+                content: '........................................................................................................';
+                overflow: hidden;
+                width: 120px;
+            }
         </style>
         <div class="page-content">
-            <div class="page-header">
-                <div class="col-md-6">
-                    <h4>
-                        <b>Crew Register</b>
-                    </h4>
-                </div>
-                <div class="col-sm-6">
-                    <h5 style="float: right; color: #1565C0;"><a href="javascript: history.back()"><strong>上一个页</strong></a></h5>
-                </div>
-            </div>
             <form action="updateMemberInfo" role="form" method="POST" enctype="multipart/form-data">
-                <div class="col-md-12">
+                <div class="page-header">
+                    <div class="col-sm-3">
+                        <h4><b>Crew Register</b>
+                        </h4>
+                    </div>
+                    <div class="col-sm-5"></div>
+                    <div class="col-sm-4">
+                        @if(!$isHolder)
+                            <div class="btn-group f-right">
+                                <a href="/shipManage/registerShipData" class="btn btn-sm btn-primary btn-add" style="width: 80px">
+                                    <i class="icon-plus"></i>{{ trans('common.label.add') }}
+                                </a>
+                                <button type="submit" id="btnRegister" class="btn btn-sm btn-info" style="width: 80px">
+                                    <i class="icon-save"></i>{{ trans('common.label.save') }}
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="col-md-12"  style="width:100%">
+                    <div id="item-manage-dialog" class="hide"></div>
+                    <div class="row">
+                        <table class="table table-bordered member-list">
+                            <thead>
+                            <tr>
+                                <th class="text-center" style="width: 2%;"><span>No</span></th>
+                                <th class="text-center" style="width: 10%;"><span>SeamanbookNo</span></th>
+                                <th class="text-center" style="width: 10%;"><span>Name in chinese</span></th>
+                                <th class="text-center" style="width: 8%;"><span>Sex</span></th>
+                                <th class="text-center" style="width: 8%;"><span>Birthday</span></th>
+                                <th class="text-center" style="width: 7%;"><span>Nationality</span></th>
+                                <th class="text-center" style="width: 8%;"><span>RegStatus</span></th>
+                                <th style="width: 2%;"></th>
+                            </tr>
+                            </thead>
+                            <tbody style="max-height: 66px; overflow-y: scroll; display: block; width: 100%;">
+                            <?php $index = 1; ?>
+                            @if(isset($list) && count($list) > 0)
+                                @foreach ($list as $item)
+                                    <tr>
+                                        <td class="text-center" style="width: 2%;">{{ $item['id'] }}</td>
+                                        <td class="text-center" style="width: 10%;">{{ $item['crewNum'] }}</td>
+                                        <td class="text-center" style="width: 10%;">{{ $item['readlname'] }}</td>
+                                        <td class="text-center" style="width: 10%;">{{ $item['Sex'] }}</td>
+                                        <td class="text-center" style="width: 8%;">{{ $item['birthday'] }}</td>
+                                        <td class="text-center" style="width: 7%;">{{ $item['Nationality'] }}</td>
+                                        <td class="text-center" style="width: 8%;">{{ $item['RegStatus'] }}</td>
+                                        <td class="text-center" style="width: 2%;">
+                                            <div class="action-buttons">
+                                                @if(!$isHolder)
+                                                    <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">
+                                                        <i class="icon-trash"></i>
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php $index ++; ?>
+                                @endforeach
+                            @else
+                                <div>
+                                    {{ trans('common.message.no_data') }}
+                                </div>
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="row">
                         <div style="text-align: right">
                             @if(isset($info))
                                 <input class="hidden" name="memberId" value="{{$info['id']}}">
                             @endif
                             <input class="hidden" name="_token" value="{{csrf_token()}}">
-                            <button class="btn btn-inverse btn-sm" type="submit" style="width: 80px">
-                                <i class="icon-save"></i>{{transShipMember('captions.register')}}
-                            </button>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="space-4"></div>
+
+                    <!--div class="row">
                         <div class="col-md-10 no-padding">
                             <table class="table table-bordered table-striped">
-                            <tbody>
-                                <tr style="height: 35px">
-                                    <td class="center" style="width:10%">{{transShipMember("registerShipMember.Passport No")}}</td>
-                                    <td style="width: 15%;">
-                                        <input type="text" name="crewNum" class="form-control" value="@if(isset($info)){{$info['crewNum']}}@endif" required>
-                                    </td>
-                                    <td class="center" style="width:10%">{{transShipMember("registerShipMember.Name")}}</td>
-                                    <td style="width:15%">
-                                        <input type="text" name="realname" class="form-control" value="@if(isset($info)){{$info['realname']}}@endif">
-                                    </td>
-                                    <td class="center" style="width:10%">{{transShipMember("registerShipMember.Surname")}}</td>
-                                    <td style="width:15%">
-                                        <input type="text" name="Surname" class="form-control" value="@if(isset($info)){{$info['Surname']}}@endif">
-                                    </td>
-                                    <td class="center" style="width:10%">{{transShipMember("registerShipMember.Given Name")}}</td>
-                                    <td style="width:15%">
-                                        <input type="text" name="GivenName" class="form-control" value="@if(isset($info)){{$info['GivenName']}}@endif">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="center">{{transShipMember("registerShipMember.Sex")}}</td>
-                                    <td style="width:70px">
-                                        <select name="Sex" class="form-control chosen-select">
-                                            <option value="0" @if(isset($info) && ($info['Sex'] == 0)) selected @endif>{{transShipMember('captions.male')}}</option>
-                                            <option value="1" @if(isset($info) && ($info['Sex'] == 1)) selected @endif>{{transShipMember('captions.female')}}</option>
-                                        </select>
-                                    </td>
-                                    <td class="center">{{transShipMember("registerShipMember.Birthday")}}</td>
-                                    <td style="width:150px">
-                                        <div class="input-group" style="width:100%">
-                                            <input class="form-control date-picker" name="birthday" type="text" data-date-format="yyyy/mm/dd"
-                                                   value="@if(isset($info)){{$info['birthday']}}@endif">
-                                            <span class="input-group-addon">
-                                                <i class="icon-calendar bigger-110"></i>
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td class="center">{{transShipMember("registerShipMember.Birthplace")}}</td>
-                                    <td colspan="3">
-                                        <input type="text" name="BirthPlace" class="form-control" value="@if(isset($info)){{$info['BirthPlace']}}@endif">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="center">{{transShipMember("registerShipMember.Address")}}</td>
-                                    <td colspan="3">
-                                        <input type="text" name="address" class="form-control" value="@if(isset($info)){{$info['address']}}@endif">
-                                    </td>
-                                    <td class="center">{{transShipMember("registerShipMember.HomePhone")}}</td>
-                                    <td>
-                                        <input type="text" name="tel" class="form-control" value="@if(isset($info)){{$info['tel']}}@endif">
-                                    </td>
-                                    <td class="center">{{transShipMember("registerShipMember.MobilePhone")}}</td>
-                                    <td>
-                                        <input type="text" name="phone" class="form-control" value="@if(isset($info)){{$info['phone']}}@endif">
-                                    </td>
-                                </tr>
-                                <tr style="height: 35px">
-                                    <td class="center">{{transShipMember("registerShipMember.Reg Date")}}</td>
-                                    <td>
-                                        <div class="input-group" style="width:100%">
-                                            <input class="form-control date-picker" name="RegDate" type="text" data-date-format="yyyy/mm/dd"
-                                                   value="@if(isset($info)){{$info['RegDate']}}@endif">
-                                            <span class="input-group-addon">
-                                                <i class="icon-calendar bigger-110"></i>
-                                            </span>
-                                        </div>
-
-                                    </td>
-                                    <td class="center">{{transShipMember("registerShipMember.Dismissal date")}}</td>
-                                    <td>
-                                        <div class="input-group" style="width:100%">
-                                            <input class="form-control date-picker" name="DelDate" type="text" data-date-format="yyyy/mm/dd"
-                                                   value="@if(isset($info)){{$info['DelDate']}}@endif">
+                                <tbody>
+                                    <tr style="height: 35px">
+                                        <td class="center" style="width:10%">{{transShipMember("registerShipMember.Passport No")}}</td>
+                                        <td style="width: 15%;">
+                                            <input type="text" name="crewNum" class="form-control" value="@if(isset($info)){{$info['crewNum']}}@endif" required>
+                                        </td>
+                                        <td class="center" style="width:10%">{{transShipMember("registerShipMember.Name")}}</td>
+                                        <td style="width:15%">
+                                            <input type="text" name="realname" class="form-control" value="@if(isset($info)){{$info['realname']}}@endif">
+                                        </td>
+                                        <td class="center" style="width:10%">{{transShipMember("registerShipMember.Surname")}}</td>
+                                        <td style="width:15%">
+                                            <input type="text" name="Surname" class="form-control" value="@if(isset($info)){{$info['Surname']}}@endif">
+                                        </td>
+                                        <td class="center" style="width:10%">{{transShipMember("registerShipMember.Given Name")}}</td>
+                                        <td style="width:15%">
+                                            <input type="text" name="GivenName" class="form-control" value="@if(isset($info)){{$info['GivenName']}}@endif">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">{{transShipMember("registerShipMember.Sex")}}</td>
+                                        <td style="width:70px">
+                                            <select name="Sex" class="form-control chosen-select">
+                                                <option value="0" @if(isset($info) && ($info['Sex'] == 0)) selected @endif>{{transShipMember('captions.male')}}</option>
+                                                <option value="1" @if(isset($info) && ($info['Sex'] == 1)) selected @endif>{{transShipMember('captions.female')}}</option>
+                                            </select>
+                                        </td>
+                                        <td class="center">{{transShipMember("registerShipMember.Birthday")}}</td>
+                                        <td style="width:150px">
+                                            <div class="input-group" style="width:100%">
+                                                <input class="form-control date-picker" name="birthday" type="text" data-date-format="yyyy/mm/dd"
+                                                    value="@if(isset($info)){{$info['birthday']}}@endif">
                                                 <span class="input-group-addon">
                                                     <i class="icon-calendar bigger-110"></i>
                                                 </span>
-                                        </div>
-                                    </td>
-                                    <td class="center">{{transShipMember("registerShipMember.Reg State")}}</td>
-                                    <td>
-                                        <select name="RegStatus" class="form-control chosen-select">
-                                            <option value="1" @if(isset($info) && ($info['RegStatus'] == 1)) selected @endif>{{transShipMember('captions.register')}}</option>
-                                            <option value="0" @if(isset($info) && ($info['RegStatus'] == 0)) selected @endif>{{transShipMember('captions.dismiss')}}</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                            </div>
+                                        </td>
+                                        <td class="center">{{transShipMember("registerShipMember.Birthplace")}}</td>
+                                        <td colspan="3">
+                                            <input type="text" name="BirthPlace" class="form-control" value="@if(isset($info)){{$info['BirthPlace']}}@endif">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">{{transShipMember("registerShipMember.Address")}}</td>
+                                        <td colspan="3">
+                                            <input type="text" name="address" class="form-control" value="@if(isset($info)){{$info['address']}}@endif">
+                                        </td>
+                                        <td class="center">{{transShipMember("registerShipMember.HomePhone")}}</td>
+                                        <td>
+                                            <input type="text" name="tel" class="form-control" value="@if(isset($info)){{$info['tel']}}@endif">
+                                        </td>
+                                        <td class="center">{{transShipMember("registerShipMember.MobilePhone")}}</td>
+                                        <td>
+                                            <input type="text" name="phone" class="form-control" value="@if(isset($info)){{$info['phone']}}@endif">
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 35px">
+                                        <td class="center">{{transShipMember("registerShipMember.Reg Date")}}</td>
+                                        <td>
+                                            <div class="input-group" style="width:100%">
+                                                <input class="form-control date-picker" name="RegDate" type="text" data-date-format="yyyy/mm/dd"
+                                                    value="@if(isset($info)){{$info['RegDate']}}@endif">
+                                                <span class="input-group-addon">
+                                                    <i class="icon-calendar bigger-110"></i>
+                                                </span>
+                                            </div>
+
+                                        </td>
+                                        <td class="center">{{transShipMember("registerShipMember.Dismissal date")}}</td>
+                                        <td>
+                                            <div class="input-group" style="width:100%">
+                                                <input class="form-control date-picker" name="DelDate" type="text" data-date-format="yyyy/mm/dd"
+                                                    value="@if(isset($info)){{$info['DelDate']}}@endif">
+                                                    <span class="input-group-addon">
+                                                        <i class="icon-calendar bigger-110"></i>
+                                                    </span>
+                                            </div>
+                                        </td>
+                                        <td class="center">{{transShipMember("registerShipMember.Reg State")}}</td>
+                                        <td>
+                                            <select name="RegStatus" class="form-control chosen-select">
+                                                <option value="1" @if(isset($info) && ($info['RegStatus'] == 1)) selected @endif>{{transShipMember('captions.register')}}</option>
+                                                <option value="0" @if(isset($info) && ($info['RegStatus'] == 0)) selected @endif>{{transShipMember('captions.dismiss')}}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="col-md-2" style="border:1px solid #ddd;height:200px;padding:0;float:right;width:16%">
                             <span class="profile-picture">
@@ -178,26 +322,30 @@
                                      src="@if(isset($info) && !empty($info['signPhoto'])) /uploads/signPhoto/{{$info['signPhoto']}} @endif" alt="수표그림">
                             </span>
                         </div>
-                    </div>
+                    </div-->
                 </div>
-            
                 <div class="col-md-12">
                     <div class="row">
                         <div class="tabbable">
-                            <ul class="nav nav-tabs" id="memberTab">
+                            <ul class="nav nav-tabs ship-register" id="memberTab">
                                 <li class="active">
+                                    <a data-toggle="tab" href="#general_data">
+                                        General
+                                    </a>
+                                </li>
+                                <li>
                                     <a data-toggle="tab" href="#main_data">
-                                        {{transShipMember("title.Register Data")}}
+                                        Boarding Profile
                                     </a>
                                 </li>
                                 <li>
                                     <a data-toggle="tab" href="#capacity_data">
-                                        {{transShipMember("title.Capacity Data")}}
+                                        Capacity & SchoolingCareer
                                     </a>
                                 </li>
                                 <li>
                                     <a data-toggle="tab" href="#training_data">
-                                        {{transShipMember("title.Train Register")}}
+                                        Training
                                     </a>
                                 </li>
                                 <li>
@@ -208,7 +356,10 @@
                             </ul>
                         </div>
                         <div class="tab-content">
-                            <div id="main_data" class="tab-pane active">
+                            <div id="general_data" class="tab-pane active">
+                                @include('shipMember.member_general_tab', with(['info'=>$info, 'shipList'=>$shipList]))
+                            </div>
+                            <div id="main_data" class="tab-pane">
                                 @include('shipMember.member_main_tab', with(['info'=>$info, 'shipList'=>$shipList, 'pos'=>$posList, 'ksList'=>$ksList, 'historyList'=>$historyList, 'typeList'=>$typeList]))
                             </div>
                             <div id="capacity_data" class="tab-pane">

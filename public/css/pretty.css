@@ -5,7 +5,7 @@
 .table tbody > tr > .custom-td-label1 {
     padding: 2px!important;
     border: unset!important;
-    width: 150px!important;
+    width: 120px!important;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -29,7 +29,7 @@
 .table tbody > tr > .custom-td-label1:after {
     content: '........................................................................................................';
     overflow: hidden;
-    width: 165px;
+    width: 120px;
 }
 .table .keel-date {
     width: 40% !important;
@@ -175,4 +175,8 @@
 }
 .report-status {
     cursor: pointer;
+}
+
+.td-header {
+    font-style: italic;
 }

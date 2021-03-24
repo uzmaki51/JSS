@@ -1,8 +1,146 @@
 <div class="space-4"></div>
 <div class="row">
     <div class="col-md-12">
+        <div class="col-md-4">
+            <div class="table-responsive">
+                <table class="table table-bordered general" style="font-weight: bold">
+                    <tbody>
+                    <tr>
+                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                            Ship(SeamanBook)
+                        </td>
+                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                            <select name="ShipId" class="form-control">
+                                <option value="">&nbsp;</option>
+                                @foreach($shipList as $ship)
+                                    <option value="{{$ship['RegNo']}}" @if($info['ShipId'] == $ship['RegNo'])) selected @endif>{{$ship['shipName_Cn']}}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                            Rank(Seamanbook)
+                        </td>
+                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                            <select name="DutyID_Book" class="form-control">
+                                <option value="">&nbsp;</option>
+                                @foreach($posList as $pos)
+                                    <option value="{{$pos['id']}}" @if($info['DutyID_Book'] == $pos['id'])) selected @endif>{{$pos['Duty']}}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                            Passport No
+                        </td>
+                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                            <input type="text" name="PassportNo" class="form-control" style="width:100%" value="@if(isset($info)){{$info['PassportNo']}}@endif">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                            <span class="sub-title">Issued Date</span>
+                        </td>
+                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                            <div class="input-group">
+                                <input class="form-control date-picker"
+                                    name="PassportIssuedDate"
+                                    type="text" data-date-format="yyyy-mm-dd"
+                                    value="@if(isset($info)){{$info['PassportIssuedDate']}}@endif">
+                                <span class="input-group-addon">
+                                    <i class="icon-calendar "></i>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                            <span class="sub-title">Expiry Date</span>
+                        </td>
+                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                            <div class="input-group">
+                                <input class="form-control date-picker"
+                                    name="PassportExpiryDate"
+                                    type="text" data-date-format="yyyy-mm-dd"
+                                    value="@if(isset($info)){{$info['PassportExpiryDate']}}@endif">
+                                <span class="input-group-addon">
+                                    <i class="icon-calendar "></i>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="table-responsive">
+                <table class="table table-bordered general" style="font-weight: bold">
+                    <tbody>
+                    </tr>
+
+                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                            Sign On
+                        </td>
+                        <td class="custom-td-report-text" colspan="2">
+                            <select class="form-control" name="RegStatus">
+                                <option value="1" @if(isset($info) && ($info['RegStatus'] == 1)) selected @endif>{{transShipMember('captions.register')}}</option>
+                                <option value="0" @if(isset($info) && ($info['RegStatus'] == 0)) selected @endif>{{transShipMember('captions.dismiss')}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                            Date(Sign On)
+                        </td>
+                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                            <div class="input-group">
+                                <input class="form-control date-picker"
+                                    name="DateOnboard"
+                                    type="text" data-date-format="yyyy-mm-dd"
+                                    value="@if(isset($info)){{$info['DateOnboard']}}@endif">
+                                <span class="input-group-addon">
+                                            <i class="icon-calendar "></i>
+                                        </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                            Date(Sign Off)
+                        </td>
+                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                            <div class="input-group">
+                                <input class="form-control date-picker"
+                                    name="DateOffboard"
+                                    type="text" data-date-format="yyyy-mm-dd"
+                                    value="@if(isset($info)){{$info['DateOffboard']}}@endif">
+                                <span class="input-group-addon">
+                                            <i class="icon-calendar "></i>
+                                        </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
+                            Salary
+                        </td>
+                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                            <input type="text" name="shipName_Cn" class="form-control" style="width:100%" value="@if(isset($shipInfo['shipName_Cn'])){{$shipInfo['shipName_Cn']}}@endif">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--div class="col-md-12">
             <input class="hidden" name="_token" value="{{csrf_token()}}">
             <input class="hidden" name="memberId" value="{{$info['id']}}">
+
             <div class="row" style="margin-left: 10px;margin-right: 10px">
                 <table class="table table-bordered table-striped">
                     <tbody>
@@ -41,7 +179,7 @@
                                            value="{{$info['DateOnboard']}}">
                                             <span class="input-group-addon">
                                                 <i class="icon-calendar bigger-110"></i>
-                                            </span>
+                                            
                                 </div>
                             </td>
                         </tr>
@@ -71,7 +209,7 @@
                                            value="{{$info['IssuedDate']}}">
                                             <span class="input-group-addon">
                                                 <i class="icon-calendar bigger-110"></i>
-                                            </span>
+                                            
                                 </div>
                             </td>
                             <td class="center">{{transShipMember("RegisterData.Expiry Date")}}</td>
@@ -81,7 +219,7 @@
                                            value="{{$info['ExpiryDate']}}">
                                             <span class="input-group-addon">
                                                 <i class="icon-calendar bigger-110"></i>
-                                            </span>
+                                            
                                 </div>
                             </td>
                         </tr>
@@ -167,7 +305,7 @@
                                                value="{{$career['FromDate']}}">
                                                             <span class="input-group-addon">
                                                                 <i class="icon-calendar bigger-110"></i>
-                                                            </span>
+                                                            
                                     </div>
                                 </td>
                                 <td>
@@ -178,7 +316,7 @@
                                                value="{{$career['ToDate']}}">
                                                             <span class="input-group-addon">
                                                                 <i class="icon-calendar bigger-110"></i>
-                                                            </span>
+                                                            
                                     </div>
                                 </td>
                                 <td>
@@ -236,5 +374,5 @@
                     </button>
                 </div>
             </div>
-    </div>
+    </div-->
 </div>

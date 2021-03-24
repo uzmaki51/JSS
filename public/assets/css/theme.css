@@ -336,13 +336,13 @@ table {
     margin-left: 10px!important;
 }
 .btn-info {
-    background-color: #28c3d7 !important;
-    border-color: #28c3d7 !important;
+    background-color: #ff8c00 !important;
+    border-color: #ff8c00 !important;
 }
 .btn-info:hover {
-    border-color: #00B8CF !important;
+    border-color: #ff8c00 !important;
     color: #FFFFFF !important;
-    box-shadow: 0 8px 25px -8px #00cfe8;
+    box-shadow: 0 8px 25px -8px #f7c07d;
 }
 .btn-default {
     background-color: #B8C2CC !important;
@@ -375,13 +375,13 @@ table {
 }
 
 .btn-primary {
-    background-color: #5E50EE !important;
-    border-color: #5E50EE !important;
+    background-color: #5185ff !important;
+    border-color: #5185ff !important;
 }
 .btn-primary:hover {
-    border-color: #5E50EE !important;
+    border-color: #5185ff !important;
     color: #FFFFFF !important;
-    box-shadow: 0 8px 25px -8px #7367f0;
+    box-shadow: 0 8px 25px -8px #7fa5ff;
 }
 .btn-danger {
     background-color: #d9534f !important;
