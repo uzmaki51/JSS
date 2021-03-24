@@ -46,17 +46,17 @@
                             <thead>
                             <tr class="br-hblue">
                                 <th style="width: 4%;">{{ trans('decideManage.table.no') }}</th>
-                                <th style="width: 5%;">{{ trans('decideManage.table.type') }}</th>
+                                <th style="width: 4%;">{{ trans('decideManage.table.type') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.profit_type') }}</th>
                                 <th style="width: 30%;">{{ trans('decideManage.table.content') }}</th>
-                                <th style="width: 2%;">{{ trans('decideManage.table.currency') }}</th>
+                                <th style="width: 4%;">{{ trans('decideManage.table.currency') }}</th>
                                 <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
-                                <th style="width: 2%;">{{ trans('decideManage.table.attachment') }}</th>
-                                <th style="width: 2%;">{{ trans('decideManage.table.state') }}</th>
+                                <th style="width: 4%;">{{ trans('decideManage.table.attachment') }}</th>
+                                <th style="width: 4%;">{{ trans('decideManage.table.state') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -260,7 +260,7 @@
                         $('td', row).eq(10).html('').append();
                     }
                     $('td', row).eq(11).html('').append(
-                        '<a href="/decision/receivedReport?id=' + data['id'] + '"><i class="icon-edit"></i></a>'
+                        '<a href="/decision/redirect?id=' + data['id'] + '"><i class="icon-edit"></i></a>'
                     );
                 },
             });

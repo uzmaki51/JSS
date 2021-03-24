@@ -59,34 +59,12 @@ Route::group(['prefix' => 'org'], function() {
 Route::group(['prefix' => 'decision'], function()
 {
 	Route::get('/', ['uses'=>'Decision\DecisionController@index']);
-	Route::get('env', ['uses'=>'Decision\DecisionController@decisionEnv']);
-	Route::post('envRegister', ['uses'=>'Decision\DecisionController@envRegister']);
-
-	Route::get('Reportedit', ['uses'=>'Decision\DecisionController@Reportedit']);
-	Route::get('updateSuspendReport', ['uses'=>'Decision\DecisionController@updateSuspendReport']);
-	Route::get('Reportview', ['uses'=>'Decision\DecisionController@Reportview']);
-	Route::post('reportViewList', ['uses'=>'Decision\DecisionController@getReportViewlist']);
-	Route::post('ReportDelete', ['uses'=>'Decision\DecisionController@deleteReport']);
-
-	Route::get('flowmanage', ['uses'=>'Decision\DecisionController@flowmanage']);
-	Route::get('flowadd', ['uses'=>'Decision\DecisionController@addFlow']);
-	Route::get('flowsave', ['uses'=>'Decision\DecisionController@insertFlow']);
-	Route::post('flowsave', ['uses'=>'Decision\DecisionController@insertFlow']);
-	Route::post('flowDelelte', ['uses'=>'Decision\DecisionController@deleteFlow']);
-
-	Route::get('decidemanage', ['uses'=>'Decision\DecisionController@decidemanage']);
-	Route::post('decideReportList', ['uses'=>'Decision\DecisionController@getDecideReportlist']);
-	Route::post('report/submit', ['uses'=>'Decision\DecisionController@reportSubmit']);
-	Route::get('validate', ['uses'=>'Decision\DecisionController@validateReport']);
-	Route::get('decideShow', ['uses'=>'Decision\DecisionController@showDecidingReport']);
-	Route::post('submitDecideState', ['uses'=>'Decision\DecisionController@submitDecideState']);
 
 	Route::get('receivedReport', ['uses'=>'Decision\DecisionController@receivedReport']);
-	Route::get('decidestate', ['uses'=>'Decision\DecisionController@decidestate']);
 	Route::get('draftReport', ['uses'=>'Decision\DecisionController@draftReport']);
-	Route::post('getDecidersStamp', ['uses'=>'Decision\DecisionController@getDecidersStamp']);
-	Route::get('checkWillDecideDoc', ['uses'=>'Decision\DecisionController@checkWillDecideDoc']);
-	Route::get('checkRecvDecideDoc', ['uses'=>'Decision\DecisionController@checkRecvDecideDoc']);
+	Route::get('redirect', ['uses'=>'Decision\DecisionController@redirect']);
+
+	Route::post('report/submit', ['uses'=>'Decision\DecisionController@reportSubmit']);
 
 	// Ajax
 	Route::post('getACList', ['uses'=>'Decision\DecisionController@getACList']);
@@ -104,6 +82,7 @@ Route::group(['prefix'  => 'ajax'], function() {
 
 	Route::post('ship/voyList',    ['uses'=>'Decision\DecisionController@ajaxGetVoyList']);
 	Route::post('profit/list',    ['uses'=>'Decision\DecisionController@ajaxProfitList']);
+	Route::post('getDepartment',    ['uses'=>'Decision\DecisionController@ajaxGetDepartment']);
 });
 
 // Administrative Affairs

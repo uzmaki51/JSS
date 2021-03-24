@@ -191,11 +191,20 @@
     font-style: italic;
 }
 #report_div {
-    border-right: 1px solid #111;
-    border-top: 1px solid #111;
+    table-layout: fixed;
     color: black!important;
+}
+#report_div .no-border {
+    border: unset!important;
+    width: 300px;
 }
 #report_info_table thead th {
     color: black!important;
     width: 80%;
+}
+#report_div .custom-td-dec-text {
+    width: 200px;
+}
+#report_div .custom-modal-td-text1 {
+    width: 100px;
 }

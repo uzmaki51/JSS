@@ -31,7 +31,7 @@ $StatusData = array(
 define('REPORT_TYPE_EVIDENCE_IN',   'Credit');
 define('REPORT_TYPE_EVIDENCE_OUT',  'Debit');
 define('REPORT_TYPE_CONTRACT',      'Contract');
-define('REPORT_TYPE_OTHER',      'Other');
+define('REPORT_TYPE_OTHER',         'Other');
 $ReportTypeData = array(
 	REPORT_TYPE_EVIDENCE_IN         => '支出',
 	REPORT_TYPE_CONTRACT            => '合同',
@@ -98,7 +98,7 @@ $ReportTypeLabelData = array(
 	REPORT_EVIDENCE_IN      => ['支出',      'danger'],
 	REPORT_EVIDENCE_OUT     => ['收入',       'info'],
 	REPORT_CONTACT          => ['合同',    'primary'],
-	REPORT_OTHER          => ['其他',    'secondary'],
+	REPORT_OTHER            => ['其他',    'secondary'],
 );
 
 define('CNY_LABEL', 'CNY');

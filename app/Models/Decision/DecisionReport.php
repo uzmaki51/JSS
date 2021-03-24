@@ -82,7 +82,7 @@ class DecisionReport extends Model {
 		    	$shipName = ShipRegister::where('id', $item->shipNo)->first()->NickName;
 		    else
 		    	$shipName = '';
-		    if(ACItem::where('id', $item->profit_type))
+		    if(ACItem::where('id', $item->profit_type)->first())
 		        $profit = ACItem::where('id', $item->profit_type)->first()->AC_Item_Cn;
 		    else
 		    	$profit = '';

@@ -97,20 +97,30 @@ class DecisionController extends Controller
     public function receivedReport(Request $request) {
 	    Util::getMenuInfo($request);
 
+	    $shipList = ShipRegister::all();
 	    $params = $request->all();
 
 	    $id = -1;
 	    if(isset($params['id']))
 	    	$id = $params['id'];
 
-        return view('decision.received_report', ['draftId'  => $id]);
+        return view('decision.received_report', ['draftId'  => $id, 'shipList'  => $shipList]);
     }
 
     // Draft List
     public function draftReport(Request $request) {
     	Util::getMenuInfo($request);
+	    $shipList = ShipRegister::getShipListByOrigin();
 
-    	return view('decision.draft_report');
+    	return view('decision.draft_report', ['shipList'    => $shipList]);
+    }
+
+    public function redirect(Request $request) {
+    	$params = $request->all();
+
+    	$draftId = $params['id'];
+
+    	return redirect('decision/receivedReport?id=' . $draftId);
     }
 
     // New Definition by Uzmaki
@@ -127,20 +137,20 @@ class DecisionController extends Controller
     	$user = Auth::user();
 
     	$reportTbl['flowid'] = $params['flowid'];
-		$reportTbl['shipNo'] = $params['shipNo'];
-		$reportTbl['voyNo'] = $params['voyNo'];
+		$reportTbl['shipNo'] = isset($params['shipNo']) ? $params['shipNo'] : 0;
+		$reportTbl['voyNo'] = isset($params['voyNo']) ? $params['voyNo'] : 0;
 		if($params['flowid'] == REPORT_TYPE_CONTRACT) {
 			$reportTbl['profit_type'] = '';
 			$reportTbl['amount'] = '';
 			$reportTbl['currency'] = '';
 		} else {
-			$reportTbl['profit_type'] = $params['profit_type'];
-			$reportTbl['amount'] = $params['amount'];
-			$reportTbl['currency'] = $params['currency'];
+			$reportTbl['profit_type'] = isset($params['profit_type']) ? $params['profit_type'] : '';
+			$reportTbl['amount'] = isset($params['amount']) ? $params['amount'] : 0;
+			$reportTbl['currency'] = isset($params['currency']) ? $params['currency'] : CNY_LABEL;
 		}
 
 		$reportTbl['creator'] = $user->id;
-		$reportTbl['content'] = $params['content'];
+		$reportTbl['content'] = isset($params['content']) ? $params['content'] : '';
 		$reportTbl['state'] = $params['reportType'];
 		$reportTbl->save();
 
@@ -296,6 +306,12 @@ class DecisionController extends Controller
 		$retVal = Session::get('reportFiles');
 
 		$retVal[][] = array('请选择文件。', '请选择文件。');
+
+		return response()->json($retVal);
+	}
+
+	public function ajaxGetDepartment() {
+		$retVal = Unit::where('parentId', '!=', 0)->get();
 
 		return response()->json($retVal);
 	}
