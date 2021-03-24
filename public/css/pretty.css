@@ -69,6 +69,7 @@
 }
 .general tr >td:first-child {
     width: 20%;
+    background: unset!important;
 }
 .general {
     border: unset!important;
