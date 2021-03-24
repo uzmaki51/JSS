@@ -43,7 +43,7 @@
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
                             <span class="sub-title">Issued Date</span>
                         </td>
-                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                        <td class="custom-td-report-text">
                             <div class="input-group">
                                 <input class="form-control date-picker"
                                     name="PassportIssuedDate"
@@ -59,7 +59,7 @@
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
                             <span class="sub-title">Expiry Date</span>
                         </td>
-                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                        <td class="custom-td-report-text">
                             <div class="input-group">
                                 <input class="form-control date-picker"
                                     name="PassportExpiryDate"
@@ -95,7 +95,7 @@
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
                             Date(Sign On)
                         </td>
-                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                        <td class="custom-td-report-text">
                             <div class="input-group">
                                 <input class="form-control date-picker"
                                     name="DateOnboard"
@@ -111,7 +111,7 @@
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
                             Date(Sign Off)
                         </td>
-                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
+                        <td class="custom-td-report-text">
                             <div class="input-group">
                                 <input class="form-control date-picker"
                                     name="DateOffboard"

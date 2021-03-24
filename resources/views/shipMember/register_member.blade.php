@@ -10,121 +10,6 @@ $isHolder = Session::get('IS_HOLDER');
 
     <div class="main-content">
         <style>
-            .table {
-                margin-bottom: 2px!important;
-            }
-            .custom-td-report-text {
-                width: 25%;
-            }
-            .member-list thead tr th {
-                height: 20px!important;
-                padding: 4px 0!important;
-                font-weight: normal;
-                background: #c9dfff;
-                color: black;
-                font-size: 12px!important;
-                font-style: italic;
-                border-left: 1px solid #cccccc!important;
-            }
-            .member-list tr {
-                border: unset!important;
-                display: table; /* display purpose; th's border */
-                width: 100%;
-                box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
-            }
-            .member-list tr td {
-                border-bottom: 1px solid #cccccc!important;
-                border-left: 1px solid #cccccc!important;
-                border-bottom: none!important;
-                border-left: none!important;
-                padding: 4px 0!important;
-            }
-            .member-list tbody::-webkit-scrollbar {
-                display: none;
-            }
-            .member-list tbody {
-                -ms-overflow-style: none;  /* IE and Edge */
-                scrollbar-width: none;  /* Firefox */
-            }
-            .selected td {
-                background: #b0f5eb;
-            }
-
-            .member-register a {
-                padding: 4px!important;
-            }
-
-            .alert {
-                padding: 4px!important;
-                margin-bottom: 0;
-                margin-left: 15vw;
-                transition: 0.3s ease-in-out;
-            }
-            .visuallyhidden {
-                position: absolute;
-                overflow: hidden;
-                clip: rect(0 0 0 0);
-                height: 1px;
-                width: 1px;
-                margin: -1px;
-                padding: 0;
-                border: 1px solid transparent;
-
-            }
-
-            .ace-file-multiple .file-label .file-name [class*="icon-"]{
-                position: inherit;
-                display:block;
-                text-align:center;
-                height:auto;
-                line-height: 100px;
-                width:auto;
-                font-size: 64px;
-                color:#d5d5d5;
-                margin:4px 0;
-                background-color:transparent
-            }
-            .ace-file-multiple .file-label:before{
-                margin : 12px;
-            }
-
-            .hide-option {
-                padding-left: 10px;
-                padding-right: 15px;
-            }
-
-            .profile-picture {
-                height: 160px;
-            }
-
-            .profile-picture.sign-picture {
-                width: 100%;
-                height: 40px;
-            }
-
-            #avatar, #sign{
-                width: 100%;
-                height: 100%;
-            }
-            .sign-picture .ace-file-multiple .file-label:before{
-                margin : 0px !important;
-                font-size: 13px !important;
-            }
-            .sign-picture .icon-cloud-upload {
-                font-size: 15px !important;
-                line-height: 0px !important;
-            }
-            .chosen-drop{
-                 width: 350px !important;
-             }
-
-            .small-title {
-                text-align: right!important;
-                padding: 0 4px 0 0!important;
-                font-weight: normal;
-                border: unset!important;
-            }
-
             .table tbody > tr > .custom-td-label1 {
                 padding: 2px!important;
                 border: unset!important;
@@ -163,53 +48,55 @@ $isHolder = Session::get('IS_HOLDER');
                     </div>
                 </div>
 
-                <div class="col-md-12"  style="width:100%">
+                <div class="col-md-12">
                     <div id="item-manage-dialog" class="hide"></div>
                     <div class="row">
-                        <table class="table table-bordered member-list">
-                            <thead>
-                            <tr>
-                                <th class="text-center" style="width: 2%;"><span>No</span></th>
-                                <th class="text-center" style="width: 10%;"><span>SeamanbookNo</span></th>
-                                <th class="text-center" style="width: 10%;"><span>Name in chinese</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Sex</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Birthday</span></th>
-                                <th class="text-center" style="width: 7%;"><span>Nationality</span></th>
-                                <th class="text-center" style="width: 8%;"><span>RegStatus</span></th>
-                                <th style="width: 2%;"></th>
-                            </tr>
-                            </thead>
-                            <tbody style="max-height: 66px; overflow-y: scroll; display: block; width: 100%;">
-                            <?php $index = 1; ?>
-                            @if(isset($list) && count($list) > 0)
-                                @foreach ($list as $item)
-                                    <tr>
-                                        <td class="text-center" style="width: 2%;">{{ $item['id'] }}</td>
-                                        <td class="text-center" style="width: 10%;">{{ $item['crewNum'] }}</td>
-                                        <td class="text-center" style="width: 10%;">{{ $item['readlname'] }}</td>
-                                        <td class="text-center" style="width: 10%;">{{ $item['Sex'] }}</td>
-                                        <td class="text-center" style="width: 8%;">{{ $item['birthday'] }}</td>
-                                        <td class="text-center" style="width: 7%;">{{ $item['Nationality'] }}</td>
-                                        <td class="text-center" style="width: 8%;">{{ $item['RegStatus'] }}</td>
-                                        <td class="text-center" style="width: 2%;">
-                                            <div class="action-buttons">
-                                                @if(!$isHolder)
-                                                    <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">
-                                                        <i class="icon-trash"></i>
-                                                    </a>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <?php $index ++; ?>
-                                @endforeach
-                            @else
-                                <div>
-                                    {{ trans('common.message.no_data') }}
-                                </div>
-                            @endif
-                            </tbody>
-                        </table>
+                        <div class="head-fix-div">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 2%;"><span>No</span></th>
+                                    <th class="text-center" style="width: 10%;"><span>SeamanbookNo</span></th>
+                                    <th class="text-center" style="width: 10%;"><span>Name in chinese</span></th>
+                                    <th class="text-center" style="width: 8%;"><span>Sex</span></th>
+                                    <th class="text-center" style="width: 8%;"><span>Birthday</span></th>
+                                    <th class="text-center" style="width: 7%;"><span>Nationality</span></th>
+                                    <th class="text-center" style="width: 8%;"><span>RegStatus</span></th>
+                                    <th style="width: 2%;"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php $index = 1; ?>
+                                @if(isset($list) && count($list) > 0)
+                                    @foreach ($list as $item)
+                                        <tr>
+                                            <td class="text-center" style="width: 2%;">{{ $item['id'] }}</td>
+                                            <td class="text-center" style="width: 10%;">{{ $item['crewNum'] }}</td>
+                                            <td class="text-center" style="width: 10%;">{{ $item['readlname'] }}</td>
+                                            <td class="text-center" style="width: 10%;">{{ $item['Sex'] }}</td>
+                                            <td class="text-center" style="width: 8%;">{{ $item['birthday'] }}</td>
+                                            <td class="text-center" style="width: 7%;">{{ $item['Nationality'] }}</td>
+                                            <td class="text-center" style="width: 8%;">{{ $item['RegStatus'] }}</td>
+                                            <td class="text-center" style="width: 2%;">
+                                                <div class="action-buttons">
+                                                    @if(!$isHolder)
+                                                        <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">
+                                                            <i class="icon-trash"></i>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php $index ++; ?>
+                                    @endforeach
+                                @else
+                                    <div>
+                                        {{ trans('common.message.no_data') }}
+                                    </div>
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="row">
                         <div style="text-align: right">
