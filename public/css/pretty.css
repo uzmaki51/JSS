@@ -11,6 +11,19 @@
     overflow: hidden;
     display: block;
 }
+
+.table tbody > tr > .custom-modal-td-label {
+    font-size: 15px!important;
+    text-align: left!important;
+    padding: 5px!important;
+    background-color: #c9dfff;
+    width: 100px;
+}
+
+.table tbody > tr > .custom-modal-td-text1 {
+    padding:5px!important;
+}
+
 .first-input {
     width:48%;
     display: inline-block!important;

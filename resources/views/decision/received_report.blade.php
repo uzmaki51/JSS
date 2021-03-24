@@ -22,10 +22,10 @@
                     <div class="col-lg-4 form-group pl-0 mb-0">
                         <div class="btn-group f-left">
                             <a class="btn btn-sm btn-warning right-no-radius refresh-btn-over" type="button" onclick="refresh()">
-                                <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">{{ transDecideManage("captions.refresh") }}
+                                <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">收件
                             </a>
                             <a href="#modal-wizard" class="btn btn-sm btn-report-search left-no-radius report-btn-over show-modal" role="button" data-toggle="modal">
-                                <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">{{ trans("common.label.add") }}
+                                <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">写件
                             </a>
                             <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
                         </div>
@@ -85,7 +85,7 @@
                     <div class="modal-dialog report-modal">
                         <div class="modal-content">
                             <div class="modal-header" data-target="#modal-step-contents">
-                                通知
+                                草稿
                             </div>
                             <div id="modal-body-content" class="modal-body step-content">
                                 <div class="row">
@@ -97,50 +97,46 @@
                                             <table class="table table-bordered" id="report_div" v-cloak>
                                                 <tbody>
                                                 <tr>
-                                                    <td class="custom-td-label" >
+                                                    <td class="custom-modal-td-label" >
                                                         文件种类
                                                     </td>
-                                                    <td class="custom-td-text1">
+                                                    <td class="custom-modal-td-text1">
                                                         <select name="flowid" class="form-control width-100" @change="onGetProfit($event)" required v-model="currentReportType">
-                                                            <option value="">请选择起草。</option>
                                                             <option v-for="(item, index) in reportType" v-bind:value="index">@{{ item }}</option>
                                                         </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="custom-td-label" >船名</td>
-                                                    <td class="custom-td-text1">
+                                                    <td class="custom-modal-td-label" >船名</td>
+                                                    <td class="custom-modal-td-text1">
                                                         <select name="shipNo" class="form-control width-100" @change="onGetVoyNoList($event)" required v-model="currentShipNo">
-                                                            <option value="">请选择船舶。</option>
                                                             <option v-for="(item, index) in shipList" v-bind:value="item.shipID">@{{ item.shipName_Cn }}</option>
                                                         </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="custom-td-label" >
-                                                        {{ trans('decideManage.captions.voy_no') }}
+                                                    <td class="custom-modal-td-label" >
+                                                        航次
                                                     </td>
-                                                    <td class="custom-td-text1">
+                                                    <td class="custom-modal-td-text1">
                                                         <select name="voyNo" class="form-control width-100" required v-model="currentVoyNo">
-                                                            <option value="">请选择航次号码。</option>
                                                             <option v-for="(item, index) in voyNoList" v-bind:value="item.id">@{{ item.CP_ID }}</option>
                                                         </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="custom-td-label">收支分类</td>
-                                                    <td class="custom-td-text1">
+                                                    <td class="custom-modal-td-label">收支种类</td>
+                                                    <td class="custom-modal-td-text1">
                                                         <select name="profit_type" class="form-control width-100" required v-model="currentProfitType">
-                                                            <option value="">请选择收支分类。</option>
                                                             <option v-for="(item, index) in profitType" v-bind:value="item.id">@{{ item.AC_Item_Cn }}</option>
                                                         </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="custom-td-label" >
+                                                    <td class="custom-modal-td-label" >
                                                         金额
                                                     </td>
-                                                    <td class="custom-td-text1">
+                                                    <td class="custom-modal-td-text1">
                                                         <div style="display: flex;">
                                                             <input type="text" name="amount" style="display: inline-block;" class="form-control" v-bind:value="amount">
                                                             <select name="currency" class="form-control width-auto"  style="display: inline-block;" v-model="currentCurrency">
@@ -150,23 +146,23 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="custom-td-label">{{transDecideManage("captions.approveName")}} <span class="require">*</span></td>
+                                                    <td class="custom-modal-td-label">{{transDecideManage("captions.approveName")}} <span class="require">*</span></td>
                                                     <td class="custom-td-dec-text">
                                                         <input type="text" name="decTitle" id="decTitle" class="form-control" style="width: 100%" v-bind:value="reporter" disabled>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="custom-td-label">{{transDecideManage("captions.content")}} <span class="require">*</span></td>
+                                                    <td class="custom-modal-td-label">{{transDecideManage("captions.content")}} <span class="require">*</span></td>
                                                     <td class="custom-td-dec-text">
                                                         <input name="content" class="form-control" v-bind:value="content">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="custom-td-label" >{{transDecideManage("captions.attachFile")}}</td>
+                                                    <td class="custom-modal-td-label" >凭证文件</td>
                                                     <td class="custom-td-dec-text">
                                                         <div class="form-group mb-0">
                                                             <input type="file" name="attachments[]" style="display: none;" @change="onFileChange" multiple="multiple" id="file_name"/>
-                                                            <label for="file_name" class="upload-btn"><img src="{{ cAsset('assets/images/upload.png') }}" class="report-label-img">请选择文件。</label>
+                                                            <label for="file_name" class="upload-btn"><img src="{{ cAsset('assets/images/upload.png') }}" class="report-label-img">添加附件</label>
                                                         </div>
                                                         <ul class="attach-list">
                                                             <li class="item" v-for="(item, index) in attachments" v-show="item[2]">
@@ -182,7 +178,7 @@
                                                 </tbody>
                                             </table>
                                             <div class="btn-group f-right mt-2 d-flex">
-                                                <button type="button" class="btn btn-info small-btn ml-0" id="report-submit"><img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}</button>
+                                                <button type="button" class="btn btn-success small-btn ml-0" id="report-submit"><img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}</button>
                                                 <div class="between-1"></div>
                                                 <button type="button" class="btn btn-warning small-btn" id="save-draft"><img src="{{ cAsset('assets/images/draft.png') }}" class="report-label-img">{{ trans('decideManage.button.draft') }}</button>
                                                 <a class="btn btn-danger small-btn" data-dismiss="modal"><i class="icon-remove"></i>{{ trans('decideManage.button.cancel') }}</a>

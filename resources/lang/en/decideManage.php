@@ -19,17 +19,17 @@ return [
 	
 	'table'		=> [
 		'no'				=> 'No',
-		'type'				=> 'Type',
-		'date'				=> 'Date',
-		'state'				=> 'Status',
-		'shipName'			=> 'Ship Name',
-		'voy_no'			=> 'Voy No',
-		'profit_type'		=> 'Profit Type',
-		'content'			=> 'Content',
-		'currency'			=> 'Currency',
-		'amount'			=> 'Amount',
-		'reporter'			=> 'Reporter',
-		'attachment'		=> 'Attachment',
+		'type'				=> '文件种类',
+		'date'				=> '日期',
+		'state'				=> '状态',
+		'shipName'			=> '船舶简明',
+		'voy_no'			=> '航次',
+		'profit_type'		=> '收支种类',
+		'content'			=> '内容',
+		'currency'			=> '币类',
+		'amount'			=> '金额',
+		'reporter'			=> '寄件人',
+		'attachment'		=> '凭证文件',
 		'operation'		    => 'Operation'
 	],
 

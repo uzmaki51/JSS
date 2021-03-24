@@ -267,7 +267,7 @@ class DecisionController extends Controller
     	else
 		    $profitType = 0;
 
-    	$profitList = ACItem::where('C_D', $profitType)->get();
+    	$profitList = ACItem::where('C_D', $profitType)->orderBy('id')->get();
 
     	return response()->json($profitList);
 

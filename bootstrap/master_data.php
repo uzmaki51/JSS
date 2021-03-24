@@ -28,13 +28,16 @@ $StatusData = array(
 );
 
 # ReportTypeData
-define('REPORT_TYPE_CONTRACT',      'Contract');
-define('REPORT_TYPE_EVIDENCE_OUT',  'Debit');
 define('REPORT_TYPE_EVIDENCE_IN',   'Credit');
+define('REPORT_TYPE_EVIDENCE_OUT',  'Debit');
+define('REPORT_TYPE_CONTRACT',      'Contract');
+define('REPORT_TYPE_OTHER',      'Other');
 $ReportTypeData = array(
+	REPORT_TYPE_EVIDENCE_IN         => '支出',
 	REPORT_TYPE_CONTRACT            => '合同',
 	REPORT_TYPE_EVIDENCE_OUT        => '收入',
-	REPORT_TYPE_EVIDENCE_IN         => '支出',
+	REPORT_TYPE_OTHER 		        => '其他',
+	
 );
 
 # IncomeData
@@ -87,20 +90,24 @@ $UserLabelInfo = array(
 );
 
 # ReportTypeData
-define('REPORT_CONTACT',        1);
 define('REPORT_EVIDENCE_OUT',   2);
-define('REPORT_EVIDENCE_IN',    3);
+define('REPORT_EVIDENCE_IN',    1);
+define('REPORT_CONTACT',        3);
+define('REPORT_OTHER',          4);
 $ReportTypeLabelData = array(
-	REPORT_CONTACT          => ['合同',    'primary'],
-	REPORT_EVIDENCE_OUT     => ['收入',       'info'],
 	REPORT_EVIDENCE_IN      => ['支出',      'danger'],
+	REPORT_EVIDENCE_OUT     => ['收入',       'info'],
+	REPORT_CONTACT          => ['合同',    'primary'],
+	REPORT_OTHER          => ['其他',    'secondary'],
 );
 
-define('USD_LABEL', 'USD');
 define('CNY_LABEL', 'CNY');
+define('USD_LABEL', 'USD');
+define('EUR_LABEL', 'EUR');
 $CurrencyLabel = array(
+	CNY_LABEL   =>  '￥',
 	USD_LABEL   =>  '$',
-	CNY_LABEL   =>  '￥'
+	EUR_LABEL   =>  '€',
 );
 
 #Inventory Status Data
