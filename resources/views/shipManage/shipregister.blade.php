@@ -13,11 +13,7 @@ $shipList = Session::get('shipList');
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
-                    <h4><b>Ship Register</b>
-                        <!--small>
-                            <i class="icon-double-angle-right"></i>
-                        </small-->
-                    </h4>
+                    <h4><b>Ship Register</b></h4>
                 </div>
                 <div class="col-sm-6"></div>
                 <div class="col-sm-3">
