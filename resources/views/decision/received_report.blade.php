@@ -68,7 +68,11 @@
                                 <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
                                 <th style="width: 2%;">{{ trans('decideManage.table.attachment') }}</th>
-                                <th style="width: 2%;">{{ trans('decideManage.table.state') }}</th>
+                                @if(Auth::user()->isAdmin == SUPER_ADMIN)
+                                    <th style="width: 2%;">{{ trans('decideManage.table.state') }}</th>
+                                @else
+                                    <th class="d-none"></th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody>
@@ -213,6 +217,7 @@
         var reportList = null;
         var reportName = '{!! Auth::user()->realname !!}';
         var draftId = '{!! $draftId !!}';
+        var isAdmin = '{!! Auth::user()->isAdmin !!}';
         $(function() {
             // Create new Vue obj.
             reportObj = new Vue({
@@ -348,23 +353,25 @@
                         $('td', row).eq(10).html('').append();
                     }
 
-                    let status = '';
-                    if(data['state'] == 0) {
-                        $('td', row).eq(11).css({'background': '#ffb871'});
-                        status = '<div class="report-status"><span>' + ReportStatusData[data['state']][0] + '</span></div>';
-                    } else if(data['state'] == 1) {
-                        $('td', row).eq(11).css({'background': '#ccffcc'});
-                        status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';
-                    } else if(data['state'] == 2) {
-                        $('td', row).eq(11).css({'background': '#ff7c80'});
-                        status = '<div class="report-status"><span><i class="icon-remove"></i></span></div>';
+                    if(isAdmin != 1) {
+                        $('td', row).eq(11).remove();
+                    } else {
+                        let status = '';
+                        if (data['state'] == 0) {
+                            $('td', row).eq(11).css({'background': '#ffb871'});
+                            status = '<div class="report-status"><span>' + ReportStatusData[data['state']][0] + '</span></div>';
+                        } else if (data['state'] == 1) {
+                            $('td', row).eq(11).css({'background': '#ccffcc'});
+                            status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';
+                        } else if (data['state'] == 2) {
+                            $('td', row).eq(11).css({'background': '#ff7c80'});
+                            status = '<div class="report-status"><span><i class="icon-remove"></i></span></div>';
+                        }
+                        $('td', row).eq(11).html('').append(status);
+                        // $('td', row).eq(11).append(
+                        //     '<div class="report-status"><span class="badge badge-'+ ReportStatusData[data['state']][1] + '">' + ReportStatusData[data['state']][0] + '</span></div>'
+                        // );
                     }
-                    $('td', row).eq(11).html('').append(status);
-                    // $('td', row).eq(11).append(
-                    //     '<div class="report-status"><span class="badge badge-'+ ReportStatusData[data['state']][1] + '">' + ReportStatusData[data['state']][0] + '</span></div>'
-                    // );
-
-                    reportList = data;
                 },
             });
 

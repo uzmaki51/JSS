@@ -28,7 +28,6 @@ $shipList = Session::get('shipList');
                         </div>
                     @endif
                 </div>
-
             </div>
             <div class="col-md-12">
                 <div id="item-manage-dialog" class="hide"></div>

@@ -541,7 +541,7 @@ footer {
 }
 
 .report-modal {
-    width: 500px;
+    width: 500px!important;
 }
 .report_info_table {
     width: 100px!important;

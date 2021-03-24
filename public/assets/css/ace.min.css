@@ -28701,7 +28701,9 @@ th[aria-selected=true] .ui-jqgrid-sortable {
 
 .datepicker td, .daterangepicker td, .datepicker th, .daterangepicker th {
     border-radius: 0 !important;
-    font-size: 13px
+    font-size: 13px;
+    background: #ffffff!important;
+    font-style: normal!important;
 }
 
 .datepicker td.active, .daterangepicker td.active, .datepicker td.active:hover, .daterangepicker td.active:hover {
