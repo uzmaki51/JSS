@@ -332,8 +332,20 @@ table {
 }
 
 .btn {
-    min-width: 120px;
+    min-width: 100px;
     margin-left: 10px!important;
+}
+.btn:hover {
+    color: white!important;
+}
+.btn-group .btn:first-child {
+    margin-left: 0!important;
+}
+.form-group .btn:first-child {
+    margin-left: 0!important;
+}
+.small-btn {
+    padding: 2px!important;
 }
 .btn-info {
     background-color: #ff8c00 !important;
@@ -366,6 +378,12 @@ table {
 .btn-success:hover {
     box-shadow: 0 8px 25px -8px #00cfe8;
 }
+.btn-report-search {
+    background: #5185ff;
+}
+.btn-report-search:hover {
+    box-shadow: 0 8px 25px -8px #00cfe8;
+}
 .btn-warning {
     background-color: #FF8510 !important;
     border-color: #FF8510 !important;
@@ -389,6 +407,7 @@ table {
 }
 .btn-danger:hover {
     box-shadow:  0 8px 25px -8px #d95338;
+    color: white!important;
 }
 .btn-inverse {
     background-color: #00CFE8 !important;
@@ -489,12 +508,63 @@ footer {
 .parent-menu ul .active {
     background: #9ecbff!important;
 }
+
+.report-modal {
+    width: 500px;
+}
+.report_info_table {
+    width: 100px!important;
+}
 .parent-menu ul li * {
     padding: 0;
 }
+
+.report-label-img {
+    margin: -4px 4px 0 0;
+    width: 15px;
+}
+.upload-btn {
+    background: #00b3ee;
+    width: 100%;
+    color: white;
+    font-size: 12px;
+    padding: 2px;
+    cursor: pointer;
+}
+.upload-btn:hover {
+    background: #1ecf96;
+    transition: .3s;
+}
+
+.attach-list {
+    margin: 0!important;
+}
+.attach-list li {
+    list-style: none;
+    padding: 4px;
+}
+.attach-list li span {
+    display: inline-block;
+    width: 307px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.attach-list li .btn {
+    min-width: 20px;
+}
+.attach-list li .btn i {
+    margin-right: 0;
+}
+
 
 /** Common Class */
 .d-none {
     display: none;
 }
-
+.mb-0 {
+    margin-bottom: 0!important;
+}
+.p-0 {
+    padding: 0!important;
+}

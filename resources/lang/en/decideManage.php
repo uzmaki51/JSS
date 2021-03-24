@@ -29,7 +29,8 @@ return [
 		'currency'			=> 'Currency',
 		'amount'			=> 'Amount',
 		'reporter'			=> 'Reporter',
-		'attachment'		=> 'Attachment'
+		'attachment'		=> 'Attachment',
+		'operation'		    => 'Operation'
 	],
 
 	"captions" => [
@@ -76,7 +77,7 @@ return [
 		'authorOpinion' => '批准人的意见',
 		'createDate' => '做成日期',
 		'processName' => '流程名',
-		'add' => '添加', 
+		'add'           => '写件',
 		'createProcess' => '做成批准流程',
 		'userList' => '用户目录',
 		'addAuthor' => '添加批准人',
@@ -101,6 +102,8 @@ return [
 		'proposed' => '批准案',
 		'content'       => '内容',
 		'voy_no'        => '航次号码',
+		'ship_name'     => '船名',
+		'refresh'       => '收件',
 	],
 
 	'button'        => [

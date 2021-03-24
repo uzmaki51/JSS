@@ -6,47 +6,49 @@ $shipList = explode(',', Auth::user()->shipList);
 ?>
 @extends('layout.'.$header)
 
+@section('styles')
+{{--    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet">--}}
+@endsection
+
 @section('content')
 
     @if(!isset($excel))
 
         <div class="main-content">
             <style>
-                .table tr {
-                    height: auto!important;
-                }
-                .table th {
-                    white-space: nowrap;
-                    background: #3498db;
-                    color: white;
-                    padding: 4px!important;
-                    font-weight: bold!important;
-                }
-                .ship-list thead tr th {
-                    height: 20px!important;
-                    padding: 4px 0!important;
-                    font-weight: normal;
-                    background: #c9dfff;
-                    color: black;
-                    font-size: 12px!important;
-                    font-style: italic;
-                    border-left: 1px solid #484f5b!important;
-                }
-                .ship-list tr {
-                    border: unset!important;
-                    width: 100%;
-                    box-sizing: border-box;
-                }
-                .ship-list tr td {
-                    border-bottom: 1px solid #cccccc!important;
-                    border-left: 1px solid #cccccc!important;
-                    border-bottom: none!important;
-                    border-left: none!important;
-                    padding: 4px 0!important;
-                }
-                .ship-list tbody::-webkit-scrollbar {
-                    display: none;
-                }
+                /*.table tr {*/
+                    /*height: auto!important;*/
+                /*}*/
+                /*.table th {*/
+                    /*white-space: nowrap;*/
+                    /*background: #3498db;*/
+                    /*color: white;*/
+                    /*padding: 4px!important;*/
+                    /*font-weight: bold!important;*/
+                /*}*/
+                /*.ship-list thead tr th {*/
+                    /*height: 20px!important;*/
+                    /*padding: 4px 0!important;*/
+                    /*font-weight: normal;*/
+                    /*background: #c9dfff;*/
+                    /*color: black;*/
+                    /*font-size: 12px!important;*/
+                    /*font-style: italic;*/
+                    /*border-left: 1px solid #484f5b!important;*/
+                /*}*/
+                /*.ship-list tr {*/
+                    /*border: unset!important;*/
+                    /*width: 100%;*/
+                    /*box-sizing: border-box;*/
+                /*}*/
+                /*.ship-list tr td {*/
+                    /*border-bottom: 1px solid #484f5b!important;*/
+                    /*border-left: 1px solid #484f5b!important;*/
+                    /*padding: 4px 0!important;*/
+                /*}*/
+                /*.ship-list tbody::-webkit-scrollbar {*/
+                    /*display: none;*/
+                /*}*/
 
             </style>
             <div class="page-content">
@@ -73,7 +75,7 @@ $shipList = explode(',', Auth::user()->shipList);
                         <div class="col-md-12 no-padding">
                             <table class="table table-bordered table-hover ship-list">
                                 <thead>
-                                    <tr class="black">
+                                    <tr class="black br-hblue">
                                         <th class="text-center" style="width: 2%;"><span>No</span></th>
                                         <th class="text-center" style="width: 10%;"><span>ShipName</span></th>
                                         <th class="text-center" style="width: 8%;"><span>IMO NO</span></th>

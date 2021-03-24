@@ -17,6 +17,7 @@ use App\Models\Decision\DecisionFlow;
 use App\Models\Decision\DecisionReport;
 use App\Models\Decision\DecisionNote;
 use App\Models\Decision\Decider;
+use App\Models\Decision\DecisionReportAttachment;
 use App\Models\Decision\ReadReport;
 
 use App\Models\Operations\AcItem;
@@ -29,6 +30,7 @@ use App\Models\Member\Unit;
 
 use Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class DecisionController extends Controller
 {
@@ -91,15 +93,24 @@ class DecisionController extends Controller
         $this->userinfo = Auth::user();
     }
 
-    public function index()
-    {
-        return redirect()->action('Decision\DecisionController@loadReportForDecide');
-    }
-
-    ////////////////////수신된 문서관리부분//////////////////////////////////////////////
+    // Report List
     public function receivedReport(Request $request) {
 	    Util::getMenuInfo($request);
-        return view('decision.received_report');
+
+	    $params = $request->all();
+
+	    $id = -1;
+	    if(isset($params['id']))
+	    	$id = $params['id'];
+
+        return view('decision.received_report', ['draftId'  => $id]);
+    }
+
+    // Draft List
+    public function draftReport(Request $request) {
+    	Util::getMenuInfo($request);
+
+    	return view('decision.draft_report');
     }
 
     // New Definition by Uzmaki
@@ -131,8 +142,44 @@ class DecisionController extends Controller
 		$reportTbl['creator'] = $user->id;
 		$reportTbl['content'] = $params['content'];
 		$reportTbl['state'] = $params['reportType'];
-
 		$reportTbl->save();
+
+		$isRegister = false;
+		if(isset($reportId) && $reportId != "") {
+			$lastId = $reportId;
+			$isRegister = false;
+		} else {
+			$last = DecisionReport::all()->last('id');
+			$lastId = $last['id'];
+			$isRegister = true;
+		}
+
+		$attachmentTbl = new DecisionReportAttachment();
+		$files = $request->file('attachments');
+
+		if(isset($params['is_update'])) {
+			$isUpdate = $params['is_update'];
+			foreach ($isUpdate as $item) {
+				$value = explode('_', $item);
+				if ($value[0] == 'remove') {
+					$attachmentTbl->deleteRecord($value[1]);
+				}
+			}
+		}
+
+		if($request->hasFile('attachments')) {
+			$attachmentUpdate = DecisionReport::find($lastId);
+			$attachmentUpdate['attachment'] = 1;
+			$attachmentUpdate->save();
+			foreach ($files as $file) {
+				$fileName = $file->getClientOriginalName();
+				$name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+				$file->move(public_path() . '/reports/' . $params['flowid'] . '/', $name);
+				$fileList[] =  array($fileName, public_path() . '/reports/' . $params['flowid'] . '/' . $name);
+			}
+
+			$ret = $attachmentTbl->updateAttach($lastId, $fileList);
+		}
 
 		return redirect('decision/receivedReport');
 	}
@@ -150,18 +197,22 @@ class DecisionController extends Controller
     	$params = $request->all();
 	    $userid = Auth::user()->id;
 
-	    $decide_name =$request->get('d_name');
-	    $flow_type = $request->get('flow');
-	    $creator = $request->get('creator');
-	    $from_date = $request->get('from_date');
-	    $to_date = $request->get('to_date');
-
 		$decideTbl = new DecisionReport();
 	    $reportList = $decideTbl->getForDatatable($params);
 
-
 	    return response()->json($reportList);
     }
+
+	public function ajaxGetDraft(Request $request) {
+		$params = $request->all();
+		$userid = Auth::user()->id;
+
+		$decideTbl = new DecisionReport();
+		$reportList = $decideTbl->getForDatatable($params, REPORT_STATUS_DRAFT);
+
+
+		return response()->json($reportList);
+	}
 
 	public function ajaxReportDecide(Request $request) {
 		$params = $request->all();
@@ -183,14 +234,14 @@ class DecisionController extends Controller
 		$userid = Auth::user()->id;
 		$userRole = Auth::user()->isAdmin;
 
-		if($userRole != SUPER_ADMIN)
-			return response()->json('-1');
+		Session::forget('reportFiles');
+//		if($userRole != SUPER_ADMIN)
+//			return response()->json('-1');
 
 		$decideTbl = new DecisionReport();
-		$ret = $decideTbl->getReportDetail($params);
+		$retVal = $decideTbl->getReportDetail($params);
 
-
-		return response()->json(1);
+		return response()->json($retVal);
 	}
 
 	public function ajaxReportData(Request $request) {
@@ -220,5 +271,32 @@ class DecisionController extends Controller
 
     	return response()->json($profitList);
 
+	}
+
+	public function ajaxReportFile(Request $request) {
+    	$params = $request->all();
+
+		$hasFile = $request->file('file');
+		if(isset($hasFile)) {
+			if(isset($hasFile)) {
+				$name = date('Ymd_H_i_s'). '.' . $hasFile->getClientOriginalExtension();
+				$hasFile->move(public_path() . '/files/', $name);
+				$fileList[] =  array($hasFile->getClientOriginalName(), '/files/' . $name);
+
+				if(Session::get('reportFiles')) {
+					$reportFile = Session::get('reportFiles');
+				} else {
+					$reportFile = array();
+				}
+				$reportFile[] = $fileList;
+				Session::put('reportFiles', $reportFile);
+			}
+		}
+
+		$retVal = Session::get('reportFiles');
+
+		$retVal[][] = array('请选择文件。', '请选择文件。');
+
+		return response()->json($retVal);
 	}
 }

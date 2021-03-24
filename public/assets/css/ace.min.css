@@ -3106,7 +3106,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
 }
 
 .btn-group > .btn {
-    border-radius: 0 !important
+    border-radius: 0;
 }
 
 .btn-group-vertical > .btn, .btn-group-vertical > .btn + .btn {
@@ -17546,7 +17546,7 @@ button.btn:active {
 }
 
 .btn-group > .btn {
-    border-radius: 0.25rem !important
+    border-radius: 0.25rem;
 }
 
 .btn-group-vertical > .btn, .btn-group-vertical > .btn + .btn {
@@ -18731,7 +18731,7 @@ button.btn:active {
 
 label {
     font-weight: normal;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .form-group > label[class*="col-"] {
@@ -20647,7 +20647,7 @@ th, td, .table-bordered {
 
 .table.table-bordered thead tr th {
     vertical-align: middle;
-    height: 40px;
+    height: auto;
 }
 
 .table.table-bordered thead tr th:first-child {

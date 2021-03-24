@@ -252,7 +252,7 @@ class HomeController extends Controller {
 
         // 결재할 문서
         $userId = Auth::user()->id;
-        $reportList = DecisionReport::getWillDecisionReportList($userId, '', '', '', '', '');
+        $reportList = /*DecisionReport::getWillDecisionReportList($userId, '', '', '', '', '')*/ array();
 
         //전자게시판
         $newses= News::getHomeNewsListForTema();

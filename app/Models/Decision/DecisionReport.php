@@ -9,6 +9,7 @@
 namespace App\Models\Decision;
 
 
+use App\Models\Convert\VoyLog;
 use App\Models\Operations\AcItem;
 use App\Models\ShipManage\ShipRegister;
 use App\User;
@@ -18,62 +19,51 @@ use Auth;
 
 class DecisionReport extends Model {
     protected $table = 'tb_decision_report';
+	protected $table_register_ship = 'tb_ship_register';
 
-    public function getForDatatable($params, $status = 0) {
+    public function getForDatatable($params, $status = null) {
 	    $user_id = Auth::user()->id;
 	    $selector = DB::table($this->table)
-		    ->where('state', '!=', REPORT_STATUS_DRAFT)
+		    ->orderBy('create_at', 'desc')
 		    ->select('*');
 
+	    if($status != null)
+	    	$selector->where('state', '=', $status);
+	    else
+	    	$selector->where('state', '!=', REPORT_STATUS_DRAFT);
+
+	    if (isset($params['columns'][0]['search']['value'])
+		    && $params['columns'][0]['search']['value'] !== ''
+	    ) {
+	    	$shipName = $params['columns'][0]['search']['value'];
+	    	$shipIds = DB::table($this->table_register_ship)
+			    ->where('NickName', 'like', '%' . $shipName . '%')
+			    ->orWhere('ShipName_Cn', 'like', '%' . $shipName . '%')
+			    ->orWhere('ShipName_EN', 'like', '%' . $shipName . '%')
+			    ->select('*')
+		        ->get();
+
+	    	$ids = array();
+	    	foreach($shipIds as $item) {
+	    		$ids[] = $item->id;
+		    }
+	    	$selector->whereIn('shipNo', $ids);
+	    }
 	    if (isset($params['columns'][1]['search']['value'])
 		    && $params['columns'][1]['search']['value'] !== ''
 	    ) {
-		    $selector->where($this->table . '.name', 'like', '%' . $params['columns'][1]['search']['value'] . '%');
+	    	$fromDate = str_replace('/', '-', $params['columns'][1]['search']['value']);
+		    $selector->where('create_at', '>=', $fromDate . ' ' . '00:00:00');
 	    }
 	    if (isset($params['columns'][2]['search']['value'])
 		    && $params['columns'][2]['search']['value'] !== ''
 	    ) {
-		    $selector->Where(function ($query) use ($params) {
-			    $query->where('region_to', $params['columns'][2]['search']['value'])
-				    ->orWhere('region_dou', $params['columns'][2]['search']['value']);
-		    });
-	    }
-	    if (isset($params['columns'][3]['search']['value'])
-		    && $params['columns'][3]['search']['value'] !== ''
-	    ) {
-		    $selector->where($this->table . '.detail_addr', 'like', '%' . $params['columns'][3]['search']['value'] . '%');
-	    }
-	    if (isset($params['columns'][4]['search']['value'])
-		    && $params['columns'][4]['search']['value'] !== ''
-	    ) {
-		    $selector->where($this->table . '.contact_number', 'like', '%' . $params['columns'][4]['search']['value'] . '%');
-	    }
-	    if (isset($params['columns'][5]['search']['value'])
-		    && $params['columns'][5]['search']['value'] !== ''
-	    ) {
-		    $selector->where($this->table . '.status', $params['columns'][5]['search']['value']);
-	    }
-	    if (isset($params['columns'][6]['search']['value'])
-		    && $params['columns'][6]['search']['value'] !== ''
-	    ) {
-		    $amountRange = preg_replace('/[\$\,]/', '', $params['columns'][6]['search']['value']);
-		    $elements = explode(':', $amountRange);
-
-		    if ($elements[0] != "" || $elements[1] != "") {
-			    $elements[0] .= ' 00:00:00';
-			    $elements[1] .= ' 23:59:59';
-			    $selector->whereBetween($this->table . '.created_at', $elements);
-		    }
+		    $fromDate = str_replace('/', '-', $params['columns'][2]['search']['value']);
+		    $selector->where('create_at', '<=', $fromDate . ' ' . '23:59:59');
 	    }
 
 	    // number of filtered records
 	    $recordsFiltered = $selector->count();
-
-	    // sort
-	    foreach ($params['order'] as $order) {
-		    $field = $params['columns'][$order['column']]['data'];
-		    $selector->orderBy($field, $order['dir']);
-	    }
 
 	    // offset & limit
 	    if (!empty($params['start']) && $params['start'] > 0) {
@@ -88,13 +78,24 @@ class DecisionReport extends Model {
 	    $records = $selector->get();
 
 	    foreach($records as $key => $item) {
-		    $shipName = ShipRegister::where('id', $item->shipNo)->first()->shipName_Cn;
+		    if(ShipRegister::where('id', $item->shipNo)->first())
+		    	$shipName = ShipRegister::where('id', $item->shipNo)->first()->NickName;
+		    else
+		    	$shipName = '';
+		    if(ACItem::where('id', $item->profit_type))
+		        $profit = ACItem::where('id', $item->profit_type)->first()->AC_Item_Cn;
+		    else
+		    	$profit = '';
+		    if(VoyLog::where('id', $item->voyNo)->first())
+		        $voyName = VoyLog::where('id', $item->voyNo)->first()->CP_ID;
+		    else
+		    	$voyName = '';
 		    $reporter = User::where('id', $item->creator)->first()->realname;
-		    $profit = ACItem::where('id', $item->profit_type)->first()->AC_Item_Cn;
 
 		    $records[$key]->shipName = $shipName;
 		    $records[$key]->realname = $reporter;
 		    $records[$key]->profit_type = $profit;
+		    $records[$key]->voyNo = $voyName;
 
 	    }
 
@@ -123,10 +124,14 @@ class DecisionReport extends Model {
 		        ->select('*');
     	$result = $selector->first();
 
-    	if(isset($result) || count($result) == 0)
-    		return [];
+	    if(isset($params['reportId'])) {
+		    $attachmentList = DecisionReportAttachment::where('reportId', $params['reportId'])->get();
+	    }
 
-    	return $result;
+    	return array(
+    		'list'      => $result,
+		    'attach'    => $attachmentList
+	    );
     }
 
 }

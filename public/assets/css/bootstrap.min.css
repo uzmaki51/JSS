@@ -1408,11 +1408,12 @@ th {
 }
 
 .table-bordered {
-    border: 1px solid #484f5b;
+    border-right: 1px solid #484f5b;
 }
 
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
-    border: 1px solid #484f5b
+    border-left: 1px solid #484f5b;
+    border-bottom: 1px solid #484f5b
 }
 
 .table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
@@ -5151,7 +5152,6 @@ body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom
     z-index: 1060;
     display: none;
     overflow: auto;
-    overflow-y: scroll;
 }
 
 .modal.fade .modal-dialog {

@@ -19,17 +19,6 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="space-6"></div>
-                    <div class="col-lg-4 form-group pl-0 mb-0">
-                        <div class="btn-group f-left">
-                            <a class="btn btn-sm btn-warning right-no-radius refresh-btn-over" type="button" onclick="refresh()">
-                                <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">{{ transDecideManage("captions.refresh") }}
-                            </a>
-                            <a href="#modal-wizard" class="btn btn-sm btn-report-search left-no-radius report-btn-over show-modal" role="button" data-toggle="modal">
-                                <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">{{ trans("common.label.add") }}
-                            </a>
-                            <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
-                        </div>
-                    </div>
                     <div class="col-lg-2 form-group d-flex search-div mb-0">
                         <label class="search-label">{{ transDecideManage("captions.ship_name") }}:</label>
                         <input type="text" class="search-input" id="ship_name">
@@ -41,7 +30,6 @@
                         <label class="search-label">&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;</label>
                         <input class="search-input date-picker" id="toDate" type="text" data-date-format="yyyy/mm/dd">
                         <i class="icon-calendar bigger-110 search-calendar"></i>
-
                     </div>
                     <div class="col-lg-2 form-group pr-0 mb-0">
                         <div class="btn-group f-right">
@@ -212,89 +200,13 @@
         var reportObj = null;
         var reportList = null;
         var reportName = '{!! Auth::user()->realname !!}';
-        var draftId = '{!! $draftId !!}';
         $(function() {
-            // Create new Vue obj.
-            reportObj = new Vue({
-                el: '#report_div',
-                data: {
-                    reportType: ReportTypeData,
-                    shipList: [],
-                    voyNoList: [],
-                    profitType: [],
-                    amount: 0,
-                    currency: CurrencyLabel,
-                    reporter: reportName,
-                    content: '',
-                    attachments: [],
-
-                    currentReportType: '',
-                    currentShipNo: '',
-                    currentProfitType: '',
-                    currentVoyNo: '',
-                    currentCurrency: '',
-                    // current
-                },
-                filters: {
-                    formatBytes(a, b) {
-                        if (0 == a) return "0 Bytes";
-                        var c = 1024,
-                            d = b || 2,
-                            e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
-                            f = Math.floor(Math.log(a) / Math.log(c));
-                        return parseFloat((a / Math.pow(c, f)).toFixed(d)) + " " + e[f]
-                    }
-                },
-                methods: {
-                    init() {
-                        this.reportType = ReportTypeData;
-                        // this.shipList = [];
-                        this.voyNoList = [];
-                        this.profitType = [];
-                        this.amount = 0;
-                        this.currency = CurrencyLabel;
-                        this.reporter = reportName;
-                        this.content = '';
-                        this.attachments = [];
-
-                        this.currentReportType = '';
-                        this.currentShipNo = '';
-                        this.currentProfitType = '';
-                        this.currentVoyNo = '';
-                        this.currentCurrency = '';
-                    },
-                    onGetProfit(event) {
-                        let type = event.target.value;
-                        disableProfit(type, false);
-                    },
-                    onGetVoyNoList(event) {
-                        getVoyList(event.target.value);
-                    },
-                    onFileChange(e) {
-                        var files = e.target.files || e.dataTransfer.files;
-                        if(files) {
-                            for (var index = 0; index < files.length; index++) {
-                                this.attachments.push([files[index].name, 'insert', true, 0]);
-                            }
-                        }
-                    },
-                    removeItem(index) {
-                        reportObj.attachments[index][1] = 'remove';
-                        reportObj.attachments[index][2] = false;
-                        this.$forceUpdate();
-                    },
-                }
-            });
-
-            if(draftId != -1)
-                showReportDetail(draftId);
-
             listTable = $('#report_info_table').DataTable({
                 processing: true,
                 serverSide: true,
                 searching: true,
                 ajax: {
-                    url: BASE_URL + 'ajax/decide/receive',
+                    url: BASE_URL + 'ajax/decide/draft',
                     type: 'POST',
                 },
                 // "order": [[ 2, "desc" ]],
@@ -347,213 +259,15 @@
                     } else {
                         $('td', row).eq(10).html('').append();
                     }
-
-                    let status = '';
-                    if(data['state'] == 0) {
-                        $('td', row).eq(11).css({'background': '#ffb871'});
-                        status = '<div class="report-status"><span>' + ReportStatusData[data['state']][0] + '</span></div>';
-                    } else if(data['state'] == 1) {
-                        $('td', row).eq(11).css({'background': '#ccffcc'});
-                        status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';
-                    } else if(data['state'] == 2) {
-                        $('td', row).eq(11).css({'background': '#ff7c80'});
-                        status = '<div class="report-status"><span><i class="icon-remove"></i></span></div>';
-                    }
-                    $('td', row).eq(11).html('').append(status);
-                    // $('td', row).eq(11).append(
-                    //     '<div class="report-status"><span class="badge badge-'+ ReportStatusData[data['state']][1] + '">' + ReportStatusData[data['state']][0] + '</span></div>'
-                    // );
-
-                    reportList = data;
+                    $('td', row).eq(11).html('').append(
+                        '<a href="/decision/receivedReport?id=' + data['id'] + '"><i class="icon-edit"></i></a>'
+                    );
                 },
             });
 
             $('.dataTables_length').hide();
             $('.dataTables_info').hide();
-            $.ajax({
-                url: BASE_URL + 'ajax/report/getData',
-                type: 'post',
-                success: function(data) {
-                    reportObj.shipList = data['shipList'];
-                }
-            });
         });
-
-        $('#report_info_table').on('click', 'tr', function(evt) {
-            let cell = $(evt.target).closest('td');
-            let reportId = $(this).attr('data-index');
-            let reportStatus = $(this).attr('data-status');
-            if(reportId == undefined) return false;
-            if(cell.index() == 11) {
-                if(reportStatus != 0) return false;
-                decideReport(reportId, reportStatus);
-            } else {
-                showReportDetail(reportId);
-            }
-
-            return true;
-        });
-
-        function decideReport(reportId, status) {
-            let decideType = 0;
-            let message = '';
-            bootbox.confirm("결재를 승인하겠습니까?", function (result) {
-                if (result) {
-                    decideType = 1;
-                    $.ajax({
-                        url: BASE_URL + 'ajax/report/decide',
-                        type: 'post',
-                        data: {
-                            reportId: reportId,
-                            decideType: decideType
-                        },
-                        success: function(data, status, xhr) {
-                            listTable.draw();
-                        },
-                        error: function(error, status) {
-                            listTable.draw();
-                        }
-                    });
-                } else if(result == false) {
-                    decideType = 2;
-                    $.ajax({
-                        url: BASE_URL + 'ajax/report/decide',
-                        type: 'post',
-                        data: {
-                            reportId: reportId,
-                            decideType: decideType
-                        },
-                        success: function(data, status, xhr) {
-                            listTable.draw();
-                        },
-                        error: function(error, status) {
-                            listTable.draw();
-                        }
-                    });
-                } else {
-                    return false;
-                }
-            });
-        }
-
-        function showReportDetail(reportId) {
-            $.ajax({
-                url: BASE_URL + 'ajax/report/detail',
-                type: 'post',
-                data: {
-                    reportId: reportId
-                },
-                success: function(data, status, xhr) {console.log(data);
-                    $('[name=reportId]').val(reportId);
-                    let result = data['list'];
-                    let attach = data['attach'];
-                    reportObj.currentReportType = result['flowid'];
-                    reportObj.currentShipNo = result['shipNo'];
-                    reportObj.amount = result['amount'];
-                    reportObj.currentCurrency = result['currency'];
-                    reportObj.content = result['content'];
-                    getVoyList(result['shipNo'], result['voyNo']);
-                    disableProfit(result['flowid'], result['profit_type']);
-                    reportObj.attachments = [];
-                    if(attach != undefined && attach.length != 0)
-                        attach.forEach(function(value, key) {
-                            reportObj.attachments.push([value['file_name'], 'keep', true, value['id']]);
-                        });
-                    else
-                        reportObj.attachments = [];
-
-                    $('.only-modal-show').click();
-                },
-                error: function(error) {
-                }
-            });
-
-            $('.show-modal').on('click', function() {
-                reportObj.init();
-            })
-        }
-
-        function getVoyList(shipId, selected = false) {
-            $.ajax({
-                url: BASE_URL + 'ajax/report/getData',
-                type: 'post',
-                data: {
-                    shipId: shipId
-                },
-                success: function(data, status, xhr) {
-                    reportObj.voyNoList = data['voyList'];
-                    if(selected != false)
-                        reportObj.currentVoyNo = selected;
-                }
-            });
-        }
-
-        function getProfit(profitType, selected) {
-            $.ajax({
-                url: BASE_URL + 'ajax/profit/list',
-                type: 'post',
-                data: {
-                    profitType: profitType
-                },
-                success: function(data, status, xhr) {
-                    reportObj.profitType = data;
-                    console.log(selected);
-                    if(selected != false)
-                        reportObj.currentProfitType = selected;
-
-                }
-            })
-        }
-
-        $('#report-submit').on('click', function() {
-            $('[name=reportType]').val(0);
-
-            $('#report-form').validate({
-                rules: {
-                    flowid : "required",
-                    shipNo : "required",
-                    voyNo: "required",
-                },
-                messages: {
-                    flowid: "请选择文件种类。",
-                    shipNo: "请选择船名。",
-                    voyNo: "请选择航次号码。",
-                }
-            });
-            if($('[name=flowid]').val() != 'Contract')
-                $('#report-form').validate({
-                    rules: {
-                        profit_type : "required",
-                    },
-                    messages: {
-                        profit_type: "请选择收支分类。",
-                    }
-                });
-
-            $('#report-form').submit();
-
-            return true;
-        });
-
-        $('#save-draft').on('click', function() {
-            $('[name=reportType]').val(3);
-            $('#report-form').submit();
-
-            return true;
-        });
-
-        function disableProfit(type, selected) {
-            if(type == 'Contract') {
-                $('[name=profit_type]').attr('disabled', 'disabled');
-                $('[name=amount]').attr('disabled', 'disabled');
-                $('[name=currency]').attr('disabled', 'disabled');
-            } else {
-                $('[name=profit_type]').removeAttr('disabled');
-                $('[name=amount]').removeAttr('disabled');
-                $('[name=currency]').removeAttr('disabled');
-                getProfit(type, selected);
-            }
-        }
 
         function doSearch() {
             let shipName = $('#ship_name').val();
@@ -564,11 +278,6 @@
             listTable.column(1).search(fromDate, false, false);
             listTable.column(2).search(toDate, false, false);
             listTable.draw();
-        }
-
-        function refresh() {
-            if(listTable != null && listTable != undefined)
-                listTable.draw();
         }
 
     </script>

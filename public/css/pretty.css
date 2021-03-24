@@ -15,9 +15,7 @@
     width:48%;
     display: inline-block!important;
 }
-/*.first-input:after {*/
-    /*content: '|';*/
-/*}*/
+
 .second-input {
     width: 49%;
     display: inline-block!important;
@@ -89,7 +87,7 @@
     color: black;
     font-size: 12px!important;
     font-style: italic;
-    border: unset!important;
+    /*border: unset!important;*/
 }
 .ship-list thead tr th:last-child {
     border-right: 1px solid #484f5b!important;
@@ -176,7 +174,15 @@
 .report-status {
     cursor: pointer;
 }
-
 .td-header {
     font-style: italic;
+}
+#report_div {
+    border-right: 1px solid #111;
+    border-top: 1px solid #111;
+    color: black!important;
+}
+#report_info_table thead th {
+    color: black!important;
+    width: 80%;
 }
