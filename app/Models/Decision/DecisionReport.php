@@ -22,7 +22,7 @@ class DecisionReport extends Model {
 	protected $table_register_ship = 'tb_ship_register';
 
     public function getForDatatable($params, $status = null) {
-	    $user_id = Auth::user()->id;
+	    $user = Auth::user();
 	    $selector = DB::table($this->table)
 		    ->orderBy('create_at', 'desc')
 		    ->select('*');
@@ -32,22 +32,13 @@ class DecisionReport extends Model {
 	    else
 	    	$selector->where('state', '!=', REPORT_STATUS_DRAFT);
 
+	    if($user->isAdmin != SUPER_ADMIN)
+	    	$selector->where('creator', '=', $user->id);
+
 	    if (isset($params['columns'][0]['search']['value'])
 		    && $params['columns'][0]['search']['value'] !== ''
 	    ) {
-	    	$shipName = $params['columns'][0]['search']['value'];
-	    	$shipIds = DB::table($this->table_register_ship)
-			    ->where('NickName', 'like', '%' . $shipName . '%')
-			    ->orWhere('ShipName_Cn', 'like', '%' . $shipName . '%')
-			    ->orWhere('ShipName_EN', 'like', '%' . $shipName . '%')
-			    ->select('*')
-		        ->get();
-
-	    	$ids = array();
-	    	foreach($shipIds as $item) {
-	    		$ids[] = $item->id;
-		    }
-	    	$selector->whereIn('shipNo', $ids);
+	    	$selector->where('shipNo', $params['columns'][0]['search']['value']);
 	    }
 	    if (isset($params['columns'][1]['search']['value'])
 		    && $params['columns'][1]['search']['value'] !== ''

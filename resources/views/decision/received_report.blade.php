@@ -33,6 +33,7 @@
                     <div class="col-lg-2 form-group d-flex search-div mb-0">
                         <label class="search-label">{{ transDecideManage("captions.ship_name") }}:</label>
                         <select type="text" class="search-input" id="ship_name">
+                            <option value="">请选择船舶。</option>
                             @if(isset($shipList))
                                 @foreach($shipList as $key => $item)
                                     <option value="{{ $item->id }}">{{ $item->NickName }}</option>
@@ -158,8 +159,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="custom-modal-td-label">{{transDecideManage("captions.approveName")}} <span class="require">*</span></td>
-                                                    <td class="custom-td-dec-text">
-                                                        <input type="text" name="decTitle" id="decTitle" class="form-control transparent-input text-right" style="width: 100%" v-bind:value="reporter" disabled>
+                                                    <td class="custom-modal-td-text1">
+                                                        <input type="text" name="decTitle" id="decTitle" class="form-control transparent-input" style="width: 100%" v-bind:value="reporter" disabled>
                                                     </td>
                                                      
                                                 </tr>
@@ -174,7 +175,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="custom-modal-td-label">{{transDecideManage("captions.content")}} <span class="require">*</span></td>
-                                                    <td class="custom-td-dec-text" colspan="2">
+                                                    <td class="custom-modal-td-text1" colspan="2">
                                                         <input name="content" class="form-control" v-model="content">
                                                     </td>
                                                 </tr>
@@ -198,7 +199,7 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <div class="btn-group f-left mt-2 d-flex">
+                                            <div class="btn-group f-left mt-20 d-flex">
                                                 <button type="button" class="btn btn-success small-btn ml-0" id="report-submit"><img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}</button>
                                                 <div class="between-1"></div>
                                                 <button type="button" class="btn btn-warning small-btn" id="save-draft"><img src="{{ cAsset('assets/images/draft.png') }}" class="report-label-img">{{ trans('decideManage.button.draft') }}</button>
