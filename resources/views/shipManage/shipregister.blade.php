@@ -32,7 +32,7 @@ $shipList = Session::get('shipList');
             <div class="col-md-12">
                 <div id="item-manage-dialog" class="hide"></div>
                 <div class="row">
-                    <div class="head-fix-div">
+                    <div class="head-fix-div" id="ship-table">
                         <table class="registered-list">
                             <thead>
                             <tr>
@@ -222,6 +222,11 @@ $shipList = Session::get('shipList');
                     $('.alert').toggleClass('visuallyhidden');
                 }, 2000);
                 $('[name=shipName_En]').focus();
+            }
+            else
+            {
+                var row = $(".ship-item.selected");
+                $('#ship-table').scrollTop(row.position().top - row.height());
             }
         })
 
