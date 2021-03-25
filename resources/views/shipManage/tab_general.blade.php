@@ -15,7 +15,7 @@ $shipList = Session::get('shipList');
                             <span class="text-danger">{{ transShipManager('General.ShipName') }}*</span>
                         </td>
                         <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <input type="text" name="shipName_Cn" class="form-control" placeholder="中文" style="width:100%" value="@if(isset($shipInfo['shipName_Cn'])){{$shipInfo['shipName_Cn']}}@endif" required>
+                            <input type="text" name="shipName_En" class="form-control" placeholder="{{ trans('shipManage.placeholder.english') }}" style="width:100%" value="@if(isset($shipInfo['shipName_En'])){{$shipInfo['shipName_En']}}@endif" required>
                         </td>
                     </tr>
                     <tr>
@@ -23,7 +23,7 @@ $shipList = Session::get('shipList');
                             {{ transShipManager('General.ShipName_Cn') }}
                         </td>
                         <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <input type="text" name="shipName_En" class="form-control" placeholder="英文" style="width:100%" value="@if(isset($shipInfo['shipName_En'])){{$shipInfo['shipName_En']}}@endif">
+                            <input type="text" name="shipName_Cn" class="form-control" placeholder="{{ trans('shipManage.placeholder.chinese') }}" style="width:100%" value="@if(isset($shipInfo['shipName_Cn'])){{$shipInfo['shipName_Cn']}}@endif">
                         </td>
                     </tr>
                     <tr>
@@ -31,27 +31,23 @@ $shipList = Session::get('shipList');
                             {{ transShipManager('General.NickName') }}
                         </td>
                         <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <input type="text" name="NickName" class="form-control" placeholder="英文" style="width:100%" value="@if(isset($shipInfo['NickName'])){{$shipInfo['NickName']}}@endif">
+                            <input type="text" name="NickName" class="form-control" placeholder="{{ trans('shipManage.placeholder.ENGLISH') }}" style="width:100%" value="@if(isset($shipInfo['NickName'])){{$shipInfo['NickName']}}@endif">
                         </td>
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left" colspan="2">
-                            <span class="text-danger">{{ transShipManager('General.Class') }}*</span>
+                            <span class="text-danger">{{ transShipManager('General.IMO_No') }}*</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
-                            <select type="text" name="Class" class="form-control d-in-block" style="width:48%;border-right: 1px solid #cccccc!important;"  required>
-                                <option value="CLASS A" {{ isset($shipInfo['Class']) && $shipInfo['Class'] == "CLASS A" ? 'selected' : ''}}>CLASS A</option>
-                                <option value="CLASS B" {{ isset($shipInfo['Class']) && $shipInfo['Class'] == "CLASS B" ? 'selected' : ''}}>CLASS B</option>
-                            </select>
-                            <input type="text" name="IMO_No" class="form-control d-in-block" style="width:50%" value="@if(isset($shipInfo['IMO_No'])){{$shipInfo['IMO_No']}}@endif" required minlength="7" maxlength="7">
+                            <input type="text" name="IMO_No" class="form-control" value="@if(isset($shipInfo['IMO_No'])){{$shipInfo['IMO_No']}}@endif" required minlength="7" maxlength="7">
                         </td>
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left" colspan="2">
-                            {{ transShipManager('General.SerialNo') }}
+                            {{--<span class="text-danger">--}}{{ transShipManager('General.Class') }}{{--*</span>--}}
                         </td>
                         <td class="custom-td-report-text" colspan="2">
-                            <input type="text" name="SerialNo" class="form-control" style="width:100%" value="@if(isset($shipInfo['SerialNo'])){{$shipInfo['SerialNo']}}@endif">
+                            <input type="text" name="Class" class="form-control" value="@if(isset($shipInfo['Class'])){{$shipInfo['Class']}}@endif"/>
                         </td>
                     </tr>
                     <tr>
@@ -93,6 +89,14 @@ $shipList = Session::get('shipList');
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left" colspan="2">
+                            {{ transShipManager('General.INMARSAT') }}
+                        </td>
+                        <td class="custom-td-report-text" colspan="3">
+                            <input type="text" name="INMARSAT" class="form-control" style="width:100%" value="@if(isset($shipInfo['INMARSAT'])){{$shipInfo['INMARSAT']}}@endif">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="custom-td-label1" style="text-align: left" colspan="2">
                             {{ transShipManager('General.OriginalName') }}
                         </td>
                         <td class="custom-td-report-text" colspan="3">
@@ -113,14 +117,6 @@ $shipList = Session::get('shipList');
                         </td>
                         <td class="custom-td-report-text" colspan="3">
                             <input type="text" name="SecondFormerShipName" class="form-control" style="width:100%" value="@if(isset($shipInfo['SecondFormerShipName'])){{$shipInfo['SecondFormerShipName']}}@endif">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="custom-td-label1" style="text-align: left" colspan="2">
-                            <span class="sub-title">{{ transShipManager('General.FormerName3') }}</span>
-                        </td>
-                        <td class="custom-td-report-text" colspan="3">
-                            <input type="text" name="ThirdFormerShipName" class="form-control" style="width:100%" value="@if(isset($shipInfo['ThirdFormerShipName'])){{$shipInfo['ThirdFormerShipName']}}@endif">
                         </td>
                     </tr>
                     <tr>
@@ -366,7 +362,7 @@ $shipList = Session::get('shipList');
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <div class="table-responsive">
                         <table class="table table-bordered general">
                             <tbody>
@@ -422,7 +418,7 @@ $shipList = Session::get('shipList');
                         </table>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <div class="table-responsive">
                         <table class="table table-bordered general">
                             <tbody>
@@ -479,7 +475,7 @@ $shipList = Session::get('shipList');
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <div class="table-responsive">
                         <table class="table table-bordered general"
                                style="font-weight: bold">

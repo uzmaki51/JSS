@@ -33,7 +33,7 @@ $shipList = Session::get('shipList');
                 <div id="item-manage-dialog" class="hide"></div>
                 <div class="row">
                     <div class="head-fix-div">
-                        <table>
+                        <table class="registered-list">
                             <thead>
                             <tr>
                                 <th class="text-center" style="width: 2%;"><span>No</span></th>
@@ -188,12 +188,16 @@ $shipList = Session::get('shipList');
             $('form').submit();
         });
 
-        $('.ship-item').on('click', function() {
-            if($(this).hasClass('selected'))
-                return;
+        $('.registered-list').on('click', 'tr', function(evt) {
+            let cell = $(evt.target).closest('td');
+            if(!$(this).hasClass('ship-item')) return false;
+            if(cell.index() < 14) {
+                if($(this).hasClass('selected'))
+                    return;
 
-            let ship_id = $(this).attr('data-index');
-            location.href = BASE_URL + 'shipManage/registerShipData?shipId=' + ship_id;
+                let ship_id = $(this).attr('data-index');
+                location.href = BASE_URL + 'shipManage/registerShipData?shipId=' + ship_id;
+            }
         });
 
         function deleteItem(shipId, shipName) {
@@ -211,15 +215,13 @@ $shipList = Session::get('shipList');
             });
         }
 
-
-
         $(function() {
             if(shipId.length < 1) {
                 $('.alert').toggleClass('visuallyhidden');
                 setTimeout(function() {
                     $('.alert').toggleClass('visuallyhidden');
                 }, 2000);
-                $('[name=shipName_Cn]').focus();
+                $('[name=shipName_En]').focus();
             }
         })
 

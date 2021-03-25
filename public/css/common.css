@@ -95,6 +95,9 @@
 .mt-20 {
     margin-top: 20px;
 }
+.width-30 {
+    width: 30% !important;
+}
 
 .between-1 {
     width: 1px;

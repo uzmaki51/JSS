@@ -141,21 +141,22 @@
                                                             <option v-for="(item, index) in profitType" v-bind:value="item.id">@{{ item.AC_Item_Cn }}</option>
                                                         </select>
                                                     </td>
-                                                     
+                                                </tr>
+                                                <tr>
+                                                    <td class="custom-modal-td-label">币类</td>
+                                                    <td class="custom-modal-td-text1">
+                                                        <select name="currency" class="form-control width-100" v-model="currentCurrency">
+                                                            <option v-for="(item, index) in currency" v-bind:value="index">@{{ item }}</option>
+                                                        </select>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="custom-modal-td-label" >
                                                         金额
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <div style="display: flex;">
-                                                            <input type="text" name="amount" style="display: inline-block;" class="form-control transparent-input" v-model="amount">
-                                                            <select name="currency" class="form-control width-auto"  style="display: inline-block;" v-model="currentCurrency">
-                                                                <option v-for="(item, index) in currency" v-bind:value="index">@{{ item }}</option>
-                                                            </select>
-                                                        </div>
+                                                        <input type="text" name="amount" style="display: inline-block;" class="form-control transparent-input" v-model="amount">
                                                     </td>
-                                                     
                                                 </tr>
                                                 <tr>
                                                     <td class="custom-modal-td-label">{{transDecideManage("captions.approveName")}} <span class="require">*</span></td>
@@ -203,7 +204,7 @@
                                                 <button type="button" class="btn btn-success small-btn ml-0" id="report-submit"><img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}</button>
                                                 <div class="between-1"></div>
                                                 <button type="button" class="btn btn-warning small-btn" id="save-draft"><img src="{{ cAsset('assets/images/draft.png') }}" class="report-label-img">{{ trans('decideManage.button.draft') }}</button>
-                                                <a class="btn btn-danger small-btn" data-dismiss="modal"><i class="icon-remove"></i>{{ trans('decideManage.button.cancel') }}</a>
+                                                <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>{{ trans('decideManage.button.cancel') }}</a>
                                             </div>
                                         </form>
                                     </div>
@@ -255,6 +256,7 @@
                 if(reportStatus != 0) return false;
                 decideReport(reportId, reportStatus);
             } else {
+                $(this).addClass('selected');
                 showReportDetail(reportId);
             }
 
@@ -413,6 +415,7 @@
 
         function disableProfit(type, selected) {
             if(type == 'Contract') {
+                reportObj.currentProfitType = '';
                 $('[name=profit_type]').attr('disabled', 'disabled');
                 $('[name=amount]').attr('disabled', 'disabled');
                 $('[name=currency]').attr('disabled', 'disabled');
@@ -618,6 +621,17 @@
 
             getProfit(REPORT_TYPE_EVIDENCE_IN);
         }
+
+        $('.close-modal').on('click', function() {
+            $('table tr').removeClass('selected');
+        })
+
+        $(document).mouseup(function(e) {
+            var container = $(".report-modal");
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                $('table tr').removeClass('selected');
+            }
+        });
 
     </script>
 

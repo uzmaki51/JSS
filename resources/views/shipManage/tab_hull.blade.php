@@ -61,13 +61,12 @@
                                 {{ transShipManager('Hull.(Grain/Bale)㎥') }}
                             </td>
                             <td class="custom-td-report-text" colspan="2">
-                                <input type="text" name="CapacityOfHoldsG" class="form-control first-input" value="@if(isset($shipInfo['CapacityOfHoldsG'])){{$shipInfo['CapacityOfHoldsG']}}@endif">/
-                                <input type="text" name="CapacityOfHoldsB" class="form-control second-input" value="@if(isset($shipInfo['CapacityOfHoldsB'])){{$shipInfo['CapacityOfHoldsB']}}@endif">
+                                <input type="text" name="CapacityOfHoldsG" class="form-control first-input" value="@if(isset($shipInfo['CapacityOfHoldsG'])){{$shipInfo['CapacityOfHoldsG']}}@endif">/<input type="text" name="CapacityOfHoldsB" class="form-control second-input" value="@if(isset($shipInfo['CapacityOfHoldsB'])){{$shipInfo['CapacityOfHoldsB']}}@endif">
                             </td>
                         </tr>
                         <tr>
                             <td class="small-title">
-                                {{ transShipManager('Hull.Details') }}
+                                {{ transShipManager('Hull.Size') }}
                             </td>
                             <td class="custom-td-report-text" colspan="2">
                                     <textarea name="HoldsDetail" class="form-control" style="width:100%">@if(isset($shipInfo['HoldsDetail'])){{$shipInfo['HoldsDetail']}}@endif
@@ -80,7 +79,7 @@
                         </tr>
                         <tr>
                             <td class="no-padding custom-td-label1" rowspan="2">
-                                <span class="text-pink">{{ transShipManager('Hull.HatchWays') }}: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ transShipManager('Hull.Number') }}</span>
+                                <span class="text-pink">{{ transShipManager('Hull.HatchWays') }}</span>
                             </td>
                             <td class="custom-td-report-text" colspan="3">
                                 <input type="text" name="NumberOfHatchways" class="form-control" style="width:100%" value="@if(isset($shipInfo['NumberOfHatchways'])){{$shipInfo['NumberOfHatchways']}}@endif">
@@ -120,6 +119,14 @@
                             </td>
                             <td class="custom-td-report-text" colspan="3">
                                 <input type="text" name="LiftingDevice" class="form-control" style="width:100%" value="@if(isset($shipInfo['LiftingDevice'])){{$shipInfo['LiftingDevice']}}@endif">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="small-title">
+                                {{ transShipManager('Hull.Max PERMISSBLE') }}
+                            </td>
+                            <td class="custom-td-report-text" colspan="2">
+                                <input type="text" name="TK_TOP" class="form-control width-30 first-input" value="@if(isset($shipInfo['TK_TOP'])){{$shipInfo['TK_TOP']}}@endif">/<input type="text" name="ON_DECK" class="form-control width-30 second-input" value="@if(isset($shipInfo['ON_DECK'])){{$shipInfo['ON_DECK']}}@endif">/<input type="text" name="H_COVER" class="form-control width-30 second-input" value="@if(isset($shipInfo['H_COVER'])){{$shipInfo['H_COVER']}}@endif">
                             </td>
                         </tr>
                         </tbody>

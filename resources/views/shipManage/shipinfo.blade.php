@@ -58,9 +58,6 @@ $shipList = explode(',', Auth::user()->shipList);
                     </div>
                     <div class="col-sm-6">
                         <div class="btn-group f-right">
-                        @if(!$isShareHolder)
-                            <a href="{{ url('shipManage/registerShipData') }}" data-toggle="modal" class="btn btn-sm btn-primary no-radius"><i class="icon-plus"></i>{{ trans('common.label.add') }}</a>
-                        @endif
                             <a href="shipInfoExcel" class="btn btn-warning btn-sm">
                                 <i class="icon-table"></i>{{ trans('common.label.excel') }}
                             </a>

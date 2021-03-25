@@ -5,7 +5,7 @@
 .table tbody > tr > .custom-td-label1 {
     padding: 2px!important;
     border: unset!important;
-    width: 120px!important;
+    width: 160px!important;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -208,4 +208,10 @@
 }
 #report_div .custom-modal-td-text1 {
     width: 100px;
+}
+.ship-item:hover {
+    background-color: #e0edff;
+}
+.custom-modal-td-text1 input {
+    padding: 0 8px!important;
 }

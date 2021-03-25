@@ -201,14 +201,14 @@ class ShipRegController extends Controller
 		    $shipData['Class'] = $params['Class'];
 		    $shipData['RegNo'] = $params['RegNo'];
 		    $shipData['RegStatus'] = $params['RegStatus'];
-		    $shipData['SerialNo'] = $params['SerialNo'];
 		    $shipData['CallSign'] = $params['CallSign'];
 		    $shipData['MMSI'] = $params['MMSI'];
 		    $shipData['IMO_No'] = $params['IMO_No'];
+		    $shipData['INMARSAT'] = isset($params['INMARSAT']) ? $params['INMARSAT'] : '';
 		    $shipData['OriginalShipName'] = $params['OriginalShipName'];
 		    $shipData['FormerShipName'] = $params['FormerShipName'];
 		    $shipData['SecondFormerShipName'] = $params['SecondFormerShipName'];
-		    $shipData['ThirdFormerShipName'] = $params['ThirdFormerShipName'];
+//		    $shipData['ThirdFormerShipName'] = $params['ThirdFormerShipName'];
 		    $shipData['Flag'] = $params['Flag'];
 		    $shipData['PortOfRegistry'] = $params['PortOfRegistry'];
 		    $shipData['Owner_Cn'] = $params['Owner_Cn'];
@@ -277,6 +277,9 @@ class ShipRegController extends Controller
 		    $shipData['ContainerOnDeck'] = $params['ContainerOnDeck'];
 		    $shipData['ContainerInHold'] = $params['ContainerInHold'];
 		    $shipData['LiftingDevice'] = $params['LiftingDevice'];
+		    $shipData['TK_TOP'] = $params['TK_TOP'];
+		    $shipData['ON_DECK'] = $params['ON_DECK'];
+		    $shipData['H_COVER'] = $params['H_COVER'];
 		    $shipData->save();
 
 		    if($freeId > 0)
