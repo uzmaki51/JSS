@@ -13,7 +13,7 @@
                             <select name="ShipId" class="form-control">
                                 <option value="">&nbsp;</option>
                                 @foreach($shipList as $ship)
-                                    <option value="{{$ship['RegNo']}}" @if($info['ShipId'] == $ship['RegNo'])) selected @endif>{{$ship['shipName_Cn']}}</option>
+                                    <option value="{{$ship['RegNo']}}" @if($info['ShipId'] == $ship['RegNo'])) selected @endif>{{$ship['shipName_En']}}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -26,7 +26,7 @@
                             <select name="DutyID_Book" class="form-control">
                                 <option value="">&nbsp;</option>
                                 @foreach($posList as $pos)
-                                    <option value="{{$pos['id']}}" @if($info['DutyID_Book'] == $pos['id'])) selected @endif>{{$pos['Duty']}}</option>
+                                    <option value="{{$pos['id']}}" @if($info['DutyID_Book'] == $pos['id'])) selected @endif>{{$pos['Duty_En']}}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -80,15 +80,11 @@
                 <table class="table table-bordered general" style="font-weight: bold">
                     <tbody>
                     </tr>
-
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
                             Sign On
                         </td>
-                        <td class="custom-td-report-text" colspan="2">
-                            <select class="form-control" name="RegStatus">
-                                <option value="1" @if(isset($info) && ($info['RegStatus'] == 1)) selected @endif>{{transShipMember('captions.register')}}</option>
-                                <option value="0" @if(isset($info) && ($info['RegStatus'] == 0)) selected @endif>{{transShipMember('captions.dismiss')}}</option>
-                            </select>
+                        <td class="no-padding" colspan="2" style="border:0;">
+                            <input name="RegStatus" style="margin:0;" type="checkbox" onclick="$(this).attr('value', this.checked ? 1 : 0)" @if(isset($info) && ($info['RegStatus'] == 1)) checked value="1" @else value="0" @endif></td>
                         </td>
                     </tr>
                     <tr>
@@ -128,7 +124,7 @@
                             Salary
                         </td>
                         <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <input type="text" name="shipName_Cn" class="form-control" style="width:100%" value="@if(isset($shipInfo['shipName_Cn'])){{$shipInfo['shipName_Cn']}}@endif">
+                            <input type="text" name="Salary" class="form-control" style="width:100%" value="">
                         </td>
                     </tr>
                     </tbody>

@@ -45,10 +45,10 @@ class OrgmanageController extends Controller
         $GLOBALS['topMenuId'] = 1;
 
         if($admin > 0) {
-            $menulist = Menu::where('parentId', '=', '1')->get();
+            $menulist = Menu::where('parentId', '=', '1')->orderBy('id')->get();
             foreach($menulist as $menu) {
                 $menuId = $menu['id'];
-                $submenus = Menu::where('parentId', '=', $menuId)->get();
+                $submenus = Menu::where('parentId', '=', $menuId)->orderBy('id')->get();
                 $menu['submenu'] = $submenus;
             }
             $GLOBALS['menulist'] = $menulist;
@@ -468,7 +468,7 @@ class OrgmanageController extends Controller
 
 		foreach ($pmenus as $pmenu) {
 			$cmenus[$index] = array();
-			$cmenus[$index] = Menu::where('parentId', $pmenu['id'])->get();
+			$cmenus[$index] = Menu::where('parentId', $pmenu['id'])->orderBy('id')->get();
 			$index++;
 		}
 

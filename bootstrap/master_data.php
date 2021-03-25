@@ -194,7 +194,11 @@ $ReportStatusData = array(
 	REPORT_STATUS_REJECT    => ['否决', 'secondary'],
 );
 
-
+$NationalityData = array(
+	0      => 'BANGLADESH',
+	1      => 'CHINESE',
+	2      => 'MYANMAR',
+);
 
 
 define('HTTP_METHOD_POST', 'POST');
@@ -215,5 +219,6 @@ define('HTTP_METHOD_POST', 'POST');
 		'ShipTypeData'					=> $ShipTypeData,
 	    'ShipRegStatus'					=> $ShipRegStatus,
 	    'ReportStatusData'			    => $ReportStatusData,
+		'NationalityData'				=> $NationalityData,
 
  );

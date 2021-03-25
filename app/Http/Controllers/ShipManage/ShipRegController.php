@@ -83,7 +83,7 @@ class ShipRegController extends Controller
             }
         }
 		$GLOBALS['topMenu'] = $topMenu;
-        $GLOBALS['topMenuId'] = 4;
+        $GLOBALS['topMenuId'] = 5;
 
         if ($admin > 0) {
             $menulist = Menu::where('parentId', '=', '4')->orderBy('id')->get();
@@ -124,6 +124,7 @@ class ShipRegController extends Controller
         Util::getMenuInfo($request);
 
         $ship_infolist = $this->getShipGeneralInfo();
+        $GLOBALS['topMenuId'] = 4;
 
         return view('shipManage.shipinfo', array('list'=> $ship_infolist));
     }

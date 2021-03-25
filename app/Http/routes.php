@@ -488,6 +488,7 @@ Route::group(['prefix' => 'shipMember'], function() {
 	Route::post('showMemberExamSubMarks', ['uses' => 'ShipManage\ShipMemberController@showMemberExamSubMarks']);
 	Route::post('saveExamSubMarks', ['uses' => 'ShipManage\ShipMemberController@saveExamSubMarks']);
 	Route::post('deleteExamSubMarks', ['uses' => 'ShipManage\ShipMemberController@deleteExamSubMarks']);
+	Route::post('deleteShipMember', ['uses'=>'ShipManage\ShipMemberController@deleteShipMember']);
 
 	Route::get('totalShipMember', ['uses' => 'ShipManage\ShipMemberController@totalShipMember']);
 	Route::get('memberCertList', ['uses' => 'ShipManage\ShipMemberController@memberCertList']);

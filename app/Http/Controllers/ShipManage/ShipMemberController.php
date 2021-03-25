@@ -70,7 +70,7 @@ class ShipMemberController extends Controller
             }
         }
 		$GLOBALS['topMenu'] = $topMenu;
-        $GLOBALS['topMenuId'] = 5;
+        $GLOBALS['topMenuId'] = 7;
 
         if ($admin > 0) {
             $menulist = Menu::where('parentId', '=', '5')->orderBy('id')->get();
@@ -169,7 +169,7 @@ class ShipMemberController extends Controller
         $GLOBALS['selMenu'] = 55;
         $GLOBALS['submenu'] = 0;
 
-        $shipList = ShipRegister::select('shipName_Cn', 'RegNo')->get();
+        $shipList = ShipRegister::select('shipName_En', 'RegNo')->get();
         $posList = ShipPosition::all();
         $ksList = Ship::all();
         $typeList = ShipType::all();
@@ -274,7 +274,7 @@ class ShipMemberController extends Controller
         if(!empty($memberId)) {
             $info = ShipMember::find($memberId);
             // 登记자료탭
-            $shipList = ShipRegister::select('shipName_Cn', 'RegNo')->get();
+            $shipList = ShipRegister::select('shipName_En', 'RegNo')->get();
             $posList = ShipPosition::all();
             $ksList = Ship::all();
             $typeList = ShipType::all();
@@ -334,6 +334,23 @@ class ShipMemberController extends Controller
         }
         $avg = ShipMemberSubExaming::where('ExamId', $request->get('examId'))->avg('SubMarks');
         return round($avg, 2);
+    }
+
+    public function deleteShipMember(Request $request)
+    {
+        $dataId = $request->get('dataId');
+        $memberData = ShipMember::find($dataId);
+
+        if(is_null($memberData)) {
+            return -1;
+        } else {
+            $memberData->delete();
+            ShipMemberSchool::where('memberId', $dataId)->delete();
+            ShipMemberCapacityCareer::where('memberId', $dataId)->delete();
+            ShipBoardCareer::where('memberId', $dataId)->delete();
+        }
+
+        return 1;
     }
 
     public function updateMemberInfo(Request $request) {
@@ -769,7 +786,6 @@ class ShipMemberController extends Controller
 
         // 안전
         $training['TCPNo'] = $request->get('TCPNo');
-
         if($request->has('TCP_certID')) {
             $training['TCP_certID'] = $request->get('TCP_certID');
         }
@@ -913,13 +929,13 @@ class ShipMemberController extends Controller
 
         $list = ShipMember::getTotalMemberList($regShip, $bookShip, $origShip, $regStatus);
 
-        $shipList = ShipRegister::select('tb_ship_register.RegNo', 'tb_ship_register.shipName_Cn', 'tb_ship.name')
+        $shipList = ShipRegister::select('tb_ship_register.RegNo', 'tb_ship_register.shipName_En', 'tb_ship.name')
                         ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                         ->get();
 
-        $shipList1 = ShipRegister::select('tb_ship_register.RegNo', 'tb_ship_register.shipName_Cn', 'tb_ship.name')
+        $shipList1 = ShipRegister::select('tb_ship_register.RegNo', 'tb_ship_register.shipName_En', 'tb_ship.name')
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
-                        ->orderBy('tb_ship_register.shipName_Cn')
+                        ->orderBy('tb_ship_register.shipName_En')
             ->get();
 
         $ko_ship_list = Ship::select('id', 'name')->get();
@@ -927,7 +943,7 @@ class ShipMemberController extends Controller
             //$ship = ShipRegister::find($member['ShipID_Book']);
             $ship = ShipRegister::where('RegNo', $member['ShipID_Book'])->first();
             if($ship)
-                $member['book_ship'] = $ship['shipName_Cn'];
+                $member['book_ship'] = $ship['shipName_En'];
             $ship = Ship::find($member['ShipID_organization']);
             if($ship)
                 $member['origin_ship'] = $ship['name'];

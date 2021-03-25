@@ -119,8 +119,8 @@
                             <td class="no-padding" style="width:20%">
                                 <select class="form-control" name="ASD_typeID">
                                     <option value="" @if(empty($training['ASD_typeID'])) selected @endif>&nbsp;</option>
-                                    <option value="1" @if($training['ASD_typeID'] == 1) selected @endif>transShipMember("captions.deck")</option>
-                                    <option value="2" @if($training['ASD_typeID'] == 2) selected @endif>transShipMember("captions.mast")</option>
+                                    <option value="1" @if($training['ASD_typeID'] == 1) selected @endif>{{transShipMember("captions.deck")}}</option>
+                                    <option value="2" @if($training['ASD_typeID'] == 2) selected @endif>{{transShipMember("captions.mast")}}</option>
                                 </select>
                             </td class="no-padding">
                             <td class="center no-padding">
@@ -159,11 +159,10 @@
                             </td>
                             <td class="no-padding">
                                 <select class="form-control" name="TCP_certID">
-
                                     <option value="" @if(empty($training['TCP_certID'])) selected @endif>&nbsp;</option>
                                     @if($security != null)
                                     @foreach($security as $cert)
-                                        <option value="{{$cert['id']}}" @if(($training['TCP_certID'] == $cert['id']))  @endif>{{$cert['title']}}</option>
+                                        <option value="{{$cert['id']}}" @if(($training['TCP_certID'] == $cert['id'])) selected @endif>{{$cert['title']}}</option>
                                     @endforeach
                                     @endif
                                 </select>
@@ -207,7 +206,7 @@
                                     <option value="" @if(empty($training['SSO_certID'])) selected @endif>&nbsp;</option>
                                     @if($security != null)
                                     @foreach($security as $cert)
-                                        <option value="{{$cert['id']}}" @if(($training['SSO_certID'] == $cert['id']))  @endif>{{$cert['title']}}</option>
+                                        <option value="{{$cert['id']}}" @if(($training['SSO_certID'] == $cert['id'])) selected @endif>{{$cert['title']}}</option>
                                     @endforeach
                                     @endif
                                 </select>
