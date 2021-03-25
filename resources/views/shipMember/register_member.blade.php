@@ -69,7 +69,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <?php $index = 1; ?>
                                 @if(isset($list) && count($list) > 0)
                                     @foreach ($list as $item)
-                                        <tr>
+                                        <tr class="member-item {{ $item['id'] == $info['id'] ? 'selected' : '' }}" data-index="{{ $item['id'] }}">
                                             <td class="text-center" style="width: 2%;">{{ $item['id'] }}</td>
                                             <td class="text-center" style="width: 10%;">{{ $item['crewNum'] }}</td>
                                             <td class="text-center" style="width: 10%;">{{ $item['readlname'] }}</td>
@@ -459,6 +459,14 @@ $isHolder = Session::get('IS_HOLDER');
                     }
                 });
             }
+        });
+
+        $('.member-item').on('click', function() {
+            if($(this).hasClass('selected'))
+                return;
+
+            let member_id = $(this).attr('data-index');
+            location.href = BASE_URL + 'shipMember/registerShipMember?memberId=' + member_id;
         });
 
         function newrow() {

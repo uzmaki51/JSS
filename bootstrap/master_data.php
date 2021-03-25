@@ -105,7 +105,7 @@ define('CNY_LABEL', 'CNY');
 define('USD_LABEL', 'USD');
 define('EUR_LABEL', 'EUR');
 $CurrencyLabel = array(
-	CNY_LABEL   =>  '￥',
+	CNY_LABEL   =>  '¥',
 	USD_LABEL   =>  '$',
 	EUR_LABEL   =>  '€',
 );

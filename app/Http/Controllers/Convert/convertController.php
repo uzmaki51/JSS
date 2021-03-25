@@ -54,8 +54,8 @@ class convertController extends Controller
     }
 
     public function showIcon() {
-        $topMenu = Menu::where('parentId', '0')->get();
-        $menulist = Menu::where('parentId', '=', '3')->get();
+        $topMenu = Menu::where('parentId', '0')->orderBy('id')->get();
+        $menulist = Menu::where('parentId', '=', '3')->orderBy('id')->get();
         //$GLOBALS['topMenu'] = $topMenu;
         $GLOBALS['topMenuId'] = 3;
         $GLOBALS['menulist'] = $menulist;
