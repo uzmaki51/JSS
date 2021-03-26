@@ -190,7 +190,6 @@
         var curSeltrs = Array();
         var token = '{!! csrf_token() !!}';
         var relationHtml = '';
-
         $(function(){
                     @if(isset($state))
             var state = '{!! $state !!}';
