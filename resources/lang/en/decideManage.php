@@ -13,7 +13,7 @@ return [
 		'DocApprove' => '文件批准',
 		'DocReading' => '文件预览',
 		'Drafting' => '文件',
-		'Drafted List' => '起草目录',
+		'Drafted List' => '草稿箱',
 		'Draft Change' => '起草修改',
 	],
 	
