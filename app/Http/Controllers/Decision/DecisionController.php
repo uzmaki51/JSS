@@ -47,11 +47,12 @@ class DecisionController extends Controller
         $this->userInfo = Auth::user();
 
         $admin = Session::get('admin');
-        if($admin > 0){
+        if($admin >= 0) {
             $topMenu = Menu::where('parentId', '0')->orderBy('id')->get();
         } else {
             $topMenu = Util::getTopMemu($this->userInfo['menu']);
         }
+
         foreach($topMenu as $menu) {
             $menu['submenu'] = Menu::where('parentId', '=', $menu['id'])->orderBy('id')->get();
             foreach($menu['submenu'] as $submenu)

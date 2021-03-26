@@ -577,7 +577,7 @@ footer {
 }
 .attach-list li span {
     display: inline-block;
-    width: 295px;
+    width: 286px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

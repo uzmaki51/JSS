@@ -22,7 +22,7 @@ return [
 		'type'				=> '文件种类',
 		'date'				=> '日期',
 		'state'				=> '状态',
-		'shipName'			=> '船舶简明',
+		'shipName'			=> '船名',
 		'voy_no'			=> '航次',
 		'profit_type'		=> '收支种类',
 		'content'			=> '内容',
