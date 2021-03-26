@@ -241,7 +241,7 @@
                     },
                 },
                 messages: {
-                    account: "请输入登记识别者。",
+                    account: "请输入ID。",
                     name: "请输入名称。",
                     email: "比如: bss@www.com",
                 }

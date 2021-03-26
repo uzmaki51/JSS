@@ -31,7 +31,7 @@ return [
     ],
 
 	"captions" => [
-		'officeStructure'  => '行政结构图',
+		'officeStructure'  => '公司结构',
 		'warning' => '通知',
 		'nextPage' => '下一个',
 		'register' => '登记',

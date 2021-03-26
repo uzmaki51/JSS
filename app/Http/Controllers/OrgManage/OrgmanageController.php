@@ -333,7 +333,7 @@ class OrgmanageController extends Controller
         $account = $param['account'];
         $isUser = User::where('account', $account)->where('id', '<>', $userid)->first();
         if(!is_null($isUser)) {
-            $error = "错误!  登记识别者重复!";
+            $error = "错误!  ID重复了!";
             return back()->with(['state'=> $error]);
         }
 
