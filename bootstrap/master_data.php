@@ -186,7 +186,7 @@ $ShipRegStatus = array(
 define('REPORT_STATUS_REQUEST',     0);
 define('REPORT_STATUS_ACCEPT',      1);
 define('REPORT_STATUS_REJECT',      2);
-define('REPORT_STATUS_DRAFT',      3);
+define('REPORT_STATUS_DRAFT',       3);
 
 $ReportStatusData = array(
 	REPORT_STATUS_REQUEST   => ['等批', 'primary'],

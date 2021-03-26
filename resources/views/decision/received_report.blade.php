@@ -21,12 +21,14 @@
                     <div class="space-6"></div>
                     <div class="col-lg-4 form-group pl-0 mb-0">
                         <div class="btn-group f-left">
-                            <a class="btn btn-sm btn-warning right-no-radius refresh-btn-over" type="button" onclick="refresh()">
+                            <a class="btn btn-sm btn-warning {{ Auth::user()->isAdmin == 1 ? '' : 'right-no-radius' }} refresh-btn-over" type="button" onclick="refresh()">
                                 <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">收件
                             </a>
+                            @if(!Auth::user()->isAdmin)
                             <a href="#modal-wizard" class="btn btn-sm btn-report-search left-no-radius report-btn-over show-modal" role="button" data-toggle="modal">
                                 <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">写件
                             </a>
+                            @endif
                             <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
                         </div>
                     </div>
@@ -75,11 +77,7 @@
                                 <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
                                 <th style="width: 4%;">{{ trans('decideManage.table.attachment') }}</th>
-                                @if(Auth::user()->isAdmin == SUPER_ADMIN)
-                                    <th style="width: 4%;">{{ trans('decideManage.table.state') }}</th>
-                                @else
-                                    <th class="d-none"></th>
-                                @endif
+                                <th style="width: 4%;">{{ trans('decideManage.table.state') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -90,18 +88,23 @@
 
                 <div id="modal-wizard" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
                     <div class="modal-dialog report-modal">
-                        <div class="modal-content">
-                            <div class="modal-header" data-target="#modal-step-contents">
-                                草稿
+                        <div class="modal-content" style="border: 0;">
+                            <div class="modal-header no-padding" data-target="#modal-step-contents">
+                                <div class="table-header">
+                                    <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
+                                        <span class="white">&times;</span>
+                                    </button>
+                                    草稿
+                                </div>
                             </div>
                             <div id="modal-body-content" class="modal-body step-content">
                                 <div class="row">
-                                    <div class="table-responsive">
-                                        <form role="form" method="POST" action="{{url('decision/report/submit')}}" enctype="multipart/form-data" id="report-form">
-                                            <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                            <input type="hidden" name="reportId" value="">
-                                            <input type="hidden" name="reportType" value="0">
-                                            <table class="table table-bordered" id="report_div" v-cloak>
+                                    <form role="form" method="POST" action="{{url('decision/report/submit')}}" enctype="multipart/form-data" id="report-form">
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                        <input type="hidden" name="reportId" value="">
+                                        <input type="hidden" name="reportType" value="0">
+                                        <div class="table-responsive" id="report_div" v-cloak>
+                                            <table class="table table-bordered">
                                                 <tbody>
                                                 <tr>
                                                     <td class="custom-modal-td-label" >
@@ -112,7 +115,7 @@
                                                             <option v-for="(item, index) in reportType" v-bind:value="index">@{{ item }}</option>
                                                         </select>
                                                     </td>
-                                                     
+
                                                 </tr>
                                                 <tr>
                                                     <td class="custom-modal-td-label" >船名</td>
@@ -121,7 +124,7 @@
                                                             <option v-for="(item, index) in shipList" v-bind:value="item.shipID">@{{ item.shipName_Cn }}</option>
                                                         </select>
                                                     </td>
-                                                     
+
                                                 </tr>
                                                 <tr>
                                                     <td class="custom-modal-td-label" >
@@ -132,7 +135,7 @@
                                                             <option v-for="(item, index) in voyNoList" v-bind:value="item.id">@{{ item.CP_ID }}</option>
                                                         </select>
                                                     </td>
-                                                     
+
                                                 </tr>
                                                 <tr>
                                                     <td class="custom-modal-td-label">收支种类</td>
@@ -163,16 +166,16 @@
                                                     <td class="custom-modal-td-text1">
                                                         <input type="text" name="decTitle" id="decTitle" class="form-control transparent-input" style="width: 100%" v-bind:value="reporter" disabled>
                                                     </td>
-                                                     
+
                                                 </tr>
                                                 <tr>
-                                                    <td class="custom-modal-td-label">收支种类</td>
+                                                    <td class="custom-modal-td-label">涉及部门</td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="unit" class="form-control width-100" v-model="currentDepartment">
                                                             <option v-for="(item, index) in department" v-bind:value="item.id">@{{ item.title }}</option>
                                                         </select>
                                                     </td>
-                                                     
+
                                                 </tr>
                                                 <tr>
                                                     <td class="custom-modal-td-label">{{transDecideManage("captions.content")}} <span class="require">*</span></td>
@@ -200,14 +203,21 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <div class="btn-group f-left mt-20 d-flex">
-                                                <button type="button" class="btn btn-success small-btn ml-0" id="report-submit"><img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}</button>
-                                                <div class="between-1"></div>
-                                                <button type="button" class="btn btn-warning small-btn" id="save-draft"><img src="{{ cAsset('assets/images/draft.png') }}" class="report-label-img">{{ trans('decideManage.button.draft') }}</button>
-                                                <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>{{ trans('decideManage.button.cancel') }}</a>
+                                            <div  v-show="reportStatus">
+                                                <div class="btn-group f-left mt-20 d-flex">
+                                                    <button type="button" class="btn btn-success small-btn ml-0" @click="reportSubmit($evt)">
+                                                        <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}
+                                                    </button>
+                                                    <div class="between-1"></div>
+                                                    <button type="button" class="btn btn-warning small-btn" @click="saveDraft($evt)">
+                                                        <img src="{{ cAsset('assets/images/draft.png') }}" class="report-label-img">{{ trans('decideManage.button.draft') }}
+                                                    </button>
+                                                    <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>{{ trans('decideManage.button.cancel') }}</a>
+                                                </div>
                                             </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -228,7 +238,7 @@
 	echo 'var ReportTypeData = ' . json_encode(g_enum('ReportTypeData')) . ';';
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
 	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
-//	echo 'var DepartmentTypeData = ' . json_encode(g_enum('DepartmentTypeData')) . ';';
+	//	echo 'var DepartmentTypeData = ' . json_encode(g_enum('DepartmentTypeData')) . ';';
 	echo '</script>';
 	?>
     <script>
@@ -254,6 +264,7 @@
             if(reportId == undefined) return false;
             if(cell.index() == 11) {
                 if(reportStatus != 0) return false;
+                if(isAdmin != 1) return false;
                 decideReport(reportId, reportStatus);
             } else {
                 $(this).addClass('selected');
@@ -266,43 +277,64 @@
         function decideReport(reportId, status) {
             let decideType = 0;
             let message = '';
-            bootbox.confirm("결재를 승인하겠습니까?", function (result) {
-                if (result) {
-                    decideType = 1;
-                    $.ajax({
-                        url: BASE_URL + 'ajax/report/decide',
-                        type: 'post',
-                        data: {
-                            reportId: reportId,
-                            decideType: decideType
-                        },
-                        success: function(data, status, xhr) {
-                            listTable.draw();
-                        },
-                        error: function(error, status) {
-                            listTable.draw();
+            bootbox.dialog({
+                title: '审批文件',
+                message: '你确定要审批吗?',
+                size: 'large',
+                onEscape: true,
+                backdrop: true,
+                buttons: {
+                    fee: {
+                        label: '承认',
+                        className: 'btn-success',
+                        callback: function(){
+                            decideType = 1;
+                            $.ajax({
+                                url: BASE_URL + 'ajax/report/decide',
+                                type: 'post',
+                                data: {
+                                    reportId: reportId,
+                                    decideType: decideType
+                                },
+                                success: function(data, status, xhr) {
+                                    listTable.draw();
+                                },
+                                error: function(error, status) {
+                                    listTable.draw();
+                                }
+                            });
                         }
-                    });
-                } else if(result == false) {
-                    decideType = 2;
-                    $.ajax({
-                        url: BASE_URL + 'ajax/report/decide',
-                        type: 'post',
-                        data: {
-                            reportId: reportId,
-                            decideType: decideType
-                        },
-                        success: function(data, status, xhr) {
-                            listTable.draw();
-                        },
-                        error: function(error, status) {
-                            listTable.draw();
+                    },
+                    fi: {
+                        label: '拒绝',
+                        className: 'btn-info',
+                        callback: function() {
+                            decideType = 2;
+                            $.ajax({
+                                url: BASE_URL + 'ajax/report/decide',
+                                type: 'post',
+                                data: {
+                                    reportId: reportId,
+                                    decideType: decideType
+                                },
+                                success: function(data, status, xhr) {
+                                    listTable.draw();
+                                },
+                                error: function(error, status) {
+                                    listTable.draw();
+                                }
+                            });
                         }
-                    });
-                } else {
-                    return false;
+                    },
+                    // fo: {
+                    //     label: '취소',
+                    //     className: 'btn-danger',
+                    //     callback: function() {
+                    //         return true;
+                    //     }
+                    // }
                 }
-            });
+            })
         }
 
         function showReportDetail(reportId) {
@@ -312,7 +344,7 @@
                 data: {
                     reportId: reportId
                 },
-                success: function(data, status, xhr) {console.log(data);
+                success: function(data, status, xhr) {console.log(data)
                     $('[name=reportId]').val(reportId);
                     let result = data['list'];
                     let attach = data['attach'];
@@ -331,6 +363,12 @@
                     else
                         reportObj.attachments = [];
 
+                    if(result['state'] == '{!! REPORT_STATUS_REQUEST !!}' || result['state'] == '{!! REPORT_STATUS_DRAFT !!}') {
+                        reportObj.reportStatus = true;
+                    } else {
+                        reportObj.reportStatus = false;
+                    }
+
                     $('.only-modal-show').click();
                 },
                 error: function(error) {
@@ -339,10 +377,11 @@
 
             $('.show-modal').on('click', function() {
                 reportObj.init();
-            })
+            });
         }
 
         $('.show-modal').on('click', function() {
+            $('[name=reportId]').val('');
             reportObj.init();
         });
 
@@ -375,43 +414,6 @@
                 }
             })
         }
-
-        $('#report-submit').on('click', function() {
-            $('[name=reportType]').val(0);
-
-            $('#report-form').validate({
-                rules: {
-                    flowid : "required",
-                    shipNo : "required",
-                    voyNo: "required",
-                },
-                messages: {
-                    flowid: "请选择文件种类。",
-                    shipNo: "请选择船名。",
-                    voyNo: "请选择航次号码。",
-                }
-            });
-            if($('[name=flowid]').val() != 'Contract')
-                $('#report-form').validate({
-                    rules: {
-                        profit_type : "required",
-                    },
-                    messages: {
-                        profit_type: "请选择收支分类。",
-                    }
-                });
-
-            $('#report-form').submit();
-
-            return true;
-        });
-
-        $('#save-draft').on('click', function() {
-            $('[name=reportType]').val(3);
-            $('#report-form').submit();
-
-            return true;
-        });
 
         function disableProfit(type, selected) {
             if(type == 'Contract') {
@@ -477,7 +479,8 @@
                     currentDepartment: '',
                     currentAmount: '',
                     currentContent: '',
-                    // current
+
+                    reportStatus: 1,
                 },
                 filters: {
 
@@ -497,6 +500,8 @@
                         this.currentProfitType = '';
                         this.currentVoyNo = '';
                         this.currentCurrency = DEFAULT_CURRENCY;
+
+                        this.reportStatus = 1;
 
                         getProfit(REPORT_TYPE_EVIDENCE_IN);
                         this.getDepartment();
@@ -524,6 +529,40 @@
                         reportObj.attachments[index][2] = false;
                         this.$forceUpdate();
                     },
+                    reportSubmit(e) {
+                        $('[name=reportType]').val(0);
+                        $('#report-form').validate({
+                            rules: {
+                                flowid : "required",
+                                shipNo : "required",
+                                voyNo: "required",
+                            },
+                            messages: {
+                                flowid: "请选择文件种类。",
+                                shipNo: "请选择船名。",
+                                voyNo: "请选择航次号码。",
+                            }
+                        });
+                        if($('[name=flowid]').val() != 'Contract')
+                            $('#report-form').validate({
+                                rules: {
+                                    profit_type : "required",
+                                },
+                                messages: {
+                                    profit_type: "请选择收支分类。",
+                                }
+                            });
+
+                        $('#report-form').submit();
+
+                        return true;
+                    },
+                    saveDraft(e) {
+                        $('[name=reportType]').val(3);
+                        $('#report-form').submit();
+
+                        return true;
+                    }
                 }
             });
 
@@ -539,6 +578,7 @@
                     type: 'POST',
                 },
                 "ordering": false,
+                "pageLength": 500,
                 columnDefs: [{
                     targets: [2],
                     orderable: false,
@@ -588,22 +628,18 @@
                         $('td', row).eq(10).html('').append();
                     }
 
-                    if(isAdmin != 1) {
-                        $('td', row).eq(11).remove();
-                    } else {
-                        let status = '';
-                        if (data['state'] == 0) {
-                            $('td', row).eq(11).css({'background': '#ffb871'});
-                            status = '<div class="report-status"><span>' + ReportStatusData[data['state']][0] + '</span></div>';
-                        } else if (data['state'] == 1) {
-                            $('td', row).eq(11).css({'background': '#ccffcc'});
-                            status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';
-                        } else if (data['state'] == 2) {
-                            $('td', row).eq(11).css({'background': '#ff7c80'});
-                            status = '<div class="report-status"><span><i class="icon-remove"></i></span></div>';
-                        }
-                        $('td', row).eq(11).html('').append(status);
+                    let status = '';
+                    if (data['state'] == 0) {
+                        $('td', row).eq(11).css({'background': '#ffb871'});
+                        status = '<div class="report-status"><span>' + ReportStatusData[data['state']][0] + '</span></div>';
+                    } else if (data['state'] == 1) {
+                        $('td', row).eq(11).css({'background': '#ccffcc'});
+                        status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';
+                    } else if (data['state'] == 2) {
+                        $('td', row).eq(11).css({'background': '#ff7c80'});
+                        status = '<div class="report-status"><span><i class="icon-remove"></i></span></div>';
                     }
+                    $('td', row).eq(11).html('').append(status);
                 },
             });
 

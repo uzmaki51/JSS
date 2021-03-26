@@ -24,7 +24,7 @@ class DecisionReport extends Model {
     public function getForDatatable($params, $status = null) {
 	    $user = Auth::user();
 	    $selector = DB::table($this->table)
-		    ->orderBy('create_at', 'desc')
+		    ->orderBy('update_at', 'desc')
 		    ->select('*');
 
 	    if($status != null)
