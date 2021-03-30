@@ -28,70 +28,8 @@ use Auth;
 
 class NoticeController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
-        $GLOBALS['selMenu'] = 0;
-        $GLOBALS['submenu'] = 0;
-
-        $this->userInfo = Auth::user();
-
-        $admin = Session::get('admin');
-        if($admin > 0){
-            $topMenu = Menu::where('parentId', '0')->orderBy('id')->get();
-        } else {
-            $topMenu = Util::getTopMemu($this->userInfo['menu']);
-        }
-        foreach($topMenu as $menu) {
-            $menu['submenu'] = Menu::where('parentId', '=', $menu['id'])->orderBy('id')->get();
-            foreach($menu['submenu'] as $submenu)
-            {
-                $submenu['thirdmenu'] = Menu::where('parentId', '=', $submenu['id'])->orderBy('id')->get();
-            }
-        }
-		$GLOBALS['topMenu'] = $topMenu;
-        $GLOBALS['topMenuId'] = 8;
-
-        $user = Auth::user();
-        if ($admin > 0) {
-            $menulist = Menu::where('parentId', '=', '8')->get();
-            foreach ($menulist as $menu) {
-                $menuId = $menu['id'];
-                $submenus = Menu::where('parentId', '=', $menuId)->get();
-                $menu['submenu'] = $submenus;
-            }
-            $GLOBALS['menulist'] = $menulist;
-        } else {
-            $profile = UserInfo::find($user->id);
-            if(in_array(3, explode(',', $user['menu']))) {
-                $menulist = Menu::where('parentId', '=', '8')->where('admin', '=', '0')->get();
-                foreach ($menulist as $menu) {
-                    $menuId = $menu['id'];
-                    if($menuId == 37 && !$profile->attend_admin)
-                        $submenus = Menu::where('parentId', '=', $menuId)->whereIn('id', [39, 41, 44])->get();
-                    else if($menuId == 38 && !$profile->report_admin)
-                        $submenus = Menu::where('parentId', '=', $menuId)->whereIn('id', [45, 48, 51])->get();
-                    else
-                        $submenus = Menu::where('parentId', '=', $menuId)->get();
-
-                    $menu['submenu'] = $submenus;
-                }
-                $GLOBALS['menulist'] = $menulist;
-            } else {
-                $menulist = Menu::where('parentId', '=', '8')->where('admin', '=', '0')->whereIn('id', explode(',', $user['menu']))->get();
-                foreach ($menulist as $menu) {
-                    $menuId = $menu['id'];
-                    if($menuId == 37 && !$profile->attend_admin)
-                        $submenus = Menu::where('parentId', '=', $menuId)->whereIn('id', [39, 41, 44])->get();
-                    else if($menuId == 38 && !$profile->report_admin)
-                        $submenus = Menu::where('parentId', '=', $menuId)->whereIn('id', [45, 48, 51])->get();
-                    else
-                        $submenus = Menu::where('parentId', '=', $menuId)->get();
-                    $menu['submenu'] = $submenus;
-                }
-                $GLOBALS['menulist'] = $menulist;
-            }
-        }
     }
 //-------------  전자게시판의 토론마당관리   ---------------------
     public function index()

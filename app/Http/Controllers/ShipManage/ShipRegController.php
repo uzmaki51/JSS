@@ -53,66 +53,8 @@ class ShipRegController extends Controller
     protected $userInfo;
     private $control = 'shipManage';
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
-
-        $GLOBALS['selMenu'] = 0;
-        $GLOBALS['submenu'] = 0;
-        $this->userInfo = Auth::user();
-
-        $locale = Session::get('locale');
-        if(empty($locale)) {
-            $locale = Config::get('app.locale');
-            Session::put('locale', $locale);
-        }
-
-        App::setLocale($locale);
-
-        $admin = Session::get('admin');
-        if($admin > 0){
-            $topMenu = Menu::where('parentId', '0')->orderBy('id')->get();
-        } else {
-            $topMenu = Util::getTopMemu($this->userInfo['menu']);
-        }
-        foreach($topMenu as $menu) {
-            $menu['submenu'] = Menu::where('parentId', '=', $menu['id'])->orderBy('id')->get();
-            foreach($menu['submenu'] as $submenu)
-            {
-                $submenu['thirdmenu'] = Menu::where('parentId', '=', $submenu['id'])->orderBy('id')->get();
-            }
-        }
-		$GLOBALS['topMenu'] = $topMenu;
-        $GLOBALS['topMenuId'] = 5;
-
-        if ($admin > 0) {
-            $menulist = Menu::where('parentId', '=', '4')->orderBy('id')->get();
-            foreach ($menulist as $menu) {
-                $menuId = $menu['id'];
-                $submenus = Menu::where('parentId', '=', $menuId)->get();
-                $menu['submenu'] = $submenus;
-            }
-            $GLOBALS['menulist'] = $menulist;
-        } else {
-			$user = Auth::user();
-			if(in_array(4, explode(',', $user['menu']))) {
-				$menulist = Menu::where('parentId', '=', '4')->where('admin', '=', '0')->get();
-				foreach ($menulist as $menu) {
-					$menuId = $menu['id'];
-					$submenus = Menu::where('parentId', '=', $menuId)->get();
-					$menu['submenu'] = $submenus;
-				}
-				$GLOBALS['menulist'] = $menulist;
-			} else {
-				$menulist = Menu::where('parentId', '=', '4')->where('admin', '=', '0')->whereIn('id', explode(',', $user['menu']))->get();
-				foreach ($menulist as $menu) {
-					$menuId = $menu['id'];
-					$submenus = Menu::where('parentId', '=', $menuId)->get();
-					$menu['submenu'] = $submenus;
-				}
-				$GLOBALS['menulist'] = $menulist;
-			}
-        }
     }
 
     public function index() {
