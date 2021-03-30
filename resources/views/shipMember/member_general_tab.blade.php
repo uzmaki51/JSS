@@ -32,7 +32,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left" colspan="2">
-                            Sex
+                            Gender
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <select class="form-control" name="Sex">
@@ -78,11 +78,32 @@
                             Nationality
                         </td>
                         <td class="custom-td-report-text" colspan="2">
-                            <select class="form-control" name="Nationality">
+                            <!--select class="form-control" name="Nationality">
                                 <option value="0" @if(isset($info) && ($info['Nationality'] == 0)) selected @endif>CHINESE</option>
                                 <option value="1" @if(isset($info) && ($info['Nationality'] == 1)) selected @endif>BANGLADESH</option>
                                 <option value="2" @if(isset($info) && ($info['Nationality'] == 2)) selected @endif>MYANMAR</option>
-                            </select>
+                            </select-->
+                            
+                            <div class="custom-select-wrapper">
+                                <div class="custom-select">
+                                    <input type="hidden"  name="Nationality" value="0"/>
+                                    <div class="custom-select__trigger"><span>CHINESE</span>
+                                        <div class="arrow"></div>
+                                    </div>
+                                    <div class="custom-options">
+                                        <div class="custom-options-scroll">
+                                            <span class="custom-option selected" data-value="0">CHINESE</span>
+                                            <span class="custom-option" data-value="1">BANGLADESH</span>
+                                            <span class="custom-option" data-value="2">MYANMAR</span>
+                                        </div>
+                                        <div>
+                                            <span class="edit-list-btn" id="edit-list-btn" >
+                                                <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     <tr>

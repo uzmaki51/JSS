@@ -5,6 +5,7 @@ $isHolder = Session::get('IS_HOLDER');
 
 @section('styles')
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')
 
@@ -30,6 +31,7 @@ $isHolder = Session::get('IS_HOLDER');
                 background-color: #e0edff;
             }
         </style>
+        
         <div class="page-content">
             <form action="updateMemberInfo" role="form" method="POST" enctype="multipart/form-data">
                 <div class="page-header">
@@ -62,7 +64,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <th class="text-center" style="width: 2%;"><span>No</span></th>
                                     <th class="text-center" style="width: 10%;"><span>SeamanbookNo</span></th>
                                     <th class="text-center" style="width: 10%;"><span>Name in chinese</span></th>
-                                    <th class="text-center" style="width: 8%;"><span>Sex</span></th>
+                                    <th class="text-center" style="width: 8%;"><span>Gender</span></th>
                                     <th class="text-center" style="width: 8%;"><span>Birthday</span></th>
                                     <th class="text-center" style="width: 7%;"><span>Nationality</span></th>
                                     <th class="text-center" style="width: 8%;"><span>Sign On/Off</span></th>
@@ -394,6 +396,26 @@ $isHolder = Session::get('IS_HOLDER');
             });
         }
 
+        document.querySelector('.custom-select-wrapper').addEventListener('click', function() {
+            this.querySelector('.custom-select').classList.toggle('open');
+        })
+
+        for (const option of document.querySelectorAll(".custom-option")) {
+            option.addEventListener('click', function() {
+                if (!this.classList.contains('selected')) {
+                    this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
+                    this.classList.add('selected');
+                    this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
+                    this.closest('.custom-select').firstElementChild.value  = this.getAttribute('data-value');
+                }
+            })
+        }
+
+        /*
+        $("body").click(function(e) {
+            $("#dropMenu").css("visibility", ( e.target.id === "optionButton" ? "visible" : "hidden" ));
+        });
+        */
     </script>
 
 @endsection
