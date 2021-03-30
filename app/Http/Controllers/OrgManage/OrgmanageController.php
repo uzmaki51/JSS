@@ -23,38 +23,6 @@ class OrgmanageController extends Controller
 {
     public function __construct() {
         $this->middleware('auth');
-
-        $GLOBALS['selMenu'] = 0;
-        $GLOBALS['submenu'] = 0;
-
-        $admin = Session::get('admin');
-        $query = Menu::where('parentId', '0');
-        if($admin == 0)
-            $query = $query->where('admin', '0');
-        $topMenu = $query->orderBy('id')->get();
-
-		foreach($topMenu as $menu) {
-            $menu['submenu'] = Menu::where('parentId', '=', $menu['id'])->orderBy('id')->get();
-            foreach($menu['submenu'] as $submenu)
-            {
-                $submenu['thirdmenu'] = Menu::where('parentId', '=', $submenu['id'])->orderBy('id')->get();
-            }
-        }
-
-        $GLOBALS['topMenu'] = $topMenu;
-        $GLOBALS['topMenuId'] = 1;
-
-        if($admin > 0) {
-            $menulist = Menu::where('parentId', '=', '1')->orderBy('id')->get();
-            foreach($menulist as $menu) {
-                $menuId = $menu['id'];
-                $submenus = Menu::where('parentId', '=', $menuId)->orderBy('id')->get();
-                $menu['submenu'] = $submenus;
-            }
-            $GLOBALS['menulist'] = $menulist;
-        } else {
-
-        }
     }
 
     /////////////////////////////  부서관리   ///////////////////////

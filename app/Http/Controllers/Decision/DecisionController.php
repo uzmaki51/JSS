@@ -36,62 +36,8 @@ class DecisionController extends Controller
 {
     protected $userinfo;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
-
-        $GLOBALS['selMenu'] = 0;
-        $GLOBALS['submenu'] = 0;
-
-        $admin = Session::get('admin');
-        $this->userInfo = Auth::user();
-
-        $admin = Session::get('admin');
-        if($admin >= 0) {
-            $topMenu = Menu::where('parentId', '0')->orderBy('id')->get();
-        } else {
-            $topMenu = Util::getTopMemu($this->userInfo['menu']);
-        }
-
-        foreach($topMenu as $menu) {
-            $menu['submenu'] = Menu::where('parentId', '=', $menu['id'])->orderBy('id')->get();
-            foreach($menu['submenu'] as $submenu)
-            {
-                $submenu['thirdmenu'] = Menu::where('parentId', '=', $submenu['id'])->orderBy('id')->get();
-            }
-        }
-		$GLOBALS['topMenu'] = $topMenu;
-        $GLOBALS['topMenuId'] = 2;
-
-        if ($admin > 0) {
-            $menulist = Menu::where('parentId', '=', '2')->orderBy('id')->get();
-            foreach ($menulist as $menu) {
-                $menuId = $menu['id'];
-                $submenus = Menu::where('parentId', '=', $menuId)->get();
-                $menu['submenu'] = $submenus;
-            }
-            $GLOBALS['menulist'] = $menulist;
-        } else {
-            $user = Auth::user();
-            if (in_array(2, explode(',', $user['menu']))) {
-                $menulist = Menu::where('parentId', '=', '2')->where('admin', '=', '0')->get();
-                foreach ($menulist as $menu) {
-                    $menuId = $menu['id'];
-                    $submenus = Menu::where('parentId', '=', $menuId)->get();
-                    $menu['submenu'] = $submenus;
-                }
-                $GLOBALS['menulist'] = $menulist;
-            } else {
-                $menulist = Menu::where('parentId', '=', '2')->where('admin', '=', '0')->whereIn('id', explode(',', $user['menu']))->get();
-                foreach ($menulist as $menu) {
-                    $menuId = $menu['id'];
-                    $submenus = Menu::where('parentId', '=', $menuId)->get();
-                    $menu['submenu'] = $submenus;
-                }
-                $GLOBALS['menulist'] = $menulist;
-            }
-        }
-        $this->userinfo = Auth::user();
     }
 
     // Report List

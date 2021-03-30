@@ -53,10 +53,11 @@ class Menu extends Model
 			$menus[$index] = $menu;
 			$tmp = [];
 			foreach($ids as $key => $item)
-				$tmp[] = $item[0];
+				foreach($item as $value)
+					$tmp[] = is_array($value) ? $value[0] : $value;
 
 			$tmp[] = $menu['id'];
-		    $menus[$index]['ids'] = $tmp;
+		    $menus[$index]['ids'] += $tmp;
 	    }
 
 	    return $menus;
