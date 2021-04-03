@@ -216,3 +216,13 @@
 .custom-modal-td-text1 input {
     padding: 0 8px!important;
 }
+
+.currency-type {
+    width:28%;
+    display: inline-block!important;
+}
+
+.currency-input {
+    width: 69%;
+    display: inline-block!important;
+}

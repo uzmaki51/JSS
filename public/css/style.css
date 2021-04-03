@@ -194,12 +194,6 @@ div.input table tbody tr td
 .fc-day-content a { color: #0000ff; cursor: pointer; font-size: 14px;line-height: 20px}
 .fc-day-content a:hover, a:focus { color: rgba(0, 0, 193, 0.48)  }
 
-
-
-
-
-
-
 .scrollable-menu {
     height: auto;
     max-height: 200px;
@@ -219,21 +213,21 @@ div.input table tbody tr td
 
 .btn_clear {
     float: right;
-display: inline-block;
-box-sizing: border-box;
-width: calc(50% - 20px);
-padding: 10px 17px;
-text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+    width: calc(50% - 20px);
+    padding: 10px 17px;
+    text-align: center;
   }
   
 .btn_apply {
-      float: left;
-display: inline-block;
-box-sizing: border-box;
-width: calc(50% - 20px);
-padding: 10px 17px;
-text-align: center;
-    }
+    float: left;
+    display: inline-block;
+    box-sizing: border-box;
+    width: calc(50% - 20px);
+    padding: 10px 17px;
+    text-align: center;
+}
 
 .div_form {
     position:fixed;

@@ -1,425 +1,281 @@
 <div class="space-4"></div>
 <div class="row">
     <div class="col-md-12">
-            <input class="hidden" name="_token" value="{{csrf_token()}}">
-            <input class="hidden" name="memberId" value="{{$memberId}}">
-            <div class="col-md-8">
-                <div class="space-4"></div>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr style="background-color: #d0e6dd">
-                                <td class="center td-header" style="width:15%">{{transShipMember("CapacityData.Cert No")}}</td>
-                                <td class="center td-header" style="width:40%">{{transShipMember("CapacityData.Capacity Function")}}</td>
-                                <td class="center td-header" style="width:13%">{{transShipMember("CapacityData.Issue")}}</td>
-                                <td class="center td-header" style="width:13%">{{transShipMember("CapacityData.Expiry")}}</td>
-                                <td class="center td-header">{{transShipMember("CapacityData.Issuing Authority")}}</td>
-                            </tr>
-                            <tr>
-                                <td class="no-padding">
-                                    <input type="text" class="form-control" name="ItemNo" value="{{$capacity['ItemNo']}}" style="width: 100%;text-align: center">
-                                </td>
-                                <td class="no-padding">
-                                    <select class="form-control" name="CapacityID">
-                                        <option value="0">&nbsp;</option>
-                                        @foreach($capacityList as $type)
-                                        <option value="{{$type['id']}}" @if($capacity['CapacityID'] == $type['id'])) selected @endif>{{$type['Capacity_En']}}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td class="no-padding">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
-                                               name="IssuedDate"
-                                               value="{{$capacity['IssuedDate']}}">
-                                                                <span class="input-group-addon">
-                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                </span>
-                                    </div>
-                                </td>
-                                <td class="no-padding">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
-                                               name="ExpiryDate"
-                                               value="{{$capacity['ExpiryDate']}}">
-                                                                <span class="input-group-addon">
-                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                </span>
-                                    </div>
-                                </td>
-                                <td class="no-padding">
-                                    <input type="text" class="form-control" name="COC_Remarks" value="{{$capacity['COC_Remarks']}}" style="width: 100%;text-align: center">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="space-2"></div>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr style="background-color: #d0e6dd">
-                                <td class="center td-header" style="width:15%">{{transShipMember("CapacityData.Cert No")}}</td>
-                                <td class="center td-header" style="width:40%">{{transShipMember("CapacityData.Capacity Function(GMDSS)")}}</td>
-                                <td class="center td-header" style="width:13%">{{transShipMember("CapacityData.Issue")}}</td>
-                                <td class="center td-header" style="width:13%">{{transShipMember("CapacityData.Expiry")}}</td>
-                                <td class="center td-header">{{transShipMember("CapacityData.Issuing Authority")}}</td>
-                            </tr>
-                            <tr>
-                                <td class="no-padding">
-                                    <input class="form-control" type="text" name="GMDSS_NO" value="{{$capacity['GMDSS_NO']}}" style="width: 100%;text-align: center">
-                                </td>
-                                <td class="no-padding">
-                                    <select class="form-control" name="GMDSSID">
-                                        <option value="0">&nbsp;</option>
-                                        @foreach($capacityList as $type)
-                                            <option value="{{$type['id']}}" @if($capacity['GMDSSID'] == $type['id'])) selected @endif>{{$type['Capacity_En']}}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td class="no-padding">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
-                                               name="GMD_IssuedDate"
-                                               value="{{$capacity['GMD_IssuedDate']}}">
-                                                                <span class="input-group-addon">
-                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                </span>
-                                    </div>
-                                </td>
-                                <td class="no-padding">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
-                                               name="GMD_ExpiryDate"
-                                               value="{{$capacity['GMD_ExpiryDate']}}">
-                                                                <span class="input-group-addon">
-                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                </span>
-                                    </div>
-                                </td>
-                                <td class="no-padding">
-                                    <input type="text" class="form-control" name="GMD_Remarks" value="{{$capacity['GMD_Remarks']}}" style="width: 100%;text-align: center">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="space-2"></div>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr style="background-color: #d0e6dd">
-                                <td class="center td-header" style="width:15%">{{transShipMember("CapacityData.Cert No")}}</td>
-                                <td class="center td-header" style="width:40%">{{transShipMember("CapacityData.Capacity Function(COE)")}}</td>
-                                <td class="center td-header" style="width:13%">{{transShipMember("CapacityData.Issue")}}</td>
-                                <td class="center td-header" style="width:13%">{{transShipMember("CapacityData.Expiry")}}</td>
-                                <td class="center td-header">{{transShipMember("CapacityData.Issuing Authority")}}</td>
-                            </tr>
-                            <tr>
-                                <td class="no-padding">
-                                    <input type="text" class="form-control" name="COENo" value="{{$capacity['COENo']}}" style="width: 100%;text-align: center">
-                                </td>
-                                <td class="no-padding">
-                                    <select class="form-control" name="COEId">
-                                        <option value="0">&nbsp;</option>
-                                        @foreach($capacityList as $type)
-                                            <option value="{{$type['id']}}" @if($capacity['COEId'] == $type['id'])) selected @endif>{{$type['Capacity_En']}}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td class="no-padding">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
-                                               name="COE_IssuedDate"
-                                               value="{{$capacity['COE_IssuedDate']}}">
-                                                                <span class="input-group-addon">
-                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                </span>
-                                    </div>
-                                </td>
-                                <td class="no-padding">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
-                                               name="COE_ExpiryDate"
-                                               value="{{$capacity['COE_ExpiryDate']}}">
-                                                                <span class="input-group-addon">
-                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                </span>
-                                    </div>
-                                </td>
-                                <td class="no-padding">
-                                    <input type="text" class="form-control" name="COE_Remarks" value="{{$capacity['COE_Remarks']}}" style="width: 100%;text-align: center">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="space-2"></div>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr style="background-color: #d0e6dd">
-                                <td class="center td-header" style="width:15%">{{transShipMember("CapacityData.Cert No")}}</td>
-                                <td class="center td-header" style="width:40%">{{transShipMember("CapacityData.Capacity Function(GOC)")}}</td>
-                                <td class="center td-header" style="width:13%">{{transShipMember("CapacityData.Issue")}}</td>
-                                <td class="center td-header" style="width:13%">{{transShipMember("CapacityData.Expiry")}}</td>
-                                <td class="center td-header">{{transShipMember("CapacityData.Issuing Authority")}}</td>
-                            </tr>
-                            <tr>
-                                <td class="no-padding">
-                                    <input type="text" class="form-control" name="COE_GOCNo" value="{{$capacity['COE_GOCNo']}}" style="width: 100%;text-align: center">
-                                </td>
-                                <td class="no-padding">
-                                    <select class="form-control" name="COE_GOCId">
-                                        <option value="0">&nbsp;</option>
-                                        @foreach($capacityList as $type)
-                                            <option value="{{$type['id']}}" @if($capacity['COE_GOCId'] == $type['id'])) selected @endif>{{$type['Capacity_En']}}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td class="no-padding">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
-                                               name="COE_GOC_IssuedDate"
-                                               value="{{$capacity['COE_GOC_IssuedDate']}}">
-                                                                <span class="input-group-addon">
-                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                </span>
-                                    </div>
-                                </td>
-                                <td class="no-padding">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
-                                               name="COE_GOC_ExpiryDate"
-                                               value="{{$capacity['COE_GOC_ExpiryDate']}}">
-                                                                <span class="input-group-addon">
-                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                </span>
-                                    </div>
-                                </td>
-                                <td class="no-padding">
-                                    <input type="text" class="form-control" name="COE_GOC_Remarks" value="{{$capacity['COE_GOC_Remarks']}}" style="width: 100%;text-align: center">
-                                </td>
-                            </tr>
-                            </tbody>
-                    </table>
-                    <div class="space-2"></div>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr style="background-color: #d0e6dd">
-                                <td class="center td-header" style="width:15%">{{transShipMember("CapacityData.Watching No")}}</td>
-                                <td class="center td-header" style="width:40%">{{transShipMember("CapacityData.Watching Rating")}}</td>
-                                <td class="center td-header" style="width:13%">{{transShipMember("CapacityData.Issue")}}</td>
-                                <td class="center td-header" style="width:13%">{{transShipMember("CapacityData.Expiry")}}</td>
-                                <td class="center td-header">{{transShipMember("CapacityData.Issuing Authority")}}</td>
-                            </tr>
-                            <tr>
-                                <td class="no-padding">
-                                    <input type="text" class="form-control" name="WatchNo" value="{{$capacity['WatchNo']}}" style="width: 100%;text-align: center">
-                                </td>
-                                <td class="no-padding">
-                                    <select class="form-control" name="WatchID">
-                                        <option value="0">&nbsp;</option>
-                                        @foreach($capacityList as $type)
-                                            <option value="{{$type['id']}}" @if($capacity['WatchID'] == $type['id'])) selected @endif>{{$type['Capacity_En']}}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td class="no-padding">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
-                                               name="Watch_IssuedDate"
-                                               value="{{$capacity['Watch_IssuedDate']}}">
-                                        <span class="input-group-addon">
-                                            <i class="icon-calendar bigger-110"></i>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="no-padding">
-                                    <div class="input-group">
-                                        <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
-                                               name="Watch_ExpiryDate"
-                                               value="{{$capacity['Watch_ExpiryDate']}}">
-                                        <span class="input-group-addon">
-                                            <i class="icon-calendar bigger-110"></i>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="no-padding">
-                                    <input type="text" class="form-control" name="Watch_Remarks" value="{{$capacity['Watch_Remarks']}}" style="width: 100%;text-align: center">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="space-2"></div>
-            </div>
-            
-            <div class="col-md-8">
-                <div class="blue td-header">School Career</div>
-                <table class="table table-bordered">
-                    <tbody id="school_table">
-                    <tr style="background-color: #fce6d4">
-                        <td class="center td-header no-padding" style="width:15%">{{transShipMember("CapacityData.From")}}</td>
-                        <td class="center td-header no-padding" style="width:15%">{{transShipMember("CapacityData.To")}}</td>
-                        <td class="center td-header no-padding" style="width:30%">{{transShipMember("CapacityData.School")}}</td>
-                        <td class="center td-header no-padding" style="width:6%">{{transShipMember("CapacityData.Major")}}</td>
-                        <td class="center td-header no-padding" style="width:6%">{{transShipMember("CapacityData.Grade")}}</td>
-                        <td class="center td-header no-padding" style="width:8%">{{transShipMember("CapacityData.Capacity")}}</td>
-                        <td class="center td-header no-padding" style="width:18%">{{transShipMember("CapacityData.Remark")}}</td>
-                        <td></td>
+        <input class="hidden" name="_token" value="{{csrf_token()}}">
+        <input class="hidden" name="memberId" value="{{$memberId}}">
+        <div class="col-md-12">
+            <div class="space-4"></div>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr style="background-color: #fce6d4; height:30px;">
+                        <td class="center td-header" style="width:3%">No</td>
+                        <td class="center td-header" style="width:25%">Type of certificates</td>
+                        <td class="center td-header" style="width:25%">Capacity</td>
+                        <td class="center td-header" style="width:15%">Certificates No</td>
+                        <td class="center td-header" style="width:13%">Issue Date</td>
+                        <td class="center td-header" style="width:13%">Expire Date</td>
+                        <td class="center td-header" style="">Issued by</td>
                     </tr>
-                    @if($schoolList != null)
-                    @foreach($schoolList as $school)
-                        <tr>
-                            <td class="no-padding">
-                                <div class="input-group">
-                                    <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                           type="text" data-date-format="yyyy/mm/dd"
-                                           name="FromDate[]"
-                                           value="{{$school['FromDate']}}">
-                                    <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
-                                    </span>
+                    <tr>
+                        <td class="center td-header" style="background-color: #d0e6dd">
+                            1
+                        </td>
+                        <td class="no-padding" style="background-color: #d0e6dd">
+                            COC: Certificate of Competency (for Officerts only)
+                        </td>
+                        <td class="no-padding">
+                            <?php $cap = "" ?>
+                            @foreach ($capacityList as $type)
+                                @if ($type->id == $capacity['CapacityID'])
+                                <?php $cap = $type->Capacity_En; 
+                                $capacity_id = $type->id;
+                                ?>
+                                @endif
+                            @endforeach
+                            <div class="custom-select-wrapper">
+                                <div class="custom-select" style="color:#12539b">
+                                    <input type="hidden"  name="CapacityID" value="{{$capacity_id}}"/>
+                                    <div class="custom-select__trigger"><span class="custom-select-span-capacity">{{$cap}}</span>
+                                        <div class="arrow"></div>
+                                    </div>
+                                    <div class="custom-options">
+                                        <div class="custom-options-scroll">
+                                            @foreach ($capacityList as $type)
+                                                @if ($type->id == $capacity['CapacityID'])
+                                                <span class="custom-option selected" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                @else
+                                                <span class="custom-option" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                        <div>
+                                            <span class="edit-list-btn" id="edit-list-btn" onclick="javascript:openCapacityList('capacity')">
+                                                <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items">
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </td>
-                            <td class="no-padding">
-                                <div class="input-group">
-                                    <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                           type="text" data-date-format="yyyy/mm/dd"
-                                           name="ToDate[]"
-                                           value="{{$school['ToDate']}}">
-                                    <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
-                                    </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <input type="text" class="form-control" name="ItemNo" value="{{$capacity['ItemNo']}}" style="width: 100%;text-align: center">
+                        </td>
+                        <td class="no-padding">
+                            <div class="input-group">
+                                <input class="form-control date-picker" style="width: 100%;text-align: center"
+                                        type="text" data-date-format="yyyy/mm/dd"
+                                        name="COC_IssuedDate"
+                                        value="{{$capacity['COC_IssuedDate']}}">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <div class="input-group">
+                                <input class="form-control date-picker" style="width: 100%;text-align: center"
+                                        type="text" data-date-format="yyyy/mm/dd"
+                                        name="COC_ExpiryDate"
+                                        value="{{$capacity['COC_ExpiryDate']}}">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <input type="text" class="form-control" name="COC_Remarks" value="{{$capacity['COC_Remarks']}}" style="width: 100%;text-align: center">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center td-header" style="background-color: #d0e6dd">
+                            2
+                        </td>
+                        <td class="no-padding" style="background-color: #d0e6dd">
+                            COE: Certificate of Endorsement (by third Flag only)
+                        </td>
+                        <td class="no-padding">
+                            <?php $cap = "" ?>
+                            @foreach ($capacityList as $type)
+                                @if ($type->id == $capacity['COEId'])
+                                <?php $cap = $type->Capacity_En; 
+                                $capacity_id = $type->id;
+                                ?>
+                                @endif
+                            @endforeach
+                            <div class="custom-select-wrapper">
+                                <div class="custom-select" style="color:#12539b">
+                                    <input type="hidden"  name="COEId" value="{{$capacity_id}}"/>
+                                    <div class="custom-select__trigger"><span class="custom-select-span-capacity">{{$cap}}</span>
+                                        <div class="arrow"></div>
+                                    </div>
+                                    <div class="custom-options">
+                                        <div class="custom-options-scroll">
+                                            @foreach ($capacityList as $type)
+                                                @if ($type->id == $capacity['COEId'])
+                                                <span class="custom-option selected" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                @else
+                                                <span class="custom-option" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                        <div>
+                                            <span class="edit-list-btn" id="edit-list-btn" onclick="javascript:openCapacityList('capacity')">
+                                                <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items">
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </td>
-                            <td class="no-padding">
-                                <input type="text" class="form-control" name="SchoolName[]" 
-                                       value="{{$school['SchoolName']}}" style="width: 100%;text-align: center">
-                            </td>
-                            <td class="no-padding">
-                                <input type="text" class="form-control" name="Major[]"
-                                       value="{{$school['Major']}}" style="width: 100%;text-align: center">
-                            </td>
-                            <td class="no-padding">
-                                <input type="text" class="form-control" name="Grade[]"
-                                       value="{{$school['Grade']}}" style="width: 100%;text-align: center">
-                            </td>
-                            <td class="no-padding">
-                                <input type="text" class="form-control" name="TechQualification[]"
-                                       value="{{$school['TechQualification']}}" style="width: 100%;text-align: center">
-                            </td>
-                            <td class="no-padding">
-                                <input type="text" class="form-control" name="School_Remarks[]"
-                                       value="{{$school['Remarks']}}" style="width: 100%;text-align: center">
-                            </td>
-                            <td class="center no-padding">
-                                <div class="action-buttons">
-                                    <a class="red" href="javascript:deleteSchool(this)">
-                                        <i class="icon-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                    @endif
-                        <!--tr>
-                            <td class="hidden">{{$index}}</td>
-                            <td class="hidden">
-                                <input type="text" name="school_{{$index}}" value="{{$index}}">
-                            </td>
-                            <td class="no-padding">
-                                <div class="input-group">
-                                    <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                           type="text" data-date-format="yyyy/mm/dd"
-                                           name="FromDate[]"
-                                           value="">
-                                    <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="no-padding">
-                                <div class="input-group">
-                                    <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                           type="text" data-date-format="yyyy/mm/dd"
-                                           name="ToDate[]"
-                                           value="">
-                                    <span class="input-group-addon">
-                                        <i class="icon-calendar bigger-110"></i>
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="no-padding">
-                                <input type="text" class="form-control" name="SchoolName[]"
-                                       value="" style="width: 100%;text-align: center">
-                            </td>
-                            <td class="no-padding">
-                                <input type="text" class="form-control" name="Major[]"
-                                       value="" style="width: 100%;text-align: center">
-                            </td>
-                            <td class="no-padding">
-                                <input type="text" class="form-control" name="Grade[]"
-                                       value="" style="width: 100%;text-align: center">
-                            </td>
-                            <td class="no-padding">
-                                <input type="text" class="form-control" name="TechQualification[]"
-                                       value="" style="width: 100%;text-align: center">
-                            </td>
-                            <td class="no-padding">
-                                <input type="text" class="form-control" name="Remarks[]"
-                                       value="" style="width: 100%;text-align: center">
-                            </td>
-                            <td class="center no-padding">
-                                <div class="action-buttons">
-                                    <a class="red" href="javascript:addSchool()">
-                                        <i class="icon-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr-->
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                            <!--select class="form-control" name="COEId">
+                                <option value="0">&nbsp;</option>
+                                @foreach($capacityList as $type)
+                                <option value="{{$type['id']}}" @if($capacity['COEId'] == $type['id'])) selected @endif>{{$type['Capacity_En']}}</option>
+                                @endforeach
+                            </select-->
+                        </td>
+                        <td class="no-padding">
+                            <input type="text" class="form-control" name="COENo" value="{{$capacity['COENo']}}" style="width: 100%;text-align: center">
+                        </td>
+                        <td class="no-padding">
+                            <div class="input-group">
+                                <input class="form-control date-picker" style="width: 100%;text-align: center"
+                                        type="text" data-date-format="yyyy/mm/dd"
+                                        name="COE_IssuedDate"
+                                        value="{{$capacity['COE_IssuedDate']}}">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <div class="input-group">
+                                <input class="form-control date-picker" style="width: 100%;text-align: center"
+                                        type="text" data-date-format="yyyy/mm/dd"
+                                        name="COE_ExpiryDate"
+                                        value="{{$capacity['COE_ExpiryDate']}}">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <input type="text" class="form-control" name="COE_Remarks" value="{{$capacity['COE_Remarks']}}" style="width: 100%;text-align: center">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center td-header" style="background-color: #d0e6dd">
+                            3
+                        </td>
+                        <td class="no-padding" style="background-color: #d0e6dd" colspan="2">
+                            GOC: GMDSS general operator (for Officerts only)
+                        </td>
+                        <td class="no-padding">
+                            <input type="text" class="form-control" name="GMDSS_NO" value="{{$capacity['GMDSS_NO']}}" style="width: 100%;text-align: center">
+                        </td>
+                        <td class="no-padding">
+                            <div class="input-group">
+                                <input class="form-control date-picker" style="width: 100%;text-align: center"
+                                        type="text" data-date-format="yyyy/mm/dd"
+                                        name="GMD_IssuedDate"
+                                        value="{{$capacity['GMD_IssuedDate']}}">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <div class="input-group">
+                                <input class="form-control date-picker" style="width: 100%;text-align: center"
+                                        type="text" data-date-format="yyyy/mm/dd"
+                                        name="GMD_ExpiryDate"
+                                        value="{{$capacity['GMD_ExpiryDate']}}">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <input type="text" class="form-control" name="GMD_Remarks" value="{{$capacity['GMD_Remarks']}}" style="width: 100%;text-align: center">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center td-header" style="background-color: #d0e6dd">
+                            4
+                        </td>
+                        <td class="no-padding" style="background-color: #d0e6dd" colspan="2">
+                            GOC Endorsement (by third Flag only)
+                        </td>
+                        <td class="no-padding">
+                            <input type="text" class="form-control" name="COE_GOCNo" value="{{$capacity['COE_GOCNo']}}" style="width: 100%;text-align: center">
+                        </td>
+                        <td class="no-padding">
+                            <div class="input-group">
+                                <input class="form-control date-picker" style="width: 100%;text-align: center"
+                                        type="text" data-date-format="yyyy/mm/dd"
+                                        name="COE_GOC_IssuedDate"
+                                        value="{{$capacity['COE_GOC_IssuedDate']}}">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <div class="input-group">
+                                <input class="form-control date-picker" style="width: 100%;text-align: center"
+                                        type="text" data-date-format="yyyy/mm/dd"
+                                        name="COE_GOC_ExpiryDate"
+                                        value="{{$capacity['COE_GOC_ExpiryDate']}}">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <input type="text" class="form-control" name="COE_GOC_Remarks" value="{{$capacity['COE_GOC_Remarks']}}" style="width: 100%;text-align: center">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="center td-header" style="background-color: #d0e6dd">
+                            5
+                        </td>
+                        <td class="no-padding" style="background-color: #d0e6dd" colspan="2">
+                            <select class="form-control" name="WatchID" style="padding:0px!important;color:#12539b!important">
+                                <option value="0" @if($capacity['WatchID'] == 0)) selected @endif>Navigation watch rating</option>
+                                <option value="1" @if($capacity['WatchID'] == 1)) selected @endif>Engineroom watch rating</option>
+                            </select>
+                        </td>
+                        <td class="no-padding">
+                            <input type="text" class="form-control" name="WatchNo" value="{{$capacity['WatchNo']}}" style="width: 100%;text-align: center">
+                        </td>
+                        <td class="no-padding">
+                            <div class="input-group">
+                                <input class="form-control date-picker" style="width: 100%;text-align: center"
+                                        type="text" data-date-format="yyyy/mm/dd"
+                                        name="Watch_IssuedDate"
+                                        value="{{$capacity['Watch_IssuedDate']}}">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <div class="input-group">
+                                <input class="form-control date-picker" style="width: 100%;text-align: center"
+                                        type="text" data-date-format="yyyy/mm/dd"
+                                        name="Watch_ExpiryDate"
+                                        value="{{$capacity['Watch_ExpiryDate']}}">
+                                                        <span class="input-group-addon">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                            </div>
+                        </td>
+                        <td class="no-padding">
+                            <input type="text" class="form-control" name="Watch_Remarks" value="{{$capacity['Watch_Remarks']}}" style="width: 100%;text-align: center">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="space-2"></div>
+        </div>
     </div>
 </div>
-
-<script>
-    var capacityList = new Array();
-    var cIndex = 0;
-    @foreach($typeList as $type)
-        var capacity = new Object();
-        capacity.value = '{{$type['id']}}';
-        capacity.text = '{{$type['Capacity_En']}}';
-        capacityList[cIndex] = capacity;
-        cIndex++;
-    @endforeach
-
-    addSchool(null);
-    
-    function deleteSchool(e)
-    {
-        if ($('#school_table tr').length > 2 && !$(e).closest("tr").is(":last-child")) {
-            if (confirm("Are you sure to delete?")) {
-                $(e).closest("tr").remove();
-            }
-        }
-    }
-
-    function addSchool(e)
-    {
-        if (e == null || $(e).closest("tr").is(":last-child")) {
-            $("#school_table").append('<tr><td class="no-padding"><div class="input-group"><input onchange="addSchool(this)" class="form-control date-picker" style="width: 100%;text-align: center" type="text" data-date-format="yyyy/mm/dd"name="FromDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><div class="input-group"><input onchange="addSchool(this)" class="form-control date-picker" style="width: 100%;text-align: center"type="text" data-date-format="yyyy/mm/dd"name="ToDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><input type="text" onchange="addSchool(this)" class="form-control" name="SchoolName[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onchange="addSchool(this)" class="form-control" name="Major[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onchange="addSchool(this)" class="form-control" name="Grade[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onchange="addSchool(this)" class="form-control" name="TechQualification[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onchange="addSchool(this)" class="form-control" name="School_Remarks[]"value="" style="width: 100%;text-align: center"></td><td class="center no-padding"><div class="action-buttons"><a class="red" onclick="javascript:deleteSchool(this)"><i class="icon-trash"></i></a></div></td></tr>');
-            setDatePicker();
-        }
-    }
-
-    function setDatePicker() {
-        $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-            $(this).prev().focus();
-        });
-    }
-</script>

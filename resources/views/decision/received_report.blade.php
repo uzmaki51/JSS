@@ -229,7 +229,7 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ cAsset('assets/js/axios.min.js') }}"></script>
     <script src="{{ cAsset('assets/js/datatables.min.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
 	<?php

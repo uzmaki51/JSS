@@ -5,72 +5,6 @@
             <div class="table-responsive">
                 <table class="table table-bordered general" style="font-weight: bold">
                     <tbody>
-                    <tr>
-                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            Ship(SeamanBook)
-                        </td>
-                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <select name="ShipId" class="form-control">
-                                <option value="">&nbsp;</option>
-                                @foreach($shipList as $ship)
-                                    <option value="{{$ship['RegNo']}}" @if($info['ShipId'] == $ship['RegNo'])) selected @endif>{{$ship['shipName_En']}}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            Rank(Seamanbook)
-                        </td>
-                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <select name="DutyID_Book" class="form-control">
-                                <option value="">&nbsp;</option>
-                                @foreach($posList as $pos)
-                                    <option value="{{$pos['id']}}" @if($info['DutyID_Book'] == $pos['id'])) selected @endif>{{$pos['Duty_En']}}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            Passport No
-                        </td>
-                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <input type="text" name="PassportNo" class="form-control" style="width:100%" value="@if(isset($info)){{$info['PassportNo']}}@endif">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            <span class="sub-title">Issued Date</span>
-                        </td>
-                        <td class="custom-td-report-text">
-                            <div class="input-group">
-                                <input class="form-control date-picker"
-                                    name="PassportIssuedDate"
-                                    type="text" data-date-format="yyyy-mm-dd"
-                                    value="@if(isset($info)){{$info['PassportIssuedDate']}}@endif">
-                                <span class="input-group-addon">
-                                    <i class="icon-calendar "></i>
-                                </span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            <span class="sub-title">Expiry Date</span>
-                        </td>
-                        <td class="custom-td-report-text">
-                            <div class="input-group">
-                                <input class="form-control date-picker"
-                                    name="PassportExpiryDate"
-                                    type="text" data-date-format="yyyy-mm-dd"
-                                    value="@if(isset($info)){{$info['PassportExpiryDate']}}@endif">
-                                <span class="input-group-addon">
-                                    <i class="icon-calendar "></i>
-                                </span>
-                            </div>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -79,54 +13,7 @@
             <div class="table-responsive">
                 <table class="table table-bordered general" style="font-weight: bold">
                     <tbody>
-                    </tr>
-                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            Sign On
-                        </td>
-                        <td class="no-padding" colspan="2" style="border:0;">
-                            <input name="RegStatus" style="margin:0;" type="checkbox" onclick="$(this).attr('value', this.checked ? 1 : 0)" @if(isset($info) && ($info['RegStatus'] == 1)) checked value="1" @else value="0" @endif></td>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            Date(Sign On)
-                        </td>
-                        <td class="custom-td-report-text">
-                            <div class="input-group">
-                                <input class="form-control date-picker"
-                                    name="DateOnboard"
-                                    type="text" data-date-format="yyyy-mm-dd"
-                                    value="@if(isset($info)){{$info['DateOnboard']}}@endif">
-                                <span class="input-group-addon">
-                                            <i class="icon-calendar "></i>
-                                        </span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            Date(Sign Off)
-                        </td>
-                        <td class="custom-td-report-text">
-                            <div class="input-group">
-                                <input class="form-control date-picker"
-                                    name="DateOffboard"
-                                    type="text" data-date-format="yyyy-mm-dd"
-                                    value="@if(isset($info)){{$info['DateOffboard']}}@endif">
-                                <span class="input-group-addon">
-                                            <i class="icon-calendar "></i>
-                                        </span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            Salary
-                        </td>
-                        <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <input type="text" name="Salary" class="form-control" style="width:100%" value="">
-                        </td>
-                    </tr>
+                    
                     </tbody>
                 </table>
             </div>

@@ -4885,7 +4885,8 @@ input[type=checkbox].ace.ace-switch.ace-switch-7:checked + .lbl::after {
     position: relative;
     height: auto;
     border: 1px dashed #aaa; /* border-radius:4px; */
-    text-align: center
+    text-align: center;
+    height: 80px!important;
 }
 
 .ace-file-multiple .file-label:before {
@@ -5919,7 +5920,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-7:checked + .lbl::after {
 }
 
 th, td, .table-bordered {
-    border-radius: 0 !important
+    border-radius: 0 !important;
 }
 
 .table thead {
@@ -5990,6 +5991,12 @@ th .lbl:only-child, td .lbl:only-child {
     filter: alpha(opacity=75)
 }
 
+
+.dataTables_filter {
+    text-align: left;
+    display: none;
+}
+/*
 .dataTables_length {
     text-align: right
 }
@@ -6002,11 +6009,6 @@ th .lbl:only-child, td .lbl:only-child {
 
 .dataTables_length label {
     font-weight: normal
-}
-
-.dataTables_filter {
-    text-align: left;
-    display: none;
 }
 
 .dataTables_filter input[type=text] {
@@ -6119,7 +6121,7 @@ th .lbl:only-child, td .lbl:only-child {
 .dataTable th.sorting_disabled:after {
     display: none
 }
-
+*/
 .widget-box {
     padding: 0;
     -webkit-box-shadow: none;
@@ -8885,9 +8887,10 @@ li.item-default {
     background-color: #FFF;
     padding: 4px;
     display: inline-block;
-    max-width: 100%;
+    width: 80px;
     -moz-box-sizing: border-box;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15)
+
 }
 
 .profile-activity {
@@ -19592,7 +19595,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-7:checked + .lbl::after {
     line-height: 22px;
     background-color: #FFF;
     color: #CCC;
-    font-size: 18px;
+    font-size: 10px;
     font-weight: bold;
     border: 0
 }
@@ -19641,7 +19644,9 @@ input[type=checkbox].ace.ace-switch.ace-switch-7:checked + .lbl::after {
     background-color: #FFF;
     background-repeat: no-repeat;
     background-position: center;
-    margin: 4px 8px 4px 1px
+    margin: 0px;
+    width: 80px!important;
+    height: 80px!important;
 }
 
 .ace-file-multiple .file-label .file-name:after {
@@ -19718,7 +19723,8 @@ input[type=checkbox].ace.ace-switch.ace-switch-7:checked + .lbl::after {
     background-color: #555;
     color: #FFF;
     opacity: .8;
-    filter: alpha(opacity=80)
+    filter: alpha(opacity=80);
+    display:none; 
 }
 
 .ace-file-multiple .file-label .file-name.large img {
@@ -20687,6 +20693,7 @@ th .lbl:only-child, td .lbl:only-child {
     filter: alpha(opacity=75)
 }
 
+/*
 .dataTables_length {
     text-align: right
 }
@@ -20816,7 +20823,7 @@ th .lbl:only-child, td .lbl:only-child {
 .dataTable th.sorting_disabled:after {
     display: none
 }
-
+*/
 .widget-box {
     padding: 0;
     -webkit-box-shadow: none;
@@ -26362,21 +26369,25 @@ ul.attachment-list > li {
 .editable-click {
     border-bottom: 1px dashed #BBB;
     cursor: pointer;
-    font-weight: normal
+    font-weight: normal;
+    height: 79px;
 }
 
 img.editable-click {
-    border: 1px dotted #BBB
+    border: 1px dotted #BBB;
+    height: 79px;
 }
 
 .editable-click:hover {
     border-color: #08c;
-    color: #08c
+    color: #08c;
+    height: 79px;
 }
 
 img.editable-click:hover {
     opacity: .75;
-    filter: alpha(opacity=75)
+    filter: alpha(opacity=75);
+    height: 79px;
 }
 
 .editable-buttons, .editable-input {

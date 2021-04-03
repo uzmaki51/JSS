@@ -9,6 +9,7 @@ namespace App\Models\ShipMember;
 
 use App\Models\ShipManage\Ship;
 use App\Models\ShipManage\ShipRegister;
+use App\Models\ShipMember\ShipPosition;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -300,6 +301,56 @@ class ShipMember extends Model
 
         return $result;
 
+    }
+
+    public function getForDatatable($params) {
+        $selector = DB::table($this->table)
+            ->select(
+                '*'
+            );
+
+        $selector->where('DateOnboard', '!=', 'null');
+        if (isset($params['columns'][1]['search']['value'])
+            && $params['columns'][1]['search']['value'] !== ''
+        ) {
+            $selector->where('realname', 'like', '%' . $params['columns'][1]['search']['value'] . '%');
+        }
+        
+        $recordsFiltered = $selector->count();
+        $records = $selector->orderBy('id', 'desc')->limit(1)->get();
+        $newArr = [];
+        $newindex = 0;
+        foreach($records as $index => $record) {
+            $newArr[$newindex]['no'] = $record->id;
+            $newArr[$newindex]['name'] = $record->realname;
+            $rank = ShipPosition::find($record->DutyID_Book);
+            $newArr[$newindex]['rank'] = '';
+            if(!empty($rank)) $newArr[$newindex]['rank'] = $rank->Duty_En;
+            $newArr[$newindex]['nationality'] = $record->Nationality;
+            $newArr[$newindex]['cert-id'] = $record->CertNo;
+            $newArr[$newindex]['birth-and-place'] = $record->birthday;
+            $newArr[$newindex]['date-and-embarkation'] = $record->DateOnboard;
+            $newArr[$newindex]['bookno-expire'] = $record->crewNum;
+            $newArr[$newindex]['passport-expire'] = $record->PassportNo;
+            $newindex ++;
+            $newArr[$newindex]['no'] = $record->id;
+            $newArr[$newindex]['name'] = $record->GivenName;
+            $newArr[$newindex]['rank'] = $rank->Duty_En;
+            $newArr[$newindex]['nationality'] = $record->Nationality;
+            $newArr[$newindex]['cert-id'] = $record->CertNo;
+            $newArr[$newindex]['birth-and-place'] = $record->BirthPlace;
+            $newArr[$newindex]['date-and-embarkation'] = '-';
+            $newArr[$newindex]['bookno-expire'] = $record->ExpiryDate;
+            $newArr[$newindex]['passport-expire'] = $record->PassportExpiryDate;
+            $newindex ++;
+        }
+        return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => DB::table($this->table)->count(),
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $newArr,
+            'error' => 0,
+        ];
     }
 
 }

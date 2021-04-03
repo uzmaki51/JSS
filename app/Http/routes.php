@@ -83,6 +83,12 @@ Route::group(['prefix'  => 'ajax'], function() {
 	Route::post('ship/voyList',    ['uses'=>'Decision\DecisionController@ajaxGetVoyList']);
 	Route::post('profit/list',    ['uses'=>'Decision\DecisionController@ajaxProfitList']);
 	Route::post('getDepartment',    ['uses'=>'Decision\DecisionController@ajaxGetDepartment']);
+
+	Route::post('getDynamicData', ['uses' => 'Dynamic\DynamicController@ajaxGetDynamicData']);
+	Route::post('setDynamicData', ['uses' => 'Dynamic\DynamicController@ajaxSetDynamicData']);
+
+	Route::post('shipMember/search', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMember']);
+	
 });
 
 // Administrative Affairs
