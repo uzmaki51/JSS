@@ -5,16 +5,7 @@
             })
         }
 
-        for (const option of document.querySelectorAll(".custom-option")) {
-            option.addEventListener('click', function() {
-                if (!this.classList.contains('selected')) {
-                    this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
-                    this.classList.add('selected');
-                    this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
-                    this.closest('.custom-select').firstElementChild.value = this.getAttribute('data-value');
-                }
-            })
-        }
+        addCustomEvent();
 
         function openDynamicPopup(type) {
             $('#dynamic-type').val(type);
@@ -100,16 +91,7 @@
                             else
                                 dest.html(dest.html() + '<span class="custom-option" data-value="' + list[i] + '">' + list[i] + '</span>');
                         
-                        for (const option of document.querySelectorAll(".custom-option")) {
-                            option.addEventListener('click', function() {
-                                if (!this.classList.contains('selected')) {
-                                    this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
-                                    this.classList.add('selected');
-                                    this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
-                                    this.closest('.custom-select').firstElementChild.value = this.getAttribute('data-value');
-                                }
-                            })
-                        }
+                        addCustomEvent();
                     }
                 },
                 error: function(error, status) {
@@ -206,16 +188,7 @@
                                 else
                                     dest.html(dest.html() + '<span class="custom-option" data-value="' + i + '">' + list['name'][i] + '</span>');
                             
-                            for (const option of document.querySelectorAll(".custom-option")) {
-                                option.addEventListener('click', function() {
-                                    if (!this.classList.contains('selected')) {
-                                        this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
-                                        this.classList.add('selected');
-                                        this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
-                                        this.closest('.custom-select').firstElementChild.value = this.getAttribute('data-value');
-                                    }
-                                })
-                            }
+                            addCustomEvent();
                             alert("Success!");
                         }
                     },
@@ -330,16 +303,7 @@
                                 else
                                     dest2.html(dest2.html() + '<span class="custom-option" data-value="' + i + '">' + list['name'][i] + '</span>');
                             
-                            for (const option of document.querySelectorAll(".custom-option")) {
-                                option.addEventListener('click', function() {
-                                    if (!this.classList.contains('selected')) {
-                                        this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
-                                        this.classList.add('selected');
-                                        this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
-                                        this.closest('.custom-select').firstElementChild.value = this.getAttribute('data-value');
-                                    }
-                                })
-                            }
+                            
                             alert("Success!");
                         }
                     },
@@ -367,5 +331,21 @@
                 if (e == null || $(e).closest("tr").is(":last-child")) {
                     $("#capacity-table").append('<tr class="rank-tr"><td class="no-padding center">' + ($('#capacity-table tr').length + 1) + '<td class="no-padding"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_STCW[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_Description[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteCapacity(this)"><i class="icon-trash"></i></a></div></td></tr>');
                 }
+            }
+        }
+
+        function addCustomEvent()
+        {
+            for (const option of document.querySelectorAll(".custom-option")) {
+                option.addEventListener('click', function() {
+                    if (!this.classList.contains('selected')) {
+                        if (this.parentNode.querySelector('.custom-option.selected') != null) {
+                            this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
+                        }
+                        this.classList.add('selected');
+                        this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
+                        this.closest('.custom-select').firstElementChild.value = this.getAttribute('data-value');
+                    }
+                })
             }
         }
