@@ -24,7 +24,8 @@
                             COC: Certificate of Competency (for Officerts only)
                         </td>
                         <td class="no-padding">
-                            <?php $cap = "" ?>
+                            <?php $cap = "";
+                            $capacity_id = 0; ?>
                             @foreach ($capacityList as $type)
                                 @if ($type->id == $capacity['CapacityID'])
                                 <?php $cap = $type->Capacity_En; 
@@ -94,7 +95,9 @@
                             COE: Certificate of Endorsement (by third Flag only)
                         </td>
                         <td class="no-padding">
-                            <?php $cap = "" ?>
+                            <?php $cap = "";
+                            $capacity_id = 0;
+                             ?>
                             @foreach ($capacityList as $type)
                                 @if ($type->id == $capacity['COEId'])
                                 <?php $cap = $type->Capacity_En; 
