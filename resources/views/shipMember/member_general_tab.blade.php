@@ -244,7 +244,9 @@
                                 Rank(职务)
                             </td>
                             <td>
-                                <?php $rank = "" ?>
+                                <?php $rank = "";
+                                $rank_id = 0;
+                                 ?>
                                 @foreach ($posList as $item)
                                     @if ($item->id == $info['DutyID_Book'])
                                     <?php $rank = $item->Duty_En; 
