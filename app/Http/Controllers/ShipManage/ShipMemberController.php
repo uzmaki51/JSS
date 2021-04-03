@@ -114,7 +114,7 @@ class ShipMemberController extends Controller
         $capacityList = ShipMemberCapacity::all();
         $list = $this->getMemberGeneralInfo();
         $nationList = DB::table('tb_dynamic_nationality')->select('name')->get();
-
+        $securityType = SecurityCert::all();
         $state = Session::get('state');
 
         $memberId = $request->get('memberId');
@@ -134,7 +134,7 @@ class ShipMemberController extends Controller
             
             // 훈련登记자료
             $training = ShipMemberTraining::where('memberId', $memberId)->groupBy("CertSequence")->get();
-            $securityType = SecurityCert::all();
+            
 
             // 실력평가자료
             $examingList = ShipMemberExaming::where('memberId', $memberId)->orderBy('ExamDate')->get();
@@ -178,7 +178,7 @@ class ShipMemberController extends Controller
         //return view('shipMember.register_member', ['shipList'=>$shipList, 'posList'=>$posList, 'ksList'=>$ksList, 'typeList'=>$typeList, 'state'=>$state]);
         return view('shipMember.register_member',
                 //[   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'Surname' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => ''],
-                  [   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'BirthCountry' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => '', 'DateOffboard' => '', 'Nationality' => '', 'CertNo' => '', 'OtherContacts' => '', 'BankInformation' => '', 'WageCurrency' => '', 'PassportNo' => '', 'PassportIssuedDate' => '', 'PassportExpiryDate' => '', 'Salary' => ''],
+                  [   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'BirthCountry' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => '', 'DateOffboard' => '', 'Nationality' => '', 'CertNo' => '', 'OtherContacts' => '', 'BankInformation' => '', 'WageCurrency' => '', 'PassportNo' => '', 'PassportIssuedDate' => '', 'PassportExpiryDate' => '', 'Salary' => '', 'ShipType' => ''],
                     'shipList'  =>      $shipList,
                     'posList'   =>      $posList,
                     'ksList'    =>      $ksList,
@@ -195,7 +195,7 @@ class ShipMemberController extends Controller
                     'schoolList'=>      null,
                     'capacityList'=>    $capacityList,
 
-                    'security'  =>      null,
+                    'security'  =>      $securityType,
                     'training'  =>      null,
 
                     'examingList'=>     null,
@@ -427,43 +427,6 @@ class ShipMemberController extends Controller
             $member['scanPath'] = $cardPath;
         }
         $member->save();
-
-        /*
-        ShipBoardCareer::where('memberId', $memberId)->delete();
-
-        for($i=0;$i<20;$i++) {
-            $varname = 'index_'.$i;
-            $careerId = $request->get($varname);
-            if(isset($careerId)){
-                $varName = '_'.$i;
-                $career = new ShipBoardCareer();
-
-                $career['memberId'] = $memberId;
-                $fromDate = $request->get('FromDate'.$varName);
-                if(empty($fromDate))
-                    $fromDate = null;
-                $career['FromDate'] = $fromDate;
-
-                $toDate = $request->get('ToDate'.$varName);
-                if(empty($toDate))
-                    $toDate = null;
-                if(is_null($fromDate) && is_null($toDate))
-                    continue;
-
-                $career['ToDate'] = $toDate;
-                $career['Ship'] = $request->get('Ship'.$varName);
-                $career['ShipType'] = $request->get('ShipType'.$varName);
-                $career['DutyID'] = $request->get('DutyID'.$varName);
-                $career['GrossTonage'] = $request->get('GrossTonage'.$varName);
-                $career['Power'] = $request->get('Power'.$varName);
-                $career['SailArea'] = $request->get('SailArea'.$varName);
-                $career['Remarks'] = $request->get('Remarks'.$varName);
-
-                $career->save();
-            }
-        }
-        */
-        
         // 
         $school_goc = ShipBoardCareer::where('memberId', $memberId)->get();
         ShipBoardCareer::where('memberId', $memberId)->delete();
@@ -667,7 +630,7 @@ class ShipMemberController extends Controller
         $CertIssue = $request->get('Train_CertIssue');
         $CertExpire = $request->get('Train_CertExpire');
         $IssuedBy = $request->get('Train_IssuedBy');
-        
+
         $result = ShipMemberTraining::insertMemberTrainning($memberId, $STCW, $CertNo, $CertIssue, $CertExpire, $IssuedBy);
 
         return $result;

@@ -309,7 +309,7 @@ class ShipMember extends Model
                 '*'
             );
 
-        $selector->where('DateOnboard', '!=', 'null');
+        //$selector->where('DateOnboard', '!=', 'null');
         if (isset($params['columns'][1]['search']['value'])
             && $params['columns'][1]['search']['value'] !== ''
         ) {
