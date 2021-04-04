@@ -46,6 +46,7 @@ use App\Models\ShipTechnique\EquipmentUnit;
 use Auth;
 use Config;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Str;
 use Lang;
 
 class ShipRegController extends Controller
@@ -63,12 +64,54 @@ class ShipRegController extends Controller
 
     //배제원현시부분
     public function loadShipGeneralInfos(Request $request) {
-        Util::getMenuInfo($request);
-
         $ship_infolist = $this->getShipGeneralInfo();
-        $GLOBALS['topMenuId'] = 4;
 
-        return view('shipManage.shipinfo', array('list'=> $ship_infolist));
+	    $params = $request->all();
+
+	    if(isset($params['id']))
+		    $ship_id = $params['id'];
+	    else {
+		    $ship_id = ShipRegister::first()->id;
+	    }
+
+	    $ship_id = isset($ship_id) ? $ship_id : 0;
+
+	    $shipInfo = ShipRegister::where('id', $ship_id)->first();
+	    $shipTypeTbl = ShipType::where('id', $shipInfo->ShipType)->first();
+	    $shipInfo['ShipType'] = isset($shipTypeTbl) ? $shipTypeTbl['ShipType'] : '';
+
+        return view('shipManage.shipinfo', [
+        	'list'      => $ship_infolist,
+	        'shipInfo'  => $shipInfo,
+	        'id'        => $ship_id,
+        ]);
+    }
+
+    public function exportShipInfo(Request $request) {
+	    $params = $request->all();
+
+	    if(isset($params['id']))
+		    $ship_id = $params['id'];
+	    else {
+		    $ship_id = ShipRegister::first()->id;
+	    }
+
+	    $ship_id = isset($ship_id) ? $ship_id : 0;
+
+	    $shipInfo = ShipRegister::where('id', $ship_id)->first();
+	    $shipName = $shipInfo->NickName;
+	    if(!isset($shipName) || $shipName == '')
+	    	$shipName = $shipInfo->shipName_En;
+
+	    $shipTypeTbl = ShipType::where('id', $shipInfo->ShipType)->first();
+	    $shipInfo['ShipType'] = isset($shipTypeTbl) ? $shipTypeTbl['ShipType'] : '';
+
+	    return view('shipManage.shipinfo', [
+		    'shipInfo'          => $shipInfo,
+		    'is_excel'          => 1,
+		    'excel_name'        => $shipName . '_SHIP PARTICULARS_' . date('Ymd'),
+		    'id'                => $ship_id
+	    ]);
     }
 
     //배登记
@@ -107,7 +150,6 @@ class ShipRegController extends Controller
     }
 
     public function saveShipData(Request $request) {
-//    	$request->validate()
 	    $params = $request->all();
 	    $shipId = trim($request->get('shipId')) * 1;
 	    $freeId = $request->get('freeId');
@@ -151,7 +193,6 @@ class ShipRegController extends Controller
 		    $shipData['OriginalShipName'] = $params['OriginalShipName'];
 		    $shipData['FormerShipName'] = $params['FormerShipName'];
 		    $shipData['SecondFormerShipName'] = $params['SecondFormerShipName'];
-//		    $shipData['ThirdFormerShipName'] = $params['ThirdFormerShipName'];
 		    $shipData['Flag'] = $params['Flag'];
 		    $shipData['PortOfRegistry'] = $params['PortOfRegistry'];
 		    $shipData['Owner_Cn'] = $params['Owner_Cn'];
@@ -201,7 +242,7 @@ class ShipRegController extends Controller
     }
 
     public function saveShipHullData($params, $shipId, $freeId) {
-    	try {
+//    	try {
 		    if($shipId > 0) {
 			    $shipData = ShipRegister::find($shipId);
 		    } else {
@@ -256,9 +297,9 @@ class ShipRegController extends Controller
 		    $freeData->save();
 
     		return true;
-	    } catch (\Exception $exception) {
-    		return false;
-	    }
+//	    } catch (\Exception $exception) {
+//    		return false;
+//	    }
     }
 
 	public function saveShipMachineryData($params, $shipId) {
@@ -279,9 +320,6 @@ class ShipRegController extends Controller
 		    $shipData['Speed'] = $params['Speed'];
 		    $shipData['PrimeMover'] = $params['PrimeMover'];
 		    $shipData['GeneratorOutput'] = $params['GeneratorOutput'];
-//		    $shipData['AnchorageType'] = $params['AnchorageType'];
-//		    $shipData['AnchoragePower'] = $params['AnchoragePower'];
-//		    $shipData['AnchorageRPM'] = $params['AnchorageRPM'];
 		    $shipData['Boiler'] = $params['Boiler'];
 		    $shipData['BoilerPressure'] = $params['BoilerPressure'];
 		    $shipData['BoilerManufacturer'] = $params['BoilerManufacturer'];
@@ -305,14 +343,6 @@ class ShipRegController extends Controller
 		    $shipData['LOSailCons_W'] = $params['LOSailCons_W'];
 		    $shipData['LOL/DCons_W'] = $params['LOL/DCons_W'];
 		    $shipData['LOIdleCons_W'] = $params['LOIdleCons_W'];
-//		    $shipData['FO_tank_capacity'] = $params['FO_tank_capacity'];
-//		    $shipData['FO_tank_desc'] = $params['FO_tank_desc'];
-//		    $shipData['DO_tank_capacity'] = $params['DO_tank_capacity'];
-//		    $shipData['DO_tank_desc'] = $params['DO_tank_desc'];
-//		    $shipData['BW_tank_capacity'] = $params['BW_tank_capacity'];
-//		    $shipData['BW_tank_desc'] = $params['BW_tank_desc'];
-//		    $shipData['FW_tank_capacity'] = $params['FW_tank_capacity'];
-//		    $shipData['FW_tank_desc'] = $params['FW_tank_desc'];
 		    $shipData->save();
 
 		    return true;
@@ -470,8 +500,7 @@ class ShipRegController extends Controller
     }
 
     //배증서목록
-    public function shipCertList(Request $request)
-    {
+    public function shipCertList(Request $request) {
         Util::getMenuInfo($request);
         $shipRegList = ShipRegister::getShipListByOrigin();
 
@@ -483,9 +512,13 @@ class ShipRegController extends Controller
         $shipNameInfo = null;
         if(isset($shipId))
             $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
+        else {
+	        $shipNameInfo = ShipRegister::first();
+	        $shipId = $shipNameInfo['id'];
+        }
 
         $certType = ShipCertList::all();
-        $certList = ShipCertRegistry::getShipCertList($shipId, $certName, $issuUnit, $expireMonth);
+        $certList = ShipCertRegistry::where('ship_id', $shipId)->get();
 
         return view('shipManage.ship_cert_registry',
             [   'shipList'  =>  $shipRegList,
@@ -497,6 +530,51 @@ class ShipRegController extends Controller
                 'issuUnit'  =>  $issuUnit,
                 'expireMonth'=> $expireMonth,
             ]);
+    }
+
+    public function saveShipCertList(Request $request) {
+    	$params = $request->all();
+
+    	if(!isset($params['id']))
+    		return redirect()->back();
+
+    	$ids = $params['id'];
+    	foreach($ids as $key => $item) {
+    		$shipCertTbl = new ShipCertRegistry();
+    		if($item != '' && $item > 0) {
+			    $shipCertTbl = ShipCertRegistry::find($item);
+		    }
+
+		    $shipCertTbl['ship_id'] = $params['ship_id'];
+		    $shipCertTbl['cert_id'] = $params['cert_id'][$key];
+		    $shipCertTbl['issue_date'] = $params['issue_date'][$key];
+		    $shipCertTbl['expire_date'] = $params['expire_date'][$key];
+		    $shipCertTbl['due_endorse'] = $params['due_endorse'][$key];
+		    $shipCertTbl['issuer'] = $params['issuer'][$key];
+		    $shipCertTbl['remark'] = $params['remark'][$key];
+
+		    // Attachment Upload
+		    if($params['is_update'][$key] == IS_FILE_UPDATE) {
+			    if($request->hasFile('attachment')) {
+			    	$file = $request->file('attachment')[$key];
+				    $fileName = $file->getClientOriginalName();
+				    $name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+				    $file->move(public_path() . '/shipCertList/', $name);
+					if($shipCertTbl['attachment'] != '' && $shipCertTbl['attachment'] != null) {
+						if(file_exists($shipCertTbl['attachment']))
+							@unlink($shipCertTbl['attachment']);
+					}
+
+				    $shipCertTbl['attachment'] = public_path('/shipCertList/') . $name;
+				    $shipCertTbl['attachment_link'] = url() . '/shipCertList/' . $name;
+				    $shipCertTbl['file_name'] = $fileName;
+			    }
+		    }
+
+		    $shipCertTbl->save();
+	    }
+
+	    return redirect()->back();
     }
 
     // 배증서 정보얻기
@@ -1572,5 +1650,15 @@ class ShipRegController extends Controller
         }
 
         return $ship_infolist;
+    }
+
+    public function ajaxShipCertList(Request $request) {
+    	$params = $request->all();
+    	$id = $params['ship_id'];
+
+    	$retVal['ship'] = ShipCertRegistry::where('ship_id', $id)->get();
+	    $retVal['cert'] = ShipCertList::all();
+
+    	return response()->json($retVal);
     }
 }

@@ -10,386 +10,231 @@ $ships = Session::get('shipList');
 
 @extends('layout.'.$header)
 
+@section('styles')
+    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/vue.css') }}" rel="stylesheet"/>
+
+@endsection
+
+
 @section('content')
-
-    @if(!isset($excel))
-
-        <div class="main-content">
-            <style>
-                .filter_row {
-                    background-color: #45f7ef;
-                }
-                .chosen-drop {
-                    width : 350px !important;
-                }
-            </style>
-            <div class="page-content">
-                <div class="page-header">
-                    <div class="col-md-3">
-                        <h4>
-                            <b>船舶证书</b>
-                            <small>
-                                <i class="icon-double-angle-right"></i>
-                                船舶证书目录
-                            </small>
-                        </h4>
-                    </div>
-                    @if(isset($shipName['name']))
-                        <div class="col-md-6 center" style="font-size: 16px">
-                            <strong>[&nbsp;{{$shipName['name']}}({{$shipName['shipName_Cn']}})&nbsp;]号 &nbsp; 船舶证书目录 </strong>
-                        </div>
-                    @endif
+    <div class="main-content">
+        <style>
+            .filter_row {
+                background-color: #45f7ef;
+            }
+            .chosen-drop {
+                width : 350px !important;
+            }
+        </style>
+        <div class="page-content">
+            <div class="page-header">
+                <div class="col-md-3">
+                    <h4>
+                        <b>船舶证书</b>
+                    </h4>
                 </div>
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label class="control-label no-padding-right" style="float: left;padding-top:5px">船名</label>
-                            <div class="col-sm-9 no-padding-right" >
-                                <select class="form-control" id="select-ship">
-                                    <option value="" @if(!isset($shipId)) selected @endif>全体</option>
-                                    @foreach($shipList as $ship)
-                                        <option value="{{ $ship['RegNo'] }}"
-                                                @if(isset($shipId) && ($shipId == $ship['RegNo'])) selected @endif>{{$ship['shipName_Cn'].' | '.$ship['shipName_En']}}
-                                        </option>
-                                    @endforeach
-                                </select>
+
+            </div>
+            <div class="inner-wrap col-md-12">
+                <div class="row mb-4">
+                    <div class="col-lg-2 d-flex">
+                        <label class="custom-label d-inline-block" style="padding: 6px;">船名</label>
+                        <select class="custom-select d-inline-block" id="select-ship">
+                            <option value="" @if(!isset($shipId)) selected @endif>全体</option>
+                            @foreach($shipList as $ship)
+                                <option value="{{ $ship['shipID'] }}"
+                                        @if(isset($shipId) && ($shipId == $ship['RegNo'])) selected @endif>{{$ship['shipName_Cn'].' | '.$ship['shipName_En']}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        @if(isset($shipName['shipName_En']))
+                            <div class="col-md-12" style="font-size: 16px; padding-top: 6px;">
+                                <strong>"{{$shipName['shipName_Cn']}}" CERTIFICATES</strong>
                             </div>
-                        </div>
-                        <div class="col-md-2 no-padding">
-                            <label class="no-padding-right" style="float: left;padding-top:5px">证书名</label>
-                            <input type="text" class="form-control" id="certName" style="float:left;margin-left: 10px;width:70%" value="@if(isset($certName)){{$certName}}@endif">
-                        </div>
-                        <div class="col-md-2" style="width:22%">
-                            <label class="no-padding-right" style="float: left;padding-top:5px">签发部门</label>
-                            <input type="text" class="form-control" id="issuUnit" style="float:left;margin-left: 10px;width:70%" value="@if(isset($issuUnit)){{$issuUnit}}@endif">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="control-label no-padding-right" style="float: left;padding-top:7px">到期前</label>
-                            <div class="col-sm-7">
-                                <select class="form-control select-expire" id="select-expire">
-                                    <option value=""></option>
-                                    @for($month = 1; $month < 17; $month++)
-                                        @if($month < 13)
-                                            <option value="{{$month}}" @if(isset($expireMonth) && ($expireMonth == $month)) selected @endif>{{$month}} 个月</option>
-                                        @else
-                                            <option value="{{$month}}" @if(isset($expireMonth) && ($expireMonth == $month)) selected @endif>{{$month - 12}} 年</option>
-                                        @endif
-                                    @endfor
-                                </select>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-sm search-btn" style="float:left; width :80px"><i class="icon-search"></i>搜索</button>
-                        <button class="btn btn-warning btn-sm excel-btn" style="float:left;margin-left: 5px;width :80px;"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
-                        <div class="col-lg-1" style="float: right;margin-right:30px">
+                        @endif
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="btn-group f-right">
+                            <button class="btn btn-info btn-sm search-btn" onclick="addCertItem()"><i class="icon-plus"></i>添加</button>
+                            <button class="btn btn-warning btn-sm excel-btn d-none"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                             @if(!$isHolder)
-                                @if(isset($shipId))
-                                    <button class="btn btn-sm btn-primary" onclick="modifyCertItem('{{$shipId}}', 0)" style="width: 80px">
-                                        <i class="icon-plus-sign-alt"></i>
-                                        添加
-                                    </button>
-                                @endif
+                                <button class="btn btn-sm btn-primary" id="submit">
+                                    <i class="icon-save"></i>
+                                    保存
+                                </button>
                             @endif
-                            <div id="dialog-modify-cert" class="hide">
-                            </div>
-                            <!-- #dialog-message -->
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="space-10"></div>
-                        <div style="overflow-y: scroll; width: 100%">
-                            @else
-                                @include('layout.excel-style')
-                            @endif
-                            <table class="table table-striped table-bordered table-hover" @if(!isset($excel))style="width: 100%;margin-bottom: 0px !important;"@endif>
-                                <thead>
-                                <tr class="black br-hblue">
-                                    <th class="center" style="width:4%;word-break: break-all;">{{ transShipManager('shipCertlist.No') }}</th>
-                                    <th class="center" style="width:5%;word-break: break-all;">{{ transShipManager('shipCertlist.ShipName') }}</th>
-                                    <th class="center" style="width:8%;word-break: break-all;">{{ transShipManager('shipCertlist.EnglishName') }}</th>
-                                    <th class="center" style="width:10%;word-break: break-all;">{{ transShipManager('CertManage.RefNo') }}</th>
-                                    <th class="center" style="width:20%;word-break: break-all;">{{ transShipManager('shipCertlist.CertName') }}</th>
-                                    <th class="center" style="width:5%;word-break: break-all;">{{ transShipManager('shipCertlist.Kind') }}</th>
-                                    <th class="center" style="width:12%;word-break: break-all;">{{ transShipManager('shipCertlist.Issuing Authoriy') }}</th>
-                                    <th class="center" style="width:6%;word-break: break-all;">{{ transShipManager('shipCertlist.RegStatus') }}</th>
-                                    <th class="center" style="width:8%;word-break: break-all;">{{ transShipManager('shipCertlist.Date of Expiry') }}</th>
-                                    <th class="center" style="width:8%;word-break: break-all;">{{ transShipManager('shipCertlist.Date of Issue') }}</th>
-                                    @if(!$isHolder)
-                                        @if(!isset($excel))
-                                            <th class="center" style="width:3%">{{ transShipManager('shipCertlist.Scan') }}</th>
-                                            <th class="center" style="width:6%"></th>
-                                        @endif
-                                    @endif
-                                </tr>
-                                </thead>
-                                @if(!isset($excel))
-                            </table>
-                        </div>
-                        <div id="div_contents" style="overflow-x:hidden; overflow-y:scroll; width:100%; height:67vh; border-bottom: 1px solid #eee">
-                            <table class="table table-bordered table-hover" id="ship_cert_table">
-                                @endif
-                                <tbody id="ship_cert_body">
-								<?php $index = 1; ?>
-                                @foreach($list as $cert)
-                                    @if(!empty($expireMonth))
-                                        <tr class="filter_row">
-                                    @else
-                                        <tr class="">
-                                            @endif
-                                            <td class="center" rowId="{{$cert['id']}}" style="width:4%">{{$index++}}</td>
-                                            <td class="center" style="width:5%;word-break: break-all;">{{$cert['shipName_Cn']}}</td>
-                                            <td class="center" style="width:8%;word-break: break-all;">{{$cert['shipName_En']}}</td>
-                                            <td style="width:10%;word-break: break-all;">{{$cert['CertNo']}}</td>
-                                            <td style="width:20%;word-break: break-all;">{{$cert['CertName_Cn']}}</td>
-                                            <td class="center" style="width:5%;word-break: break-all;">{{$cert['CertKind']}}</td>
-                                            <td class="center" style="width:12%;word-break: break-all;">{{$cert['IssuedAdmin_Cn']}}</td>
-                                            <td class="center" style="width:6%;word-break: break-all;">{{$cert['CertLevel']}}</td>
-                                            <td class="center" style="width:8%;word-break: break-all;">{{$cert['IssuedDate']}}</td>
-                                            <td class="center" style="width:8%;word-break: break-all;">{{$cert['ExpiredDate']}}</td>
-                                            @if(!$isHolder)
-                                                @if(!isset($excel))
-                                                    <td class="center" style="width:3%">
-                                                        @if(!empty($cert['Scan']))
-															<?php
-															$temp = explode('.', $cert['Scan']);
-															$ext = '.'.end($temp);
-															$filename = $cert['shipName_Cn'].'_'.$cert['CertName_Cn'].'_证书复本.'.$ext;
-															?>
-                                                            <a href="/fileDownload?type=ship-cert&path={{$cert['Scan']}}&filename={{$filename}}"
-                                                               class="hide-option" title="证书复本" style="padding-top:6px">
-                                                                <i class="blue icon-print"></i>
-                                                            </a>
-                                                        <!--
-                                            <a href="{{url('uploads//'.$cert['Scan'])}}" data-rel="colorbox"><i class="blue icon-print"></i></a>
-                                            -->
-                                                        @endif
-                                                    </td>
-                                                    <td class="action-buttons center" style="width:6%">
-                                                        <a class="blue" href="javascript:modifyCertItem('', '{{$cert['id']}}')">
-                                                            <i class="icon-edit bigger-130"></i>
-                                                        </a>
-
-                                                        <a class="red" href="javascript:deleteCertItem({{$cert['id']}})">
-                                                            <i class="icon-trash bigger-130"></i>
-                                                        </a>
-                                                    </td>
-                                                @endif
-                                            @endif
-                                        </tr>
-                                        @endforeach
-                                </tbody>
-                            </table>
-                            @if(!isset($excel))
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form action="shipCertList" method="post" id="certList-form" enctype="multipart/form-data">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                            <input type="hidden" value="{{ $shipId }}" name="ship_id">
+                        <table class="custom-table-striped">
+                            <thead>
+                            <tr class="black br-hblue">
+                                <th class="d-none"></th>
+                                <th class="center" style="width:60px;word-break: break-all;">{!! transShipManager('shipCertlist.No') !!}</th>
+                                <th class="center" style="width:60px;word-break: break-all;">{{ transShipManager('shipCertlist.Code') }}</th>
+                                <th class="center" style="width:280px;word-break: break-all;">{{ transShipManager('shipCertlist.name of certificates') }}</th>
+                                <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.issue_date') }}</th>
+                                <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.expire_date') }}</th>
+                                <th class="center" style="width:120px;word-break: break-all;">{!! transShipManager('shipCertlist.due_endorse') !!}</th>
+                                <th class="center" style="width:80px;word-break: break-all;">{{ transShipManager('shipCertlist.issuer') }}</th>
+                                <th class="center" style="width:40px;word-break: break-all;"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></th>
+                                <th class="center" style="width:200px;word-break: break-all;">{{ transShipManager('shipCertlist.remark') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody id="cert_list" v-cloak>
+                            <tr v-for="(item, index) in cert_array" v-bind:data-index="index">
+                                <td class="d-none"><input type="hidden" name="id[]" v-model="item.id"></td>
+                                <td class="center">@{{ item.order_no }}</td>
+                                <td>@{{ item.code }}</td>
+                                <td>
+                                    <select class="form-control" name="cert_id[]" v-model="item.cert_id" @change="certTypeChange($event, index)">
+                                        <option v-for="(item, index) in certTypeList" v-bind:value="item.id">@{{ item.name }}</option>
+                                    </select>
+                                </td>
+                                <td class="center"><vuejs-datepicker :value="item.issue_date" name="issue_date[]" :readonly='false' :format="customFormatter" input-class="form-control text-center" :language="zh"></vuejs-datepicker></td>
+                                <td class="center"><vuejs-datepicker :value="item.expire_date" name="expire_date[]" :format="customFormatter" input-class="form-control text-center" :language="zh"></vuejs-datepicker></td>
+                                <td class="center"><input class="form-control" type="text" v-model="item.due_endorse" name="due_endorse[]"></td>
+                                <td class="center">
+                                    <select class="form-control text-center" v-model="item.issuer" name="issuer[]">
+                                        <option v-for="(issuer, index) in issuer_type" v-bind:value="index">@{{ issuer }}</option>
+                                    </select>
+                                <td class="text-center">
+                                    <a v-bind:href="item.attachment_link"></a>
+                                    <label v-bind:for="index"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></label>
+                                    <input type="file" name="attachment[]" v-bind:id="index" class="d-none" @change="onFileChange" v-bind:data-index="index" accept="pdf">
+                                    <input type="hidden" name="is_update[]" v-bind:id="index" class="d-none" v-bind:value="item.is_update">
+                                </td>
+                                <td><input class="form-control text-center" type="text" v-model="item.remark" name="remark[]"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    <script src="{{ cAsset('assets/js/moment.js') }}"></script>
+    <script src="https://unpkg.com/vuejs-datepicker/dist/locale/translations/zh.js"></script>
+    <script src="{{ cAsset('assets/js/vue.js') }}"></script>
+    <script src="https://unpkg.com/vuejs-datepicker"></script>
+    <?php
+    echo '<script>';
+    echo 'var IssuerTypeData = ' . json_encode(g_enum('IssuerTypeData')) . ';';
+    echo '</script>';
+    ?>
+    <script>
+        var certListObj = null;
+        var certTypeList = [];
+        var totalRecord = 0;
+        var initLoad = true;
+        var IS_FILE_KEEP = '{!! IS_FILE_KEEP !!}';
+        var IS_FILE_DELETE = '{!! IS_FILE_DELETE !!}';
+        var IS_FILE_UPDATE = '{!! IS_FILE_UPDATE !!}';
 
-        <script>
-            var token = '{!! csrf_token() !!}';
-            var shipName_Cn = '';
-            @if(isset($shipName['name']))
-                shipName_Cn = '{!! $shipName['name'] !!}号';
-            @endif
+        $(function () {
+            // Initialize
+            initialize();
+        });
 
+        function initialize() {
+            let ship_id = '{!! $shipId !!}';
 
-            $(function () {
-
-
-                $('.select-expire').on('change', function () {
-                    var expireMonth = $(this).val() * 1;
-                    var startDate = new Date();
-                    var year = startDate.getFullYear();
-                    var day = startDate.getDate();
-                    var month = startDate.getMonth();
-
-                    if(expireMonth < 13) {
-                        month = month + expireMonth + 1;
-                        if(month > 12) {
-                            year++;
-                            month = month - 12;
-                        }
-
-                        if(month < 10)
-                            month = '0' + month;
-                        if(day < 10)
-                            day = '0' + day;
-                    } else {
-                        year = year + expireMonth - 12;
-                    }
-                    var expireDate = year + '-' + month + '-' + day;
-
-                    year = startDate.getFullYear();
-                    day = startDate.getDate();
-                    month = startDate.getMonth() + 1;
-                    if(month > 12) {
-                        year++;
-                        month = month - 12;
+            // Create Vue Obj
+            certListObj = new Vue({
+                el: '#cert_list',
+                data() {
+                    return {
+                        cert_array: [],
+                        certTypeList: [],
+                        zh: vdp_translation_zh.js,
+                        issuer_type: IssuerTypeData
                     }
 
-                    if(month < 10)
-                        month = '0' + month;
-                    if(day < 10)
-                        day = '0' + day;
-                    startDate = year + '-' + month + '-' + day;
-
-                    var rows = $('#ship_cert_body').children();
-                    var len = rows.length;
-                    for(var row = 0;row<len;row++) {
-                        var tr = rows.eq(row);
-                        tr.removeClass('filter_row');
-                        var dateStr = rows[row].children[9].innerHTML;
-                        var issueDate = rows[row].children[8].innerHTML;
-                        if((dateStr.length > 0 && dateStr < expireDate) || (issueDate.length < 1)) {
-                            tr.addClass('filter_row');
-                        }
+                },
+                components: {
+                    vuejsDatepicker
+                },
+                methods: {
+                    certTypeChange: function(event, index) {
+                        let certId = event.target.value;
+                        setCertInfo(certId, index);
+                    },
+                    customFormatter(date) {
+                        return moment(date).format('YYYY-MM-DD');
+                    },
+                    customInput() {
+                      return 'form-control';
+                    },
+                    onFileChange(e) {
+                        let index = e.target.getAttribute('data-index');
+                        certListObj.cert_array[index]['is_update'] = IS_FILE_UPDATE;
+                        this.$forceUpdate();
                     }
-
-                });
-
-
-                $('.search-btn').on('click', function () {
-                    var shipId = $('#select-ship').val();
-                    var certName = $('#certName').val();
-                    var issuUnit = $('#issuUnit').val();
-                    var expireMonth = $('#select-expire').val();
-
-                    var param = shipId.length > 0 ? '?shipId=' + shipId : '';
-                    if(certName.length > 0)
-                        param += param.length > 0 ? '&certName=' + certName : '?certName=' + certName;
-                    if(issuUnit.length > 0)
-                        param += param.length > 0 ? '&issuUnit=' + issuUnit : '?issuUnit=' + issuUnit;
-                    if(expireMonth.length > 0)
-                        param += param.length > 0 ? '&expireMonth=' + expireMonth : '?expireMonth=' + expireMonth;
-
-                    location.href = 'shipCertList' + param;
-
-
-
-                });
-
-                $('.excel-btn').on('click', function () {
-                    var shipId = $('#select-ship').val();
-                    var certName = $('#certName').val();
-                    var expireMonth = $('#select-expire').val();
-
-                    var param = shipId.length > 0 ? '?shipId=' + shipId : '';
-                    if(certName.length > 0)
-                        param += param.length > 0 ? '&certName=' + certName : '?certName=' + certName;
-                    if(expireMonth.length > 0)
-                        param += param.length > 0 ? '&expireMonth=' + expireMonth : '?expireMonth=' + expireMonth;
-
-                    location.href = 'shipCertListExcel' + param;
-                });
+                },
+                updated() {
+                    $('input').removeAttr('readonly');
+                }
             });
 
-            function setDatePicker() {
-                $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-                    $(this).prev().focus();
-                });
-            }
+            getShipInfo(ship_id);
+        }
 
-            function setValidateForm() {
-                $("#certUpdateForm").validate({
-                    rules: {
-                        IssuedAdmin_Cn: "required",
-                        IssuedAdmin_En: "required",
-                    },
-                    messages: {
-                        IssuedAdmin_Cn: "请输入签发部门(中文)。",
-                        IssuedAdmin_En: "请输入签发部门(英文)。",
-                    }
-                });
+        function getShipInfo(ship_id) {
+            $.ajax({
+                url: BASE_URL + 'ajax/shipManage/cert/list',
+                type: 'post',
+                data: {
+                    ship_id: ship_id
+                },
+                success: function(data, status, xhr) {
+                    let result = data;
+                    certListObj.cert_array = data['ship'];
+                    certListObj.certTypeList = data['cert'];
+                    certTypeList = data['cert'];
+                    certListObj.cert_array.forEach(function(value, index) {console.log(value);
+                        certListObj.cert_array[index]['is_update'] = IS_FILE_KEEP;
+                        setCertInfo(value['cert_id'], index);
+                    });
+                    totalRecord = data['ship'].length;
+                }
+            })
+        }
 
-            }
+        function addCertItem() {
+            if($.isEmptyObject(certListObj.cert_array[certListObj.cert_array.length - 1]))
+                return false;
+            certListObj.cert_array.push([]);
+            // isAdd = true;
+            $($('[name=cert_id]')[certListObj.cert_array.length - 1]).focus();
+            totalRecord = certListObj.cert_array.length;
+        }
 
-            function deleteCertItem(id) {
-                var tableBody = document.getElementById('ship_cert_body');
-                var rows = tableBody.children;
-                var len = rows.length;
-                var row = 0;
-                for(;row<len;row++) {
-                    var td = rows[row].children[0];
-                    var certId = td.getAttribute('rowId');
-                    if(id == certId)
-                        break;
+        function setCertInfo(certId, index = 0) {
+            certTypeList.forEach(function(value, key) {
+                if(value['id'] == certId) {
+                    certListObj.cert_array[index]['order_no'] = value['order_no'];
+                    certListObj.cert_array[index]['code'] = value['code'];
                 }
 
-                var tableRow = rows[row];
-                var certName = tableRow.children[2].innerHTML;
-                bootbox.confirm(certName + "  真要删除吗?", function (result) {
-                    if (result) {
-                        $.post('deleteShipCert', {'_token':token, 'certId':id}, function (result) {
-                            var code = parseInt(result);
-                            if (code > 0) {
-                                tableBody.deleteRow(row);
-                            } else {
-                                $.gritter.add({
-                                    title: '错误',
-                                    text: '['+ certName + ']' + ' 是已经被删除的。',
-                                    class_name: 'gritter-error '
-                                });
-                            }
-                        });
-                    }
-                });
+            });
+        }
 
-            }
+        $('#select-ship').on('change', function() {
+            getShipInfo($(this).val());
+        });
 
-            function bindCertPhoto() {
-                $('#copy-photo').ace_file_input({
-                    style: 'well',
-                    btn_choose: '请选择复本文件。',
-                    btn_change: null,
-                    no_icon: 'icon-cloud-upload',
-                    droppable: true,
-                    thumbnail: 'small',//large | fit
-                    preview_error: function (filename, error_code) {
-                    }
-                }).on('change', function () {
-                });
-            }
-
-            function modifyCertItem(shipId, id) {
-                $.post("getShipCertInfo", {'_token': token, 'shipId': shipId, 'certId': id}, function (data) {
-                    if (data) {
-                        $("#dialog-modify-cert").html(data);
-                        $('[name="certName"]').val($('#certName').val());
-                        $('[name="issuUnit"]').val($('#issuUnit').val());
-                        $('[name="expireMonth"]').val($('#select-expire').val());
-                        setDatePicker();
-                        bindCertPhoto();
-                        setValidateForm();
-                        $('.chosen-select').chosen();
-
-                        var title = shipName_Cn + ' 修改船舶证书';
-                        if (id == 0)
-                            title = shipName_Cn + ' 添加船舶证书'
-                        var dialog = $("#dialog-modify-cert").removeClass('hide').dialog({
-                            modal: true,
-                            title: title,
-                            title_html: true,
-                            buttons: [
-                                {
-                                    text: "取消",
-                                    "class": "btn btn-xs",
-                                    click: function () {
-                                        $(this).dialog("close");
-                                    }
-                                },
-                                {
-                                    text: "确认",
-                                    "class": "btn btn-primary btn-xs",
-                                    click: function () {
-                                        $('#submit_btn').click();
-                                    }
-                                }
-                            ]
-                        });
-                    }
-                });
-            }
-        </script>
-    @endif
+        $('#submit').on('click', function() {
+            $('#certList-form').submit();
+        })
+    </script>
 @endsection

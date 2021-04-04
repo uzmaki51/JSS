@@ -28,7 +28,7 @@ class ShipCertRegistry extends Model
                 ->join('tb_ship_register', 'tb_ship_certregistry.ShipName', '=', 'tb_ship_register.RegNo')
                 ->leftJoin('tb_ship_certlist', 'tb_ship_certregistry.CertNo', '=', 'tb_ship_certlist.CertNo');
         if(!empty($shipId))
-            $query->where('tb_ship_certregistry.ShipName', $shipId);
+            $query->where('tb_ship_certregistry.ShipName1', $shipId);
 
         if(!empty($certName))
             $query->where('tb_ship_certlist.CertName_Cn', 'like', '%'.$certName.'%');
@@ -56,6 +56,4 @@ class ShipCertRegistry extends Model
         $list = $query->orderBy('tb_ship_certlist.CertNo')->get();
         return $list;
     }
-
-
 }

@@ -22,16 +22,13 @@
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
     }
 ?>
-<html lang="en">
-
-<!-- Mirrored from 192.69.216.111/themes/preview/ace/ by HTTrack Website Copier/3.x [XR&CO'2013], Tue, 10 Dec 2013 00:48:04 GMT -->
+<html lang="cn">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
     @yield('content')
 </body>
-
-<!-- Mirrored from 192.69.216.111/themes/preview/ace/ by HTTrack Website Copier/3.x [XR&CO'2013], Tue, 10 Dec 2013 00:48:31 GMT -->
 </html>

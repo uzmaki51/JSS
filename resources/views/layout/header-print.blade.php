@@ -80,7 +80,6 @@
         <div class="main-container" id="main-container">
             <div class="main-container-inner">
                 @yield('content')
-
             </div>
         </div>
 

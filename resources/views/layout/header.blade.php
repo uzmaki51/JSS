@@ -27,9 +27,9 @@
     <link href="{{ asset('/assets/css/jquery.treeview.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/common.css') }}" rel="stylesheet">
+    @yield('styles')
 
     <!-- SCRIPTS -->
-    @yield('styles')
     <script src="{{ asset('/assets/js/ace-extra.min.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery-2.0.3.min.js') }}"></script>
     <script src="{{ asset('/assets/js/ace-elements.min.js') }}"></script>
@@ -74,9 +74,9 @@
             </div>
 
 	        <?php
-	        $routeName = Route::getCurrentRoute()->getPath();
-	        $menuList = Session::get('menusList');
-	        $id = Request::get('menuId');
+                $routeName = Route::getCurrentRoute()->getPath();
+                $menuList = Session::get('menusList');
+                $id = Request::get('menuId');
 	        ?>
             <div id="container">
                 <nav>
@@ -153,5 +153,6 @@
 <script src="{{ asset('/assets/js/jquery.inputlimiter.min.js') }}"></script>
 <script src="{{ asset('/assets/js/jquery.maskedinput.min.js') }}"></script>
 <script src="{{ asset('/assets/js/ship_process.js') }}"></script>
+@yield('scripts')
 </body>
 </html>

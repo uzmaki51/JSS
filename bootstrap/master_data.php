@@ -40,6 +40,26 @@ $ReportTypeData = array(
 	
 );
 
+# Issuer
+define('ISSUER_TYPE_MA', 0);
+define('ISSUER_TYPE_RO', 1);
+define('ISSUER_TYPE_IC', 2);
+define('ISSUER_TYPE_SS', 3);
+define('ISSUER_TYPE_EL', 4);
+$IssuerTypeData = array(
+	ISSUER_TYPE_MA      => 'MA',
+	ISSUER_TYPE_RO      => 'RO',
+	ISSUER_TYPE_IC      => '保险社',
+	ISSUER_TYPE_SS      => '服务站',
+	ISSUER_TYPE_EL      => '其他',
+);
+
+
+# FileUpload Status
+define('IS_FILE_KEEP',      0);
+define('IS_FILE_DELETE',    1);
+define('IS_FILE_UPDATE',    2);
+
 # IncomeData
 define('INCOME_UNIM',       '运费');
 define('INCOME_BODY_FEE',   '滞期费');
@@ -220,5 +240,6 @@ define('HTTP_METHOD_POST', 'POST');
 	    'ShipRegStatus'					=> $ShipRegStatus,
 	    'ReportStatusData'			    => $ReportStatusData,
 		'NationalityData'				=> $NationalityData,
+	    'IssuerTypeData'				=> $IssuerTypeData,
 
  );

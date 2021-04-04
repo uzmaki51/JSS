@@ -247,13 +247,15 @@ return [
     ],
 
     "shipCertlist"  => [
-        'No' => 'No',
-        'ShipName' => 'ShipName',
-        'EnglishName' => 'ShipName(En)',
-        'CertName' => 'CertName',
-        'Kind' => 'Kind',
-        'Issuing Authoriy' => 'Issuing Authoriy',
-        'RegStatus' => 'RegStatus',
+        'No' => 'Order <br /> No',
+	    'Code' => 'CODE',
+        'name of certificates' => 'NAME OF CERTIFICATES',
+        'issue_date' => 'ISSUE DATE',
+        'expire_date' => 'EXPIRE DATE',
+        'due_endorse' => 'DUE <br /> ENDORSE',
+        'issuer' => 'ISSUER',
+	    'attachment'        => 'ATTACHMENT',
+        'remark' => 'REMARK',
         'Date of Expiry' => 'Date of Expiry',
         'Scan'  =>  'Scan',
         'Date of Issue' => 'Date of Issue'

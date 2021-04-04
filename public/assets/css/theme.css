@@ -8,6 +8,7 @@ body * {
     outline: none;
     scroll-behavior: smooth;
 }
+[v-cloak] { display: none; }
 .login-div {
     display: flex;
     align-items: center;
@@ -594,11 +595,23 @@ footer {
 
 /** Common Class */
 .d-none {
-    display: none;
+    display: none!important;
 }
 .mb-0 {
     margin-bottom: 0!important;
 }
 .p-0 {
     padding: 0!important;
+}
+.custom-table-striped > tbody > tr:nth-child(odd) > td, .custom-table-striped > tbody > tr:nth-child(odd) > td * {
+    background: #ebf1de!important;
+    color: #333333!important;
+}
+
+.custom-table-striped > tbody > tr:nth-child(even) > td, .custom-table-striped > tbody > tr:nth-child(even) > td * {
+    background: #ffffff!important;
+    color: #333333!important;
+}
+.custom-table-striped > thead th {
+    line-height: 20px;
 }

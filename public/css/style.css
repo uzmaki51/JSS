@@ -28,8 +28,8 @@ table>tbody>tr>td{
 .arc-table tbody>tr>td>input,.arc-table1 tbody>tr>td>input{
     width: 100%;
 }.arc-table tbody>tr>td>select{
-    width: 100%;
-}
+     width: 100%;
+ }
 .arc-table tbody>tr>td:nth-child(odd){
     width: 80px;
     background-color: #f7f7f7;
@@ -54,8 +54,8 @@ table>tbody>tr>td{
 }.arc-std-table tbody>tr>td>select{
      width: 100%;
  }.arc-std-table tbody>tr>td>textarea{
-     width: 100%;
- }
+      width: 100%;
+  }
 
 
 .custom-td-dec-label{
@@ -117,8 +117,8 @@ table>tbody>tr>td{
 }
 
 .th-content {
-     text-align: center;
-     vertical-align: middle;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .td-content {
@@ -207,35 +207,55 @@ div.input table tbody tr td
 }
 
 .checkbox :hover {
-      background-color:red;
-      cursor:pointer;
-        width:100%;
-    }
+    background-color:red;
+    cursor:pointer;
+    width:100%;
+}
 
 .div_form :hover {
-      background-color:green;
-      cursor:pointer;
-    }
+    background-color:green;
+    cursor:pointer;
+}
 
 .btn_clear {
     float: right;
-display: inline-block;
-box-sizing: border-box;
-width: calc(50% - 20px);
-padding: 10px 17px;
-text-align: center;
-  }
-  
+    display: inline-block;
+    box-sizing: border-box;
+    width: calc(50% - 20px);
+    padding: 10px 17px;
+    text-align: center;
+}
+
 .btn_apply {
-      float: left;
-display: inline-block;
-box-sizing: border-box;
-width: calc(50% - 20px);
-padding: 10px 17px;
-text-align: center;
-    }
+    float: left;
+    display: inline-block;
+    box-sizing: border-box;
+    width: calc(50% - 20px);
+    padding: 10px 17px;
+    text-align: center;
+}
 
 .div_form {
     position:fixed;
     bottom:0px;
-  }
+}
+
+/**************** Excel Table Style *****************/
+
+.excel-output tbody tr td {
+    table-layout: fixed;
+    width: 240px;
+}
+.excel-output tbody thead .title {
+    font-size: 16px;
+    padding: 4px!important;
+    background: white!important;
+}
+.excel-output tbody tr td:first-child {
+    background: #f8f8f8;
+    text-align: left;
+}
+.excel-output tbody tr td {
+    background: white;
+    padding: 4px!important;
+}

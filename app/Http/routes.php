@@ -83,6 +83,10 @@ Route::group(['prefix'  => 'ajax'], function() {
 	Route::post('ship/voyList',    ['uses'=>'Decision\DecisionController@ajaxGetVoyList']);
 	Route::post('profit/list',    ['uses'=>'Decision\DecisionController@ajaxProfitList']);
 	Route::post('getDepartment',    ['uses'=>'Decision\DecisionController@ajaxGetDepartment']);
+
+
+	// ShipCert
+	Route::post('shipManage/cert/list', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertList']);
 });
 
 // Administrative Affairs
@@ -364,8 +368,7 @@ Route::group(['prefix' => 'operation'], function() {
 });
 
 // 배등록
-Route::group(['prefix' => 'shipManage'], function()
-{
+Route::group(['prefix' => 'shipManage'], function() {
 	Route:get('/', ['uses'=>'ShipManage\ShipRegController@index']);
 	Route::get('shipinfo', ['uses'=>'ShipManage\ShipRegController@loadShipGeneralInfos']);
 	Route::get('registerShipData', ['uses'=>'ShipManage\ShipRegController@registerShipData']);
@@ -385,6 +388,7 @@ Route::group(['prefix' => 'shipManage'], function()
 	Route::post('deleteShipPhotoImage', ['uses'=>'ShipManage\ShipRegController@deleteShipPhotoImage']);
 
 	Route::get('shipCertList', ['uses'=>'ShipManage\ShipRegController@shipCertList']);
+	Route::post('shipCertList', ['uses'=>'ShipManage\ShipRegController@saveShipCertList']);
 	Route::post('getShipCertInfo', ['uses'=>'ShipManage\ShipRegController@getShipCertInfo']);
 	Route::post('updateCertInfo', ['uses'=>'ShipManage\ShipRegController@updateCertInfo']);
 	Route::post('deleteShipCert', ['uses'=>'ShipManage\ShipRegController@deleteShipCert']);
@@ -460,7 +464,7 @@ Route::group(['prefix' => 'shipManage'], function()
 
     // Excel 출력
     // 배제원
-    Route::get('shipinfoExcel', ['uses'=>'ExcelController@loadShipGeneralInfos']);
+    Route::get('exportShipInfo', ['uses'=>'ShipManage\ShipRegController@exportShipInfo']);
     // 배증서목록
     Route::get('shipCertListExcel', ['uses'=>'ExcelController@shipCertList']);
     // 배증서종류

@@ -289,8 +289,7 @@ class ExcelController extends Controller {
     }
 
     //기업소출근일보종합
-    public function enterpriseDayAttend(Request $request)
-    {
+    public function enterpriseDayAttend(Request $request) {
         Util::getMenuInfo($request);
 
         $selDate = is_null($request->get('selDate')) ? date('Y/m/d') : $request->get('selDate');
@@ -1067,8 +1066,6 @@ class ExcelController extends Controller {
     //배제원현시부분
     public function loadShipGeneralInfos(Request $request)
     {
-        Util::getMenuInfo($request);
-
         $ship_infolist = ShipRegister::select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
             ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
             ->leftJoin('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
