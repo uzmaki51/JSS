@@ -1,0 +1,196 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Cmb
+ * Date: 2017/4/13
+ * Time: 9:39
+ */
+
+namespace App\Http\Controllers\Dynamic;
+
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Util;
+use App\User;
+use Illuminate\Http\Request;
+use App\Models\Menu;
+use App\Models\Member\Unit;
+
+use Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+
+class DynamicController extends Controller
+{
+    protected $userinfo;
+
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    public function ajaxGetDynamicData(Request $request) {
+        $params = $request->all();
+		$type = $params['type'];
+		if ($type == 'nationality') {
+			$result = DB::table('tb_dynamic_nationality')->select('*')->get();
+			return response()->json($result);
+		}
+		else if ($type == 'rank') {
+			$result = DB::table('tb_ship_duty')->select('*')->get();
+			return response()->json($result);
+		}
+		else if ($type == 'capacity') {
+			$result = DB::table('tb_member_capacity')->select('*')->get();
+			return response()->json($result);
+		}
+
+		return response()->json('fail');
+    }
+
+	public function ajaxSetDynamicData(Request $request) {
+		$params = $request->all();
+		$type = $params['type'];
+
+		if ($type == 'nationality') {
+			$list = $params['list'];
+			$default = $params['default'];
+
+			$result = DB::table('tb_dynamic_nationality')->truncate();
+			$i = 0;
+			foreach($list as $item) {
+				if ($item != '')
+				{
+					if ($i == $default)
+						DB::table('tb_dynamic_nationality')->insert(['name' => $item, 'isDefault' => '1']);
+					else
+						DB::table('tb_dynamic_nationality')->insert(['name' => $item]);
+					$i ++;
+				}
+			}
+		}
+		else if($type == 'rank') {
+			$orderno = $params['orderno'];
+			$name = $params['name'];
+			$abb = $params['abb'];
+			$description = $params['description'];
+
+			$result = DB::table('tb_ship_duty')->truncate();
+			for ($i=0;$i<count($orderno);$i++)
+			{
+				if ($orderno[$i] != '' || $abb[$i] != '' || $name[$i] != '' || $description[$i] != '') {
+					DB::table('tb_ship_duty')->insert(['OrderNo' => $orderno[$i], 'Abb' => $abb[$i], 'Duty_En' => $name[$i], 'Description' => $description[$i]]);
+				}
+			}
+		}
+		else if($type == 'capacity') {
+			$name = $params['name'];
+			$stcw = $params['STCW'];
+			$description = $params['description'];
+
+			$result = DB::table('tb_member_capacity')->truncate();
+			for ($i=0;$i<count($name);$i++)
+			{
+				if ($stcw[$i] != '' || $name[$i] != '' || $description[$i] != '') {
+					DB::table('tb_member_capacity')->insert(['Capacity_En' => $name[$i], 'STCWRegID' => $stcw[$i], 'Remarks' => $description[$i]]);
+				}
+			}
+		}
+		else
+		{
+			return response()->json('-1');
+		}
+
+		return response()->json('0');
+	}
+
+    public function ajaxSetNationality(Request $request) {
+        $params = $request->all();
+        
+    }
+
+    public function ajaxGetRank(Request $request) {
+
+    }
+
+    public function ajaxSetRank(Request $request) {
+
+    }
+
+
+	public function ajaxReportDetail(Request $request) {
+		$params = $request->all();
+		$userid = Auth::user()->id;
+		$userRole = Auth::user()->isAdmin;
+
+		Session::forget('reportFiles');
+//		if($userRole != SUPER_ADMIN)
+//			return response()->json('-1');
+
+		$decideTbl = new DecisionReport();
+		$retVal = $decideTbl->getReportDetail($params);
+
+		return response()->json($retVal);
+	}
+
+	public function ajaxReportData(Request $request) {
+    	$params = $request->all();
+
+    	$shipList = ShipRegister::getShipListByOrigin();
+
+    	if(isset($params['shipId'])) {
+    		$shipRegNo = ShipRegister::find($params['shipId'])['RegNo'];
+    		$voyList = VoyLog::where('ship_ID', $shipRegNo)->get();
+	    } else {
+			$voyList = array();
+	    }
+
+    	return response()->json(array('shipList'    => $shipList, 'voyList' => $voyList));
+	}
+
+	public function ajaxProfitList(Request $request) {
+    	$params = $request->all();
+
+    	if(isset($params['profitType']))
+    	    $profitType = $params['profitType'];
+    	else
+		    $profitType = 0;
+
+    	$profitList = ACItem::where('C_D', $profitType)->orderBy('id')->get();
+
+    	return response()->json($profitList);
+
+	}
+
+	public function ajaxReportFile(Request $request) {
+    	$params = $request->all();
+
+		$hasFile = $request->file('file');
+		if(isset($hasFile)) {
+			if(isset($hasFile)) {
+				$name = date('Ymd_H_i_s'). '.' . $hasFile->getClientOriginalExtension();
+				$hasFile->move(public_path() . '/files/', $name);
+				$fileList[] =  array($hasFile->getClientOriginalName(), '/files/' . $name);
+
+				if(Session::get('reportFiles')) {
+					$reportFile = Session::get('reportFiles');
+				} else {
+					$reportFile = array();
+				}
+				$reportFile[] = $fileList;
+				Session::put('reportFiles', $reportFile);
+			}
+		}
+
+		$retVal = Session::get('reportFiles');
+
+		$retVal[][] = array('请选择文件。', '请选择文件。');
+
+		return response()->json($retVal);
+	}
+
+	public function ajaxGetDepartment() {
+		$retVal = Unit::where('parentId', '!=', 0)->get();
+
+		return response()->json($retVal);
+	}
+}

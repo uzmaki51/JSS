@@ -194,12 +194,6 @@ div.input table tbody tr td
 .fc-day-content a { color: #0000ff; cursor: pointer; font-size: 14px;line-height: 20px}
 .fc-day-content a:hover, a:focus { color: rgba(0, 0, 193, 0.48)  }
 
-
-
-
-
-
-
 .scrollable-menu {
     height: auto;
     max-height: 200px;

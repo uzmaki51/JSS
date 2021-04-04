@@ -34,6 +34,7 @@ use App\Models\ShipMember\ShipMemberSubExaming;
 use App\Models\ShipMember\SecurityCert;
 use Config;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 use Auth;
 
@@ -106,17 +107,14 @@ class ShipMemberController extends Controller
     }
 
     public function registerShipMember(Request $request) {
-
-        $GLOBALS['selMenu'] = 55;
-        $GLOBALS['submenu'] = 0;
-
         $shipList = ShipRegister::select('shipName_En', 'RegNo')->get();
         $posList = ShipPosition::all();
         $ksList = Ship::all();
         $typeList = ShipType::all();
         $capacityList = ShipMemberCapacity::all();
         $list = $this->getMemberGeneralInfo();
-
+        $nationList = DB::table('tb_dynamic_nationality')->select('name')->get();
+        $securityType = SecurityCert::all();
         $state = Session::get('state');
 
         $memberId = $request->get('memberId');
@@ -124,7 +122,6 @@ class ShipMemberController extends Controller
             // 登记자료탭
             $info = ShipMember::find($memberId);
             $historyList = ShipBoardCareer::where('memberId', $memberId)->orderBy('FromDate')->get();
-
             // 登记카드자료
             $card = ShipMemberSocial::where('memberId', $memberId)->first();
             $career = ShipMemberCareer::where('memberId', $memberId)->orderBy('fromDate')->get();
@@ -136,8 +133,8 @@ class ShipMemberController extends Controller
             $school = ShipMemberSchool::where('memberId', $memberId)->orderBy("id")->get();
             
             // 훈련登记자료
-            $training = ShipMemberTraining::where('memberId', $memberId)->first();
-            $securityType = SecurityCert::all();
+            $training = ShipMemberTraining::where('memberId', $memberId)->groupBy("CertSequence")->get();
+            
 
             // 실력평가자료
             $examingList = ShipMemberExaming::where('memberId', $memberId)->orderBy('ExamDate')->get();
@@ -175,12 +172,13 @@ class ShipMemberController extends Controller
                     'codeList'  =>      $codeList,
                     'list'      =>      $list,
                     'state'     =>      $state,
+                    'nationList' =>    $nationList,
                 ]);
         }
         //return view('shipMember.register_member', ['shipList'=>$shipList, 'posList'=>$posList, 'ksList'=>$ksList, 'typeList'=>$typeList, 'state'=>$state]);
         return view('shipMember.register_member',
                 //[   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'Surname' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => ''],
-                  [   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'Surname' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => '', 'DateOffboard' => '', 'Nationality' => '', 'CertNo' => '', 'OtherContacts' => '', 'BankInformation' => '', 'PassportNo' => '', 'PassportIssuedDate' => '', 'PassportExpiryDate' => ''],
+                  [   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'BirthCountry' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => '', 'DateOffboard' => '', 'Nationality' => '', 'CertNo' => '', 'OtherContacts' => '', 'BankInformation' => '', 'WageCurrency' => '', 'PassportNo' => '', 'PassportIssuedDate' => '', 'PassportExpiryDate' => '', 'Salary' => '', 'ShipType' => ''],
                     'shipList'  =>      $shipList,
                     'posList'   =>      $posList,
                     'ksList'    =>      $ksList,
@@ -197,7 +195,7 @@ class ShipMemberController extends Controller
                     'schoolList'=>      null,
                     'capacityList'=>    $capacityList,
 
-                    'security'  =>      null,
+                    'security'  =>      $securityType,
                     'training'  =>      null,
 
                     'examingList'=>     null,
@@ -205,7 +203,7 @@ class ShipMemberController extends Controller
                     'subList'   =>      null,
                     'codeList'  =>      null,
                     'list'      =>      $list,
-
+                    'nationList' =>     $nationList,
                     'state'     =>      $state,
                 ]);
     }
@@ -220,7 +218,6 @@ class ShipMemberController extends Controller
             $ksList = Ship::all();
             $typeList = ShipType::all();
             $historyList = ShipBoardCareer::where('memberId', $memberId)->orderBy('FromDate')->get();
-
             return view('shipMember.member_main_tab', ['info'=>$info, 'shipList'=>$shipList, 'posList'=>$posList, 'ksList'=>$ksList, 'historyList'=>$historyList, 'typeList'=>$typeList]);
 
             // 자격관련자료
@@ -323,7 +320,7 @@ class ShipMemberController extends Controller
 
         $member['crewNum'] = $crewNum;
         $member['realname'] = $request->get('realname');
-        $member['Surname'] = $request->get('Surname');
+        
         $member['GivenName'] = $request->get('GivenName');
         $member['Sex'] = $request->get('Sex');
         $birthday = $request->get('birthday');
@@ -332,6 +329,16 @@ class ShipMemberController extends Controller
         $member['birthday'] = $birthday;
         $member['RegStatus'] = $request->get('RegStatus');
         $member['BirthPlace'] = $request->get('BirthPlace');
+        $member['BirthCountry'] = $request->get('BirthCountry');
+        $dateStr = $request->get('IssuedDate');
+        if(empty($dateStr))
+            $dateStr = null;
+        $member['IssuedDate'] = $dateStr;
+        $dateStr = $request->get('ExpiryDate');
+        if(empty($dateStr))
+            $dateStr = null;
+        $member['ExpiryDate'] = $dateStr;
+
         $member['tel'] = $request->get('tel');
         $member['address'] = $request->get('address');
         $member['phone'] = $request->get('phone');
@@ -340,6 +347,8 @@ class ShipMemberController extends Controller
         $member['OtherContacts'] = $request->get('OtherContacts');
         $member['PassportNo'] = $request->get('PassportNo');
         $member['CertNo'] = $request->get('CertNo');
+        $member['Salary'] = $request->get('Salary');
+        $member['WageCurrency'] = $request->get('WageCurrency');
         $regDate = $request->get('RegDate');
         if(empty($regDate))
             $regDate = date('Y-m-d');
@@ -357,15 +366,6 @@ class ShipMemberController extends Controller
             $photo->move(public_path('uploads/crewPhoto'), $photoPath);
             $member['crewPhoto'] = $photoPath;
         }
-
-        $sign = $request->file('stamp');
-        if (isset($sign)) {
-            $ext = $sign->getClientOriginalExtension();
-            $signPath = Util::makeUploadFileName().'.'.$ext;
-            $sign->move(public_path('uploads/signPhoto'), $signPath);
-            $member['signPhoto'] = $signPath;
-        }
-
         $member->save();
 
         if($memberId == "") {
@@ -379,9 +379,11 @@ class ShipMemberController extends Controller
         $member = ShipMember::find($memberId);
 
         $member['ShipId'] = $request->get('ShipId');
+        /*
         if($request->has('Duty')) {
             $member['Duty'] = $request->get('Duty');
         }
+        */
 
         $member['sign_on_off'] = $request->get('sign_on_off');
         if ($request->has('DateOnboard')) {
@@ -393,7 +395,7 @@ class ShipMemberController extends Controller
         if ($request->has('ShipID_Book')) {
             $member['ShipID_Book'] = $request->get('ShipID_Book');
         }
-
+        
         if ($request->has('DutyID_Book')) {
             $member['DutyID_Book'] = $request->get('DutyID_Book');
         }
@@ -425,37 +427,42 @@ class ShipMemberController extends Controller
             $member['scanPath'] = $cardPath;
         }
         $member->save();
-
+        // 
+        $school_goc = ShipBoardCareer::where('memberId', $memberId)->get();
         ShipBoardCareer::where('memberId', $memberId)->delete();
 
-        for($i=0;$i<20;$i++) {
-            $varname = 'index_'.$i;
-            $careerId = $request->get($varname);
-            if(isset($careerId)){
-                $varName = '_'.$i;
+        $FromDate = $request->get('FromDate');
+        $ToDate = $request->get('ToDate');
+        $ShipName = $request->get('ShipName');
+        $DutyID = $request->get('DutyID');
+        $GT = $request->get('GT');
+        $ShipType = $request->get('ShipType');
+        $Power = $request->get('Power');
+        $TradingArea = $request->get('TradingArea');
+        foreach($FromDate as $index => $data) {
+            if ($FromDate[$index] == "" && $ToDate[$index] == "" && $ShipName[$index] == "" && $DutyID[$index] == "0" && $GT[$index] == "" && $ShipType[$index] == "0" && $Power[$index] == "" && $TradingArea[$index] == "") {
+                continue;
+            }
+            else
+            {
                 $career = new ShipBoardCareer();
-
                 $career['memberId'] = $memberId;
-                $fromDate = $request->get('FromDate'.$varName);
-                if(empty($fromDate))
-                    $fromDate = null;
-                $career['FromDate'] = $fromDate;
+                $dateStr = $FromDate[$index];
+                if($dateStr == "")
+                    $dateStr = null;
+                $career['FromDate'] = $dateStr;
 
-                $toDate = $request->get('ToDate'.$varName);
-                if(empty($toDate))
-                    $toDate = null;
-                if(is_null($fromDate) && is_null($toDate))
-                    continue;
+                $dateStr = $ToDate[$index];
+                if($dateStr == "")
+                    $dateStr = null;
+                $career['ToDate'] = $dateStr;
 
-                $career['ToDate'] = $toDate;
-                $career['Ship'] = $request->get('Ship'.$varName);
-                $career['ShipType'] = $request->get('ShipType'.$varName);
-                $career['DutyID'] = $request->get('DutyID'.$varName);
-                $career['GrossTonage'] = $request->get('GrossTonage'.$varName);
-                $career['Power'] = $request->get('Power'.$varName);
-                $career['SailArea'] = $request->get('SailArea'.$varName);
-                $career['Remarks'] = $request->get('Remarks'.$varName);
-
+                $career['Ship'] = $ShipName[$index];
+                $career['DutyID'] = $DutyID[$index];
+                $career['GrossTonage'] = $GT[$index];
+                $career['ShipType'] = $ShipType[$index];
+                $career['Power'] = $Power[$index];
+                $career['SailArea'] = $TradingArea[$index];
                 $career->save();
             }
         }
@@ -478,17 +485,15 @@ class ShipMemberController extends Controller
             $capacity['GOC'] = $cardPath;
         }
 
-        $dateStr = $request->get('IssuedDate');
+        $dateStr = $request->get('COC_IssuedDate');
         if(empty($dateStr))
             $dateStr = null;
-        $capacity['IssuedDate'] = $dateStr;
+        $capacity['COC_IssuedDate'] = $dateStr;
 
-        $dateStr = $request->get('ExpiryDate');
+        $dateStr = $request->get('COC_ExpiryDate');
         if(empty($dateStr))
             $dateStr = null;
-        $capacity['ExpiryDate'] = $dateStr;
-
-        $capacity['COC_Remarks'] = $request->get('COC_Remarks');
+        $capacity['COC_ExpiryDate'] = $dateStr;
 
         // ----------------------------------
         $capacity['GMDSS_NO'] = $request->get('GMDSS_NO');
@@ -617,203 +622,18 @@ class ShipMemberController extends Controller
                 $career->save();
             }
         }
-        // 선원학력보관
-        $school_goc = ShipMemberSchool::where('memberId', $memberId)->get();
-        ShipMemberSchool::where('memberId', $memberId)->delete();
-
-        $FromDate = $request->get('FromDate');
-        $ToDate = $request->get('ToDate');
-        $SchoolName = $request->get('SchoolName');
-        $Major = $request->get('Major');
-        $Grade = $request->get('Grade');
-        $TechQualification = $request->get('TechQualification');
-        $SchoolRemarks = $request->get('School_Remarks');
-
-        foreach($FromDate as $index => $data) {
-
-            if ($FromDate[$index] == "" && $ToDate[$index] == "" && $SchoolName[$index] == "" && $Major[$index] == "" && $Grade[$index] == "" && $TechQualification[$index] == "" && $SchoolRemarks[$index] == "") {
-                continue;
-            }
-            else
-            {
-                $school = new ShipMemberSchool();
-                $school['memberId'] = $memberId;
-                $dateStr = $FromDate[$index];
-                if($dateStr == "")
-                    $dateStr = null;
-                $school['FromDate'] = $dateStr;
-
-                $dateStr = $ToDate[$index];
-                if($dateStr == "")
-                    $dateStr = null;
-                $school['ToDate'] = $dateStr;
-
-                $school['SchoolName'] = $SchoolName[$index];
-                $school['Major'] = $Major[$index];
-                $school['Grade'] = $Grade[$index];
-                $school['TechQualification'] = $TechQualification[$index];
-                $school['Remarks'] = $SchoolRemarks[$index];
-                $school->save();
-            }
-        }
     }
 
     public function updateMemberTrainingData(Request $request, $memberId) {
-        $training = ShipMemberTraining::where('memberId', $memberId)->first();
-        if(is_null($training)) {
-            $training = new ShipMemberTraining();
-            $training['memberId'] = $memberId;
-        }
-        // 기초안전훈련
-        $training['TCBNo'] = $request->get('TCBNo');
-        $dateStr = $request->get('TCBIssuedDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['TCBIssuedDate'] = $dateStr;
-        $dateStr = $request->get('TCBExpiryDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['TCBExpiryDate'] = $dateStr;
-        $training['TCB_Remark'] = $request->get('TCB_Remark');
+        $STCW = $request->get('Train_STCW');
+        $CertNo = $request->get('Train_CertNo');
+        $CertIssue = $request->get('Train_CertIssue');
+        $CertExpire = $request->get('Train_CertExpire');
+        $IssuedBy = $request->get('Train_IssuedBy');
 
-        $file = $request->file('TCBScan');
-        if(isset($file))
-        {
-            $ext = $file->getClientOriginalExtension();
-            $filename = Util::makeUploadFileName().'.'.$ext;
-            $file->move(public_path('uploads/training'), $filename);
-            $training['TCBScan'] = $filename;
-        }
-        // 전문훈련
-        $training['TCSNo'] = $request->get('TCSNo');
-        $dateStr = $request->get('TCSIssuedDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['TCSIssuedDate'] = $dateStr;
-        $dateStr = $request->get('TCSExpiryDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['TCSExpiryDate'] = $dateStr;
-        $training['TCS_Remark'] = $request->get('TCS_Remark');
+        $result = ShipMemberTraining::insertMemberTrainning($memberId, $STCW, $CertNo, $CertIssue, $CertExpire, $IssuedBy);
 
-        $file = $request->file('TCSScan');
-        if(isset($file))
-        {
-            $ext = $file->getClientOriginalExtension();
-            $filename = Util::makeUploadFileName().'.'.$ext;
-            $file->move(public_path('uploads/training'), $filename);
-            $training['TCSScan'] = $filename;
-        }
-        // 유조선훈련
-        $training['TCTNo'] = $request->get('TCTNo');
-        $dateStr = $request->get('TCTIssuedDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['TCTIssuedDate'] = $dateStr;
-        $dateStr = $request->get('TCTExpiryDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['TCTExpiryDate'] = $dateStr;
-        $training['TCT_Remark'] = $request->get('TCT_Remark');
-
-        $file = $request->file('TCTScan');
-        if(isset($file))
-        {
-            $ext = $file->getClientOriginalExtension();
-            $filename = Util::makeUploadFileName().'.'.$ext;
-            $file->move(public_path('uploads/training'), $filename);
-            $training['TCTScan'] = $filename;
-        }
-
-        // 안전
-        $training['TCPNo'] = $request->get('TCPNo');
-        if($request->has('TCP_certID')) {
-            $training['TCP_certID'] = $request->get('TCP_certID');
-        }
-        $dateStr = $request->get('TCPIssuedDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['TCPIssuedDate'] = $dateStr;
-        $dateStr = $request->get('TCPExpiryDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['TCPExpiryDate'] = $dateStr;
-        $training['TCP_Remark'] = $request->get('TCP_Remark');
-
-        $file = $request->file('TCPScan');
-        if(isset($file))
-        {
-            $ext = $file->getClientOriginalExtension();
-            $filename = Util::makeUploadFileName().'.'.$ext;
-            $file->move(public_path('uploads/training'), $filename);
-            $training['TCPScan'] = $filename;
-        }
-
-        // 안전보장인증서
-        $training['SSONo'] = $request->get('SSONo');
-        if($request->has('SSO_certID')) {
-            $training['SSO_certID'] = $request->get('SSO_certID');
-        }
-        $dateStr = $request->get('SSOIssuedDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['SSOIssuedDate'] = $dateStr;
-        $dateStr = $request->get('SSOExpiryDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['SSOExpiryDate'] = $dateStr;
-        $training['SSO_Remark'] = $request->get('SSO_Remark');
-
-        $file = $request->file('SSOScan');
-        if(isset($file))
-        {
-            $ext = $file->getClientOriginalExtension();
-            $filename = Util::makeUploadFileName().'.'.$ext;
-            $file->move(public_path('uploads/training'), $filename);
-            $training['SSOScan'] = $filename;
-        }
-
-        // 숙련(갑판/조기)원
-        $training['ASDNo'] = $request->get('ASDNo');
-        if($request->has('ASD_typeID')) {
-            $training['ASD_typeID'] = $request->get('ASD_typeID');
-        }
-        $dateStr = $request->get('ASDIssuedDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['ASDIssuedDate'] = $dateStr;
-        $dateStr = $request->get('ASDExpiryDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['ASDExpiryDate'] = $dateStr;
-        $training['ASD_Remark'] = $request->get('ASD_Remark');
-
-        $file = $request->file('ASDScan');
-        if(isset($file))
-        {
-            $ext = $file->getClientOriginalExtension();
-            $filename = Util::makeUploadFileName().'.'.$ext;
-            $file->move(public_path('uploads/training'), $filename);
-            $training['ASDScan'] = $filename;
-        }
-        // 선원건강증서
-        $training['MCS_No'] = $request->get('MCS_No');
-        $dateStr = $request->get('MCS_ExpiryDate');
-        if(empty($dateStr))
-            $dateStr = null;
-        $training['MCS_ExpiryDate'] = $dateStr;
-        $training['MCS_Remark'] = $request->get('MCS_Remark');
-
-        $file = $request->file('MCSScan');
-        if(isset($file))
-        {
-            $ext = $file->getClientOriginalExtension();
-            $filename = Util::makeUploadFileName().'.'.$ext;
-            $file->move(public_path('uploads/training'), $filename);
-            $training['MCSScan'] = $filename;
-        }
-
-        $training->save();
+        return $result;
     }
 
     public function registerMemberExamingData(Request $request) {
@@ -1030,7 +850,6 @@ class ShipMemberController extends Controller
         return view('shipMember.member_examing_total', ['memberList'=>$members, 'shipList'=>$shipList, 'examingList'=>$examCodes, 'shipId'=>$shipId, 'examCodes'=>$tExamCodes,
             'paramExamCode' => $paramExamCode]);
     }
-
     
     public function getMemberGeneralInfo() {
         $member_infolist = ShipMember::select('id', 'crewNum', 'realname', 'Sex', 'birthday', 'Nationality', 'RegStatus')
@@ -1039,5 +858,12 @@ class ShipMemberController extends Controller
             ->get();
 
         return $member_infolist;
+    }
+
+    public function ajaxSearchMember(Request $request) {
+        $params = $request->all();
+        $tbl = new ShipMember();
+        $ret = $tbl->getForDatatable($params);
+        return response()->json($ret);
     }
 }

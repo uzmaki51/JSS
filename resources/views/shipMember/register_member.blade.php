@@ -27,20 +27,27 @@ $isHolder = Session::get('IS_HOLDER');
                 width: 120px;
             }
 
-            .member-item:hover {
+            .list-body:hover {
                 background-color: #e0edff;
+                cursor: pointer;
             }
+
         </style>
         
         <div class="page-content">
-            <form action="updateMemberInfo" role="form" method="POST" enctype="multipart/form-data">
+            <form id="member-form" action="updateMemberInfo" role="form" method="POST" enctype="multipart/form-data">
                 <div class="page-header">
                     <div class="col-sm-3">
                         <h4><b>Crew Register</b>
                         </h4>
                     </div>
-                    <div class="col-sm-5"></div>
-                    <div class="col-sm-4">
+                </div>
+                <div class="col-md-12">
+                    <div class="col-sm-6 f-left">
+                        <label>Name: <input type="text" id="search-name"/></label>
+                        <label style="margin-left:5px;">Sign On (上船): </label><input id="search-signon" style="margin-top:5px; margin-left:5px; position:absolute;" type="checkbox" onclick="" checked disabled/>
+                    </div>
+                    <div class="col-sm-6 f-right">
                         @if(!$isHolder)
                             <div class="btn-group f-right">
                                 <a href="/shipMember/registerShipMember" class="btn btn-sm btn-primary btn-add" style="width: 80px">
@@ -53,9 +60,30 @@ $isHolder = Session::get('IS_HOLDER');
                         @endif
                     </div>
                 </div>
-
-                <div class="col-md-12">
+                <div class="col-md-12" style="margin-top:4px;">
                     <div id="item-manage-dialog" class="hide"></div>
+                    <div class="row">
+                        <div class="head-fix-div" style="height:100px!important" id="crew-table">
+                            <table id="table-shipmember-list">
+                                <thead>
+                                  <th class="text-center" style="width: 2%;"><span>No</span></th>
+                                    <th class="text-center" style="width: 8%;"><span>Family Name, Given Name</span></th>
+                                    <th class="text-center" style="width: 7%;"><span>Rank</span></th>
+                                    <th class="text-center" style="width: 7%;"><span>Nationality</span></th>
+                                    <th class="text-center" style="width: 8%;"><span>Chinese ID No.</span></th>
+                                    <th class="text-center" style="width: 7%;"><span>Date and place of birth</span></th>
+                                    <th class="text-center" style="width: 8%;"><span>Date and place of embarkation</span></th>
+                                    <th class="text-center" style="width: 8%;"><span>Seaman's Book No and Expire Date</span></th>
+                                    <th class="text-center" style="width: 8%;"><span>Passport's No and Expire Date</span></th>
+                                    <th style="width: 2%;"></th>
+                                </thead>
+                                <tbody class="list-body" id="list-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--div class="col-md-12">
                     <div class="row">
                         <div class="head-fix-div" id="crew-table">
                             <table>
@@ -81,7 +109,7 @@ $isHolder = Session::get('IS_HOLDER');
                                             <td class="text-center" style="width: 10%;">{{ $item['realname'] }}</td>
                                             <td class="text-center" style="width: 10%;">{{ $item['Sex'] == 0 ? transShipMember('captions.male') : transShipMember('captions.female')}}</td>
                                             <td class="text-center" style="width: 8%;">{{ $item['birthday'] }}</td>
-                                            <td class="text-center" style="width: 7%;">@if(isset($item['Nationality'])){{ g_enum('NationalityData')[$item['Nationality']]}}@endif</td>
+                                            <td class="text-center" style="width: 7%;">{{ $item['Nationality'] }}</td>
                                             <td class="text-center" style="width: 8%;">{{ $item['RegStatus'] == 0 ? 'On' : 'Off' }}</td>
                                             <td class="text-center" style="width: 2%;">
                                                 <div class="action-buttons">
@@ -112,138 +140,24 @@ $isHolder = Session::get('IS_HOLDER');
                             <input class="hidden" name="_token" value="{{csrf_token()}}">
                         </div>
                     </div>
-
-                    <!--div class="row">
-                        <div class="col-md-10 no-padding">
-                            <table class="table table-bordered table-striped">
-                                <tbody>
-                                    <tr style="height: 35px">
-                                        <td class="center" style="width:10%">{{transShipMember("registerShipMember.Passport No")}}</td>
-                                        <td style="width: 15%;">
-                                            <input type="text" name="crewNum" class="form-control" value="@if(isset($info)){{$info['crewNum']}}@endif" required>
-                                        </td>
-                                        <td class="center" style="width:10%">{{transShipMember("registerShipMember.Name")}}</td>
-                                        <td style="width:15%">
-                                            <input type="text" name="realname" class="form-control" value="@if(isset($info)){{$info['realname']}}@endif">
-                                        </td>
-                                        <td class="center" style="width:10%">{{transShipMember("registerShipMember.Surname")}}</td>
-                                        <td style="width:15%">
-                                            <input type="text" name="Surname" class="form-control" value="@if(isset($info)){{$info['Surname']}}@endif">
-                                        </td>
-                                        <td class="center" style="width:10%">{{transShipMember("registerShipMember.Given Name")}}</td>
-                                        <td style="width:15%">
-                                            <input type="text" name="GivenName" class="form-control" value="@if(isset($info)){{$info['GivenName']}}@endif">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">{{transShipMember("registerShipMember.Sex")}}</td>
-                                        <td style="width:70px">
-                                            <select name="Sex" class="form-control chosen-select">
-                                                <option value="0" @if(isset($info) && ($info['Sex'] == 0)) selected @endif>{{transShipMember('captions.male')}}</option>
-                                                <option value="1" @if(isset($info) && ($info['Sex'] == 1)) selected @endif>{{transShipMember('captions.female')}}</option>
-                                            </select>
-                                        </td>
-                                        <td class="center">{{transShipMember("registerShipMember.Birthday")}}</td>
-                                        <td style="width:150px">
-                                            <div class="input-group" style="width:100%">
-                                                <input class="form-control date-picker" name="birthday" type="text" data-date-format="yyyy/mm/dd"
-                                                    value="@if(isset($info)){{$info['birthday']}}@endif">
-                                                <span class="input-group-addon">
-                                                    <i class="icon-calendar bigger-110"></i>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td class="center">{{transShipMember("registerShipMember.Birthplace")}}</td>
-                                        <td colspan="3">
-                                            <input type="text" name="BirthPlace" class="form-control" value="@if(isset($info)){{$info['BirthPlace']}}@endif">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center">{{transShipMember("registerShipMember.Address")}}</td>
-                                        <td colspan="3">
-                                            <input type="text" name="address" class="form-control" value="@if(isset($info)){{$info['address']}}@endif">
-                                        </td>
-                                        <td class="center">{{transShipMember("registerShipMember.HomePhone")}}</td>
-                                        <td>
-                                            <input type="text" name="tel" class="form-control" value="@if(isset($info)){{$info['tel']}}@endif">
-                                        </td>
-                                        <td class="center">{{transShipMember("registerShipMember.MobilePhone")}}</td>
-                                        <td>
-                                            <input type="text" name="phone" class="form-control" value="@if(isset($info)){{$info['phone']}}@endif">
-                                        </td>
-                                    </tr>
-                                    <tr style="height: 35px">
-                                        <td class="center">{{transShipMember("registerShipMember.Reg Date")}}</td>
-                                        <td>
-                                            <div class="input-group" style="width:100%">
-                                                <input class="form-control date-picker" name="RegDate" type="text" data-date-format="yyyy/mm/dd"
-                                                    value="@if(isset($info)){{$info['RegDate']}}@endif">
-                                                <span class="input-group-addon">
-                                                    <i class="icon-calendar bigger-110"></i>
-                                                </span>
-                                            </div>
-
-                                        </td>
-                                        <td class="center">{{transShipMember("registerShipMember.Dismissal date")}}</td>
-                                        <td>
-                                            <div class="input-group" style="width:100%">
-                                                <input class="form-control date-picker" name="DelDate" type="text" data-date-format="yyyy/mm/dd"
-                                                    value="@if(isset($info)){{$info['DelDate']}}@endif">
-                                                    <span class="input-group-addon">
-                                                        <i class="icon-calendar bigger-110"></i>
-                                                    </span>
-                                            </div>
-                                        </td>
-                                        <td class="center">{{transShipMember("registerShipMember.Reg State")}}</td>
-                                        <td>
-                                            <select name="RegStatus" class="form-control chosen-select">
-                                                <option value="1" @if(isset($info) && ($info['RegStatus'] == 1)) selected @endif>{{transShipMember('captions.register')}}</option>
-                                                <option value="0" @if(isset($info) && ($info['RegStatus'] == 0)) selected @endif>{{transShipMember('captions.dismiss')}}</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-2" style="border:1px solid #ddd;height:200px;padding:0;float:right;width:16%">
-                            <span class="profile-picture">
-                                <img id="avatar" class="editable img-responsive" src="@if(isset($info) && !empty($info['crewPhoto'])) /uploads/crewPhoto/{{$info['crewPhoto']}} @endif" alt="선원사진">
-                            </span>
-                            <span class="profile-picture sign-picture">
-                                <input  multiple="" type="file" id="stamp" name="stamp" style="display: none"/>
-                                <img id="sign" class="editable img-responsive" style="display: none; cursor: pointer;"
-                                     src="@if(isset($info) && !empty($info['signPhoto'])) /uploads/signPhoto/{{$info['signPhoto']}} @endif" alt="수표그림">
-                            </span>
-                        </div>
-                    </div-->
-                </div>
+                </div-->
                 <div class="col-md-12">
                     <div class="row">
                         <div class="tabbable">
                             <ul class="nav nav-tabs ship-register" id="memberTab">
                                 <li class="active">
                                     <a data-toggle="tab" href="#general_data">
-                                        General
-                                    </a>
-                                </li>
-                                <li>
-                                    <a data-toggle="tab" href="#main_data">
-                                        Boarding Profile
+                                        个人信息
                                     </a>
                                 </li>
                                 <li>
                                     <a data-toggle="tab" href="#capacity_data">
-                                        Capacity & SchoolingCareer
+                                        适任证书
                                     </a>
                                 </li>
                                 <li>
                                     <a data-toggle="tab" href="#training_data">
-                                        Training
-                                    </a>
-                                </li>
-                                <li>
-                                    <a data-toggle="tab" href="">
-                                        Wage
+                                        培训证书
                                     </a>
                                 </li>
                                 <li>
@@ -275,12 +189,170 @@ $isHolder = Session::get('IS_HOLDER');
                     </div>
                 </div>
             </form>
+            <div id="modal-rank-list" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
+                <div class="modal-dialog dynamic-list">
+                    <div class="modal-content" style="border: 0;">
+                        <div class="modal-header no-padding" data-target="#modal-step-contents">
+                            <div class="table-header">
+                                <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
+                                    <span class="white">&times;</span>
+                                </button>
+                                Rank List
+                            </div>
+                        </div>
+                        <div id="modal-rank-content" class="dynamic-modal-body step-content">
+                            <div class="row" style="">
+                                <div class="col-md-12" style="min-height: 300px; max-height: 300px; overflow-y:auto">
+                                    <table class="table-bordered rank-table">
+                                        <thead>
+                                        <tr style="background-color: #c9dfff;height:18px;">
+                                            <td class="center td-header no-padding" style="width:15%">OrderNo</td>
+                                            <td class="center td-header no-padding" style="width:30%">Rank</td>
+                                            <td class="center td-header no-padding" style="width:20%">Rank abb.</td>
+                                            <td class="center td-header no-padding">Description</td>
+                                            <td class="center td-header no-padding"></td>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="rank-table">
+                                        <tr class="rank-tr">
+                                            <td class="no-padding center">
+                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_OrderNo[]"value="" style="width: 100%;text-align: center">
+                                            </td>
+                                            <td class="no-padding">
+                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_Name[]"value="" style="width: 100%;text-align: center">
+                                            </td>
+                                            <td class="no-padding center">
+                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_Abb[]"value="" style="width: 100%;text-align: center">
+                                            </td>
+                                            <td class="no-padding">
+                                                <input type="text" onchange="addRank(this)" class="form-control" name="Rank_Description[]"value="" style="width: 100%;text-align: center">
+                                            </td>
+                                            <td class="no-padding center">
+                                                <div class="action-buttons">
+                                                    <a class="red" onClick="javascript:deleteRank(this)"><i class="icon-trash"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="btn-group f-right mt-20 d-flex">
+                                        <button type="button" class="btn btn-success small-btn ml-0" onclick="javascript:dynamicRankSubmit('rank')">
+                                            <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">OK
+                                        </button>
+                                        <div class="between-1"></div>
+                                        <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modal-capacity-list" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
+                <div class="modal-dialog dynamic-list">
+                    <div class="modal-content" style="border: 0;">
+                        <div class="modal-header no-padding" data-target="#modal-step-contents">
+                            <div class="table-header">
+                                <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
+                                    <span class="white">&times;</span>
+                                </button>
+                                Capacity List
+                            </div>
+                        </div>
+                        <div id="modal-capacity-content" class="dynamic-modal-body step-content">
+                            <div class="row" style="">
+                                <div class="col-md-12" style="min-height: 300px; max-height: 300px; overflow-y:auto">
+                                    <table class="table-bordered rank-table">
+                                        <thead>
+                                        <tr style="background-color: #c9dfff;height:18px;">
+                                            <td class="center td-header no-padding" style="width:15%">OrderNo</td>
+                                            <td class="center td-header no-padding" style="width:40%">Capacity</td>
+                                            <td class="center td-header no-padding" style="width:20%">STCW</td>
+                                            <td class="center td-header no-padding" style="width:25%">Description</td>
+                                            <td class="center td-header no-padding" style="width:10%"></td>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="capacity-table">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="btn-group f-right mt-20 d-flex">
+                                        <button type="button" class="btn btn-success small-btn ml-0" onclick="javascript:dynamicCapacitySubmit('capacity')">
+                                            <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">OK
+                                        </button>
+                                        <div class="between-1"></div>
+                                        <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modal-dynamic" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
+                <div class="modal-dialog dynamic-modal">
+                    <div class="modal-content" style="border: 0;">
+                        <div class="modal-header no-padding" data-target="#modal-step-contents">
+                            <div class="table-header">
+                                <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
+                                    <span class="white">&times;</span>
+                                </button>
+                                Edit List Items
+                            </div>
+                        </div>
+                        <div id="modal-body-content" class="dynamic-modal-body step-content">
+                            <div class="row">
+                                <label>Type each item on a separate line:</line>
+                            </div>
+                            <div class="row" style="margin-top:2px;">
+                                <textarea id="dynamic-data" type="text" name="HullNotation" class="dynmaic-list" rows="15"></textarea>
+                            </div>
+                            <div class="row" style="margin-top:5px;">
+                                <div class="col-md-4">
+                                    <label>Default Value:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="dynamic-default" class="dynamic-default-select">
+                                        <option value="0">ENGLISH</option>
+                                        <option value="1">ENGLISH</option>
+                                        <option value="2">ENGLISH</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="btn-group f-right mt-20 d-flex">
+                                    <button type="button" class="btn btn-success small-btn ml-0" onclick="javascript:dynamicSubmit()">
+                                        <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">OK
+                                    </button>
+                                    <div class="between-1"></div>
+                                    <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>Cancel</a>
+                                </div>
+                            </div>
+                            <div>
+                                <form role="form" method="POST" action="{{url('decision/report/submit')}}" enctype="multipart/form-data" id="report-form">
+                                </form>
+                            </div>
+                        </div>
+                        <input type="hidden" value="" id="dynamic-type"/>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="{{ asset('/assets/js/x-editable/bootstrap-editable.min.js') }}"></script>
     <script src="{{ asset('/assets/js/x-editable/ace-editable.min.js') }}"></script>
-
+    <script src="{{ cAsset('assets/js/jsquery.dataTables.js') }}"></script>
+    <script src="{{ asset('/assets/js/dataTables.rowsGroup.js') }}"></script>
+    <script src="{{ asset('/assets/js/dycombo.js') }}"></script>
+    <?php
+	echo '<script>';
+	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+	echo '</script>';
+	?>
     <script>
         var token = '{!! csrf_token() !!}';
         var memberId = '@if(isset($info)){{$info['id']}}@endif';
@@ -346,20 +418,118 @@ $isHolder = Session::get('IS_HOLDER');
                         }
                     });
                 }
-                
-                var row = $(".member-item.selected");
-                $('#crew-table').scrollTop(row.position().top - row.height());
-                //$('#crew-table').scrollTop($("tr").find("[data-index='" + memberId + "']").position().top);
             }
+
+            try {
+                if( /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ) Image.prototype.appendChild = function(el){}
+                var last_gritter;
+                $('#avatar').editable({
+                    type: 'image',
+                    name: 'avatar',
+                    height: '100px',
+                    value: null,
+                    image: {
+                        //specify ace file input plugin's options here
+                        btn_choose: '选择文件',
+                        droppable: true,
+                        /**
+                         //this will override the default before_change that only accepts image files
+                        before_change: function(files, dropped) {
+                                return true;
+                            },
+                        */
+
+                        //and a few extra ones here
+                        name: 'avatar',//put the field name here as well, will be used inside the custom plugin
+                        max_size: 1100000,//~1000Kb
+                        on_error : function(code) {//on_error function will be called when the selected file has a problem
+                            if(last_gritter) $.gritter.remove(last_gritter);
+                            if(code == 1) {//file format error
+                                last_gritter = $.gritter.add({
+                                    title: '不是照片。',
+                                    text: '文件必须是 jpg|gif|png 的照片形式。',
+                                    class_name: 'gritter-error'
+                                });
+                            } else if(code == 2) {//file size rror
+                                last_gritter = $.gritter.add({
+                                    title: '文件大小错误!',
+                                    text: '大小不得超过1M以上。',
+                                    class_name: 'gritter-error'
+                                });
+                            }
+                            else {//other error
+                            }
+                        },
+                        on_success : function() {
+                            $.gritter.removeAll();
+                        }
+                    },
+                    url: function(params) {
+                        // ***UPDATE AVATAR HERE*** //
+                        //You can replace the contents of this function with examples/profile-avatar-update.js for actual upload
+
+
+                        var deferred = new $.Deferred
+
+                        //if value is empty, means no valid files were selected
+                        //but it may still be submitted by the plugin, because "" (empty string) is different from previous non-empty value whatever it was
+                        //so we return just here to prevent problems
+                        var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
+                        if(!value || value.length == 0) {
+                            deferred.resolve();
+                            return deferred.promise();
+                        }
+
+
+                        //dummy upload
+                        setTimeout(function(){
+                            if("FileReader" in window) {
+                                //for browsers that have a thumbnail of selected image
+                                var thumb = $('#avatar').next().find('img').data('thumb');
+                                if(thumb) $('#avatar').get(0).src = thumb;
+                            }
+
+                            deferred.resolve({'status':'OK'});
+
+                            if(last_gritter) $.gritter.remove(last_gritter);
+                            last_gritter = $.gritter.add({
+                                title: 'Avatar Updated!',
+                                text: 'Uploading to server can be easily implemented. A working example is included with the template.',
+                                class_name: 'gritter-info gritter-center'
+                            });
+
+                        } , parseInt(Math.random() * 800 + 800))
+
+                        return deferred.promise();
+                    },
+
+                    success: function(response, newValue) {
+                    }
+                });
+                }catch(e) {}
+
+                if (memberId == -1) {
+                    $('#avatar').click();
+                }
+            });
+
+        $('.list-body').on('click', function(evt) {
+            let cell = $(evt.target).closest('td');
+            if(cell.index() < 9) {
+                let member_id = this.firstElementChild.getAttribute('data-index');
+                location.href = BASE_URL + 'shipMember/registerShipMember?memberId=' + member_id;
+            }
+            
         });
-
+        /*
         $('.member-item').on('click', function() {
-            if($(this).hasClass('selected'))
-                return;
-
+            //if($(this).hasClass('selected'))
+            //    return;
             let member_id = $(this).attr('data-index');
+            alert(member_id);
             location.href = BASE_URL + 'shipMember/registerShipMember?memberId=' + member_id;
         });
+        */
 
         function setDatePicker() {
             $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
@@ -381,10 +551,12 @@ $isHolder = Session::get('IS_HOLDER');
             }
         })
 
-        function deleteItem(memberId, shipName) {
-            bootbox.confirm(shipName + "的船舶规范真要删除吗?", function (result) {
+        function deleteItem(memberId) {
+            bootbox.confirm("真要删除吗?", function (result) {
                 if (result) {
                     $.post('deleteShipMember', {'_token':token, 'dataId':memberId}, function (result) {
+                        console.log("result:");
+                        console.log(result);
                         var code = parseInt(result);
                         if (code > 0) {
                             location.reload();
@@ -396,26 +568,132 @@ $isHolder = Session::get('IS_HOLDER');
             });
         }
 
-        document.querySelector('.custom-select-wrapper').addEventListener('click', function() {
-            this.querySelector('.custom-select').classList.toggle('open');
-        })
+        function initTable() {
+            listTable = $('#table-shipmember-list').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: true,
+                ajax: {
+                    url: BASE_URL + 'ajax/shipMember/search',
+                    type: 'POST',
+                },
+                "ordering": false,
+                "pageLength": 500,
+                columnDefs: [
+                ],
+                columns: [
+                    {data: 'no', className: "text-center"},
+                    {data: 'name', className: "text-center"},
+                    {data: 'rank', className: "text-center"},
+                    {data: 'nationality', className: "text-center"},
+                    {data: 'cert-id', className: "text-center"},
+                    {data: 'birth-and-place', className: "text-center"},
+                    {data: 'date-and-embarkation', className: "text-center"},
+                    {data: 'bookno-expire', className: "text-center"},
+                    {data: 'passport-expire', className: "text-center"},
+                    {data: null, className: "text-center"},
+                ],
+                rowsGroup: [0, 2, 3, 4],
+                createdRow: function (row, data, index) {
+                    var pageInfo = listTable.page.info();
+                    $(row).attr('data-index', data['no']);
+                    $(row).attr('class', 'member-item');
+                    if (index % 2 == 0) {
+                        $('td', row).eq(9).attr('rowspan', '2');
+                        $('td', row).eq(9).html('').append('<div class="action-buttons"><a class="red" href="javascript:deleteItem(' + data['no'] + ')"><i class="icon-trash"></i></a></div>');
+                    }
+                    else {
+                        $('td', row).eq(9).remove();
+                    }
+                },
+            });
 
-        for (const option of document.querySelectorAll(".custom-option")) {
-            option.addEventListener('click', function() {
-                if (!this.classList.contains('selected')) {
-                    this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
-                    this.classList.add('selected');
-                    this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
-                    this.closest('.custom-select').firstElementChild.value  = this.getAttribute('data-value');
-                }
-            })
+            $('.paginate_button').hide();
+            $('.dataTables_length').hide();
+            $('.paging_simple_numbers').hide();
+            $('.dataTables_info').hide();
+            $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
+        }
+        initTable();
+
+        function doSearch() {
+            console.log("DoSearch");
+            var name = $('#search-name').val();
+            listTable.column(1).search(name, false, false).draw();
         }
 
-        /*
-        $("body").click(function(e) {
-            $("#dropMenu").css("visibility", ( e.target.id === "optionButton" ? "visible" : "hidden" ));
-        });
-        */
+        $('#member-form').on('keydown', function(e) {
+            if (e.which == 13) {
+                e.preventDefault();
+            }
+        })
+
+        $('#search-name').on('keyup', function(e) {
+            if (e.which == 13) {
+                doSearch();
+            }
+        })
+    </script>
+    <script>
+        var capacityList = new Array();
+        var cIndex = 0;
+        @foreach($typeList as $type)
+            var capacity = new Object();
+            capacity.value = '{{$type['id']}}';
+            capacity.text = '{{$type['Capacity_En']}}';
+            capacityList[cIndex] = capacity;
+            cIndex++;
+        @endforeach
+
+        addHistory(null);
+        
+        function deleteHistory(e)
+        {
+            console.log(e);
+            if ($('#history_table tr').length > 2) { //&& !$(e).closest("tr").is(":last-child")) {
+                if (confirm("Are you sure to delete?")) {
+                    console.log($(e).closest("tr"));
+                    $(e).closest("tr").remove();
+                }
+            }
+        }
+
+        function addHistory(e)
+        {
+            if ($('#history_table tr').length <= 3)
+            {
+                if (e == null || $(e).closest("tr").is(":last-child")) {
+                    var newrow = '<tr><td class="no-padding"><div class="input-group"><input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center" type="text" data-date-format="yyyy/mm/dd"name="FromDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><div class="input-group"><input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center"type="text" data-date-format="yyyy/mm/dd"name="ToDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="ShipName[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><select name="DutyID[]" class="form-control" onfocus="addHistory(this)" style="padding:0px!important;color:#12539b!important"><option value="0">&nbsp;</option>';
+                    @foreach($posList as $pos)
+                    newrow = newrow + '<option value="' + '{{$pos['id']}}';
+                    @if($info['DutyID_Book'] == $pos['id']) newrow = newrow + '" selected';
+                    @endif
+                    newrow = newrow + '">';
+                    newrow = newrow + '{{$pos['Duty_En']}}' + '</option>';
+                    @endforeach
+                    newrow = newrow + '</select></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="GT[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><select onfocus="addHistory(this)" class="form-control" name="ShipType[]"style="padding:0px!important;color:#12539b!important"><option value="0">&nbsp;</option>';
+                    //'<input type="text" onfocus="addHistory(this)" class="form-control" name="ShipType[]"value="" style="width: 100%;text-align: center"></td>';
+                    @foreach($typeList as $type)
+                    newrow = newrow + '<option value="' + '{{$type['id']}}';
+                    @if($info['ShipType'] == $type['id']) newrow = newrow + '" selected';
+                    @endif
+                    newrow = newrow + '">';
+                    newrow = newrow + '{{$type['ShipType']}}' + '</option>';
+                    @endforeach
+
+
+                    newrow = newrow += '</select></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="Power[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="TradingArea[]"value="" style="width: 100%;text-align: center"></td><td class="center no-padding"><div class="action-buttons"><a class="red" onclick="javascript:deleteHistory(this)"><i class="icon-trash"></i></a></div></td></tr>';
+                    $("#history_table").append(newrow);
+                    setDatePicker();
+                }
+            }
+        }
+
+        function setDatePicker() {
+            $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+        }
     </script>
 
 @endsection
