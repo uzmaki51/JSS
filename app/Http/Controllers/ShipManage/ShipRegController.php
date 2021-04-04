@@ -135,7 +135,6 @@ class ShipRegController extends Controller
         }
 
         $status = Session::get('status');
-        $tabName = $request->get('tab');
 
         $ship_infolist = $this->getShipGeneralInfo();
         return view('shipManage.shipregister', [
@@ -144,7 +143,6 @@ class ShipRegController extends Controller
                         'shipInfo'      =>  $shipInfo, 
                         'freeBoard'     =>  $freeBoard, 
                         'status'        =>  $status,
-                        'tabName'       =>  $tabName,
                         'list'          =>  $ship_infolist
                     ]);
     }
@@ -153,7 +151,6 @@ class ShipRegController extends Controller
 	    $params = $request->all();
 	    $shipId = trim($request->get('shipId')) * 1;
 	    $freeId = $request->get('freeId');
-	    $tabName = $request->get('_tabName');
 
 	    if($shipId > 0) {
 	    	$isRegister = false;
@@ -174,12 +171,12 @@ class ShipRegController extends Controller
 		    $status = $isRegister == true ? $commonLang['message']['register']['failed'] : $commonLang['message']['update']['failed'];
 	    }
 
-	    return redirect(url('shipManage/registerShipData?shipId=' . $lastShipId . '&tab=' . $tabName));
+	    return redirect(url('shipManage/registerShipData?shipId=' . $lastShipId));
 
     }
 
     public function saveShipGeneralData($params, $shipData) {
-    	try {
+    	//try {
 		    $shipData['shipName_Cn'] = $params['shipName_Cn'];
 		    $shipData['shipName_En'] = $params['shipName_En'];
 		    $shipData['NickName'] = $params['NickName'];
@@ -189,7 +186,8 @@ class ShipRegController extends Controller
 		    $shipData['CallSign'] = $params['CallSign'];
 		    $shipData['MMSI'] = $params['MMSI'];
 		    $shipData['IMO_No'] = $params['IMO_No'];
-		    $shipData['INMARSAT'] = isset($params['INMARSAT']) ? $params['INMARSAT'] : '';
+		    $shipData['INMARSAT'] = isset($params['INMARSAT']) ? $params['INMARSAT'] : null;
+		    $shipData['order'] = isset($params['order']) ? ($params['order'] == "" ? 0 : $params['order']) : 0;
 		    $shipData['OriginalShipName'] = $params['OriginalShipName'];
 		    $shipData['FormerShipName'] = $params['FormerShipName'];
 		    $shipData['SecondFormerShipName'] = $params['SecondFormerShipName'];
@@ -206,39 +204,39 @@ class ShipRegController extends Controller
 		    $shipData['ISMFax'] = $params['ISMFax'];
 		    $shipData['ISMEmail'] = $params['ISMEmail'];
 		    $shipData['ShipType'] = $params['ShipType'];
-		    $shipData['GrossTon'] = $params['GrossTon'];
-		    $shipData['LOA'] = $params['LOA'];
-		    $shipData['NetTon'] = $params['NetTon'];
-		    $shipData['LBP'] = $params['LBP'];
-		    $shipData['Deadweight'] = $params['Deadweight'];
-		    $shipData['Length'] = $params['Length'];
-		    $shipData['Displacement'] = $params['Displacement'];
-		    $shipData['BM'] = $params['BM'];
-		    $shipData['Ballast'] = $params['Ballast'];
-		    $shipData['DM'] = $params['DM'];
+		    $shipData['GrossTon'] = $params['GrossTon'] == "" ? null : $params['GrossTon'];
+		    $shipData['LOA'] = $params['LOA'] == "" ? null : $params['LOA'];
+		    $shipData['NetTon'] = $params['NetTon'] == "" ? null : $params['NetTon'];
+		    $shipData['LBP'] = $params['LBP'] == "" ? null : $params['LBP'];
+		    $shipData['Deadweight'] = $params['Deadweight'] == "" ? null : $params['Deadweight'];
+		    $shipData['Length'] = $params['Length'] == "" ? null : $params['Length'];
+		    $shipData['Displacement'] = $params['Displacement'] == "" ? null : $params['Displacement'];
+		    $shipData['BM'] = $params['BM'] == "" ? null : $params['BM'];
+		    $shipData['Ballast'] = $params['Ballast'] == "" ? null : $params['Ballast'];
+		    $shipData['DM'] = $params['DM'] == "" ? null : $params['DM'];
 		    $shipData['FuelBunker'] = $params['FuelBunker'];
 		    $shipData['ShipBuilder'] = $params['ShipBuilder'];
 		    $shipData['KeelDate'] = $params['KeelDate'];
-		    $shipData['DeckErection_B'] = $params['DeckErection_B'];
+		    $shipData['DeckErection_B'] = $params['DeckErection_B'] == "" ? null : $params['DeckErection_B'];
 		    $shipData['LaunchDate'] = $params['LaunchDate'];
-		    $shipData['DeckErection_F'] = $params['DeckErection_F'];
+		    $shipData['DeckErection_F'] = $params['DeckErection_F'] == "" ? null : $params['DeckErection_F'];
 		    $shipData['DeliveryDate'] = $params['DeliveryDate'];
-		    $shipData['DeckErection_P'] = $params['DeckErection_P'];
+		    $shipData['DeckErection_P'] = $params['DeckErection_P'] == "" ? null : $params['DeckErection_P'];
 		    $shipData['ConversionDate'] = $params['ConversionDate'];
-		    $shipData['DeckErection_H'] = $params['DeckErection_H'];
-		    $shipData['RegDate'] = $params['RegDate'];
-		    $shipData['RenewDate'] = $params['RenewDate'];
-		    $shipData['KCExpiryDate'] = $params['KCExpiryDate'];
-		    $shipData['ConditionalDate'] = $params['ConditionalDate'];
-		    $shipData['DelDate'] = $params['DelDate'];
-		    $shipData['Draught'] = $params['Draught'];
+		    $shipData['DeckErection_H'] = $params['DeckErection_H'] == "" ? null : $params['DeckErection_H'];
+		    $shipData['RegDate'] = $params['RegDate'] == "" ? null : $params['RegDate'];
+		    $shipData['RenewDate'] = $params['RenewDate'] == "" ? null : $params['RenewDate'];
+		    $shipData['KCExpiryDate'] = $params['KCExpiryDate'] == "" ? null : $params['KCExpiryDate'];
+		    $shipData['ConditionalDate'] = $params['ConditionalDate'] == "" ? null : $params['ConditionalDate'];
+		    $shipData['DelDate'] = $params['DelDate'] == "" ? null : $params['DelDate'];
+		    $shipData['Draught'] = $params['Draught'] == "" ? null : $params['Draught'];
 		    $shipData['BuildPlace_Cn'] = $params['BuildPlace_Cn'];
 		    $shipData->save();
 
 		    return $shipData['id'];
-	    } catch (\Exception $exception) {
-    		return false;
-	    }
+	    //} catch (\Exception $exception) {
+    	//	return false;
+	    //}
     }
 
     public function saveShipHullData($params, $shipId, $freeId) {
@@ -248,22 +246,29 @@ class ShipRegController extends Controller
 		    } else {
 			    $shipData = new ShipRegister();
 		    }
+            $shipData['Hull'] = $params['Hull'] == "" ? null : $params['Hull'];
+            $shipData['HullNotation'] = $params['HullNotation'] == "" ? null : $params['HullNotation'];
+            $shipData['Machinery'] = $params['Machinery'] == "" ? null : $params['Machinery'];
+            $shipData['MachineryNotation'] = $params['MachineryNotation'] == "" ? null : $params['MachineryNotation'];
+            $shipData['Refrigerater'] = $params['Refrigerater'] == "" ? null : $params['Refrigerater'];
+            $shipData['RefrigeraterNotation'] = $params['RefrigeraterNotation'] == "" ? null : $params['RefrigeraterNotation'];
+            
 
-		    $shipData['HullNo'] = $params['HullNo'];
-		    $shipData['Decks'] = $params['Decks'];
-		    $shipData['Bulkheads'] = $params['Bulkheads'];
-		    $shipData['NumberOfHolds'] = $params['NumberOfHolds'];
-		    $shipData['CapacityOfHoldsG'] = $params['CapacityOfHoldsG'];
-		    $shipData['CapacityOfHoldsB'] = $params['CapacityOfHoldsB'];
-		    $shipData['HoldsDetail'] = $params['HoldsDetail'];
-		    $shipData['NumberOfHatchways'] = $params['NumberOfHatchways'];
-		    $shipData['SizeOfHatchways'] = $params['SizeOfHatchways'];
-		    $shipData['ContainerOnDeck'] = $params['ContainerOnDeck'];
-		    $shipData['ContainerInHold'] = $params['ContainerInHold'];
-		    $shipData['LiftingDevice'] = $params['LiftingDevice'];
-		    $shipData['TK_TOP'] = $params['TK_TOP'];
-		    $shipData['ON_DECK'] = $params['ON_DECK'];
-		    $shipData['H_COVER'] = $params['H_COVER'];
+		    $shipData['HullNo'] = $params['HullNo'] == "" ? null : $params['HullNo'];
+		    $shipData['Decks'] = $params['Decks'] == "" ? null : $params['Decks'];
+		    $shipData['Bulkheads'] = $params['Bulkheads'] == "" ? null : $params['Bulkheads'];
+		    $shipData['NumberOfHolds'] = $params['NumberOfHolds'] == "" ? null : $params['NumberOfHolds'];
+		    $shipData['CapacityOfHoldsG'] = $params['CapacityOfHoldsG'] == "" ? null : $params['CapacityOfHoldsG'];
+		    $shipData['CapacityOfHoldsB'] = $params['CapacityOfHoldsB'] == "" ? null : $params['CapacityOfHoldsB'];
+		    $shipData['HoldsDetail'] = $params['HoldsDetail'] == "" ? null : $params['HoldsDetail'];
+		    $shipData['NumberOfHatchways'] = $params['NumberOfHatchways'] == "" ? null : $params['NumberOfHatchways'];
+		    $shipData['SizeOfHatchways'] = $params['SizeOfHatchways'] == "" ? null : $params['SizeOfHatchways'];
+		    $shipData['ContainerOnDeck'] = $params['ContainerOnDeck'] == "" ? null : $params['ContainerOnDeck'];
+		    $shipData['ContainerInHold'] = $params['ContainerInHold'] == "" ? null : $params['ContainerInHold'];
+		    $shipData['LiftingDevice'] = $params['LiftingDevice'] == "" ? null : $params['LiftingDevice'];
+		    $shipData['TK_TOP'] = $params['TK_TOP'] == "" ? null : $params['TK_TOP'];
+		    $shipData['ON_DECK'] = $params['ON_DECK'] == "" ? null : $params['ON_DECK'];
+		    $shipData['H_COVER'] = $params['H_COVER'] == "" ? null : $params['H_COVER'];
 		    $shipData->save();
 
 		    if($freeId > 0)
@@ -273,27 +278,27 @@ class ShipRegController extends Controller
 
 		    $freeData['shipId'] = $params['shipId'];
 		    $freeData['ship_type'] = $params['ship_type'];
-		    $freeData['new_ship'] = $params['new_ship'] == 'on' ? 1 : 0;
-		    $freeData['new_free_tropical'] = $params['new_free_tropical'];
-		    $freeData['new_load_tropical'] = $params['new_load_tropical'];
-		    $freeData['new_free_summer'] = $params['new_free_summer'];
-		    $freeData['new_free_winter'] = $params['new_free_winter'];
-		    $freeData['new_load_winter'] = $params['new_load_winter'];
-		    $freeData['new_free_winteratlantic'] = $params['new_free_winteratlantic'];
-		    $freeData['new_load_winteratlantic'] = $params['new_load_winteratlantic'];
-		    $freeData['new_free_fw'] = $params['new_free_fw'];
-		    $freeData['timber'] = $params['timber'] == 'on' ? 1 : 0;
-		    $freeData['timber_free_tropical'] = $params['timber_free_tropical'];
-		    $freeData['timber_load_tropical'] = $params['timber_load_tropical'];
-		    $freeData['timber_free_summer'] = $params['timber_free_summer'];
-		    $freeData['timber_load_summer'] = $params['timber_load_summer'];
-		    $freeData['timber_free_winter'] = $params['timber_free_winter'];
-		    $freeData['timber_load_winter'] = $params['timber_load_winter'];
-		    $freeData['timber_free_winteratlantic'] = $params['timber_free_winteratlantic'];
-		    $freeData['timber_load_winteratlantic'] = $params['timber_load_winteratlantic'];
-		    $freeData['timber_free_fw'] = $params['timber_free_fw'];
-		    $freeData['deck_line_amount'] = $params['deck_line_amount'];
-		    $freeData['deck_line_content'] = $params['deck_line_content'];
+		    $freeData['new_ship'] = (isset($params['new_ship'])) ? ($params['new_ship'] == 'on' ? 1 : 0) : 0;
+		    $freeData['new_free_tropical'] = $params['new_free_tropical'] == "" ? null : $params['new_free_tropical'];
+		    $freeData['new_load_tropical'] = $params['new_load_tropical'] == "" ? null : $params['new_load_tropical'];
+		    $freeData['new_free_summer'] = $params['new_free_summer'] == "" ? null : $params['new_free_summer'];
+		    $freeData['new_free_winter'] = $params['new_free_winter'] == "" ? null : $params['new_free_winter'];
+		    $freeData['new_load_winter'] = $params['new_load_winter'] == "" ? null : $params['new_load_winter'];
+		    $freeData['new_free_winteratlantic'] = $params['new_free_winteratlantic'] == "" ? null : $params['new_free_winteratlantic'];
+		    $freeData['new_load_winteratlantic'] = $params['new_load_winteratlantic'] == "" ? null : $params['new_load_winteratlantic'];
+		    $freeData['new_free_fw'] = $params['new_free_fw'] == "" ? null : $params['new_free_fw'];
+		    $freeData['timber'] = isset($params['timber']) ? ($params['timber'] == 'on' ? 1 : 0) : 0;
+		    $freeData['timber_free_tropical'] = isset($params['timber_free_tropical']) ? ($params['timber_free_tropical'] == "" ? null : $params['timber_free_tropical']) : null;
+		    $freeData['timber_load_tropical'] = isset($params['timber_load_tropical']) ? ($params['timber_load_tropical'] == "" ? null : $params['timber_load_tropical']) : null;
+		    $freeData['timber_free_summer'] = isset($params['timber_free_summer']) ? ($params['timber_free_summer'] == "" ? null : $params['timber_free_summer']) : null;
+		    $freeData['timber_load_summer'] = isset($params['timber_load_summer']) ? ($params['timber_load_summer'] == "" ? null : $params['timber_load_summer']) : null;
+		    $freeData['timber_free_winter'] = isset($params['timber_free_winter']) ? ($params['timber_free_winter'] == "" ? null : $params['timber_free_winter']) : null;
+		    $freeData['timber_load_winter'] = isset($params['timber_load_winter']) ? ($params['timber_load_winter'] == "" ? null : $params['timber_load_winter']) : null;
+		    $freeData['timber_free_winteratlantic'] = isset($params['timber_free_winteratlantic']) ? ($params['timber_free_winteratlantic'] == "" ? null : $params['timber_free_winteratlantic']) : null;
+		    $freeData['timber_load_winteratlantic'] = isset($params['timber_load_winteratlantic']) ? ($params['timber_load_winteratlantic'] == "" ? null : $params['timber_load_winteratlantic']) : null;
+		    $freeData['timber_free_fw'] = isset($params['timber_free_fw']) ? ($params['timber_free_fw'] == "" ? null : $params['timber_free_fw']) : null;
+		    $freeData['deck_line_amount'] = isset($params['deck_line_amount']) ? ($params['deck_line_amount'] == "" ? null : $params['deck_line_amount']) : null;
+		    $freeData['deck_line_content'] = isset($params['deck_line_content']) ? $params['deck_line_content'] : null;
 		    $freeData->save();
 
     		return true;
@@ -303,13 +308,13 @@ class ShipRegController extends Controller
     }
 
 	public function saveShipMachineryData($params, $shipId) {
-    	try {
+    	//try {
 		    if($shipId > 0) {
 			    $shipData = ShipRegister::find($shipId);
 		    } else {
 			    $shipData = new ShipRegister();
 		    }
-
+//dump($shipData);die;
 		    $shipData['No_TypeOfEngine'] = $params['No_TypeOfEngine'];
 		    $shipData['Cylinder_Bore_Stroke'] = $params['Cylinder_Bore_Stroke'];
 		    $shipData['Power'] = $params['Power'];
@@ -317,7 +322,7 @@ class ShipRegController extends Controller
 		    $shipData['EngineManufacturer'] = $params['EngineManufacturer'];
 		    $shipData['AddressEngMaker'] = $params['AddressEngMaker'];
 		    $shipData['EngineDate'] = $params['EngineDate'];
-		    $shipData['Speed'] = $params['Speed'];
+		    $shipData['Speed'] = $params['Speed'] == null ? 0 : $params['Speed'];
 		    $shipData['PrimeMover'] = $params['PrimeMover'];
 		    $shipData['GeneratorOutput'] = $params['GeneratorOutput'];
 		    $shipData['Boiler'] = $params['Boiler'];
@@ -325,34 +330,34 @@ class ShipRegController extends Controller
 		    $shipData['BoilerManufacturer'] = $params['BoilerManufacturer'];
 		    $shipData['AddressBoilerMaker'] = $params['AddressBoilerMaker'];
 		    $shipData['BoilerDate'] = $params['BoilerDate'];
-		    $shipData['FOSailCons_S'] = $params['FOSailCons_S'];
-		    $shipData['FOL/DCons_S'] = $params['FOL/DCons_S'];
-		    $shipData['FOIdleCons_S'] = $params['FOIdleCons_S'];
-		    $shipData['DOSailCons_S'] = $params['DOSailCons_S'];
-		    $shipData['DOL/DCons_S'] = $params['DOL/DCons_S'];
-		    $shipData['DOIdleCons_S'] = $params['DOIdleCons_S'];
-		    $shipData['LOSailCons_S'] = $params['LOSailCons_S'];
-		    $shipData['LOL/DCons_S'] = $params['LOL/DCons_S'];
-		    $shipData['LOIdleCons_S'] = $params['LOIdleCons_S'];
-		    $shipData['FOSailCons_W'] = $params['FOSailCons_W'];
-		    $shipData['FOL/DCons_W'] = $params['FOL/DCons_W'];
-		    $shipData['FOIdleCons_W'] = $params['FOIdleCons_W'];
-		    $shipData['DOSailCons_W'] = $params['DOSailCons_W'];
-		    $shipData['DOL/DCons_W'] = $params['DOL/DCons_W'];
-		    $shipData['DOIdleCons_W'] = $params['DOIdleCons_W'];
-		    $shipData['LOSailCons_W'] = $params['LOSailCons_W'];
-		    $shipData['LOL/DCons_W'] = $params['LOL/DCons_W'];
-		    $shipData['LOIdleCons_W'] = $params['LOIdleCons_W'];
+		    $shipData['FOSailCons_S'] = $params['FOSailCons_S'] == null ? 0 : $params['FOSailCons_S'];
+		    $shipData['FOL/DCons_S'] = $params['FOL/DCons_S'] == null ? 0 : $params['FOL/DCons_S'];
+		    $shipData['FOIdleCons_S'] = $params['FOIdleCons_S'] == null ? 0 : $params['FOIdleCons_S'];
+		    $shipData['DOSailCons_S'] = $params['DOSailCons_S'] == null ? 0 : $params['DOSailCons_S'];
+		    $shipData['DOL/DCons_S'] = $params['DOL/DCons_S'] == null ? 0 : $params['DOL/DCons_S'];
+		    $shipData['DOIdleCons_S'] = $params['DOIdleCons_S'] == null ? 0 : $params['DOIdleCons_S'];
+		    $shipData['LOSailCons_S'] = $params['LOSailCons_S'] == null ? 0 : $params['LOSailCons_S'];
+		    $shipData['LOL/DCons_S'] = $params['LOL/DCons_S'] == null ? 0 : $params['LOL/DCons_S'];
+		    $shipData['LOIdleCons_S'] = $params['LOIdleCons_S'] == null ? 0 : $params['LOIdleCons_S'];
+		    $shipData['FOSailCons_W'] = $params['FOSailCons_W'] == null ? 0 : $params['FOSailCons_W'];
+		    $shipData['FOL/DCons_W'] = $params['FOL/DCons_W'] == null ? 0 : $params['FOL/DCons_W'];
+		    $shipData['FOIdleCons_W'] = $params['FOIdleCons_W'] == null ? 0 : $params['FOIdleCons_W'];
+		    $shipData['DOSailCons_W'] = $params['DOSailCons_W'] == null ? 0 : $params['DOSailCons_W'];
+		    $shipData['DOL/DCons_W'] = $params['DOL/DCons_W'] == null ? 0 : $params['DOL/DCons_W'];
+		    $shipData['DOIdleCons_W'] = $params['DOIdleCons_W'] == null ? 0 : $params['DOIdleCons_W'];
+		    $shipData['LOSailCons_W'] = $params['LOSailCons_W'] == null ? 0 : $params['LOSailCons_W'];
+		    $shipData['LOL/DCons_W'] = $params['LOL/DCons_W'] == null ? 0 : $params['LOL/DCons_W'];
+		    $shipData['LOIdleCons_W'] = $params['LOIdleCons_W'] == null ? 0 : $params['LOIdleCons_W'];
 		    $shipData->save();
 
 		    return true;
-	    } catch (\Exception $exception) {
-    		return false;
-	    }
+	    //} catch (\Exception $exception) {
+    	//	return false;
+	    //}
 	}
 
     public function saveShipRemarksData($params, $shipId) {
-    	try {
+    	//try {
 		    if($shipId > 0) {
 			    $shipData = ShipRegister::find($shipId);
 		    } else {
@@ -363,9 +368,9 @@ class ShipRegController extends Controller
 		    $shipData->save();
 
 		    return true;
-	    } catch(\Exception $exception) {
-    		return false;
-	    }
+	    //} catch(\Exception $exception) {
+    	//	return false;
+	    //}
     }
 
 
@@ -1634,7 +1639,7 @@ class ShipRegController extends Controller
         $ship_infolist = ShipRegister::select('tb_ship_register.*', 'tb_ship.name', 'tb_ship.shipNo', 'tb_ship.person_num', 'tb_ship_type.ShipType_Cn', 'tb_ship_type.ShipType', DB::raw('IFNULL(tb_ship.id, 100) as num'))
                         ->leftJoin('tb_ship', 'tb_ship_register.Shipid', '=', 'tb_ship.id')
                         ->leftJoin('tb_ship_type', 'tb_ship_register.ShipType', '=', 'tb_ship_type.id')
-                        ->orderBy('num')
+                        ->orderBy('id')
                         ->get();
 
         foreach($ship_infolist as $info) {

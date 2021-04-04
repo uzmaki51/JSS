@@ -494,6 +494,7 @@ class ShipMemberController extends Controller
         if(empty($dateStr))
             $dateStr = null;
         $capacity['COC_ExpiryDate'] = $dateStr;
+        $capacity['COC_Remarks'] = $request->get('COC_Remarks');
 
         // ----------------------------------
         $capacity['GMDSS_NO'] = $request->get('GMDSS_NO');

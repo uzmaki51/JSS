@@ -335,7 +335,7 @@ table {
 }
 .head-fix-div {
     overflow-y: auto;
-    height: 74px; 
+    height: 86px; 
 }
 .head-fix-div thead th {
     position: sticky; top: 0; 

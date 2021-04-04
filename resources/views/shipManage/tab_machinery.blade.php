@@ -142,7 +142,7 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a data-toggle="tab" style="border-top: 1px solid #c5d0dc">
+                        <a data-toggle="" style="border-top: 1px solid #c5d0dc">
                             {{ transShipManager('Machinery.Fuel Consumption') }}
                         </a>
                     </li>

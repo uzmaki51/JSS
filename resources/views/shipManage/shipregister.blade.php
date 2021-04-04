@@ -60,7 +60,7 @@ $shipList = Session::get('shipList');
                                     @if(!$isHolder || ($isHolder == true && in_array($item['id'], $shipList)))
                                         <tr class="ship-item {{ $item['id'] == $shipInfo['id'] ? 'selected' : '' }}" data-index="{{ $item['id'] }}">
                                             <td class="text-center" style="width: 2%;">{{ $index }}</td>
-                                            <td class="text-center" style="width: 10%;">{{ $item['shipName_Cn'] }}</td>
+                                            <td class="text-center" style="width: 10%;">{{ $item['shipName_En'] }}</td>
                                             <td class="text-center" style="width: 8%;">{{ $item['IMO_No'] }}</td>
                                             <td class="text-center" style="width: 7%;">{{ $item['Flag'] }}</td>
                                             <td class="text-center" style="width: 8%;">{{ $item['PortOfRegistry'] }}</td>
@@ -96,27 +96,27 @@ $shipList = Session::get('shipList');
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" style="bottom: -3px; position: relative;">
                     <div class="tabbable">
                         <ul class="nav nav-tabs ship-register" id="myTab">
-                            <li class="{{ !isset($tabName) || $tabName == 'general' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#general" onclick="ShowTabPage('general')">
+                            <li class="active">
+                                <a data-toggle="tab" href="#general">
                                     {{ transShipManager('tabMenu.General') }}
                                 </a>
                             </li>
 
-                            <li class="{{ $tabName == 'hull' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#hull"  onclick="ShowTabPage('hull')">
+                            <li>
+                                <a data-toggle="tab" href="#hull">
                                     {{ transShipManager('tabMenu.Hull/Cargo') }}
                                 </a>
                             </li>
-                            <li class="{{ $tabName == 'machiery' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#machiery" onclick="ShowTabPage('machiery')">
+                            <li>
+                                <a data-toggle="tab" href="#machiery">
                                     {{ transShipManager('tabMenu.Machinery') }}
                                 </a>
                             </li>
-                            <li class="{{ $tabName == 'remarks' ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#remarks" onclick="ShowTabPage('remarks')">
+                            <li>
+                                <a data-toggle="tab" href="#remarks">
                                     {{ transShipManager('tabMenu.Remarks') }}
                                 </a>
                             </li>
@@ -132,18 +132,17 @@ $shipList = Session::get('shipList');
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="shipId"
                                value="@if(isset($shipInfo['id'])) {{$shipInfo['id']}} @else 0 @endif">
-                        <input type="hidden" name="_tabName" value="general">
                         <div class="tab-content">
-                            <div id="general" class="tab-pane {{ !isset($tabName) || $tabName == 'general' ? 'active' : '' }}">
+                            <div id="general" class="tab-pane active">
                                 @include('shipManage.tab_general', with(['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo]))
                             </div>
-                            <div id="hull" class="tab-pane {{ $tabName == 'hull' ? 'active' : '' }}">
+                            <div id="hull" class="tab-pane">
                                 @include('shipManage.tab_hull', with(['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo, 'freeBoard'=>$freeBoard]))
                             </div>
-                            <div id="machiery" class="tab-pane {{ $tabName == 'machiery' ? 'active' : '' }}">
+                            <div id="machiery" class="tab-pane">
                                 @include('shipManage.tab_machinery', with(['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo]))
                             </div>
-                            <div id="remarks" class="tab-pane {{ $tabName == 'remarks' ? 'active' : '' }}">
+                            <div id="remarks" class="tab-pane">
                                 @include('shipManage.tab_remarks', with(['shipInfo'=>$shipInfo]))
                             </div>
                             <div class="space-4"></div>
@@ -171,16 +170,11 @@ $shipList = Session::get('shipList');
 
         var token = '{!! csrf_token() !!}';
         var shipId = '{!! $shipInfo['id'] !!}';
-        var activeTabName = '{{ $tabName }}';
 
         //editables on first profile page
         $.fn.editable.defaults.mode = 'inline';
         $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
         $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary editable-submit"><i class="icon-ok icon-white"></i></button>';
-
-        function ShowTabPage(tabName) {
-            $("[name=_tabName]").val(tabName);
-        }
 
 
         $('#btnRegister').on('click', function() {
@@ -229,6 +223,28 @@ $shipList = Session::get('shipList');
                 $('#ship-table').scrollTop(row.position().top - row.height());
             }
         })
+
+        $(function () {
+            $('ul li a[data-toggle=tab]').click(function(){
+                $nowTab = $(this).attr("href");
+                window.localStorage.setItem("shipRegTab",$nowTab);
+            });
+
+            if (shipId != -1) {
+                $initTab = window.localStorage.getItem("shipRegTab");
+                if ($initTab != null) {
+                    $('ul li a[data-toggle=tab]').each(function(){
+                        $href = $(this).attr("href");
+                        $(this).parent("li").prop("class","");
+                        $($href).prop("class", "tab-pane");
+                        if($initTab == $href) {
+                            $($initTab).prop("class", "tab-pane active");
+                            $(this).parent("li").prop("class","active");
+                        }
+                    });
+                }
+            }
+        });
 
     </script>
 @stop

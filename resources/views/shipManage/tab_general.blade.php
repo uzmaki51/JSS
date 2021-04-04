@@ -63,7 +63,7 @@ $shipList = Session::get('shipList');
                             {{ transShipManager('General.RegType') }}
                         </td>
                         <td class="custom-td-report-text" colspan="2">
-                            <select class="form-control" id="RegStatus" name="RegStatus">
+                            <select class="form-control" id="RegStatus" name="RegStatus" style="padding:0px!important;color:#12539b!important">
                                 @foreach(g_enum('ShipRegStatus') as $key => $item)
                                     <option value="{{ $key }}" {{ isset($shipInfo['RegStatus']) && $shipInfo['RegStatus'] == $key ? 'selected' : '' }}>{{ $item }}</option>
                                 @endforeach
@@ -216,7 +216,7 @@ $shipList = Session::get('shipList');
                                     {{ transShipManager('General.Ship Type') }}
                                 </td>
                                 <td class="custom-td-dec-text">
-                                    <select class="form-control" id="ShipType" name="ShipType">
+                                    <select class="form-control" id="ShipType" name="ShipType" style="padding:0px!important;color:#12539b!important">
                                         @foreach($shipType as $type)
                                             <option value="{{$type['id']}}" @if($type['id'] == $shipInfo['ShipType']) selected @endif>{{$type['ShipType']}}</option>
                                         @endforeach
