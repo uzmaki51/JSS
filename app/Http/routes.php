@@ -71,7 +71,7 @@ Route::group(['prefix' => 'decision'], function()
 });
 
 // Ajax
-Route::group(['prefix'  => 'ajax'], function() {
+Route::group(['prefix' => 'ajax'], function() {
 	Route::post('decide/receive',   ['uses'=>'Decision\DecisionController@ajaxGetReceive']);
 	Route::post('report/decide',    ['uses'=>'Decision\DecisionController@ajaxReportDecide']);
 	Route::post('report/detail',    ['uses'=>'Decision\DecisionController@ajaxReportDetail']);
@@ -90,7 +90,9 @@ Route::group(['prefix'  => 'ajax'], function() {
 	Route::post('shipMember/search', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMember']);
 
 	// ShipCert
-	Route::post('shipManage/cert/list', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertList']);	
+	Route::post('shipManage/cert/list', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertList']);
+	Route::post('shipManage/cert/add', ['uses'=>'ShipManage\ShipRegController@ajaxCertAdd']);
+	Route::post('shipManage/cert/delete', ['uses'=>'ShipManage\ShipRegController@ajaxCertDelete']);
 
 });
 
@@ -394,6 +396,7 @@ Route::group(['prefix' => 'shipManage'], function() {
 
 	Route::get('shipCertList', ['uses'=>'ShipManage\ShipRegController@shipCertList']);
 	Route::post('shipCertList', ['uses'=>'ShipManage\ShipRegController@saveShipCertList']);
+	Route::post('shipCertType', ['uses'=>'ShipManage\ShipRegController@saveShipCertType']);
 	Route::post('getShipCertInfo', ['uses'=>'ShipManage\ShipRegController@getShipCertInfo']);
 	Route::post('updateCertInfo', ['uses'=>'ShipManage\ShipRegController@updateCertInfo']);
 	Route::post('deleteShipCert', ['uses'=>'ShipManage\ShipRegController@deleteShipCert']);
@@ -472,6 +475,7 @@ Route::group(['prefix' => 'shipManage'], function() {
     Route::get('exportShipInfo', ['uses'=>'ShipManage\ShipRegController@exportShipInfo']);
     // 배증서목록
     Route::get('shipCertListExcel', ['uses'=>'ExcelController@shipCertList']);
+	Route::get('shipCertExcel', ['uses'=>'ShipManage\ShipRegController@shipCertExcel']);
     // 배증서종류
     Route::get('shipCertManageExcel', ['uses'=>'ExcelController@shipCertManage']);
     // 배별설비목록

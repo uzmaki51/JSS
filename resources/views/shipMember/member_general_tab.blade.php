@@ -264,9 +264,9 @@
                                             <div class="custom-options-scroll">
                                                 @foreach ($posList as $item)
                                                     @if ($item->id == $info['DutyID_Book'])
-                                                    <span class="custom-option selected" data-value="{{$item->id}}">{{$item->Duty_En}}</span>
+                                                        <span class="custom-option selected" data-value="{{$item->id}}">{{$item->Duty_En}}</span>
                                                     @else
-                                                    <span class="custom-option" data-value="{{$item->id}}">{{$item->Duty_En}}</span>
+                                                        <span class="custom-option" data-value="{{$item->id}}">{{$item->Duty_En}}</span>
                                                     @endif
                                                 @endforeach
                                             </div>

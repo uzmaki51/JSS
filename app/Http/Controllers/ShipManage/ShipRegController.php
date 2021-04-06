@@ -506,18 +506,14 @@ class ShipRegController extends Controller
 
     //배증서목록
     public function shipCertList(Request $request) {
-        Util::getMenuInfo($request);
-        $shipRegList = ShipRegister::getShipListByOrigin();
+        $shipRegList = ShipRegister::all();
 
-        $shipId = $request->get('shipId');
-        $certName = $request->get('certName');
-        $issuUnit = $request->get('issuUnit');
-        $expireMonth = $request->get('expireMonth');
-
-        $shipNameInfo = null;
-        if(isset($shipId))
-            $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
-        else {
+        $shipId = $request->get('id');
+	    $shipNameInfo = null;
+        if(isset($shipId)) {
+	        $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
+	        $shipNameInfo = ShipRegister::find($shipId);
+        } else {
 	        $shipNameInfo = ShipRegister::first();
 	        $shipId = $shipNameInfo['id'];
         }
@@ -525,15 +521,10 @@ class ShipRegController extends Controller
         $certType = ShipCertList::all();
         $certList = ShipCertRegistry::where('ship_id', $shipId)->get();
 
-        return view('shipManage.ship_cert_registry',
-            [   'shipList'  =>  $shipRegList,
+        return view('shipManage.ship_cert_registry', [
+        	    'shipList'  =>  $shipRegList,
                 'shipName'  =>  $shipNameInfo,
-                'list'      =>  $certList,
-                'typeList'  =>  $certType,
                 'shipId'    =>  $shipId,
-                'certName'  =>  $certName,
-                'issuUnit'  =>  $issuUnit,
-                'expireMonth'=> $expireMonth,
             ]);
     }
 
@@ -550,13 +541,13 @@ class ShipRegController extends Controller
 			    $shipCertTbl = ShipCertRegistry::find($item);
 		    }
 
-		    $shipCertTbl['ship_id'] = $params['ship_id'];
-		    $shipCertTbl['cert_id'] = $params['cert_id'][$key];
-		    $shipCertTbl['issue_date'] = $params['issue_date'][$key];
-		    $shipCertTbl['expire_date'] = $params['expire_date'][$key];
-		    $shipCertTbl['due_endorse'] = $params['due_endorse'][$key];
-		    $shipCertTbl['issuer'] = $params['issuer'][$key];
-		    $shipCertTbl['remark'] = $params['remark'][$key];
+		    $shipCertTbl['ship_id']     = $params['ship_id'];
+		    $shipCertTbl['cert_id']     = isset($params['cert_id'][$key]) ? $params['cert_id'][$key] : 1;
+		    $shipCertTbl['issue_date']  = isset($params['issue_date'][$key]) ? $params['issue_date'][$key] : '';
+		    $shipCertTbl['expire_date'] = isset($params['expire_date'][$key]) ? $params['expire_date'][$key] : '';
+		    $shipCertTbl['due_endorse'] = isset($params['due_endorse'][$key]) ? $params['due_endorse'][$key] : '';
+		    $shipCertTbl['issuer']      = isset($params['issuer'][$key]) ? $params['issuer'][$key] : '';
+		    $shipCertTbl['remark']      = isset($params['remark'][$key]) ? $params['remark'][$key] : '';
 
 		    // Attachment Upload
 		    if($params['is_update'][$key] == IS_FILE_UPDATE) {
@@ -579,8 +570,49 @@ class ShipRegController extends Controller
 		    $shipCertTbl->save();
 	    }
 
-	    return redirect()->back();
+
+	    $shipRegList = ShipRegister::all();
+	    $shipId = $params['ship_id'];
+
+	    $shipNameInfo = null;
+	    if(isset($shipId))
+		    $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
+	    else {
+		    $shipNameInfo = ShipRegister::first();
+		    $shipId = $shipNameInfo['id'];
+	    }
+
+	    $certType = ShipCertList::all();
+	    $certList = ShipCertRegistry::where('ship_id', $shipId)->get();
+
+	    return redirect('shipManage/shipCertList?id=' . $shipId);
     }
+
+	public function saveShipCertType(Request $request) {
+		$params = $request->all();
+
+		$cert_ids = $params['cert_id'];
+		foreach($cert_ids as $key => $item) {
+			$certTbl = new ShipCertList();
+			if($item != '' && $item != null) {
+				$certTbl = ShipCertList::find($item);
+			}
+
+			if($params['order_no'][$key] != '' && $params['code'][$key] != '' && $params['name'][$key] != "") {
+				$certTbl['order_no'] = $params['order_no'][$key];
+				$certTbl['code'] = $params['code'][$key];
+				$certTbl['name'] = $params['name'][$key];
+
+				$certTbl->save();
+			}
+
+
+		}
+
+		$retVal = ShipCertList::all();
+
+		return response()->json($retVal);
+	}
 
     // 배증서 정보얻기
     public function getShipCertInfo(Request $request) {
@@ -661,22 +693,55 @@ class ShipRegController extends Controller
     }
 
     //증서종류관리
-    public function shipCertManage(Request $request)
-    {
-        Util::getMenuInfo($request);
-        $cert = $request->get('cert');
+    public function shipCertManage(Request $request) {
+	    $shipRegList = ShipRegister::all();
 
-        $query = ShipCertList::query();
-        if(isset($cert))
-            $query->where('CertName_Cn', 'like', '%'.$cert.'%');
+	    $shipId = $request->get('id');
+	    $shipNameInfo = null;
+	    if(isset($shipId)) {
+		    $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
+		    $shipNameInfo = ShipRegister::find($shipId);
+	    } else {
+		    $shipNameInfo = ShipRegister::first();
+		    $shipId = $shipNameInfo['id'];
+	    }
 
-        $query=$query->orderby('CertNo');
-        $certList = $query->get();
-
-        $error = Session::get('error');
-
-        return view('shipManage.cert_manage', ['list'=>$certList, 'cert'=>$cert, 'error'=>$error]);
+	    return view('shipManage.ship_cert_list', [
+		    'shipList'  =>  $shipRegList,
+		    'shipName'  =>  $shipNameInfo,
+		    'shipId'    =>  $shipId,
+	    ]);
     }
+
+	public function shipCertExcel(Request $request) {
+		$shipId = $request->get('id');
+		$shipName = '';
+		if(isset($shipId)) {
+			$retVal = ShipCertRegistry::where('ship_id', $shipId)->get();
+			$shipName = ShipRegister::where('id', $shipId)->first()->shipName_En;
+		} else {
+			return redirect()->back();
+		}
+
+		$certTypeList = ShipCertList::all();
+		foreach($retVal as $key => $item) {
+			foreach($certTypeList as $cert) {
+				if($item->cert_id == $cert->id) {
+					$retVal[$key]->order_no = $cert->order_no;
+					$retVal[$key]->code = $cert->code;
+					$retVal[$key]->cert_name = $cert->name;
+					break;
+				}
+			}
+		}
+
+		return view('shipManage.ship_cert_list_excel', [
+			'list'          =>  $retVal,
+			'shipName'      =>  $shipName,
+			'certList'      =>  $certTypeList,
+			'excel_name'    => $shipName . '_船舶证书_' . date('Ymd'),
+		]);
+	}
 
     public function getCertType(Request $request) {
         $certId = $request->get('certId') * 1;
@@ -1661,9 +1726,52 @@ class ShipRegController extends Controller
     	$params = $request->all();
     	$id = $params['ship_id'];
 
-    	$retVal['ship'] = ShipCertRegistry::where('ship_id', $id)->get();
-	    $retVal['cert'] = ShipCertList::all();
+    	if($id == 0)
+		    $retVal['ship'] = ShipCertRegistry::all();
+    	else {
+		    $retVal['ship'] = ShipCertRegistry::where('ship_id', $id)->get();
+	    }
+
+	    if(isset($params['expire_date']) && $params['expire_date'] > 0) {
+		    $expire_date = date('y-m-d', strtotime('+' . $params['expire_date'] . ' days'));
+		    $retVal['ship'] = ShipCertRegistry::where('ship_id', $id)->where('expire_date', '>', $expire_date)->get();
+	    }
+
+	    $retVal['cert_type'] = ShipCertList::all();
+
+	    $retVal['ship_id'] = $params['ship_id'];
+	    $retVal['ship_name'] = ShipRegister::where('id', $id)->first()->shipName_En;
 
     	return response()->json($retVal);
     }
+
+    public function ajaxCertAdd(Request $request) {
+    	$params = $request->all();
+
+    	$order_no = $params['order_no'];
+	    $code = $params['code'];
+	    $name = $params['name'];
+
+    	$certTbl = new ShipCertList();
+
+    	$certTbl['order_no'] = $order_no;
+	    $certTbl['code'] = $code;
+	    $certTbl['name'] = $name;
+
+	    $certTbl->save();
+
+	    $retVal = ShipCertList::all();
+
+	    return response()->json($retVal);
+    }
+
+	public function ajaxCertDelete(Request $request) {
+		$params = $request->all();
+
+		ShipCertList::where('id', $params['id'])->delete();
+
+		$retVal = ShipCertList::all();
+
+		return response()->json($retVal);
+	}
 }

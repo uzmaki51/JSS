@@ -342,6 +342,7 @@
                         if (this.parentNode.querySelector('.custom-option.selected') != null) {
                             this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
                         }
+
                         this.classList.add('selected');
                         this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
                         this.closest('.custom-select').firstElementChild.value = this.getAttribute('data-value');

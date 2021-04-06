@@ -81,14 +81,24 @@ table {
     min-width: 280px;
 }
 
+.open  {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    max-height: 310px;
+    min-width: 280px;
+}
+
 .custom-options-scroll {
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: 308px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border: 1px solid #394a6d;
-    border-bottom: 1;
+    border-bottom: 1px;
     background: #fff;
 }
+
 
 .custom-option {
     position: relative;
@@ -109,7 +119,7 @@ table {
 }
 .custom-option.selected {
     color: #ffffff;
-    background-color: #1e90ff;
+    background-color: #1e90ff!important;
     padding: 3px 8px 3px 8px!important;
 }
 
@@ -195,7 +205,6 @@ table {
     max-width: 120px;
     overflow: hidden;
 }
-
 .custom-select-span-capacity {
     max-width: 250px;
     overflow: hidden;

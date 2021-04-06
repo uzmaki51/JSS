@@ -603,15 +603,41 @@ footer {
 .p-0 {
     padding: 0!important;
 }
-.custom-table-striped > tbody > tr:nth-child(odd) > td, .custom-table-striped > tbody > tr:nth-child(odd) > td * {
+.custom-table-striped > tbody > tr:nth-child(odd) > td {
+    background: #ebf1de!important;
+    color: #333333!important;
+}
+.custom-table-striped > tbody > tr:nth-child(odd) > td input,
+.custom-table-striped > tbody > tr:nth-child(odd) > td select {
     background: #ebf1de!important;
     color: #333333!important;
 }
 
-.custom-table-striped > tbody > tr:nth-child(even) > td, .custom-table-striped > tbody > tr:nth-child(even) > td * {
+.custom-table-striped > tbody > tr:nth-child(even) > td {
+    background: #ffffff!important;
+    color: #333333!important;
+}
+.custom-table-striped > tbody > tr:nth-child(even) > td input, select {
     background: #ffffff!important;
     color: #333333!important;
 }
 .custom-table-striped > thead th {
     line-height: 20px;
+}
+.custom-table-striped .no-wrap {
+    white-space: nowrap;
+    overflow: hidden;
+}
+.custom-table-striped > tbody > tr:nth-child(odd) > td .custom-select__trigger,
+.custom-option:nth-child(odd), .custom-option:nth-child(odd):hover {
+    background: #ebf1de!important;
+    color: #333333;
+}
+.custom-table-striped > tbody > tr:nth-child(even) > td .custom-select__trigger,
+.custom-option:nth-child(even), .custom-option:nth-child(even):hover {
+    background: white!important;
+    color: #333333;
+}
+.modal-label {
+    min-width: 60px;
 }

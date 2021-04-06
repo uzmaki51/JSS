@@ -325,14 +325,7 @@
                                 }
                             });
                         }
-                    },
-                    // fo: {
-                    //     label: '취소',
-                    //     className: 'btn-danger',
-                    //     callback: function() {
-                    //         return true;
-                    //     }
-                    // }
+                    }
                 }
             })
         }
