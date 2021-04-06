@@ -13,7 +13,11 @@
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-6">
+<<<<<<< Updated upstream
                     <h4><b>审批文件</b></h4>
+=======
+                    <h4><b>{{transDecideManage("title.ReceivedDoc")}}</b></h4>
+>>>>>>> Stashed changes
                 </div>
             </div>
             <div class="col-md-12">
@@ -21,6 +25,7 @@
                     <div class="space-6"></div>
                     <div class="col-lg-4 form-group pl-0 mb-0">
                         <div class="btn-group f-left">
+<<<<<<< Updated upstream
                             <a class="btn btn-sm btn-warning {{ Auth::user()->isAdmin == 1 ? '' : 'right-no-radius' }} refresh-btn-over" type="button" onclick="refresh()">
                                 <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">收件
                             </a>
@@ -29,11 +34,20 @@
                                 <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">写件
                             </a>
                             @endif
+=======
+                            <a class="btn btn-sm btn-warning right-no-radius refresh-btn-over" type="button" onclick="refresh()">
+                                <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">{{ transDecideManage("captions.refresh") }}
+                            </a>
+                            <a href="#modal-wizard" class="btn btn-sm btn-report-search left-no-radius report-btn-over show-modal" role="button" data-toggle="modal">
+                                <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">{{ trans("common.label.add") }}
+                            </a>
+>>>>>>> Stashed changes
                             <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
                         </div>
                     </div>
                     <div class="col-lg-2 form-group d-flex search-div mb-0">
                         <label class="search-label">{{ transDecideManage("captions.ship_name") }}:</label>
+<<<<<<< Updated upstream
                         <select type="text" class="search-input" id="ship_name">
                             <option value="">请选择船舶。</option>
                             @if(isset($shipList))
@@ -42,6 +56,9 @@
                                 @endforeach
                             @endif
                         </select>
+=======
+                        <input type="text" class="search-input" id="ship_name">
+>>>>>>> Stashed changes
                     </div>
                     <div class="col-lg-4 form-group d-flex search-div mb-0">
                         <label class="search-label">{{transDecideManage("captions.draftDate")}}:</label>
@@ -67,17 +84,29 @@
                             <thead>
                             <tr class="br-hblue">
                                 <th style="width: 4%;">{{ trans('decideManage.table.no') }}</th>
+<<<<<<< Updated upstream
                                 <th style="width: 4%;">{{ trans('decideManage.table.type') }}</th>
+=======
+                                <th style="width: 5%;">{{ trans('decideManage.table.type') }}</th>
+>>>>>>> Stashed changes
                                 <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.profit_type') }}</th>
                                 <th style="width: 30%;">{{ trans('decideManage.table.content') }}</th>
+<<<<<<< Updated upstream
                                 <th style="width: 4%;">{{ trans('decideManage.table.currency') }}</th>
                                 <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
                                 <th style="width: 4%;">{{ trans('decideManage.table.attachment') }}</th>
                                 <th style="width: 4%;">{{ trans('decideManage.table.state') }}</th>
+=======
+                                <th style="width: 2%;">{{ trans('decideManage.table.currency') }}</th>
+                                <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
+                                <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
+                                <th style="width: 2%;">{{ trans('decideManage.table.attachment') }}</th>
+                                <th style="width: 2%;">{{ trans('decideManage.table.state') }}</th>
+>>>>>>> Stashed changes
                             </tr>
                             </thead>
                             <tbody>
@@ -88,6 +117,7 @@
 
                 <div id="modal-wizard" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
                     <div class="modal-dialog report-modal">
+<<<<<<< Updated upstream
                         <div class="modal-content" style="border: 0;">
                             <div class="modal-header no-padding" data-target="#modal-step-contents">
                                 <div class="table-header">
@@ -141,11 +171,63 @@
                                                     <td class="custom-modal-td-label">收支种类</td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="profit_type" class="form-control width-100 transparent-input" required v-model="currentProfitType">
+=======
+                        <div class="modal-content">
+                            <div class="modal-header" data-target="#modal-step-contents">
+                                通知
+                            </div>
+                            <div id="modal-body-content" class="modal-body step-content">
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <form role="form" method="POST" action="{{url('decision/report/submit')}}" enctype="multipart/form-data" id="report-form">
+                                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                            <input type="hidden" name="reportId" value="">
+                                            <input type="hidden" name="reportType" value="0">
+                                            <table class="table table-bordered" id="report_div" v-cloak>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="custom-td-label" >
+                                                        文件种类
+                                                    </td>
+                                                    <td class="custom-td-text1">
+                                                        <select name="flowid" class="form-control width-100" @change="onGetProfit($event)" required v-model="currentReportType">
+                                                            <option value="">请选择起草。</option>
+                                                            <option v-for="(item, index) in reportType" v-bind:value="index">@{{ item }}</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="custom-td-label" >船名</td>
+                                                    <td class="custom-td-text1">
+                                                        <select name="shipNo" class="form-control width-100" @change="onGetVoyNoList($event)" required v-model="currentShipNo">
+                                                            <option value="">请选择船舶。</option>
+                                                            <option v-for="(item, index) in shipList" v-bind:value="item.shipID">@{{ item.shipName_Cn }}</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="custom-td-label" >
+                                                        {{ trans('decideManage.captions.voy_no') }}
+                                                    </td>
+                                                    <td class="custom-td-text1">
+                                                        <select name="voyNo" class="form-control width-100" required v-model="currentVoyNo">
+                                                            <option value="">请选择航次号码。</option>
+                                                            <option v-for="(item, index) in voyNoList" v-bind:value="item.id">@{{ item.CP_ID }}</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="custom-td-label">收支分类</td>
+                                                    <td class="custom-td-text1">
+                                                        <select name="profit_type" class="form-control width-100" required v-model="currentProfitType">
+                                                            <option value="">请选择收支分类。</option>
+>>>>>>> Stashed changes
                                                             <option v-for="(item, index) in profitType" v-bind:value="item.id">@{{ item.AC_Item_Cn }}</option>
                                                         </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
+<<<<<<< Updated upstream
                                                     <td class="custom-modal-td-label">币类</td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="currency" class="form-control width-100" v-model="currentCurrency">
@@ -189,6 +271,38 @@
                                                         <div class="form-group mb-0">
                                                             <input type="file" name="attachments[]" style="display: none;" @change="onFileChange" multiple="multiple" id="file_name"/>
                                                             <label for="file_name" class="upload-btn"><img src="{{ cAsset('assets/images/upload.png') }}" class="report-label-img">添加附件</label>
+=======
+                                                    <td class="custom-td-label" >
+                                                        金额
+                                                    </td>
+                                                    <td class="custom-td-text1">
+                                                        <div style="display: flex;">
+                                                            <input type="text" name="amount" style="display: inline-block;" class="form-control" v-bind:value="amount">
+                                                            <select name="currency" class="form-control width-auto"  style="display: inline-block;" v-model="currentCurrency">
+                                                                <option v-for="(item, index) in currency" v-bind:value="index">@{{ item }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="custom-td-label">{{transDecideManage("captions.approveName")}} <span class="require">*</span></td>
+                                                    <td class="custom-td-dec-text">
+                                                        <input type="text" name="decTitle" id="decTitle" class="form-control" style="width: 100%" v-bind:value="reporter" disabled>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="custom-td-label">{{transDecideManage("captions.content")}} <span class="require">*</span></td>
+                                                    <td class="custom-td-dec-text">
+                                                        <input name="content" class="form-control" v-bind:value="content">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="custom-td-label" >{{transDecideManage("captions.attachFile")}}</td>
+                                                    <td class="custom-td-dec-text">
+                                                        <div class="form-group mb-0">
+                                                            <input type="file" name="attachments[]" style="display: none;" @change="onFileChange" multiple="multiple" id="file_name"/>
+                                                            <label for="file_name" class="upload-btn"><img src="{{ cAsset('assets/images/upload.png') }}" class="report-label-img">请选择文件。</label>
+>>>>>>> Stashed changes
                                                         </div>
                                                         <ul class="attach-list">
                                                             <li class="item" v-for="(item, index) in attachments" v-show="item[2]">
@@ -203,6 +317,7 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
+<<<<<<< Updated upstream
                                             <div  v-show="reportStatus">
                                                 <div class="btn-group f-left mt-20 d-flex">
                                                     <button type="button" class="btn btn-success small-btn ml-0" @click="reportSubmit($evt)">
@@ -218,6 +333,16 @@
                                         </div>
                                     </form>
 
+=======
+                                            <div class="btn-group f-right mt-2 d-flex">
+                                                <button type="button" class="btn btn-info small-btn ml-0" id="report-submit"><img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}</button>
+                                                <div class="between-1"></div>
+                                                <button type="button" class="btn btn-warning small-btn" id="save-draft"><img src="{{ cAsset('assets/images/draft.png') }}" class="report-label-img">{{ trans('decideManage.button.draft') }}</button>
+                                                <a class="btn btn-danger small-btn" data-dismiss="modal"><i class="icon-remove"></i>{{ trans('decideManage.button.cancel') }}</a>
+                                            </div>
+                                        </form>
+                                    </div>
+>>>>>>> Stashed changes
                                 </div>
                             </div>
                         </div>
@@ -229,7 +354,11 @@
         </div>
     </div>
 
+<<<<<<< Updated upstream
     <script src="{{ cAsset('assets/js/axios.min.js') }}"></script>
+=======
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+>>>>>>> Stashed changes
     <script src="{{ cAsset('assets/js/datatables.min.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
 	<?php
@@ -247,10 +376,13 @@
         var reportList = null;
         var reportName = '{!! Auth::user()->realname !!}';
         var draftId = '{!! $draftId !!}';
+<<<<<<< Updated upstream
         var isAdmin = '{!! Auth::user()->isAdmin !!}';
         var REPORT_TYPE_EVIDENCE_IN = '{!! REPORT_TYPE_EVIDENCE_IN !!}';
         var DEFAULT_CURRENCY = '{!! CNY_LABEL !!}';
 
+=======
+>>>>>>> Stashed changes
         $(function() {
             initialize();
         });
@@ -463,6 +595,7 @@
                     department: '',
                     content: '',
                     attachments: [],
+<<<<<<< Updated upstream
 
                     currentReportType: REPORT_TYPE_EVIDENCE_IN,
                     currentShipNo: '',
@@ -480,12 +613,37 @@
                 },
                 methods: {
                     init() {
+=======
+
+                    currentReportType: '',
+                    currentShipNo: '',
+                    currentProfitType: '',
+                    currentVoyNo: '',
+                    currentCurrency: '',
+                    // current
+                },
+                filters: {
+                    formatBytes(a, b) {
+                        if (0 == a) return "0 Bytes";
+                        var c = 1024,
+                            d = b || 2,
+                            e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+                            f = Math.floor(Math.log(a) / Math.log(c));
+                        return parseFloat((a / Math.pow(c, f)).toFixed(d)) + " " + e[f]
+                    }
+                },
+                methods: {
+                    init() {
+                        this.reportType = ReportTypeData;
+                        // this.shipList = [];
+>>>>>>> Stashed changes
                         this.voyNoList = [];
                         this.profitType = [];
                         this.amount = 0;
                         this.currency = CurrencyLabel;
                         this.reporter = reportName;
                         this.content = '';
+<<<<<<< Updated upstream
                         reportObj.attachments = [];
 
                         this.currentReportType = REPORT_TYPE_EVIDENCE_IN;
@@ -498,6 +656,15 @@
 
                         getProfit(REPORT_TYPE_EVIDENCE_IN);
                         this.getDepartment();
+=======
+                        this.attachments = [];
+
+                        this.currentReportType = '';
+                        this.currentShipNo = '';
+                        this.currentProfitType = '';
+                        this.currentVoyNo = '';
+                        this.currentCurrency = '';
+>>>>>>> Stashed changes
                     },
                     onGetProfit(event) {
                         let type = event.target.value;
@@ -506,9 +673,12 @@
                     onGetVoyNoList(event) {
                         getVoyList(event.target.value);
                     },
+<<<<<<< Updated upstream
                     getDepartment() {
 
                     },
+=======
+>>>>>>> Stashed changes
                     onFileChange(e) {
                         var files = e.target.files || e.dataTransfer.files;
                         if(files) {
@@ -522,6 +692,7 @@
                         reportObj.attachments[index][2] = false;
                         this.$forceUpdate();
                     },
+<<<<<<< Updated upstream
                     reportSubmit(e) {
                         $('[name=reportType]').val(0);
                         $('#report-form').validate({
@@ -556,6 +727,8 @@
 
                         return true;
                     }
+=======
+>>>>>>> Stashed changes
                 }
             });
 
@@ -570,8 +743,13 @@
                     url: BASE_URL + 'ajax/decide/receive',
                     type: 'POST',
                 },
+<<<<<<< Updated upstream
                 "ordering": false,
                 "pageLength": 500,
+=======
+                // "order": [[ 2, "desc" ]],
+                "ordering": false,
+>>>>>>> Stashed changes
                 columnDefs: [{
                     targets: [2],
                     orderable: false,
@@ -622,6 +800,7 @@
                     }
 
                     let status = '';
+<<<<<<< Updated upstream
                     if (data['state'] == 0) {
                         $('td', row).eq(11).css({'background': '#ffb871'});
                         status = '<div class="report-status"><span>' + ReportStatusData[data['state']][0] + '</span></div>';
@@ -629,17 +808,37 @@
                         $('td', row).eq(11).css({'background': '#ccffcc'});
                         status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';
                     } else if (data['state'] == 2) {
+=======
+                    if(data['state'] == 0) {
+                        $('td', row).eq(11).css({'background': '#ffb871'});
+                        status = '<div class="report-status"><span>' + ReportStatusData[data['state']][0] + '</span></div>';
+                    } else if(data['state'] == 1) {
+                        $('td', row).eq(11).css({'background': '#ccffcc'});
+                        status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';
+                    } else if(data['state'] == 2) {
+>>>>>>> Stashed changes
                         $('td', row).eq(11).css({'background': '#ff7c80'});
                         status = '<div class="report-status"><span><i class="icon-remove"></i></span></div>';
                     }
                     $('td', row).eq(11).html('').append(status);
+<<<<<<< Updated upstream
+=======
+                    // $('td', row).eq(11).append(
+                    //     '<div class="report-status"><span class="badge badge-'+ ReportStatusData[data['state']][1] + '">' + ReportStatusData[data['state']][0] + '</span></div>'
+                    // );
+
+                    reportList = data;
+>>>>>>> Stashed changes
                 },
             });
 
             $('.dataTables_length').hide();
             $('.dataTables_info').hide();
+<<<<<<< Updated upstream
 
             $('[name=currency]').on('change', function() {return false;})
+=======
+>>>>>>> Stashed changes
             $.ajax({
                 url: BASE_URL + 'ajax/report/getData',
                 type: 'post',
@@ -647,6 +846,7 @@
                     reportObj.shipList = data['shipList'];
                 }
             });
+<<<<<<< Updated upstream
 
             getProfit(REPORT_TYPE_EVIDENCE_IN);
         }
@@ -662,6 +862,202 @@
             }
         });
 
+=======
+        });
+
+        $('#report_info_table').on('click', 'tr', function(evt) {
+            let cell = $(evt.target).closest('td');
+            let reportId = $(this).attr('data-index');
+            let reportStatus = $(this).attr('data-status');
+            if(reportId == undefined) return false;
+            if(cell.index() == 11) {
+                if(reportStatus != 0) return false;
+                decideReport(reportId, reportStatus);
+            } else {
+                showReportDetail(reportId);
+            }
+
+            return true;
+        });
+
+        function decideReport(reportId, status) {
+            let decideType = 0;
+            let message = '';
+            bootbox.confirm("결재를 승인하겠습니까?", function (result) {
+                if (result) {
+                    decideType = 1;
+                    $.ajax({
+                        url: BASE_URL + 'ajax/report/decide',
+                        type: 'post',
+                        data: {
+                            reportId: reportId,
+                            decideType: decideType
+                        },
+                        success: function(data, status, xhr) {
+                            listTable.draw();
+                        },
+                        error: function(error, status) {
+                            listTable.draw();
+                        }
+                    });
+                } else if(result == false) {
+                    decideType = 2;
+                    $.ajax({
+                        url: BASE_URL + 'ajax/report/decide',
+                        type: 'post',
+                        data: {
+                            reportId: reportId,
+                            decideType: decideType
+                        },
+                        success: function(data, status, xhr) {
+                            listTable.draw();
+                        },
+                        error: function(error, status) {
+                            listTable.draw();
+                        }
+                    });
+                } else {
+                    return false;
+                }
+            });
+        }
+
+        function showReportDetail(reportId) {
+            $.ajax({
+                url: BASE_URL + 'ajax/report/detail',
+                type: 'post',
+                data: {
+                    reportId: reportId
+                },
+                success: function(data, status, xhr) {console.log(data);
+                    $('[name=reportId]').val(reportId);
+                    let result = data['list'];
+                    let attach = data['attach'];
+                    reportObj.currentReportType = result['flowid'];
+                    reportObj.currentShipNo = result['shipNo'];
+                    reportObj.amount = result['amount'];
+                    reportObj.currentCurrency = result['currency'];
+                    reportObj.content = result['content'];
+                    getVoyList(result['shipNo'], result['voyNo']);
+                    disableProfit(result['flowid'], result['profit_type']);
+                    reportObj.attachments = [];
+                    if(attach != undefined && attach.length != 0)
+                        attach.forEach(function(value, key) {
+                            reportObj.attachments.push([value['file_name'], 'keep', true, value['id']]);
+                        });
+                    else
+                        reportObj.attachments = [];
+
+                    $('.only-modal-show').click();
+                },
+                error: function(error) {
+                }
+            });
+
+            $('.show-modal').on('click', function() {
+                reportObj.init();
+            })
+        }
+
+        function getVoyList(shipId, selected = false) {
+            $.ajax({
+                url: BASE_URL + 'ajax/report/getData',
+                type: 'post',
+                data: {
+                    shipId: shipId
+                },
+                success: function(data, status, xhr) {
+                    reportObj.voyNoList = data['voyList'];
+                    if(selected != false)
+                        reportObj.currentVoyNo = selected;
+                }
+            });
+        }
+
+        function getProfit(profitType, selected) {
+            $.ajax({
+                url: BASE_URL + 'ajax/profit/list',
+                type: 'post',
+                data: {
+                    profitType: profitType
+                },
+                success: function(data, status, xhr) {
+                    reportObj.profitType = data;
+                    console.log(selected);
+                    if(selected != false)
+                        reportObj.currentProfitType = selected;
+
+                }
+            })
+        }
+
+        $('#report-submit').on('click', function() {
+            $('[name=reportType]').val(0);
+
+            $('#report-form').validate({
+                rules: {
+                    flowid : "required",
+                    shipNo : "required",
+                    voyNo: "required",
+                },
+                messages: {
+                    flowid: "请选择文件种类。",
+                    shipNo: "请选择船名。",
+                    voyNo: "请选择航次号码。",
+                }
+            });
+            if($('[name=flowid]').val() != 'Contract')
+                $('#report-form').validate({
+                    rules: {
+                        profit_type : "required",
+                    },
+                    messages: {
+                        profit_type: "请选择收支分类。",
+                    }
+                });
+
+            $('#report-form').submit();
+
+            return true;
+        });
+
+        $('#save-draft').on('click', function() {
+            $('[name=reportType]').val(3);
+            $('#report-form').submit();
+
+            return true;
+        });
+
+        function disableProfit(type, selected) {
+            if(type == 'Contract') {
+                $('[name=profit_type]').attr('disabled', 'disabled');
+                $('[name=amount]').attr('disabled', 'disabled');
+                $('[name=currency]').attr('disabled', 'disabled');
+            } else {
+                $('[name=profit_type]').removeAttr('disabled');
+                $('[name=amount]').removeAttr('disabled');
+                $('[name=currency]').removeAttr('disabled');
+                getProfit(type, selected);
+            }
+        }
+
+        function doSearch() {
+            let shipName = $('#ship_name').val();
+            let fromDate = $('#fromDate').val();
+            let toDate = $('#toDate').val();
+
+            listTable.column(0).search(shipName, false, false);
+            listTable.column(1).search(fromDate, false, false);
+            listTable.column(2).search(toDate, false, false);
+            listTable.draw();
+        }
+
+        function refresh() {
+            if(listTable != null && listTable != undefined)
+                listTable.draw();
+        }
+
+>>>>>>> Stashed changes
     </script>
 
 @stop

@@ -22,9 +22,15 @@ class DecisionReport extends Model {
 	protected $table_register_ship = 'tb_ship_register';
 
     public function getForDatatable($params, $status = null) {
+<<<<<<< Updated upstream
 	    $user = Auth::user();
 	    $selector = DB::table($this->table)
 		    ->orderBy('update_at', 'desc')
+=======
+	    $user_id = Auth::user()->id;
+	    $selector = DB::table($this->table)
+		    ->orderBy('create_at', 'desc')
+>>>>>>> Stashed changes
 		    ->select('*');
 
 	    if($status != null)
@@ -32,6 +38,7 @@ class DecisionReport extends Model {
 	    else
 	    	$selector->where('state', '!=', REPORT_STATUS_DRAFT);
 
+<<<<<<< Updated upstream
 	    if($user->isAdmin != SUPER_ADMIN)
 	    	$selector->where('creator', '=', $user->id);
 
@@ -39,6 +46,24 @@ class DecisionReport extends Model {
 		    && $params['columns'][0]['search']['value'] !== ''
 	    ) {
 	    	$selector->where('shipNo', $params['columns'][0]['search']['value']);
+=======
+	    if (isset($params['columns'][0]['search']['value'])
+		    && $params['columns'][0]['search']['value'] !== ''
+	    ) {
+	    	$shipName = $params['columns'][0]['search']['value'];
+	    	$shipIds = DB::table($this->table_register_ship)
+			    ->where('NickName', 'like', '%' . $shipName . '%')
+			    ->orWhere('ShipName_Cn', 'like', '%' . $shipName . '%')
+			    ->orWhere('ShipName_EN', 'like', '%' . $shipName . '%')
+			    ->select('*')
+		        ->get();
+
+	    	$ids = array();
+	    	foreach($shipIds as $item) {
+	    		$ids[] = $item->id;
+		    }
+	    	$selector->whereIn('shipNo', $ids);
+>>>>>>> Stashed changes
 	    }
 	    if (isset($params['columns'][1]['search']['value'])
 		    && $params['columns'][1]['search']['value'] !== ''
@@ -73,7 +98,11 @@ class DecisionReport extends Model {
 		    	$shipName = ShipRegister::where('id', $item->shipNo)->first()->NickName;
 		    else
 		    	$shipName = '';
+<<<<<<< Updated upstream
 		    if(ACItem::where('id', $item->profit_type)->first())
+=======
+		    if(ACItem::where('id', $item->profit_type))
+>>>>>>> Stashed changes
 		        $profit = ACItem::where('id', $item->profit_type)->first()->AC_Item_Cn;
 		    else
 		    	$profit = '';

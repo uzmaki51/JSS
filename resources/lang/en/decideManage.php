@@ -19,6 +19,7 @@ return [
 	
 	'table'		=> [
 		'no'				=> 'No',
+<<<<<<< Updated upstream
 		'type'				=> '文件种类',
 		'date'				=> '日期',
 		'state'				=> '状态',
@@ -30,6 +31,19 @@ return [
 		'amount'			=> '金额',
 		'reporter'			=> '寄件人',
 		'attachment'		=> '凭证文件',
+=======
+		'type'				=> 'Type',
+		'date'				=> 'Date',
+		'state'				=> 'Status',
+		'shipName'			=> 'Ship Name',
+		'voy_no'			=> 'Voy No',
+		'profit_type'		=> 'Profit Type',
+		'content'			=> 'Content',
+		'currency'			=> 'Currency',
+		'amount'			=> 'Amount',
+		'reporter'			=> 'Reporter',
+		'attachment'		=> 'Attachment',
+>>>>>>> Stashed changes
 		'operation'		    => 'Operation'
 	],
 

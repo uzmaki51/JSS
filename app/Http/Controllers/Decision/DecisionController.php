@@ -54,6 +54,7 @@ class DecisionController extends Controller
         return view('decision.received_report', ['draftId'  => $id, 'shipList'  => $shipList]);
     }
 
+<<<<<<< Updated upstream
     // Draft List
     public function draftReport(Request $request) {
     	Util::getMenuInfo($request);
@@ -68,6 +69,26 @@ class DecisionController extends Controller
     	$draftId = $params['id'];
 
     	return redirect('decision/receivedReport?id=' . $draftId);
+=======
+    // Report List
+    public function receivedReport(Request $request) {
+	    Util::getMenuInfo($request);
+
+	    $params = $request->all();
+
+	    $id = -1;
+	    if(isset($params['id']))
+	    	$id = $params['id'];
+
+        return view('decision.received_report', ['draftId'  => $id]);
+    }
+
+    // Draft List
+    public function draftReport(Request $request) {
+    	Util::getMenuInfo($request);
+
+    	return view('decision.draft_report');
+>>>>>>> Stashed changes
     }
 
     // New Definition by Uzmaki
@@ -256,10 +277,13 @@ class DecisionController extends Controller
 
 		return response()->json($retVal);
 	}
+<<<<<<< Updated upstream
 
 	public function ajaxGetDepartment() {
 		$retVal = Unit::where('parentId', '!=', 0)->get();
 
 		return response()->json($retVal);
 	}
+=======
+>>>>>>> Stashed changes
 }

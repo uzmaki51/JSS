@@ -543,7 +543,11 @@ footer {
 }
 
 .report-modal {
+<<<<<<< Updated upstream
     width: 500px!important;
+=======
+    width: 500px;
+>>>>>>> Stashed changes
 }
 .report_info_table {
     width: 100px!important;
@@ -578,7 +582,11 @@ footer {
 }
 .attach-list li span {
     display: inline-block;
+<<<<<<< Updated upstream
     width: 286px;
+=======
+    width: 307px;
+>>>>>>> Stashed changes
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -589,9 +597,13 @@ footer {
 .attach-list li .btn i {
     margin-right: 0;
 }
+<<<<<<< Updated upstream
 .transparent-input[disabled] {
     background: unset!important;
 }
+=======
+
+>>>>>>> Stashed changes
 
 /** Common Class */
 .d-none {
@@ -612,6 +624,7 @@ footer {
     background: #ebf1de!important;
     color: #333333!important;
 }
+<<<<<<< Updated upstream
 
 .custom-table-striped > tbody > tr:nth-child(even) > td {
     background: #ffffff!important;
@@ -640,4 +653,11 @@ footer {
 }
 .modal-label {
     min-width: 60px;
+=======
+.mb-0 {
+    margin-bottom: 0!important;
+}
+.p-0 {
+    padding: 0!important;
+>>>>>>> Stashed changes
 }
