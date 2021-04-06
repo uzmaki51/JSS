@@ -34,77 +34,56 @@ use Illuminate\Support\Str;
 
 class DecisionController extends Controller
 {
-    protected $userinfo;
+	protected $userinfo;
 
-    public function __construct() {
-        $this->middleware('auth');
-    }
+	public function __construct() {
+		$this->middleware('auth');
+	}
 
-    // Report List
-    public function receivedReport(Request $request) {
-	    Util::getMenuInfo($request);
+	// Report List
+	public function receivedReport(Request $request) {
+		Util::getMenuInfo($request);
 
-	    $shipList = ShipRegister::all();
-	    $params = $request->all();
+		$shipList = ShipRegister::all();
+		$params = $request->all();
 
-	    $id = -1;
-	    if(isset($params['id']))
-	    	$id = $params['id'];
+		$id = -1;
+		if(isset($params['id']))
+			$id = $params['id'];
 
-        return view('decision.received_report', ['draftId'  => $id, 'shipList'  => $shipList]);
-    }
+		return view('decision.received_report', ['draftId'  => $id, 'shipList'  => $shipList]);
+	}
 
-<<<<<<< Updated upstream
-    // Draft List
-    public function draftReport(Request $request) {
-    	Util::getMenuInfo($request);
-	    $shipList = ShipRegister::getShipListByOrigin();
+	// Draft List
+	public function draftReport(Request $request) {
+		Util::getMenuInfo($request);
+		$shipList = ShipRegister::getShipListByOrigin();
 
-    	return view('decision.draft_report', ['shipList'    => $shipList]);
-    }
+		return view('decision.draft_report', ['shipList'    => $shipList]);
+	}
 
-    public function redirect(Request $request) {
-    	$params = $request->all();
+	public function redirect(Request $request) {
+		$params = $request->all();
 
-    	$draftId = $params['id'];
+		$draftId = $params['id'];
 
-    	return redirect('decision/receivedReport?id=' . $draftId);
-=======
-    // Report List
-    public function receivedReport(Request $request) {
-	    Util::getMenuInfo($request);
+		return redirect('decision/receivedReport?id=' . $draftId);
+	}
 
-	    $params = $request->all();
-
-	    $id = -1;
-	    if(isset($params['id']))
-	    	$id = $params['id'];
-
-        return view('decision.received_report', ['draftId'  => $id]);
-    }
-
-    // Draft List
-    public function draftReport(Request $request) {
-    	Util::getMenuInfo($request);
-
-    	return view('decision.draft_report');
->>>>>>> Stashed changes
-    }
-
-    // New Definition by Uzmaki
+	// New Definition by Uzmaki
 
 	public function reportSubmit(Request $request) {
-    	$params = $request->all();
+		$params = $request->all();
 
-    	$reportId = $params['reportId'];
-    	if(isset($reportId) && $reportId != "")
-    		$reportTbl = DecisionReport::find($reportId);
-    	else
-    		$reportTbl =new DecisionReport();
+		$reportId = $params['reportId'];
+		if(isset($reportId) && $reportId != "")
+			$reportTbl = DecisionReport::find($reportId);
+		else
+			$reportTbl =new DecisionReport();
 
-    	$user = Auth::user();
+		$user = Auth::user();
 
-    	$reportTbl['flowid'] = $params['flowid'];
+		$reportTbl['flowid'] = $params['flowid'];
 		$reportTbl['shipNo'] = isset($params['shipNo']) ? $params['shipNo'] : 0;
 		$reportTbl['voyNo'] = isset($params['voyNo']) ? $params['voyNo'] : 0;
 		if($params['flowid'] == REPORT_TYPE_CONTRACT) {
@@ -161,25 +140,25 @@ class DecisionController extends Controller
 
 		return redirect('decision/receivedReport');
 	}
-    public function getACList(Request $request) {
-    	$param = $request->all();
-	    if(!isset($param['type']) || $param['type'] == "")
-	    	return response()->json(array());
+	public function getACList(Request $request) {
+		$param = $request->all();
+		if(!isset($param['type']) || $param['type'] == "")
+			return response()->json(array());
 
-    	$type = $param['type'];
-	    $ACList = AcItem::where('C_D', g_enum('ReportTypeData')[$type])->get();
-	    return response()->json($ACList);
-    }
+		$type = $param['type'];
+		$ACList = AcItem::where('C_D', g_enum('ReportTypeData')[$type])->get();
+		return response()->json($ACList);
+	}
 
-    public function ajaxGetReceive(Request $request) {
-    	$params = $request->all();
-	    $userid = Auth::user()->id;
+	public function ajaxGetReceive(Request $request) {
+		$params = $request->all();
+		$userid = Auth::user()->id;
 
 		$decideTbl = new DecisionReport();
-	    $reportList = $decideTbl->getForDatatable($params);
+		$reportList = $decideTbl->getForDatatable($params);
 
-	    return response()->json($reportList);
-    }
+		return response()->json($reportList);
+	}
 
 	public function ajaxGetDraft(Request $request) {
 		$params = $request->all();
@@ -223,36 +202,36 @@ class DecisionController extends Controller
 	}
 
 	public function ajaxReportData(Request $request) {
-    	$params = $request->all();
+		$params = $request->all();
 
-    	$shipList = ShipRegister::getShipListByOrigin();
+		$shipList = ShipRegister::getShipListByOrigin();
 
-    	if(isset($params['shipId'])) {
-    		$shipRegNo = ShipRegister::find($params['shipId'])['RegNo'];
-    		$voyList = VoyLog::where('ship_ID', $shipRegNo)->get();
-	    } else {
+		if(isset($params['shipId'])) {
+			$shipRegNo = ShipRegister::find($params['shipId'])['RegNo'];
+			$voyList = VoyLog::where('ship_ID', $shipRegNo)->get();
+		} else {
 			$voyList = array();
-	    }
+		}
 
-    	return response()->json(array('shipList'    => $shipList, 'voyList' => $voyList));
+		return response()->json(array('shipList'    => $shipList, 'voyList' => $voyList));
 	}
 
 	public function ajaxProfitList(Request $request) {
-    	$params = $request->all();
+		$params = $request->all();
 
-    	if(isset($params['profitType']))
-    	    $profitType = $params['profitType'];
-    	else
-		    $profitType = 0;
+		if(isset($params['profitType']))
+			$profitType = $params['profitType'];
+		else
+			$profitType = 0;
 
-    	$profitList = ACItem::where('C_D', $profitType)->orderBy('id')->get();
+		$profitList = ACItem::where('C_D', $profitType)->orderBy('id')->get();
 
-    	return response()->json($profitList);
+		return response()->json($profitList);
 
 	}
 
 	public function ajaxReportFile(Request $request) {
-    	$params = $request->all();
+		$params = $request->all();
 
 		$hasFile = $request->file('file');
 		if(isset($hasFile)) {
@@ -277,13 +256,10 @@ class DecisionController extends Controller
 
 		return response()->json($retVal);
 	}
-<<<<<<< Updated upstream
 
 	public function ajaxGetDepartment() {
 		$retVal = Unit::where('parentId', '!=', 0)->get();
 
 		return response()->json($retVal);
 	}
-=======
->>>>>>> Stashed changes
 }

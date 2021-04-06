@@ -1,10 +1,10 @@
 <?php
 
 return [
-    "title"  => [
-        'ApproveDoc' => '批准文件目录',
-        'ApproveState' => '批准进行状态',	
-        'ElectronicApprove' => '授权管理',
+	"title"  => [
+		'ApproveDoc' => '批准文件目录',
+		'ApproveState' => '批准进行状态',
+		'ElectronicApprove' => '授权管理',
 		'ApproveEnvironment' => '批准环境',
 		'Outbox' => '待发箱',
 		'EnvironmentSetting' => '环境设置',
@@ -16,10 +16,9 @@ return [
 		'Drafted List' => '草稿箱',
 		'Draft Change' => '起草修改',
 	],
-	
+
 	'table'		=> [
 		'no'				=> 'No',
-<<<<<<< Updated upstream
 		'type'				=> '文件种类',
 		'date'				=> '日期',
 		'state'				=> '状态',
@@ -31,19 +30,6 @@ return [
 		'amount'			=> '金额',
 		'reporter'			=> '寄件人',
 		'attachment'		=> '凭证文件',
-=======
-		'type'				=> 'Type',
-		'date'				=> 'Date',
-		'state'				=> 'Status',
-		'shipName'			=> 'Ship Name',
-		'voy_no'			=> 'Voy No',
-		'profit_type'		=> 'Profit Type',
-		'content'			=> 'Content',
-		'currency'			=> 'Currency',
-		'amount'			=> 'Amount',
-		'reporter'			=> 'Reporter',
-		'attachment'		=> 'Attachment',
->>>>>>> Stashed changes
 		'operation'		    => 'Operation'
 	],
 
@@ -81,7 +67,7 @@ return [
 		'selectInsteadApprover' => '选择代替批准人',
 		'cancel' => '取消',
 		'authorizer' => '批准人',
-		'docNumber' => '文件号码', 
+		'docNumber' => '文件号码',
 		'draftDate' => '起草日期',
 		'savePeriod' => '保存期间',
 		'receiver' => '收信人',

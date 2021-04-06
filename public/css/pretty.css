@@ -189,7 +189,6 @@
 .report-status {
     cursor: pointer;
 }
-<<<<<<< Updated upstream
 .td-header {
     font-style: italic;
 }
@@ -226,14 +225,13 @@
 .currency-input {
     width: 69%;
     display: inline-block!important;
-=======
+}
 #report_div {
     border-right: 1px solid #111;
     border-top: 1px solid #111;
-    color: black!important;
+       color: black!important;
 }
 #report_info_table thead th {
-    color: black!important;
+    color: black !important;
     width: 80%;
->>>>>>> Stashed changes
 }

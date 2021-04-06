@@ -1,9 +1,6 @@
-<<<<<<< Updated upstream
 .inner-wrap {
     width: 1100px!important;
 }
-=======
->>>>>>> Stashed changes
 .card {
     position: relative;
     display: -webkit-box;
@@ -98,15 +95,12 @@
 .mt-2 {
     margin-top: 4px;
 }
-<<<<<<< Updated upstream
 .mt-20 {
     margin-top: 20px;
 }
 .width-30 {
     width: 30% !important;
 }
-=======
->>>>>>> Stashed changes
 
 .between-1 {
     width: 1px;
@@ -123,10 +117,7 @@
     width: 100px;
     padding: 0!important;
     font-size: 12px!important;
-<<<<<<< Updated upstream
     height: auto;
-=======
->>>>>>> Stashed changes
 }
 .search-calendar {
     padding: 1px 4px!important;
@@ -150,10 +141,7 @@
 }
 .refresh-btn-over:hover {
     opacity: 0.8;
-<<<<<<< Updated upstream
 }
 .font-bold {
     font-weight: bold!important;
-=======
->>>>>>> Stashed changes
 }

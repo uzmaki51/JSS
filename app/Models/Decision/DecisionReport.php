@@ -18,140 +18,111 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 
 class DecisionReport extends Model {
-    protected $table = 'tb_decision_report';
+	protected $table = 'tb_decision_report';
 	protected $table_register_ship = 'tb_ship_register';
 
-    public function getForDatatable($params, $status = null) {
-<<<<<<< Updated upstream
-	    $user = Auth::user();
-	    $selector = DB::table($this->table)
-		    ->orderBy('update_at', 'desc')
-=======
-	    $user_id = Auth::user()->id;
-	    $selector = DB::table($this->table)
-		    ->orderBy('create_at', 'desc')
->>>>>>> Stashed changes
-		    ->select('*');
+	public function getForDatatable($params, $status = null) {
+		$user = Auth::user();
+		$selector = DB::table($this->table)
+			->orderBy('update_at', 'desc')
+			->select('*');
 
-	    if($status != null)
-	    	$selector->where('state', '=', $status);
-	    else
-	    	$selector->where('state', '!=', REPORT_STATUS_DRAFT);
+		if($status != null)
+			$selector->where('state', '=', $status);
+		else
+			$selector->where('state', '!=', REPORT_STATUS_DRAFT);
 
-<<<<<<< Updated upstream
-	    if($user->isAdmin != SUPER_ADMIN)
-	    	$selector->where('creator', '=', $user->id);
+		if($user->isAdmin != SUPER_ADMIN)
+			$selector->where('creator', '=', $user->id);
 
-	    if (isset($params['columns'][0]['search']['value'])
-		    && $params['columns'][0]['search']['value'] !== ''
-	    ) {
-	    	$selector->where('shipNo', $params['columns'][0]['search']['value']);
-=======
-	    if (isset($params['columns'][0]['search']['value'])
-		    && $params['columns'][0]['search']['value'] !== ''
-	    ) {
-	    	$shipName = $params['columns'][0]['search']['value'];
-	    	$shipIds = DB::table($this->table_register_ship)
-			    ->where('NickName', 'like', '%' . $shipName . '%')
-			    ->orWhere('ShipName_Cn', 'like', '%' . $shipName . '%')
-			    ->orWhere('ShipName_EN', 'like', '%' . $shipName . '%')
-			    ->select('*')
-		        ->get();
+		if (isset($params['columns'][0]['search']['value'])
+			&& $params['columns'][0]['search']['value'] !== ''
+		) {
+			$selector->where('shipNo', $params['columns'][0]['search']['value']);
+		}
+		if (isset($params['columns'][1]['search']['value'])
+			&& $params['columns'][1]['search']['value'] !== ''
+		) {
+			$fromDate = str_replace('/', '-', $params['columns'][1]['search']['value']);
+			$selector->where('create_at', '>=', $fromDate . ' ' . '00:00:00');
+		}
+		if (isset($params['columns'][2]['search']['value'])
+			&& $params['columns'][2]['search']['value'] !== ''
+		) {
+			$fromDate = str_replace('/', '-', $params['columns'][2]['search']['value']);
+			$selector->where('create_at', '<=', $fromDate . ' ' . '23:59:59');
+		}
 
-	    	$ids = array();
-	    	foreach($shipIds as $item) {
-	    		$ids[] = $item->id;
-		    }
-	    	$selector->whereIn('shipNo', $ids);
->>>>>>> Stashed changes
-	    }
-	    if (isset($params['columns'][1]['search']['value'])
-		    && $params['columns'][1]['search']['value'] !== ''
-	    ) {
-	    	$fromDate = str_replace('/', '-', $params['columns'][1]['search']['value']);
-		    $selector->where('create_at', '>=', $fromDate . ' ' . '00:00:00');
-	    }
-	    if (isset($params['columns'][2]['search']['value'])
-		    && $params['columns'][2]['search']['value'] !== ''
-	    ) {
-		    $fromDate = str_replace('/', '-', $params['columns'][2]['search']['value']);
-		    $selector->where('create_at', '<=', $fromDate . ' ' . '23:59:59');
-	    }
+		// number of filtered records
+		$recordsFiltered = $selector->count();
 
-	    // number of filtered records
-	    $recordsFiltered = $selector->count();
+		// offset & limit
+		if (!empty($params['start']) && $params['start'] > 0) {
+			$selector->skip($params['start']);
+		}
 
-	    // offset & limit
-	    if (!empty($params['start']) && $params['start'] > 0) {
-		    $selector->skip($params['start']);
-	    }
+		if (!empty($params['length']) && $params['length'] > 0) {
+			$selector->take($params['length']);
+		}
 
-	    if (!empty($params['length']) && $params['length'] > 0) {
-		    $selector->take($params['length']);
-	    }
+		// get records
+		$records = $selector->get();
 
-	    // get records
-	    $records = $selector->get();
+		foreach($records as $key => $item) {
+			if(ShipRegister::where('id', $item->shipNo)->first())
+				$shipName = ShipRegister::where('id', $item->shipNo)->first()->NickName;
+			else
+				$shipName = '';
+			if(ACItem::where('id', $item->profit_type)->first())
+				$profit = ACItem::where('id', $item->profit_type)->first()->AC_Item_Cn;
+			else
+				$profit = '';
+			if(VoyLog::where('id', $item->voyNo)->first())
+				$voyName = VoyLog::where('id', $item->voyNo)->first()->CP_ID;
+			else
+				$voyName = '';
+			$reporter = User::where('id', $item->creator)->first()->realname;
 
-	    foreach($records as $key => $item) {
-		    if(ShipRegister::where('id', $item->shipNo)->first())
-		    	$shipName = ShipRegister::where('id', $item->shipNo)->first()->NickName;
-		    else
-		    	$shipName = '';
-<<<<<<< Updated upstream
-		    if(ACItem::where('id', $item->profit_type)->first())
-=======
-		    if(ACItem::where('id', $item->profit_type))
->>>>>>> Stashed changes
-		        $profit = ACItem::where('id', $item->profit_type)->first()->AC_Item_Cn;
-		    else
-		    	$profit = '';
-		    if(VoyLog::where('id', $item->voyNo)->first())
-		        $voyName = VoyLog::where('id', $item->voyNo)->first()->CP_ID;
-		    else
-		    	$voyName = '';
-		    $reporter = User::where('id', $item->creator)->first()->realname;
+			$records[$key]->shipName = $shipName;
+			$records[$key]->realname = $reporter;
+			$records[$key]->profit_type = $profit;
+			$records[$key]->voyNo = $voyName;
 
-		    $records[$key]->shipName = $shipName;
-		    $records[$key]->realname = $reporter;
-		    $records[$key]->profit_type = $profit;
-		    $records[$key]->voyNo = $voyName;
+		}
 
-	    }
+		return [
+			'draw' => $params['draw']+0,
+			'recordsTotal' => DB::table($this->table)->count(),
+			'recordsFiltered' => $recordsFiltered,
+			'data' => $records,
+			'error' => 0,
+		];
+	}
 
-	    return [
-		    'draw' => $params['draw']+0,
-		    'recordsTotal' => DB::table($this->table)->count(),
-		    'recordsFiltered' => $recordsFiltered,
-		    'data' => $records,
-		    'error' => 0,
-	    ];
-    }
+	public function decideReport($params) {
+		$ret = DB::table($this->table)
+			->where('id', $params['reportId'])
+			->update([
+				'state' => $params['decideType']
+			]);
 
-    public function decideReport($params) {
-    	$ret = DB::table($this->table)
-		        ->where('id', $params['reportId'])
-		        ->update([
-		        	'state' => $params['decideType']
-		        ]);
+		return $ret;
+	}
 
-    	return $ret;
-    }
+	public function getReportDetail($params) {
+		$selector = DB::table($this->table)
+			->where('id', $params['reportId'])
+			->select('*');
+		$result = $selector->first();
 
-    public function getReportDetail($params) {
-    	$selector = DB::table($this->table)
-		        ->where('id', $params['reportId'])
-		        ->select('*');
-    	$result = $selector->first();
+		if(isset($params['reportId'])) {
+			$attachmentList = DecisionReportAttachment::where('reportId', $params['reportId'])->get();
+		}
 
-	    if(isset($params['reportId'])) {
-		    $attachmentList = DecisionReportAttachment::where('reportId', $params['reportId'])->get();
-	    }
-
-    	return array(
-    		'list'      => $result,
-		    'attach'    => $attachmentList
-	    );
-    }
+		return array(
+			'list'      => $result,
+			'attach'    => $attachmentList
+		);
+	}
 
 }
