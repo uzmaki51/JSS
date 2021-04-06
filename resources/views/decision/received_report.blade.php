@@ -228,7 +228,7 @@
             </div>
         </div>
     </div>
-    
+
     <script src="{{ cAsset('assets/js/datatables.min.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
 	<?php
@@ -237,7 +237,6 @@
 	echo 'var ReportTypeData = ' . json_encode(g_enum('ReportTypeData')) . ';';
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
 	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
-	//	echo 'var DepartmentTypeData = ' . json_encode(g_enum('DepartmentTypeData')) . ';';
 	echo '</script>';
 	?>
     <script>
