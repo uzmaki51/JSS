@@ -289,5 +289,19 @@ $shipList = Session::get('shipList');
             }
         });
 
+        var $form = $('form'),
+        origForm = $form.serialize();
+        window.addEventListener("beforeunload", function (e) {
+            var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+            console.log($form.serialize());
+            console.log($form.serialize() !== origForm);
+
+            if ($form.serialize() !== origForm) {
+                (e || window.event).returnValue = confirmationMessage;
+            }
+            return confirmationMessage;
+        });
+
     </script>
 @stop
