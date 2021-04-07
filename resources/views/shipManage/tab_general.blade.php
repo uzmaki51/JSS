@@ -216,11 +216,45 @@ $shipList = Session::get('shipList');
                                     {{ transShipManager('General.Ship Type') }}
                                 </td>
                                 <td class="custom-td-dec-text">
-                                    <select class="form-control" id="ShipType" name="ShipType" style="padding:0px!important;color:#12539b!important">
+                                    <!--select class="form-control" id="ShipType" name="ShipType" style="padding:0px!important;color:#12539b!important">
                                         @foreach($shipType as $type)
                                             <option value="{{$type['id']}}" @if($type['id'] == $shipInfo['ShipType']) selected @endif>{{$type['ShipType']}}</option>
                                         @endforeach
-                                    </select>
+                                    </select-->
+                                    <?php $sel = "";
+                                    $sel_id = 0;
+                                    ?>
+                                    @foreach ($shipType as $type)
+                                        @if ($type->id == $shipInfo['ShipType'])
+                                        <?php $sel = $type->ShipType; 
+                                        $sel_id = $type->id;
+                                        ?>
+                                        @endif
+                                    @endforeach
+                                    <div class="dynamic-select-wrapper">
+                                        <div class="dynamic-select" style="color:#12539b">
+                                            <input type="hidden"  name="ShipType" value="{{$sel_id}}"/>
+                                            <div class="dynamic-select__trigger"><span class="dynamic-select-span" style="max-width:50px;!important">{{$sel}}</span>
+                                                <div class="arrow"></div>
+                                            </div>
+                                            <div class="dynamic-options">
+                                                <div class="dynamic-options-scroll">
+                                                    @foreach ($shipType as $type)
+                                                        @if ($type->id == $shipInfo['ShipType'])
+                                                            <span class="dynamic-option selected" data-value="{{$type->id}}">{{$type->ShipType}}</span>
+                                                        @else
+                                                            <span class="dynamic-option" data-value="{{$type->id}}">{{$type->ShipType}}</span>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                                <div>
+                                                    <span class="edit-list-btn" id="edit-list-btn" onclick="javascript:openShipTypeList('shiptype')">
+                                                        <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
@@ -236,7 +270,7 @@ $shipList = Session::get('shipList');
                                     {{ transShipManager('General.Notation') }}
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <textarea type="text" name="HullNotation" class="form-control" rows="2">{{ isset($shipInfo['HullNotation']) ? $shipInfo['HullNotation'] : '' }}</textarea>
+                                    <textarea type="text" name="HullNotation" class="form-control" style="resize: none;" rows="2">{{ isset($shipInfo['HullNotation']) ? $shipInfo['HullNotation'] : '' }}</textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -252,7 +286,7 @@ $shipList = Session::get('shipList');
                                     {{ transShipManager('General.Notation') }}
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <textarea type="text" name="MachineryNotation" class="form-control" rows="2">{{ isset($shipInfo['MachineryNotation']) ? $shipInfo['MachineryNotation'] : '' }}</textarea>
+                                    <textarea type="text" name="MachineryNotation" class="form-control" style="resize: none;" rows="2">{{ isset($shipInfo['MachineryNotation']) ? $shipInfo['MachineryNotation'] : '' }}</textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -268,7 +302,7 @@ $shipList = Session::get('shipList');
                                     {{ transShipManager('General.Notation') }}
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <textarea type="text" name="RefrigeraterNotation" class="form-control" rows="2">{{ isset($shipInfo['RefrigeraterNotation']) ? $shipInfo['RefrigeraterNotation'] : '' }}</textarea>
+                                    <textarea type="text" name="RefrigeraterNotation" class="form-control" style="resize: none;" rows="2">{{ isset($shipInfo['RefrigeraterNotation']) ? $shipInfo['RefrigeraterNotation'] : '' }}</textarea>
                                 </td>
                             </tr>
                             </tbody>

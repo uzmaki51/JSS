@@ -302,25 +302,35 @@ class ShipMember extends Model
         return $result;
 
     }
-
-    public function getForDatatable($params) {
-        $selector = DB::table($this->table)
-            ->select(
-                '*'
-            );
-
-        //$selector->where('DateOnboard', '!=', 'null');
+    public function getForCertDatatable($params) {
+        $selector = null;
+        $records = [];
+        $recordsFiltered = 0;
         if (isset($params['columns'][1]['search']['value'])
-            && $params['columns'][1]['search']['value'] !== ''
+            //&& $params['columns'][1]['search']['value'] !== ''
+           && (!isset($params['type']))
         ) {
+            $selector = DB::table($this->table)->select('*');
             $selector->where('realname', 'like', '%' . $params['columns'][1]['search']['value'] . '%');
+            $records = $selector->orderBy('id', 'desc')->limit(1)->get();
+            $recordsFiltered = $selector->count();
+        }
+
+        if (isset($params['columns'][2]['search']['value'])
+            && $params['columns'][2]['search']['value'] !== ''
+        ) {
+            $selector = DB::table($this->table)->select('*');
+            $selector->where('ShipId', $params['columns'][2]['search']['value']);
+            $records = $selector->orderBy('DutyID_Book')->get();
+            $recordsFiltered = $selector->count();
         }
         
-        $recordsFiltered = $selector->count();
-        $records = $selector->orderBy('id', 'desc')->limit(1)->get();
         $newArr = [];
         $newindex = 0;
         foreach($records as $index => $record) {
+            if ($record->PassportNo == $record->crewNum) {
+                $record->crewNum = "";
+            }
             $newArr[$newindex]['no'] = $record->id;
             $newArr[$newindex]['name'] = $record->realname;
             $rank = ShipPosition::find($record->DutyID_Book);
@@ -335,7 +345,68 @@ class ShipMember extends Model
             $newindex ++;
             $newArr[$newindex]['no'] = $record->id;
             $newArr[$newindex]['name'] = $record->GivenName;
-            $newArr[$newindex]['rank'] = $rank->Duty_En;
+            if(!empty($rank)) $newArr[$newindex]['rank'] = $rank->Duty_En;
+            $newArr[$newindex]['nationality'] = $record->Nationality;
+            $newArr[$newindex]['cert-id'] = $record->CertNo;
+            $newArr[$newindex]['birth-and-place'] = $record->BirthPlace;
+            $newArr[$newindex]['date-and-embarkation'] = '-';
+            $newArr[$newindex]['bookno-expire'] = $record->ExpiryDate;
+            $newArr[$newindex]['passport-expire'] = $record->PassportExpiryDate;
+            $newindex ++;
+        }
+        return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => DB::table($this->table)->count(),
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $newArr,
+            'error' => 0,
+        ];
+    }
+
+    public function getForDatatable($params) {
+        $selector = null;
+        $records = [];
+        $recordsFiltered = 0;
+        if (isset($params['columns'][1]['search']['value'])
+            //&& $params['columns'][1]['search']['value'] !== ''
+           && (!isset($params['type']))
+        ) {
+            $selector = DB::table($this->table)->select('*');
+            $selector->where('realname', 'like', '%' . $params['columns'][1]['search']['value'] . '%');
+            $records = $selector->orderBy('id', 'desc')->limit(1)->get();
+            $recordsFiltered = $selector->count();
+        }
+
+        if (isset($params['columns'][2]['search']['value'])
+            && $params['columns'][2]['search']['value'] !== ''
+        ) {
+            $selector = DB::table($this->table)->select('*');
+            $selector->where('ShipId', $params['columns'][2]['search']['value']);
+            $records = $selector->orderBy('DutyID_Book')->get();
+            $recordsFiltered = $selector->count();
+        }
+        
+        $newArr = [];
+        $newindex = 0;
+        foreach($records as $index => $record) {
+            if ($record->PassportNo == $record->crewNum) {
+                $record->crewNum = "";
+            }
+            $newArr[$newindex]['no'] = $record->id;
+            $newArr[$newindex]['name'] = $record->realname;
+            $rank = ShipPosition::find($record->DutyID_Book);
+            $newArr[$newindex]['rank'] = '';
+            if(!empty($rank)) $newArr[$newindex]['rank'] = $rank->Duty_En;
+            $newArr[$newindex]['nationality'] = $record->Nationality;
+            $newArr[$newindex]['cert-id'] = $record->CertNo;
+            $newArr[$newindex]['birth-and-place'] = $record->birthday;
+            $newArr[$newindex]['date-and-embarkation'] = $record->DateOnboard;
+            $newArr[$newindex]['bookno-expire'] = $record->crewNum;
+            $newArr[$newindex]['passport-expire'] = $record->PassportNo;
+            $newindex ++;
+            $newArr[$newindex]['no'] = $record->id;
+            $newArr[$newindex]['name'] = $record->GivenName;
+            if(!empty($rank)) $newArr[$newindex]['rank'] = $rank->Duty_En;
             $newArr[$newindex]['nationality'] = $record->Nationality;
             $newArr[$newindex]['cert-id'] = $record->CertNo;
             $newArr[$newindex]['birth-and-place'] = $record->BirthPlace;

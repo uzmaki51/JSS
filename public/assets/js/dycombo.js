@@ -1,5 +1,5 @@
 
-        for (const selector of document.querySelectorAll(".custom-select-wrapper")) {
+        for (const selector of document.querySelectorAll(".dynamic-select-wrapper")) {
             selector.addEventListener('click', function() {
                 this.firstElementChild.classList.toggle('open');
             })
@@ -80,16 +80,16 @@
                         if (type == 'nationality') {
                             id = 'Nationality';
                         }
-                        var dest = $('input[name="' + id + '"]').closest('.custom-select');
-                        dest.find('.custom-select__trigger span').text(list[def]);
+                        var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
+                        dest.find('.dynamic-select__trigger span').text(list[def]);
                         dest.children(":first").val(list[def]);
-                        dest = dest.find('.custom-options-scroll');
+                        dest = dest.find('.dynamic-options-scroll');
                         dest.html('');
                         for (var i=0;i<list.length;i++)
                             if (i == def)
-                                dest.html(dest.html() + '<span class="custom-option selected" data-value="' + list[i] + '">' + list[i] + '</span>');
+                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + list[i] + '">' + list[i] + '</span>');
                             else
-                                dest.html(dest.html() + '<span class="custom-option" data-value="' + list[i] + '">' + list[i] + '</span>');
+                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + list[i] + '">' + list[i] + '</span>');
                         
                         addCustomEvent();
                     }
@@ -114,6 +114,102 @@
                     console.log(data);
                 }
             });
+        }
+
+        ///////////////////////////////////////////////////////////////////
+        /// SHIP TYPE LIST DYNAMIC LIST
+        ///////////////////////////////////////////////////////////////////
+        function openShipTypeList(type) {
+            $.ajax({
+                url: BASE_URL + 'ajax/getDynamicData',
+                type: 'post',
+                data: {
+                    type: type
+                },
+                success: function(data, status, xhr) {
+                    $('#shiptype-table').html('');
+                    for (var i = 0; i < data.length; i ++) {
+                        var row = '<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_OrderNo[]"value="';
+                        row += (data[i].OrderNo != null) ? data[i].OrderNo : '';
+                        row += '" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_Name[]"value="';
+                        row += (data[i].ShipType != null) ? data[i].ShipType : '';
+                        row += '" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteShipType(this)"><i class="icon-trash"></i></a></div></td></tr>';
+                        $('#shiptype-table').append(row);
+                    }
+                    addRank(null);
+                    $('#modal-shiptype-list').modal('show');
+                },
+                error: function(error, status) {
+                    alert(error);
+                }
+            });
+        }
+
+        function dynamicShipTypeSubmit(type) {
+            var list = [];
+            if (type == 'shiptype') {
+                list['orderno'] = $("input[name='ShipType_OrderNo[]']").map(function(){return $(this).val();}).get();
+                list['name'] = $("input[name='ShipType_Name[]']").map(function(){return $(this).val();}).get();
+            }
+
+            if (confirm('Are you sure want to save?')) {
+                $("#modal-shiptype-list").modal("hide");
+                $.ajax({
+                    url: BASE_URL + 'ajax/setDynamicData', 
+                    type: 'post',
+                    data: {
+                        orderno: list['orderno'],
+                        name: list['name'],
+                        type: type,
+                    },
+                    success: function(data, status, xhr) {
+                        if (data != '-1') {
+                            var def = 0;
+                            var id='';
+                            if (type == 'shiptype') {
+                                id = 'ShipType';
+                            }
+                            var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
+                            dest.find('.dynamic-select__trigger span').text(list['name'][def]);
+                            dest.children(":first").val(def);
+                            dest = dest.find('.dynamic-options-scroll');
+                            dest.html('');
+                            for (var i=0;i<list['name'].length;i++)
+                                if (i == def)
+                                    dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
+                                else
+                                    dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '">' + list['name'][i] + '</span>');
+                            
+                            addCustomEvent();
+                            alert("Success!");
+                        }
+                    },
+                    error: function(error, status) {
+                        alert("Failed!");
+                    }
+                })
+            }
+        }
+
+        function deleteShipType(e)
+        {
+            console.log(e);
+            if ($('#shiptype-table tr').length > 2) { // && !$(e).closest("tr").is(":last-child")) {
+                if (confirm("Are you sure to delete?")) {
+                    console.log($(e).closest("tr"));
+                    $(e).closest("tr").remove();
+                }
+            }
+        }
+
+        function addShipType(e)
+        {
+            if ($('#shiptype-table tr').length > 0)
+            {
+                if (e == null || $(e).closest("tr").is(":last-child")) {
+                    $("#shiptype-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_OrderNo[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteShipType(this)"><i class="icon-trash"></i></a></div></td></tr>');
+                }
+            }
         }
 
         ///////////////////////////////////////////////////////////////////
@@ -177,16 +273,16 @@
                             if (type == 'rank') {
                                 id = 'DutyID_Book';
                             }
-                            var dest = $('input[name="' + id + '"]').closest('.custom-select');
-                            dest.find('.custom-select__trigger span').text(list['name'][def]);
+                            var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
+                            dest.find('.dynamic-select__trigger span').text(list['name'][def]);
                             dest.children(":first").val(def);
-                            dest = dest.find('.custom-options-scroll');
+                            dest = dest.find('.dynamic-options-scroll');
                             dest.html('');
                             for (var i=0;i<list['name'].length;i++)
                                 if (i == def)
-                                    dest.html(dest.html() + '<span class="custom-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
+                                    dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
                                 else
-                                    dest.html(dest.html() + '<span class="custom-option" data-value="' + i + '">' + list['name'][i] + '</span>');
+                                    dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '">' + list['name'][i] + '</span>');
                             
                             addCustomEvent();
                             alert("Success!");
@@ -281,27 +377,27 @@
                                 id = 'CapacityID';
                                 id2 = 'COEId';
                             }
-                            var dest = $('input[name="' + id + '"]').closest('.custom-select');
-                            dest.find('.custom-select__trigger span').text(list['name'][def]);
+                            var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
+                            dest.find('.dynamic-select__trigger span').text(list['name'][def]);
                             dest.children(":first").val(def);
-                            dest = dest.find('.custom-options-scroll');
+                            dest = dest.find('.dynamic-options-scroll');
                             dest.html('');
                             for (var i=0;i<list['name'].length;i++)
                                 if (i == def)
-                                    dest.html(dest.html() + '<span class="custom-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
+                                    dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
                                 else
-                                    dest.html(dest.html() + '<span class="custom-option" data-value="' + i + '">' + list['name'][i] + '</span>');
+                                    dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '">' + list['name'][i] + '</span>');
 
-                            var dest2 = $('input[name="' + id2 + '"]').closest('.custom-select');
-                            dest2.find('.custom-select__trigger span').text(list['name'][def]);
+                            var dest2 = $('input[name="' + id2 + '"]').closest('.dynamic-select');
+                            dest2.find('.dynamic-select__trigger span').text(list['name'][def]);
                             dest2.children(":first").val(def);
-                            dest2 = dest2.find('.custom-options-scroll');
+                            dest2 = dest2.find('.dynamic-options-scroll');
                             dest2.html('');
                             for (var i=0;i<list['name'].length;i++)
                                 if (i == def)
-                                    dest2.html(dest2.html() + '<span class="custom-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
+                                    dest2.html(dest2.html() + '<span class="dynamic-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
                                 else
-                                    dest2.html(dest2.html() + '<span class="custom-option" data-value="' + i + '">' + list['name'][i] + '</span>');
+                                    dest2.html(dest2.html() + '<span class="dynamic-option" data-value="' + i + '">' + list['name'][i] + '</span>');
                             
                             
                             alert("Success!");
@@ -336,16 +432,16 @@
 
         function addCustomEvent()
         {
-            for (const option of document.querySelectorAll(".custom-option")) {
+            for (const option of document.querySelectorAll(".dynamic-option")) {
                 option.addEventListener('click', function() {
                     if (!this.classList.contains('selected')) {
-                        if (this.parentNode.querySelector('.custom-option.selected') != null) {
-                            this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
+                        if (this.parentNode.querySelector('.dynamic-option.selected') != null) {
+                            this.parentNode.querySelector('.dynamic-option.selected').classList.remove('selected');
                         }
 
                         this.classList.add('selected');
-                        this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
-                        this.closest('.custom-select').firstElementChild.value = this.getAttribute('data-value');
+                        this.closest('.dynamic-select').querySelector('.dynamic-select__trigger span').textContent = this.textContent;
+                        this.closest('.dynamic-select').firstElementChild.value = this.getAttribute('data-value');
                     }
                 })
             }

@@ -300,8 +300,13 @@ class ShipMemberController extends Controller
             $this->updateMemberMainData($request, $memberId);
             $this->updateMemberCapacityData($request, $memberId);
             $this->updateMemberTrainingData($request, $memberId);
+            return redirect('shipMember/registerShipMember?memberId='.$memberId);
         }
-        return redirect('shipMember/registerShipMember?memberId='.$memberId);
+        else
+        {
+            return back()->with(['state'=>'error']);
+        }
+        
     }
 
     public function updateMemberMainInfo(Request $request) {
@@ -310,8 +315,7 @@ class ShipMemberController extends Controller
 
         $isExist = ShipMember::where('crewNum', $crewNum)->first();
         if(!empty($isExist) && ($isExist['id'] != $memberId) && $crewNum != "") {
-            $msg = '登记号码是重复了。';
-            return back()->with(['state'=>'error', 'msg'=>$msg]);
+            return "";
         }
         if($memberId != "")
             $member = ShipMember::find($memberId);
@@ -691,7 +695,7 @@ class ShipMemberController extends Controller
 
         $list = ShipMember::getTotalMemberList($regShip, $bookShip, $origShip, $regStatus);
 
-        $shipList = ShipRegister::select('tb_ship_register.RegNo', 'tb_ship_register.shipName_En', 'tb_ship.name')
+        $shipList = ShipRegister::select('tb_ship_register.RegNo', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
                         ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                         ->get();
 
@@ -867,4 +871,12 @@ class ShipMemberController extends Controller
         $ret = $tbl->getForDatatable($params);
         return response()->json($ret);
     }
+
+    public function ajaxShipMemberCertList(Request $request) {
+        $params = $request->all();
+        $tbl = new ShipMember();
+        $ret = $tbl->getForCertDatatable($params);
+        return response()->json($ret);
+    }
+
 }

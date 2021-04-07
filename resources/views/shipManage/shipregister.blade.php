@@ -6,6 +6,7 @@ $shipList = Session::get('shipList');
 
 @section('styles')
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet">
+    <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
 @endsection
 
 @section('content')
@@ -34,22 +35,22 @@ $shipList = Session::get('shipList');
                 <div class="row">
                     <div class="head-fix-div" id="ship-table">
                         <table class="registered-list">
-                            <thead>
+                            <thead id="list-header">
                             <tr>
                                 <th class="text-center" style="width: 2%;"><span>No</span></th>
                                 <th class="text-center" style="width: 10%;"><span>ShipName</span></th>
-                                <th class="text-center" style="width: 8%;"><span>IMO NO</span></th>
-                                <th class="text-center" style="width: 7%;"><span>Flag</span></th>
+                                <th class="text-center" style="width: 16%;"><span>IMO NO</span></th>
+                                <th class="text-center" style="width: 8%;"><span>Flag</span></th>
                                 <th class="text-center" style="width: 8%;"><span>Port of Registry</span></th>
-                                <th class="text-center" style="width: 7%;"><span>Class</span></th>
-                                <th class="text-center" style="width: 6%;"><span>GT</span></th>
-                                <th class="text-center" style="width: 6%;"><span>NT</span></th>
-                                <th class="text-center" style="width: 6%;"><span>DWT</span></th>
-                                <th class="text-center" style="width: 9%;"><span>ShipType</span></th>
-                                <th class="text-center" style="width: 7%;"><span>LOA</span></th>
-                                <th class="text-center" style="width: 8%;"><span>MB</span></th>
-                                <th class="text-center" style="width: 7%;"><span>DM</span></th>
-                                <th class="text-center" style="width: 7%;"><span>Draught</span></th>
+                                <th class="text-center" style="width: 8%;"><span>Class</span></th>
+                                <th class="text-center" style="width: 4%;"><span>GT</span></th>
+                                <th class="text-center" style="width: 4%;"><span>NT</span></th>
+                                <th class="text-center" style="width: 4%;"><span>DWT</span></th>
+                                <th class="text-center" style="width: 18%;"><span>ShipType</span></th>
+                                <th class="text-center" style="width: 4%;"><span>LOA</span></th>
+                                <th class="text-center" style="width: 4%;"><span>BM</span></th>
+                                <th class="text-center" style="width: 4%;"><span>DM</span></th>
+                                <th class="text-center" style="width: 4%;"><span>Draught</span></th>
                                 <th style="width: 2%;"></th>
                             </tr>
                             </thead>
@@ -59,21 +60,21 @@ $shipList = Session::get('shipList');
                                 @foreach ($list as $item)
                                     @if(!$isHolder || ($isHolder == true && in_array($item['id'], $shipList)))
                                         <tr class="ship-item {{ $item['id'] == $shipInfo['id'] ? 'selected' : '' }}" data-index="{{ $item['id'] }}">
-                                            <td class="text-center" style="width: 2%;">{{ $index }}</td>
-                                            <td class="text-center" style="width: 10%;">{{ $item['shipName_En'] }}</td>
-                                            <td class="text-center" style="width: 8%;">{{ $item['IMO_No'] }}</td>
-                                            <td class="text-center" style="width: 7%;">{{ $item['Flag'] }}</td>
-                                            <td class="text-center" style="width: 8%;">{{ $item['PortOfRegistry'] }}</td>
-                                            <td class="text-center" style="width: 7%;">{{ $item['Class'] }}</td>
-                                            <td class="text-center" style="width: 6%;">{{ $item['GrossTon'] }}</td>
-                                            <td class="text-center" style="width: 6%;">{{ $item['NetTon'] }}</td>
-                                            <td class="text-center" style="width: 6%;">{{ $item['Deadweight'] }}</td>
-                                            <td class="text-center" style="width: 9%;">{{ $item['ShipType'] }}</td>
-                                            <td class="text-center" style="width: 7%;">{{ $item['LOA'] }}</td>
-                                            <td class="text-center" style="width: 8%;">{{ $item['BM'] }}</td>
-                                            <td class="text-center" style="width: 7%;">{{ $item['DM'] }}</td>
-                                            <td class="text-center" style="width: 7%;">{{ $item['Draught'] }}</td>
-                                            <td class="text-center" style="width: 2%;">
+                                            <td class="text-center">{{ $index }}</td>
+                                            <td class="text-center">{{ $item['shipName_En'] }}</td>
+                                            <td class="text-center">{{ $item['IMO_No'] }}</td>
+                                            <td class="text-center">{{ $item['Flag'] }}</td>
+                                            <td class="text-center">{{ $item['PortOfRegistry'] }}</td>
+                                            <td class="text-center">{{ $item['Class'] }}</td>
+                                            <td class="text-center">{{ $item['GrossTon'] }}</td>
+                                            <td class="text-center">{{ $item['NetTon'] }}</td>
+                                            <td class="text-center">{{ $item['Deadweight'] }}</td>
+                                            <td class="text-center">{{ $item['ShipType'] }}</td>
+                                            <td class="text-center">{{ $item['LOA'] }}</td>
+                                            <td class="text-center">{{ $item['BM'] }}</td>
+                                            <td class="text-center">{{ $item['DM'] }}</td>
+                                            <td class="text-center">{{ $item['Draught'] }}</td>
+                                            <td class="text-center">
                                                 <div class="action-buttons">
                                                     @if(!$isHolder)
                                                         <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">
@@ -158,6 +159,46 @@ $shipList = Session::get('shipList');
                     </div>
                 </div>
             </div>
+            <div id="modal-shiptype-list" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
+                <div class="modal-dialog dynamic-list">
+                    <div class="modal-content" style="border: 0;">
+                        <div class="modal-header no-padding" data-target="#modal-step-contents">
+                            <div class="table-header">
+                                <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
+                                    <span class="white">&times;</span>
+                                </button>
+                                Ship Type
+                            </div>
+                        </div>
+                        <div id="modal-shiptype-content" class="dynamic-modal-body step-content">
+                            <div class="row" style="">
+                                <div class="col-md-12" style="min-height: 300px; max-height: 300px; overflow-y:auto">
+                                    <table class="table-bordered rank-table">
+                                        <thead>
+                                        <tr style="background-color: #c9dfff;height:18px;">
+                                            <td class="center td-header no-padding" style="width:15%">OrderNo</td>
+                                            <td class="center td-header no-padding" style="">Name of ShipType</td>
+                                            <td class="center td-header no-padding"></td>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="shiptype-table">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="btn-group f-right mt-20 d-flex">
+                                        <button type="button" class="btn btn-success small-btn ml-0" onclick="javascript:dynamicShipTypeSubmit('shiptype')">
+                                            <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">OK
+                                        </button>
+                                        <div class="between-1"></div>
+                                        <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -165,6 +206,7 @@ $shipList = Session::get('shipList');
     <script src="{{ asset('/assets/js/x-editable/ace-editable.min.js') }}"></script>
     <script src="{{ asset('/assets/js/ajaxfileupload.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery.colorbox-min.js') }}"></script>
+    <script src="{{ asset('/assets/js/dycombo.js') }}"></script>
 
     <script type="text/javascript">
 
@@ -220,7 +262,8 @@ $shipList = Session::get('shipList');
             else
             {
                 var row = $(".ship-item.selected");
-                $('#ship-table').scrollTop(row.position().top - row.height());
+                var headrow = $('#list-header');
+                $('#ship-table').scrollTop(row.position().top - headrow.innerHeight());
             }
         })
 

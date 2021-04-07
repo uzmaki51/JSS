@@ -13,7 +13,7 @@
                 <tr>
                     <td class="custom-td-label1 center">{{ transShipManager('Machinery.No/Type Engine') }}</td>
                     <td class="custom-td-report-text">
-                        <textarea name="No_TypeOfEngine" class="form-control" rows="2">{{ isset($shipInfo['No_TypeOfEngine']) ? $shipInfo['No_TypeOfEngine'] : '' }}</textarea>
+                        <textarea name="No_TypeOfEngine" class="form-control" style="resize: none;" rows="2">{{ isset($shipInfo['No_TypeOfEngine']) ? $shipInfo['No_TypeOfEngine'] : '' }}</textarea>
                     </td>
                 </tr>
                 <tr>
@@ -80,7 +80,7 @@
                 <tr>
                     <td class="custom-td-label1 center">{{ transShipManager('Machinery.Generator Set') }}</td>
                     <td class="custom-td-report-text">
-                        <textarea name="PrimeMover" class="form-control" style="width:100%">{{ isset($shipInfo['PrimeMover']) ? $shipInfo['PrimeMover'] : '' }}</textarea>
+                        <textarea name="PrimeMover" class="form-control" style="width:100%;resize:none;">{{ isset($shipInfo['PrimeMover']) ? $shipInfo['PrimeMover'] : '' }}</textarea>
                     </td>
                 </tr>
                 <tr>
@@ -88,7 +88,7 @@
                         {{ transShipManager('Machinery.Output') }}
                     </td>
                     <td class="custom-td-report-text">
-                        <textarea name="GeneratorOutput" class="form-control" style="width:100%">{{ isset($shipInfo['GeneratorOutput']) ? $shipInfo['GeneratorOutput'] : '' }}</textarea>
+                        <textarea name="GeneratorOutput" class="form-control" style="width:100%;resize:none;">{{ isset($shipInfo['GeneratorOutput']) ? $shipInfo['GeneratorOutput'] : '' }}</textarea>
                     </td>
                 </tr>
                 </tbody>
@@ -107,7 +107,7 @@
                         {{ transShipManager('Machinery.Boiler * Pressure * HeatingSurface') }}<br>{{ transShipManager('Machinery.Boiler Heating') }}
                     </td>
                     <td class="custom-td-report-text">
-                        <textarea name="BoilerPressure" class="form-control" style="width:100%">{{ isset($shipInfo['BoilerPressure']) ? $shipInfo['BoilerPressure'] : ''}}</textarea>
+                        <textarea name="BoilerPressure" class="form-control" style="width:100%;resize:none;">{{ isset($shipInfo['BoilerPressure']) ? $shipInfo['BoilerPressure'] : ''}}</textarea>
                     </td>
                 </tr>
                 <tr>

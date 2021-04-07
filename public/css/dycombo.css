@@ -25,13 +25,13 @@ table {
     box-sizing: border-box;
 }
 
-.custom-select-wrapper {
+.dynamic-select-wrapper {
     position: relative;
     user-select: none;
     width: 100%;
 }
 
-.custom-select {
+.dynamic-select {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,7 @@ table {
     /* border-color: #394a6d; */
 }
 
-.custom-select__trigger {
+.dynamic-select__trigger {
     position: relative;
     display: flex;
     align-items: center;
@@ -59,7 +59,7 @@ table {
     /* border-color: #394a6d; */
 }
 
-.custom-options {
+.dynamic-options {
     position: absolute;
     display: block;
     top: 100%;
@@ -73,7 +73,7 @@ table {
     max-height: 310px;
     min-width: 280px;
 }
-.custom-select.open .custom-options {
+.dynamic-select.open .dynamic-options {
     opacity: 1;
     visibility: visible;
     pointer-events: all;
@@ -86,10 +86,9 @@ table {
     visibility: visible;
     pointer-events: all;
     max-height: 310px;
-    min-width: 280px;
 }
 
-.custom-options-scroll {
+.dynamic-options-scroll {
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 308px;
@@ -100,7 +99,7 @@ table {
 }
 
 
-.custom-option {
+.dynamic-option {
     position: relative;
     display: block;
     padding: 3px 8px 3px 8px;
@@ -112,12 +111,12 @@ table {
     transition: all 0.5s;
 }
 
-.custom-option:hover {
+.dynamic-option:hover {
     cursor: pointer;
     color: #ffffff;
     background-color: #65b2ff;
 }
-.custom-option.selected {
+.dynamic-option.selected {
     color: #ffffff;
     background-color: #1e90ff!important;
     padding: 3px 8px 3px 8px!important;
@@ -201,11 +200,11 @@ table {
     background-color: #71b8ff;
 }
 
-.custom-select-span {
+.dynamic-select-span {
     max-width: 120px;
     overflow: hidden;
 }
-.custom-select-span-capacity {
+.dynamic-select-span-capacity {
     max-width: 250px;
     overflow: hidden;
 }

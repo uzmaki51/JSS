@@ -33,19 +33,19 @@
                                 ?>
                                 @endif
                             @endforeach
-                            <div class="custom-select-wrapper">
-                                <div class="custom-select" style="color:#12539b">
+                            <div class="dynamic-select-wrapper">
+                                <div class="dynamic-select" style="color:#12539b">
                                     <input type="hidden"  name="CapacityID" value="{{$capacity_id}}"/>
-                                    <div class="custom-select__trigger"><span class="custom-select-span-capacity">{{$cap}}</span>
+                                    <div class="dynamic-select__trigger"><span class="dynamic-select-span-capacity">{{$cap}}</span>
                                         <div class="arrow"></div>
                                     </div>
-                                    <div class="custom-options">
-                                        <div class="custom-options-scroll">
+                                    <div class="dynamic-options">
+                                        <div class="dynamic-options-scroll">
                                             @foreach ($capacityList as $type)
                                                 @if ($type->id == $capacity['CapacityID'])
-                                                <span class="custom-option selected" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                <span class="dynamic-option selected" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
                                                 @else
-                                                <span class="custom-option" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                <span class="dynamic-option" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -105,19 +105,19 @@
                                 ?>
                                 @endif
                             @endforeach
-                            <div class="custom-select-wrapper">
-                                <div class="custom-select" style="color:#12539b">
+                            <div class="dynamic-select-wrapper">
+                                <div class="dynamic-select" style="color:#12539b">
                                     <input type="hidden"  name="COEId" value="{{$capacity_id}}"/>
-                                    <div class="custom-select__trigger"><span class="custom-select-span-capacity">{{$cap}}</span>
+                                    <div class="dynamic-select__trigger"><span class="dynamic-select-span-capacity">{{$cap}}</span>
                                         <div class="arrow"></div>
                                     </div>
-                                    <div class="custom-options">
-                                        <div class="custom-options-scroll">
+                                    <div class="dynamic-options">
+                                        <div class="dynamic-options-scroll">
                                             @foreach ($capacityList as $type)
                                                 @if ($type->id == $capacity['COEId'])
-                                                <span class="custom-option selected" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                <span class="dynamic-option selected" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
                                                 @else
-                                                <span class="custom-option" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                <span class="dynamic-option" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
                                                 @endif
                                             @endforeach
                                         </div>

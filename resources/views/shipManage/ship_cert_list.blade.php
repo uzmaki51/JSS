@@ -27,49 +27,39 @@ $ships = Session::get('shipList');
         </style>
         <div class="page-content">
             <div class="page-header">
-                <div class="col-md-3">
-                    <h4>
-                        <b>船舶证书记录</b>
-                    </h4>
+                <div class="col-sm-3">
+                    <h4><b>船舶证书记录</b></h4>
                 </div>
-
             </div>
-            <div class="inner-wrap col-md-12" id="cert_list" v-cloak>
-                <div class="row mb-4">
-                    <div class="col-lg-4 d-flex">
-                        <label class="custom-label d-inline-block" style="padding: 6px;">船名</label>
-                        <select class="custom-select d-inline-block" style="padding: 4px;" @change="changeShip">
-                            @foreach($shipList as $ship)
-                                <option value="{{ $ship['id'] }}"
-                                    {{ isset($shipId) && $shipId == $ship['id'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @if(isset($shipName['shipName_En']))
-                            <div class="col-md-12" style="font-size: 16px; padding-top: 6px;">
-                                <strong>"<span id="ship_name">{{ $shipName['shipName_En'] }}</span>" CERTIFICATES</strong>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="col-lg-3"></div>
-                    <div class="col-lg-5">
-                        <label>提前</label>
-                        <input type="text" class="text-center" style="width: 60px;" name="expire_date" v-model="expire_date">
+            <div class="row col-md-12" id="cert_list" v-cloak>
+                <div class="col-md-6">
+                    <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
+                    <select class="custom-select d-inline-block" style="padding: 4px;width:80px;" @change="changeShip">
+                        @foreach($shipList as $ship)
+                            <option value="{{ $ship['id'] }}"{{ isset($shipId) && $shipId == $ship['id'] ?  "selected" : "" }}>{{$ship['shipName_En']}}</option>
+                        @endforeach
+                    </select>
+                    @if(isset($shipName['shipName_En']))
+                        <strong class="f-right" style="font-size: 16px; padding-top: 6px;">"<span id="ship_name">{{ $shipName['shipName_En'] }}</span>" CERTIFICATES</strong>
+                    @endif
+                </div>
+                <div class="col-md-6">
+                    <div class="f-right">
+                        <label>提前:</label>
+                        <input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" v-model="expire_date">
                         <input type="hidden" class="text-center" style="width: 60px;" name="ship_id" v-model="ship_id">
                         <label>天</label>
-                        <div class="btn-group f-right">
-                            <button class="btn btn-report-search btn-sm search-btn" @click="doSearch()"><i class="icon-search"></i>搜索</button>
-                            <a class="btn btn-sm btn-danger {{ Auth::user()->isAdmin == 1 ? '' : 'right-no-radius' }} refresh-btn-over" type="button" @click="refresh">
-                                <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">更新
-                            </a>
-                            <button class="btn btn-warning btn-sm excel-btn" @click="onExport"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
-                        </div>
+                        <button class="btn btn-report-search btn-sm search-btn" @click="doSearch()"><i class="icon-search"></i>搜索</button>
+                        <a class="btn btn-sm btn-danger {{ Auth::user()->isAdmin == 1 ? '' : 'right-no-radius' }} refresh-btn-over" type="button" @click="refresh">
+                            <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">刷新
+                        </a>
+                        <button class="btn btn-warning btn-sm excel-btn" @click="onExport"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                        <input type="hidden" value="{{ $shipId }}" name="ship_id">
+                <div class="col-md-12" style="margin-top:8px;">
+                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    <input type="hidden" value="{{ $shipId }}" name="ship_id">
+                    <div class="row">
                         <table class="custom-table-striped">
                             <thead>
                             <tr class="black br-hblue">

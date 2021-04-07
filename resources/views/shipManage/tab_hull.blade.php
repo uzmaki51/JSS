@@ -70,7 +70,7 @@
                                     {{ transShipManager('Hull.Size') }}
                                 </td>
                                 <td class="custom-td-report-text" colspan="2">
-                                        <textarea name="HoldsDetail" class="form-control" style="width:100%">@if(isset($shipInfo['HoldsDetail'])){{$shipInfo['HoldsDetail']}}@endif</textarea>
+                                        <textarea name="HoldsDetail" class="form-control" style="width:100%;resize:none;">@if(isset($shipInfo['HoldsDetail'])){{$shipInfo['HoldsDetail']}}@endif</textarea>
                                 </td>
                             </tr>
                             <tr class="no-border">
@@ -90,7 +90,7 @@
                                     {{ transShipManager('Hull.Size') }}
                                 </td>
                                 <td class="custom-td-report-text" colspan="3">
-                                    <textarea type="text" name="SizeOfHatchways" class="form-control" rows="2">{{ isset($shipInfo['SizeOfHatchways']) ? $shipInfo['SizeOfHatchways'] : '' }}</textarea>
+                                    <textarea type="text" name="SizeOfHatchways" class="form-control" style="resize: none;" rows="2">{{ isset($shipInfo['SizeOfHatchways']) ? $shipInfo['SizeOfHatchways'] : '' }}</textarea>
                                 </td>
                             </tr>
                             <tr class="no-border">
@@ -251,7 +251,7 @@
                 <td class="custom-td-report-text" colspan="2">
                     <input type="text" class="form-control" style="width: 88%; display: inline-block;border-bottom: 1px solid #333333!important;" name="deck_line_amount" value="{{ isset($freeBoard['deck_line_amount']) ? $freeBoard['deck_line_amount'] : '' }}">mm<br>
                     <!--input type="text" class="form-control first-input" name="deck_line_amount" value="{{ isset($freeBoard['deck_line_amount']) ? $freeBoard['deck_line_amount'] : '' }}">|mm -->
-                    <textarea class="form-control" name="deck_line_content">{{ isset($freeBoard['deck_line_content']) ? $freeBoard['deck_line_content'] : '' }}</textarea>
+                    <textarea class="form-control" style="resize: none;" name="deck_line_content">{{ isset($freeBoard['deck_line_content']) ? $freeBoard['deck_line_content'] : '' }}</textarea>
                 </td>
             </tr>
         </table>

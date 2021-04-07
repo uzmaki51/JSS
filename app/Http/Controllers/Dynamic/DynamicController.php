@@ -43,6 +43,10 @@ class DynamicController extends Controller
 			$result = DB::table('tb_member_capacity')->select('*')->get();
 			return response()->json($result);
 		}
+		else if ($type == 'shiptype') {
+			$result = DB::table('tb_ship_type')->select('*')->get();
+			return response()->json($result);
+		}
 
 		return response()->json('fail');
     }
@@ -65,6 +69,18 @@ class DynamicController extends Controller
 					else
 						DB::table('tb_dynamic_nationality')->insert(['name' => $item]);
 					$i ++;
+				}
+			}
+		}
+		else if($type == 'shiptype') {
+			$orderno = $params['orderno'];
+			$name = $params['name'];
+
+			$result = DB::table('tb_ship_type')->truncate();
+			for ($i=0;$i<count($orderno);$i++)
+			{
+				if ($orderno[$i] != '' || $name[$i] != '') {
+					DB::table('tb_ship_type')->insert(['OrderNo' => $orderno[$i], 'ShipType' => $name[$i]]);
 				}
 			}
 		}

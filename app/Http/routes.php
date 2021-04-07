@@ -88,6 +88,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('setDynamicData', ['uses' => 'Dynamic\DynamicController@ajaxSetDynamicData']);
 
 	Route::post('shipMember/search', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMember']);
+	Route::post('shipMember/cert/list', ['uses' => 'ShipManage\ShipMemberController@ajaxShipMemberCertList']);
 
 	// ShipCert
 	Route::post('shipManage/cert/list', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertList']);

@@ -123,19 +123,19 @@
                                 <option value="1" @if(isset($info) && ($info['Nationality'] == 1)) selected @endif>BANGLADESH</option>
                                 <option value="2" @if(isset($info) && ($info['Nationality'] == 2)) selected @endif>MYANMAR</option>
                             </select-->
-                            <div class="custom-select-wrapper">
-                                <div class="custom-select" style="color:#12539b">
+                            <div class="dynamic-select-wrapper">
+                                <div class="dynamic-select" style="color:#12539b">
                                     <input type="hidden"  name="Nationality" value="@if(isset($info)){{$info['Nationality']}}@endif"/>
-                                    <div class="custom-select__trigger"><span class="custom-select-span">@if(isset($info)){{$info['Nationality']}}@endif</span>
+                                    <div class="dynamic-select__trigger"><span class="dynamic-select-span">@if(isset($info)){{$info['Nationality']}}@endif</span>
                                         <div class="arrow"></div>
                                     </div>
-                                    <div class="custom-options">
-                                        <div class="custom-options-scroll">
+                                    <div class="dynamic-options">
+                                        <div class="dynamic-options-scroll">
                                             @foreach ($nationList as $item)
                                                 @if ($item->name == $info['Nationality'])
-                                                <span class="custom-option selected" data-value="{{$item->name}}">{{$item->name}}</span>
+                                                <span class="dynamic-option selected" data-value="{{$item->name}}">{{$item->name}}</span>
                                                 @else
-                                                <span class="custom-option" data-value="{{$item->name}}">{{$item->name}}</span>
+                                                <span class="dynamic-option" data-value="{{$item->name}}">{{$item->name}}</span>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -254,19 +254,19 @@
                                     ?>
                                     @endif
                                 @endforeach
-                                <div class="custom-select-wrapper">
-                                    <div class="custom-select" style="color:#12539b">
+                                <div class="dynamic-select-wrapper">
+                                    <div class="dynamic-select" style="color:#12539b">
                                         <input type="hidden"  name="DutyID_Book" value="{{$rank_id}}"/>
-                                        <div class="custom-select__trigger"><span class="custom-select-span">{{$rank}}</span>
+                                        <div class="dynamic-select__trigger"><span class="dynamic-select-span">{{$rank}}</span>
                                             <div class="arrow"></div>
                                         </div>
-                                        <div class="custom-options">
-                                            <div class="custom-options-scroll">
+                                        <div class="dynamic-options">
+                                            <div class="dynamic-options-scroll">
                                                 @foreach ($posList as $item)
                                                     @if ($item->id == $info['DutyID_Book'])
-                                                        <span class="custom-option selected" data-value="{{$item->id}}">{{$item->Duty_En}}</span>
+                                                        <span class="dynamic-option selected" data-value="{{$item->id}}">{{$item->Duty_En}}</span>
                                                     @else
-                                                        <span class="custom-option" data-value="{{$item->id}}">{{$item->Duty_En}}</span>
+                                                        <span class="dynamic-option" data-value="{{$item->id}}">{{$item->Duty_En}}</span>
                                                     @endif
                                                 @endforeach
                                             </div>

@@ -1,263 +1,180 @@
-.<?php
-if(isset($excel)) $header = 'excel-header';
-else $header = 'sidebar';
-?>
-
+@extends('layout.sidebar')
 <?php
-    $isHolder = Session::get('IS_HOLDER');
+$isHolder = Session::get('IS_HOLDER');
 ?>
 
-
-@extends('layout.'.$header)
-
+@section('styles')
+    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+@endsection
 @section('content')
-
-    @if(!isset($excel))
-
-        <div class="main-content">
-            <style>
-                table>tbody>tr>td {
-                    padding-top: 8px !important;
-                    padding-bottom: 8px !important;
-                }
-                .chosen-drop {
-                    width: 180px !important;
-                }
-            </style>
-            <div class="page-content">
-                <div class="page-header">
-                    <div class="col-md-3">
-                        <h4>
-                            <b>{{transShipMember("title.Member List")}}</b>
-                        </h4>
-                    </div>
+    <div class="main-content">
+        <style>
+        </style>
+        <div class="page-content">
+            <div class="page-header">
+                <div class="col-sm-3">
+                    <h4><b>Crew List</b></h4>
                 </div>
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="input-group col-md-10">
-                            <div class="col-sm-3 form-group" style="padding: 0">
-                                <label style="float:left;padding:5px 0">{{transShipMember("totalShipMember.ShipName(Seafarer`s passport)")}}:</label>
-                                <div class="col-md-8" style="width: 100px;">
-                                    <select class="form-control chosen-select" id="ship_name">
-                                        <option value="">{{transShipMember("captions.total")}}</option>
-                                        @foreach($shipList as $ship)
-                                            <option value="{{$ship['RegNo']}}" @if(isset($regShip) && ($regShip == $ship['RegNo'])) selected @endif>
-                                                @if(!empty($ship['shipName_Cn']) && !empty($ship['name'])){{$ship['shipName_Cn']}} | @endif{{$ship['name']}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 form-group" style="padding: 0;">
-                                <label style="float:left;padding:5px 0">{{transShipMember("totalShipMember.ShipName(Sign On)")}}:</label>
-                                <div class="col-md-8" style="width: 100px;">
-                                    <select class="form-control chosen-select" id="ship_book">
-                                        <option value="">{{transShipMember("captions.total")}}</option>
-                                        @foreach($shipList1 as $ship)
-                                            <option value="{{$ship['RegNo']}}" @if(isset($bookShip) && ($bookShip == $ship['RegNo'])) selected @endif>{{$ship['shipName_Cn']}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 form-group" style="padding: 0;">
-                                <label style="float:left;padding:5px 0">{{transShipMember("totalShipMember.ShipName(Structure)")}}:</label>
-                                <div class="col-md-8" style="width: 100px;">
-                                    <select class="form-control chosen-select" id="ship_orig">
-                                        <option value="">{{transShipMember("captions.total")}}</option>
-                                        @foreach($ko_ship_list as $ship)
-                                            <option value="{{$ship['id']}}" @if(isset($origShip) && ($origShip == $ship['id'])) selected @endif>{{$ship['name']}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 form-group" style="padding: 0;">
-                                <label style="float:left;padding:5px 0">{{transShipMember("totalShipMember.Registration Status")}}:</label>
-                                <div class="col-md-8" style="width: 100px;">
-                                    <select class="form-control chosen-select" id="reg_status">
-                                        <option value="">{{transShipMember("captions.total")}}</option>
-                                        <option value="2" @if(isset($regStatus) && $regStatus == 2) selected @endif>{{transShipMember("captions.register")}}</option>
-                                        <option value="1" @if(isset($regStatus) && $regStatus == 1) selected @endif>{{transShipMember("captions.dismiss")}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="padding:0; float: right">
-                        <span class="input-group-btn">
-                            <button class="btn btn-sm btn-primary no-radius" onclick="showSearchByKeyboard()" style="margin-left: 1px; width: 70px">
-                                <i class="icon-search"></i>
-                                {{transShipMember("captions.search")}}
-                            </button>
-
-                            <button class="btn btn-sm btn-warning" onclick="showSearchByKeyboardExcel()"
-                                    style="margin-left: 1px; width :70px">
-                                <i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b>
-                            </button>
-
-                        </span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div style="overflow-y: scroll; width: 100%">
-                            @else
-                                @include('layout.excel-style')
-                            @endif
-                            <table class="table table-bordered table-striped table-hover arc-std-table">
-                                <thead>
-                                <tr class="black br-hblue">
-                                    <th colspan="10"></th>
-                                    <th class="center" colspan="2">{{transShipMember("totalShipMember.Sign On/Off")}}</th>
-                                    <th class="center" colspan="3">{{transShipMember("totalShipMember.Seafarer`s passport")}}</th>
-                                    <th class="center" colspan="1">{{transShipMember("totalShipMember.Structure")}}</th>
-                                    <th></th>
-                                </tr>
-                                <tr class="black br-hblue">
-                                    <th class="center" rowspan="2" style="width:2%">{{transShipMember("totalShipMember.No")}}</th>
-                                    <th class="center" rowspan="2" style="width:5%">{{transShipMember("totalShipMember.Name")}}</th>
-                                    <th class="center" style="width:7%">{{transShipMember("totalShipMember.Birthday")}}</th>
-                                    <th class="center" style="width:7%">{{transShipMember("totalShipMember.Party")}}</th>
-                                    <th class="center" style="width:4%">{{transShipMember("totalShipMember.Class")}}</th>
-                                    <th class="center" style="width:4%">{{transShipMember("totalShipMember.Sociality")}}</th>
-                                    <th class="center" style="width:14%">{{transShipMember("totalShipMember.Birthplace")}}</th>
-                                    <th class="center" style="width:7%">{{transShipMember("totalShipMember.HomePhone")}}</th>
-                                    <th class="center" colspan="2" style="width:8%">{{transShipMember("totalShipMember.CitizenShip Card NO")}}</th>
-                                    <th class="center" colspan="2" style="width:10%">{{transShipMember("totalShipMember.ShipName")}}</th>
-                                    <th class="center" rowspan="2" style="width:6%">{{transShipMember("totalShipMember.Passport No")}}</th>
-                                    <th class="center" style="width:7%">{{transShipMember("totalShipMember.ShipName")}}</th>
-                                    <th class="center" style="width:6%">{{transShipMember("totalShipMember.Issue")}}</th>
-                                    <th class="center" style="width:6%">{{transShipMember("totalShipMember.ShipName")}}</th>
-                                    <th class="center" rowspan="2" style="width:6%;">{{transShipMember("totalShipMember.Dismissal Date")}}</th>
-                                </tr>
-                                <tr class="black br-hblue">
-                                    <th class="center" style="width:7%">{{transShipMember("totalShipMember.Sex")}}</th>
-                                    <th class="center" style="width:7%">{{transShipMember("totalShipMember.Standing Date")}}</th>
-                                    <th class="center" colspan="2" style="width:8%">{{transShipMember("totalShipMember.Employment Date")}}</th>
-                                    <th class="center" style="width:14%">{{transShipMember("totalShipMember.Address")}}</th>
-                                    <th class="center" style="width:7%">{{transShipMember("totalShipMember.Mobile Phone")}}</th>
-                                    <th class="center" style="width:4%">{{transShipMember("totalShipMember.Tall")}}</th>
-                                    <th class="center" style="width:4%">{{transShipMember("totalShipMember.Blood Type")}}</th>
-                                    <th class="center" style="width:6%">{{transShipMember("totalShipMember.Duty")}}</th>
-                                    <th class="center" style="width:4%">{{transShipMember("totalShipMember.On/Off")}}</th>
-                                    <th class="center" style="width:7%">{{transShipMember("totalShipMember.Duty")}}</th>
-                                    <th class="center" style="width:6%">{{transShipMember("totalShipMember.Expiry Date")}}</th>
-                                    <th class="center" style="width:6%">{{transShipMember("totalShipMember.Duty")}}</th>
-                                </tr>
-                                </thead>
-                                @if(!isset($excel))
-                            </table>
-                        </div>
-                        <div id="div_contents" style="overflow-x:hidden; overflow-y:scroll; width:100%; height:67vh; border-bottom: 1px solid #eee">
-                            <table class="table table-bordered table-striped table-hover">
-                                @endif
-                                <tbody>
-								<?php $index = 1; ?>
-                                @foreach($list as $member)
-                                    <tr>
-                                        <td class="center" rowspan="2" style="width:2%;word-break: break-all;">{{$index++}}</td>
-                                        <td class="center" rowspan="2" style="width:5%;word-break: break-all;"><a href='registerShipMember?memberId={{$member['id']}}'>{{$member['realname']}}</a></td>
-                                        <td class="center" style="width:7%;word-break: break-all;">{{convert_date($member['birthday'])}}</td>
-                                        <td class="center" style="width:7%;word-break: break-all;">@if($member['isParty'] == 1) '' @endif</td>
-                                        <td class="center" style="width:4%;word-break: break-all;">{{$member['fromOrigin']}}</td>
-                                        <td class="center" style="width:4%;word-break: break-all;">{{$member['currOrigin']}}</td>
-                                        <td class="center" style="width:14%;word-break: break-all;">{{$member['BirthPlace']}}</td>
-                                        <td class="center" style="width:7%; word-break: break-all;">{{$member['tel']}}</td>
-                                        <td class="center" colspan="2" style="width:8%;word-break: break-all;">{{$member['cardNum']}}</td>
-                                        <td class="center" colspan="2" style="width:10%;word-break: break-all;">{{$member['shipName_Cn']}}</td>
-                                        <td class="center" rowspan="2" style="width:6%;word-break: break-all;">{{$member['crewNum']}}</td>
-                                        <td class="center" style="width:7%;word-break: break-all;">{{$member['book_ship']}}</td>
-                                        <td class="center" style="width:6%;word-break: break-all;">{{convert_date($member['IssuedDate'])}}</td>
-                                        <td class="center" style="width:6%;word-break: break-all;">{{$member['origin_ship']}}</td>
-                                        <td class="center" rowspan="2" style="width: 6%;word-break: break-all;">{{convert_date($member['DelDate'])}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="center" style="width:7%;word-break: break-all;">@if($member['Sex'] ==0){{transShipMember("captions.male")}} @else {{transShipMember("captions.female")}} @endif</td>
-                                        <td class="center" style="width:7%;word-break: break-all;">{{convert_date($member['partyDate'])}}</td>
-                                        <td class="center" colspan="2" style="width:8%;word-break: break-all;">{{convert_date($member['entryDate'])}}</td>
-                                        <td class="center" style="width:14%;word-break: break-all;">{{$member['address']}}</td>
-                                        <td class="center" style="width:7%; word-break: break-all;">{{$member['phone']}}</td>
-                                        <td class="center" style="width:4%;word-break: break-all;">{{$member['Height']}}</td>
-                                        <td class="center" style="width:4%;word-break: break-all;">{{$member['BloodType']}}</td>
-                                        <td class="center" style="width:6%;word-break: break-all;">{{$member['Duty']}}</td>
-                                        <td class="center" style="width:4%;word-break: break-all;">{{$member['sign_on_off']}}</td>
-                                        <td class="center" style="width:7%;word-break: break-all;">{{$member['book_duty']}}</td>
-                                        <td class="center" style="width:6%;word-break: break-all;">{{convert_date($member['ExpiryDate'])}}</td>
-                                        <td class="center" style="width:6%;word-break: break-all;">{{$member['orgin_duty']}}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            @if(!isset($excel))
-                        </div>
+            </div>
+            <div class="row col-md-12">
+                <div class="col-md-6">
+                    <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
+                    <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
+                        <option value="" selected></option>
+                        @foreach($shipList as $ship)
+                            <option value="{{ $ship['RegNo'] }}">{{$ship['shipName_En']}}</option>
+                        @endforeach
+                    </select>
+                    <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name"></span> CREW LIST</strong>
+                </div>
+                <div class="col-md-6">
+                    <div class="btn-group f-right">
+                        <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
                     </div>
                 </div>
             </div>
+            <div class="col-md-12" style="margin-top:8px;">
+                <div id="item-manage-dialog" class="hide"></div>
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                <div class="row">
+                    <div class="head-fix-div" id="crew-table" style="height:500px!important;">
+                        <table id="table-shipmember-list" class="custom-table-striped">
+                            <thead>
+                            <tr class="black br-hblue">
+                                <th class="text-center" style="width: 3%;"><span>No</span></th>
+                                <th class="text-center" style="width: 8%;"><span>Family Name, Given Name</span></th>
+                                <th class="text-center" style="width: 7%;"><span>Rank</span></th>
+                                <th class="text-center" style="width: 7%;"><span>Nationality</span></th>
+                                <th class="text-center" style="width: 8%;"><span>Chinese ID No.</span></th>
+                                <th class="text-center" style="width: 7%;"><span>Date and place of birth</span></th>
+                                <th class="text-center" style="width: 8%;"><span>Date and place of embarkation</span></th>
+                                <th class="text-center" style="width: 8%;"><span>Seaman's Book No and Expire Date</span></th>
+                                <th class="text-center" style="width: 8%;"><span>Passport's No and Expire Date</span></th>
+                            </tr>
+                            </thead>
+                            <tbody class="" id="list-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="test">
+            </div>
         </div>
+    </div>
 
-        <script>
-            var token = '{!! csrf_token() !!}';
+    <script src="{{ asset('/assets/js/x-editable/bootstrap-editable.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/x-editable/ace-editable.min.js') }}"></script>
+    <script src="{{ cAsset('assets/js/jsquery.dataTables.js') }}"></script>
+    <script src="{{ asset('/assets/js/dataTables.rowsGroup.js') }}"></script>
+    <?php
+	echo '<script>';
+	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+	echo '</script>';
+	?>
+    <script>
+        var token = '{!! csrf_token() !!}';
+        var shipName = '';
+        $(function () {
+            $.fn.editable.defaults.mode = 'inline';
+            $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
+            $.fn.editableform.buttons = '';
+        });
+            
+        function setDatePicker() {
+            $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+        }
 
-            $(document).ready(function () {
+        function initTable() {
+            listTable = $('#table-shipmember-list').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: true,
+                ajax: {
+                    url: BASE_URL + 'ajax/shipMember/search',
+                    type: 'POST',
+                    data: {'type' : 'crew'},
+                },
+                "ordering": false,
+                "pageLength": 500,
+                columnDefs: [
+                ],
+                columns: [
+                    {data: 'no', className: "text-center"},
+                    {data: 'name', className: "text-center"},
+                    {data: 'rank', className: "text-center"},
+                    {data: 'nationality', className: "text-center"},
+                    {data: 'cert-id', className: "text-center"},
+                    {data: 'birth-and-place', className: "text-center"},
+                    {data: 'date-and-embarkation', className: "text-center"},
+                    {data: 'bookno-expire', className: "text-center"},
+                    {data: 'passport-expire', className: "text-center"},
+                ],
+                rowsGroup: [0, 2, 3, 4],
+                createdRow: function (row, data, index) {
+                    var pageInfo = listTable.page.info();
+                    $(row).attr('data-index', data['no']);
+                    $(row).attr('class', 'member-item');
+                    $('td', row).eq(0).html('').append((pageInfo.page * pageInfo.length + index + 1));
+                },
             });
 
-            $('.init-btn').on('click', function() {
+            $('.paginate_button').hide();
+            $('.dataTables_length').hide();
+            $('.paging_simple_numbers').hide();
+            $('.dataTables_info').hide();
+            $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
+        }
+        initTable();
 
-                location.href = 'totalShipMember';
-            });
+        $('#select-ship').on('change', function() {
+            shipName = $("#select-ship option:selected").text();
+            $('#ship_name').html('"' + shipName + '"');
+            listTable.column(2).search($("#select-ship" ).val(), false, false).draw();
+        });
 
-            function showSearchByKeyboard() {
-                var regShip = $("#ship_name").val();
-                var bookShip = $("#ship_book").val();
-                var origShip = $("#ship_orig").val();
-                var regStatus = $("#reg_status").val();
+        $('.excel-btn').on('click', function() {
+           $('td[style*="display: none;"]').remove();
+           fnExcelReport();
+		});
 
-                var urlParam = '';
-                if(regShip.length > 0)
-                    urlParam += '?regShip=' + regShip;
+        function fnExcelReport()
+        {
+            var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+            tab = document.getElementById('table-shipmember-list');
 
-                if(bookShip.length > 0) {
-                    urlParam += (urlParam.length < 1) ? '?' : '&'
-                    urlParam += 'bookShip=' + bookShip;
+            tab_text=tab_text+"<tr><td colspan='9' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>CREW LIST</td></tr>";
+            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;border-bottom:hidden;'>1.Name of Ship</td><td colspan='2'style='font-size:18px;border-bottom:hidden;text-align:center;'>2.Port of Arrival</td><td colspan='3' style='font-size:18px;border-bottom:hidden;text-align:center;'>3.Date of arrival</td></tr>";
+            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;'>&nbsp;&nbsp;" + shipName + "</td><td colspan='2'style='font-size:18px;text-align:center;'>&nbsp;&nbsp;ZHENJIANG</td><td colspan='3' style='font-size:18px;text-align:center;'>&nbsp;&nbsp;2020-12-</td></tr>";
+            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;border-bottom:hidden;'>4.Nationality of Ship</td><td colspan='2'style='font-size:18px;border-bottom:hidden;text-align:center;'>5.LAST Port of Call</td><td colspan='3' style='font-size:18px;border-bottom:hidden;'></td></tr>";
+            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;'>&nbsp;&nbsp;CHINA</td><td colspan='2'style='font-size:18px;text-align:center;'>&nbsp;&nbsp;DONGHAE</td><td colspan='3' style='font-size:18px;'></td></tr>";
+            for(var j = 0 ; j < tab.rows.length ; j++) 
+            {
+                if (j == 0) {
+                    console.log(tab.rows[j]);
+                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                        tab.rows[j].childNodes[i].style.width = '100px';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                    }
+                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                 }
-
-                if(origShip.length > 0) {
-                    urlParam += (urlParam.length < 1) ? '?' : '&'
-                    urlParam += 'origShip=' + origShip;
-                }
-
-                if(regStatus.length > 0) {
-                    urlParam += (urlParam.length < 1) ? '?' : '&';
-                    urlParam += 'regStatus=' + regStatus;
-                }
-
-                location.href = 'totalShipMember' + urlParam;
+                else
+                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
 
-            function showSearchByKeyboardExcel() {
-                var regShip = $("#ship_name").val();
-                var bookShip = $("#ship_book").val();
-                var origShip = $("#ship_orig").val();
-                var regStatus = $("#reg_status").val();
+            tab_text=tab_text+"</table>";
+            //tab_text='<table border="2px" style="text-align:center;vertical-align:middle;"><tr><th class="text-center sorting_disabled" style="width: 78px;text-align:center;vertical-align:center;" rowspan="1" colspan="1"><span>No</span></th></tr><tr style="width: 78px;text-align:center;vertical-align:middle;"><td class="text-center sorting_disabled" rowspan="2" style="">你好</td></tr></table>';
+            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
-                var urlParam = '';
-                if(regShip.length > 0)
-                    urlParam += '?regShip=' + regShip;
+            //document.getElementById('test').innerHTML = tab_text;
+            var filename = 'CREW LIST(' + shipName + ')';
+            exportExcel(tab_text, filename, 'CREW LIST');
+            return 0;
+        }
+    </script>
 
-                if(bookShip.length > 0) {
-                    urlParam += (urlParam.length < 1) ? '?' : '&'
-                    urlParam += 'bookShip=' + bookShip;
-                }
-
-                if(origShip.length > 0) {
-                    urlParam += (urlParam.length < 1) ? '?' : '&'
-                    urlParam += 'origShip=' + origShip;
-                }
-
-                if(regStatus.length > 0) {
-                    urlParam += (urlParam.length < 1) ? '?' : '&';
-                    urlParam += 'regStatus=' + regStatus;
-                }
-
-                location.href = 'totalShipMemberExcel' + urlParam;
-            }
-
-        </script>
-    @endif
 @endsection

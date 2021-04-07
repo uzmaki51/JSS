@@ -88,7 +88,7 @@ function formatNumber(value) {
     return str;
 }
 
-$("input[type=number]").attr("step","0.01");
+//$("input[type=number]").attr("step","0.01");
 $("input[name=orderNum]").attr("step","1");
 
 //해당배렬자료를 해당url에로 submit하는 함수

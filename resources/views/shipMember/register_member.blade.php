@@ -66,7 +66,7 @@ $isHolder = Session::get('IS_HOLDER');
                         <div class="head-fix-div" style="height:100px!important" id="crew-table">
                             <table id="table-shipmember-list">
                                 <thead>
-                                  <th class="text-center" style="width: 2%;"><span>No</span></th>
+                                  <th class="text-center" style="width: 3%;"><span>No</span></th>
                                     <th class="text-center" style="width: 8%;"><span>Family Name, Given Name</span></th>
                                     <th class="text-center" style="width: 7%;"><span>Rank</span></th>
                                     <th class="text-center" style="width: 7%;"><span>Nationality</span></th>
@@ -385,7 +385,6 @@ $isHolder = Session::get('IS_HOLDER');
         @endforeach
 @endif
         var state = '{{$state}}';
-
         $(function () {
 
             $.fn.editable.defaults.mode = 'inline';
@@ -395,7 +394,7 @@ $isHolder = Session::get('IS_HOLDER');
             if(state == 'error') {
                 $.gritter.add({
                     title: '错误',
-                    text: '登记号重复了!',
+                    text: 'SeamanbookNo不可以重复了!',
                     class_name: 'gritter-error'
                 });
             }
@@ -634,9 +633,11 @@ $isHolder = Session::get('IS_HOLDER');
             }
         })
     </script>
-    <script>
+    <script type="text/javascript">
         var capacityList = new Array();
         var cIndex = 0;
+        var state = '{!! $state !!}';
+        
         @foreach($typeList as $type)
             var capacity = new Object();
             capacity.value = '{{$type['id']}}';
