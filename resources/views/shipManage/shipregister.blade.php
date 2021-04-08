@@ -60,21 +60,21 @@ $shipList = Session::get('shipList');
                                 @foreach ($list as $item)
                                     @if(!$isHolder || ($isHolder == true && in_array($item['id'], $shipList)))
                                         <tr class="ship-item {{ $item['id'] == $shipInfo['id'] ? 'selected' : '' }}" data-index="{{ $item['id'] }}">
-                                            <td class="text-center">{{ $index }}</td>
-                                            <td class="text-center">{{ $item['shipName_En'] }}</td>
-                                            <td class="text-center">{{ $item['IMO_No'] }}</td>
-                                            <td class="text-center">{{ $item['Flag'] }}</td>
-                                            <td class="text-center">{{ $item['PortOfRegistry'] }}</td>
-                                            <td class="text-center">{{ $item['Class'] }}</td>
-                                            <td class="text-center">{{ $item['GrossTon'] }}</td>
-                                            <td class="text-center">{{ $item['NetTon'] }}</td>
-                                            <td class="text-center">{{ $item['Deadweight'] }}</td>
-                                            <td class="text-center">{{ $item['ShipType'] }}</td>
-                                            <td class="text-center">{{ $item['LOA'] }}</td>
-                                            <td class="text-center">{{ $item['BM'] }}</td>
-                                            <td class="text-center">{{ $item['DM'] }}</td>
-                                            <td class="text-center">{{ $item['Draught'] }}</td>
-                                            <td class="text-center">
+                                            <td class="text-center no-padding">{{ $index }}</td>
+                                            <td class="text-center no-padding">{{ $item['shipName_En'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['IMO_No'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['Flag'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['PortOfRegistry'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['Class'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['GrossTon'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['NetTon'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['Deadweight'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['ShipType'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['LOA'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['BM'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['DM'] }}</td>
+                                            <td class="text-center no-padding">{{ $item['Draught'] }}</td>
+                                            <td class="text-center no-padding">
                                                 <div class="action-buttons">
                                                     @if(!$isHolder)
                                                         <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_Cn'] }}')">

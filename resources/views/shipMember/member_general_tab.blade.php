@@ -369,15 +369,15 @@
         <div class="blue td-header">Last Three Sea service Record</div>
         <table class="table table-bordered">
             <tbody id="history_table">
-            <tr style="background-color: #e4dfec;height:30px;">
-                <td class="center td-header no-padding style-header" style="width:10%">From</td>
-                <td class="center td-header no-padding style-header" style="width:10%">To</td>
-                <td class="center td-header no-padding style-header" style="width:20%">Ship Name</td>
-                <td class="center td-header no-padding style-header" style="width:15%">Rank</td>
-                <td class="center td-header no-padding style-header" style="width:6%">GT</td>
-                <td class="center td-header no-padding style-header" style="width:8%">Ship Type</td>
-                <td class="center td-header no-padding style-header" style="width:8%">Power (kW)</td>
-                <td class="center td-header no-padding style-header" style="width:18%">Trading Area</td>
+            <tr class="">
+                <td class="center sub-header style-bold-italic" style="width:10%">From</td>
+                <td class="center sub-header style-bold-italic" style="width:10%">To</td>
+                <td class="center sub-header style-bold-italic" style="width:20%">Ship Name</td>
+                <td class="center sub-header style-bold-italic" style="width:15%">Rank</td>
+                <td class="center sub-header style-bold-italic" style="width:6%">GT</td>
+                <td class="center sub-header style-bold-italic" style="width:8%">Ship Type</td>
+                <td class="center sub-header style-bold-italic" style="width:8%">Power (kW)</td>
+                <td class="center sub-header style-bold-italic" style="width:18%">Trading Area</td>
                 <td></td>
             </tr>
             @if($historyList != null)

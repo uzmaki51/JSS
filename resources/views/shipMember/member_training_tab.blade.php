@@ -7,23 +7,23 @@
             <div class="space-4"></div>
                 <table class="table table-bordered">
                     <tbody>
-                        <tr style="background-color: #e4dfec;height:36px;">
-                            <td class="center td-header" style="width:3%">No</td>
-                            <td class="center td-header" style="width:25%">Type of certificates</td>
-                            <td class="center td-header" style="width:15%">STCW Clouse</td>
-                            <td class="center td-header" style="width:15%">Certificates No</td>
-                            <td class="center td-header" style="width:13%">Issue Date</td>
-                            <td class="center td-header" style="width:13%">Expiry Date</td>
-                            <td class="center td-header" style="">Issued by</td>
+                        <tr class="">
+                            <td class="center sub-header style-bold-italic" style="width:3%">No</td>
+                            <td class="center sub-header style-bold-italic" style="width:25%">Type of certificates</td>
+                            <td class="center sub-header style-bold-italic" style="width:15%">STCW Clouse</td>
+                            <td class="center sub-header style-bold-italic" style="width:15%">Certificates No</td>
+                            <td class="center sub-header style-bold-italic" style="width:13%">Issue Date</td>
+                            <td class="center sub-header style-bold-italic" style="width:13%">Expiry Date</td>
+                            <td class="center sub-header style-bold-italic" style="">Issued by</td>
                         </tr>
                         <?php $index = 0; ?>
                         @if($security != null)
                         @foreach($security as $cert)
                         <tr>
-                            <td class="center" style="background-color: #d0e6dd">
+                            <td class="center sub-small-header" style="">
                                 {{$index + 1}}
                             </td>
-                            <td class="td-header" style="background-color: #d0e6dd">
+                            <td class="td-header sub-small-header style-bold-italic" style="">
                                 {{$cert->title}}
                             </td>
                             <td class="center no-padding">

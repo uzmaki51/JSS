@@ -240,7 +240,6 @@ div.input table tbody tr td
     padding: 4px!important;
 }
 
-
 .custom-td-report-label{
     background-color: #fbfbfb;
     font-weight: normal;
@@ -259,4 +258,29 @@ div.input table tbody tr td
 .no-padding {
     padding: 0 !important;
     height: 18px;
+}
+
+.td-header {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.sub-header {
+    background-color: #e4dfec;
+    height:20px;
+}
+
+.style-header {
+    font-weight: bold!important;
+    font-style: italic!important;
+    height: 35px;
+}
+
+.style-bold-italic {
+    font-weight: bold!important;
+    font-style: italic!important;
+}
+
+.sub-small-header{
+    background-color: #ebf1de!important;
 }

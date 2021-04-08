@@ -190,10 +190,7 @@
 .report-status {
     cursor: pointer;
 }
-.td-header {
-    font-style: italic;
-    font-weight: bold;
-}
+
 #report_div {
     table-layout: fixed;
     color: black!important;
@@ -236,15 +233,4 @@
 #report_info_table thead th {
     color: black !important;
     width: 80%;
-}
-
-.style-header {
-    font-weight: bold!important;
-    font-style: italic!important;
-    height: 35px;
-}
-
-.style-bold-italic {
-    font-weight: bold!important;
-    font-style: italic!important;
 }

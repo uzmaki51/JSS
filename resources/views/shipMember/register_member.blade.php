@@ -542,6 +542,7 @@ $isHolder = Session::get('IS_HOLDER');
                     var pageInfo = listTable.page.info();
                     $(row).attr('data-index', data['no']);
                     $(row).attr('class', 'member-item');
+                    $('td', row).eq(1).attr('class', 'no-padding');
                     if (index % 2 == 0) {
                         $('td', row).eq(9).attr('rowspan', '2');
                         $('td', row).eq(9).html('').append('<div class="action-buttons"><a class="red" href="javascript:deleteItem(' + data['no'] + ')"><i class="icon-trash"></i></a></div>');

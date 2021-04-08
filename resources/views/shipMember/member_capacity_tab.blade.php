@@ -7,20 +7,20 @@
             <div class="space-4"></div>
             <table class="table table-bordered">
                 <tbody>
-                    <tr style="background-color: #e4dfec; height:30px;">
-                        <td class="center td-header style-header" style="width:3%">No</td>
-                        <td class="center td-header style-header" style="width:25%">Type of certificates</td>
-                        <td class="center td-header style-header" style="width:25%">Capacity</td>
-                        <td class="center td-header style-header" style="width:15%">Certificates No</td>
-                        <td class="center td-header style-header" style="width:10%">Issue Date</td>
-                        <td class="center td-header style-header" style="width:10%">Expire Date</td>
-                        <td class="center td-header style-header" style="">Issued by</td>
+                    <tr class="">
+                        <td class="center sub-header style-bold-italic" style="width:3%">No</td>
+                        <td class="center sub-header style-bold-italic" style="width:25%">Type of certificates</td>
+                        <td class="center sub-header style-bold-italic" style="width:25%">Capacity</td>
+                        <td class="center sub-header style-bold-italic" style="width:15%">Certificates No</td>
+                        <td class="center sub-header style-bold-italic" style="width:10%">Issue Date</td>
+                        <td class="center sub-header style-bold-italic" style="width:10%">Expire Date</td>
+                        <td class="center sub-header style-bold-italic" style="">Issued by</td>
                     </tr>
                     <tr>
-                        <td class="center" style="background-color: #d0e6dd">
+                        <td class="center sub-small-header" style="">
                             1
                         </td>
-                        <td class="no-padding style-bold-italic" style="background-color: #d0e6dd">
+                        <td class="no-padding sub-small-header style-bold-italic" style="">
                             COC: Certificate of Competency (for Officerts only)
                         </td>
                         <td class="no-padding">
@@ -88,10 +88,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="center" style="background-color: #d0e6dd">
+                        <td class="center sub-small-header" style="">
                             2
                         </td>
-                        <td class="no-padding style-bold-italic" style="background-color: #d0e6dd">
+                        <td class="no-padding sub-small-header style-bold-italic" style="">
                             COE: Certificate of Endorsement (by third Flag only)
                         </td>
                         <td class="no-padding">
@@ -166,10 +166,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="center" style="background-color: #d0e6dd">
+                        <td class="center sub-small-header" style="">
                             3
                         </td>
-                        <td class="no-padding style-bold-italic" style="background-color: #d0e6dd" colspan="2">
+                        <td class="no-padding sub-small-header style-bold-italic" style="" colspan="2">
                             GOC: GMDSS general operator (for Officerts only)
                         </td>
                         <td class="no-padding">
@@ -202,10 +202,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="center" style="background-color: #d0e6dd">
+                        <td class="center sub-small-header" style="">
                             4
                         </td>
-                        <td class="no-padding style-bold-italic" style="background-color: #d0e6dd" colspan="2">
+                        <td class="no-padding sub-small-header style-bold-italic" style="" colspan="2">
                             GOC Endorsement (by third Flag only)
                         </td>
                         <td class="no-padding">
@@ -238,11 +238,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="center" style="background-color: #d0e6dd">
+                        <td class="center sub-small-header" style="">
                             5
                         </td>
-                        <td class="no-padding" style="background-color: #d0e6dd" colspan="2">
-                            <select class="form-control style-bold-italic" name="WatchID" style="padding:0px!important;background-color:#d0e6dd!important;margin:-4px!important;">
+                        <td class="no-padding" style="" colspan="2">
+                            <select class="form-control style-bold-italic sub-small-header" name="WatchID" style="padding:0px!important;margin:-4px!important;">
                                 <option value="0" @if($capacity['WatchID'] == 0)) selected @endif>Navigation watch rating</option>
                                 <option value="1" @if($capacity['WatchID'] == 1)) selected @endif>Engineroom watch rating</option>
                             </select>
