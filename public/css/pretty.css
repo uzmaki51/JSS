@@ -142,8 +142,16 @@
     width: 10px;
 }
 
+.ship-item {
+    background-color: white;
+    cursor:pointer;
+}
+.ship-item:hover {
+    background-color: #ffe3e082;
+}
+
 .selected td {
-    background: #e0edff;
+    background: #ffe3e0;
 }
 
 .ship-register a {
@@ -209,9 +217,7 @@
 #report_div .custom-modal-td-text1 {
     width: 100px;
 }
-.ship-item:hover {
-    background-color: #e0edff;
-}
+
 .custom-modal-td-text1 input {
     padding: 0 8px!important;
 }
