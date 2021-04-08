@@ -237,7 +237,7 @@ $shipList = Session::get('shipList');
         });
 
         function deleteItem(shipId, shipName) {
-            bootbox.confirm(shipName + "的船舶规范真要删除吗?", function (result) {
+            bootbox.confirm("All related records are about to be damaged.<br>Are you sure you want to delete?", function (result) {
                 if (result) {
                     $.post('deleteShipData', {'_token':token, 'dataId':shipId}, function (result) {
                         var code = parseInt(result);
@@ -286,6 +286,27 @@ $shipList = Session::get('shipList');
                         }
                     });
                 }
+            }
+        });
+
+        $("input[name='Deadweight'").keyup(function(e) {
+            if ($(this).val() >= 33000){
+                $(this).val('32767')
+            }
+        });
+
+
+        $('body').on('keydown', 'input, select', function(e) {
+            if (e.key === "Enter") {
+                var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+                focusable = form.find('input,a,select,button,textarea').filter(':visible');
+                next = focusable.eq(focusable.index(this)+1);
+                if (next.length) {
+                    next.focus();
+                } else {
+                    form.submit();
+                }
+                return false;
             }
         });
 

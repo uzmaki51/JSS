@@ -175,7 +175,7 @@ return [
         '(Forecastle)m' => 'TPC [MT/Cm]',
         '(Poop)m' => 'Bow to Bridge [m]',
         '(Deckhouse)m' => 'Max Height from Keel [m]',
-        'Registeration Date' => 'Registeration Date',
+        'Registration Date' => 'Registration Date',
         'Renewal Date' => 'Renewal Date',
         'Expiry Date' => 'Expiry Date',
         'Conditional Date' => 'Conditional Date',

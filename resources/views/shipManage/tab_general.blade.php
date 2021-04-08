@@ -6,7 +6,7 @@ $shipList = Session::get('shipList');
 <div class="row">
     <div class="col-md-12">
         <div class="space-6"></div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="table-responsive">
                 <table class="table table-bordered general" style="font-weight: bold">
                     <tbody>
@@ -205,7 +205,7 @@ $shipList = Session::get('shipList');
                 </table>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="row">
                 <div class="col-md-6">
                     <div class="table-responsive">
@@ -309,13 +309,13 @@ $shipList = Session::get('shipList');
                         </table>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="table-responsive">
                         <table id="sample-table-1" class="table table-bordered general">
                             <tbody>
                             <tr>
                                 <td class="custom-td-label1" style="text-align: left; width: 40%;">
-                                <span class="style-header">{{ transShipManager('General.Registeration Date') }}</span>
+                                <span class="style-header">{{ transShipManager('General.Registration Date') }}</span>
                                 </td>
                                 <td class="custom-td-dec-text">
                                     <div class="input-group">
@@ -405,7 +405,7 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.GrossTon') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="GrossTon" class="form-control" style="width:100%" value="@if(isset($shipInfo['GrossTon'])){{$shipInfo['GrossTon']}}@endif">
+                                    <input type="number" name="GrossTon" class="form-control" style="width:100%" value="@if(isset($shipInfo['GrossTon'])){{$shipInfo['GrossTon']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
@@ -413,7 +413,7 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.NetTon') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="NetTon" class="form-control" style="width:100%" value="@if(isset($shipInfo['NetTon'])){{$shipInfo['NetTon']}}@endif">
+                                    <input type="number" name="NetTon" class="form-control" style="width:100%" value="@if(isset($shipInfo['NetTon'])){{$shipInfo['NetTon']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
@@ -421,7 +421,7 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.(DeadWeight)mt') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="Deadweight" class="form-control" style="width:100%" value="@if(isset($shipInfo['Deadweight'])){{$shipInfo['Deadweight']}}@endif">
+                                    <input type="number" name="Deadweight" class="form-control" style="width:100%" value="@if(isset($shipInfo['Deadweight'])){{$shipInfo['Deadweight']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
@@ -429,7 +429,7 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.(Displacement)mt') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="Displacement" class="form-control" style="width:100%" value="@if(isset($shipInfo['Displacement'])){{$shipInfo['Displacement']}}@endif">
+                                    <input type="number" name="Displacement" class="form-control" style="width:100%" value="@if(isset($shipInfo['Displacement'])){{$shipInfo['Displacement']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
@@ -437,7 +437,7 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.(Ballast)㎥') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="Ballast" class="form-control" style="width:100%" value="@if(isset($shipInfo['Ballast'])){{$shipInfo['Ballast']}}@endif">
+                                    <input type="number" name="Ballast" class="form-control" style="width:100%" value="@if(isset($shipInfo['Ballast'])){{$shipInfo['Ballast']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
@@ -445,14 +445,14 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.(FuelBunkers)㎥') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="FuelBunker" class="form-control" style="width:100%" value="@if(isset($shipInfo['FuelBunker'])){{$shipInfo['FuelBunker']}}@endif">
+                                    <input type="number" name="FuelBunker" class="form-control" style="width:100%" value="@if(isset($shipInfo['FuelBunker'])){{$shipInfo['FuelBunker']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="table-responsive">
                         <table class="table table-bordered general">
                             <tbody>
@@ -461,7 +461,7 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.(LOA)m') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="LOA" class="form-control" style="width:100%" value="@if(isset($shipInfo['LOA'])){{$shipInfo['LOA']}}@endif">
+                                    <input type="number" name="LOA" class="form-control" style="width:100%" value="@if(isset($shipInfo['LOA'])){{$shipInfo['LOA']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
@@ -469,7 +469,7 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.(LBP)m') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="LBP" class="form-control" style="width:100%" value="@if(isset($shipInfo['LBP'])){{$shipInfo['LBP']}}@endif">
+                                    <input type="number" name="LBP" class="form-control" style="width:100%" value="@if(isset($shipInfo['LBP'])){{$shipInfo['LBP']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
@@ -477,14 +477,14 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.(Lconvention)m') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="Length" class="form-control" style="width:100%" value="@if(isset($shipInfo['Length'])){{$shipInfo['Length']}}@endif">
+                                    <input type="number" name="Length" class="form-control" style="width:100%" value="@if(isset($shipInfo['Length'])){{$shipInfo['Length']}}@endif" min="0" autocomplete="off">
                                 </td>                                    </tr>
                             <tr>
                                 <td class="custom-td-label1" style="text-align: left">
                                 <span class="style-header">{{ transShipManager('General.(BM)m') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="BM" class="form-control" style="width:100%" value="@if(isset($shipInfo['BM'])){{$shipInfo['BM']}}@endif">
+                                    <input type="number" name="BM" class="form-control" style="width:100%" value="@if(isset($shipInfo['BM'])){{$shipInfo['BM']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
@@ -492,7 +492,7 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.(DM)m') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="DM" class="form-control" style="width:100%" value="@if(isset($shipInfo['DM'])){{$shipInfo['DM']}}@endif">
+                                    <input type="number" name="DM" class="form-control" style="width:100%" value="@if(isset($shipInfo['DM'])){{$shipInfo['DM']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             <tr>
@@ -500,7 +500,7 @@ $shipList = Session::get('shipList');
                                 <span class="style-header">{{ transShipManager('General.(Draught)m') }}</span>
                                 </td>
                                 <td class="custom-td-report-text">
-                                    <input type="text" name="Draught" class="form-control" style="width:100%" value="@if(isset($shipInfo['Draught'])){{$shipInfo['Draught']}}@endif">
+                                    <input type="number" name="Draught" class="form-control" style="width:100%" value="@if(isset($shipInfo['Draught'])){{$shipInfo['Draught']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             </tbody>
@@ -509,10 +509,9 @@ $shipList = Session::get('shipList');
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-11">
                     <div class="table-responsive">
-                        <table class="table table-bordered general"
-                               style="font-weight: bold">
+                        <table class="table table-bordered general" style="font-weight: bold">
                             <tbody>
                             <tr>
                                 <td class="custom-td-label1" style="text-align: left; width: 20%;">
@@ -530,8 +529,18 @@ $shipList = Session::get('shipList');
                                     <input type="text" name="BuildPlace_Cn" class="form-control" style="width:100%" value="@if(isset($shipInfo['BuildPlace_Cn'])){{$shipInfo['BuildPlace_Cn']}}@endif">
                                 </td>
                             </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="table table-bordered general">
+                            <tbody>
                             <tr>
-                                <td class="custom-td-label1" style="text-align: left">
+                                <td class="custom-td-label1" style="text-align: left; width: 20%;">
                                 <span class="style-header">{{ transShipManager('General.(KeelDate)m') }}</span>
                                 </td>
                                 <td class="custom-td-report-text keel-date">
@@ -545,15 +554,9 @@ $shipList = Session::get('shipList');
                                     </span>
                                     </div>
                                 </td>
-                                <td class="custom-td-label1" style="text-align: left; width: 20%;margin-left:14px;">
-                                <span class="style-header">{{ transShipManager('General.(Bridge)m') }}</span>
-                                </td>
-                                <td class="custom-td-report-text keel-date">
-                                    <input type="text" name="DeckErection_B" class="form-control" style="width:100%" value="@if(isset($shipInfo['DeckErection_B'])){{$shipInfo['DeckErection_B']}}@endif">
-                                </td>
                             </tr>
                             <tr>
-                                <td class="custom-td-label1" style="text-align: left">
+                            <td class="custom-td-label1" style="text-align: left">
                                 <span class="style-header">{{ transShipManager('General.(LaunchDate)m') }}</span>
                                 </td>
                                 <td class="custom-td-report-text keel-date">
@@ -566,12 +569,6 @@ $shipList = Session::get('shipList');
                                         <i class="icon-calendar "></i>
                                     </span>
                                     </div>
-                                </td>
-                                <td class="custom-td-label1" style="text-align: left;margin-left:14px;">
-                                <span class="style-header">{{ transShipManager('General.(Forecastle)m') }}</span>
-                                </td>
-                                <td class="custom-td-report-text keel-date">
-                                    <input type="text" name="DeckErection_F" class="form-control" style="width:100%" value="@if(isset($shipInfo['DeckErection_F'])){{$shipInfo['DeckErection_F']}}@endif">
                                 </td>
                             </tr>
                             <tr>
@@ -589,18 +586,12 @@ $shipList = Session::get('shipList');
                                     </span>
                                     </div>
                                 </td>
-                                <td class="custom-td-label1" style="text-align: left;margin-left:14px;">
-                                <span class="style-header">{{ transShipManager('General.(Poop)m') }}</span>
-                                </td>
-                                <td class="custom-td-report-text keel-date">
-                                    <input type="text" name="DeckErection_P" class="form-control" value="@if(isset($shipInfo['DeckErection_P'])){{$shipInfo['DeckErection_P']}}@endif">
-                                </td>
                             </tr>
                             <tr>
                                 <td class="custom-td-label1" style="text-align: left">
                                 <span class="style-header">{{ transShipManager('General.(ConversionDate)m') }}</span>
                                 </td>
-                                <td class="custom-td-report-text keel-date">
+                                <td class="custom-td-report-text keel-date" style="width:100%!important">
                                     <div class="input-group">
                                         <input class="form-control date-picker"
                                                name="ConversionDate"
@@ -611,11 +602,44 @@ $shipList = Session::get('shipList');
                                     </span>
                                     </div>
                                 </td>
-                                <td class="custom-td-label1" style="text-align: left;margin-left:14px;">
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="table-responsive">
+                        <table class="table table-bordered general">
+                            <tbody>
+                            <tr>
+                                <td class="custom-td-label1" style="text-align: left; width: 20%;">
+                                <span class="style-header">{{ transShipManager('General.(Bridge)m') }}</span>
+                                </td>
+                                <td class="custom-td-report-text keel-date" style="width:100%!important">
+                                    <input type="number" name="DeckErection_B" class="form-control" style="width:100%" value="@if(isset($shipInfo['DeckErection_B'])){{$shipInfo['DeckErection_B']}}@endif" min="0" autocomplete="off">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="custom-td-label1" style="text-align: left;">
+                                <span class="style-header">{{ transShipManager('General.(Forecastle)m') }}</span>
+                                </td>
+                                <td class="custom-td-report-text keel-date">
+                                    <input type="number" name="DeckErection_F" class="form-control" style="width:100%" value="@if(isset($shipInfo['DeckErection_F'])){{$shipInfo['DeckErection_F']}}@endif" min="0" autocomplete="off">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="custom-td-label1" style="text-align: left;">
+                                <span class="style-header">{{ transShipManager('General.(Poop)m') }}</span>
+                                </td>
+                                <td class="custom-td-report-text keel-date">
+                                    <input type="number" name="DeckErection_P" class="form-control" value="@if(isset($shipInfo['DeckErection_P'])){{$shipInfo['DeckErection_P']}}@endif" min="0" autocomplete="off">
+                                </td>                         </tr>
+                            <tr>
+                                <td class="custom-td-label1" style="text-align: left;">
                                 <span class="style-header">{{ transShipManager('General.(Deckhouse)m') }}</span>
                                 </td>
                                 <td class="custom-td-report-text keel-date">
-                                    <input type="text" name="DeckErection_H" class="form-control" value="@if(isset($shipInfo['DeckErection_H'])){{$shipInfo['DeckErection_H']}}@endif">
+                                    <input type="number" name="DeckErection_H" class="form-control" value="@if(isset($shipInfo['DeckErection_H'])){{$shipInfo['DeckErection_H']}}@endif" min="0" autocomplete="off">
                                 </td>
                             </tr>
                             </tbody>
