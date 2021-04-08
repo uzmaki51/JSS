@@ -27,6 +27,9 @@ $isHolder = Session::get('IS_HOLDER');
                 width: 120px;
             }
 
+            .list-body {
+                background-color: #ffffff;
+            }
             .list-body:hover {
                 background-color: #e0edff;
                 cursor: pointer;
@@ -44,8 +47,8 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
                 <div class="col-md-12">
                     <div class="col-sm-6 f-left">
-                        <label>Name: <input type="text" id="search-name"/></label>
-                        <label style="margin-left:5px;">Sign On (上船): </label><input id="search-signon" style="margin-top:5px; margin-left:5px; position:absolute;" type="checkbox" onclick="" checked disabled/>
+                        <label><b>Name: </b><input type="text" id="search-name"/></label>
+                        <label style="margin-left:5px;font-style:italic;"><b>Sign On (上船): </b></label><input id="search-signon" style="margin-top:5px; margin-left:5px; position:absolute;" type="checkbox" onclick=""/>
                     </div>
                     <div class="col-sm-6 f-right">
                         @if(!$isHolder)
@@ -65,16 +68,16 @@ $isHolder = Session::get('IS_HOLDER');
                     <div class="row">
                         <div class="head-fix-div" style="height:100px!important" id="crew-table">
                             <table id="table-shipmember-list">
-                                <thead>
-                                  <th class="text-center" style="width: 3%;"><span>No</span></th>
-                                    <th class="text-center" style="width: 8%;"><span>Family Name, Given Name</span></th>
-                                    <th class="text-center" style="width: 7%;"><span>Rank</span></th>
-                                    <th class="text-center" style="width: 7%;"><span>Nationality</span></th>
-                                    <th class="text-center" style="width: 8%;"><span>Chinese ID No.</span></th>
-                                    <th class="text-center" style="width: 7%;"><span>Date and place of birth</span></th>
-                                    <th class="text-center" style="width: 8%;"><span>Date and place of embarkation</span></th>
-                                    <th class="text-center" style="width: 8%;"><span>Seaman's Book No and Expire Date</span></th>
-                                    <th class="text-center" style="width: 8%;"><span>Passport's No and Expire Date</span></th>
+                                <thead class="">
+                                  <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
+                                    <th class="text-center style-header" style="width: 8%;"><span>Family Name, Given<br>Name</span></th>
+                                    <th class="text-center style-header" style="width: 7%;"><span>Rank</span></th>
+                                    <th class="text-center style-header" style="width: 7%;"><span>Nationality</span></th>
+                                    <th class="text-center style-header" style="width: 8%;"><span>Chinese ID No.</span></th>
+                                    <th class="text-center style-header" style="width: 7%;"><span>Date and place of<br>birth</span></th>
+                                    <th class="text-center style-header" style="width: 8%;"><span>Date and place<br>of embarkation</span></th>
+                                    <th class="text-center style-header" style="width: 8%;"><span>Seaman's Book No<br>and Expire Date</span></th>
+                                    <th class="text-center style-header" style="width: 8%;"><span>Passport's No<br>and Expire Date</span></th>
                                     <th style="width: 2%;"></th>
                                 </thead>
                                 <tbody class="list-body" id="list-body">
@@ -83,64 +86,6 @@ $isHolder = Session::get('IS_HOLDER');
                         </div>
                     </div>
                 </div>
-                <!--div class="col-md-12">
-                    <div class="row">
-                        <div class="head-fix-div" id="crew-table">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th class="text-center" style="width: 2%;"><span>No</span></th>
-                                    <th class="text-center" style="width: 10%;"><span>SeamanbookNo</span></th>
-                                    <th class="text-center" style="width: 10%;"><span>Name in chinese</span></th>
-                                    <th class="text-center" style="width: 8%;"><span>Gender</span></th>
-                                    <th class="text-center" style="width: 8%;"><span>Birthday</span></th>
-                                    <th class="text-center" style="width: 7%;"><span>Nationality</span></th>
-                                    <th class="text-center" style="width: 8%;"><span>Sign On/Off</span></th>
-                                    <th style="width: 2%;"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php $index = 1; ?>
-                                @if(isset($list) && count($list) > 0)
-                                    @foreach ($list as $item)
-                                        <tr id="test{{$index}}" class="member-item {{ $item['id'] == $info['id'] ? 'selected' : '' }}" data-index="{{ $item['id'] }}">
-                                            <td class="text-center" style="width: 2%;">{{ $item['id'] }}</td>
-                                            <td class="text-center" style="width: 10%;">{{ $item['crewNum'] }}</td>
-                                            <td class="text-center" style="width: 10%;">{{ $item['realname'] }}</td>
-                                            <td class="text-center" style="width: 10%;">{{ $item['Sex'] == 0 ? transShipMember('captions.male') : transShipMember('captions.female')}}</td>
-                                            <td class="text-center" style="width: 8%;">{{ $item['birthday'] }}</td>
-                                            <td class="text-center" style="width: 7%;">{{ $item['Nationality'] }}</td>
-                                            <td class="text-center" style="width: 8%;">{{ $item['RegStatus'] == 0 ? 'On' : 'Off' }}</td>
-                                            <td class="text-center" style="width: 2%;">
-                                                <div class="action-buttons">
-                                                    @if(!$isHolder)
-                                                        <a class="red" href="javascript:deleteItem('{{ $item['id'] }}', '{{ $item['shipName_En'] }}')">
-                                                            <i class="icon-trash"></i>
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <?php $index ++; ?>
-                                    @endforeach
-                                @else
-                                    <div>
-                                        {{ trans('common.message.no_data') }}
-                                    </div>
-                                @endif
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div style="text-align: right">
-                            @if(isset($info))
-                                <input class="hidden" name="memberId" value="{{$info['id']}}">
-                            @endif
-                            <input class="hidden" name="_token" value="{{csrf_token()}}">
-                        </div>
-                    </div>
-                </div-->
                 <div class="col-md-12">
                     <div class="row">
                         <div class="tabbable">
@@ -192,7 +137,7 @@ $isHolder = Session::get('IS_HOLDER');
             <div id="modal-rank-list" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
                 <div class="modal-dialog dynamic-list">
                     <div class="modal-content" style="border: 0;">
-                        <div class="modal-header no-padding" data-target="#modal-step-contents">
+                        <div class="modal-header" data-target="#modal-step-contents">
                             <div class="table-header">
                                 <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
                                     <span class="white">&times;</span>
@@ -616,10 +561,15 @@ $isHolder = Session::get('IS_HOLDER');
         initTable();
 
         function doSearch() {
-            console.log("DoSearch");
             var name = $('#search-name').val();
-            listTable.column(1).search(name, false, false).draw();
+            var sign = $('#search-signon').is(":checked");
+            listTable.column(1).search(name, false, false);
+            listTable.column(3).search(sign, false, false).draw();
         }
+
+        $('#search-signon').on('change', function(e) {
+            doSearch();
+        })
 
         $('#member-form').on('keydown', function(e) {
             if (e.which == 13) {

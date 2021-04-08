@@ -7,7 +7,7 @@
             <div class="space-4"></div>
                 <table class="table table-bordered">
                     <tbody>
-                        <tr style="background-color: #fce6d4;height:30px;">
+                        <tr style="background-color: #e4dfec;height:36px;">
                             <td class="center td-header" style="width:3%">No</td>
                             <td class="center td-header" style="width:25%">Type of certificates</td>
                             <td class="center td-header" style="width:15%">STCW Clouse</td>
@@ -20,7 +20,7 @@
                         @if($security != null)
                         @foreach($security as $cert)
                         <tr>
-                            <td class="center td-header" style="background-color: #d0e6dd">
+                            <td class="center" style="background-color: #d0e6dd">
                                 {{$index + 1}}
                             </td>
                             <td class="td-header" style="background-color: #d0e6dd">

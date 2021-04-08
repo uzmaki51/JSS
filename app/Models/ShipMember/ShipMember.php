@@ -385,6 +385,23 @@ class ShipMember extends Model
             $records = $selector->orderBy('DutyID_Book')->get();
             $recordsFiltered = $selector->count();
         }
+
+        if (isset($params['columns'][3]['search']['value'])
+            && $selector !== null
+        ) {
+            if ($params['columns'][3]['search']['value'] == 'true')
+            {
+                $selector->where('DateOnboard', '!=', 'null');
+                $records = $selector->orderBy('DutyID_Book')->get();
+                $recordsFiltered = $selector->count();
+            }
+            else
+            {
+                $selector->where('DateOnboard', null);
+                $records = $selector->orderBy('DutyID_Book')->get();
+                $recordsFiltered = $selector->count();
+            }
+        }
         
         $newArr = [];
         $newindex = 0;

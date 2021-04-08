@@ -37,20 +37,20 @@ $shipList = Session::get('shipList');
                         <table class="registered-list">
                             <thead id="list-header">
                             <tr>
-                                <th class="text-center" style="width: 2%;"><span>No</span></th>
-                                <th class="text-center" style="width: 10%;"><span>ShipName</span></th>
-                                <th class="text-center" style="width: 16%;"><span>IMO NO</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Flag</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Port of Registry</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Class</span></th>
-                                <th class="text-center" style="width: 4%;"><span>GT</span></th>
-                                <th class="text-center" style="width: 4%;"><span>NT</span></th>
-                                <th class="text-center" style="width: 4%;"><span>DWT</span></th>
-                                <th class="text-center" style="width: 18%;"><span>ShipType</span></th>
-                                <th class="text-center" style="width: 4%;"><span>LOA</span></th>
-                                <th class="text-center" style="width: 4%;"><span>BM</span></th>
-                                <th class="text-center" style="width: 4%;"><span>DM</span></th>
-                                <th class="text-center" style="width: 4%;"><span>Draught</span></th>
+                                <th class="text-center style-header" style="width: 2%;"><span>No</span></th>
+                                <th class="text-center style-header" style="width: 10%;"><span>ShipName</span></th>
+                                <th class="text-center style-header" style="width: 16%;"><span>IMO NO</span></th>
+                                <th class="text-center style-header" style="width: 8%;"><span>Flag</span></th>
+                                <th class="text-center style-header" style="width: 8%;"><span>Port of Registry</span></th>
+                                <th class="text-center style-header" style="width: 8%;"><span>Class</span></th>
+                                <th class="text-center style-header" style="width: 4%;"><span>GT</span></th>
+                                <th class="text-center style-header" style="width: 4%;"><span>NT</span></th>
+                                <th class="text-center style-header" style="width: 4%;"><span>DWT</span></th>
+                                <th class="text-center style-header" style="width: 18%;"><span>ShipType</span></th>
+                                <th class="text-center style-header" style="width: 4%;"><span>LOA</span></th>
+                                <th class="text-center style-header" style="width: 4%;"><span>BM</span></th>
+                                <th class="text-center style-header" style="width: 4%;"><span>DM</span></th>
+                                <th class="text-center style-header" style="width: 4%;"><span>Draught</span></th>
                                 <th style="width: 2%;"></th>
                             </tr>
                             </thead>
@@ -297,6 +297,8 @@ $shipList = Session::get('shipList');
             console.log($form.serialize());
             console.log($form.serialize() !== origForm);
 
+            console.log("Really");
+            alert("Really?");
             if ($form.serialize() !== origForm) {
                 (e || window.event).returnValue = confirmationMessage;
             }

@@ -193,11 +193,13 @@
 
         function deleteShipType(e)
         {
-            console.log(e);
             if ($('#shiptype-table tr').length > 2) { // && !$(e).closest("tr").is(":last-child")) {
                 if (confirm("Are you sure to delete?")) {
                     console.log($(e).closest("tr"));
                     $(e).closest("tr").remove();
+                    for (var i=0;i<$('#shiptype-table').children().length;i++) {
+                        $($('#shiptype-table').children()[i].firstChild.firstChild).val(i+1);
+                    }
                 }
             }
         }
@@ -297,11 +299,13 @@
 
         function deleteRank(e)
         {
-            console.log(e);
             if ($('#rank-table tr').length > 2) { // && !$(e).closest("tr").is(":last-child")) {
                 if (confirm("Are you sure to delete?")) {
                     console.log($(e).closest("tr"));
                     $(e).closest("tr").remove();
+                    for (var i=0;i<$('#rank-table').children().length;i++) {
+                        $($('#rank-table').children()[i].firstChild.firstChild).val(i+1);
+                    }
                 }
             }
         }
@@ -416,6 +420,9 @@
                 if (confirm("Are you sure to delete?")) {
                     console.log($(e).closest("tr"));
                     $(e).closest("tr").remove();
+                    for (var i=0;i<$('#capacity-table').children().length;i++) {
+                        $($('#capacity-table').children()[i].firstChild.firstChild).val(i+1);
+                    }
                 }
             }
         }

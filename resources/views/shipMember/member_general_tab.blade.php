@@ -7,7 +7,7 @@
                     <tbody>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left">
-                            <span class="text-danger">Seamanbook No*</span>
+                            <span class="text-danger style-header">Seamanbook No*</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <input type="text" name="crewNum" class="form-control" style="width:100%" value="@if(isset($info)){{$info['crewNum']}}@endif" required>
@@ -15,7 +15,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left">
-                            Name in English
+                            <span class="style-header">Name in English</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <input type="text" name="realname" class="form-control" style="width:100%" value="@if(isset($info)){{$info['realname']}}@endif">
@@ -23,7 +23,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left">
-                            Name in Chinese
+                            <span class="style-header">Name in Chinese</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <input type="text" name="GivenName" class="form-control" style="width:100%" value="@if(isset($info)){{$info['GivenName']}}@endif">
@@ -31,7 +31,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left">
-                            Gender
+                            <span class="style-header">Gender</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <select class="form-control" name="Sex" style="padding:0px!important;color:#12539b!important">
@@ -42,7 +42,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left">
-                            Birthday
+                            <span class="style-header">Birthday</span>
                         </td>
                         <td class="custom-td-dec-text">
                             <div class="input-group">
@@ -58,7 +58,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1">
-                            BirthPlace
+                            <span class="style-header">BirthPlace</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <input type="text" name="BirthPlace" class="form-control first-input" value="@if(isset($info)){{$info['BirthPlace']}}@endif" placeholder="" style="border-right: 1px solid #cccccc!important;">
@@ -67,7 +67,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left">
-                            Issued Date
+                            <span class="style-header">Issued Date</span>
                         </td>
                         <td class="custom-td-dec-text">
                             <div class="input-group">
@@ -83,7 +83,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left">
-                            Expire Date
+                            <span class="style-header">Expire Date</span>
                         </td>
                         <td class="custom-td-dec-text">
                             <div class="input-group">
@@ -107,7 +107,7 @@
                     <tbody>
                     <tr>
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            <span class="text-danger" disabled>Passport No *</span>
+                            <span class="text-danger style-header" disabled>Passport No *</span>
                         </td>
                         <td class="custom-td-report-text" style="width: 80%" colspan="2">
                             <input type="text" name="PassportNo" class="form-control" style="width:100%" value="@if(isset($info)){{$info['PassportNo']}}@endif" required>
@@ -115,7 +115,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left" colspan="2">
-                            Nationality
+                            <span class="style-header">Nationality</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <!--select class="form-control" name="Nationality">
@@ -151,7 +151,7 @@
                     </tr>
                     <tr>
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            Issued Date
+                            <span class="style-header">Issued Date</span>
                         </td>
                         <td class="custom-td-report-text">
                             <div class="input-group">
@@ -167,7 +167,7 @@
                     </tr>
                     <tr>
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            Expire Date
+                            <span class="style-header">Expire Date</span>
                         </td>
                         <td class="custom-td-report-text">
                             <div class="input-group">
@@ -183,7 +183,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left" colspan="2">
-                            身份证号
+                            <span class="style-header">身份证号</span>
                         </td>
                         <td class="custom-td-report-text" colspan="3">
                             <input type="text" name="CertNo" class="form-control d-in-block" style="width:100%" value="@if(isset($info)){{$info['CertNo']}}@endif">
@@ -191,7 +191,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left" colspan="2">
-                            身份手机
+                            <span class="style-header">身份手机</span>
                         </td>
                         <td class="custom-td-report-text" colspan="3">
                             <input type="text" name="phone" class="form-control" style="width:100%" value="@if(isset($info)){{$info['phone']}}@endif" placeholder="">
@@ -199,7 +199,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left" colspan="2">
-                            家属手机
+                            <span class="style-header">家属手机</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <input type="text" name="OtherContacts" class="form-control" style="width:100%" value="@if(isset($info)){{$info['OtherContacts']}}@endif">
@@ -207,7 +207,7 @@
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align: left" colspan="2">
-                            Bank Information
+                            <span class="style-header">Bank Information</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
                             <input type="text" name="BankInformation" class="form-control" style="width:100%" value="@if(isset($info)){{$info['BankInformation']}}@endif">
@@ -223,7 +223,7 @@
                     <tbody>
                         <tr>
                             <td class="no-padding custom-td-label1" style="text-align: left;width:20%">
-                                <span class="text-danger">Ship Name</span>
+                                <span class="text-danger style-header">Ship Name</span>
                             </td>
                             <td class="custom-td-report-text">
                                 <select name="ShipId" class="form-control" style="padding:0px!important;color:#12539b!important">
@@ -241,7 +241,7 @@
                         </tr>
                         <tr>
                             <td class="no-padding custom-td-label1" style="text-align: left;width:20%">
-                                Rank(职务)
+                                <span class="style-header">Rank(职务)</span>
                             </td>
                             <td>
                                 <?php $rank = "";
@@ -282,7 +282,7 @@
                         </tr>
                         <tr>
                             <td class="no-padding custom-td-label1" style="text-align: left;width:20%">
-                                Wage (Month)
+                                <span class="style-header">Wage (Month)</span>
                             </td>
                             <td class="custom-td-report-text">
                                 <select class="form-control currency-type" name="WageCurrency" style="border-right: 1px solid #cccccc!important;color:#12539b!important">
@@ -303,7 +303,7 @@
                         </tr-->
                         <tr>
                             <td class="no-padding custom-td-label1" style="text-align: left;width:20%">
-                                Date (Sign On)
+                                <span class="style-header">Date (Sign On)</span>
                             </td>
                             <td class="custom-td-report-text">
                                 <div class="input-group">
@@ -319,7 +319,7 @@
                         </tr>
                         <tr>
                             <td class="no-padding custom-td-label1" style="text-align: left;width:20%">
-                                Port (Sign On)
+                                <span class="style-header">Port (Sign On)</span>
                             </td>
                             <td class="custom-td-report-text">
                                 <div class="input-group">
@@ -335,7 +335,7 @@
                         </tr>
                         <tr>
                             <td class="no-padding custom-td-label1" style="text-align: left;width:20%">
-                                Date (Sign Off)
+                                <span class="style-header">Date (Sign Off)</span>
                             </td>
                             <td class="custom-td-report-text">
                                 <div class="input-group">
@@ -351,7 +351,7 @@
                         </tr>
                         <tr>
                             <td class="custom-td-label1" style="text-align: left">
-                                HomeAddress
+                                <span class="style-header">HomeAddress</span>
                             </td>
                             <td class="custom-td-report-text" colspan="2">
                                 <input type="text" name="address" class="form-control" style="width:100%" value="@if(isset($info)){{$info['address']}}@endif">
@@ -369,15 +369,15 @@
         <div class="blue td-header">Last Three Sea service Record</div>
         <table class="table table-bordered">
             <tbody id="history_table">
-            <tr style="background-color: #fce6d4;height:30px;">
-                <td class="center td-header no-padding" style="width:10%">From</td>
-                <td class="center td-header no-padding" style="width:10%">To</td>
-                <td class="center td-header no-padding" style="width:20%">Ship Name</td>
-                <td class="center td-header no-padding" style="width:15%">Rank</td>
-                <td class="center td-header no-padding" style="width:6%">GT</td>
-                <td class="center td-header no-padding" style="width:8%">Ship Type</td>
-                <td class="center td-header no-padding" style="width:8%">Power (kW)</td>
-                <td class="center td-header no-padding" style="width:18%">Trading Area</td>
+            <tr style="background-color: #e4dfec;height:30px;">
+                <td class="center td-header no-padding style-header" style="width:10%">From</td>
+                <td class="center td-header no-padding style-header" style="width:10%">To</td>
+                <td class="center td-header no-padding style-header" style="width:20%">Ship Name</td>
+                <td class="center td-header no-padding style-header" style="width:15%">Rank</td>
+                <td class="center td-header no-padding style-header" style="width:6%">GT</td>
+                <td class="center td-header no-padding style-header" style="width:8%">Ship Type</td>
+                <td class="center td-header no-padding style-header" style="width:8%">Power (kW)</td>
+                <td class="center td-header no-padding style-header" style="width:18%">Trading Area</td>
                 <td></td>
             </tr>
             @if($historyList != null)

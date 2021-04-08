@@ -102,20 +102,6 @@ table>tbody>tr>td{
 .fadder{
     text-align: center;
 }
-.custom-td-report-label{
-    background-color: #fbfbfb;
-    font-weight: normal;
-    width: 50%;
-    vertical-align: middle;
-    text-align: center;
-}
-.custom-td-report-text{
-    background-color: #FFFFFF;
-    font-weight: normal;
-    width: 250%;
-    vertical-align: middle;
-}
-
 .th-content {
     text-align: center;
     vertical-align: middle;
@@ -252,4 +238,25 @@ div.input table tbody tr td
 .excel-output tbody tr td {
     background: white;
     padding: 4px!important;
+}
+
+
+.custom-td-report-label{
+    background-color: #fbfbfb;
+    font-weight: normal;
+    width: 50%;
+    vertical-align: middle;
+    text-align: center;
+}
+.custom-td-report-text{
+    background-color: #FFFFFF;
+    font-weight: normal;
+    width: 250%;
+    height: 18px;
+    vertical-align: middle;
+}
+
+.no-padding {
+    padding: 0 !important;
+    height: 18px;
 }
