@@ -56,4 +56,19 @@ class ShipCertRegistry extends Model
         $list = $query->orderBy('tb_ship_certlist.CertNo')->get();
         return $list;
     }
+
+    public function getExpiredList() {
+    	$date = date('y-m-d');
+    	$selector = DB::table($this->table)
+		    ->where('expire_date', '<', $date)
+		    ->where('expire_date', '!=', '0000-00-00')
+		    ->select('*');
+
+    	$result = $selector->get();
+
+    	return $result;
+
+
+
+    }
 }
