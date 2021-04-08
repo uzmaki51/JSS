@@ -129,7 +129,7 @@
 
 </script>
 
-<div class="main-container" id="main-container">
+<div class="main-container {{ $routeName == 'home' ? '' : 'inner-wrap' }}" id="main-container">
     <div class="main-container-inner">
         @yield('sidebar')
     </div>

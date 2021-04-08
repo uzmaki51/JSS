@@ -19,7 +19,7 @@
         }
     </style>
 
-    <div class="sidebar menu-min" id="sidebar">
+    <div class="sidebar menu-min d-none" id="sidebar">
 
     <script type="text/javascript">
         try {

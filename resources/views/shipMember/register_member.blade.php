@@ -250,7 +250,7 @@ $isHolder = Session::get('IS_HOLDER');
                         </div>
                         <div id="modal-body-content" class="dynamic-modal-body step-content">
                             <div class="row">
-                                <label>Type each item on a separate line:</line>
+                                <label>Type each item on a separate line:</label>
                             </div>
                             <div class="row" style="margin-top:2px;">
                                 <textarea id="dynamic-data" type="text" name="HullNotation" class="dynmaic-list" rows="15"></textarea>

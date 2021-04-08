@@ -1,5 +1,8 @@
 .inner-wrap {
-    width: 1100px!important;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0px 0px 8px 4px #d2d2d2;
+    background: white;
 }
 .card {
     position: relative;
@@ -284,4 +287,11 @@ ul.timeline > li {
 
 .main-panel {
     box-shadow: 0px 0px 8px 4px #d2d2d2;
+}
+
+@media (min-width: 1367px) {
+    .inner-wrap {
+        width: 1200px;
+        margin: 0 auto;
+    }
 }

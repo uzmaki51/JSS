@@ -14346,7 +14346,7 @@ body.breadcrumbs-fixed {
 }
 
 .main-container:after {
-    background-color: #f8f8f8;
+    background-color: transparent;
     bottom: 0;
     content: "";
     display: block;
@@ -16844,7 +16844,7 @@ li [class^="icon-"], li [class*=" icon-"], .nav-list li [class^="icon-"], .nav-l
 }
 
 .menu-min.sidebar + .main-content {
-    margin-left: 43px
+    margin-left: 0;
 }
 
 .menu-min.sidebar + .main-content .breadcrumbs.fixed, .menu-min.sidebar + .main-content .breadcrumbs.breadcrumbs-fixed {

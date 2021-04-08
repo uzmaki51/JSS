@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="main-content" style="width: 1000px!important;">
+    <div class="main-content">
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-6">
@@ -223,8 +223,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>

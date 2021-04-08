@@ -316,8 +316,8 @@ td > a {
 #main-container {
     /*height: 100%;*/
     /*position: relative;*/
-    margin-top :62px;
-    min-height: calc(100% - 187px);
+    margin-top : 80px;
+    min-height: calc(100% - 100px);
 }
 
 textarea {
