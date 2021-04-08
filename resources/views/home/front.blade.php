@@ -119,7 +119,7 @@
         .select-options li[rel="hide"] {
             display: none;
         }
- 
+
         #currency-list tr td {
             padding: 0 4px!important;
         }
