@@ -6,7 +6,7 @@
 .table tbody > tr > .custom-td-label1 {
     padding: 2px!important;
     border: unset!important;
-    width: 160px!important;
+    width: 180px!important;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;

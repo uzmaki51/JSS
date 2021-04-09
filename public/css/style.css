@@ -13,11 +13,16 @@ table>tbody>tr>td:first-child{
 table>tbody>tr>td{
     padding: 2px 0!important;
 }
-
-.table-row-selected>td{
+/*table thead tr th, table thead tr th * {*/
+/*font-family: 'calibri'!important;*/
+/*}*/
+/*table tbody tr td, table tbody tr td * {*/
+/*font-family: '宋体'!important;*/
+/*}*/
+.table-row-selected>td {
     background-color: #b9dfce !important;
 }
-.pagination{
+.pagination {
     margin-bottom: 12px;
     margin-top: 12px;
 }
@@ -70,12 +75,9 @@ table>tbody>tr>td{
     font-weight: normal;
     vertical-align: middle;
 }
-
-
 .custom-6 {
     margin-bottom: 3px;
 }
-
 .custom-td-label {
     background-color: #FBFBFB;
     font-weight: normal;

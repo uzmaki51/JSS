@@ -207,7 +207,6 @@ td > a {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
 .error {
     color: red;
 }
@@ -338,17 +337,18 @@ table {
     height: 86px;
 }
 .head-fix-div thead th {
-    position: sticky; top: 0;
+    position: sticky;
+    top: 0;
+    border-bottom: unset!important;
 }
 .head-fix-div th {
     box-shadow: inset 0 -1px #000, 1px -1px #000;
 }
-.ship-item:first-child td {
-    border-top: unset!important;
+.head-fix-div th:last-child {
+    z-index: 1;
 }
-
-.registered-list thead th {
-    border-bottom: unset!important;
+.head-fix-div tr:first-child td {
+    border-top: unset!important;
 }
 
 /* Just common table stuff. Really. */

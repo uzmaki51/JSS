@@ -50,14 +50,6 @@
                 </tr>
                 <tr>
                     <td class="custom-td-label1 center">
-                    <span class="style-header">{{ transShipManager('Machinery.AddressEngMaker') }}</span>
-                    </td>
-                    <td class="custom-td-report-text">
-                        <input type="text" name="AddressEngMaker" class="form-control" style="width:100%" value="@if(isset($shipInfo['AddressEngMaker'])){{$shipInfo['AddressEngMaker']}}@endif">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="custom-td-label1 center">
                     <span class="style-header">{{ transShipManager('Machinery.EngineDate') }}</span>
                     </td>
                     <td class="custom-td-report-text">
@@ -70,6 +62,14 @@
                     </td>
                     <td class="custom-td-report-text">
                         <input type="text" name="Speed" class="form-control" style="width:100%" value="@if(isset($shipInfo['Speed'])){{$shipInfo['Speed']}}@endif">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="custom-td-label1 center">
+                        <span class="style-header">PROPELLER DIA/PITCH[mm]</span>
+                    </td>
+                    <td class="custom-td-report-text">
+                        <input type="text" name="AddressEngMaker" class="form-control" style="width:100%" value="@if(isset($shipInfo['AddressEngMaker'])){{$shipInfo['AddressEngMaker']}}@endif">
                     </td>
                 </tr>
                 </tbody>
