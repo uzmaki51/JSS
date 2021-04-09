@@ -217,7 +217,7 @@ ul.timeline > li {
 /*}*/
 
 
-.arrow {
+.arrow-navi {
     width: 12px;
     height: 11px;
     border: none;
@@ -226,7 +226,7 @@ ul.timeline > li {
     display: inline-block;
     margin-right: 4px;
 }
-.arrow::before {
+.arrow-navi::before {
     top: 2px;
     right: 6px;
     width: 8px;
@@ -236,7 +236,7 @@ ul.timeline > li {
     transform: rotate(-45deg);
     box-shadow: 2px 2px 0 #0044cc, 3px 2px 0 #0044cc, 2px 3px 0 #0044cc, 3px 3px 0 #0044cc;
 }
-.arrow::after {
+.arrow-navi::after {
     width: 0;
     height: 0;
     left: -1px;
@@ -248,13 +248,13 @@ ul.timeline > li {
     position: absolute;
     transition: left 0.1s ease-out, bottom 0.1s ease-out, letter-spacing 0.1s ease-out;
 }
-.arrow:hover, .arrow:focus {
+.arrow-navi:hover, .arrow-navi:focus {
     outline: none;
 }
-.arrow:hover::after, .arrow:focus::after {
+.arrow-navi:hover::after, .arrow-navi:focus::after {
     left: 1px;
 }
-.timeline li:hover .arrow::after {
+.timeline li:hover .arrow-navi::after {
     left: 1px;
 }
 .visually-hidden {

@@ -289,7 +289,7 @@ $shipList = Session::get('shipList');
             }
         });
 
-        $("input[name='Deadweight'").keyup(function(e) {
+        $("input[name='Deadweight']").keyup(function(e) {
             if ($(this).val() >= 33000){
                 $(this).val('32767')
             }
@@ -309,6 +309,8 @@ $shipList = Session::get('shipList');
                 return false;
             }
         });
+
+        $('#general').find('input').not('.auto-complete').attr('autocomplete', 'off');
 
         var $form = $('form'),
         origForm = $form.serialize();

@@ -47,7 +47,7 @@ $shipList = Session::get('shipList');
                             <span class="style-header">{{ transShipManager('General.Class') }}</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
-                            <input type="text" name="Class" class="form-control" value="@if(isset($shipInfo['Class'])){{$shipInfo['Class']}}@endif"/>
+                            <input type="text" name="Class" class="form-control auto-complete" value="@if(isset($shipInfo['Class'])){{$shipInfo['Class']}}@endif"/>
                         </td>
                     </tr>
                     <tr>
@@ -124,7 +124,7 @@ $shipList = Session::get('shipList');
                         <span class="style-header">{{ transShipManager('General.Flag') }}</span>
                         </td>
                         <td class="custom-td-report-text" style="width: 25%" colspan="2">
-                            <input type="text" name="Flag" class="form-control" placeholder="英文" style="width:100%" value="@if(isset($shipInfo['Flag'])){{$shipInfo['Flag']}}@endif">
+                            <input type="text" name="Flag" class="form-control auto-complete" placeholder="英文" style="width:100%" value="@if(isset($shipInfo['Flag'])){{$shipInfo['Flag']}}@endif">
                         </td>
                     </tr>
                     <tr>
@@ -132,7 +132,7 @@ $shipList = Session::get('shipList');
                         <span class="style-header">{{ transShipManager('General.port of Reg') }}</span>
                         </td>
                         <td class="custom-td-report-text" style="width: 25%" colspan="2">
-                            <input type="text" name="PortOfRegistry" class="form-control" placeholder="英文" style="width:100%" value="@if(isset($shipInfo['PortOfRegistry'])){{$shipInfo['PortOfRegistry']}}@endif">
+                            <input type="text" name="PortOfRegistry" class="form-control auto-complete" placeholder="英文" style="width:100%" value="@if(isset($shipInfo['PortOfRegistry'])){{$shipInfo['PortOfRegistry']}}@endif">
                         </td>
                     </tr>
                     <tr>

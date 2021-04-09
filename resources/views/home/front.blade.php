@@ -142,7 +142,7 @@
                             <div class="card-body decide-border" style="padding: 0 8px!important;">
                                 <ul class="timeline">
                                     @foreach($reportList as $item)
-                                        <li><a target="_blank" href="https://www.totoprayogo.com/#"><div class="arrow"><span class="visually-hidden">Read More</span></div>从[{{ $item->realname }}]收到了[{{ $shipForDecision[$item->shipNo] }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.</a></li>
+                                        <li><a target="_blank" href="https://www.totoprayogo.com/#"><div class="arrow-navi"><span class="visually-hidden">Read More</span></div>从[{{ $item->realname }}]收到了[{{ $shipForDecision[$item->shipNo] }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.</a></li>
                                     @endforeach
                                 </ul>
                             </div>
