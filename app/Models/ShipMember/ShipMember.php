@@ -10,6 +10,7 @@ namespace App\Models\ShipMember;
 use App\Models\ShipManage\Ship;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipMember\ShipPosition;
+use App\Models\ShipTechnique\ShipPort;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -395,9 +396,14 @@ class ShipMember extends Model
                 $records = $selector->orderBy('DutyID_Book')->get();
                 $recordsFiltered = $selector->count();
             }
-            else
+            else if ($params['columns'][3]['search']['value'] == 'false')
             {
                 $selector->where('DateOnboard', null);
+                $records = $selector->orderBy('DutyID_Book')->get();
+                $recordsFiltered = $selector->count();
+            }
+            else
+            {
                 $records = $selector->orderBy('DutyID_Book')->get();
                 $recordsFiltered = $selector->count();
             }
@@ -412,7 +418,7 @@ class ShipMember extends Model
             $newArr[$newindex]['no'] = $record->id;
             $newArr[$newindex]['name'] = $record->realname;
             $rank = ShipPosition::find($record->DutyID_Book);
-            $newArr[$newindex]['rank'] = '';
+            $newArr[$newindex]['rank'] = '&nbsp;';
             if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Duty_En;
             $newArr[$newindex]['nationality'] = $record->Nationality;
             $newArr[$newindex]['cert-id'] = $record->CertNo;
@@ -423,12 +429,15 @@ class ShipMember extends Model
             $newindex ++;
             $newArr[$newindex]['no'] = $record->id;
             $newArr[$newindex]['name'] = $record->GivenName;
-            $newArr[$newindex]['rank'] = '';
+            $newArr[$newindex]['rank'] = '&nbsp;';
             if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Duty_En;
             $newArr[$newindex]['nationality'] = $record->Nationality;
             $newArr[$newindex]['cert-id'] = $record->CertNo;
             $newArr[$newindex]['birth-and-place'] = $record->BirthPlace;
-            $newArr[$newindex]['date-and-embarkation'] = '-';
+
+            $port = ShipPort::find($record->PortID_Book);
+            $newArr[$newindex]['date-and-embarkation'] = '&nbsp;';
+            if(!empty($port) && $port != null) $newArr[$newindex]['date-and-embarkation'] = $port->Port_Cn;
             $newArr[$newindex]['bookno-expire'] = $record->ExpiryDate;
             $newArr[$newindex]['passport-expire'] = $record->PassportExpiryDate;
             $newindex ++;

@@ -30,7 +30,7 @@ $shipList = Session::get('shipList');
                     @endif
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style="margin-top:2px;">
                 <div id="item-manage-dialog" class="hide"></div>
                 <div class="row">
                     <div class="head-fix-div" id="ship-table">
@@ -307,6 +307,17 @@ $shipList = Session::get('shipList');
                     form.submit();
                 }
                 return false;
+            }
+        });
+
+        $('body').on('click', function(e) {
+            var current = null;
+            if ($(event.target).attr('class') == 'form-control dynamic-select-span' || $(event.target).attr('class') == 'dynamic-select__trigger') {
+                current = $(event.target).closest('.dynamic-select-wrapper');
+            }
+            for (const selector of document.querySelectorAll(".dynamic-select-wrapper")) {
+                if (current == null || selector != current[0])
+                    selector.firstElementChild.classList.remove('open');
             }
         });
 

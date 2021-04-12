@@ -27,30 +27,28 @@ $isHolder = Session::get('IS_HOLDER');
                     </select>
                     <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name"></span> CREW LIST</strong>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6" style="padding:unset!important">
                     <div class="btn-group f-right">
                         <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" style="margin-top:8px;">
+            <div class="col-md-12" style="margin-top:4px;">
                 <div id="item-manage-dialog" class="hide"></div>
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <div class="row">
                     <div class="head-fix-div" id="crew-table" style="height:500px!important;">
-                        <table id="table-shipmember-list" class="custom-table-striped">
-                            <thead>
-                            <tr class="black br-hblue">
-                                <th class="text-center" style="width: 3%;"><span>No</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Family Name, Given Name</span></th>
-                                <th class="text-center" style="width: 7%;"><span>Rank</span></th>
-                                <th class="text-center" style="width: 7%;"><span>Nationality</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Chinese ID No.</span></th>
-                                <th class="text-center" style="width: 7%;"><span>Date and place of birth</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Date and place of embarkation</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Seaman's Book No and Expire Date</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Passport's No and Expire Date</span></th>
-                            </tr>
+                        <table id="table-shipmember-list" style="table-layout:fixed;">
+                            <thead class="">
+                                <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
+                                <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
+                                <th class="text-center style-header" style="width: 11%;"><span>Rank</span></th>
+                                <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
+                                <th class="text-center style-header" style="width: 14%;"><span>Chinese ID No.</span></th>
+                                <th class="text-center style-header" style="width: 12%;"><span>Date and place of birth</span></th>
+                                <th class="text-center style-header" style="width: 12%;"><span>Date and place of embarkation</span></th>
+                                <th class="text-center style-header" style="width: 12%;"><span>Seaman's Book No and Expire Date</span></th>
+                                <th class="text-center style-header" style="width: 12%;"><span>Passport's No and Expire Date</span></th>
                             </thead>
                             <tbody class="" id="list-body">
                             </tbody>
@@ -115,9 +113,10 @@ $isHolder = Session::get('IS_HOLDER');
                 rowsGroup: [0, 2, 3, 4],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
-                    $(row).attr('data-index', data['no']);
+                    
                     $(row).attr('class', 'member-item');
-                    $('td', row).eq(0).html('').append((pageInfo.page * pageInfo.length + index + 1));
+                    //$('td', row).eq(0).html('').append((pageInfo.page * pageInfo.length + index + 1));
+                    $('td', row).eq(0).html(index/2+1);
                 },
             });
 

@@ -118,15 +118,10 @@
                             <span class="style-header">Nationality</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
-                            <!--select class="form-control" name="Nationality">
-                                <option value="0" @if(isset($info) && ($info['Nationality'] == 0)) selected @endif>CHINESE</option>
-                                <option value="1" @if(isset($info) && ($info['Nationality'] == 1)) selected @endif>BANGLADESH</option>
-                                <option value="2" @if(isset($info) && ($info['Nationality'] == 2)) selected @endif>MYANMAR</option>
-                            </select-->
                             <div class="dynamic-select-wrapper">
                                 <div class="dynamic-select" style="color:#12539b">
                                     <input type="hidden"  name="Nationality" value="@if(isset($info)){{$info['Nationality']}}@endif"/>
-                                    <div class="dynamic-select__trigger"><span class="dynamic-select-span">@if(isset($info)){{$info['Nationality']}}@endif</span>
+                                    <div class="dynamic-select__trigger"><input type="text" class="form-control dynamic-select-span" style="background:white!important;" value="@if(isset($info)){{$info['Nationality']}}@endif" readonly>
                                         <div class="arrow"></div>
                                     </div>
                                     <div class="dynamic-options">
@@ -262,7 +257,7 @@
                                 <div class="dynamic-select-wrapper">
                                     <div class="dynamic-select" style="color:#12539b">
                                         <input type="hidden"  name="DutyID_Book" value="{{$rank_id}}"/>
-                                        <div class="dynamic-select__trigger"><span class="dynamic-select-span">{{$rank}}</span>
+                                        <div class="dynamic-select__trigger"><input type="text" class="form-control dynamic-select-span" style="background:white!important;" value="{{$rank}}" readonly>
                                             <div class="arrow"></div>
                                         </div>
                                         <div class="dynamic-options" style="width:315px;">
@@ -345,7 +340,7 @@
                                 <div class="dynamic-select-wrapper">
                                     <div class="dynamic-select" style="color:#12539b">
                                         <input type="hidden"  name="PortID_Book" value="{{$port_id}}"/>
-                                        <div class="dynamic-select__trigger"><span class="dynamic-select-span">{{$port}}</span>
+                                        <div class="dynamic-select__trigger"><input type="text" class="form-control dynamic-select-span" style="background:white!important;" value="{{$port}}" readonly>
                                             <div class="arrow"></div>
                                         </div>
                                         <div class="dynamic-options">

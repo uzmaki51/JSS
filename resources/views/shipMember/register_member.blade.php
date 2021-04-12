@@ -50,7 +50,7 @@ $isHolder = Session::get('IS_HOLDER');
                         <label><b>Name: </b><input type="text" id="search-name"/></label>
                         <label style="margin-left:5px;font-style:italic;"><b>Sign On (上船): </b></label><input id="search-signon" style="margin-top:5px; margin-left:5px; position:absolute;" type="checkbox" onclick=""/>
                     </div>
-                    <div class="col-sm-6 f-right">
+                    <div class="col-sm-6 f-right" style="padding:unset!important">
                         @if(!$isHolder)
                             <div class="btn-group f-right">
                                 <a href="/shipMember/registerShipMember" class="btn btn-sm btn-primary btn-add" style="width: 80px">
@@ -289,14 +289,14 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
             </div>
             <div id="modal-dynamic" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
-                <div class="modal-dialog dynamic-modal">
-                    <div class="modal-content" style="border: 0;">
-                        <div class="modal-header no-padding" data-target="#modal-step-contents">
+                <div class="dynamic-modal-dialog">
+                    <div class="dynamic-modal-content" style="border: 0;width:400px!important;">
+                        <div class="dynamic-modal-header" data-target="#modal-step-contents">
                             <div class="table-header">
                                 <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
                                     <span class="white">&times;</span>
                                 </button>
-                                Edit List Items
+                                <h4 style="padding-top:10px;font-style:italic;">Edit List Items</h4>
                             </div>
                         </div>
                         <div id="modal-body-content" class="dynamic-modal-body step-content">
@@ -606,7 +606,7 @@ $isHolder = Session::get('IS_HOLDER');
                     var pageInfo = listTable.page.info();
                     $(row).attr('data-index', data['no']);
                     $(row).attr('class', 'member-item');
-                    $('td', row).eq(1).attr('class', 'no-padding');
+                    //$('td', row).eq(1).attr('class', 'no-padding');
                     $('td', row).eq(0).html(index+1);
                     if (index % 2 == 0) {
                         $('td', row).eq(9).attr('rowspan', '2');
@@ -723,7 +723,7 @@ $isHolder = Session::get('IS_HOLDER');
 
         $('body').on('click', function(e) {
             var current = null;
-            if ($(event.target).attr('class') == 'dynamic-select-span' || $(event.target).attr('class') == 'dynamic-select__trigger') {
+            if ($(event.target).attr('class') == 'form-control dynamic-select-span' || $(event.target).attr('class') == 'dynamic-select__trigger') {
                 current = $(event.target).closest('.dynamic-select-wrapper');
             }
             for (const selector of document.querySelectorAll(".dynamic-select-wrapper")) {
@@ -731,7 +731,7 @@ $isHolder = Session::get('IS_HOLDER');
                     selector.firstElementChild.classList.remove('open');
             }
         });
-
+        
         function setDatePicker() {
             $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
                 $(this).prev().focus();

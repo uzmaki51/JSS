@@ -234,16 +234,21 @@ $shipList = Session::get('shipList');
                                     <div class="dynamic-select-wrapper">
                                         <div class="dynamic-select" style="color:#12539b">
                                             <input type="hidden"  name="ShipType" value="{{$sel_id}}"/>
-                                            <div class="dynamic-select__trigger"><span class="dynamic-select-span" style="max-width:50px;!important">{{$sel}}</span>
+                                            <div class="dynamic-select__trigger"><input type="text" class="form-control dynamic-select-span" style="background:white!important;" value="{{$sel}}" readonly>
                                                 <div class="arrow"></div>
                                             </div>
                                             <div class="dynamic-options">
                                                 <div class="dynamic-options-scroll">
+                                                    @if ($sel == "")
+                                                    <span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>
+                                                    @else
+                                                    <span class="dynamic-option" data-value="" data-text="">&nbsp;</span>
+                                                    @endif
                                                     @foreach ($shipType as $type)
                                                         @if ($type->id == $shipInfo['ShipType'])
-                                                            <span class="dynamic-option selected" data-value="{{$type->id}}">{{$type->ShipType}}</span>
+                                                            <span class="dynamic-option selected" data-value="{{$type->id}}" data-text="{{$type->ShipType}}">{{$type->ShipType}}</span>
                                                         @else
-                                                            <span class="dynamic-option" data-value="{{$type->id}}">{{$type->ShipType}}</span>
+                                                            <span class="dynamic-option" data-value="{{$type->id}}" data-text="{{$type->ShipType}}">{{$type->ShipType}}</span>
                                                         @endif
                                                     @endforeach
                                                 </div>

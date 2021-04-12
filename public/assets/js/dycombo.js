@@ -74,22 +74,23 @@
                 },
                 success: function(data, status, xhr) {
                     if (data != '-1') {
-                        alert("Success!");
+                        //alert("Success!");
                         var type = $('#dynamic-type').val();
                         var id='';
                         if (type == 'nationality') {
                             id = 'Nationality';
                         }
                         var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
-                        dest.find('.dynamic-select__trigger span').text(list[def]);
+                        dest.find('.dynamic-select__trigger input').val(list[def]);
                         dest.children(":first").val(list[def]);
                         dest = dest.find('.dynamic-options-scroll');
                         dest.html('');
+                        dest.html(dest.html() + '<span class="dynamic-option" data-value="" data-text="">&nbsp;</span>');
                         for (var i=0;i<list.length;i++)
                             if (i == def)
-                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + list[i] + '">' + list[i] + '</span>');
+                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + list[i] + '" data-text="' + list[i] + '"' + '">' + list[i] + '</span>');
                             else
-                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + list[i] + '">' + list[i] + '</span>');
+                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + list[i] + '" data-text="' + list[i] + '"' + '">' + list[i] + '</span>');
                         
                         addCustomEvent();
                     }
@@ -169,18 +170,16 @@
                             id = 'ShipType';
                         }
                         var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
-                        dest.find('.dynamic-select__trigger span').text(list['name'][def]);
+                        dest.find('.dynamic-select__trigger input').val("");
                         dest.children(":first").val(def);
                         dest = dest.find('.dynamic-options-scroll');
                         dest.html('');
+                        dest.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
                         for (var i=0;i<list['name'].length;i++)
-                            if (i == def)
-                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
-                            else
-                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                            dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
                         
                         addCustomEvent();
-                        alert("Success!");
+                        //alert("Success!");
                     }
                 },
                 error: function(error, status) {
@@ -280,18 +279,17 @@
                             id = 'DutyID_Book';
                         }
                         var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
-                        dest.find('.dynamic-select__trigger span').text(list['name'][def] + '(' + list['abb'][def] + ')');
+                        console.log(dest.find('.dynamic-select__trigger input'));
+                        dest.find('.dynamic-select__trigger input').val("");
                         dest.children(":first").val(def);
                         dest = dest.find('.dynamic-options-scroll');
                         dest.html('');
+                        dest.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
                         for (var i=0;i<list['name'].length;i++)
-                            if (i == def)
-                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '" data-text="' + list['name'][i] + '(' + list['abb'][i] + ')' + '">' + list['name'][i] + '(' + list['abb'][i] + ')' + '</span>');
-                            else
-                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '" data-text="' + list['name'][i] + '(' + list['abb'][i] + ')' + '">' + list['name'][i] + '(' + list['abb'][i] + ')' + '</span>');
+                            dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['abb'][i] + '">' + list['name'][i] + '(' + list['abb'][i] + ')' + '</span>');
                         
                         addCustomEvent();
-                        alert("Success!");
+                        //alert("Success!");
                     }
                 },
                 error: function(error, status) {
@@ -383,18 +381,16 @@
                             id = 'PortID_Book';
                         }
                         var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
-                        dest.find('.dynamic-select__trigger span').text(list['Port_Cn'][def]);
+                        dest.find('.dynamic-select__trigger input').val("");
                         dest.children(":first").val(def);
                         dest = dest.find('.dynamic-options-scroll');
                         dest.html('');
+                        dest.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
                         for (var i=0;i<list['Port_Cn'].length;i++)
-                            if (i == def)
-                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '" data-text="' + list['Port_Cn'][i] + '">' + list['Port_Cn'][i] + '</span>');
-                            else
-                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '" data-text="' + list['Port_Cn'][i] + '">' + list['Port_Cn'][i] + '</span>');
+                            dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['Port_Cn'][i] + '">' + list['Port_Cn'][i] + '</span>');
                         
                         addCustomEvent();
-                        alert("Success!");
+                        //alert("Success!");
                     }
                 },
                 error: function(error, status) {
@@ -485,29 +481,25 @@
                             id2 = 'COEId';
                         }
                         var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
-                        dest.find('.dynamic-select__trigger span').text(list['name'][def]);
+                        dest.find('.dynamic-select__trigger input').val("");
                         dest.children(":first").val(def);
                         dest = dest.find('.dynamic-options-scroll');
                         dest.html('');
+                        dest.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
                         for (var i=0;i<list['name'].length;i++)
-                            if (i == def)
-                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
-                            else
-                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                            dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
 
                         var dest2 = $('input[name="' + id2 + '"]').closest('.dynamic-select');
-                        dest2.find('.dynamic-select__trigger span').text(list['name'][def]);
+                        dest2.find('.dynamic-select__trigger input').val("");
                         dest2.children(":first").val(def);
                         dest2 = dest2.find('.dynamic-options-scroll');
                         dest2.html('');
+                        dest2.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
                         for (var i=0;i<list['name'].length;i++)
-                            if (i == def)
-                                dest2.html(dest2.html() + '<span class="dynamic-option selected" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
-                            else
-                                dest2.html(dest2.html() + '<span class="dynamic-option" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                            dest2.html(dest2.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
                         
                         
-                        alert("Success!");
+                        //alert("Success!");
                     }
                 },
                 error: function(error, status) {
@@ -556,7 +548,8 @@
                         }
 
                         this.classList.add('selected');
-                        this.closest('.dynamic-select').querySelector('.dynamic-select__trigger span').textContent = this.getAttribute('data-text');
+                        //this.closest('.dynamic-select').querySelector('.dynamic-select__trigger span').textContent = this.getAttribute('data-text');
+                        this.closest('.dynamic-select').querySelector('.dynamic-select__trigger input').value = this.getAttribute('data-text');
                         this.closest('.dynamic-select').firstElementChild.value = this.getAttribute('data-value');
                     }
                 })

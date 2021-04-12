@@ -203,7 +203,7 @@ class ShipRegController extends Controller
 		    $shipData['ISMTelnumber'] = $params['ISMTelnumber'];
 		    $shipData['ISMFax'] = $params['ISMFax'];
 		    $shipData['ISMEmail'] = $params['ISMEmail'];
-		    $shipData['ShipType'] = $params['ShipType'];
+		    $shipData['ShipType'] = $params['ShipType'] == "" ? null : $params['ShipType'];
 		    $shipData['GrossTon'] = $params['GrossTon'] == "" ? null : $params['GrossTon'];
 		    $shipData['LOA'] = $params['LOA'] == "" ? null : $params['LOA'];
 		    $shipData['NetTon'] = $params['NetTon'] == "" ? null : $params['NetTon'];

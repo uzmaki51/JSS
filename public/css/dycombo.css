@@ -193,8 +193,9 @@ table {
 }
 
 .dynamic-select-span {
-    width: 95%;
+    width: calc(100% - 12px);
     overflow: hidden;
+    padding: 0px!important;
 }
 
 .dynamic-select-span-capacity {
