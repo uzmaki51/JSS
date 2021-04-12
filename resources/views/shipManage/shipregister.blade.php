@@ -160,25 +160,25 @@ $shipList = Session::get('shipList');
                 </div>
             </div>
             <div id="modal-shiptype-list" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
-                <div class="modal-dialog dynamic-list">
-                    <div class="modal-content" style="border: 0;">
-                        <div class="modal-header no-padding" data-target="#modal-step-contents">
+                <div class="dynamic-modal-dialog">
+                    <div class="dynamic-modal-content" style="border: 0;">
+                        <div class="dynamic-modal-header" data-target="#modal-step-contents">
                             <div class="table-header">
                                 <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
                                     <span class="white">&times;</span>
                                 </button>
-                                Ship Type
+                                <h4 style="padding-top:10px;font-style:italic;">Ship Type</h4>
                             </div>
                         </div>
                         <div id="modal-shiptype-content" class="dynamic-modal-body step-content">
                             <div class="row" style="">
-                                <div class="col-md-12" style="min-height: 300px; max-height: 300px; overflow-y:auto">
+                                <div class="head-fix-div col-md-12" style="height:300px;">
                                     <table class="table-bordered rank-table">
                                         <thead>
-                                        <tr style="background-color: #c9dfff;height:18px;">
-                                            <td class="center td-header no-padding" style="width:15%">OrderNo</td>
-                                            <td class="center td-header no-padding" style="">Name of ShipType</td>
-                                            <td class="center td-header no-padding"></td>
+                                        <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:10%">OrderNo</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;">Name of ShipType</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:10%"></th>
                                         </tr>
                                         </thead>
                                         <tbody id="shiptype-table">
@@ -212,7 +212,7 @@ $shipList = Session::get('shipList');
 
         var token = '{!! csrf_token() !!}';
         var shipId = '{!! $shipInfo['id'] !!}';
-
+        var submitted = false;
         //editables on first profile page
         $.fn.editable.defaults.mode = 'inline';
         $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
@@ -312,6 +312,22 @@ $shipList = Session::get('shipList');
 
         $('#general').find('input').not('.auto-complete').attr('autocomplete', 'off');
 
+        
+        $("form").submit(function() {
+            submitted = true;
+        });
+
+        var $form = $('form'),
+        origForm = $form.serialize();
+        window.addEventListener("beforeunload", function (e) {
+            var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+            if ($form.serialize() !== origForm && !submitted) {
+                (e || window.event).returnValue = confirmationMessage;
+            }
+            return confirmationMessage;
+        });
+        /*
         var $form = $('form'),
         origForm = $form.serialize();
         window.addEventListener("beforeunload", function (e) {
@@ -327,6 +343,6 @@ $shipList = Session::get('shipList');
             }
             return confirmationMessage;
         });
-
+        */
     </script>
 @stop

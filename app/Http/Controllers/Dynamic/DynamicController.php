@@ -47,6 +47,10 @@ class DynamicController extends Controller
 			$result = DB::table('tb_ship_type')->select('*')->get();
 			return response()->json($result);
 		}
+		else if ($type == 'port') {
+			$result = DB::table('tbl_port')->select('*')->get();
+			return response()->json($result);
+		}
 
 		return response()->json('fail');
     }
@@ -79,7 +83,7 @@ class DynamicController extends Controller
 			$result = DB::table('tb_ship_type')->truncate();
 			for ($i=0;$i<count($orderno);$i++)
 			{
-				if ($orderno[$i] != '' || $name[$i] != '') {
+				if (/*$orderno[$i] != '' || */$name[$i] != '') {
 					DB::table('tb_ship_type')->insert(['OrderNo' => $orderno[$i], 'ShipType' => $name[$i]]);
 				}
 			}
@@ -93,7 +97,7 @@ class DynamicController extends Controller
 			$result = DB::table('tb_ship_duty')->truncate();
 			for ($i=0;$i<count($orderno);$i++)
 			{
-				if ($orderno[$i] != '' || $abb[$i] != '' || $name[$i] != '' || $description[$i] != '') {
+				if (/*$orderno[$i] != '' || */$abb[$i] != '' || $name[$i] != '' || $description[$i] != '') {
 					DB::table('tb_ship_duty')->insert(['OrderNo' => $orderno[$i], 'Abb' => $abb[$i], 'Duty_En' => $name[$i], 'Description' => $description[$i]]);
 				}
 			}
@@ -108,6 +112,18 @@ class DynamicController extends Controller
 			{
 				if ($stcw[$i] != '' || $name[$i] != '' || $description[$i] != '') {
 					DB::table('tb_member_capacity')->insert(['Capacity_En' => $name[$i], 'STCWRegID' => $stcw[$i], 'Remarks' => $description[$i]]);
+				}
+			}
+		}
+		else if($type == 'port') {
+			$Port_En = $params['port_en'];
+			$Port_Cn = $params['port_cn'];
+
+			$result = DB::table('tbl_port')->truncate();
+			for ($i=0;$i<count($Port_En);$i++)
+			{
+				if ($Port_En[$i] != '' || $Port_Cn[$i] != '') {
+					DB::table('tbl_port')->insert(['Port_En' => $Port_En[$i], 'Port_Cn' => $Port_Cn[$i]]);
 				}
 			}
 		}

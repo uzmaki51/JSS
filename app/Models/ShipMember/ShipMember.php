@@ -413,7 +413,7 @@ class ShipMember extends Model
             $newArr[$newindex]['name'] = $record->realname;
             $rank = ShipPosition::find($record->DutyID_Book);
             $newArr[$newindex]['rank'] = '';
-            if(!empty($rank)) $newArr[$newindex]['rank'] = $rank->Duty_En;
+            if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Duty_En;
             $newArr[$newindex]['nationality'] = $record->Nationality;
             $newArr[$newindex]['cert-id'] = $record->CertNo;
             $newArr[$newindex]['birth-and-place'] = $record->birthday;
@@ -423,7 +423,8 @@ class ShipMember extends Model
             $newindex ++;
             $newArr[$newindex]['no'] = $record->id;
             $newArr[$newindex]['name'] = $record->GivenName;
-            if(!empty($rank)) $newArr[$newindex]['rank'] = $rank->Duty_En;
+            $newArr[$newindex]['rank'] = '';
+            if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Duty_En;
             $newArr[$newindex]['nationality'] = $record->Nationality;
             $newArr[$newindex]['cert-id'] = $record->CertNo;
             $newArr[$newindex]['birth-and-place'] = $record->BirthPlace;

@@ -32,6 +32,7 @@ use App\Models\ShipMember\ShipMemberTraining;
 use App\Models\ShipMember\ShipMemberExaming;
 use App\Models\ShipMember\ShipMemberSubExaming;
 use App\Models\ShipMember\SecurityCert;
+use App\Models\ShipTechnique\ShipPort;
 use Config;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -109,6 +110,7 @@ class ShipMemberController extends Controller
     public function registerShipMember(Request $request) {
         $shipList = ShipRegister::select('shipName_En', 'RegNo')->get();
         $posList = ShipPosition::all();
+        $portList = ShipPort::all();
         $ksList = Ship::all();
         $typeList = ShipType::all();
         $capacityList = ShipMemberCapacity::all();
@@ -149,6 +151,7 @@ class ShipMemberController extends Controller
                 [   'info'      =>      $info,
                     'shipList'  =>      $shipList,
                     'posList'   =>      $posList,
+                    'portList'  =>      $portList,
                     'ksList'    =>      $ksList,
                     'memberId'  =>      $memberId,
 
@@ -178,9 +181,10 @@ class ShipMemberController extends Controller
         //return view('shipMember.register_member', ['shipList'=>$shipList, 'posList'=>$posList, 'ksList'=>$ksList, 'typeList'=>$typeList, 'state'=>$state]);
         return view('shipMember.register_member',
                 //[   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'Surname' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => ''],
-                  [   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '1', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'BirthCountry' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => '', 'DateOffboard' => '', 'Nationality' => '', 'CertNo' => '', 'OtherContacts' => '', 'BankInformation' => '', 'WageCurrency' => '', 'PassportNo' => '', 'PassportIssuedDate' => '', 'PassportExpiryDate' => '', 'Salary' => '', 'ShipType' => ''],
+                  [   'info'      =>      ['id' => -1, 'ShipId' => '', 'Duty' => '', 'sign_on_off' => '', 'sign_on_off' => '', 'ShipID_Book' => '', 'DutyID_Book' => '0', 'PortID_Book' => '0', 'IssuedDate' => '', 'ExpiryDate' => '', 'ShipID_organization' => '', 'pos' => '', 'scanPath' => '', 'Remarks' => '', 'crewNum' => '', 'realname' => '', 'BirthCountry' => '', 'GivenName' => '', 'Sex' => 0, 'birthday' => '', 'BirthPlace' => '', 'address' => '', 'tel' => '', 'phone' => '', 'RegDate' => '', 'DelDate' => '', 'crewPhoto' => '', 'signPhoto' => '', 'RegStatus' => '', 'DateOnboard' => '', 'DateOffboard' => '', 'Nationality' => '', 'CertNo' => '', 'OtherContacts' => '', 'BankInformation' => '', 'WageCurrency' => '', 'PassportNo' => '', 'PassportIssuedDate' => '', 'PassportExpiryDate' => '', 'Salary' => '', 'ShipType' => ''],
                     'shipList'  =>      $shipList,
                     'posList'   =>      $posList,
+                    'portList'   =>      $portList,
                     'ksList'    =>      $ksList,
                     'memberId'  =>      null,
 
@@ -402,6 +406,10 @@ class ShipMemberController extends Controller
         
         if ($request->has('DutyID_Book')) {
             $member['DutyID_Book'] = $request->get('DutyID_Book');
+        }
+
+        if ($request->has('PortID_Book')) {
+            $member['PortID_Book'] = $request->get('PortID_Book');
         }
 
         if ($request->has('PassportIssuedDate')) {

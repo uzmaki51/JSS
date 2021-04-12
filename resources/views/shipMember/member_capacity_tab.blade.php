@@ -5,15 +5,15 @@
         <input class="hidden" name="memberId" value="{{$memberId}}">
         <div class="col-md-12">
             <div class="space-4"></div>
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="table-layout:fixed;">
                 <tbody>
                     <tr class="">
                         <td class="center sub-header style-bold-italic" style="width:3%">No</td>
-                        <td class="center sub-header style-bold-italic" style="width:25%">Type of certificates</td>
-                        <td class="center sub-header style-bold-italic" style="width:25%">Capacity</td>
-                        <td class="center sub-header style-bold-italic" style="width:15%">Certificates No</td>
-                        <td class="center sub-header style-bold-italic" style="width:10%">Issue Date</td>
-                        <td class="center sub-header style-bold-italic" style="width:10%">Expire Date</td>
+                        <td class="center sub-header style-bold-italic" style="width:28%">Type of certificates</td>
+                        <td class="center sub-header style-bold-italic" style="width:30%">Capacity</td>
+                        <td class="center sub-header style-bold-italic" style="width:13%">Certificates No</td>
+                        <td class="center sub-header style-bold-italic" style="width:9%">Issue Date</td>
+                        <td class="center sub-header style-bold-italic" style="width:9%">Expire Date</td>
                         <td class="center sub-header style-bold-italic" style="">Issued by</td>
                     </tr>
                     <tr>
@@ -36,16 +36,21 @@
                             <div class="dynamic-select-wrapper">
                                 <div class="dynamic-select" style="color:#12539b">
                                     <input type="hidden"  name="CapacityID" value="{{$capacity_id}}"/>
-                                    <div class="dynamic-select__trigger"><span class="dynamic-select-span-capacity">{{$cap}}</span>
+                                    <div class="dynamic-select__trigger"><span class="dynamic-select-span">{{$cap}}</span>
                                         <div class="arrow"></div>
                                     </div>
-                                    <div class="dynamic-options">
+                                    <div class="dynamic-options" style="width:456px;">
                                         <div class="dynamic-options-scroll">
+                                            @if ($cap == "")
+                                            <span class="dynamic-option selected" data-value="" data-text="" style="width:437px">&nbsp;</span>
+                                            @else
+                                            <span class="dynamic-option" data-value="" data-text="" style="width:437px">&nbsp;</span>
+                                            @endif
                                             @foreach ($capacityList as $type)
                                                 @if ($type->id == $capacity['CapacityID'])
-                                                <span class="dynamic-option selected" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                <span class="dynamic-option selected" data-value="{{$type->id}}" data-text="{{$type->Capacity_En}}" style="width:437px">{{$type->Capacity_En}}</span>
                                                 @else
-                                                <span class="dynamic-option" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                <span class="dynamic-option" data-value="{{$type->id}}" data-text="{{$type->Capacity_En}}" style="width:437px">{{$type->Capacity_En}}</span>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -108,16 +113,21 @@
                             <div class="dynamic-select-wrapper">
                                 <div class="dynamic-select" style="color:#12539b">
                                     <input type="hidden"  name="COEId" value="{{$capacity_id}}"/>
-                                    <div class="dynamic-select__trigger"><span class="dynamic-select-span-capacity">{{$cap}}</span>
+                                    <div class="dynamic-select__trigger"><span class="dynamic-select-span">{{$cap}}</span>
                                         <div class="arrow"></div>
                                     </div>
-                                    <div class="dynamic-options">
+                                    <div class="dynamic-options" style="width:456px;">
                                         <div class="dynamic-options-scroll">
+                                            @if ($cap == "")
+                                            <span class="dynamic-option selected" data-value="" data-text="" style="width:437px">&nbsp;</span>
+                                            @else
+                                            <span class="dynamic-option" data-value="" data-text="" style="width:437px">&nbsp;</span>
+                                            @endif
                                             @foreach ($capacityList as $type)
                                                 @if ($type->id == $capacity['COEId'])
-                                                <span class="dynamic-option selected" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                <span class="dynamic-option selected" data-value="{{$type->id}}" data-text="{{$type->Capacity_En}}" style="width:437px">{{$type->Capacity_En}}</span>
                                                 @else
-                                                <span class="dynamic-option" data-value="{{$type->id}}">{{$type->Capacity_En}}</span>
+                                                <span class="dynamic-option" data-value="{{$type->id}}" data-text="{{$type->Capacity_En}}" style="width:437px">{{$type->Capacity_En}}</span>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -242,7 +252,7 @@
                             5
                         </td>
                         <td class="no-padding" style="" colspan="2">
-                            <select class="form-control style-bold-italic sub-small-header" name="WatchID" style="padding:0px!important;margin:-4px!important;">
+                            <select class="form-control style-bold-italic sub-small-header" name="WatchID" style="height:18px;padding:0px!important;-webkit-appearance: none;">
                                 <option value="0" @if($capacity['WatchID'] == 0)) selected @endif>Navigation watch rating</option>
                                 <option value="1" @if($capacity['WatchID'] == 1)) selected @endif>Engineroom watch rating</option>
                             </select>

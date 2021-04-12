@@ -152,55 +152,52 @@
                 list['name'] = $("input[name='ShipType_Name[]']").map(function(){return $(this).val();}).get();
             }
 
-            if (confirm('Are you sure want to save?')) {
-                $("#modal-shiptype-list").modal("hide");
-                $.ajax({
-                    url: BASE_URL + 'ajax/setDynamicData', 
-                    type: 'post',
-                    data: {
-                        orderno: list['orderno'],
-                        name: list['name'],
-                        type: type,
-                    },
-                    success: function(data, status, xhr) {
-                        if (data != '-1') {
-                            var def = 0;
-                            var id='';
-                            if (type == 'shiptype') {
-                                id = 'ShipType';
-                            }
-                            var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
-                            dest.find('.dynamic-select__trigger span').text(list['name'][def]);
-                            dest.children(":first").val(def);
-                            dest = dest.find('.dynamic-options-scroll');
-                            dest.html('');
-                            for (var i=0;i<list['name'].length;i++)
-                                if (i == def)
-                                    dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
-                                else
-                                    dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '">' + list['name'][i] + '</span>');
-                            
-                            addCustomEvent();
-                            alert("Success!");
+            $("#modal-shiptype-list").modal("hide");
+            $.ajax({
+                url: BASE_URL + 'ajax/setDynamicData', 
+                type: 'post',
+                data: {
+                    orderno: list['orderno'],
+                    name: list['name'],
+                    type: type,
+                },
+                success: function(data, status, xhr) {
+                    if (data != '-1') {
+                        var def = 0;
+                        var id='';
+                        if (type == 'shiptype') {
+                            id = 'ShipType';
                         }
-                    },
-                    error: function(error, status) {
-                        alert("Failed!");
+                        var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
+                        dest.find('.dynamic-select__trigger span').text(list['name'][def]);
+                        dest.children(":first").val(def);
+                        dest = dest.find('.dynamic-options-scroll');
+                        dest.html('');
+                        for (var i=0;i<list['name'].length;i++)
+                            if (i == def)
+                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                            else
+                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                        
+                        addCustomEvent();
+                        alert("Success!");
                     }
-                })
-            }
+                },
+                error: function(error, status) {
+                    alert("Failed!");
+                }
+            })
         }
 
         function deleteShipType(e)
         {
-            if ($('#shiptype-table tr').length > 2) { // && !$(e).closest("tr").is(":last-child")) {
-                if (confirm("Are you sure to delete?")) {
-                    console.log($(e).closest("tr"));
-                    $(e).closest("tr").remove();
-                    for (var i=0;i<$('#shiptype-table').children().length;i++) {
-                        $($('#shiptype-table').children()[i].firstChild.firstChild).val(i+1);
+            if ($('#shiptype-table tr').length > 2 && !$(e).closest("tr").is(":last-child")) { // && !$(e).closest("tr").is(":last-child")) {
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        $(e).closest("tr").remove();
+                        resortCapacity();
                     }
-                }
+                });
             }
         }
 
@@ -210,7 +207,15 @@
             {
                 if (e == null || $(e).closest("tr").is(":last-child")) {
                     $("#shiptype-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_OrderNo[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteShipType(this)"><i class="icon-trash"></i></a></div></td></tr>');
+                    resortShipType();
                 }
+            }
+        }
+
+        function resortShipType()
+        {
+            for (var i=0;i<$('#shiptype-table').children().length;i++) {
+                $($('#shiptype-table').children()[i].firstChild.firstChild).val(i+1);
             }
         }
 
@@ -256,57 +261,54 @@
                 list['description'] = $("input[name='Rank_Description[]']").map(function(){return $(this).val();}).get();
             }
 
-            if (confirm('Are you sure want to save?')) {
-                $("#modal-rank-list").modal("hide");
-                $.ajax({
-                    url: BASE_URL + 'ajax/setDynamicData', 
-                    type: 'post',
-                    data: {
-                        orderno: list['orderno'],
-                        name: list['name'],
-                        abb: list['abb'],
-                        description: list['description'],
-                        type: type,
-                    },
-                    success: function(data, status, xhr) {
-                        if (data != '-1') {
-                            var def = 0;
-                            var id='';
-                            if (type == 'rank') {
-                                id = 'DutyID_Book';
-                            }
-                            var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
-                            dest.find('.dynamic-select__trigger span').text(list['name'][def]);
-                            dest.children(":first").val(def);
-                            dest = dest.find('.dynamic-options-scroll');
-                            dest.html('');
-                            for (var i=0;i<list['name'].length;i++)
-                                if (i == def)
-                                    dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
-                                else
-                                    dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '">' + list['name'][i] + '</span>');
-                            
-                            addCustomEvent();
-                            alert("Success!");
+            $("#modal-rank-list").modal("hide");
+            $.ajax({
+                url: BASE_URL + 'ajax/setDynamicData', 
+                type: 'post',
+                data: {
+                    orderno: list['orderno'],
+                    name: list['name'],
+                    abb: list['abb'],
+                    description: list['description'],
+                    type: type,
+                },
+                success: function(data, status, xhr) {
+                    if (data != '-1') {
+                        var def = 0;
+                        var id='';
+                        if (type == 'rank') {
+                            id = 'DutyID_Book';
                         }
-                    },
-                    error: function(error, status) {
-                        alert("Failed!");
+                        var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
+                        dest.find('.dynamic-select__trigger span').text(list['name'][def] + '(' + list['abb'][def] + ')');
+                        dest.children(":first").val(def);
+                        dest = dest.find('.dynamic-options-scroll');
+                        dest.html('');
+                        for (var i=0;i<list['name'].length;i++)
+                            if (i == def)
+                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '" data-text="' + list['name'][i] + '(' + list['abb'][i] + ')' + '">' + list['name'][i] + '(' + list['abb'][i] + ')' + '</span>');
+                            else
+                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '" data-text="' + list['name'][i] + '(' + list['abb'][i] + ')' + '">' + list['name'][i] + '(' + list['abb'][i] + ')' + '</span>');
+                        
+                        addCustomEvent();
+                        alert("Success!");
                     }
-                })
-            }
+                },
+                error: function(error, status) {
+                    alert("Failed!");
+                }
+            })
         }
 
         function deleteRank(e)
         {
-            if ($('#rank-table tr').length > 2) { // && !$(e).closest("tr").is(":last-child")) {
-                if (confirm("Are you sure to delete?")) {
-                    console.log($(e).closest("tr"));
-                    $(e).closest("tr").remove();
-                    for (var i=0;i<$('#rank-table').children().length;i++) {
-                        $($('#rank-table').children()[i].firstChild.firstChild).val(i+1);
+            if ($('#rank-table tr').length > 2 && !$(e).closest("tr").is(":last-child")) { // && !$(e).closest("tr").is(":last-child")) {
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        $(e).closest("tr").remove();
+                        resortCapacity();
                     }
-                }
+                });
             }
         }
 
@@ -316,6 +318,108 @@
             {
                 if (e == null || $(e).closest("tr").is(":last-child")) {
                     $("#rank-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_OrderNo[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Abb[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Description[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteRank(this)"><i class="icon-trash"></i></a></div></td></tr>');
+                    resortRank();
+                }
+            }
+        }
+
+        function resortRank()
+        {
+            for (var i=0;i<$('#rank-table').children().length;i++) {
+                $($('#rank-table').children()[i].firstChild.firstChild).val(i+1);
+            }
+        }
+
+        ///////////////////////////////////////////////////////////////////
+        /// PORT LIST DYNAMIC LIST
+        ///////////////////////////////////////////////////////////////////
+        function openPortList(type) {
+            $.ajax({
+                url: BASE_URL + 'ajax/getDynamicData',
+                type: 'post',
+                data: {
+                    type: type
+                },
+                success: function(data, status, xhr) {
+                    $('#port-table').html('');
+                    for (var i = 0; i < data.length; i ++) {
+                        var row = '<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addPort(this)" class="form-control" name="Port_En[]"value="';
+                        row += (data[i].Port_En != null) ? data[i].Port_En : '';
+                        row += '" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addPort(this)" class="form-control" name="Port_Cn[]"value="';
+                        row += (data[i].Port_Cn != null) ? data[i].Port_Cn : '';
+                        row += '" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deletePort(this)"><i class="icon-trash"></i></a></div></td></tr>';
+                        $('#port-table').append(row);
+                    }
+                    addPort(null);
+                    $('#modal-port-list').modal('show');
+                },
+                error: function(error, status) {
+                    alert(error);
+                }
+            });
+        }
+        
+        function dynamicPortSubmit(type) {
+            var list = [];
+            if (type == 'port') {
+                list['Port_En'] = $("input[name='Port_En[]']").map(function(){return $(this).val();}).get();
+                list['Port_Cn'] = $("input[name='Port_Cn[]']").map(function(){return $(this).val();}).get();
+            }
+
+            $("#modal-port-list").modal("hide");
+            $.ajax({
+                url: BASE_URL + 'ajax/setDynamicData', 
+                type: 'post',
+                data: {
+                    port_en: list['Port_En'],
+                    port_cn: list['Port_Cn'],
+                    type: type,
+                },
+                success: function(data, status, xhr) {
+                    if (data != '-1') {
+                        var def = 0;
+                        var id='';
+                        if (type == 'port') {
+                            id = 'PortID_Book';
+                        }
+                        var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
+                        dest.find('.dynamic-select__trigger span').text(list['Port_Cn'][def]);
+                        dest.children(":first").val(def);
+                        dest = dest.find('.dynamic-options-scroll');
+                        dest.html('');
+                        for (var i=0;i<list['Port_Cn'].length;i++)
+                            if (i == def)
+                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '" data-text="' + list['Port_Cn'][i] + '">' + list['Port_Cn'][i] + '</span>');
+                            else
+                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '" data-text="' + list['Port_Cn'][i] + '">' + list['Port_Cn'][i] + '</span>');
+                        
+                        addCustomEvent();
+                        alert("Success!");
+                    }
+                },
+                error: function(error, status) {
+                    alert("Failed!");
+                }
+            })
+        }
+
+        function deletePort(e)
+        {
+            if ($('#port-table tr').length > 2 && !$(e).closest("tr").is(":last-child")) { // && !$(e).closest("tr").is(":last-child")) {
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        $(e).closest("tr").remove();
+                    }
+                });
+            }
+        }
+
+        function addPort(e)
+        {
+            if ($('#port-table tr').length > 0)
+            {
+                if (e == null || $(e).closest("tr").is(":last-child")) {
+                    $("#port-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addPort(this)" class="form-control" name="Port_En[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addPort(this)" class="form-control" name="Port_Cn[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deletePort(this)"><i class="icon-trash"></i></a></div></td></tr>');
                 }
             }
         }
@@ -361,69 +465,73 @@
                 list['description'] = $("input[name='Capacity_Description[]']").map(function(){return $(this).val();}).get();
             }
 
-            if (confirm('Are you sure want to save?')) {
-                $("#modal-capacity-list").modal("hide");
-                $.ajax({
-                    url: BASE_URL + 'ajax/setDynamicData', 
-                    type: 'post',
-                    data: {
-                        name: list['name'],
-                        STCW: list['STCW'],
-                        description: list['description'],
-                        type: type,
-                    },
-                    success: function(data, status, xhr) {
-                        if (data != '-1') {
-                            var def = 0;
-                            var id='';
-                            var id2='';
-                            if (type == 'rank') {
-                                id = 'CapacityID';
-                                id2 = 'COEId';
-                            }
-                            var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
-                            dest.find('.dynamic-select__trigger span').text(list['name'][def]);
-                            dest.children(":first").val(def);
-                            dest = dest.find('.dynamic-options-scroll');
-                            dest.html('');
-                            for (var i=0;i<list['name'].length;i++)
-                                if (i == def)
-                                    dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
-                                else
-                                    dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '">' + list['name'][i] + '</span>');
-
-                            var dest2 = $('input[name="' + id2 + '"]').closest('.dynamic-select');
-                            dest2.find('.dynamic-select__trigger span').text(list['name'][def]);
-                            dest2.children(":first").val(def);
-                            dest2 = dest2.find('.dynamic-options-scroll');
-                            dest2.html('');
-                            for (var i=0;i<list['name'].length;i++)
-                                if (i == def)
-                                    dest2.html(dest2.html() + '<span class="dynamic-option selected" data-value="' + i + '">' + list['name'][i] + '</span>');
-                                else
-                                    dest2.html(dest2.html() + '<span class="dynamic-option" data-value="' + i + '">' + list['name'][i] + '</span>');
-                            
-                            
-                            alert("Success!");
+            $("#modal-capacity-list").modal("hide");
+            $.ajax({
+                url: BASE_URL + 'ajax/setDynamicData', 
+                type: 'post',
+                data: {
+                    name: list['name'],
+                    STCW: list['STCW'],
+                    description: list['description'],
+                    type: type,
+                },
+                success: function(data, status, xhr) {
+                    if (data != '-1') {
+                        var def = 0;
+                        var id='';
+                        var id2='';
+                        if (type == 'rank') {
+                            id = 'CapacityID';
+                            id2 = 'COEId';
                         }
-                    },
-                    error: function(error, status) {
-                        alert("Failed!");
+                        var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
+                        dest.find('.dynamic-select__trigger span').text(list['name'][def]);
+                        dest.children(":first").val(def);
+                        dest = dest.find('.dynamic-options-scroll');
+                        dest.html('');
+                        for (var i=0;i<list['name'].length;i++)
+                            if (i == def)
+                                dest.html(dest.html() + '<span class="dynamic-option selected" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                            else
+                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+
+                        var dest2 = $('input[name="' + id2 + '"]').closest('.dynamic-select');
+                        dest2.find('.dynamic-select__trigger span').text(list['name'][def]);
+                        dest2.children(":first").val(def);
+                        dest2 = dest2.find('.dynamic-options-scroll');
+                        dest2.html('');
+                        for (var i=0;i<list['name'].length;i++)
+                            if (i == def)
+                                dest2.html(dest2.html() + '<span class="dynamic-option selected" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                            else
+                                dest2.html(dest2.html() + '<span class="dynamic-option" data-value="' + i + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                        
+                        
+                        alert("Success!");
                     }
-                })
+                },
+                error: function(error, status) {
+                    alert("Failed!");
+                }
+            })
+        }
+
+        function resortCapacity()
+        {
+            for (var i=0;i<$('#capacity-table').children().length;i++) {
+                $($('#capacity-table').children()[i].firstChild.firstChild).val(i+1);
             }
         }
 
         function deleteCapacity(e)
         {
-            if ($('#capacity-table tr').length > 2) { // && !$(e).closest("tr").is(":last-child")) {
-                if (confirm("Are you sure to delete?")) {
-                    console.log($(e).closest("tr"));
-                    $(e).closest("tr").remove();
-                    for (var i=0;i<$('#capacity-table').children().length;i++) {
-                        $($('#capacity-table').children()[i].firstChild.firstChild).val(i+1);
+            if ($('#capacity-table tr').length > 2 && !$(e).closest("tr").is(":last-child")) { // && !$(e).closest("tr").is(":last-child")) {
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        $(e).closest("tr").remove();
+                        resortCapacity();
                     }
-                }
+                });
             }
         }
 
@@ -433,6 +541,7 @@
             {
                 if (e == null || $(e).closest("tr").is(":last-child")) {
                     $("#capacity-table").append('<tr class="rank-tr"><td class="no-padding center">' + ($('#capacity-table tr').length + 1) + '<td class="no-padding"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_STCW[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addCapacity(this)" class="form-control" name="Capacity_Description[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteCapacity(this)"><i class="icon-trash"></i></a></div></td></tr>');
+                    resortCapacity();
                 }
             }
         }
@@ -447,7 +556,7 @@
                         }
 
                         this.classList.add('selected');
-                        this.closest('.dynamic-select').querySelector('.dynamic-select__trigger span').textContent = this.textContent;
+                        this.closest('.dynamic-select').querySelector('.dynamic-select__trigger span').textContent = this.getAttribute('data-text');
                         this.closest('.dynamic-select').firstElementChild.value = this.getAttribute('data-value');
                     }
                 })

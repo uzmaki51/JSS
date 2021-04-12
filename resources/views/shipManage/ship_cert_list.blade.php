@@ -60,36 +60,38 @@ $ships = Session::get('shipList');
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" value="{{ $shipId }}" name="ship_id">
                     <div class="row">
-                        <table class="custom-table-striped">
-                            <thead>
-                            <tr class="black br-hblue">
-                                <th class="center" style="width:60px;word-break: break-all;">{!! transShipManager('shipCertlist.No') !!}</th>
-                                <th class="center" style="width:60px;word-break: break-all;">{{ transShipManager('shipCertlist.Code') }}</th>
-                                <th class="center" style="width:280px;word-break: break-all;">{{ transShipManager('shipCertlist.name of certificates') }}</th>
-                                <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.issue_date') }}</th>
-                                <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.expire_date') }}</th>
-                                <th class="center" style="width:120px;word-break: break-all;">{!! transShipManager('shipCertlist.due_endorse') !!}</th>
-                                <th class="center" style="width:80px;word-break: break-all;">{{ transShipManager('shipCertlist.issuer') }}</th>
-                                <th class="center" style="width:40px;word-break: break-all;"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></th>
-                                <th class="center" style="width:200px;word-break: break-all;">{{ transShipManager('shipCertlist.remark') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="(item, array_index) in cert_array">
-                                <td class="center no-wrap">@{{ item.order_no }}</td>
-                                <td class="center no-wrap">@{{ item.code }}</td>
-                                <td>@{{ item.cert_name }}</td>
-                                <td class="center"><span>@{{ item.issue_date }}</span></td>
-                                <td class="center"><span>@{{ item.expire_date }}</span></td>
-                                <td class="center"><span>@{{ item.due_endorse }}</span></td>
-                                <td class="center"><span>@{{ issuer_type[item.issuer] }}</span></td>
-                                <td class="text-center">
-                                    <a v-bind:href="item.attachment_link" target="_blank" v-bind:class="[item.attachment_link == '' || item.attachment_link == undefined ? 'd-none' : '']"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="cursor: pointer;"></a>
-                                </td>
-                                <td><span>@{{ item.remark }}</span></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div class="head-fix-div col-md-12" style="height:300px;">
+                            <table class="table-bordered rank-table">
+                                <thead>
+                                <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
+                                    <th class="center" style="width:60px;word-break: break-all;">{!! transShipManager('shipCertlist.No') !!}</th>
+                                    <th class="center" style="width:60px;word-break: break-all;">{{ transShipManager('shipCertlist.Code') }}</th>
+                                    <th class="center" style="width:280px;word-break: break-all;">{{ transShipManager('shipCertlist.name of certificates') }}</th>
+                                    <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.issue_date') }}</th>
+                                    <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.expire_date') }}</th>
+                                    <th class="center" style="width:120px;word-break: break-all;">{!! transShipManager('shipCertlist.due_endorse') !!}</th>
+                                    <th class="center" style="width:80px;word-break: break-all;">{{ transShipManager('shipCertlist.issuer') }}</th>
+                                    <th class="center" style="width:40px;word-break: break-all;"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></th>
+                                    <th class="center" style="width:200px;word-break: break-all;">{{ transShipManager('shipCertlist.remark') }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(item, array_index) in cert_array">
+                                    <td class="center no-wrap">@{{ item.order_no }}</td>
+                                    <td class="center no-wrap">@{{ item.code }}</td>
+                                    <td>@{{ item.cert_name }}</td>
+                                    <td class="center"><span>@{{ item.issue_date }}</span></td>
+                                    <td class="center"><span>@{{ item.expire_date }}</span></td>
+                                    <td class="center"><span>@{{ item.due_endorse }}</span></td>
+                                    <td class="center"><span>@{{ issuer_type[item.issuer] }}</span></td>
+                                    <td class="text-center">
+                                        <a v-bind:href="item.attachment_link" target="_blank" v-bind:class="[item.attachment_link == '' || item.attachment_link == undefined ? 'd-none' : '']"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="cursor: pointer;"></a>
+                                    </td>
+                                    <td><span>@{{ item.remark }}</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

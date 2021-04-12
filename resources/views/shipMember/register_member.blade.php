@@ -66,21 +66,25 @@ $isHolder = Session::get('IS_HOLDER');
                 <div class="col-md-12" style="margin-top:4px;">
                     <div id="item-manage-dialog" class="hide"></div>
                     <div class="row">
-                        <div class="head-fix-div" style="height:100px!important" id="crew-table">
-                            <table id="table-shipmember-list">
+                        <div class="" style="height:100px!important;" id="crew-table">
+                            <table id="table-shipmember-list" style="table-layout:fixed;">
                                 <thead class="">
                                   <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
-                                    <th class="text-center style-header" style="width: 8%;"><span>Family Name, Given<br>Name</span></th>
-                                    <th class="text-center style-header" style="width: 7%;"><span>Rank</span></th>
-                                    <th class="text-center style-header" style="width: 7%;"><span>Nationality</span></th>
-                                    <th class="text-center style-header" style="width: 8%;"><span>Chinese ID No.</span></th>
-                                    <th class="text-center style-header" style="width: 7%;"><span>Date and place of<br>birth</span></th>
-                                    <th class="text-center style-header" style="width: 8%;"><span>Date and place<br>of embarkation</span></th>
-                                    <th class="text-center style-header" style="width: 8%;"><span>Seaman's Book No<br>and Expire Date</span></th>
-                                    <th class="text-center style-header" style="width: 8%;"><span>Passport's No<br>and Expire Date</span></th>
-                                    <th style="width: 2%;"></th>
+                                    <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given<br>Name</span></th>
+                                    <th class="text-center style-header" style="width: 11%;"><span>Rank</span></th>
+                                    <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
+                                    <th class="text-center style-header" style="width: 14%;"><span>Chinese ID No.</span></th>
+                                    <th class="text-center style-header" style="width: 12%;"><span>Date and place of<br>birth</span></th>
+                                    <th class="text-center style-header" style="width: 12%;"><span>Date and place<br>of embarkation</span></th>
+                                    <th class="text-center style-header" style="width: 12%;"><span>Seaman's Book No<br>and Expire Date</span></th>
+                                    <th class="text-center style-header" style="width: 12%;"><span>Passport's No<br>and Expire Date</span></th>
+                                    <th style="width: 3%;"></th>
                                 </thead>
                                 <tbody class="list-body" id="list-body">
+                                    <tr data-index="" class="member-item odd" role="row"><td class=" text-center" rowspan="2"></td><td class="no-padding"></td><td class=" text-center" rowspan="2"></td><td class="text-center" rowspan="2"></td><td class="text-center" rowspan="2"></td><td class="text-center"></td><td class=" text-center"></td><td class=" text-center"></td><td class=" text-center"></td><td class=" text-center" rowspan="2"></td>
+                                    </tr>
+                                    <tr data-index="" class="member-item even" role="row"><td class=" text-center" style="display: none;"></td><td class="no-padding"></td><td class=" text-center" style="display: none;"></td><td class=" text-center" style="display: none;"></td><td class=" text-center" style="display: none;"></td><td class=" text-center"></td><td class=" text-center"></td><td class=" text-center"></td><td class=" text-center"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -117,17 +121,11 @@ $isHolder = Session::get('IS_HOLDER');
                             <div id="general_data" class="tab-pane active">
                                 @include('shipMember.member_general_tab', with(['info'=>$info, 'shipList'=>$shipList]))
                             </div>
-                            <div id="main_data" class="tab-pane">
-                                @include('shipMember.member_main_tab', with(['info'=>$info, 'shipList'=>$shipList, 'pos'=>$posList, 'ksList'=>$ksList, 'historyList'=>$historyList, 'typeList'=>$typeList]))
-                            </div>
                             <div id="capacity_data" class="tab-pane">
                                 @include('shipMember.member_capacity_tab', with(['memberId'=>$memberId, 'capacity'=>$capacity, 'capacity_career'=>$capacity_career, 'schoolList'=>$schoolList, 'capacityList'=>$capacityList]))
                             </div>
                             <div id="training_data" class="tab-pane">
                                 @include('shipMember.member_training_tab', with(['memberId'=>$memberId, 'security'=>$security, 'training'=>$training]))
-                            </div>
-                            <div id="examing_data" class="tab-pane">
-                                @include('shipMember.member_examing_tab', with(['examingList'=>$examingList, 'subList'=>$subList, 'codeList'=>$codeList]))
                             </div>
                             <p id="err_message_out" class="error-message"></p>
                         </div>
@@ -135,27 +133,27 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
             </form>
             <div id="modal-rank-list" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
-                <div class="modal-dialog dynamic-list">
-                    <div class="modal-content" style="border: 0;">
-                        <div class="modal-header" data-target="#modal-step-contents">
+                <div class="dynamic-modal-dialog">
+                    <div class="dynamic-modal-content" style="border: 0;">
+                        <div class="dynamic-modal-header" data-target="#modal-step-contents">
                             <div class="table-header">
                                 <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
                                     <span class="white">&times;</span>
                                 </button>
-                                Rank List
+                                <h4 style="padding-top:10px;font-style:italic;">Rank List</h4>
                             </div>
                         </div>
                         <div id="modal-rank-content" class="dynamic-modal-body step-content">
                             <div class="row" style="">
-                                <div class="col-md-12" style="min-height: 300px; max-height: 300px; overflow-y:auto">
+                                <div class="head-fix-div col-md-12" style="height:300px;">
                                     <table class="table-bordered rank-table">
                                         <thead>
-                                        <tr style="background-color: #c9dfff;height:18px;">
-                                            <td class="center td-header no-padding" style="width:15%">OrderNo</td>
-                                            <td class="center td-header no-padding" style="width:30%">Rank</td>
-                                            <td class="center td-header no-padding" style="width:20%">Rank abb.</td>
-                                            <td class="center td-header no-padding">Description</td>
-                                            <td class="center td-header no-padding"></td>
+                                        <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:10%">OrderNo</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:50%">Rank</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:15%">Rank abb.</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;">Description</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
                                         </tr>
                                         </thead>
                                         <tbody id="rank-table">
@@ -196,27 +194,27 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
             </div>
             <div id="modal-capacity-list" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
-                <div class="modal-dialog dynamic-list">
-                    <div class="modal-content" style="border: 0;">
-                        <div class="modal-header no-padding" data-target="#modal-step-contents">
+                <div class="dynamic-modal-dialog">
+                    <div class="dynamic-modal-content" style="border: 0;">
+                        <div class="dynamic-modal-header" data-target="#modal-step-contents">
                             <div class="table-header">
                                 <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
                                     <span class="white">&times;</span>
                                 </button>
-                                Capacity List
+                                <h4 style="padding-top:10px;font-style:italic;">Capacity List</h4>
                             </div>
                         </div>
                         <div id="modal-capacity-content" class="dynamic-modal-body step-content">
                             <div class="row" style="">
-                                <div class="col-md-12" style="min-height: 300px; max-height: 300px; overflow-y:auto">
+                                <div class="head-fix-div col-md-12" style="height:300px;">
                                     <table class="table-bordered rank-table">
                                         <thead>
                                         <tr style="background-color: #c9dfff;height:18px;">
-                                            <td class="center td-header no-padding" style="width:15%">OrderNo</td>
-                                            <td class="center td-header no-padding" style="width:40%">Capacity</td>
-                                            <td class="center td-header no-padding" style="width:20%">STCW</td>
-                                            <td class="center td-header no-padding" style="width:25%">Description</td>
-                                            <td class="center td-header no-padding" style="width:10%"></td>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:10%">OrderNo</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:50%">Capacity</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:15%">STCW</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;">Description</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
                                         </tr>
                                         </thead>
                                         <tbody id="capacity-table">
@@ -226,6 +224,59 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="row">
                                     <div class="btn-group f-right mt-20 d-flex">
                                         <button type="button" class="btn btn-success small-btn ml-0" onclick="javascript:dynamicCapacitySubmit('capacity')">
+                                            <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">OK
+                                        </button>
+                                        <div class="between-1"></div>
+                                        <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modal-port-list" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
+                <div class="dynamic-modal-dialog">
+                    <div class="dynamic-modal-content" style="border: 0;">
+                        <div class="dynamic-modal-header" data-target="#modal-step-contents">
+                            <div class="table-header">
+                                <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
+                                    <span class="white">&times;</span>
+                                </button>
+                                <h4 style="padding-top:10px;font-style:italic;">Port List</h4>
+                            </div>
+                        </div>
+                        <div id="modal-port-content" class="dynamic-modal-body step-content">
+                            <div class="row" style="">
+                                <div class="head-fix-div col-md-12" style="height:300px;">
+                                    <table class="table-bordered rank-table">
+                                        <thead>
+                                        <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:45%">Name(English)</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:45%">Name(中文)</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="port-table">
+                                        <tr class="rank-tr">
+                                            <td class="no-padding center">
+                                                <input type="text" onchange="addPort(this)" class="form-control" name="Port_En[]"value="" style="width: 100%;text-align: center">
+                                            </td>
+                                            <td class="no-padding">
+                                                <input type="text" onchange="addPort(this)" class="form-control" name="Port_Cn[]"value="" style="width: 100%;text-align: center">
+                                            </td>
+                                            <td class="no-padding center">
+                                                <div class="action-buttons">
+                                                    <a class="red" onClick="javascript:deletePort(this)"><i class="icon-trash"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="btn-group f-right mt-20 d-flex">
+                                        <button type="button" class="btn btn-success small-btn ml-0" onclick="javascript:dynamicPortSubmit('port')">
                                             <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">OK
                                         </button>
                                         <div class="between-1"></div>
@@ -301,6 +352,13 @@ $isHolder = Session::get('IS_HOLDER');
     <script>
         var token = '{!! csrf_token() !!}';
         var memberId = '@if(isset($info)){{$info['id']}}@endif';
+        
+        /*
+        @if(isset($info))
+        var memberId = '{!! $info['id'] !!}';
+        @endif
+        */
+        
         <?php $index = 0; ?>
         var posList = new Array();
         @foreach($posList as $pos)
@@ -461,10 +519,17 @@ $isHolder = Session::get('IS_HOLDER');
             let cell = $(evt.target).closest('td');
             if(cell.index() < 9) {
                 let member_id = this.firstElementChild.getAttribute('data-index');
-                location.href = BASE_URL + 'shipMember/registerShipMember?memberId=' + member_id;
+                if (member_id != "") location.href = BASE_URL + 'shipMember/registerShipMember?memberId=' + member_id;
             }
             
         });
+
+        $('#general_data').find('input').not('.auto-complete').attr('autocomplete', 'off');
+        $('#member_main_tab').find('input').not('.auto-complete').attr('autocomplete', 'off');
+        $('#capacity_data').find('input').not('.auto-complete').attr('autocomplete', 'off');
+        $('#training_data').find('input').not('.auto-complete').attr('autocomplete', 'off');
+        $('[name=BirthPlace').attr('autocomplete', 'on');
+        $('[name=BirthCountry').attr('autocomplete', 'on');
         /*
         $('.member-item').on('click', function() {
             //if($(this).hasClass('selected'))
@@ -481,10 +546,6 @@ $isHolder = Session::get('IS_HOLDER');
             });
         }
 
-        @if(isset($info))
-        var memberId = '{!! $info['id'] !!}';
-        @endif
-        
         $(function() {
             if(memberId == -1 ) {
                 $('.alert').toggleClass('visuallyhidden');
@@ -493,14 +554,16 @@ $isHolder = Session::get('IS_HOLDER');
                 }, 2000);
                 $('[name=crewNum]').focus();
             }
+            else
+            {
+                initTable();
+            }
         })
 
         function deleteItem(memberId) {
-            bootbox.confirm("真要删除吗?", function (result) {
+            bootbox.confirm("All related records are about to be damaged.<br>Are you sure you want to delete?", function (result) {
                 if (result) {
                     $.post('deleteShipMember', {'_token':token, 'dataId':memberId}, function (result) {
-                        console.log("result:");
-                        console.log(result);
                         var code = parseInt(result);
                         if (code > 0) {
                             location.reload();
@@ -512,6 +575,7 @@ $isHolder = Session::get('IS_HOLDER');
             });
         }
 
+        listTable = null;
         function initTable() {
             listTable = $('#table-shipmember-list').DataTable({
                 processing: true,
@@ -543,6 +607,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $(row).attr('data-index', data['no']);
                     $(row).attr('class', 'member-item');
                     $('td', row).eq(1).attr('class', 'no-padding');
+                    $('td', row).eq(0).html(index+1);
                     if (index % 2 == 0) {
                         $('td', row).eq(9).attr('rowspan', '2');
                         $('td', row).eq(9).html('').append('<div class="action-buttons"><a class="red" href="javascript:deleteItem(' + data['no'] + ')"><i class="icon-trash"></i></a></div>');
@@ -559,9 +624,9 @@ $isHolder = Session::get('IS_HOLDER');
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         }
-        initTable();
 
         function doSearch() {
+            if (listTable == null) initTable();
             var name = $('#search-name').val();
             var sign = $('#search-signon').is(":checked");
             listTable.column(1).search(name, false, false);
@@ -601,12 +666,12 @@ $isHolder = Session::get('IS_HOLDER');
         
         function deleteHistory(e)
         {
-            console.log(e);
             if ($('#history_table tr').length > 2) { //&& !$(e).closest("tr").is(":last-child")) {
-                if (confirm("Are you sure to delete?")) {
-                    console.log($(e).closest("tr"));
-                    $(e).closest("tr").remove();
-                }
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        $(e).closest("tr").remove();
+                    }
+                });
             }
         }
 
@@ -641,21 +706,49 @@ $isHolder = Session::get('IS_HOLDER');
             }
         }
 
+        $('body').on('keydown', 'input, select', function(e) {
+            if (e.target.id == "search-name") return;
+            if (e.key === "Enter") {
+                var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+                focusable = form.find('input,a,select,button,textarea').filter(':visible');
+                next = focusable.eq(focusable.index(this)+1);
+                if (next.length) {
+                    next.focus();
+                } else {
+                    form.submit();
+                }
+                return false;
+            }
+        });
+
+        $('body').on('click', function(e) {
+            var current = null;
+            if ($(event.target).attr('class') == 'dynamic-select-span' || $(event.target).attr('class') == 'dynamic-select__trigger') {
+                current = $(event.target).closest('.dynamic-select-wrapper');
+            }
+            for (const selector of document.querySelectorAll(".dynamic-select-wrapper")) {
+                if (current == null || selector != current[0])
+                    selector.firstElementChild.classList.remove('open');
+            }
+        });
+
         function setDatePicker() {
             $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
                 $(this).prev().focus();
             });
         }
+        
+        var submitted = false;
+        $("form").submit(function() {
+            submitted = true;
+        });
 
         var $form = $('form'),
         origForm = $form.serialize();
         window.addEventListener("beforeunload", function (e) {
             var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
-            console.log($form.serialize());
-            console.log($form.serialize() !== origForm);
-
-            if ($form.serialize() !== origForm) {
+            if ($form.serialize() !== origForm && !submitted) {
                 (e || window.event).returnValue = confirmationMessage;
             }
             return confirmationMessage;

@@ -61,8 +61,8 @@
                             <span class="style-header">BirthPlace</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
-                            <input type="text" name="BirthPlace" class="form-control first-input" value="@if(isset($info)){{$info['BirthPlace']}}@endif" placeholder="" style="border-right: 1px solid #cccccc!important;">
-                            <input type="text" name="BirthCountry" class="form-control second-input" value="@if(isset($info)){{$info['BirthCountry']}}@endif" placeholder="">
+                            <input type="text" name="BirthPlace" class="form-control first-input" value="@if(isset($info)){{$info['BirthPlace']}}@endif" placeholder="" style="border-right: 1px solid #cccccc!important;" autocomplete="true">
+                            <input type="text" name="BirthCountry" class="form-control second-input" value="@if(isset($info)){{$info['BirthCountry']}}@endif" placeholder="" autocomplete="true">
                         </td>
                     </tr>
                     <tr>
@@ -107,10 +107,10 @@
                     <tbody>
                     <tr>
                         <td class="no-padding custom-td-label1" style="text-align: left;width:20%" colspan="2">
-                            <span class="text-danger style-header" disabled>Passport No *</span>
+                            <span class="text-danger style-header" disabled>Passport No</span>
                         </td>
                         <td class="custom-td-report-text" style="width: 80%" colspan="2">
-                            <input type="text" name="PassportNo" class="form-control" style="width:100%" value="@if(isset($info)){{$info['PassportNo']}}@endif" required>
+                            <input type="text" name="PassportNo" class="form-control" style="width:100%" value="@if(isset($info)){{$info['PassportNo']}}@endif">
                         </td>
                     </tr>
                     <tr>
@@ -131,11 +131,16 @@
                                     </div>
                                     <div class="dynamic-options">
                                         <div class="dynamic-options-scroll">
+                                            @if ($info['Nationality'] == "")
+                                            <span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>
+                                            @else
+                                            <span class="dynamic-option" data-value="" data-text="">&nbsp;</span>
+                                            @endif
                                             @foreach ($nationList as $item)
                                                 @if ($item->name == $info['Nationality'])
-                                                <span class="dynamic-option selected" data-value="{{$item->name}}">{{$item->name}}</span>
+                                                <span class="dynamic-option selected" data-value="{{$item->name}}" data-text="{{$item->name}}">{{$item->name}}</span>
                                                 @else
-                                                <span class="dynamic-option" data-value="{{$item->name}}">{{$item->name}}</span>
+                                                <span class="dynamic-option" data-value="{{$item->name}}" data-text="{{$item->name}}">{{$item->name}}</span>
                                                 @endif
                                             @endforeach
                                         </div>
@@ -249,7 +254,7 @@
                                  ?>
                                 @foreach ($posList as $item)
                                     @if ($item->id == $info['DutyID_Book'])
-                                    <?php $rank = $item->Duty_En; 
+                                    <?php $rank = $item->Abb; 
                                     $rank_id = $item->id;
                                     ?>
                                     @endif
@@ -260,13 +265,18 @@
                                         <div class="dynamic-select__trigger"><span class="dynamic-select-span">{{$rank}}</span>
                                             <div class="arrow"></div>
                                         </div>
-                                        <div class="dynamic-options">
+                                        <div class="dynamic-options" style="width:315px;">
                                             <div class="dynamic-options-scroll">
+                                                @if ($rank == "")
+                                                <span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>
+                                                @else
+                                                <span class="dynamic-option" data-value="" data-text="">&nbsp;</span>
+                                                @endif
                                                 @foreach ($posList as $item)
                                                     @if ($item->id == $info['DutyID_Book'])
-                                                        <span class="dynamic-option selected" data-value="{{$item->id}}">{{$item->Duty_En}}</span>
+                                                        <span class="dynamic-option selected" data-value="{{$item->id}}" data-text="{{$item->Abb}}">{{$item->Duty_En.' ('.$item->Abb.')'}}</span>
                                                     @else
-                                                        <span class="dynamic-option" data-value="{{$item->id}}">{{$item->Duty_En}}</span>
+                                                        <span class="dynamic-option" data-value="{{$item->id}}" data-text="{{$item->Abb}}">{{$item->Duty_En.' ('.$item->Abb.')'}}</span>
                                                     @endif
                                                 @endforeach
                                             </div>
@@ -321,15 +331,45 @@
                             <td class="no-padding custom-td-label1" style="text-align: left;width:20%">
                                 <span class="style-header">Port (Sign On)</span>
                             </td>
-                            <td class="custom-td-report-text">
-                                <div class="input-group">
-                                    <input class="form-control date-picker"
-                                        name="Port"
-                                        type="text" data-date-format="yyyy-mm-dd"
-                                        value="@if(isset($info)){{$info['DateOnboard']}}@endif" disabled>
-                                    <span class="input-group-addon">
-                                                <i class="icon-calendar "></i>
-                                            </span>
+                            <td>
+                                <?php $port = "";
+                                $port_id = 0;
+                                 ?>
+                                @foreach ($portList as $item)
+                                    @if ($item->id == $info['PortID_Book'])
+                                    <?php $port = $item->Port_Cn; 
+                                    $port_id = $item->id;
+                                    ?>
+                                    @endif
+                                @endforeach
+                                <div class="dynamic-select-wrapper">
+                                    <div class="dynamic-select" style="color:#12539b">
+                                        <input type="hidden"  name="PortID_Book" value="{{$port_id}}"/>
+                                        <div class="dynamic-select__trigger"><span class="dynamic-select-span">{{$port}}</span>
+                                            <div class="arrow"></div>
+                                        </div>
+                                        <div class="dynamic-options">
+                                            <div class="dynamic-options-scroll">
+                                                @if ($port == "")
+                                                <span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>
+                                                @else
+                                                <span class="dynamic-option" data-value="" data-text="">&nbsp;</span>
+                                                @endif
+                                                @foreach ($portList as $item)
+                                                    @if ($item->id == $info['PortID_Book'])
+                                                        <span class="dynamic-option selected" data-value="{{$item->id}}" data-text="{{$item->Port_Cn}}">{{$item->Port_Cn}}</span>
+                                                    @else
+                                                        <span class="dynamic-option" data-value="{{$item->id}}" data-text="{{$item->Port_Cn}}">{{$item->Port_Cn}}</span>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                            <div>
+                                                <span class="edit-list-btn" id="edit-list-btn" onclick="javascript:openPortList('port')">
+                                                    <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -378,7 +418,7 @@
                 <td class="center sub-header style-bold-italic" style="width:8%">Ship Type</td>
                 <td class="center sub-header style-bold-italic" style="width:8%">Power (kW)</td>
                 <td class="center sub-header style-bold-italic" style="width:18%">Trading Area</td>
-                <td></td>
+                <td class="center sub-header style-bold-italic"></td>
             </tr>
             @if($historyList != null)
             @foreach($historyList as $history)

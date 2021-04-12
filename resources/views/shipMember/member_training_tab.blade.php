@@ -10,7 +10,7 @@
                         <tr class="">
                             <td class="center sub-header style-bold-italic" style="width:3%">No</td>
                             <td class="center sub-header style-bold-italic" style="width:25%">Type of certificates</td>
-                            <td class="center sub-header style-bold-italic" style="width:15%">STCW Clouse</td>
+                            <td class="center sub-header style-bold-italic" style="width:15%">STCW Clause</td>
                             <td class="center sub-header style-bold-italic" style="width:15%">Certificates No</td>
                             <td class="center sub-header style-bold-italic" style="width:13%">Issue Date</td>
                             <td class="center sub-header style-bold-italic" style="width:13%">Expiry Date</td>
