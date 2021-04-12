@@ -36,11 +36,11 @@ $ships = Session::get('shipList');
                 </div>
 
             </div>
-            <div class="inner-wrap col-md-12">
-                <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="row">
                     <div class="col-lg-6 d-flex">
-                        <label class="custom-label d-inline-block" style="padding: 6px;">船名</label>
-                        <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px;">
+                        <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
+                        <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;">
                             @foreach($shipList as $ship)
                                 <option value="{{ $ship['id'] }}"
                                         {{ isset($shipId) && $shipId == $ship['id'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
@@ -55,37 +55,34 @@ $ships = Session::get('shipList');
                     </div>
                     <div class="col-lg-6">
                         <div class="btn-group f-right">
-                            <button class="btn btn-info btn-sm search-btn" onclick="addCertItem()"><i class="icon-plus"></i>添加</button>
+                            <button class="btn btn-primary btn-sm search-btn" onclick="addCertItem()"><i class="icon-plus"></i>添加</button>
                             <button class="btn btn-warning btn-sm excel-btn d-none"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                             <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
                             @if(!$isHolder)
-                                <button class="btn btn-sm btn-primary" id="submit">
-                                    <i class="icon-save"></i>
-                                    保存
+                                <button class="btn btn-sm btn-warning" id="submit">
+                                    <i class="icon-save"></i>保存
                                 </button>
                             @endif
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top: 4px;">
                     <div class="col-lg-12">
                         <form action="shipCertList" method="post" id="certList-form" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <input type="hidden" value="{{ $shipId }}" name="ship_id">
-                        <table class="custom-table-striped">
-                            <thead>
-                            <tr class="black br-hblue">
+                        <table>
+                            <thead class="">
                                 <th class="d-none"></th>
-                                <th class="center" style="width:60px;word-break: break-all;">{!! transShipManager('shipCertlist.No') !!}</th>
-                                <th class="center" style="width:60px;word-break: break-all;">{{ transShipManager('shipCertlist.Code') }}</th>
-                                <th class="center" style="width:280px;word-break: break-all;">{{ transShipManager('shipCertlist.name of certificates') }}</th>
-                                <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.issue_date') }}</th>
-                                <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.expire_date') }}</th>
-                                <th class="center" style="width:120px;word-break: break-all;">{!! transShipManager('shipCertlist.due_endorse') !!}</th>
-                                <th class="center" style="width:80px;word-break: break-all;">{{ transShipManager('shipCertlist.issuer') }}</th>
-                                <th class="center" style="width:40px;word-break: break-all;"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></th>
-                                <th class="center" style="width:200px;word-break: break-all;">{{ transShipManager('shipCertlist.remark') }}</th>
-                            </tr>
+                                <th class="text-center style-header" style="width:60px;word-break: break-all;">{!! transShipManager('shipCertlist.No') !!}</th>
+                                <th class="text-center style-header" style="width:60px;word-break: break-all;">{{ transShipManager('shipCertlist.Code') }}</th>
+                                <th class="text-center style-header" style="width:280px;word-break: break-all;">{{ transShipManager('shipCertlist.name of certificates') }}</th>
+                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.issue_date') }}</th>
+                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.expire_date') }}</th>
+                                <th class="text-center style-header" style="width:120px;word-break: break-all;">{!! transShipManager('shipCertlist.due_endorse') !!}</th>
+                                <th class="text-center style-header" style="width:80px;word-break: break-all;">{{ transShipManager('shipCertlist.issuer') }}</th>
+                                <th class="text-center style-header" style="width:40px;word-break: break-all;"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></th>
+                                <th class="text-center style-header" style="width:200px;word-break: break-all;">{{ transShipManager('shipCertlist.remark') }}</th>
                             </thead>
                             <tbody id="cert_list" v-cloak>
                             <tr v-for="(item, array_index) in cert_array">
@@ -93,34 +90,33 @@ $ships = Session::get('shipList');
                                 <td class="center no-wrap" v-bind:data-action="array_index">@{{ item.order_no }}</td>
                                 <td class="center no-wrap" v-bind:data-code="array_index">@{{ item.code }}</td>
                                 <td>
-                                    <div class="custom-select-wrapper" v-bind:data-index="array_index" v-bind:cert-index="item.cert_id" @click="certTypeChange">
-                                        <div class="custom-select" style="color:#12539b">
+                                    <div class="dynamic-select-wrapper" v-bind:data-index="array_index" v-bind:cert-index="item.cert_id" @click="certTypeChange">
+                                        <div class="dynamic-select" style="color:#12539b">
                                             <input type="hidden"  name="cert_id[]" v-model="item.cert_id" v-bind:data-main-value="array_index"/>
-                                            <div class="custom-select__trigger"><span class="" v-bind:cer_name="array_index">@{{ item.cert_name }}</span>
-                                                <div class="arrow"></div>
-                                            </div>
-                                            <div class="custom-options">
-                                                <div class="custom-options-scroll">
-                                                    <span v-for="(certItem, index) in certTypeList" v-bind:class="[item.cert_id == certItem.id ? 'custom-option  selected' : 'custom-option ']" @click="setCertInfo(array_index, certItem.id)">@{{ certItem.name }}</span>
+                                            <div class="dynamic-select__trigger dynamic-arrow">@{{ item.cert_name }}</div>
+                                            <div class="dynamic-options" style="margin-top: -17px;">
+                                                <div class="dynamic-options-scroll">
+                                                    <span v-for="(certItem, index) in certTypeList" v-bind:class="[item.cert_id == certItem.id ? 'dynamic-option  selected' : 'dynamic-option ']" @click="setCertInfo(array_index, certItem.id)">@{{ certItem.name }}</span>
                                                 </div>
                                                 <div>
-                                                <span class="edit-list-btn" id="edit-list-btn" @click="openShipCertList">
-                                                    <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px;">
-                                                </span>
+                                                    <span class="edit-list-btn" id="edit-list-btn" @click="openShipCertList">
+                                                        <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px;">
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="center"><vuejs-datepicker :value="item.issue_date" name="issue_date[]" :readonly='false' :format="customFormatter" input-class="form-control text-center" :language="zh"></vuejs-datepicker></td>
-                                <td class="center"><vuejs-datepicker :value="item.expire_date" name="expire_date[]" :format="customFormatter" input-class="form-control text-center" :language="zh"></vuejs-datepicker></td>
+                                <td class="center"><vuejs-datepicker :value="item.issue_date" name="issue_date[]" :readonly='false' :format="customFormatter" input-class="form-control text-center white-bg" :language="zh"></vuejs-datepicker></td>
+                                <td class="center"><vuejs-datepicker :value="item.expire_date" name="expire_date[]" :format="customFormatter" input-class="form-control text-center white-bg" :language="zh"></vuejs-datepicker></td>
                                 <td class="center"><input class="form-control text-center" type="text" v-model="item.due_endorse" name="due_endorse[]"></td>
                                 <td class="center">
                                     <select class="form-control text-center" v-model="item.issuer" name="issuer[]">
                                         <option v-for="(issuer, index) in issuer_type" v-bind:value="index">@{{ issuer }}</option>
                                     </select>
+                                </td>
                                 <td class="text-center">
-                                    <label v-bind:for="array_index"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="cursor: pointer;"></label>
+                                    <label v-bind:for="array_index"><img v-bind:src="getImage(item.file_name)" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name"></label>
                                     <input type="file" name="attachment[]" v-bind:id="array_index" class="d-none" @change="onFileChange" v-bind:data-index="array_index" accept=".pdf">
                                     <input type="hidden" name="is_update[]" v-bind:id="array_index" class="d-none" v-bind:value="item.is_update">
                                 </td>
@@ -132,9 +128,9 @@ $ships = Session::get('shipList');
                     </div>
 
                     <div id="modal-wizard" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
-                        <div class="modal-dialog dynamic-list">
-                            <div class="modal-content" style="border: 0;">
-                                <div class="modal-header no-padding" data-target="#modal-step-contents">
+                        <div class="dynamic-modal-dialog">
+                            <div class="dynamic-modal-content" style="border: 0;">
+                                <div class="dynamic-modal-header" data-target="#modal-step-contents">
                                     <div class="table-header">
                                         <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
                                             <span class="white">&times;</span>
@@ -146,29 +142,29 @@ $ships = Session::get('shipList');
                                     <div class="row" style="">
                                         <form action="shipCertType" method="post" id="shipCertForm">
                                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                            <div class="col-md-12" style="min-height: 300px; max-height: 300px; overflow-y:auto">
+                                            <div class="head-fix-div col-md-12" style="height:300px;">
                                             <table class="table-bordered rank-table">
                                                 <thead>
-                                                <tr style="background-color: #c9dfff;height:18px;">
-                                                    <td class="center td-header no-padding" style="width:25%">Order No</td>
-                                                    <td class="center td-header no-padding" style="width:26%">Code</td>
-                                                    <td class="center td-header no-padding" style="width:40%">Name</td>
-                                                    <td class="center td-header no-padding" style="width: 10%;"></td>
+                                                <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
+                                                    <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:10%">OrderNo</th>
+                                                    <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:50%">Code</th>
+                                                    <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:15%">Name</th>
+                                                    <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody id="rank-table">
-                                                <tr class="rank-tr" v-for="(typeItem, index) in list">
+                                                <tr class="no-padding center" v-for="(typeItem, index) in list">
                                                     <td class="d-none">
                                                         <input type="hidden" name="cert_id[]" v-model="typeItem.id">
                                                     </td>
                                                     <td class="no-padding center">
-                                                        <input type="text" @change="addNewRow(this)" class="form-control" name="order_no[]" v-model="typeItem.order_no" style="width: 100%;text-align: center">
+                                                        <input type="text" @focus="addNewRow(this)" class="form-control" name="order_no[]" v-model="typeItem.order_no" style="width: 100%;text-align: center">
                                                     </td>
                                                     <td class="no-padding">
-                                                        <input type="text" @change="addNewRow(this)" class="form-control" name="code[]" v-model="typeItem.code" style="width: 100%;text-align: center">
+                                                        <input type="text" @focus="addNewRow(this)" class="form-control" name="code[]" v-model="typeItem.code" style="width: 100%;text-align: center">
                                                     </td>
                                                     <td class="no-padding center">
-                                                        <input type="text" @change="addNewRow(this)" class="form-control" name="name[]" v-model="typeItem.name" style="width: 100%;text-align: center">
+                                                        <input type="text" @focus="addNewRow(this)" class="form-control" name="name[]" v-model="typeItem.name" style="width: 100%;text-align: center">
                                                     </td>
                                                     <td class="no-padding center">
                                                         <div class="action-buttons">
@@ -242,19 +238,19 @@ $ships = Session::get('shipList');
                 },
                 methods: {
                     certTypeChange: function(event) {
-                        $(event.target).addClass('open');
-                        if($(event.target).siblings(".custom-options").hasClass('open')) {
+                        let hasClass = $(event.target).hasClass('open');
+                        if($(event.target).hasClass('open')) {
                             $(event.target).removeClass('open');
-                            $(event.target).siblings(".custom-options").removeClass('open');
+                            $(event.target).siblings(".dynamic-options").removeClass('open');
                         } else {
                             $(event.target).addClass('open');
-                            $(event.target).siblings(".custom-options").addClass('open');
+                            $(event.target).siblings(".dynamic-options").addClass('open');
                         }
                     },
                     setCertInfo: function(array_index, cert) {
                         setCertInfo(cert, array_index);
-                        $(".custom-select__trigger").removeClass('open');
-                        $(".custom-options").removeClass('open');
+                        $(".dynamic-select__trigger").removeClass('open');
+                        $(".dynamic-options").removeClass('open');
                     },
                     customFormatter(date) {
                         return moment(date).format('YYYY-MM-DD');
@@ -269,6 +265,13 @@ $ships = Session::get('shipList');
                     },
                     openShipCertList(e) {
                         $('.only-modal-show').click();
+                    },
+                    getImage: function(file_name) {
+                        if(file_name != '' && file_name != undefined)
+                            return '/assets/images/document.png';
+                        else
+                            return '/assets/images/paper-clip.png';
+
                     },
 
                 },
@@ -289,9 +292,8 @@ $ships = Session::get('shipList');
                         if(index == undefined || index == '')
                             return false;
 
-                        var result = confirm('Are you really delete it?');
-
-                        if(result) {
+                        bootbox.confirm("Are you sure you want to delete?", function (result) {
+                            if (result) {
                             $.ajax({
                                 url: BASE_URL + 'ajax/shipManage/cert/delete',
                                 type: 'post',
@@ -303,9 +305,7 @@ $ships = Session::get('shipList');
                                     certTypeObj.list.push([]);
                                 }
                             })
-                        } else {
-                            return false;
-                        }
+                        }});
                     },
                     ajaxFormSubmit() {
                         let form = $('#shipCertForm').serialize();
@@ -313,12 +313,13 @@ $ships = Session::get('shipList');
                             Object.assign(certTypeObj.list, data);
                             certListObj.certTypeList = data;
                             shipCertTypeList = data;
+                            getShipInfo(ship_id);
                             $('.close').click();
                         });
                     },
                     addNewRow(e) {
-                        if($.isEmptyObject(certTypeObj.list[certTypeObj.list.length - 1]) && certTypeObj.list.length > 0)
-                            return false;
+                        //if($.isEmptyObject(certTypeObj.list[certTypeObj.list.length - 1]) && certTypeObj.list.length > 0)
+                        //    return false;
                         certTypeObj.list.push([]);
                     }
                 }
@@ -370,6 +371,7 @@ $ships = Session::get('shipList');
         }
 
         function setCertInfo(certId, index = 0) {
+            let status = 0;
             shipCertTypeList.forEach(function(value, key) {
                 if(value['id'] == certId) {
                     certListObj.cert_array[index]['order_no'] = value['order_no'];
@@ -377,7 +379,15 @@ $ships = Session::get('shipList');
                     certListObj.cert_array[index]['code'] = value['code'];
                     certListObj.cert_array[index]['cert_name'] = value['name'];
                     certListObj.$forceUpdate();
+                    status ++;
                 }
+
+                // if(status == 1) {
+                //     certListObj.cert_array[index]['order_no'] = shipCertTypeList[0]['order_no'];
+                //     certListObj.cert_array[index]['cert_id'] = shipCertTypeList[0]['id'];
+                //     certListObj.cert_array[index]['code'] = shipCertTypeList[0]['code'];
+                //     certListObj.cert_array[index]['cert_name'] = shipCertTypeList[0]['name'];
+                // }
             });
         }
 
@@ -390,12 +400,11 @@ $ships = Session::get('shipList');
         });
 
         $(document).mouseup(function(e) {
-            var container = $(".custom-options");
+            var container = $(".dynamic-options-scroll");
             if (!container.is(e.target) && container.has(e.target).length === 0) {
-                $(".custom-options").removeClass('open');
-                $(".custom-options").siblings('.custom-select__trigger').removeClass('open')
+                $(".dynamic-options").removeClass('open');
+                $(".dynamic-options").siblings('.dynamic-select__trigger').removeClass('open')
             }
         });
-
     </script>
 @endsection

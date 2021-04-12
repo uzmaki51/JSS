@@ -141,6 +141,32 @@ table {
     transform: rotate(45deg);
     background-color: #12539b;
 }
+
+
+
+.dynamic-arrow {
+    position: relative;
+}
+.dynamic-arrow::before, .dynamic-arrow::after {
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    width: 0.2rem;
+    height: 60%;
+}
+.dynamic-arrow::before {
+    right: 12px;
+    transform: rotate(-45deg);
+    background-color: #394a6d;
+}
+.dynamic-arrow::after {
+    right: 7px;
+    transform: rotate(45deg);
+    background-color: #12539b;
+}
+
+
+
 .open .arrow::before {
     left: -1px;
     transform: rotate(-45deg);

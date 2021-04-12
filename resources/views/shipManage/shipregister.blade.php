@@ -105,7 +105,6 @@ $shipList = Session::get('shipList');
                                     {{ transShipManager('tabMenu.General') }}
                                 </a>
                             </li>
-
                             <li>
                                 <a data-toggle="tab" href="#hull">
                                     {{ transShipManager('tabMenu.Hull/Cargo') }}

@@ -295,3 +295,6 @@ ul.timeline > li {
         margin: 0 auto;
     }
 }
+.white-bg {
+    background: white!important;
+}

@@ -536,6 +536,7 @@ class ShipRegController extends Controller
 
     	$ids = $params['id'];
     	foreach($ids as $key => $item) {
+    		if(!isset($params['cert_id'][$key]) || $params['cert_id'][$key] == '') continue;
     		$shipCertTbl = new ShipCertRegistry();
     		if($item != '' && $item > 0) {
 			    $shipCertTbl = ShipCertRegistry::find($item);
