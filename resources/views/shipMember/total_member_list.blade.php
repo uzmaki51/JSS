@@ -142,8 +142,8 @@ $isHolder = Session::get('IS_HOLDER');
         function fnExcelReport()
         {
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
-            tab = document.getElementById('table-shipmember-list');
-
+            var real_tab = document.getElementById('table-shipmember-list');
+            var tab = real_tab.cloneNode(true);
             tab_text=tab_text+"<tr><td colspan='9' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>CREW LIST</td></tr>";
             tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;border-bottom:hidden;'>1.Name of Ship</td><td colspan='2'style='font-size:18px;border-bottom:hidden;text-align:center;'>2.Port of Arrival</td><td colspan='3' style='font-size:18px;border-bottom:hidden;text-align:center;'>3.Date of arrival</td></tr>";
             tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;'>&nbsp;&nbsp;" + shipName + "</td><td colspan='2'style='font-size:18px;text-align:center;'>&nbsp;&nbsp;ZHENJIANG</td><td colspan='3' style='font-size:18px;text-align:center;'>&nbsp;&nbsp;2020-12-</td></tr>";
@@ -152,9 +152,24 @@ $isHolder = Session::get('IS_HOLDER');
             for(var j = 0 ; j < tab.rows.length ; j++) 
             {
                 if (j == 0) {
-                    console.log(tab.rows[j]);
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
-                        tab.rows[j].childNodes[i].style.width = '100px';
+                        console.log("i:" + i);
+                        if (i == 0) {
+
+                        }
+                        else if (i == 1) {
+                            tab.rows[j].childNodes[i].style.width = '140px';
+                        }
+                        else if (i == 2) {
+                            tab.rows[j].childNodes[i].style.width = '100px';
+                        }
+                        else if (i == 4) {
+                            tab.rows[j].childNodes[i].style.width = '140px';
+                        }
+                        else
+                        {
+                            tab.rows[j].childNodes[i].style.width = '100px';
+                        }
                         tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
                     }
                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
