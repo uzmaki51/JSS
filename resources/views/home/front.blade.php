@@ -220,10 +220,10 @@
 
                             <div class="card-body p-0" style="box-shadow: 0px 0px 8px 4px #d2d2d2;">
                                 <div class="advertise">
-                                    <div style="width: 10%; padding-left: 16px;">
+                                    <div style="padding-left: 16px;">
                                         <h5 style="font-weight: bold;">重要公告 : </h5>
                                     </div>
-                                    <div class="sign_list slider" style="width: 85%;">
+                                    <div class="sign_list slider" style="width: auto; min-width: 100px;">
                                         @if(isset($reportList) && count($reportList) > 0)
                                             @foreach ($reportList as $item)
                                                 <div style="height: auto; outline: unset;">
@@ -238,7 +238,7 @@
                                             <span>{{ trans('home.message.no_data') }}</span>
                                         @endif
                                     </div>
-                                    <div class="text-right" style="width: 5%; padding-right: 16px;">
+                                    <div class="text-right" style="padding-right: 16px;">
                                         <a href="/decision/receivedReport" style="color: white; text-decoration: underline;" target="_blank">更多</a>
                                     </div>
                                 </div>
