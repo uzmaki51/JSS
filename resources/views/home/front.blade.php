@@ -238,7 +238,7 @@
                                             <span>{{ trans('home.message.no_data') }}</span>
                                         @endif
                                     </div>
-                                    <div class="text-right" style="padding-right: 16px;">
+                                    <div class="text-right" style="padding-right: 16px; margin-left: auto;">
                                         <a href="/decision/receivedReport" style="color: white; text-decoration: underline;" target="_blank">更多</a>
                                     </div>
                                 </div>
