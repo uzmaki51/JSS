@@ -105,7 +105,7 @@
                                         <input type="hidden" name="reportId" value="">
                                         <input type="hidden" name="reportType" value="0">
                                         <div class="table-responsive" id="report_div" v-cloak>
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered" style="table-layout: fixed">
                                                 <tbody>
                                                 <tr>
                                                     <td class="custom-modal-td-label" >
