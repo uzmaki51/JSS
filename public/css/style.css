@@ -295,3 +295,9 @@ div.input table tbody tr td
     white-space: nowrap;
     overflow: hidden;
 }
+
+.style-normal-header {
+    font-weight: bold!important;
+    font-size: 10pt;
+    height: 20px;
+}

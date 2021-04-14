@@ -30,7 +30,7 @@ return [
 		'dismiss'     => '卸任',
 		'search'      => '搜索',
 		'level'       => '等级',
-		'enterDate'   => '进公司日期',
+		'enterDate'   => '入职日期',
 		'exitDate'    => '退公司日期',
 		'warning'     => '警告',
 		'notice'      => '通知',

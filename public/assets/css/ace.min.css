@@ -50,7 +50,7 @@ body.breadcrumbs-fixed {
 }
 
 .main-content {
-    margin-left: 180px;
+    margin-left: 0px;
     margin-right: 0;
     margin-top: 0;
     min-height: 100%;
@@ -14373,7 +14373,7 @@ body.breadcrumbs-fixed {
 }
 
 .main-content {
-    margin-left: 180px;
+    margin-left: 0px;
     margin-right: 0;
     margin-top: 0;
     min-height: 100%;

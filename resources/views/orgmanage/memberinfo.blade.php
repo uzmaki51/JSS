@@ -19,9 +19,9 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="col-md-2">
-                            <label style="float:left;padding-top:7px">{{transOrgManage("captions.department")}}:</label>
+                            <label class="font-bold" style="float:left;padding-top:7px">{{transOrgManage("captions.department")}}:</label>
                             <div class="col-md-9" style="padding-left:10px">
-                                <select class="form-control chosen-select select_unit">
+                                <select class="custom-select d-inline-block select_unit" style="max-width:120px;">
                                     <option value="">{{transOrgManage("captions.total")}}</option>
                                     @foreach($unitList as $unit)
                                         <option value="{{$unit['id']}}" @if(isset($unitId) && ($unitId == $unit['id'])) selected @endif>{{$unit['title']}}</option>
@@ -30,9 +30,9 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <label style="float:left;padding-top:7px">{{transOrgManage("captions.officePosition")}}:</label>
+                            <label class="font-bold" style="float:left;padding-top:7px">{{transOrgManage("captions.officePosition")}}:</label>
                             <div class="col-md-9" style="padding-left:10px">
-                                <select class="form-control chosen-select select_pos">
+                                <select class="custom-select d-inline-block select_pos">
                                     <option value="">{{transOrgManage("captions.total")}}</option>
                                     @foreach($posList as $pos)
                                         <option value="{{$pos['id']}}" @if(isset($posId) && ($posId == $pos['id'])) selected @endif>{{$pos['title']}}</option>
@@ -42,13 +42,13 @@
                             </div>
                         </div>
                         <div class="col-md-2 input-group">
-                            <label>{{transOrgManage("captions.name")}}:</label>
-                            <input class="form-control realname" style="width:65%;margin-left: 10px" value="@if(isset($realname)){{$realname}}@endif">
+                            <label class="font-bold">{{transOrgManage("captions.name")}}:</label>
+                            <input type="text" class="realname" style="width:65%;margin-left: 10px" value="@if(isset($realname)){{$realname}}@endif">
                         </div>
                         <div class="col-md-2">
-                            <label style="float: left;padding-top:7px">{{transOrgManage("captions.status")}}:</label>
+                            <label class="font-bold" style="float: left;padding-top:7px">{{transOrgManage("captions.status")}}:</label>
                             <div class="col-md-8" style="float:left;padding-left: 10px">
-                                <select class="form-control chosen-select select_status">
+                                <select class="custom-select d-inline-block select_status">
                                     <option value="">{{transOrgManage("captions.total")}}</option>
                                     @foreach(g_enum('EmployeeStatusData') as $key => $item)
                                         <option value="{{ $key }}" @if(isset($status) && ($status == $key)) selected @endif>{{ $item[0] }}</option>
@@ -56,35 +56,33 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-1">
-                            <button class="btn btn-primary btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transOrgManage("captions.search")}}</button>
-                        </div>
-                        <div class="col-md-1">
-                            <a href="{{ url('org/memberadd') }}" class="btn btn-primary btn-sm">
+                        <div class="col-md-3 f-right">
+                        <button class="btn btn-primary btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transOrgManage("captions.search")}}</button>
+                            <a href="{{ url('org/memberadd') }}" class="btn btn-success btn-sm">
                                 <i class="icon-plus-sign-alt"></i>{{transOrgManage("captions.add")}}
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="space-4"></div>
+                    <div class="space-2"></div>
                     <div class="table-responsive" id="user_list_table">
                         <table class="table table-striped table-bordered table-hover" id="user-table">
                             <thead>
                             <tr class="black br-hblue">
-                                <th rowspan="2" class="center">No</th>
-                                <th class="center">{{transOrgManage("captions.department")}}</th>
-                                <th rowspan="2" class="center">{{transOrgManage("captions.name")}}</th>
-                                <th rowspan="2" class="center">{{transOrgManage("captions.loginID")}}</th>
-                                <th class="center" rowspan="2">{{transOrgManage("captions.phoneNumber")}}</th>
-                                <th class="center" rowspan="2">{{transOrgManage("captions.level")}}</th>
-                                <th class="center" rowspan="2">{{transOrgManage("captions.status")}}</th>
-                                <th class="center" rowspan="2">{{transOrgManage("captions.enterDate")}}</th>
-                                <th class="center" rowspan="2">{{transOrgManage("captions.exitDate")}}</th>
+                                <th class="text-center style-normal-header" rowspan="2">No</th>
+                                <th class="text-center style-normal-header">{{transOrgManage("captions.department")}}</th>
+                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.name")}}</th>
+                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.loginID")}}</th>
+                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.phoneNumber")}}</th>
+                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.level")}}</th>
+                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.status")}}</th>
+                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.enterDate")}}</th>
+                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.exitDate")}}</th>
                                 <th rowspan="2" width="50px"></th>
                             </tr>
                             <tr class="black br-hblue">
-                                <th style="text-align: left" class="center">{{transOrgManage("captions.officePosition")}}</th>
+                                <th class="text-center style-normal-header">{{transOrgManage("captions.officePosition")}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -94,7 +92,7 @@
 
                                     <tr>
                                         <td rowspan="2" class="center">{{$index++}}</td>
-                                        <td class="center">{{is_null($userInfo['unitTitle'])?'':$userInfo['unitTitle']}}</td>
+                                        <td class="center">{{is_null($userInfo['unitTitle'])?'&nbsp;':$userInfo['unitTitle']}}</td>
                                         <td rowspan="2" class="center">{{$userInfo['realname']}}</td>
                                         <td rowspan="2" class="center">{{$userInfo['account']}}</td>
                                         <td class="center" rowspan="2">{{$userInfo['phone']}}</td>
