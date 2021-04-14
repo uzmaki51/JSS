@@ -592,7 +592,7 @@ class ShipRegController extends Controller
 	public function saveShipCertType(Request $request) {
 		$params = $request->all();
 
-		$cert_ids = $params['cert_id'];
+		$cert_ids = $params['id'];
 		foreach($cert_ids as $key => $item) {
 			$certTbl = new ShipCertList();
 			if($item != '' && $item != null) {
@@ -1730,12 +1730,12 @@ class ShipRegController extends Controller
     	if($id == 0)
 		    $retVal['ship'] = ShipCertRegistry::all();
     	else {
-		    $retVal['ship'] = ShipCertRegistry::where('ship_id', $id)->get();
+		    $retVal['ship'] = ShipCertRegistry::where('ship_id', $id)->orderBy('cert_id', 'asc')->get();
 	    }
 
+	    $shipCertRegTbl = new ShipCertRegistry();
 	    if(isset($params['expire_date']) && $params['expire_date'] > 0) {
-		    $expire_date = date('y-m-d', strtotime('+' . $params['expire_date'] . ' days'));
-		    $retVal['ship'] = ShipCertRegistry::where('ship_id', $id)->where('expire_date', '>', $expire_date)->get();
+		    $retVal['ship'] = $shipCertRegTbl->getExpiredList($params['expire_date'], $id);
 	    }
 
 	    $retVal['cert_type'] = ShipCertList::all();
@@ -1766,13 +1766,22 @@ class ShipRegController extends Controller
 	    return response()->json($retVal);
     }
 
-	public function ajaxCertDelete(Request $request) {
+	public function ajaxCertItemDelete(Request $request) {
 		$params = $request->all();
 
 		ShipCertList::where('id', $params['id'])->delete();
+		ShipCertRegistry::where('cert_id', $params['id'])->delete();
 
 		$retVal = ShipCertList::all();
 
 		return response()->json($retVal);
+	}
+
+	public function ajaxShipCertDelete(Request $request) {
+		$params = $request->all();
+
+		ShipCertRegistry::where('id', $params['id'])->delete();
+
+		return response()->json(1);
 	}
 }

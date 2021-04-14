@@ -93,7 +93,8 @@ Route::group(['prefix' => 'ajax'], function() {
 	// ShipCert
 	Route::post('shipManage/cert/list', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertList']);
 	Route::post('shipManage/cert/add', ['uses'=>'ShipManage\ShipRegController@ajaxCertAdd']);
-	Route::post('shipManage/cert/delete', ['uses'=>'ShipManage\ShipRegController@ajaxCertDelete']);
+	Route::post('shipManage/cert/delete', ['uses'=>'ShipManage\ShipRegController@ajaxCertItemDelete']);
+	Route::post('shipManage/shipCert/delete', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertDelete']);
 
 });
 

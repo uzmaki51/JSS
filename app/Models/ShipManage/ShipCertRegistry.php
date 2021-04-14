@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Log;
 
 class ShipCertRegistry extends Model
 {
-    use SoftDeletes;
+//    use SoftDeletes;
     protected $table = 'tb_ship_certregistry';
-    protected $date = ['deleted_at'];
+//    protected $date = ['deleted_at'];
 
     public static function getShipCertList($shipId, $certName, $issuName, $expire) {
         $query = static::query()
@@ -57,18 +57,26 @@ class ShipCertRegistry extends Model
         return $list;
     }
 
-    public function getExpiredList() {
-    	$date = date('y-m-d');
+    public function getExpiredList($date = '', $ship_id = '') {
+    	if($date == '')
+    	    $date = date('Y-m-d');
+    	else
+    		$date = date('Y-m-d', strtotime('+' . $date . ' days'));
+
     	$selector = DB::table($this->table)
-		    ->where('expire_date', '<', $date)
+		    ->whereRaw(DB::raw("expire_date >= ". "'" . $date . "'"))
+		    ->whereRaw(DB::raw("due_endorse >= ". "'" . $date . "'"))
+//		    ->where('', '>=', "'" . $date . "'")
 		    ->where('expire_date', '!=', '0000-00-00')
+		    ->where('due_endorse', '!=', '0000-00-00')
 		    ->select('*');
+
+	    if($ship_id != '')
+		    $selector->where('ship_id', $ship_id);
 
     	$result = $selector->get();
 
     	return $result;
-
-
 
     }
 }

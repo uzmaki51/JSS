@@ -13,6 +13,7 @@ $ships = Session::get('shipList');
 @section('styles')
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
     <link href="{{ cAsset('css/vue.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
 @endsection
 
 @section('content')
@@ -28,15 +29,17 @@ $ships = Session::get('shipList');
         <div class="page-content">
             <div class="page-header">
                 <div class="col-sm-3">
-                    <h4><b>船舶证书记录</b></h4>
+                    <h4><b>船舶证书</b></h4>
                 </div>
             </div>
             <div class="row col-md-12" id="cert_list" v-cloak>
                 <div class="col-md-6">
-                    <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
-                    <select class="custom-select d-inline-block" style="padding: 4px;width:80px;" @change="changeShip">
+                    <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
+                    <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip">
                         @foreach($shipList as $ship)
-                            <option value="{{ $ship['id'] }}"{{ isset($shipId) && $shipId == $ship['id'] ?  "selected" : "" }}>{{$ship['shipName_En']}}</option>
+                            <option value="{{ $ship['id'] }}"
+                                    {{ isset($shipId) && $shipId == $ship['id'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
+                            </option>
                         @endforeach
                     </select>
                     @if(isset($shipName['shipName_En']))
@@ -44,50 +47,56 @@ $ships = Session::get('shipList');
                     @endif
                 </div>
                 <div class="col-md-6">
-                    <div class="f-right">
-                        <label>提前:</label>
-                        <input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" v-model="expire_date">
-                        <input type="hidden" class="text-center" style="width: 60px;" name="ship_id" v-model="ship_id">
-                        <label>天</label>
+                    <div class="btn-group f-right">
                         <button class="btn btn-report-search btn-sm search-btn" @click="doSearch()"><i class="icon-search"></i>搜索</button>
-                        <a class="btn btn-sm btn-danger {{ Auth::user()->isAdmin == 1 ? '' : 'right-no-radius' }} refresh-btn-over" type="button" @click="refresh">
+                        <a class="btn btn-sm btn-danger refresh-btn-over" type="button" @click="refresh">
                             <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">刷新
                         </a>
                         <button class="btn btn-warning btn-sm excel-btn" @click="onExport"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
                     </div>
+                    <div class="f-right" style="margin-right: 12px; padding-top: 2px;">
+                        <label class="font-bold">提前:</label>
+                        <input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" v-model="expire_date" @change="onExpireChange" @keyup="onExpireChange" @keydown="onExpireChange">
+                        <input type="hidden" class="text-center" style="width: 60px;" name="ship_id" v-model="ship_id">
+                        <label>天</label>
+                    </div>
                 </div>
-                <div class="col-md-12" style="margin-top:8px;">
+                <div class="col-md-12" style="margin-top: 4px;">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" value="{{ $shipId }}" name="ship_id">
                     <div class="row">
-                        <div class="head-fix-div col-md-12" style="height:300px;">
+                        <div class="">
                             <table class="table-bordered rank-table">
                                 <thead>
-                                <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
-                                    <th class="center" style="width:60px;word-break: break-all;">{!! transShipManager('shipCertlist.No') !!}</th>
-                                    <th class="center" style="width:60px;word-break: break-all;">{{ transShipManager('shipCertlist.Code') }}</th>
-                                    <th class="center" style="width:280px;word-break: break-all;">{{ transShipManager('shipCertlist.name of certificates') }}</th>
-                                    <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.issue_date') }}</th>
-                                    <th class="center" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.expire_date') }}</th>
-                                    <th class="center" style="width:120px;word-break: break-all;">{!! transShipManager('shipCertlist.due_endorse') !!}</th>
-                                    <th class="center" style="width:80px;word-break: break-all;">{{ transShipManager('shipCertlist.issuer') }}</th>
-                                    <th class="center" style="width:40px;word-break: break-all;"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></th>
-                                    <th class="center" style="width:200px;word-break: break-all;">{{ transShipManager('shipCertlist.remark') }}</th>
-                                </tr>
+                                    <th class="text-center style-header" style="width:60px;word-break: break-all;">{!! transShipManager('shipCertlist.No') !!}</th>
+                                    <th class="text-center style-header" style="width:60px;word-break: break-all;">{{ transShipManager('shipCertlist.Code') }}</th>
+                                    <th class="text-center style-header" style="width:280px;word-break: break-all;">{{ transShipManager('shipCertlist.name of certificates') }}</th>
+                                    <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.issue_date') }}</th>
+                                    <th class="text-center style-header" style="width:120px;word-break: break-all;">{{ transShipManager('shipCertlist.expire_date') }}</th>
+                                    <th class="text-center style-header" style="width:120px;word-break: break-all;">{!! transShipManager('shipCertlist.due_endorse') !!}</th>
+                                    <th class="text-center style-header" style="width:80px;word-break: break-all;">{{ transShipManager('shipCertlist.issuer') }}</th>
+                                    <th class="text-center style-header" style="width:40px;word-break: break-all;"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15"></th>
+                                    <th class="text-center style-header" style="width:200px;word-break: break-all;">{{ transShipManager('shipCertlist.remark') }}</th>
                                 </thead>
                                 <tbody>
                                 <tr v-for="(item, array_index) in cert_array">
                                     <td class="center no-wrap">@{{ item.order_no }}</td>
                                     <td class="center no-wrap">@{{ item.code }}</td>
-                                    <td>@{{ item.cert_name }}</td>
+                                    <td>
+                                        <div class="dynamic-select-wrapper">
+                                            <div class="dynamic-select" style="color:#12539b">
+                                                <div class="dynamic-select__trigger">@{{ item.cert_name }}</div>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td class="center"><span>@{{ item.issue_date }}</span></td>
                                     <td class="center"><span>@{{ item.expire_date }}</span></td>
                                     <td class="center"><span>@{{ item.due_endorse }}</span></td>
                                     <td class="center"><span>@{{ issuer_type[item.issuer] }}</span></td>
                                     <td class="text-center">
-                                        <a v-bind:href="item.attachment_link" target="_blank" v-bind:class="[item.attachment_link == '' || item.attachment_link == undefined ? 'd-none' : '']"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="cursor: pointer;"></a>
+                                        <label><a v-bind:href="item.attachment_link" target="_blank" v-bind:class="[item.attachment_link == '' || item.attachment_link == undefined ? 'visible-hidden' : '']"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="cursor: pointer;"></a></label>
                                     </td>
-                                    <td><span>@{{ item.remark }}</span></td>
+                                    <td class="center"><span>@{{ item.remark }}</span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -140,14 +149,18 @@ $ships = Session::get('shipList');
                         this.getShipCertInfo();
                     },
                     refresh() {
-                      this.expire_date = 0;
-                      this.getShipCertInfo();
+                        this.expire_date = 0;
+                        this.getShipCertInfo();
                     },
                     onExport() {
-                      location.href='/shipManage/shipCertExcel?id=' + this.ship_id;
+                        location.href='/shipManage/shipCertExcel?id=' + this.ship_id;
                     },
                     getShipCertInfo() {
                         getShipInfo(this.ship_id, this.expire_date);
+                    },
+                    onExpireChange(e) {
+                        if($(e.target).val() < 0)
+                            $(e.target).val(0)
                     }
                 }
             });
