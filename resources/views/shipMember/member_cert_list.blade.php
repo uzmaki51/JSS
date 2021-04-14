@@ -17,56 +17,54 @@ $isHolder = Session::get('IS_HOLDER');
                     </h4>
                 </div>
             </div>
-            <div class="row col-md-12">
+            <div class="row col-md-12" style="margin-bottom: 4px;">
                 <div class="col-md-6">
-                    <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
-                    <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
+                    <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
+                    <select class="custom-select d-inline-block" id="select-ship" style="max-width: 100px;">
                         <option value="" selected></option>
                         @foreach($shipList as $ship)
-                            <option value="{{ $ship['RegNo'] }}">{{$ship['shipName_En']}}</option>
+                            <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}</option>
                         @endforeach
                     </select>
-                    <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name"></span> CREW CERTIFICATES LIST</strong>
+                    <strong class="f-right" style="font-size: 16px; padding-top: 6px;align-content: flex-end;display: flex;"><span id="ship_name" class="list-header"></span> CREW CERTIFICATES LIST</strong>
                 </div>
                 <div class="col-md-6">
                     <div class="f-right">
-                        <label>提前:</label>
-                        <input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" id="expire_date">
+                        <label class="font-bold">提前:</label>
+                        <input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" id="expire-date" value="0">
                         <label>天</label>
                         <button class="btn btn-report-search btn-sm search-btn" onclick=""><i class="icon-search"></i>搜索</button>
-                        <a class="btn btn-sm btn-danger {{ Auth::user()->isAdmin == 1 ? '' : 'right-no-radius' }} refresh-btn-over" type="button" onclick="">
+                        <a class="btn btn-sm btn-danger {{ Auth::user()->isAdmin == 1 ? '' : 'right-no-radius' }} refresh-btn-over" type="button" onclick="javascript:refresh()">
                             <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">刷新
                         </a>
                         <button class="btn btn-warning btn-sm excel-btn" onclick=""><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" style="margin-top:8px;">
+            <div class="" style="margin-top:8px;">
                 <div id="item-manage-dialog" class="hide"></div>
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <div class="row">
-                    <div class="head-fix-div" id="crew-table" style="height:500px!important;">
-                        <table id="table-shipmember-list" class="custom-table-striped">
-                            <thead>
-                            <tr class="black br-hblue" style="height:45px;">
-                                <th class="text-center" style="width: 3%;"><span>No</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Name</span></th>
-                                <th class="text-center" style="width: 7%;"><span>Rank</span></th>
-                                <th class="text-center" style="width: 7%;"><span>DOC No</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Type of certificates</span></th>
-                                <th class="text-center" style="width: 7%;"><span>Certificates No.</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Issued Date</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Expire Date</span></th>
-                                <th class="text-center" style="width: 8%;"><span>Issued by</span></th>
-                            </tr>
-                            </thead>
-                            <tbody class="" id="list-body">
-                            </tbody>
-                        </table>
-                    </div>
+                <div>
+                    <table id="table-shipmember-list" class="custom-table-striped">
+                        <thead>
+                        <tr class="black br-hblue" style="height:45px;">
+                            <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
+                            <th class="text-center style-header" style="width: 8%;"><span>Name</span></th>
+                            <th class="text-center style-header" style="width: 7%;"><span>Rank</span></th>
+                            <th class="text-center style-header" style="width: 2%;"><span>DOC No</span></th>
+                            <th class="text-center style-header" style="width: 15%;"><span>Type of certificates</span></th>
+                            <th class="text-center style-header" style="width: 7%;"><span>Certificates No.</span></th>
+                            <th class="text-center style-header" style="width: 6%;"><span>Issued Date</span></th>
+                            <th class="text-center style-header" style="width: 6%;"><span>Expire Date</span></th>
+                            <th class="text-center style-header" style="width: 6%;"><span>Issued by</span></th>
+                        </tr>
+                        </thead>
+                        <tbody class="" id="list-body">
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <div id="test">
+                <div id="test">
+                </div>
             </div>
         </div>
     </div>
@@ -81,6 +79,16 @@ $isHolder = Session::get('IS_HOLDER');
 	echo '</script>';
 	?>
     <script>
+        var certList = new Array();
+        var cIndex = 0;
+        
+        @foreach($security as $type)
+            var cert = new Object();
+            cert.value = '{{$type["title"]}}';
+            certList[cIndex] = cert;
+            cIndex++;
+        @endforeach
+
         var token = '{!! csrf_token() !!}';
         var shipName = '';
         $(function () {
@@ -95,6 +103,7 @@ $isHolder = Session::get('IS_HOLDER');
             });
         }
 
+        var listTable = null;
         function initTable() {
             listTable = $('#table-shipmember-list').DataTable({
                 processing: true,
@@ -114,19 +123,46 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: 'no', className: "text-center"},
                     {data: 'name', className: "text-center"},
                     {data: 'rank', className: "text-center"},
-                    {data: 'nationality', className: "text-center"},
-                    {data: 'cert-id', className: "text-center"},
-                    {data: 'birth-and-place', className: "text-center"},
-                    {data: 'date-and-embarkation', className: "text-center"},
-                    {data: 'bookno-expire', className: "text-center"},
-                    {data: 'passport-expire', className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: '_no', className: "text-center"},
+                    {data: '_issue', className: "text-center"},
+                    {data: '_expire', className: "text-center"},
+                    {data: '_by', className: "text-center"},
                 ],
-                rowsGroup: [0, 2, 3, 4],
+                rowsGroup: [0, 1, 2],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
-                    $(row).attr('data-index', data['no']);
                     $(row).attr('class', 'member-item');
-                    $('td', row).eq(0).html('').append((pageInfo.page * pageInfo.length + index + 1));
+                    var cert_index = index % 15;
+                    $('td', row).eq(3).html('').append(data['count']);
+                    $('td', row).eq(4).attr('class', 'text-center style-bold-italic');
+                    if (cert_index == 0) {
+                        $('td', row).eq(4).html('').append('Seamanbook');
+                    }
+                    else if (cert_index == 1) {
+                        $('td', row).eq(4).html('').append('Passport');
+                    }
+                    else if (cert_index == 2 || cert_index == 3) {
+                        if (data['_type'] != '' ) {
+                            $('td', row).eq(4).html('').append(data['_type']);
+                        }
+                        else
+                        {
+                            if (cert_index == 2) $('td', row).eq(4).html('').append('COC: Certificate of Competency');
+                            else if (cert_index == 3) $('td', row).eq(4).html('').append('COE: Certificate of Endorsement');
+                        }
+                    }
+                    else if (cert_index == 4) {
+                        $('td', row).eq(4).html('').append('GOC: GMDSS general operator');
+                    }
+                    else if (cert_index == 5) {
+                        $('td', row).eq(4).html('').append('GOC Endorsement');
+                    }
+                    else
+                    {
+                        $('td', row).eq(4).html('').append(certList[cert_index-6].value);
+                    }
                 },
             });
 
@@ -136,12 +172,19 @@ $isHolder = Session::get('IS_HOLDER');
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         }
-        initTable();
+
+        function doSearch() {
+            if (shipName == "") return;
+            if (listTable == null) initTable();
+            $('#ship_name').html('"' + shipName + '"');
+            listTable.column(2).search($("#select-ship" ).val(), false, false);
+            listTable.column(3).search($("#expire-date").val(), false, false).draw();
+        }
 
         $('#select-ship').on('change', function() {
-            shipName = $("#select-ship option:selected").text();
+            shipName = $(this).find(':selected').attr('data-name');
             $('#ship_name').html('"' + shipName + '"');
-            listTable.column(2).search($("#select-ship" ).val(), false, false).draw();
+            doSearch();
         });
 
         $('.excel-btn').on('click', function() {
@@ -152,19 +195,32 @@ $isHolder = Session::get('IS_HOLDER');
         function fnExcelReport()
         {
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
-            tab = document.getElementById('table-shipmember-list');
-
-            tab_text=tab_text+"<tr><td colspan='9' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>CREW LIST</td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;border-bottom:hidden;'>1.Name of Ship</td><td colspan='2'style='font-size:18px;border-bottom:hidden;text-align:center;'>2.Port of Arrival</td><td colspan='3' style='font-size:18px;border-bottom:hidden;text-align:center;'>3.Date of arrival</td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;'>&nbsp;&nbsp;" + shipName + "</td><td colspan='2'style='font-size:18px;text-align:center;'>&nbsp;&nbsp;ZHENJIANG</td><td colspan='3' style='font-size:18px;text-align:center;'>&nbsp;&nbsp;2020-12-</td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;border-bottom:hidden;'>4.Nationality of Ship</td><td colspan='2'style='font-size:18px;border-bottom:hidden;text-align:center;'>5.LAST Port of Call</td><td colspan='3' style='font-size:18px;border-bottom:hidden;'></td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;'>&nbsp;&nbsp;CHINA</td><td colspan='2'style='font-size:18px;text-align:center;'>&nbsp;&nbsp;DONGHAE</td><td colspan='3' style='font-size:18px;'></td></tr>";
+            var real_tab = document.getElementById('table-shipmember-list');
+            var tab = real_tab.cloneNode(true);
+            tab_text=tab_text+"<tr><td colspan='9' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + '"' + shipName + '"' + "CREW CERTIFICATES LIST</td></tr>";
             for(var j = 0 ; j < tab.rows.length ; j++) 
             {
                 if (j == 0) {
                     console.log(tab.rows[j]);
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
-                        tab.rows[j].childNodes[i].style.width = '100px';
+                        if (i == 0) {
+                        }
+                        else if (i == 1) {
+                            tab.rows[j].childNodes[i].style.width = '240px';
+                        }
+                        else if (i == 2) {
+                        }
+                        else if (i == 3) {
+                        }
+                        else if (i == 4) {
+                            tab.rows[j].childNodes[i].style.width = '340px';
+                        }
+                        else if (i == 5) {
+                            tab.rows[j].childNodes[i].style.width = '240px';
+                        }
+                        else if (i == 8) {
+                            tab.rows[j].childNodes[i].style.width = '240px';
+                        }
                         tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
                     }
                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
@@ -180,10 +236,20 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
             //document.getElementById('test').innerHTML = tab_text;
-            var filename = 'CREW LIST(' + shipName + ')';
-            exportExcel(tab_text, filename, 'CREW LIST');
+            var filename = 'CREW CERTIFICATES LIST(' + shipName + ')';
+            exportExcel(tab_text, filename, 'CREW CERTIFICATES LIST');
             return 0;
         }
+
+        function refresh() {
+            $('#expire-date').val('0');
+            doSearch();
+        }
+
+        $('#expire-date').on('change', function() {
+            doSearch();
+        });
+        
     </script>
 
 @endsection

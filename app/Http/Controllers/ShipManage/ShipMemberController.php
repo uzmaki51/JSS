@@ -108,7 +108,7 @@ class ShipMemberController extends Controller
     }
 
     public function registerShipMember(Request $request) {
-        $shipList = ShipRegister::select('shipName_En', 'RegNo')->get();
+        $shipList = ShipRegister::select('shipName_En', 'IMO_No')->get();
         $posList = ShipPosition::all();
         $portList = ShipPort::all();
         $ksList = Ship::all();
@@ -703,11 +703,11 @@ class ShipMemberController extends Controller
 
         $list = ShipMember::getTotalMemberList($regShip, $bookShip, $origShip, $regStatus);
 
-        $shipList = ShipRegister::select('tb_ship_register.RegNo', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
                         ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                         ->get();
 
-        $shipList1 = ShipRegister::select('tb_ship_register.RegNo', 'tb_ship_register.shipName_En', 'tb_ship.name')
+        $shipList1 = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship.name')
             ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                         ->orderBy('tb_ship_register.shipName_En')
             ->get();
@@ -715,7 +715,7 @@ class ShipMemberController extends Controller
         $ko_ship_list = Ship::select('id', 'name')->get();
         foreach($list as $member) {
             //$ship = ShipRegister::find($member['ShipID_Book']);
-            $ship = ShipRegister::where('RegNo', $member['ShipID_Book'])->first();
+            $ship = ShipRegister::where('IMO_No', $member['ShipId'])->first();
             if($ship)
                 $member['book_ship'] = $ship['shipName_En'];
             $ship = Ship::find($member['ShipID_organization']);
@@ -734,6 +734,7 @@ class ShipMemberController extends Controller
     }
 
     public function memberCertList(Request $request) {
+        /*
         Util::getMenuInfo($request);
 
         $shipList = ShipRegister::getShipListByOrigin();
@@ -785,18 +786,27 @@ class ShipMemberController extends Controller
         }
 
 		$pageHtml = Util::makePaginateHtml($pageCount, $page);
+        */
+
+        $list = "";//ShipMember::getMemberCertList($shipId, $posId, $capacityId, $month, -1);
+        $shipList = ShipRegister::select('shipName_En', 'IMO_No', 'NickName')->get();
+		$posList = ShipPosition::all();
+        $capacityList = ShipMemberCapacity::all();
+        $securityType = SecurityCert::all();
 
         return view('shipMember.member_cert_list', 
 			[	'list'		=>		$list, 
 				'shipList'	=>		$shipList,
 				'posList'	=>		$posList,
 				'capacityList'=>	$capacityList,
+                'security'    =>    $securityType,
+                /*
 				'shipId'	=>		$shipId,
 				'posId'		=>		$posId,
 				'capacityId'=>		$capacityId,
 				'expire'	=>		$month,
 				'page'		=>		$page,
-				'pageHtml'	=>		$pageHtml,
+				'pageHtml'	=>		$pageHtml,*/
 			]);
     }
 

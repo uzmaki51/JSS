@@ -307,54 +307,125 @@ class ShipMember extends Model
         $selector = null;
         $records = [];
         $recordsFiltered = 0;
-        if (isset($params['columns'][1]['search']['value'])
-            //&& $params['columns'][1]['search']['value'] !== ''
-           && (!isset($params['type']))
-        ) {
-            $selector = DB::table($this->table)->select('*');
-            $selector->where('realname', 'like', '%' . $params['columns'][1]['search']['value'] . '%');
-            $records = $selector->orderBy('id', 'desc')->limit(1)->get();
-            $recordsFiltered = $selector->count();
-        }
-
+        
+        $selector = DB::table($this->table)->select('*');
         if (isset($params['columns'][2]['search']['value'])
             && $params['columns'][2]['search']['value'] !== ''
         ) {
-            $selector = DB::table($this->table)->select('*');
             $selector->where('ShipId', $params['columns'][2]['search']['value']);
-            $records = $selector->orderBy('DutyID_Book')->get();
-            $recordsFiltered = $selector->count();
         }
+        //$expire_days = null;
+        //if (isset($params['columns'][3]['search']['value']) && $params['columns'][3]['search']['value'] !== '')
+            $expire_days = $params['columns'][3]['search']['value'];
+
+        $selector->orderBy('id', 'desc')->orderBy('DutyID_Book');
+        $records = $selector->get();
+        $recordsFiltered = $selector->count();
         
         $newArr = [];
         $newindex = 0;
+        $capacityList = ShipMemberCapacity::all();
+        $today = time();
+        $count = 0;
         foreach($records as $index => $record) {
-            if ($record->PassportNo == $record->crewNum) {
-                $record->crewNum = "";
-            }
-            $newArr[$newindex]['no'] = $record->id;
-            $newArr[$newindex]['name'] = $record->realname;
+            $count = 0;
             $rank = ShipPosition::find($record->DutyID_Book);
-            $newArr[$newindex]['rank'] = '';
-            if(!empty($rank)) $newArr[$newindex]['rank'] = $rank->Duty_En;
-            $newArr[$newindex]['nationality'] = $record->Nationality;
-            $newArr[$newindex]['cert-id'] = $record->CertNo;
-            $newArr[$newindex]['birth-and-place'] = $record->birthday;
-            $newArr[$newindex]['date-and-embarkation'] = $record->DateOnboard;
-            $newArr[$newindex]['bookno-expire'] = $record->crewNum;
-            $newArr[$newindex]['passport-expire'] = $record->PassportNo;
-            $newindex ++;
-            $newArr[$newindex]['no'] = $record->id;
-            $newArr[$newindex]['name'] = $record->GivenName;
-            if(!empty($rank)) $newArr[$newindex]['rank'] = $rank->Duty_En;
-            $newArr[$newindex]['nationality'] = $record->Nationality;
-            $newArr[$newindex]['cert-id'] = $record->CertNo;
-            $newArr[$newindex]['birth-and-place'] = $record->BirthPlace;
-            $newArr[$newindex]['date-and-embarkation'] = '-';
-            $newArr[$newindex]['bookno-expire'] = $record->ExpiryDate;
-            $newArr[$newindex]['passport-expire'] = $record->PassportExpiryDate;
-            $newindex ++;
+            $capacity = ShipCapacityRegister::where('memberId', $record->id)->first();
+            $training = ShipMemberTraining::where('memberId', $record->id)->groupBy("CertSequence")->get();
+            for ($i=0;$i<15;$i++)
+            {
+                $newArr[$newindex]['no'] = $index + 1;
+                $newArr[$newindex]['name'] = $record->realname;
+                $newArr[$newindex]['rank'] = '&nbsp;';    
+                if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Abb;
+                $newArr[$newindex]['_no'] = '';
+                $newArr[$newindex]['_issue'] = '';
+                $newArr[$newindex]['_expire'] = '';
+                $newArr[$newindex]['_by'] = '';
+                $newArr[$newindex]['_type'] = '';
+                if ($i == 0) {
+                    $newArr[$newindex]['_no'] = $record->crewNum;
+                    $newArr[$newindex]['_issue'] = $record->IssuedDate;
+                    $newArr[$newindex]['_expire'] = $record->ExpiryDate;
+                    $newArr[$newindex]['_by'] = '';
+                    
+                }
+                else if ($i == 1) {
+                    $newArr[$newindex]['_no'] = $record->PassportNo;
+                    $newArr[$newindex]['_issue'] = $record->PassportIssuedDate;
+                    $newArr[$newindex]['_expire'] = $record->PassportExpiryDate;
+                    $newArr[$newindex]['_by'] = '';
+                }
+                else if ($i == 2)
+                {
+                    if (!empty($capacity) && $capacity != null) {
+                        $newArr[$newindex]['_no'] = $capacity['ItemNo'];
+                        $newArr[$newindex]['_issue'] = $capacity['COC_IssuedDate'];
+                        $newArr[$newindex]['_expire'] = $capacity['COC_ExpiryDate'];
+                        $newArr[$newindex]['_by'] = $capacity['COC_Remarks'];
+                        foreach ($capacityList as $type)
+                        if ($type->id == $capacity['CapacityID'])
+                        {
+                            $newArr[$newindex]['_type'] = $type->Capacity_En;
+                            break;
+                        }
+                    }
+                }
+                else if ($i == 3)
+                {
+                    if (!empty($capacity) && $capacity != null) {
+                        $newArr[$newindex]['_no'] = $capacity['COENo'];
+                        $newArr[$newindex]['_issue'] = $capacity['COE_IssuedDate'];
+                        $newArr[$newindex]['_expire'] = $capacity['COE_ExpiryDate'];
+                        $newArr[$newindex]['_by'] = $capacity['COE_Remarks'];
+
+                        foreach ($capacityList as $type)
+                        if ($type->id == $capacity['COEId'])
+                        {
+                            $newArr[$newindex]['_type'] = $type->Capacity_En;
+                            break;
+                        }
+                    }
+                }
+                else if ($i == 4)
+                {
+                    if (!empty($capacity) && $capacity != null) {
+                        $newArr[$newindex]['_no'] = $capacity['GMDSS_NO'];
+                        $newArr[$newindex]['_issue'] = $capacity['GMD_IssuedDate'];
+                        $newArr[$newindex]['_expire'] = $capacity['GMD_ExpiryDate'];
+                        $newArr[$newindex]['_by'] = $capacity['GMD_Remarks'];
+                    }
+                }
+                else if ($i == 5)
+                {
+                    if (!empty($capacity) && $capacity != null) {
+                        $newArr[$newindex]['_no'] = $capacity['COE_GOCNo'];
+                        $newArr[$newindex]['_issue'] = $capacity['COE_GOC_IssuedDate'];
+                        $newArr[$newindex]['_expire'] = $capacity['COE_GOC_ExpiryDate'];
+                        $newArr[$newindex]['_by'] = $capacity['COE_GOC_Remarks'];
+                    }
+                }
+                else
+                {
+                    if(isset($training[$i-6])) {
+                        $newArr[$newindex]['_no'] = $training[$i-6]->CertNo;
+                        $newArr[$newindex]['_issue'] = $training[$i-6]->IssueDate;
+                        $newArr[$newindex]['_expire'] = $training[$i-6]->ExpireDate;
+                        $newArr[$newindex]['_by'] = $training[$i-6]->IssuedBy;
+                    }
+                }
+
+                if ($expire_days != 0) {
+                    $datediff = strtotime($newArr[$newindex]['_expire']) - $today;
+                    if (round($datediff / (60 * 60 * 24)) < $expire_days) continue;
+                }
+                $count ++;
+                $newArr[$newindex]['count'] = $count;
+                $newindex ++;
+            }
         }
+        if ($count == 0) unset($newArr[$newindex]);
+        if ($newindex == 0) $newArr = [];
         return [
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
@@ -368,46 +439,47 @@ class ShipMember extends Model
         $selector = null;
         $records = [];
         $recordsFiltered = 0;
+
+
+        $selector = DB::table($this->table)->select('*');
         if (isset($params['columns'][1]['search']['value'])
-            //&& $params['columns'][1]['search']['value'] !== ''
-           && (!isset($params['type']))
+            && $params['columns'][1]['search']['value'] !== ''
         ) {
-            $selector = DB::table($this->table)->select('*');
             $selector->where('realname', 'like', '%' . $params['columns'][1]['search']['value'] . '%');
-            $records = $selector->orderBy('id', 'desc')->limit(1)->get();
-            $recordsFiltered = $selector->count();
         }
 
         if (isset($params['columns'][2]['search']['value'])
             && $params['columns'][2]['search']['value'] !== ''
         ) {
-            $selector = DB::table($this->table)->select('*');
             $selector->where('ShipId', $params['columns'][2]['search']['value']);
-            $records = $selector->orderBy('DutyID_Book')->get();
-            $recordsFiltered = $selector->count();
         }
 
         if (isset($params['columns'][3]['search']['value'])
-            && $selector !== null
+            && $params['columns'][3]['search']['value'] !== ''
         ) {
             if ($params['columns'][3]['search']['value'] == 'true')
             {
-                $selector->where('DateOnboard', '!=', 'null');
-                $records = $selector->orderBy('DutyID_Book')->get();
-                $recordsFiltered = $selector->count();
+                $selector->whereNotNull('DateOnboard');
+                $selector->where(function($query) {
+                    $today = date("Y-m-d");
+                    $query->whereNull('DateOffboard')->orWhere('DateOffboard', '<', $today);
+                });
+                //$selector->whereNull('DateOffboard')->orWhere('DateOffboard', '<', $today);
             }
             else if ($params['columns'][3]['search']['value'] == 'false')
             {
-                $selector->where('DateOnboard', null);
-                $records = $selector->orderBy('DutyID_Book')->get();
-                $recordsFiltered = $selector->count();
-            }
-            else
-            {
-                $records = $selector->orderBy('DutyID_Book')->get();
-                $recordsFiltered = $selector->count();
+                $today = date("Y-m-d");
+                $selector->whereNull('DateOnboard')->orWhere('DateOnboard', '>', $today);
             }
         }
+        
+        $selector->orderBy('id', 'desc')->orderBy('DutyID_Book');
+        if (!isset($params['type'])) {
+            $selector->limit(1);
+        }
+
+        $records = $selector->get();
+        $recordsFiltered = $selector->count();
         
         $newArr = [];
         $newindex = 0;

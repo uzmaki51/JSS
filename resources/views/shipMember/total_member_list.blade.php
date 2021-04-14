@@ -22,7 +22,7 @@ $isHolder = Session::get('IS_HOLDER');
                     <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
                         <option value="" selected></option>
                         @foreach($shipList as $ship)
-                            <option value="{{ $ship['RegNo'] }}">{{$ship['shipName_En']}}</option>
+                            <option value="{{ $ship['IMO_No'] }}">{{$ship['shipName_En']}}</option>
                         @endforeach
                     </select>
                     <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name"></span> CREW LIST</strong>
@@ -85,6 +85,7 @@ $isHolder = Session::get('IS_HOLDER');
             });
         }
 
+        var listTable = null;
         function initTable() {
             listTable = $('#table-shipmember-list').DataTable({
                 processing: true,
@@ -126,10 +127,12 @@ $isHolder = Session::get('IS_HOLDER');
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         }
-        initTable();
+        //initTable();
 
         $('#select-ship').on('change', function() {
             shipName = $("#select-ship option:selected").text();
+            if (shipName == "") return;
+            if (listTable == null) initTable();
             $('#ship_name').html('"' + shipName + '"');
             listTable.column(2).search($("#select-ship" ).val(), false, false).draw();
         });
@@ -153,9 +156,7 @@ $isHolder = Session::get('IS_HOLDER');
             {
                 if (j == 0) {
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
-                        console.log("i:" + i);
                         if (i == 0) {
-
                         }
                         else if (i == 1) {
                             tab.rows[j].childNodes[i].style.width = '140px';
