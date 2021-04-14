@@ -286,3 +286,12 @@ div.input table tbody tr td
 .sub-small-header{
     background-color: #ebf1de!important;
 }
+
+.list-header {
+    width: 150px;
+    text-align: right;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

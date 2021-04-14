@@ -47,7 +47,7 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
                 <div class="col-md-12">
                     <div class="col-sm-6 f-left">
-                        <label><b>Name: </b><input type="text" id="search-name"/></label>
+                        <label><b>Name: </b><input type="text" id="search-name" autocomplete="false"/></label>
                         <label style="margin-left:5px;font-style:italic;"><b>Sign On (上船): </b></label><input id="search-signon" style="margin-top:5px; margin-left:5px; position:absolute;" type="checkbox" onclick=""/>
                     </div>
                     <div class="col-sm-6 f-right" style="padding:unset!important">
@@ -81,9 +81,48 @@ $isHolder = Session::get('IS_HOLDER');
                                     <th style="width: 3%;"></th>
                                 </thead>
                                 <tbody class="list-body" id="list-body">
-                                    <tr data-index="" class="member-item odd" role="row"><td class=" text-center" rowspan="2"></td><td class="no-padding"></td><td class=" text-center" rowspan="2"></td><td class="text-center" rowspan="2"></td><td class="text-center" rowspan="2"></td><td class="text-center"></td><td class=" text-center"></td><td class=" text-center"></td><td class=" text-center"></td><td class=" text-center" rowspan="2"></td>
+                                    <tr data-index="@if(isset($info)){{$info['id']}}@endif" class="member-item odd" role="row">
+                                        <td class=" text-center" rowspan="2">1</td>
+                                        <td class="text-center">@if(isset($info) && $info['realname']!=''){{$info['realname']}}@else&nbsp;@endif</td>
+                                        <?php $rank = "";
+                                        ?>
+                                        @foreach ($posList as $item)
+                                            @if ($item->id == $info['DutyID_Book'])
+                                            <?php $rank = $item->Abb; 
+                                            ?>
+                                            @endif
+                                        @endforeach
+                                        <td class=" text-center" rowspan="2">{{$rank}}</td>
+                                        <td class="text-center" rowspan="2">@if(isset($info)){{$info['Nationality']}}@endif</td>
+                                        <td class="text-center" rowspan="2">@if(isset($info)){{$info['CertNo']}}@endif</td>
+                                        <td class="text-center">@if(isset($info)){{$info['birthday']}}@endif</td>
+                                        <td class=" text-center">@if(isset($info)){{$info['DateOnboard']}}@endif</td>
+                                        <td class=" text-center">@if(isset($info)){{$info['crewNum']}}@endif</td>
+                                        <td class=" text-center">@if(isset($info)){{$info['PassportNo']}}@endif</td>
+                                        <td class=" text-center" rowspan="2">
+                                            <div class="action-buttons">
+                                                <a class="red" href="javascript:deleteItem('@if(isset($info)){{$info['id']}}@endif')"><i class="icon-trash"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
-                                    <tr data-index="" class="member-item even" role="row"><td class=" text-center" style="display: none;"></td><td class="no-padding"></td><td class=" text-center" style="display: none;"></td><td class=" text-center" style="display: none;"></td><td class=" text-center" style="display: none;"></td><td class=" text-center"></td><td class=" text-center"></td><td class=" text-center"></td><td class=" text-center"></td>
+                                    <tr data-index="" class="member-item even" role="row">
+                                        <td class=" text-center" style="display: none;"></td>
+                                        <td class="text-center">@if(isset($info)&&$info['GivenName']!=''){{$info['GivenName']}}@else&nbsp;@endif</td>
+                                        <td class=" text-center" style="display: none;"></td>
+                                        <td class=" text-center" style="display: none;"></td>
+                                        <td class=" text-center" style="display: none;"></td>
+                                        <td class=" text-center">@if(isset($info)){{$info['BirthPlace']}}@endif</td>
+                                        <?php $port = "";
+                                        ?>
+                                        @foreach ($portList as $item)
+                                            @if ($item->id == $info['PortID_Book'])
+                                            <?php $port = $item->Port_Cn; 
+                                            ?>
+                                            @endif
+                                        @endforeach
+                                        <td class=" text-center">{{$port}}</td>
+                                        <td class=" text-center">@if(isset($info)){{$info['ExpiryDate']}}@endif</td>
+                                        <td class=" text-center">@if(isset($info)){{$info['PassportExpiryDate']}}@endif</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -519,7 +558,7 @@ $isHolder = Session::get('IS_HOLDER');
             let cell = $(evt.target).closest('td');
             if(cell.index() < 9) {
                 let member_id = this.firstElementChild.getAttribute('data-index');
-                if (member_id != "") location.href = BASE_URL + 'shipMember/registerShipMember?memberId=' + member_id;
+                if (member_id != "" && member_id != "-1") location.href = BASE_URL + 'shipMember/registerShipMember?memberId=' + member_id;
             }
             
         });
@@ -556,7 +595,7 @@ $isHolder = Session::get('IS_HOLDER');
             }
             else
             {
-                initTable();
+                //initTable();
             }
         })
 

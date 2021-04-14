@@ -229,7 +229,7 @@
                                 <select name="ShipId" class="form-control" style="padding:0px!important;color:#12539b!important">
                                     <option value="0">&nbsp;</option>
                                     @foreach($shipList as $ship)
-                                        <option value="{{$ship['RegNo']}}" @if($info['ShipId'] == $ship['RegNo'])) selected @endif>{{$ship['shipName_En']}}</option>
+                                        <option value="{{$ship['IMO_No']}}" @if($info['ShipId'] == $ship['IMO_No'])) selected @endif>{{$ship['shipName_En']}}</option>
                                     @endforeach
                                 </select>
                             </td>
