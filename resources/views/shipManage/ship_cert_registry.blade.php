@@ -225,9 +225,25 @@ $ships = Session::get('shipList');
         var IS_FILE_UPDATE = '{!! IS_FILE_UPDATE !!}';
         var ship_id = '{!! $shipId !!}';
 
+        var submitted = false;
+        $("form").submit(function() {
+            submitted = true;
+        });
+
+        var $form = $('form'),
+            origForm = $form.serialize();
+        window.addEventListener("beforeunload", function (e) {
+            var confirmationMessage = 'It looks like you have been editing something. '
+                + 'If you leave before saving, your changes will be lost.';
+            if ($form.serialize() !== origForm && !submitted) {
+                (e || window.event).returnValue = confirmationMessage;
+            }
+            return confirmationMessage;
+        });
         $(function () {
             // Initialize
             initialize();
+
         });
 
         function initialize() {
