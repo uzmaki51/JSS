@@ -48,7 +48,7 @@ $isHolder = Session::get('IS_HOLDER');
                 <div class="col-md-12">
                     <div class="col-sm-6 f-left">
                         <label><b>Name: </b><input type="text" id="search-name" autocomplete="false"/></label>
-                        <label style="margin-left:5px;font-style:italic;"><b>Sign On (上船): </b></label><input id="search-signon" style="margin-top:5px; margin-left:5px; position:absolute;" type="checkbox" onclick=""/>
+                        <label style="margin-left:5px;font-style:italic;"><b>Sign On (上船): </b></label><input id="search-signon" style="margin-top:5px; margin-left:5px; position:absolute;" type="checkbox" onclick="" checked/>
                     </div>
                     <div class="col-sm-6 f-right" style="padding:unset!important">
                         @if(!$isHolder)
@@ -291,8 +291,8 @@ $isHolder = Session::get('IS_HOLDER');
                                     <table class="table-bordered rank-table">
                                         <thead>
                                         <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:45%">Name(English)</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:45%">Name(中文)</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:45%">Port Name</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:45%">Country Code</th>
                                             <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
                                         </tr>
                                         </thead>

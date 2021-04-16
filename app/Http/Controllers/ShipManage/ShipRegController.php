@@ -162,21 +162,28 @@ class ShipRegController extends Controller
 
 	    $commonLang = Lang::get('common');
 	    $lastShipId = $this->saveShipGeneralData($params, $shipData);
-	    if($lastShipId != false) {
+	    if($lastShipId != false && $lastShipId != "") {
 			$this->saveShipHullData($params, $lastShipId, $freeId);
 		    $this->saveShipMachineryData($params, $lastShipId);
 		    $this->saveShipRemarksData($params, $lastShipId);
 		    $status = $isRegister == true ? $commonLang['message']['register']['success'] : $commonLang['message']['update']['success'];
+            return redirect(url('shipManage/registerShipData?shipId=' . $lastShipId));
 	    } else {
-		    $status = $isRegister == true ? $commonLang['message']['register']['failed'] : $commonLang['message']['update']['failed'];
+		    //$status = $isRegister == true ? $commonLang['message']['register']['failed'] : $commonLang['message']['update']['failed'];
+            return back()->with(['status'=>'error']);
 	    }
 
-	    return redirect(url('shipManage/registerShipData?shipId=' . $lastShipId));
-
+	    //return redirect(url('shipManage/registerShipData?shipId=' . $lastShipId));
     }
 
     public function saveShipGeneralData($params, $shipData) {
     	//try {
+            $shipId = $params['shipId'];
+            $IMO_No = $params['IMO_No'];
+            $isExist = ShipRegister::where('IMO_No', $IMO_No)->first();
+            if(!empty($isExist) && ($isExist['id'] != $shipId) && $IMO_No != "") {
+                return "";
+            }
 		    $shipData['shipName_Cn'] = $params['shipName_Cn'];
 		    $shipData['shipName_En'] = $params['shipName_En'];
 		    $shipData['NickName'] = $params['NickName'];

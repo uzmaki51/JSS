@@ -34,15 +34,15 @@ $shipList = Session::get('shipList');
                 <div id="item-manage-dialog" class="hide"></div>
                 <div class="row">
                     <div class="head-fix-div" id="ship-table">
-                        <table class="registered-list">
+                        <table class="registered-list" style="table-layout:fixed">
                             <thead id="list-header">
                             <tr>
                                 <th class="text-center style-header" style="width: 2%;"><span>No</span></th>
-                                <th class="text-center style-header" style="width: 10%;"><span>ShipName</span></th>
-                                <th class="text-center style-header" style="width: 16%;"><span>IMO NO</span></th>
+                                <th class="text-center style-header" style=""><span>ShipName</span></th>
+                                <th class="text-center style-header" style="width: 6%;"><span>IMO NO</span></th>
                                 <th class="text-center style-header" style="width: 8%;"><span>Flag</span></th>
                                 <th class="text-center style-header" style="width: 8%;"><span>Port of Registry</span></th>
-                                <th class="text-center style-header" style="width: 8%;"><span>Class</span></th>
+                                <th class="text-center style-header" style="width: 6%;"><span>Class</span></th>
                                 <th class="text-center style-header" style="width: 4%;"><span>GT</span></th>
                                 <th class="text-center style-header" style="width: 4%;"><span>NT</span></th>
                                 <th class="text-center style-header" style="width: 4%;"><span>DWT</span></th>
@@ -50,7 +50,7 @@ $shipList = Session::get('shipList');
                                 <th class="text-center style-header" style="width: 4%;"><span>LOA</span></th>
                                 <th class="text-center style-header" style="width: 4%;"><span>BM</span></th>
                                 <th class="text-center style-header" style="width: 4%;"><span>DM</span></th>
-                                <th class="text-center style-header" style="width: 4%;"><span>Draught</span></th>
+                                <th class="text-center style-header" style="width: 5%;"><span>Draught</span></th>
                                 <th style="width: 2%;"></th>
                             </tr>
                             </thead>
@@ -131,7 +131,7 @@ $shipList = Session::get('shipList');
                     <form role="form" method="POST" action="{{url('shipManage/saveShipData')}}" enctype="multipart/form-data" id="general-form">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="shipId"
-                               value="@if(isset($shipInfo['id'])) {{$shipInfo['id']}} @else 0 @endif">
+                               value="@if(isset($shipInfo['id'])){{$shipInfo['id']}}@else'0'@endif">
                         <div class="tab-content">
                             <div id="general" class="tab-pane active">
                                 @include('shipManage.tab_general', with(['shipList'=>$shipList, 'shipType'=>$shipType, 'shipInfo'=>$shipInfo]))
@@ -212,11 +212,21 @@ $shipList = Session::get('shipList');
         var token = '{!! csrf_token() !!}';
         var shipId = '{!! $shipInfo['id'] !!}';
         var submitted = false;
-        //editables on first profile page
-        $.fn.editable.defaults.mode = 'inline';
-        $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
-        $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary editable-submit"><i class="icon-ok icon-white"></i></button>';
 
+        var state = '@if(isset($status)){{$status}}@endif';
+        $(function () {
+            //editables on first profile page
+            $.fn.editable.defaults.mode = 'inline';
+            $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
+            $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary editable-submit"><i class="icon-ok icon-white"></i></button>';
+            if(state == 'error') {
+                $.gritter.add({
+                    title: '错误',
+                    text: 'IMO_No不可以重复了!',
+                    class_name: 'gritter-error'
+                });
+            }
+        });
 
         $('#btnRegister').on('click', function() {
             $('form').validate();

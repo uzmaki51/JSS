@@ -106,7 +106,7 @@ return [
     ],
 
     "tabMenu"  => [
-        'General' => "Ship's Particulars",
+        'General' => "General",
         'Hull/Cargo' => 'Hull/Cargo',
         'Machinery' => 'Machinery',
         'Remarks' => 'Remarks',
@@ -234,8 +234,8 @@ return [
         'Descript'=>'Weight [MT]',
         'Kind'=>'Kind',
         'FuelTank'=>'Tank',
-        'Summer'=>'Summer Condition',
-        'Winter'=>'Winter Condition',
+        'Summer'=>'A',
+        'Winter'=>'B',
         'Fuel Consumption'=>'Fuel Consumption',
         'ME TYPE'   =>  'MAIN ENGINE',
         'AE TYPE'   =>  'GENTERATOR ',

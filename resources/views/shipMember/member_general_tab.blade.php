@@ -352,9 +352,9 @@
                                                 @endif
                                                 @foreach ($portList as $item)
                                                     @if ($item->id == $info['PortID_Book'])
-                                                        <span class="dynamic-option selected" data-value="{{$item->id}}" data-text="{{$item->Port_Cn}}">{{$item->Port_Cn}}</span>
+                                                        <span class="dynamic-option selected" data-value="{{$item->id}}" data-text="{{$item->Port_En.' ('.$item->Port_Cn.')'}}">{{$item->Port_En.' ('.$item->Port_Cn.')'}}</span>
                                                     @else
-                                                        <span class="dynamic-option" data-value="{{$item->id}}" data-text="{{$item->Port_Cn}}">{{$item->Port_Cn}}</span>
+                                                        <span class="dynamic-option" data-value="{{$item->id}}" data-text="{{$item->Port_En.' ('.$item->Port_Cn.')'}}">{{$item->Port_En.' ('.$item->Port_Cn.')'}}</span>
                                                     @endif
                                                 @endforeach
                                             </div>

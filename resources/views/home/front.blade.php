@@ -54,6 +54,10 @@
         .ship-item:hover {
             background-color: #ffe3e082;
         }
+
+        .c3-legend-item text {
+            font-size:14px;
+        }
     </style>
     <div class="main-content">
         <div class="page-content">

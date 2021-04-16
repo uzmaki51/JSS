@@ -301,9 +301,29 @@ class ShipMember extends Model
             $result = '';
 
         return $result;
-
     }
+
+    public function getCertlistByShipId($IMO_No) {
+        $selector = null;
+        $records = [];
+        $selector = DB::table($this->table)->select('*')->where('ShipId', $IMO_No);
+        $records = $selector->get();
+        $memberlist = [];
+        foreach($records as $index => $record) {
+            $rank = ShipPosition::find($record->DutyID_Book);
+            $rank_name = (!empty($rank) && $rank != null) ? $rank->Duty_En : '';
+            if ($rank_name == 'MASTER' || $rank_name == '2nd DECK OFFICER' || $rank_name == '3rd DECK OFFICER' || $rank_name == 'CHIEF MATE' ||
+                $rank_name == '2nd ENGINEER OFFICER' || $rank_name == '3rd ENGINEER OFFICER' || $rank_name == 'RADIO OFFICER' || $rank_name == 'CHIEF ENGINEER')
+            {
+                $memberlist[$rank_name] = ShipCapacityRegister::select('ItemNo', 'COC_IssuedDate', 'COC_ExpiryDate', 'GMDSS_NO', 'GMD_IssuedDate', 'GMD_ExpiryDate')
+                    ->where('memberId', $record->id)->first();
+            }
+        }
+        return $memberlist;
+    }
+
     public function getForCertDatatable($params) {
+        return $this->getCertlistByShipId($params['columns'][2]['search']['value']);
         $selector = null;
         $records = [];
         $recordsFiltered = 0;
