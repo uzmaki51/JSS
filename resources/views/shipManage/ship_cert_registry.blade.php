@@ -106,10 +106,14 @@ $ships = Session::get('shipList');
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="center"><vuejs-datepicker :value="item.issue_date" name="issue_date[]" :readonly='false' :format="customFormatter" input-class="form-control text-center white-bg" :language="zh"></vuejs-datepicker></td>
-                                    <td class="center"><vuejs-datepicker :value="item.expire_date" name="expire_date[]" :format="customFormatter" input-class="form-control text-center white-bg" :language="zh"></vuejs-datepicker></td>
+                                    <td class="text-center">
+                                        <input class="form-control date-picker text-center" @click="dateModify($event, array_index, 'issue_date')" v-bind:date-issue="array_index" type="text" data-date-format="yyyy-mm-dd" name="issue_date[]" v-model="item.issue_date">
+                                    </td>
                                     <td class="center">
-                                        <vuejs-datepicker :value="item.due_endorse" name="due_endorse[]" :format="customFormatter" input-class="form-control text-center white-bg" :language="zh"></vuejs-datepicker>
+                                        <input class="form-control date-picker text-center" @click="dateModify($event, array_index, 'expire_date')" v-bind:date-issue="array_index" type="text" data-date-format="yyyy-mm-dd" name="expire_date[]" v-model="item.expire_date">
+                                    </td>
+                                    <td class="center">
+                                        <input class="form-control date-picker text-center" @click="dateModify($event, array_index, 'due_endorse')" v-bind:date-issue="array_index" type="text" data-date-format="yyyy-mm-dd" name="due_endorse[]" v-model="item.due_endorse">
                                     </td>
                                     <td class="center">
                                         <select class="form-control text-center" v-model="item.issuer" name="issuer[]">
@@ -121,7 +125,7 @@ $ships = Session::get('shipList');
                                         <input type="file" name="attachment[]" v-bind:id="array_index" class="d-none" @change="onFileChange" v-bind:data-index="array_index" accept=".pdf">
                                         <input type="hidden" name="is_update[]" v-bind:id="array_index" class="d-none" v-bind:value="item.is_update">
                                     </td>
-                                    <td><input class="form-control text-center" type="text" v-model="item.remark" name="remark[]"></td>
+                                    <td><input class="form-control text-left" type="text" v-model="item.remark" name="remark[]"></td>
                                     <td class="text-center">
                                         <div class="action-buttons">
                                             <a class="red" @click="deleteCertItem(item.id, item.is_tmp, array_index)">
@@ -201,6 +205,10 @@ $ships = Session::get('shipList');
                 </div>
             </div>
         </div>
+        <audio controls="controls" class="d-none" id="warning-audio">
+            <source src="{{ cAsset('assets/sound/delete.wav') }}">
+            <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
+        </audio>
     </div>
 
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>
@@ -218,14 +226,20 @@ $ships = Session::get('shipList');
         var certListObj = null;
         var certTypeObj = null;
         var shipCertTypeList = [];
+        var shipCertListTmp = new Array();
         var certIdList = [];
         var certIdListTmp = [];
         var IS_FILE_KEEP = '{!! IS_FILE_KEEP !!}';
         var IS_FILE_DELETE = '{!! IS_FILE_DELETE !!}';
         var IS_FILE_UPDATE = '{!! IS_FILE_UPDATE !!}';
         var ship_id = '{!! $shipId !!}';
+        var isChangeStatus = false;
+        var initLoad = true;
 
         var submitted = false;
+        if(isChangeStatus == false)
+            submitted = false;
+
         $("form").submit(function() {
             submitted = true;
         });
@@ -235,7 +249,13 @@ $ships = Session::get('shipList');
         window.addEventListener("beforeunload", function (e) {
             var confirmationMessage = 'It looks like you have been editing something. '
                 + 'If you leave before saving, your changes will be lost.';
-            if ($form.serialize() !== origForm && !submitted) {
+            let currentObj = JSON.parse(JSON.stringify(certListObj.cert_array));
+            if(JSON.stringify(currentObj) == JSON.stringify(shipCertListTmp))
+                isChangeStatus = false;
+            else
+                isChangeStatus = true;
+
+            if ($form.serialize() !== origForm && !submitted && isChangeStatus) {
                 (e || window.event).returnValue = confirmationMessage;
             }
             return confirmationMessage;
@@ -246,15 +266,18 @@ $ships = Session::get('shipList');
 
         });
 
+
         function initialize() {
             // Create Vue Obj
             certListObj = new Vue({
                 el: '#cert_list',
-                data: {
+                data() { return {
                     cert_array: [],
+                    certListTmp: [],
                     certTypeList: [],
                     zh: vdp_translation_zh.js,
                     issuer_type: IssuerTypeData
+                }
                 },
                 components: {
                     vuejsDatepicker
@@ -276,6 +299,7 @@ $ships = Session::get('shipList');
 
                         if(values.includes(cert)) {alert('Can\'t register duplicate certificate.'); return false;}
 
+                        isChangeStatus = true;
                         setCertInfo(cert, array_index);
                         $(".dynamic-select__trigger").removeClass('open');
                         $(".dynamic-options").removeClass('open');
@@ -283,12 +307,19 @@ $ships = Session::get('shipList');
                     customFormatter(date) {
                         return moment(date).format('YYYY-MM-DD');
                     },
+                    dateModify(e, index, type) {
+                        $(e.target).on("change", function() {
+                            certListObj.cert_array[index][type] = $(this).val();
+                        });
+                    },
                     customInput() {
                         return 'form-control';
                     },
                     onFileChange(e) {
                         let index = e.target.getAttribute('data-index');
                         certListObj.cert_array[index]['is_update'] = IS_FILE_UPDATE;
+                        certListObj.cert_array[index]['file_name'] = 'updated';
+                        isChangeStatus = true;
                         this.$forceUpdate();
                     },
                     openShipCertList(e) {
@@ -303,6 +334,7 @@ $ships = Session::get('shipList');
                             return '/assets/images/paper-clip.png';
                     },
                     deleteCertItem(cert_id, is_tmp, array_index) {
+                        document.getElementById('warning-audio').play();
                         if (is_tmp == 0) {
                             bootbox.confirm("Are you sure you want to delete?", function (result) {
                                 if (result) {
@@ -325,7 +357,19 @@ $ships = Session::get('shipList');
 
                 },
                 updated() {
-
+                    console.log(initLoad);
+                    console.log('-----------');
+                    if(initLoad == true) {
+                        console.log('++++++++++++++++');
+                        $('.date-picker').datepicker({
+                            autoclose: true,
+                        }).next().on(ace.click_event, function () {
+                            $(this).prev().focus();
+                        });
+                        console.log(initLoad);
+                        initLoad = false;
+                        console.log(initLoad);
+                    }
                 }
             });
 
@@ -343,6 +387,7 @@ $ships = Session::get('shipList');
 
                         bootbox.confirm("Are you sure you want to delete?", function (result) {
                             if (result) {
+                                isChangeStatus = true;
                                 $.ajax({
                                     url: BASE_URL + 'ajax/shipManage/cert/delete',
                                     type: 'post',
@@ -374,12 +419,14 @@ $ships = Session::get('shipList');
                         });
                     },
                     addNewRow(e) {
+                        isChangeStatus = true;
                         certTypeObj.list.push([]);
                     }
                 }
             });
 
             getShipInfo(ship_id);
+
         }
 
         function getShipInfo(ship_id) {
@@ -390,16 +437,15 @@ $ships = Session::get('shipList');
                     ship_id: ship_id
                 },
                 success: function(data, status, xhr) {
-                    let result = data;
                     let ship_id = data['ship_id'];
                     let ship_name = data['ship_name'];
                     let typeList = data['cert_type'];
-
                     shipCertTypeList = data['cert_type'];
 
                     $('[name=ship_id]').val(ship_id);
                     $('#ship_name').text(ship_name);
-                    certListObj.cert_array = data['ship'];
+                    //certListObj.cert_array = data['ship'];
+                    Object.assign(certListObj.cert_array, data['ship']);
                     certListObj.certTypeList = typeList;
 
                     Object.assign(certTypeObj.list, shipCertTypeList);
@@ -411,6 +457,8 @@ $ships = Session::get('shipList');
                         certListObj.cert_array[index]['is_tmp'] = 0;
                         setCertInfo(value['cert_id'], index);
                     });
+
+                    shipCertListTmp = JSON.parse(JSON.stringify(certListObj.cert_array));
                 }
             })
         }
@@ -427,12 +475,8 @@ $ships = Session::get('shipList');
 
             newCertId = getNearCertId(newCertId);
 
-            // if($.isEmptyObject(certListObj.cert_array[reportLen - 1]) && reportLen > 0)
-            //     return false;
-
             if(shipCertTypeList.length <= reportLen && reportLen > 0)
                 return false;
-            //
 
             if(newCertId == '') {
                 newCertId = getNearCertId(0);
@@ -445,8 +489,17 @@ $ships = Session::get('shipList');
             certListObj.cert_array[reportLen]['issue_date']  = $($('[name^=issue_date]')[reportLen - 1]).val();
             certListObj.cert_array[reportLen]['expire_date']  = $($('[name^=expire_date]')[reportLen - 1]).val();
             certListObj.cert_array[reportLen]['due_endorse']  = $($('[name^=due_endorse]')[reportLen - 1]).val();
+            certListObj.cert_array[reportLen]['issuer']  = 0;
             $($('[name=cert_id]')[reportLen - 1]).focus();
-            certIdList.push(certListObj.cert_array[reportLen]['cert_id'])
+            certIdList.push(certListObj.cert_array[reportLen]['cert_id']);
+
+            $('[date-issue=' + reportLen + ']').datepicker({
+                autoclose: true,
+            }).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+
+            isChangeStatus = true;
         }
 
         function getNearCertId(cert_id) {
@@ -479,6 +532,7 @@ $ships = Session::get('shipList');
         }
 
         $('#select-ship').on('change', function() {
+            isChangeStatus = false;
             getShipInfo($(this).val());
             ship_id = $(this).val();
         });

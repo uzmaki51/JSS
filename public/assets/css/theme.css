@@ -314,8 +314,9 @@ td > a {
 
 #main-container {
     margin-top : 80px;
-    min-height: 100%;
+    min-height: calc(100%);
     margin-bottom: 20px;
+    /*overflow: auto;*/
 }
 
 textarea {

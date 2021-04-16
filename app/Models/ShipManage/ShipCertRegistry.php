@@ -47,26 +47,22 @@ class ShipCertRegistry extends Model
             $expireDate = $date->format('Y-m-d');
 
             $query->where('tb_ship_certregistry.ExpiredDate', '<', $expireDate);
-//            $query->orWhere(function($query) {
-//                $query->whereNull('IssuedDate')
-//                    ->orWhere('IssuedDate', '=', '');
-//            });
+
         }
 
         $list = $query->orderBy('tb_ship_certlist.CertNo')->get();
         return $list;
     }
 
-    public function getExpiredList($date = '', $ship_id = '') {
-    	if($date == '')
-    	    $date = date('Y-m-d');
-    	else
-    		$date = date('Y-m-d', strtotime('+' . $date . ' days'));
+    public function getExpiredList($date = 0, $ship_id = '') {
+        $date = date('Y-m-d', strtotime('+' . $date . ' days'));
 
     	$selector = DB::table($this->table)
-		    ->whereRaw(DB::raw("expire_date >= ". "'" . $date . "'"))
-		    ->whereRaw(DB::raw("due_endorse >= ". "'" . $date . "'"))
-//		    ->where('', '>=', "'" . $date . "'")
+		    ->where(function($query) use ($date)
+		    {
+		    	$query->whereRaw(DB::raw("expire_date <= ". "'" . $date . "'"))
+			            ->orwhereRaw(DB::raw("due_endorse <= ". "'" . $date . "'"));
+		    })
 		    ->where('expire_date', '!=', '0000-00-00')
 		    ->where('due_endorse', '!=', '0000-00-00')
 		    ->select('*');
