@@ -787,7 +787,12 @@ $isHolder = Session::get('IS_HOLDER');
         window.addEventListener("beforeunload", function (e) {
             var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
-            if ($form.serialize() !== origForm && !submitted) {
+            var newForm = $form.serialize();
+            newForm = newForm.replace("editable-image-input-hidden=&", "");
+            newForm = newForm.replace("avatar-hidden=&", "");
+            newForm = newForm.replace("avatar=&", "");
+
+            if (newForm !== origForm && !submitted) {
                 (e || window.event).returnValue = confirmationMessage;
             }
             return confirmationMessage;

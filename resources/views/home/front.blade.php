@@ -18,113 +18,41 @@
     <style>
         embed:scroll-bar{display:none}
 
-        .select-hidden {
-            display: none;
-            visibility: hidden;
-            padding-right: 10px;
-        }
-
-        .select {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            font-size: 16px;
-            color: #fff;
-            width: 220px;
-            height: 36px;
-        }
-
-        .select-styled {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            width: 100px;
-            border-radius: 20px;
-            background-color: transparent;
-            color: #007dfb;
-            border: 1px solid #007dfb;
-            padding: 9px 16px;
-            -moz-transition: all 0.2s ease-in;
-            -o-transition: all 0.2s ease-in;
-            -webkit-transition: all 0.2s ease-in;
-            transition: all 0.2s ease-in;
-        }
-        .select-styled:after {
-            content: "";
-            width: 0;
-            height: 0;
-            border: 7px solid transparent;
-            border-color: #007dfb transparent transparent transparent;
-            position: absolute;
-            top: 14px;
-            right: 10px;
-            color: #007dfb;
-        }
-        .select-styled:hover {
-            background-color: #007dfb;
-            color: white;
-        }
-        .select-styled:hover:after {
-            content: "";
-            width: 0;
-            height: 0;
-            border: 7px solid transparent;
-            border-color: #fff transparent transparent transparent;
-            position: absolute;
-            top: 14px;
-            right: 10px;
-            color: #007dfb;
-        }
-        .select-styled:active, .select-styled .active {
-            color: white;
-            background-color: #007dfb;
-        }
-        .select-styled:active:after, .select-styled.active:after {
-            top: 7px;
-            border-color: transparent transparent #fff transparent;
-        }
-
-        .select-options {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            left: 0;
-            z-index: 999;
-            width: 100px;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            background-color: #007dfb;
-        }
-        .select-options li {
-            margin: 0;
-            padding: 10px 0;
-            text-indent: 15px;
-            width: 100px;
-            border-top: 1px solid #007dfb77;
-            -moz-transition: all 0.15s ease-in;
-            -o-transition: all 0.15s ease-in;
-            -webkit-transition: all 0.15s ease-in;
-            transition: all 0.15s ease-in;
-            color: white;
-        }
-        .select-options li:hover {
-            color: #007dfb;
-            background: #fff;
-        }
-
-        .select-options li[rel="hide"] {
-            display: none;
-        }
-
         #currency-list tr td {
             padding: 0 4px!important;
         }
         .c3 path {
             stroke-width: 3px;
+        }
+
+        #chartist-h-bars .ct-series-a line {
+            stroke: #81afe4;
+            /*stroke-width: 5px;
+            stroke-dasharray: 10px 20px;*/
+        }
+
+        #chartist-h-bars .ct-series-b line {
+            stroke: #f58787;
+        }
+
+        #chartist-h-bars .ct-series-c line {
+            stroke: #b5ce71;
+        }
+
+        #chartist-h-bars-02 .ct-series-b line {
+            stroke: #f58787;
+        }
+
+        #chartist-h-bars-02 .ct-series-c line {
+            stroke: #b5ce71;
+        }
+
+        #chartist-h-bars-02 .ct-series-a line {
+            stroke: #81afe4;
+        }
+
+        .ship-item:hover {
+            background-color: #ffe3e082;
         }
     </style>
     <div class="main-content">
@@ -134,8 +62,8 @@
                     <div class="row">
                         <div class="card mb-4">
                             <div class="card-header decide-title">
-                                <div class="card-title">
-                                    <span class="bigger-150">等待批准</span>
+                                <div class="card-title front-span">
+                                    <span class="bigger-120">等待批准</span>
                                 </div>
                                 <a href="#" class="more-btn">更多</a>
                             </div>
@@ -151,8 +79,8 @@
                     <div class="row">
                         <div class="card mb-4">
                             <div class="card-header no-attachment-decide-title">
-                                <div class="card-title">
-                                    <span class="bigger-150">等待凭证</span>
+                                <div class="card-title front-span">
+                                    <span class="bigger-120">等待凭证</span>
                                 </div>
                                 <a href="#" class="more-btn">更多</a>
                             </div>
@@ -170,15 +98,15 @@
                     <div class="row">
                         <div class="card mb-4">
                             <div class="card-header expired-cert-title">
-                                <div class="card-title">
-                                    <span class="bigger-150">证书到期</span>
+                                <div class="card-title front-span">
+                                    <span class="bigger-120">证书到期</span>
                                 </div>
                                 <a href="#" class="more-btn">更多</a>
                             </div>
                             <div class="card-body expired-cert-border" style="padding: 0 8px!important;">
                                 <ul class="timeline">
                                     @foreach($expired_data['ship'] as $item)
-                                        <li><a target="_blank" href="https://www.totoprayogo.com/#">{{ $item->ship_name . '的' . $item->cert_name }}</a></li>
+                                        <li><a target="_blank" href="#">{{ $item->ship_name . ' - ' . $item->cert_name }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -249,17 +177,17 @@
                     <div class="row default-style main-panel">
                         <div class="card">
                             <div class="card-body">
-                                <div class="card-title d-flex">
-                                    <h2 style="padding: 2px 4px;text-shadow: 3px 3px 4px black;">利润累计</h2>
-                                    <select id="year">
+                                <div class="card-title f-center">
+                                    <h4 style="text-align:center;">
+                                    <select id="year" style="font-size:13px">
                                         <option value="2015">2015</option>
                                         <option value="2016">2016</option>
                                         <option value="2017">2017</option>
                                         <option value="2018">2018</option>
                                         <option value="2019">2019</option>
                                         <option value="2020">2020</option>
-                                        <option value="2021">2021</option>
-                                    </select>
+                                        <option value="2021" selected>2021</option>
+                                    </select> 利润累计</h4>
                                 </div>
                                 <div class="card-body">
                                     <div id="c3-graph" style="height: 250px"></div>
@@ -268,27 +196,27 @@
 
                             <hr class="dot-hr"/>
                             <div class="card-body">
-                                <div class="card-title d-flex">
-                                    <h2 style="padding: 2px 4px;text-shadow: 3px 3px 4px black;">收支累计</h2>
-                                    <select id="year">
+                                <div class="card-title f-center">
+                                    <h4 style="text-align:center;">
+                                    <select id="year" style="font-size:13px">
                                         <option value="2015">2015</option>
                                         <option value="2016">2016</option>
                                         <option value="2017">2017</option>
                                         <option value="2018">2018</option>
                                         <option value="2019">2019</option>
                                         <option value="2020">2020</option>
-                                        <option value="2021">2021</option>
-                                    </select>
+                                        <option value="2021" selected>2021</option>
+                                    </select> 收支累计</h4>
                                 </div>
                                 <div id="chartist-h-bars" style="height: 200px"></div>
                                 <div class="table-responsive" id="decidemanage_list_table">
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                         <tr class="black br-hblue">
-                                            <th style="width:5%">{{ trans('home.table.no') }}</th>
-                                            <th style="width: 30%">{{ trans('home.table.ship_name') }}</th>
-                                            <th style="width:10%">{{ trans('home.table.ship_member_cnt') }}</th>
-                                            <th style="width: 20%">{{ trans('home.title.profit') }}</th>
+                                            <th class="style-normal-header" style="width:5%">{{ trans('home.table.no') }}</th>
+                                            <th class="style-normal-header" style="width: 30%">{{ trans('home.table.ship_name') }}</th>
+                                            <th class="style-normal-header" style="width:10%">{{ trans('home.table.ship_member_cnt') }}</th>
+                                            <th class="style-normal-header" style="width: 20%">{{ trans('home.title.profit') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -312,17 +240,17 @@
                             </div>
                             <hr class="dot-hr"/>
                             <div class="card-body">
-                                <div class="card-title d-flex">
-                                    <h2 style="padding: 2px 4px;text-shadow: 3px 3px 4px black;">支出分数累计</h2>
-                                    <select id="year">
+                                <div class="card-title f-center">
+                                    <h4 style="text-align:center;">
+                                    <select id="year" style="font-size:13px">
                                         <option value="2015">2015</option>
                                         <option value="2016">2016</option>
                                         <option value="2017">2017</option>
                                         <option value="2018">2018</option>
                                         <option value="2019">2019</option>
                                         <option value="2020">2020</option>
-                                        <option value="2021">2021</option>
-                                    </select>
+                                        <option value="2021" selected>2021</option>
+                                    </select> 支出分数累计</h4>
                                 </div>
                                 <div id="chartist-h-bars-02" style="height: 250px"></div>
                             </div>
@@ -335,10 +263,10 @@
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                         <tr class="black br-hblue">
-                                            <th style="width:5%">{{ trans('home.table.no') }}</th>
-                                            <th style="width: 30%">{{ trans('home.table.ship_name') }}</th>
-                                            <th style="width:10%">{{ trans('home.table.ship_member_cnt') }}</th>
-                                            <th style="width: 20%">{{ trans('home.title.profit') }}</th>
+                                            <th class="style-normal-header" style="width:5%">{{ trans('home.table.no') }}</th>
+                                            <th class="style-normal-header" style="width: 30%">{{ trans('home.table.ship_name') }}</th>
+                                            <th class="style-normal-header" style="width:10%">{{ trans('home.table.ship_member_cnt') }}</th>
+                                            <th class="style-normal-header" style="width: 20%">{{ trans('home.title.profit') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -366,8 +294,8 @@
                 <div class="col-lg-2">
                     <div class="card">
                         <div class="card-header caption-title">
-                            <div class="card-title">
-                                <span class="bigger-150">货币汇率</span>
+                            <div class="card-title front-span">
+                                <span class="bigger-120">货币汇率</span>
                             </div>
                         </div>
                         <div class="caption-border">
@@ -482,7 +410,7 @@
 
         c3.generate({
             bindto: '#c3-graph',
-            color: { pattern: [ '#00BCD4', '#607D8B', 'red', 'yellow' ] },
+            color: { pattern: [ '#00BCD4', '#607D8B', 'red', '#f7931a' ] },
             bar: {
                 width: 40
             },
@@ -491,10 +419,10 @@
             },
             data: {
                 columns: [
-                    [ '船舶1', 7000, 4800, -4200, 200, -8100, 3500 ],
-                    [ '船舶2', 4500, 1200, -3300, 1200, -4300, 7700 ],
-                    [ '船舶3', 1300, 2100, -5500, 1800, -1200, 2200 ],
-                    [ '船舶4', 6001, 6100, -5100, 9400, -5200, 5500 ]
+                    [ '船舶1', 5000, 4800, 4900, 4700, 4500, 4000, 3500, 3900, 4000, 4200, 4500, 4800 ],
+                    [ '船舶2', 4500, 4000, 3500, 3900, 4000, 4200, 4500, 4800, 5000, 4800, 4900, 4700 ],
+                    [ '船舶3', 4900, 4700, 4500, 4000, 3500, 3900, 4000, 4200, 4500, 4800, 5000, 4800 ],
+                    [ '船舶4', 4700, 4500, 4400, 3500, 3900, 4000, 4200, 4500, 4800, 5000, 4800, 4900 ],
                 ],
             }
         });
@@ -526,54 +454,5 @@
             verticalBars:       false,
             axisY:             { offset: 10 }
         });
-
-        $('select').each(function(){
-            var $this = $(this), numberOfOptions = $(this).children('option').length;
-
-            $this.addClass('select-hidden');
-            $this.wrap('<div class="select"></div>');
-            $this.after('<div class="select-styled"></div>');
-
-            var $styledSelect = $this.next('div.select-styled');
-            $styledSelect.text($this.children('option').eq(0).text() + ' 年');
-
-            var $list = $('<ul />', {
-                'class': 'select-options'
-            }).insertAfter($styledSelect);
-
-            for (var i = 0; i < numberOfOptions; i++) {
-                $('<li />', {
-                    text: $this.children('option').eq(i).text() + ' 年',
-                    rel: $this.children('option').eq(i).val()
-                }).appendTo($list);
-            }
-
-            var $listItems = $list.children('li');
-
-            $styledSelect.click(function(e) {
-                e.stopPropagation();
-                $('div.select-styled.active').not(this).each(function(){
-                    $(this).removeClass('active').next('ul.select-options').hide();
-                });
-                $(this).toggleClass('active').next('ul.select-options').toggle();
-            });
-
-            $listItems.click(function(e) {
-                e.stopPropagation();
-                $styledSelect.text($(this).text()).removeClass('active');
-                $this.val($(this).attr('rel'));
-                $list.hide();
-                //console.log($this.val());
-            });
-
-            $(document).click(function() {
-                $styledSelect.removeClass('active');
-                $list.hide();
-            });
-
-        });
-
-
-
     </script>
 @endsection

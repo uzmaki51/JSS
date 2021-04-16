@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+<body style="background:#55a4f4">
 <div class="container-fluid">
 	<div class="row">
 		<div class="space-30"></div>
@@ -42,19 +43,21 @@
 								</div>
 
 								<div class="form-group">
-									<label class="col-md-4 control-label">密码确认</label>
+									<label class="col-md-4 control-label">确认密码</label>
 									<div class="col-md-8">
 										<input type="password" class="form-control" name="password_confirmation">
 									</div>
 								</div>
-
-								<div style="margin-right: 10px">
-									<div class="form-group" style="text-align: center">
-										<button type="submit"
-												class="width-30 pull-right btn btn-sm btn-primary">
-											<i class="icon-refresh"></i>
-											更新密码
+							</div>
+							<div class="col-md-12">
+								<div style="text-align:right;">
+									<div class="btn-group f-right">
+										<button type="submit" class="btn btn-sm btn-info" style="width: 80px">
+											<i class="icon-refresh"></i>更新密码
 										</button>
+										<a href="/home" class="btn btn-sm btn-primary btn-add" style="width: 80px">
+											<i class="icon-remove"></i>{{ trans('common.label.cancel') }}
+										</a>
 									</div>
 								</div>
 							</div>
@@ -65,7 +68,7 @@
 		</div>
 	</div>
 </div>
-
+</body>
 	<script>
 		$(function() {
 			$("#validation-form").validate({

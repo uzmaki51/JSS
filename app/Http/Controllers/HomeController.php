@@ -86,7 +86,34 @@ class HomeController extends Controller {
 		]);
 	}
 
+	public function resetPassword(Request $request) {
+        $old_passwd = $request->get('old_passwd');
+        $new_passwd = $request->get('password');
+        $confirm_passwd = $request->get('password_confirmation');
 
+        $state = Session::get('state');
+        $msg = Session::get('msg');
+
+        if(empty($new_passwd))
+            return view('auth.reset', ['state'=>$state, 'msg'=>$msg]);
+
+        if($new_passwd != $confirm_passwd) {
+            $msg = "两次输入的密码不一致。";
+            return back()->with(['state'=>'error','msg'=>$msg]);
+        }
+
+        $user = Auth::user();
+        $password = $user->password;
+
+        if( password_verify($old_passwd, $password)){
+            $user['password'] = Hash::make($new_passwd);
+            $user->save();
+            return redirect('/home');
+        } else {
+            $msg = "密码错误，请重新输入密码。";
+            return back()->with(['state'=>'error','msg'=>$msg]);
+        }
+    }
 }
 
 
