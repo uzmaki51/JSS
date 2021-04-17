@@ -79,14 +79,14 @@ table>tbody>tr>td{
     margin-bottom: 3px;
 }
 .custom-td-label {
-    background-color: #FBFBFB;
+    /*background-color: #FBFBFB;*/
     font-weight: normal;
     width: 15%;
     vertical-align: middle;
     text-align: center;
 }
 .custom-td-label1 {
-    background-color: #F6F5F5;
+    /*background-color: #F6F5F5;*/
     font-weight: normal;
     vertical-align: middle;
     text-align: center;

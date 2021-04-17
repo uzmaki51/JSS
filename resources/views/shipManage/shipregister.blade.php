@@ -152,13 +152,13 @@ $shipList = Session::get('shipList');
                 <div class="vspace-xs-12"></div>
             </div>
             <a href="#modify-dialog" role="button" class="hidden" data-toggle="modal" id="dialog-show-btn"></a>
-            <div id="modify-dialog" class="modal fade" tabindex="-1">
+            <div id="modify-dialog" class="modal fade modal-draggable" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content" id="item-modify-dialog">
                     </div>
                 </div>
             </div>
-            <div id="modal-shiptype-list" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
+            <div id="modal-shiptype-list" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
                 <div class="dynamic-modal-dialog">
                     <div class="dynamic-modal-content" style="border: 0;">
                         <div class="dynamic-modal-header" data-target="#modal-step-contents">

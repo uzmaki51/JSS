@@ -493,9 +493,9 @@ class ShipMember extends Model
             }
         }
         
-        $selector->orderBy('id', 'desc')->orderBy('DutyID_Book');
+        $selector->orderBy('DutyID_Book');
         if (!isset($params['type'])) {
-            $selector->limit(1);
+            $selector->orderBy('id', 'desc')->limit(1);
         }
 
         $records = $selector->get();
