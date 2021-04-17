@@ -225,7 +225,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <td>@if(isset($shipInfo['FOSailCons_S'])){{$shipInfo['FOSailCons_S']}}@endif/@if(isset($shipInfo['FOL/DCons_S'])){{$shipInfo['FOL/DCons_S']}}@endif/@if(isset($shipInfo['FOIdleCons_S'])){{$shipInfo['FOIdleCons_S']}}@endif</td>
                                     </tr>
                                     <tr>
-                                        <td style="background-color: #f8f8f8;">>MDO CONSUMPTION (mt/day)</td>
+                                        <td style="background-color: #f8f8f8;">MDO CONSUMPTION (mt/day)</td>
                                         <td>@if(isset($shipInfo['DOSailCons_S'])){{$shipInfo['DOSailCons_S']}}@endif/@if(isset($shipInfo['DOL/DCons_S'])){{$shipInfo['DOL/DCons_S']}}@endif/@if(isset($shipInfo['DOIdleCons_S'])){{$shipInfo['DOIdleCons_S']}}@endif</td>
                                     </tr>
                                     <tr>
