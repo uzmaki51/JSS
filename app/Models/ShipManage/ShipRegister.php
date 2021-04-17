@@ -8,6 +8,7 @@
  */
 namespace App\Models\ShipManage;
 
+use App\Models\ShipMember\ShipMember;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
@@ -88,6 +89,37 @@ class ShipRegister extends Model
     }
 
     public function saveShipGeneralData($params, $shipData) {
+
+    }
+
+    public function getShipForExcel($ship_id, $cert_excel_list) {
+    	$retVal['cert'] = array();
+    	$retVal['member']  = array();
+	    $shipInfo = ShipRegister::where('id', $ship_id)->first();
+	    $imo_no = $shipInfo->IMO_No;
+
+	    foreach($cert_excel_list as $key => $item) {
+	    	$certItem = ShipCertList::where('code', $item[1])->first();
+	    	if($certItem == null || $certItem == false) {
+			    $retVal['cert'][$item[0]]['issue_date'] = '';
+			    $retVal['cert'][$item[0]]['expire_date'] = '';
+		    } else {
+	    		$shipCertInfo = ShipCertRegistry::where('cert_id', $certItem->id)->where('ship_id', $ship_id)->first();
+	    		if($shipCertInfo == null || $shipCertInfo == false) {
+				    $retVal['cert'][$item[0]]['issue_date'] = '';
+				    $retVal['cert'][$item[0]]['expire_date'] = '';
+			    } else {
+				    $retVal['cert'][$item[0]]['issue_date'] = $shipCertInfo->issue_date;
+				    $retVal['cert'][$item[0]]['expire_date'] = $shipCertInfo->expire_date;
+			    }
+		    }
+	    }
+
+	    // Get MemberInfo for excel
+	    $shipMemberTbl = new ShipMember();
+	    $retVal['member'] = $shipMemberTbl->getCertlistByShipId($imo_no);
+
+		return $retVal;
 
     }
 

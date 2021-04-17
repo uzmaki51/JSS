@@ -178,3 +178,11 @@ function _convertDate(value, format = '/') {
 
     return date.getFullYear() + format + (date.getMonth() + 1) + format + date.getDate();
 }
+
+$(".modal-draggable").draggable({
+	helper: 'move',
+	cursor: 'move',
+	tolerance: 'fit',
+	revert: "invalid",
+	revert: false
+});

@@ -139,7 +139,7 @@ $ships = Session::get('shipList');
                         </form>
                     </div>
 
-                    <div id="modal-wizard" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
+                    <div id="modal-wizard" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
                         <div class="dynamic-modal-dialog">
                             <div class="dynamic-modal-content" style="border: 0;">
                                 <div class="dynamic-modal-header" data-target="#modal-step-contents">
@@ -151,7 +151,7 @@ $ships = Session::get('shipList');
                                     </div>
                                 </div>
                                 <div id="modal-cert-type" class="dynamic-modal-body step-content">
-                                    <div class="row" style="">
+                                    <div class="row">
                                         <form action="shipCertType" method="post" id="shipCertForm">
                                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                                             <div class="head-fix-div col-md-12" style="height:300px;">
@@ -547,6 +547,14 @@ $ships = Session::get('shipList');
                 $(".dynamic-options").removeClass('open');
                 $(".dynamic-options").siblings('.dynamic-select__trigger').removeClass('open')
             }
+        });
+
+        $(".ui-draggable").draggable({
+            helper: 'move',
+            cursor: 'move',
+            tolerance: 'fit',
+            revert: "invalid",
+            revert: false
         });
     </script>
 @endsection

@@ -306,7 +306,7 @@ class ShipMember extends Model
     public function getCertlistByShipId($IMO_No) {
         $selector = null;
         $records = [];
-        $selector = DB::table($this->table)->select('*')->where('ShipId', $IMO_No);
+        $selector = DB::table($this->table)->select('*')->where('ShipId', $IMO_No)->orderBy('id', 'asc');
         $records = $selector->get();
         $memberlist = [];
         foreach($records as $index => $record) {

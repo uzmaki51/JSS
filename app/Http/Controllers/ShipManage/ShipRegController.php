@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Member\Unit;
 use App\Models\ShipManage\ShipEquipmentUnits;
 use App\Models\ShipManage\ShipOthers;
+use App\Models\ShipMember\ShipMember;
 use App\Models\ShipMember\ShipMemberCapacity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Util;
@@ -53,6 +54,33 @@ class ShipRegController extends Controller
 {
     protected $userInfo;
     private $control = 'shipManage';
+    protected $__CERT_EXCEL = array(
+    	['Nationality / Registry', 'COR'],
+	    ['Minimum Safe Manning', 'A-2 MSMC'],
+	    ['Tonnage' , 'ITC'],
+	    ['Load Line'   , 'ILL'],
+	    ['IOPP', 'IOPP-A'],
+	    ['Safety Construction'  , 'SC'],
+	    ['Safety Equipment', 'SE'],
+	    ['Saftey Radio'    , 'SR'],
+	    ['CLC' , 'BCC'],
+	    ['DOC' , 'DOC'],
+	    ['SMC', 'SMC'],
+	    ['ISSC', 'ISSC'],
+	    ['Life saving appliances Provided for a total number of', 'SE']
+    );
+
+	protected $__MEMBER_EXCEL_COC = array(
+		['MASTER', 'caption'],
+		['CHIEF MATE', 'C / Officer'],
+		['2nd DECK OFFICER' , '2 / Officer'],
+		['3nd DECK OFFICER'   , '3 / Officer'],
+		['RADIO OFFICER', 'Radio Officer personnel'],);
+	protected $__MEMBER_EXCEL_GOC = array(
+		['CHIEF ENGINEER'  , 'C / Engineer'],
+		['2nd ENGINEER', '2 / Engineer'],
+		['3rd ENGINEER'    , '3 / Engineer'],
+	);
 
     public function __construct() {
         $this->middleware('auth');
@@ -76,14 +104,29 @@ class ShipRegController extends Controller
 
 	    $ship_id = isset($ship_id) ? $ship_id : 0;
 
+	    $shipRegTbl = new ShipRegister();
+	    $elseInfo = $shipRegTbl->getShipForExcel($ship_id, $this->__CERT_EXCEL);
+
 	    $shipInfo = ShipRegister::where('id', $ship_id)->first();
+	    $shipCertList = ShipCertRegistry::where('ship_id', $ship_id)->get();
+
+	    $imo_no = $shipInfo->IMO_No;
+		$shipName = $shipInfo->shipName_En;
 	    $shipTypeTbl = ShipType::where('id', $shipInfo->ShipType)->first();
 	    $shipInfo['ShipType'] = isset($shipTypeTbl) ? $shipTypeTbl['ShipType'] : '';
+
+		$shipMembers = ShipMember::where('ShipId', $imo_no)->get();
+
+		$memberCertXls['COC'] = $this->__MEMBER_EXCEL_COC;
+	    $memberCertXls['GOC'] = $this->__MEMBER_EXCEL_GOC;
 
         return view('shipManage.shipinfo', [
         	'list'      => $ship_infolist,
 	        'shipInfo'  => $shipInfo,
+			'shipName'	=> $shipName,
+	        'elseInfo'  => $elseInfo,
 	        'id'        => $ship_id,
+	        'memberCertXls'       =>    $memberCertXls
         ]);
     }
 
@@ -110,6 +153,7 @@ class ShipRegController extends Controller
 		    'shipInfo'          => $shipInfo,
 		    'is_excel'          => 1,
 		    'excel_name'        => $shipName . '_SHIP PARTICULARS_' . date('Ymd'),
+			'shipName'			=> $shipName,
 		    'id'                => $ship_id
 	    ]);
     }
