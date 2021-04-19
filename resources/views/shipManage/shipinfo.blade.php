@@ -2,7 +2,7 @@
 if(isset($is_excel))
 	$header = 'excel-header';
 else
-	$header = 'sidebar';
+	$header = 'header';
 
 $isShareHolder = Auth::user()->isAdmin == IS_SHAREHOLDER ? true : false;
 $shipList = explode(',', Auth::user()->shipList);
