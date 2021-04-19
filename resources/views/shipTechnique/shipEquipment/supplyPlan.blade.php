@@ -1,6 +1,6 @@
 <?php
 if (isset($excel)) $header = 'excel-header';
-else $header = 'sidebar';
+else $header = 'header';
 ?>
 
 <?php
