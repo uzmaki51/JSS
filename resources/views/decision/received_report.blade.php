@@ -1,4 +1,4 @@
-@extends('layout.sidebar')
+@extends('layout.header')
 
 @section('styles')
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>

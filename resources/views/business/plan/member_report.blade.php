@@ -7,7 +7,7 @@
  */
 ?>
 
-@extends('layout.sidebar')
+@extends('layout.header')
 @section('content')
     <div class="main-content">
         <div class="page-content">

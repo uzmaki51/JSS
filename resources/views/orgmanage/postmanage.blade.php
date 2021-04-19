@@ -1,4 +1,4 @@
-@extends('layout.sidebar')
+@extends('layout.header')
 
 @section('styles')
     <link href="{{ cAsset('assets/css/no-padding.css') }}" rel="stylesheet">

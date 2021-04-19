@@ -1,4 +1,4 @@
-@extends('layout.sidebar')
+@extends('layout.header')
 <?php
     $isHolder = Session::get('IS_HOLDER');
     $ships = Session::get('shipList');

@@ -1,4 +1,4 @@
-@extends('layout.sidebar')
+@extends('layout.header')
 
 @section('content')
     <script src="/assets/js/fuelux/fuelux.spinner.min.js"></script>

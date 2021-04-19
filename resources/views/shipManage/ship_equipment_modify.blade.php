@@ -1,4 +1,4 @@
-@extends('layout.sidebar')
+@extends('layout.header')
 @section('content')
     <style>
         .chosen-drop {
