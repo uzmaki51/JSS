@@ -36,7 +36,7 @@ class DynamicController extends Controller
 			return response()->json($result);
 		}
 		else if ($type == 'rank') {
-			$result = DB::table('tb_ship_duty')->select('*')->get();
+			$result = DB::table('tb_ship_duty')->select('*')->orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();			
 			return response()->json($result);
 		}
 		else if ($type == 'capacity') {

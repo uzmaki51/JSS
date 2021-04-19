@@ -130,14 +130,14 @@
                 success: function(data, status, xhr) {
                     $('#shiptype-table').html('');
                     for (var i = 0; i < data.length; i ++) {
-                        var row = '<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_OrderNo[]"value="';
-                        row += (data[i].OrderNo != null) ? data[i].OrderNo : '';
-                        row += '" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_Name[]"value="';
+                        var row = '<tr class="rank-tr"><td class="no-padding center">';
+                        row += (i + 1);
+                        row += '</td><td class="no-padding"><input type="text" onfocus="addShipType(this)" class="form-control" name="ShipType_Name[]"value="';
                         row += (data[i].ShipType != null) ? data[i].ShipType : '';
                         row += '" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteShipType(this)"><i class="icon-trash"></i></a></div></td></tr>';
                         $('#shiptype-table').append(row);
                     }
-                    addRank(null);
+                    addShipType(null);
                     $('#modal-shiptype-list').modal('show');
                 },
                 error: function(error, status) {
@@ -279,14 +279,15 @@
                             id = 'DutyID_Book';
                         }
                         var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
-                        console.log(dest.find('.dynamic-select__trigger input'));
                         dest.find('.dynamic-select__trigger input').val("");
                         dest.children(":first").val(def);
                         dest = dest.find('.dynamic-options-scroll');
                         dest.html('');
                         dest.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
-                        for (var i=0;i<list['name'].length;i++)
-                            dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['abb'][i] + '">' + list['name'][i] + '(' + list['abb'][i] + ')' + '</span>');
+                        for (var i=0;i<list['name'].length;i++) {
+                            if (list['abb'][i] != '' || list['name'][i] != '')
+                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['abb'][i] + '">' + list['name'][i] + '(' + list['abb'][i] + ')' + '</span>');
+                        }
                         
                         addCustomEvent();
                         //alert("Success!");
@@ -303,8 +304,8 @@
             if ($('#rank-table tr').length > 2 && !$(e).closest("tr").is(":last-child")) { // && !$(e).closest("tr").is(":last-child")) {
                 bootbox.confirm("Are you sure you want to delete?", function (result) {
                     if (result) {
+                        resortRank(e);
                         $(e).closest("tr").remove();
-                        resortCapacity();
                     }
                 });
             }
@@ -315,16 +316,19 @@
             if ($('#rank-table tr').length > 0)
             {
                 if (e == null || $(e).closest("tr").is(":last-child")) {
-                    $("#rank-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_OrderNo[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Abb[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Description[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteRank(this)"><i class="icon-trash"></i></a></div></td></tr>');
-                    resortRank();
+                    $("#rank-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_OrderNo[]"value="' + '' + '" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Abb[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Description[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteRank(this)"><i class="icon-trash"></i></a></div></td></tr>');
+                    var last_child = $('#rank-table tr:last-child');
+                    last_child.children().eq(0).children().eq(0).val($("#rank-table tr").length);
                 }
             }
         }
 
-        function resortRank()
+        function resortRank(e)
         {
-            for (var i=0;i<$('#rank-table').children().length;i++) {
-                $($('#rank-table').children()[i].firstChild.firstChild).val(i+1);
+            var index = parseInt($(e).closest("tr").children().eq(0).children().eq(0).val());
+            for (var i=$('#rank-table tr').index($(e).closest("tr"))+1;i<$('#rank-table').children().length;i++) {
+                $($('#rank-table').children()[i].firstChild.firstChild).val(index);
+                index ++;
             }
         }
 
@@ -386,8 +390,10 @@
                         dest = dest.find('.dynamic-options-scroll');
                         dest.html('');
                         dest.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
-                        for (var i=0;i<list['Port_Cn'].length;i++)
-                            dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['Port_Cn'][i] + '">' + list['Port_Cn'][i] + '</span>');
+                        for (var i=0;i<list['Port_Cn'].length;i++) {
+                            if (list['Port_Cn'][i] != '' || list['Port_En'][i] != '')
+                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['Port_En'][i] + ' (' + list['Port_Cn'][i] + ')' + '">' + list['Port_En'][i] + ' (' + list['Port_Cn'][i] + ')' + '</span>');
+                        }
                         
                         addCustomEvent();
                         //alert("Success!");
