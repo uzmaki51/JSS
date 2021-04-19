@@ -60,16 +60,15 @@ table {
 
 .dynamic-options {
     position: absolute;
-    display: block;
+    display: none;
     top: 100%;
     left: 0;
     right: 0;
     transition: all 0.5s;
     opacity: 0;
-    visibility: hidden;
     pointer-events: none;
     z-index: 2;
-    max-height: 310px;
+    /*max-height: 310px;*/
     min-width: 280px;
 }
 .dynamic-select.open .dynamic-options {
@@ -82,9 +81,9 @@ table {
 
 .open  {
     opacity: 1;
-    visibility: visible;
+    display: block;
     pointer-events: all;
-    max-height: 310px;
+    /*max-height: 310px;*/
 }
 
 .dynamic-options-scroll {

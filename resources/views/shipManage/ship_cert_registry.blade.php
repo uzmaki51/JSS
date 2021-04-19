@@ -65,7 +65,7 @@ $ships = Session::get('shipList');
                     </div>
                 </div>
                 <div class="row" style="margin-top: 4px;">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 head-fix-div common-list">
                         <form action="shipCertList" method="post" id="certList-form" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <input type="hidden" value="{{ $shipId }}" name="ship_id">

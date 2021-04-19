@@ -5,6 +5,18 @@ var amountDecimals = [];
 var priceDecimals = [];
 var balanceDecimals = [];
 
+
+$(function() {
+    let setHeight = parseInt($('.inner-wrap').innerHeight()) - 100;
+    $('.common-list').css({'height': setHeight + 'px'});
+});
+
+$(window).resize(function(e) {
+    e.preventDefault();
+    let setHeight = parseInt($('.inner-wrap').innerHeight()) - 100;
+    $('.common-list').css({'height': setHeight + 'px'});
+});
+
 function number_format (number, decimals, dec_point = '.', thousands_sep = ',') {
     // Strip all characters but numerical ones.
     number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
@@ -62,13 +74,6 @@ function showToast(msg, title, type) {
         });
     }
 }
-
-$(function() {
-    /*prevTime = 0;
-    getMasterData();
-    checkNotifications();
-    setTimeout(checkNotifications, checkTime);*/
-});
 
 function getMasterData() {
     $.ajax({

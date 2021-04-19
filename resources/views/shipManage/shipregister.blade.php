@@ -33,7 +33,7 @@ $shipList = Session::get('shipList');
             <div class="col-md-12" style="margin-top:2px;">
                 <div id="item-manage-dialog" class="hide"></div>
                 <div class="row">
-                    <div class="head-fix-div" id="ship-table">
+                    <div class="head-fix-div" id="ship-table" style="height: 86px;">
                         <table class="registered-list" style="table-layout:fixed">
                             <thead id="list-header">
                             <tr>
