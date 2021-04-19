@@ -94,7 +94,7 @@ $ships = Session::get('shipList');
                                     <td class="center"><span>@{{ item.due_endorse }}</span></td>
                                     <td class="center"><span>@{{ issuer_type[item.issuer] }}</span></td>
                                     <td class="text-center">
-                                        <label><a v-bind:href="item.attachment_link" target="_blank" v-bind:class="[item.attachment_link == '' || item.attachment_link == undefined ? 'visible-hidden' : '']"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="cursor: pointer;"></a></label>
+                                        <label><a v-bind:href="item.attachment_link" target="_blank" v-bind:class="[item.attachment_link == '' || item.attachment_link == undefined ? 'visible-hidden' : '']"><img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15" style="cursor: pointer;"></a></label>
                                     </td>
                                     <td class="text-left"><span>@{{ item.remark }}</span></td>
                                 </tr>
