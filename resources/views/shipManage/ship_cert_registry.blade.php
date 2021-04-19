@@ -1,6 +1,6 @@
 <?php
 if(isset($excel)) $header = 'excel-header';
-else $header = 'sidebar';
+else $header = 'header';
 ?>
 
 <?php
@@ -357,9 +357,9 @@ $ships = Session::get('shipList');
 
                 },
                 updated() {
-                    console.log(initLoad);
-                    console.log('-----------');
-                    if(initLoad == true) {
+                    // console.log(initLoad);
+                    // console.log('-----------');
+                    // if(initLoad == true) {
                         console.log('++++++++++++++++');
                         $('.date-picker').datepicker({
                             autoclose: true,
@@ -370,7 +370,7 @@ $ships = Session::get('shipList');
                         initLoad = false;
                         console.log(initLoad);
                     }
-                }
+                // }
             });
 
             certTypeObj = new Vue({
@@ -489,7 +489,7 @@ $ships = Session::get('shipList');
             certListObj.cert_array[reportLen]['issue_date']  = $($('[name^=issue_date]')[reportLen - 1]).val();
             certListObj.cert_array[reportLen]['expire_date']  = $($('[name^=expire_date]')[reportLen - 1]).val();
             certListObj.cert_array[reportLen]['due_endorse']  = $($('[name^=due_endorse]')[reportLen - 1]).val();
-            certListObj.cert_array[reportLen]['issuer']  = 0;
+            certListObj.cert_array[reportLen]['issuer']  = 1;
             $($('[name=cert_id]')[reportLen - 1]).focus();
             certIdList.push(certListObj.cert_array[reportLen]['cert_id']);
 

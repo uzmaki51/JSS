@@ -65,6 +65,7 @@ class ShipCertRegistry extends Model
 		    })
 		    ->where('expire_date', '!=', '0000-00-00')
 		    ->where('due_endorse', '!=', '0000-00-00')
+		    ->orderBy('cert_id', 'asc')
 		    ->select('*');
 
 	    if($ship_id != '')

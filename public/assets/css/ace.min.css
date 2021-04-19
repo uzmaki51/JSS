@@ -14341,7 +14341,7 @@ body.breadcrumbs-fixed {
 }
 
 .main-container {
-    position: static;
+    position: relative;
     padding: 0
 }
 

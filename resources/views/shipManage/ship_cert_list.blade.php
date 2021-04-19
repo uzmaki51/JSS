@@ -1,6 +1,6 @@
 <?php
 if(isset($excel)) $header = 'excel-header';
-else $header = 'sidebar';
+else $header = 'header';
 ?>
 
 <?php
@@ -50,7 +50,7 @@ $ships = Session::get('shipList');
                     <div class="btn-group f-right">
                         <button class="btn btn-report-search btn-sm search-btn" @click="doSearch()"><i class="icon-search"></i>搜索</button>
                         <a class="btn btn-sm btn-danger refresh-btn-over" type="button" @click="refresh">
-                            <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">刷新
+                            <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">恢复
                         </a>
                         <button class="btn btn-warning btn-sm excel-btn" @click="onExport"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
                     </div>

@@ -131,7 +131,7 @@
 
 <div class="main-container {{ $routeName == 'home' ? '' : 'inner-wrap' }}" id="main-container">
     <div class="main-container-inner">
-        @yield('sidebar')
+        @yield('content')
     </div>
 
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
