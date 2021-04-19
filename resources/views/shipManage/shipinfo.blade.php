@@ -37,7 +37,7 @@ $shipList = explode(',', Auth::user()->shipList);
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <div class="btn-group f-right">
                             <a href="exportShipInfo?id={{ $id }}" class="btn btn-warning btn-sm" id="excel-general">
                                 <i class="icon-table"></i>{{ trans('common.label.excel') }}
@@ -272,7 +272,7 @@ $shipList = explode(',', Auth::user()->shipList);
                                 <table class="table table-bordered excel-output" id="formA-table">
                                     <thead>
                                     <tr>
-                                        <th class="title" colspan="2" style="font-size: 16px;">SHIP PARTICULARS</th>
+                                        <th class="title" colspan="2" style="font-size: 16px;">SHIP PARTICULARS (A)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -348,6 +348,11 @@ $shipList = explode(',', Auth::user()->shipList);
                                         <td style="background-color: #f8f8f8;">OWNER</td>
                                         <td>@if(isset($shipInfo['Owner_Cn'])){{$shipInfo['Owner_Cn']}}@endif</td>
                                     </tr>
+                                    <tr>
+                                        <td style="background-color: #ffffff; height: 35px; vertical-align: middle;">SHIP'S CERTIFICATES</td>
+                                        <td style="vertical-align: middle;">DATE ISSUED</td>
+                                        <td style="vertical-align: middle;">DATE VALID</td>
+                                    </tr>
                                     @foreach($elseInfo['cert'] as $key => $item)
                                         <tr>
                                             <td style="background-color: #f8f8f8;">{{ $key }}</td>
@@ -355,7 +360,11 @@ $shipList = explode(',', Auth::user()->shipList);
                                             <td>{{ $item['expire_date'] }}</td>
                                         </tr>
                                     @endforeach
-
+                                    <tr>
+                                        <td style="background-color: #ffffff; height: 35px; vertical-align: middle;">CERTIFICATES OF COMPETENCY FOR SEAFARERS</td>
+                                        <td style="vertical-align: middle;">NO OF DOC</td>
+                                        <td style="vertical-align: middle;">VALID UNTIL</td>
+                                    </tr>
                                     @foreach($memberCertXls['COC'] as $key => $item)
                                         <tr>
                                             <td style="background-color: #f8f8f8;">{{ $item[1] }}</td>
