@@ -595,9 +595,15 @@ class ShipRegController extends Controller
 
 		    $shipCertTbl['ship_id']     = $params['ship_id'];
 		    $shipCertTbl['cert_id']     = isset($params['cert_id'][$key]) ? $params['cert_id'][$key] : 1;
-		    $shipCertTbl['issue_date']  = isset($params['issue_date'][$key]) ? $params['issue_date'][$key] : '';
-		    $shipCertTbl['expire_date'] = isset($params['expire_date'][$key]) ? $params['expire_date'][$key] : '';
-		    $shipCertTbl['due_endorse'] = isset($params['due_endorse'][$key]) ? $params['due_endorse'][$key] : '';
+			if(isset($params['issue_date'][$key]) && $params['issue_date'][$key] != '' && $params['issue_date'][$key] != EMPTY_DATE)
+			    $shipCertTbl['issue_date']  = $params['issue_date'][$key];
+
+			if(isset($params['expire_date'][$key]) && $params['expire_date'][$key] != '' && $params['expire_date'][$key] != EMPTY_DATE)
+			    $shipCertTbl['expire_date'] = isset($params['expire_date'][$key]) ? $params['expire_date'][$key] : null;
+
+			if(isset($params['due_endorse'][$key]) && $params['due_endorse'][$key] != '' && $params['due_endorse'][$key] != EMPTY_DATE)
+			    $shipCertTbl['due_endorse'] = isset($params['due_endorse'][$key]) ? $params['due_endorse'][$key] : null;
+
 		    $shipCertTbl['issuer']      = isset($params['issuer'][$key]) ? $params['issuer'][$key] : '';
 		    $shipCertTbl['remark']      = isset($params['remark'][$key]) ? $params['remark'][$key] : '';
 

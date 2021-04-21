@@ -14,10 +14,11 @@ define('IS_ERROR', 1);
 define('IS_NOT_ERROR', 0);
 
 define('DEFAULT_PASS', '123456');
-
+define('HTTP_METHOD_POST', 'POST');
 
 #UserRole
 define('SUPER_ADMIN', 1);
+define('EMPTY_DATE', '0000-00-00');
 
 # Status
 define('STATUS_BANNED', 0);
@@ -221,8 +222,13 @@ $NationalityData = array(
 );
 
 
-define('HTTP_METHOD_POST', 'POST');
-
+# CPTypeData
+define('CP_TYPE_VOY',   1);
+define('CP_TYPE_TC',    2);
+$CPTypeData = array(
+	CP_TYPE_VOY     => 'VOY',
+	CP_TYPE_TC      => 'TC'
+);
 
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,
@@ -241,5 +247,6 @@ define('HTTP_METHOD_POST', 'POST');
 	    'ReportStatusData'			    => $ReportStatusData,
 		'NationalityData'				=> $NationalityData,
 	    'IssuerTypeData'				=> $IssuerTypeData,
+	    'CPTypeData'				    => $CPTypeData,
 
  );

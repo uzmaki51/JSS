@@ -12,7 +12,10 @@ use App\Helpers\calDate; //주계산 (수정:콤대->정은혁)
 
 use App\Http\Controllers\Controller;
 use App\Models\Member\Post;
+use App\Models\Operations\Cargo;
+use App\Models\Operations\Cp;
 use App\Models\ShipMember\ShipPosition;
+use App\Models\ShipTechnique\ShipPort;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -66,6 +69,25 @@ class BusinessController extends Controller
     {
         return redirect('business/EntryAndExit');
     }
+
+	public function contract(Request $request) {
+		$params = $request->all();
+		if(isset($params['shipId']))
+			$shipId = $params['shipId'];
+		else
+			return redirect()->back();
+
+		$shipList = ShipRegister::all();
+		$cp_list = CP::where('Ship_ID', $shipId)->get();
+
+		return view('business.ship_contract', array(
+			'shipId'	    =>  $shipId,
+
+
+			'shipList'      =>  $shipList,
+			'cp_list'       =>  $cp_list
+		));
+	}
 
     public function newsTemaPage(Request $request) {
         $keyword = $request->get('keyword');

@@ -31,7 +31,8 @@ return [
 	    'logout'        => '退出',
 	    'excel'         => '导出',
 	    'save'          => '保存',
-	    'delete'        => '删除'
+	    'delete'        => '删除',
+	    'curr_rate'     => '汇率'
     ],
 
 	"message"   => [

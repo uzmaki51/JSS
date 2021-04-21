@@ -23,7 +23,7 @@
     box-shadow: 0 1px 4px rgb(24 28 33 / 1%);
 }
 
-.card-header{
+.card-header {
     padding: .875rem 1.5rem;
     margin-bottom: 0;
     background-color: transparent;
@@ -61,6 +61,7 @@
     display: flex!important;
     justify-items: center;
     white-space: nowrap;
+    align-items: center;
 }
 
 .v-middle {
@@ -75,6 +76,18 @@
 }
 .ml-1 {
     margin-left: 10px;
+}
+.ml-2 {
+    margin-left: 20px;
+}
+.ml-3 {
+    margin-left: 30px;
+}
+.ml-4 {
+    margin-left: 40px;
+}
+.ml-5 {
+    margin-left: 50px;
 }
 .m-1 {
     margin: 10px;
@@ -93,6 +106,12 @@
 }
 .pr-0 {
     padding-right: 0!important;
+}
+.pr-4 {
+    padding-right: 4px!important;
+}
+.pr-8 {
+    padding-right: 8px!important;
 }
 .pl-0 {
     padding-left: 0!important;
@@ -270,7 +289,9 @@ ul.timeline > li {
     overflow: hidden;
 }
 
-
+.d-line-height table th {
+    line-height: 2;
+}
 
 
 .more-btn {
@@ -281,14 +302,44 @@ ul.timeline > li {
 }
 .dot-hr {
     border-color : #aaaaaa;
-    border-width : 1px;
     border-style : dashed!important;
     margin: 6px 0 12px 0!important;
     padding : 0;
 }
 
+.gray-dotted-hr {
+    border-top-style: dotted;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px dotted #aaaaaa;
+}
+
 .main-panel {
     box-shadow: 0px 0px 8px 4px #d2d2d2;
+}
+.white-bg {
+    background: white!important;
+}
+
+.label-input {
+    display: flex;
+    align-items: center;
+    max-width: 160px;
+    border: 1px solid #d5d5d5;
+}
+
+.label-input label {
+    width: 50%;
+    font-weight: bold;
+    background: #d2d2d2;
+    border-right: 1px solid #d5d5d5;
+    padding: 5px;
+    text-align: center;
+}
+.label-input input {
+    width: 50%;
+    border: none;
 }
 
 @media (min-width: 1367px) {
@@ -296,7 +347,4 @@ ul.timeline > li {
         width: 1200px;
         margin: 0 auto;
     }
-}
-.white-bg {
-    background: white!important;
 }

@@ -279,62 +279,6 @@ class OperationController extends Controller
         return response()->json($yearPlan);
     }
 
-    //----------------- 용선계약 ------------------//
-    public function contract(Request $request)
-    {
-        Util::getMenuInfo($request);
-
-        $shipId = $request->get('shipId');
-        $fromDate = $request->get('fromDate');
-        $toDate = $request->get('toDate');
-        $cargoId = $request->get('cargo');
-
-        $shipList = ShipRegister::getShipListOnlyOrigin();
-
-        $portList = ShipPort::get();
-        $cargoList = Cargo::get();
-		
-		$query = CP::query();
-		
-		if(!empty($shipId))
-			$query->where('Ship_ID', $shipId);
-		if(!empty($fromDate))
-			$query->where('CP_Date', '>=', $fromDate);
-		if(!empty($toDate))
-			$query->where('CP_Date', '<=', $toDate);
-		if(!empty($cargoId))
-			$query->where('Cargo', 'like', '%,'.$cargoId.',%');
-
-        $list = $query->orderBy('CP_Date', 'desc')->paginate(10)->setPath('');
-        $lrateList = Cp::select('L_Rate')->groupBy('L_Rate')->get();
-        $drateList = Cp::select('D_Rate')->groupBy('D_Rate')->get();
-
-		if(!empty($shipId))
-			$list->appends(['shipId'=>$shipId]);
-		if(!empty($fromDate))
-			$list->appends(['fromDate'=>$fromDate]);
-		if(!empty($toDate))
-			$list->appends(['toDate'=>$toDate]);
-		if(!empty($cargoId))
-			$list->appends(['cargo'=>$cargoId]);
-
-        $state = Session::get('status');
-
-        return view('operation.contract', array(
-            'shipId'	=>	$shipId,
-			'fromDate'	=>	$fromDate,
-			'toDate'	=>	$toDate,
-			'cargoId'	=>	$cargoId,
-            'shipList'	=>	$shipList,
-            'portList'	=>	$portList,
-            'cargoList'	=>	$cargoList,
-            'list'		=>	$list,
-            'status'    =>  $state,
-            'lrate'     =>  $lrateList,
-            'drate'     =>  $drateList,
-        ));
-    }
-
     // 용선계약 수정
     public function updateContract(Request $request){
 

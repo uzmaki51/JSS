@@ -13,7 +13,7 @@ class Cp extends Model
         return $this->hasOne('App\Models\ShipManage\ShipRegister', 'RegNo', 'Ship_ID');
     }
 
-    public function lPortName(){
+    public function lPortName() {
         if(empty($this->LPort))
             return '';
 

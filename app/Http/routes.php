@@ -101,6 +101,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
 // Administrative Affairs
 Route::group(['prefix' => 'business'], function() {
+	Route::get('contract', ['uses' => 'Business\BusinessController@contract']);
 	Route::get('/', ['uses'=>'Business\BusinessController@index']);
 	Route::get('newsTemaPage', ['uses'=>'Business\BusinessController@newsTemaPage']);
 	Route::get('temaInfo',['uses'=>'Business\BusinessController@getNewsTemaInfo']);

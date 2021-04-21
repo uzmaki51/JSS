@@ -239,6 +239,10 @@ td > a {
     color: #eb2bd4;
 }
 
+.brown {
+    color: #113d00;
+}
+
 .green{
     color: #22da40;
 }
@@ -662,4 +666,137 @@ footer {
 }
 .p-0 {
     padding: 0!important;
+}
+
+
+
+/**************************** Ship Contract Css ****************************/
+.contract-input-div {
+    padding: 12px;
+    border: 1px solid #4c4c4c;
+    height: 450px;
+}
+.tab-left {
+    width: 58%;
+    margin-right: 2%;
+}
+
+.voy-child {
+    background: #f3f3f3;
+    border: 1px solid #4c4c4c;
+    padding: 8px;
+    height: 350px;
+}
+.voy-child .attribute-div .vertical:last-child input {
+    border-right: 1px solid #4c4c4c;
+}
+.voy-child .daily-use .vertical:last-child input {
+    border-right: 1px solid #4c4c4c;
+}
+
+.voy-child .vertical {
+    display: block;
+    width: 80px;
+}
+.voy-child .vertical label {
+    display: block;
+    border: none;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2px;
+}
+.voy-child input[type=text] {
+    padding: 2px;
+    display: block;
+}
+.voy-child .vertical input[type=text] {
+    border: none;
+    border-bottom: 1px solid #4c4c4c;
+    border-left: 1px solid #4c4c4c;
+    border-top: 1px solid #4c4c4c;
+    width: 100%;
+    text-align: center;
+}
+.voy-child .vertical input[type=checkbox] {
+    margin-top: 0;
+    margin-right: 2px;
+}
+.voy-child .vertical .batch-manage {
+    display: flex;
+}
+.voy-child .daily-use .vertical input[type=text]:nth-child(even) {
+    border-bottom: none!important;
+}
+.voy-child .vertical .output-text {
+    background: #f3f3f3;
+}
+.voy-input-left {
+    width: 60%;
+    margin-right: 1%;
+}
+
+.voy-input-right {
+    width: 40%;
+}
+
+.voy-input-right .horizontal label {
+    width: 80px;
+    text-align: right;
+    margin-right: 8px;
+}
+.voy-input-right .horizontal input {
+    width: 80px;
+    border: none;
+    background: #f3f3f3;
+    border-right: 1px solid #4c4c4c;
+    border-left: 1px solid #4c4c4c;
+    border-bottom: 1px solid #4c4c4c;
+}
+
+.voy-input-right .horizontal:first-child input[type=text] {
+    border-top: 1px solid #4c4c4c;
+}
+.voy-input-right .horizontal .bigger-input {
+    width: 120px;
+}
+
+
+
+.tab-right {
+    width: 40%;
+    border: 1px solid #4c4c4c;
+}
+
+.contract-table {
+    border-top: 1px solid #4c4c4c;
+    border-left: 1px solid #4c4c4c;
+    border-bottom: 1px solid #4c4c4c;
+}
+.contract-table tr td {
+    border: none;
+    border-bottom: 1px dotted #4c4c4c;
+    border-right: 1px dotted #4c4c4c;
+    background: #f3f3f3;
+    text-align: left;
+    padding: 3px!important;
+}
+
+.contract-table tr td:first-child {
+    text-align: right;
+}
+
+.contract-table tr td:nth-child(even) {
+    border: none;
+    border-bottom: 1px dotted #4c4c4c;
+    border-right: 1px solid #4c4c4c;
+}
+
+.contract-attach {
+    cursor: pointer;
+}
+.contract-attach:hover {
+    opacity: 0.8;
+}
+.attachment-div {
+    height: 26px;
 }
