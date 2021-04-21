@@ -323,7 +323,6 @@ class ShipMember extends Model
     }
 
     public function getForCertDatatable($params) {
-        return $this->getCertlistByShipId($params['columns'][2]['search']['value']);
         $selector = null;
         $records = [];
         $recordsFiltered = 0;
@@ -437,7 +436,8 @@ class ShipMember extends Model
 
                 if ($expire_days != 0) {
                     $datediff = strtotime($newArr[$newindex]['_expire']) - $today;
-                    if (round($datediff / (60 * 60 * 24)) < $expire_days) continue;
+                    //if (round($datediff / (60 * 60 * 24)) > 0) return round($datediff / (60 * 60 * 24));
+                    if (round($datediff / (60 * 60 * 24)) > ($expire_days - 1)) continue;
                 }
                 $count ++;
                 $newArr[$newindex]['count'] = $count;
@@ -582,7 +582,8 @@ class ShipMember extends Model
         if (isset($params['columns'][1]['search']['value'])
             && $params['columns'][1]['search']['value'] !== ''
         ) {
-            $selector->where('realname', 'like', '%' . $params['columns'][1]['search']['value'] . '%');
+            //$selector->where('realname', 'like', '%' . $params['columns'][1]['search']['value'] . '%');
+            $selector->where('realname', $params['columns'][1]['search']['value']);
         }
 
         if (isset($params['columns'][2]['search']['value'])
@@ -596,17 +597,18 @@ class ShipMember extends Model
         ) {
             if ($params['columns'][3]['search']['value'] == 'true')
             {
+                // DateOnBoard != null && (DateOffboard == null or Dateoffboard > today)
                 $selector->whereNotNull('DateOnboard');
                 $selector->where(function($query) {
                     $today = date("Y-m-d");
                     $query->whereNull('DateOffboard')->orWhere('DateOffboard', '>', $today);
                 });
-                //$selector->whereNull('DateOffboard')->orWhere('DateOffboard', '<', $today);
             }
             else if ($params['columns'][3]['search']['value'] == 'false')
             {
+                // DateOnboard == null || (DateOffboard == null or Dateoffboard > today)
                 $today = date("Y-m-d");
-                $selector->whereNull('DateOnboard')->orWhere('DateOnboard', '<=', $today);
+                $selector->whereNull('DateOnboard')->orWhere('DateOnboard', '>', $today);
             }
             else
             {

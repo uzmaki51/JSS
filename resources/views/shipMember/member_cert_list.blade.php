@@ -33,9 +33,9 @@ $isHolder = Session::get('IS_HOLDER');
                         <label class="font-bold">提前:</label>
                         <input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" id="expire-date" value="0">
                         <label>天</label>
-                        <button class="btn btn-report-search btn-sm search-btn" onclick=""><i class="icon-search"></i>搜索</button>
-                        <a class="btn btn-sm btn-danger {{ Auth::user()->isAdmin == 1 ? '' : 'right-no-radius' }} refresh-btn-over" type="button" onclick="javascript:refresh()">
-                            <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">刷新
+                        <button class="btn btn-report-search btn-sm search-btn" onclick="" id="btn-search"><i class="icon-search"></i>搜索</button>
+                        <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="javascript:refresh()">
+                            <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">恢复
                         </a>
                         <button class="btn btn-warning btn-sm excel-btn" onclick=""><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
                     </div>
@@ -246,7 +246,7 @@ $isHolder = Session::get('IS_HOLDER');
             doSearch();
         }
 
-        $('#expire-date').on('change', function() {
+        $('#btn-search').on('click', function() {
             doSearch();
         });
         

@@ -18489,8 +18489,8 @@ button.btn:active {
 }
 
 .dropdown-menu li a:hover, .dropdown-menu li a:focus, .dropdown-menu li a:active, .dropdown-menu li.active a, .dropdown-menu li.active a:hover, .dropdown-menu .dropdown-submenu:hover > a, .nav-tabs .dropdown-menu li > a:focus {
-    background: #4f99c6;
-    color: #fff
+    background: #dcdcdc;
+    color: black;
 }
 
 .dropdown-default li a:hover, .dropdown-default li a:focus, .dropdown-default li a:active, .dropdown-default li.active a, .dropdown-default li.active a:hover, .dropdown-default .dropdown-submenu:hover > a, .nav-tabs .dropdown-default li > a:focus {
