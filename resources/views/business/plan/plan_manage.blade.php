@@ -55,7 +55,7 @@
                 <label class="col-md-3 control-label no-padding-right">{{transBusinessManage("captions.task_startdate")}}:</label>
                 <div class="col-md-8">
                     <div class="input-group" style="width: 80%">
-                        <input id="task-start-date" class="form-control date-picker" type="text" data-date-format="yyyy/mm/dd">
+                        <input id="task-start-date" class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd">
                         <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                 <label class="col-md-3 control-label no-padding-right">{{transBusinessManage("captions.task_completedate")}}:</label>
                 <div class="col-md-8">
                     <div class="input-group" style="width: 80%">
-                        <input id="task-end-date" class="form-control date-picker" type="text" data-date-format="yyyy/mm/dd">
+                        <input id="task-end-date" class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd">
                         <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
                     </div>
                 </div>

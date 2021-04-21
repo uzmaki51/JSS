@@ -58,7 +58,7 @@
                             <td class="center" style="width: 10%">{{transShipMember("RegisterData.Engaged On")}}</td>
                             <td style="width: 15%">
                                 <div class="input-group" style="width:200px;float: left;">
-                                    <input class="form-control date-picker" name="DateOnboard" type="text" data-date-format="yyyy/mm/dd"
+                                    <input class="form-control date-picker" name="DateOnboard" type="text" data-date-format="yyyy-mm-dd"
                                            value="{{$info['DateOnboard']}}">
                                             <span class="input-group-addon">
                                                 <i class="icon-calendar bigger-110"></i>
@@ -88,7 +88,7 @@
                             <td class="center">{{transShipMember("RegisterData.Issue")}}</td>
                             <td>
                                 <div class="input-group" style="width:200px;float: left">
-                                    <input class="form-control date-picker" name="IssuedDate" type="text" data-date-format="yyyy/mm/dd"
+                                    <input class="form-control date-picker" name="IssuedDate" type="text" data-date-format="yyyy-mm-dd"
                                            value="{{$info['IssuedDate']}}">
                                             <span class="input-group-addon">
                                                 <i class="icon-calendar bigger-110"></i>
@@ -98,7 +98,7 @@
                             <td class="center">{{transShipMember("RegisterData.Expiry Date")}}</td>
                             <td>
                                 <div class="input-group" style="width:200px;float: left">
-                                    <input class="form-control date-picker" name="ExpiryDate" type="text" data-date-format="yyyy/mm/dd"
+                                    <input class="form-control date-picker" name="ExpiryDate" type="text" data-date-format="yyyy-mm-dd"
                                            value="{{$info['ExpiryDate']}}">
                                             <span class="input-group-addon">
                                                 <i class="icon-calendar bigger-110"></i>
@@ -183,7 +183,7 @@
                                 <td>
                                     <div class="input-group">
                                         <input class="form-control date-picker" style="text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
+                                               type="text" data-date-format="yyyy-mm-dd"
                                                name="FromDate_{{$index}}"
                                                value="{{$career['FromDate']}}">
                                                             <span class="input-group-addon">
@@ -194,7 +194,7 @@
                                 <td>
                                     <div class="input-group">
                                         <input class="form-control date-picker" style="text-align: center"
-                                               type="text" data-date-format="yyyy/mm/dd"
+                                               type="text" data-date-format="yyyy-mm-dd"
                                                name="ToDate_{{$index}}"
                                                value="{{$career['ToDate']}}">
                                                             <span class="input-group-addon">

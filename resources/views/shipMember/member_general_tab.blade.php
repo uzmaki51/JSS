@@ -391,7 +391,7 @@
                     <td class="no-padding">
                         <div class="input-group">
                             <input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center"
-                                type="text" data-date-format="yyyy/mm/dd"
+                                type="text" data-date-format="yyyy-mm-dd"
                                 name="FromDate[]"
                                 value="{{$history['FromDate']}}">
                             <span class="input-group-addon">
@@ -402,7 +402,7 @@
                     <td class="no-padding">
                         <div class="input-group">
                             <input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center"
-                                type="text" data-date-format="yyyy/mm/dd"
+                                type="text" data-date-format="yyyy-mm-dd"
                                 name="ToDate[]"
                                 value="{{$history['ToDate']}}">
                             <span class="input-group-addon">

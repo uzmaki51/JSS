@@ -57,7 +57,7 @@
                                         @else
                                             <div class="input-group" >
                                                 <input class="form-control date-picker" name="SurveyDate"
-                                                       type="text" data-date-format="yyyy/mm/dd"
+                                                       type="text" data-date-format="yyyy-mm-dd"
                                                        value="@if(isset($recovery)){{convert_date($recovery['SurveyDate'])}}@endif">
                                                 <span class="input-group-addon">
                                                     <i class="icon-calendar bigger-110"></i>

@@ -599,14 +599,14 @@ class ShipMember extends Model
                 $selector->whereNotNull('DateOnboard');
                 $selector->where(function($query) {
                     $today = date("Y-m-d");
-                    $query->whereNull('DateOffboard')->orWhere('DateOffboard', '<', $today);
+                    $query->whereNull('DateOffboard')->orWhere('DateOffboard', '>', $today);
                 });
                 //$selector->whereNull('DateOffboard')->orWhere('DateOffboard', '<', $today);
             }
             else if ($params['columns'][3]['search']['value'] == 'false')
             {
                 $today = date("Y-m-d");
-                $selector->whereNull('DateOnboard')->orWhere('DateOnboard', '>', $today);
+                $selector->whereNull('DateOnboard')->orWhere('DateOnboard', '<=', $today);
             }
             else
             {

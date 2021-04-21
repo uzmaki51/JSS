@@ -40,7 +40,7 @@ else $header = 'header';
                 <div class="row">
                     <div class="input-group col-md-1">
                         <input class="form-control date-picker" id="search-date" name="search-date" type="text"
-                               data-date-format="yyyy/mm/dd" value="{{$selDate}}">
+                               data-date-format="yyyy-mm-dd" value="{{$selDate}}">
                         <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
                     </div>
                     <button type="button" class="btn btn-primary btn-sm" style="float:left; width: 80px;" onclick="showAttendByDate()"><i class="icon-search"></i>{{transBusinessManage("captions.search")}}</button>

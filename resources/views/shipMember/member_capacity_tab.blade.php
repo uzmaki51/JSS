@@ -69,7 +69,7 @@
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="COC_IssuedDate"
                                         value="{{$capacity['COC_IssuedDate']}}">
                                                         <span class="input-group-addon">
@@ -80,7 +80,7 @@
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="COC_ExpiryDate"
                                         value="{{$capacity['COC_ExpiryDate']}}">
                                                         <span class="input-group-addon">
@@ -152,7 +152,7 @@
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="COE_IssuedDate"
                                         value="{{$capacity['COE_IssuedDate']}}">
                                                         <span class="input-group-addon">
@@ -163,7 +163,7 @@
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="COE_ExpiryDate"
                                         value="{{$capacity['COE_ExpiryDate']}}">
                                                         <span class="input-group-addon">
@@ -188,7 +188,7 @@
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="GMD_IssuedDate"
                                         value="{{$capacity['GMD_IssuedDate']}}">
                                                         <span class="input-group-addon">
@@ -199,7 +199,7 @@
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="GMD_ExpiryDate"
                                         value="{{$capacity['GMD_ExpiryDate']}}">
                                                         <span class="input-group-addon">
@@ -224,7 +224,7 @@
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="COE_GOC_IssuedDate"
                                         value="{{$capacity['COE_GOC_IssuedDate']}}">
                                                         <span class="input-group-addon">
@@ -235,7 +235,7 @@
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="COE_GOC_ExpiryDate"
                                         value="{{$capacity['COE_GOC_ExpiryDate']}}">
                                                         <span class="input-group-addon">
@@ -263,7 +263,7 @@
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="Watch_IssuedDate"
                                         value="{{$capacity['Watch_IssuedDate']}}">
                                                         <span class="input-group-addon">
@@ -274,7 +274,7 @@
                         <td class="no-padding">
                             <div class="input-group">
                                 <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="Watch_ExpiryDate"
                                         value="{{$capacity['Watch_ExpiryDate']}}">
                                                         <span class="input-group-addon">

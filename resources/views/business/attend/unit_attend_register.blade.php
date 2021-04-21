@@ -38,7 +38,7 @@
                 <div class="row">
                     <div class="input-group col-md-3">
                         <input class="form-control date-picker" id="search-date" name="search-date" type="text"
-                               data-date-format="yyyy/mm/dd" value="{{convert_date($date)}}">
+                               data-date-format="yyyy-mm-dd" value="{{convert_date($date)}}">
                         <span class="input-group-addon">
                             <i class="icon-calendar bigger-110"></i>
                         </span>

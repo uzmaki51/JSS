@@ -32,7 +32,7 @@
                         <label style="float: left; padding-top: 5px">{{transBusinessManage("captions.date")}} :</label>
                         <div class="input-group" style="padding-left:10px">
                             <input class="form-control date-picker" id="search-date" type="text" style="float: left;"
-                                   data-date-format="yyyy/mm/dd" value="@if(isset($date)){{convert_date($date)}}@endif">
+                                   data-date-format="yyyy-mm-dd" value="@if(isset($date)){{convert_date($date)}}@endif">
                             <span class="input-group-addon">
                             <i class="icon-calendar bigger-110"></i>
                             </span>

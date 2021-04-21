@@ -33,7 +33,7 @@
                             <td>
                                 <div class="input-group">
                                     <input class="form-control date-picker" name="examDate_{{$index}}" style="text-align: center"
-                                           type="text" data-date-format="yyyy/mm/dd"
+                                           type="text" data-date-format="yyyy-mm-dd"
                                            value="{{$exam['ExamDate']}}" data-old="{{$exam['ExamDate']}}" disabled>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>

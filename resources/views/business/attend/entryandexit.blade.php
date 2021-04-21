@@ -157,7 +157,7 @@
                                                     <td>
                                                         <div style="width: 100%">
                                                             <div class="input-group">
-                                                                <input id="{{'rest_day'.$rest->id}}" class="form-control date-picker" type="text" data-date-format="yyyy/mm/dd"
+                                                                <input id="{{'rest_day'.$rest->id}}" class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd"
                                                                        value="{{convert_date($rest->day)}}" oldvalue="{{convert_date($rest->day)}}">
                                                             <span class="input-group-addon">
                                                                 <i class="icon-calendar bigger-110"></i>
@@ -192,7 +192,7 @@
                                                 <td>
                                                     <div style="width: 100%">
                                                         <div class="input-group">
-                                                            <input id="rest_day" class="form-control date-picker" type="text" data-date-format="yyyy/mm/dd" value="">
+                                                            <input id="rest_day" class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" value="">
                                                             <span class="input-group-addon">
                                                                 <i class="icon-calendar bigger-110"></i>
                                                             </span>

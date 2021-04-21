@@ -55,7 +55,7 @@
                                 @else
                                     <div class="input-group" >
                                         <input class="form-control date-picker" name="AccidentDate"
-                                               type="text" data-date-format="yyyy/mm/dd"
+                                               type="text" data-date-format="yyyy-mm-dd"
                                                value="@if(isset($accident)){{convert_date($accident['AccidentDate'])}}@endif">
                                         <span class="input-group-addon">
                                             <i class="icon-calendar bigger-110"></i>

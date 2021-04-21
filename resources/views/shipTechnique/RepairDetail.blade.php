@@ -54,7 +54,7 @@
                                             @else
                                                 <div class="input-group" >
                                                     <input class="form-control date-picker" name="FromDate"
-                                                           type="text" data-date-format="yyyy/mm/dd"
+                                                           type="text" data-date-format="yyyy-mm-dd"
                                                            value="{{convert_date($recovery['FromDate'])}}">
                                                     <span class="input-group-addon">
                                                         <i class="icon-calendar bigger-110"></i>
@@ -69,7 +69,7 @@
                                             @else
                                                 <div class="input-group">
                                                     <input class="form-control date-picker" name="ToDate"
-                                                           type="text" data-date-format="yyyy/mm/dd"
+                                                           type="text" data-date-format="yyyy-mm-dd"
                                                            value="{{convert_date($recovery['ToDate'])}}">
                                                     <span class="input-group-addon">
                                                         <i class="icon-calendar bigger-110"></i>

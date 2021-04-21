@@ -633,7 +633,7 @@ $ships = Session::get('shipList');
             var newIndex = tds.eq(0).find('input').val() * 1 + 1;
             var html = '<tr><td class="hidden"><input name="new_'+ newIndex +'" value="' + newIndex +'"></td>' +
                 '<td><div class=" input-group" style="padding-left:5px;width:100%">' +
-                '<input class="form-control date-picker" type="text" data-date-format="yyyy/mm/dd" style="width:75%" name="SUPPLD_DATE_new_' + newIndex + '">' +
+                '<input class="form-control date-picker" type="text" data-date-format="yyyy-mm-dd" style="width:75%" name="SUPPLD_DATE_new_' + newIndex + '">' +
                 '<span class="input-group-addon" style="float: right;width:25%;"><i class="icon-calendar bigger-110"></i></span>' +
                 '</div></td>' +
                 '<td><input type="text" class="form-control" name="PLACE_new_' + newIndex + '"></td>' +

@@ -86,7 +86,7 @@
                                     <label style="float:left;padding:5px">{{transBusinessManage("captions.birthday")}}:</label>
                                     <div class="col-md-4 input-group" style="padding:0">
                                         <input name="start-date" class="form-control date-picker" type="text"
-                                               data-date-format="yyyy/mm/dd" value="{{ $birthStart }}"/>
+                                               data-date-format="yyyy-mm-dd" value="{{ $birthStart }}"/>
                                         <span class="input-group-addon">
                                             <i class="icon-calendar bigger-110"></i>
                                         </span>
@@ -94,7 +94,7 @@
                                     <div class="col-md-1"> ~ </div>
                                     <div class="col-md-4 input-group" style="padding:0">
                                         <input name="end-date" class="form-control date-picker" type="text"
-                                               data-date-format="yyyy/mm/dd" value="{{ $birthEnd }}"/>
+                                               data-date-format="yyyy-mm-dd" value="{{ $birthEnd }}"/>
                                         <span class="input-group-addon">
                                             <i class="icon-calendar bigger-110"></i>
                                         </span>
@@ -110,7 +110,7 @@
                                     <label style="float:left;padding:5px">{{transBusinessManage("captions.enterdate")}}:</label>
                                     <div class="col-md-4 input-group" style="padding:0">
                                         <input name="entry-start" class="form-control date-picker" type="text"
-                                               data-date-format="yyyy/mm/dd" value="{{ $entryStart }}"/>
+                                               data-date-format="yyyy-mm-dd" value="{{ $entryStart }}"/>
                                         <span class="input-group-addon">
                                             <i class="icon-calendar bigger-110"></i>
                                         </span>
@@ -118,7 +118,7 @@
                                     <div class="col-md-1"> ~ </div>
                                     <div class="col-md-4 input-group" style="padding:0">
                                         <input name="entry-end" class="form-control date-picker" type="text"
-                                               data-date-format="yyyy/mm/dd" value="{{ $entryEnd }}"/>
+                                               data-date-format="yyyy-mm-dd" value="{{ $entryEnd }}"/>
                                         <span class="input-group-addon">
                                             <i class="icon-calendar bigger-110"></i>
                                         </span>

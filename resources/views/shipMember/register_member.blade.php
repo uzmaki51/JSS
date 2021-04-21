@@ -683,7 +683,7 @@ $isHolder = Session::get('IS_HOLDER');
         })
 
         /*
-        $('.date-picker').datepicker({ dateFormat: "yyyy/mm/dd", changeMonth: true,
+        $('.date-picker').datepicker({ dateFormat: "yyyy-mm-dd", changeMonth: true,
             changeYear: true, yearRange: '1900:2020'
         }).val('');*/
     </script>
@@ -718,7 +718,7 @@ $isHolder = Session::get('IS_HOLDER');
             if ($('#history_table tr').length <= 3)
             {
                 if (e == null || $(e).closest("tr").is(":last-child")) {
-                    var newrow = '<tr><td class="no-padding"><div class="input-group"><input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center" type="text" data-date-format="yyyy/mm/dd"name="FromDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><div class="input-group"><input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center"type="text" data-date-format="yyyy/mm/dd"name="ToDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="ShipName[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><select name="DutyID[]" class="form-control" onfocus="addHistory(this)" style="padding:0px!important;color:#12539b!important"><option value="0">&nbsp;</option>';
+                    var newrow = '<tr><td class="no-padding"><div class="input-group"><input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center" type="text" data-date-format="yyyy-mm-dd"name="FromDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><div class="input-group"><input onfocus="addHistory(this)" class="form-control date-picker" style="width: 100%;text-align: center"type="text" data-date-format="yyyy-mm-dd"name="ToDate[]"value=""><span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span></div></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="ShipName[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><select name="DutyID[]" class="form-control" onfocus="addHistory(this)" style="padding:0px!important;color:#12539b!important"><option value="0">&nbsp;</option>';
                     @foreach($posList as $pos)
                     newrow = newrow + '<option value="' + '{{$pos['id']}}';
                     @if($info['DutyID_Book'] == $pos['id']) newrow = newrow + '" selected';

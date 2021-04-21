@@ -25,10 +25,10 @@
                     </div>
                     <div class="col-lg-4 form-group d-flex search-div mb-0">
                         <label class="search-label">{{transDecideManage("captions.draftDate")}}:</label>
-                        <input class="search-input date-picker" id="fromDate" type="text" data-date-format="yyyy/mm/dd">
+                        <input class="search-input date-picker" id="fromDate" type="text" data-date-format="yyyy-mm-dd">
                         <i class="icon-calendar bigger-110 search-calendar"></i>
                         <label class="search-label">&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;</label>
-                        <input class="search-input date-picker" id="toDate" type="text" data-date-format="yyyy/mm/dd">
+                        <input class="search-input date-picker" id="toDate" type="text" data-date-format="yyyy-mm-dd">
                         <i class="icon-calendar bigger-110 search-calendar"></i>
                     </div>
                     <div class="col-lg-2 form-group pr-0 mb-0">

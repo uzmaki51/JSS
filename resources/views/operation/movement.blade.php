@@ -176,7 +176,7 @@ $ships = Session::get('shipList');
                                 <td>
                                     <div class="input-group" style="width:140px">
                                         <input class="form-control date-picker" id="search-date" name="voyDate" type="text"
-                                               data-date-format="yyyy/mm/dd" value="">
+                                               data-date-format="yyyy-mm-dd" value="">
                                         <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
                                         </span>

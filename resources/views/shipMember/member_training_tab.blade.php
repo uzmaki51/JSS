@@ -35,7 +35,7 @@
                             <td class="center no-padding">
                                 <div class="input-group">
                                     <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="Train_CertIssue[]"
                                         value="@if(isset($training[$index])){{$training[$index]->IssueDate}}@endif">
                                     <span class="input-group-addon">
@@ -46,7 +46,7 @@
                             <td class="center no-padding">
                                 <div class="input-group">
                                     <input class="form-control date-picker" style="width: 100%;text-align: center"
-                                        type="text" data-date-format="yyyy/mm/dd"
+                                        type="text" data-date-format="yyyy-mm-dd"
                                         name="Train_CertExpire[]"
                                         value="@if(isset($training[$index])){{$training[$index]->ExpireDate}}@endif">
                                     <span class="input-group-addon">
