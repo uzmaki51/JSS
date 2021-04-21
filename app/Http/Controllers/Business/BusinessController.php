@@ -74,8 +74,13 @@ class BusinessController extends Controller
 		$params = $request->all();
 		if(isset($params['shipId']))
 			$shipId = $params['shipId'];
-		else
-			return redirect()->back();
+		else {
+            $firstShipInfo = ShipRegister::first();
+            if($firstShipInfo == null && $firstShipInfo == false)
+                return redirect()->back();
+
+            $shipId = $firstShipInfo->IMO_No;
+        }
 
 		$shipList = ShipRegister::all();
 		$cp_list = CP::where('Ship_ID', $shipId)->get();

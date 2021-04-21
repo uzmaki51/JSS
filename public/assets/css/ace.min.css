@@ -14365,7 +14365,8 @@ body.breadcrumbs-fixed {
 }
 
 .main-container > .main-container-inner {
-    position: relative
+    position: relative;
+    height: 100%;
 }
 
 .container.main-container .sidebar.sidebar-fixed, .container.main-container .sidebar.sidebar-fixed:before {

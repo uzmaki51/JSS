@@ -27,816 +27,818 @@ $ships = Session::get('shipList');
                 width : 350px !important;
             }
         </style>
-        <div class="page-content">
-            <div class="page-header">
-                <div class="col-md-3">
-                    <h4>
-                        <b>船舶证书记录</b>
-                    </h4>
-                </div>
-
+        <div class="page-header">
+            <div class="col-md-3">
+                <h4>
+                    <b>合同书记录</b>
+                </h4>
             </div>
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
-                        <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;">
-                            @foreach($shipList as $ship)
-                                <option value="{{ $ship['IMO_No'] }}"
-                                        {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @if(isset($shipName['shipName_En']))
-                            <strong class="f-right" style="font-size: 16px; padding-top: 6px;">"<span id="ship_name">{{ $shipName['shipName_En'] }}</span>" CERTIFICATES</strong>
-                        @endif
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="btn-group f-right">
-                            <button class="btn btn-primary btn-sm search-btn" onclick="addCertItem()"><i class="icon-plus"></i>添加</button>
-                            <button class="btn btn-warning btn-sm excel-btn d-none"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
-                            <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
-                            @if(!$isHolder)
-                                <button class="btn btn-sm btn-warning" id="submit">
-                                    <i class="icon-save"></i>保存
-                                </button>
+        </div>
+
+        <div class="page-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
+                            <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;">
+                                @foreach($shipList as $ship)
+                                    <option value="{{ $ship['IMO_No'] }}"
+                                            {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if(isset($shipName['shipName_En']))
+                                <strong class="f-right" style="font-size: 16px; padding-top: 6px;">"<span id="ship_name">{{ $shipName['shipName_En'] }}</span>" CERTIFICATES</strong>
                             @endif
                         </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 4px;">
-                    <div class="col-lg-12 head-fix-div d-line-height" style="height: 121px;">
-                        <form action="shipCertList" method="post" id="certList-form" enctype="multipart/form-data">
-                            <input type="hidden" name="_token" value="{{csrf_token()}}">
-                            <input type="hidden" value="{{ $shipId }}" name="ship_id">
-                            <table>
-                                <thead class="">
-                                <tr>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_no') !!}<br>{!! trans('business.table.en.voy_no') !!}</th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_tc') !!}<br>{!! trans('business.table.en.voy_tc') !!}</th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cp_date') !!}<br>{!! trans('business.table.en.cp_date') !!}</th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br>{!! trans('business.table.en.cargo') !!}</th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.qty') !!}<br>{!! trans('business.table.en.qty') !!}</th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br>{!! trans('business.table.en.loading_port') !!}</th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br>{!! trans('business.table.en.discharge_port') !!}</th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.l_rate') !!}<br>{!! trans('business.table.en.l_rate') !!}</th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br>{!! trans('business.table.en.d_rate') !!}</th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br>{!! trans('business.table.en.frt_rate') !!}</th>
-                                    <th class="text-center style-header" style="width: 60px;">{!! trans('business.table.cn.anticipate') !!}</th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.contract_attach') !!}</th>
-                                    <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;">{!! trans('common.label.delete') !!}</th>
-                                </tr>
-                                <tr>
-                                    <th class="text-center style-header" style="width:20px;word-break: break-all;">{!! trans('business.table.cn.daily_profit') !!}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @if(isset($cp_list) && count($cp_list) > 0)
-                                    @foreach($cp_list as $item)
-                                        <tr>
-                                            <td class="text-center">{{ $item['Voy_No'] }}</td>
-                                            <td class="text-center">{{ g_enum('CPTypeData')[$item['CP_kind']] }}</td>
-                                            <td class="text-center">{{ $item['CP_Date'] }}</td>
-                                            <td class="text-left">{{ $item['Cargo'] }}</td>
-                                            <td class="text-center">{{ $item['Cgo_Qtty'] }}</td>
-                                            <td class="text-center">{{ $item['LPort'] }}</td>
-                                            <td class="text-center">{{ $item['DPort'] }}</td>
-                                            <td class="text-center">{{ $item['L_Rate'] }}</td>
-                                            <td class="text-center">{{ $item['D_Rate'] }}</td>
-                                            <td class="text-center">{{ $item['Freight'] }}</td>
-                                            <td class="text-center">{{ $item['total_Freight'] }}</td>
-                                            <td class="text-center">
-                                                @if($item['is_attachment'] == 1)
-                                                    <img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15" style="cursor: pointer;">
-                                                @endif
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="action-buttons">
-                                                    <a class="red" href="javascript:deleteItem()">
-                                                        <i class="icon-trash"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="13">
-                                            {!! trans('common.message.no_data') !!}
-                                        </td>
-                                    </tr>
+                        <div class="col-lg-6">
+                            <div class="btn-group f-right">
+                                <button class="btn btn-primary btn-sm search-btn" onclick="addCertItem()"><i class="icon-plus"></i>添加</button>
+                                <button class="btn btn-warning btn-sm excel-btn d-none"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                                <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
+                                @if(!$isHolder)
+                                    <button class="btn btn-sm btn-warning" id="submit">
+                                        <i class="icon-save"></i>保存
+                                    </button>
                                 @endif
-                                </tbody>
-                            </table>
-                        </form>
+                            </div>
+                        </div>
                     </div>
+                    <div class="row" style="margin-top: 4px;">
+                        <div class="col-lg-12 head-fix-div d-line-height" style="height: 121px;">
+                            <form action="shipCertList" method="post" id="certList-form" enctype="multipart/form-data">
+                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                <input type="hidden" value="{{ $shipId }}" name="ship_id">
+                                <table>
+                                    <thead class="">
+                                    <tr>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_no') !!}<br>{!! trans('business.table.en.voy_no') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_tc') !!}<br>{!! trans('business.table.en.voy_tc') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cp_date') !!}<br>{!! trans('business.table.en.cp_date') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br>{!! trans('business.table.en.cargo') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.qty') !!}<br>{!! trans('business.table.en.qty') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br>{!! trans('business.table.en.loading_port') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br>{!! trans('business.table.en.discharge_port') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.l_rate') !!}<br>{!! trans('business.table.en.l_rate') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br>{!! trans('business.table.en.d_rate') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br>{!! trans('business.table.en.frt_rate') !!}</th>
+                                        <th class="text-center style-header" style="width: 60px;">{!! trans('business.table.cn.anticipate') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.contract_attach') !!}</th>
+                                        <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;">{!! trans('common.label.delete') !!}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center style-header" style="width:20px;word-break: break-all;">{!! trans('business.table.cn.daily_profit') !!}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if(isset($cp_list) && count($cp_list) > 0)
+                                        @foreach($cp_list as $item)
+                                            <tr>
+                                                <td class="text-center">{{ $item['Voy_No'] }}</td>
+                                                <td class="text-center">{{ g_enum('CPTypeData')[$item['CP_kind']] }}</td>
+                                                <td class="text-center">{{ $item['CP_Date'] }}</td>
+                                                <td class="text-left">{{ $item['Cargo'] }}</td>
+                                                <td class="text-center">{{ $item['Cgo_Qtty'] }}</td>
+                                                <td class="text-center">{{ $item['LPort'] }}</td>
+                                                <td class="text-center">{{ $item['DPort'] }}</td>
+                                                <td class="text-center">{{ $item['L_Rate'] }}</td>
+                                                <td class="text-center">{{ $item['D_Rate'] }}</td>
+                                                <td class="text-center">{{ $item['Freight'] }}</td>
+                                                <td class="text-center">{{ $item['total_Freight'] }}</td>
+                                                <td class="text-center">
+                                                    @if($item['is_attachment'] == 1)
+                                                        <img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15" style="cursor: pointer;">
+                                                    @endif
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="action-buttons">
+                                                        <a class="red" href="javascript:deleteItem()">
+                                                            <i class="icon-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="13">
+                                                {!! trans('common.message.no_data') !!}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
 
-                    <ul class="nav nav-tabs ship-register">
-                        <li class="active">
-                            <a data-toggle="tab" href="#general" onclick="changeTab('general')">
-                                程租<span style="font-style: italic;">(VOY)</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a data-toggle="tab" href="#form_a" onclick="changeTab('formA')">
-                                期租<span style="font-style: italic;">(TC)</span>
-                            </a>
-                        </li>
-                    </ul>
+                        <ul class="nav nav-tabs ship-register">
+                            <li class="active">
+                                <a data-toggle="tab" href="#general" onclick="changeTab('general')">
+                                    程租<span style="font-style: italic;">(VOY)</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a data-toggle="tab" href="#form_a" onclick="changeTab('formA')">
+                                    期租<span style="font-style: italic;">(TC)</span>
+                                </a>
+                            </li>
+                        </ul>
 
-                    <div class="tab-content">
-                        <div id="general" class="tab-pane active">
-                            <div class="d-flex" id="voy_input">
-                                <div class="tab-left contract-input-div">
-                                    <div class="d-flex">
-                                        <label class="font-bold ml-3">预计</label>
+                        <div class="tab-content">
+                            <div id="general" class="tab-pane active">
+                                <div class="d-flex" id="voy_input">
+                                    <div class="tab-left contract-input-div">
+                                        <div class="d-flex">
+                                            <label class="font-bold ml-3">预计</label>
 
-                                        <label class="ml-3">货币</label>
-                                        <select class="ml-1">
-                                            <option>$</option>
-                                            <option>￥</option>
+                                            <label class="ml-3">货币</label>
+                                            <select class="ml-1">
+                                                <option>$</option>
+                                                <option>￥</option>
+                                            </select>
+
+                                            <div class="label-input ml-1" style="width: 120px;">
+                                                <label>{!! trans('common.label.curr_rate') !!}</label>
+                                                <input type="text" name="rate">
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-2">
+                                            <div class="voy-input-left voy-child">
+                                                <h5 class="ml-5 brown font-bold">输入</h5>
+                                                <div class="d-flex mt-20 attribute-div">
+                                                    <div class="vertical">
+                                                        <label>速度</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>距离(NM)</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>装货天数</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>卸货天数</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>等待天数</label>
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+
+                                                <h5 class="mt-20">日消耗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(MT)</h5>
+                                                <div class="d-flex daily-use">
+                                                    <div class="vertical">
+                                                        <label>&nbsp;</label>
+                                                        <label>FO</label>
+                                                        <label>DO</label>
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>航行</label>
+                                                        <input type="text" class="output-text">
+                                                        <input type="text" class="output-text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>装/卸</label>
+                                                        <input type="text" class="output-text">
+                                                        <input type="text" class="output-text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>等待</label>
+                                                        <input type="text" class="output-text">
+                                                        <input type="text" class="output-text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>价格</label>
+                                                        <input type="text">
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+                                                <hr class="gray-dotted-hr">
+                                                <div class="d-flex  mt-20 attribute-div">
+                                                    <div class="vertical">
+                                                        <label>程租</label>
+                                                        <labe>&nbsp;</labe>
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>货量(MT)</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>单价</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label for="batch-manage" class="batch-manage"><input type="checkbox" id="batch-manage">包船</label>
+                                                        <input type="text" class="output-text" readonly>
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>佣金(%)</label>
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex  mt-20 attribute-div">
+                                                    <div class="vertical">
+                                                        <labe>&nbsp;</labe>
+                                                        <label>支出</label>
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>装港费</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>卸港费</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>日成本</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>其他费用</label>
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div class="voy-input-right voy-child">
+                                                <h5 class="ml-5 brown font-bold">输出</h5>
+                                                <div class="d-block mt-20">
+                                                    <div class="d-flex horizontal">
+                                                        <label>航次用时</label>
+                                                        <input type="text" class="text-right" readonly>
+                                                        <span>天</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>航行</label>
+                                                        <input type="text" class="text-right" readonly>
+                                                        <span>天</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>停泊</label>
+                                                        <input type="text" class="text-right" readonly>
+                                                        <span>天</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-block mt-20">
+                                                    <div class="d-flex horizontal">
+                                                        <label>油款</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>FO</label>
+                                                        <input type="text" class="text-right" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>DO</label>
+                                                        <input type="text" class="text-right" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                </div>
+
+                                                <hr class="gray-dotted-hr">
+
+                                                <div class="d-block mt-20">
+                                                    <div class="d-flex horizontal">
+                                                        <label>油款</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>FO</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>DO</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>油款</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>FO</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>DO</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="btn-group f-right mt-20">
+                                            <button class="btn btn-primary btn-sm">OK</button>
+                                            <button class="btn btn-danger btn-sm">Cancel</button>
+                                        </div>
+                                    </div>
+                                    <div class="tab-right contract-input-div">
+                                        <label>航次</label>
+                                        <select>
+                                            <option>2103</option>
+                                            <option>2104</option>
+                                            <option>2105</option>
                                         </select>
+                                        <table class="contract-table mt-2">
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">SPORE INT'L MINERAL EXP<br> & IMP CO.LTD</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">2021/04/20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">2021/04/20<br>2021/04/20</td>
+                                            </tr>
+                                        </table>
 
-                                        <div class="label-input ml-1" style="width: 120px;">
-                                            <label>{!! trans('common.label.curr_rate') !!}</label>
-                                            <input type="text" name="rate">
+                                        <div class="attachment-div d-flex mt-20">
+                                            <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
+                                            <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
+                                            <label for="contract_attach" class="ml-1 blue contract-attach">添加附件</label>
+                                            <input type="file" id="contract_attach" class="d-none">
                                         </div>
-                                    </div>
-                                    <div class="d-flex mt-2">
-                                        <div class="voy-input-left voy-child">
-                                            <h5 class="ml-5 brown font-bold">输入</h5>
-                                            <div class="d-flex mt-20 attribute-div">
-                                                <div class="vertical">
-                                                    <label>速度</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>距离(NM)</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>装货天数</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>卸货天数</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>等待天数</label>
-                                                    <input type="text">
-                                                </div>
-                                            </div>
-
-                                            <h5 class="mt-20">日消耗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(MT)</h5>
-                                            <div class="d-flex daily-use">
-                                                <div class="vertical">
-                                                    <label>&nbsp;</label>
-                                                    <label>FO</label>
-                                                    <label>DO</label>
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>航行</label>
-                                                    <input type="text" class="output-text">
-                                                    <input type="text" class="output-text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>装/卸</label>
-                                                    <input type="text" class="output-text">
-                                                    <input type="text" class="output-text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>等待</label>
-                                                    <input type="text" class="output-text">
-                                                    <input type="text" class="output-text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>价格</label>
-                                                    <input type="text">
-                                                    <input type="text">
-                                                </div>
-                                            </div>
-                                            <hr class="gray-dotted-hr">
-                                            <div class="d-flex  mt-20 attribute-div">
-                                                <div class="vertical">
-                                                    <label>程租</label>
-                                                    <labe>&nbsp;</labe>
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>货量(MT)</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>单价</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label for="batch-manage" class="batch-manage"><input type="checkbox" id="batch-manage">包船</label>
-                                                    <input type="text" class="output-text" readonly>
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>佣金(%)</label>
-                                                    <input type="text">
-                                                </div>
-                                            </div>
-                                            <div class="d-flex  mt-20 attribute-div">
-                                                <div class="vertical">
-                                                    <labe>&nbsp;</labe>
-                                                    <label>支出</label>
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>装港费</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>卸港费</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>日成本</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>其他费用</label>
-                                                    <input type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-
-                                        <div class="voy-input-right voy-child">
-                                            <h5 class="ml-5 brown font-bold">输出</h5>
-                                            <div class="d-block mt-20">
-                                                <div class="d-flex horizontal">
-                                                    <label>航次用时</label>
-                                                    <input type="text" class="text-right" readonly>
-                                                    <span>天</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>航行</label>
-                                                    <input type="text" class="text-right" readonly>
-                                                    <span>天</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>停泊</label>
-                                                    <input type="text" class="text-right" readonly>
-                                                    <span>天</span>
-                                                </div>
-                                            </div>
-                                            <div class="d-block mt-20">
-                                                <div class="d-flex horizontal">
-                                                    <label>油款</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span></span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>FO</label>
-                                                    <input type="text" class="text-right" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>DO</label>
-                                                    <input type="text" class="text-right" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                            </div>
-
-                                            <hr class="gray-dotted-hr">
-
-                                            <div class="d-block mt-20">
-                                                <div class="d-flex horizontal">
-                                                    <label>油款</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span></span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>FO</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>DO</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>油款</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span></span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>FO</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>DO</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group f-right mt-20">
-                                        <button class="btn btn-primary btn-sm">OK</button>
-                                        <button class="btn btn-danger btn-sm">Cancel</button>
                                     </div>
                                 </div>
-                                <div class="tab-right contract-input-div">
-                                    <label>航次</label>
-                                    <select>
-                                        <option>2103</option>
-                                        <option>2104</option>
-                                        <option>2105</option>
-                                    </select>
-                                    <table class="contract-table mt-2">
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td colspan="2" style="border-right: 1px solid #4c4c4c;">SPORE INT'L MINERAL EXP<br> & IMP CO.LTD</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td colspan="2" style="border-right: 1px solid #4c4c4c;">2021/04/20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td colspan="2" style="border-right: 1px solid #4c4c4c;">2021/04/20<br>2021/04/20</td>
-                                        </tr>
-                                    </table>
+                            </div>
+                            <div id="form_a" class="tab-pane">
+                                <div class="d-flex" id="voy_input">
+                                    <div class="tab-left contract-input-div">
+                                        <div class="d-flex">
+                                            <label class="font-bold ml-3">预计</label>
 
-                                    <div class="attachment-div d-flex mt-20">
-                                        <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
-                                        <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
-                                        <label for="contract_attach" class="ml-1 blue contract-attach">添加附件</label>
-                                        <input type="file" id="contract_attach" class="d-none">
+                                            <label class="ml-3">货币</label>
+                                            <select class="ml-1">
+                                                <option>$</option>
+                                                <option>￥</option>
+                                            </select>
+
+                                            <div class="label-input ml-1" style="width: 120px;">
+                                                <label>{!! trans('common.label.curr_rate') !!}</label>
+                                                <input type="text" name="rate">
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-2">
+                                            <div class="voy-input-left voy-child">
+                                                <h5 class="ml-5 brown font-bold">输入</h5>
+                                                <div class="d-flex mt-20 attribute-div">
+                                                    <div class="vertical">
+                                                        <label>速度</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>距离(NM)</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>装货天数</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>卸货天数</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>等待天数</label>
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+
+                                                <h5 class="mt-20">日消耗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(MT)</h5>
+                                                <div class="d-flex daily-use">
+                                                    <div class="vertical">
+                                                        <label>&nbsp;</label>
+                                                        <label>FO</label>
+                                                        <label>DO</label>
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>航行</label>
+                                                        <input type="text" class="output-text">
+                                                        <input type="text" class="output-text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>装/卸</label>
+                                                        <input type="text" class="output-text">
+                                                        <input type="text" class="output-text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>等待</label>
+                                                        <input type="text" class="output-text">
+                                                        <input type="text" class="output-text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>价格</label>
+                                                        <input type="text">
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+                                                <hr class="gray-dotted-hr">
+                                                <div class="d-flex  mt-20 attribute-div">
+                                                    <div class="vertical">
+                                                        <label>程租</label>
+                                                        <labe>&nbsp;</labe>
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>货量(MT)</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>单价</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label for="batch-manage" class="batch-manage"><input type="checkbox" id="batch-manage">包船</label>
+                                                        <input type="text" class="output-text" readonly>
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>佣金(%)</label>
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex  mt-20 attribute-div">
+                                                    <div class="vertical">
+                                                        <labe>&nbsp;</labe>
+                                                        <label>支出</label>
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>装港费</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>卸港费</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>日成本</label>
+                                                        <input type="text">
+                                                    </div>
+                                                    <div class="vertical">
+                                                        <label>其他费用</label>
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div class="voy-input-right voy-child">
+                                                <h5 class="ml-5 brown font-bold">输出</h5>
+                                                <div class="d-block mt-20">
+                                                    <div class="d-flex horizontal">
+                                                        <label>航次用时</label>
+                                                        <input type="text" class="text-right" readonly>
+                                                        <span>天</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>航行</label>
+                                                        <input type="text" class="text-right" readonly>
+                                                        <span>天</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>停泊</label>
+                                                        <input type="text" class="text-right" readonly>
+                                                        <span>天</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-block mt-20">
+                                                    <div class="d-flex horizontal">
+                                                        <label>油款</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>FO</label>
+                                                        <input type="text" class="text-right" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>DO</label>
+                                                        <input type="text" class="text-right" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                </div>
+
+                                                <hr class="gray-dotted-hr">
+
+                                                <div class="d-block mt-20">
+                                                    <div class="d-flex horizontal">
+                                                        <label>油款</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>FO</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>DO</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>油款</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>FO</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>DO</label>
+                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <span>MT</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="btn-group f-right mt-20">
+                                            <button class="btn btn-primary btn-sm">OK</button>
+                                            <button class="btn btn-danger btn-sm">Cancel</button>
+                                        </div>
+                                    </div>
+                                    <div class="tab-right contract-input-div">
+                                        <label>航次</label>
+                                        <select>
+                                            <option>2103</option>
+                                            <option>2104</option>
+                                            <option>2105</option>
+                                        </select>
+                                        <table class="contract-table mt-2">
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td>2021/04/20</td>
+                                                <td>CP_DATE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">SPORE INT'L MINERAL EXP<br> & IMP CO.LTD</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">2021/04/20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>合同日期</td>
+                                                <td>CP_DATE</td>
+                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">2021/04/20<br>2021/04/20</td>
+                                            </tr>
+                                        </table>
+
+                                        <div class="attachment-div d-flex mt-20">
+                                            <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
+                                            <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
+                                            <label for="contract_attach" class="ml-1 blue contract-attach">添加附件</label>
+                                            <input type="file" id="contract_attach" class="d-none">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="form_a" class="tab-pane">
-                            <div class="d-flex" id="voy_input">
-                                <div class="tab-left contract-input-div">
-                                    <div class="d-flex">
-                                        <label class="font-bold ml-3">预计</label>
 
-                                        <label class="ml-3">货币</label>
-                                        <select class="ml-1">
-                                            <option>$</option>
-                                            <option>￥</option>
-                                        </select>
-
-                                        <div class="label-input ml-1" style="width: 120px;">
-                                            <label>{!! trans('common.label.curr_rate') !!}</label>
-                                            <input type="text" name="rate">
+                        <div id="modal-wizard" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
+                            <div class="dynamic-modal-dialog">
+                                <div class="dynamic-modal-content" style="border: 0;">
+                                    <div class="dynamic-modal-header" data-target="#modal-step-contents">
+                                        <div class="table-header">
+                                            <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
+                                                <span class="white">&times;</span>
+                                            </button>
+                                            船舶证书种类登记
                                         </div>
                                     </div>
-                                    <div class="d-flex mt-2">
-                                        <div class="voy-input-left voy-child">
-                                            <h5 class="ml-5 brown font-bold">输入</h5>
-                                            <div class="d-flex mt-20 attribute-div">
-                                                <div class="vertical">
-                                                    <label>速度</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>距离(NM)</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>装货天数</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>卸货天数</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>等待天数</label>
-                                                    <input type="text">
-                                                </div>
-                                            </div>
-
-                                            <h5 class="mt-20">日消耗&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(MT)</h5>
-                                            <div class="d-flex daily-use">
-                                                <div class="vertical">
-                                                    <label>&nbsp;</label>
-                                                    <label>FO</label>
-                                                    <label>DO</label>
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>航行</label>
-                                                    <input type="text" class="output-text">
-                                                    <input type="text" class="output-text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>装/卸</label>
-                                                    <input type="text" class="output-text">
-                                                    <input type="text" class="output-text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>等待</label>
-                                                    <input type="text" class="output-text">
-                                                    <input type="text" class="output-text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>价格</label>
-                                                    <input type="text">
-                                                    <input type="text">
-                                                </div>
-                                            </div>
-                                            <hr class="gray-dotted-hr">
-                                            <div class="d-flex  mt-20 attribute-div">
-                                                <div class="vertical">
-                                                    <label>程租</label>
-                                                    <labe>&nbsp;</labe>
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>货量(MT)</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>单价</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label for="batch-manage" class="batch-manage"><input type="checkbox" id="batch-manage">包船</label>
-                                                    <input type="text" class="output-text" readonly>
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>佣金(%)</label>
-                                                    <input type="text">
-                                                </div>
-                                            </div>
-                                            <div class="d-flex  mt-20 attribute-div">
-                                                <div class="vertical">
-                                                    <labe>&nbsp;</labe>
-                                                    <label>支出</label>
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>装港费</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>卸港费</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>日成本</label>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="vertical">
-                                                    <label>其他费用</label>
-                                                    <input type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-
-                                        <div class="voy-input-right voy-child">
-                                            <h5 class="ml-5 brown font-bold">输出</h5>
-                                            <div class="d-block mt-20">
-                                                <div class="d-flex horizontal">
-                                                    <label>航次用时</label>
-                                                    <input type="text" class="text-right" readonly>
-                                                    <span>天</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>航行</label>
-                                                    <input type="text" class="text-right" readonly>
-                                                    <span>天</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>停泊</label>
-                                                    <input type="text" class="text-right" readonly>
-                                                    <span>天</span>
-                                                </div>
-                                            </div>
-                                            <div class="d-block mt-20">
-                                                <div class="d-flex horizontal">
-                                                    <label>油款</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span></span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>FO</label>
-                                                    <input type="text" class="text-right" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>DO</label>
-                                                    <input type="text" class="text-right" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                            </div>
-
-                                            <hr class="gray-dotted-hr">
-
-                                            <div class="d-block mt-20">
-                                                <div class="d-flex horizontal">
-                                                    <label>油款</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span></span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>FO</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>DO</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>油款</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span></span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>FO</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                                <div class="d-flex horizontal">
-                                                    <label>DO</label>
-                                                    <input type="text" class="text-right bigger-input" readonly>
-                                                    <span>MT</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group f-right mt-20">
-                                        <button class="btn btn-primary btn-sm">OK</button>
-                                        <button class="btn btn-danger btn-sm">Cancel</button>
-                                    </div>
-                                </div>
-                                <div class="tab-right contract-input-div">
-                                    <label>航次</label>
-                                    <select>
-                                        <option>2103</option>
-                                        <option>2104</option>
-                                        <option>2105</option>
-                                    </select>
-                                    <table class="contract-table mt-2">
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td>2021/04/20</td>
-                                            <td>CP_DATE</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td colspan="2" style="border-right: 1px solid #4c4c4c;">SPORE INT'L MINERAL EXP<br> & IMP CO.LTD</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td colspan="2" style="border-right: 1px solid #4c4c4c;">2021/04/20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>合同日期</td>
-                                            <td>CP_DATE</td>
-                                            <td colspan="2" style="border-right: 1px solid #4c4c4c;">2021/04/20<br>2021/04/20</td>
-                                        </tr>
-                                    </table>
-
-                                    <div class="attachment-div d-flex mt-20">
-                                        <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
-                                        <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
-                                        <label for="contract_attach" class="ml-1 blue contract-attach">添加附件</label>
-                                        <input type="file" id="contract_attach" class="d-none">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="modal-wizard" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
-                        <div class="dynamic-modal-dialog">
-                            <div class="dynamic-modal-content" style="border: 0;">
-                                <div class="dynamic-modal-header" data-target="#modal-step-contents">
-                                    <div class="table-header">
-                                        <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
-                                            <span class="white">&times;</span>
-                                        </button>
-                                        船舶证书种类登记
-                                    </div>
-                                </div>
-                                <div id="modal-cert-type" class="dynamic-modal-body step-content">
-                                    <div class="row">
-                                        <form action="shipCertType" method="post" id="shipCertForm">
-                                            <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                            <div class="head-fix-div col-md-12" style="height:300px;">
-                                                <table class="table-bordered rank-table">
-                                                    <thead>
-                                                    <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
-                                                        <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:20%">OrderNo</th>
-                                                        <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:20%">Code</th>
-                                                        <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:50%">Name</th>
-                                                        <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody id="rank-table">
-                                                    <tr class="no-padding center" v-for="(typeItem, index) in list">
-                                                        <td class="d-none">
-                                                            <input type="hidden" name="id[]" v-model="typeItem.id">
-                                                        </td>
-                                                        <td class="no-padding center">
-                                                            <input type="text" @focus="addNewRow(this)" class="form-control" name="order_no[]" v-model="typeItem.order_no" style="width: 100%;text-align: center">
-                                                        </td>
-                                                        <td class="no-padding">
-                                                            <input type="text" @focus="addNewRow(this)" class="form-control" name="code[]" v-model="typeItem.code" style="width: 100%;text-align: center">
-                                                        </td>
-                                                        <td class="no-padding center">
-                                                            <input type="text" @focus="addNewRow(this)" class="form-control" name="name[]" v-model="typeItem.name" style="width: 100%;text-align: center">
-                                                        </td>
-                                                        <td class="no-padding center">
-                                                            <div class="action-buttons">
-                                                                <a class="red" @click="deleteShipCert(typeItem.id)"><i class="icon-trash"></i></a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </form>
+                                    <div id="modal-cert-type" class="dynamic-modal-body step-content">
                                         <div class="row">
-                                            <div class="btn-group f-right mt-20 d-flex">
-                                                <button type="button" class="btn btn-success small-btn ml-0" @click="ajaxFormSubmit">
-                                                    <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">OK
-                                                </button>
-                                                <div class="between-1"></div>
-                                                <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>Cancel</a>
+                                            <form action="shipCertType" method="post" id="shipCertForm">
+                                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                                <div class="head-fix-div col-md-12" style="height:300px;">
+                                                    <table class="table-bordered rank-table">
+                                                        <thead>
+                                                        <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
+                                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:20%">OrderNo</th>
+                                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:20%">Code</th>
+                                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:50%">Name</th>
+                                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="rank-table">
+                                                        <tr class="no-padding center" v-for="(typeItem, index) in list">
+                                                            <td class="d-none">
+                                                                <input type="hidden" name="id[]" v-model="typeItem.id">
+                                                            </td>
+                                                            <td class="no-padding center">
+                                                                <input type="text" @focus="addNewRow(this)" class="form-control" name="order_no[]" v-model="typeItem.order_no" style="width: 100%;text-align: center">
+                                                            </td>
+                                                            <td class="no-padding">
+                                                                <input type="text" @focus="addNewRow(this)" class="form-control" name="code[]" v-model="typeItem.code" style="width: 100%;text-align: center">
+                                                            </td>
+                                                            <td class="no-padding center">
+                                                                <input type="text" @focus="addNewRow(this)" class="form-control" name="name[]" v-model="typeItem.name" style="width: 100%;text-align: center">
+                                                            </td>
+                                                            <td class="no-padding center">
+                                                                <div class="action-buttons">
+                                                                    <a class="red" @click="deleteShipCert(typeItem.id)"><i class="icon-trash"></i></a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </form>
+                                            <div class="row">
+                                                <div class="btn-group f-right mt-20 d-flex">
+                                                    <button type="button" class="btn btn-success small-btn ml-0" @click="ajaxFormSubmit">
+                                                        <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">OK
+                                                    </button>
+                                                    <div class="between-1"></div>
+                                                    <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>Cancel</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
