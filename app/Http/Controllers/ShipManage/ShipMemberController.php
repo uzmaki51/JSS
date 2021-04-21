@@ -110,7 +110,7 @@ class ShipMemberController extends Controller
     public function registerShipMember(Request $request) {
         $shipList = ShipRegister::select('shipName_En', 'IMO_No')->get();
         $posList = ShipPosition::all();
-        $portList = ShipPort::all();
+        $portList = ShipPort::orderBy('Port_En')->get();
         $ksList = Ship::all();
         $typeList = ShipType::all();
         $capacityList = ShipMemberCapacity::all();
@@ -397,9 +397,19 @@ class ShipMemberController extends Controller
         if ($request->has('DateOnboard')) {
             $member['DateOnboard'] = $request->get('DateOnboard');
         }
+        else
+        {
+            $member['DateOnboard'] = null;
+        }
+
         if ($request->has('DateOffboard')) {
             $member['DateOffboard'] = $request->get('DateOffboard');
         }
+        else
+        {
+            $member['DateOffboard'] = null;
+        }
+
         if ($request->has('ShipID_Book')) {
             $member['ShipID_Book'] = $request->get('ShipID_Book');
         }
@@ -415,9 +425,15 @@ class ShipMemberController extends Controller
         if ($request->has('PassportIssuedDate')) {
             $member['PassportIssuedDate'] = $request->get('PassportIssuedDate');
         }
+        else {
+            $member['PassportIssuedDate'] = null;
+        }
 
         if ($request->has('PassportExpiryDate')) {
             $member['PassportExpiryDate'] = $request->get('PassportExpiryDate');
+        }
+        else {
+            $member['PassportExpiryDate'] = null;
         }
 
         if($request->has('ShipID_organization')) {
@@ -887,6 +903,13 @@ class ShipMemberController extends Controller
         $params = $request->all();
         $tbl = new ShipMember();
         $ret = $tbl->getForDatatable($params);
+        return response()->json($ret);
+    }
+
+    public function ajaxSearchMemberWithWage(Request $request) {
+        $params = $request->all();
+        $tbl = new ShipMember();
+        $ret = $tbl->getForWageDatatable($params);
         return response()->json($ret);
     }
 

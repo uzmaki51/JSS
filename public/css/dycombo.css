@@ -73,7 +73,7 @@ table {
 }
 .dynamic-select.open .dynamic-options {
     opacity: 1;
-    visibility: visible;
+    display: block;
     pointer-events: all;
     max-height: 310px;
     min-width: 280px;

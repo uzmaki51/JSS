@@ -89,6 +89,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
 	Route::post('shipMember/search', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMember']);
 	Route::post('shipMember/cert/list', ['uses' => 'ShipManage\ShipMemberController@ajaxShipMemberCertList']);
+	Route::post('shipMember/wage/list', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMemberWithWage']);
 
 	// ShipCert
 	Route::post('shipManage/cert/list', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertList']);
@@ -518,6 +519,8 @@ Route::group(['prefix' => 'shipMember'], function() {
     Route::get('memberCertListExcel', ['uses' => 'ExcelController@memberCertList']);
     //선원실력평가
     Route::get('integretedMemberExamingExcel', ['uses' => 'ExcelController@integretedMemberExaming']);
+
+	Route::get('wagesManage', ['uses' => 'ShipManage\WageController@index']);
 
 });
 

@@ -26,6 +26,7 @@ return [
 	    'add'           => '添加',
 	    'cancel'        => '取消',
 	    'register'      => '注册',
+		'request'       => '申请',
 	    'change_pass'   => '更新密码',
 	    'logout'        => '退出',
 	    'excel'         => '导出',

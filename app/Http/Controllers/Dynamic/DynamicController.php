@@ -48,7 +48,7 @@ class DynamicController extends Controller
 			return response()->json($result);
 		}
 		else if ($type == 'port') {
-			$result = DB::table('tbl_port')->select('*')->get();
+			$result = DB::table('tbl_port')->select('*')->orderBy('Port_En')->get();
 			return response()->json($result);
 		}
 

@@ -69,15 +69,15 @@ $isHolder = Session::get('IS_HOLDER');
                         <div class="" style="height:100px!important;" id="crew-table">
                             <table id="table-shipmember-list" style="table-layout:fixed;">
                                 <thead class="">
-                                  <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
-                                    <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given<br>Name</span></th>
-                                    <th class="text-center style-header" style="width: 11%;"><span>Rank</span></th>
-                                    <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
-                                    <th class="text-center style-header" style="width: 14%;"><span>Chinese ID No.</span></th>
-                                    <th class="text-center style-header" style="width: 12%;"><span>Date and place of<br>birth</span></th>
-                                    <th class="text-center style-header" style="width: 12%;"><span>Date and place<br>of embarkation</span></th>
-                                    <th class="text-center style-header" style="width: 12%;"><span>Seaman's Book No<br>and Expire Date</span></th>
-                                    <th class="text-center style-header" style="width: 12%;"><span>Passport's No<br>and Expire Date</span></th>
+                                    <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
+                                    <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
+                                    <th class="text-center style-header" style="width: 4%;"><span>Rank</span></th>
+                                    <th class="text-center style-header" style="width: 8%;"><span>Nationality</span></th>
+                                    <th class="text-center style-header" style="width: 11%;"><span>Chinese ID No.</span></th>
+                                    <th class="text-center style-header" style="width: 18%;"><span>Date and place of birth</span></th>
+                                    <th class="text-center style-header" style="width: 18%;"><span>Date and place of embarkation</span></th>
+                                    <th class="text-center style-header" style="width: 11%;"><span>Seaman's Book No and Expire Date</span></th>
+                                    <th class="text-center style-header" style="width: 11%;"><span>Passport's No and Expire Date</span></th>
                                     <th style="width: 3%;"></th>
                                 </thead>
                                 <tbody class="list-body" id="list-body">
@@ -116,7 +116,7 @@ $isHolder = Session::get('IS_HOLDER');
                                         ?>
                                         @foreach ($portList as $item)
                                             @if ($item->id == $info['PortID_Book'])
-                                            <?php $port = $item->Port_Cn; 
+                                            <?php $port = $item->Port_En; 
                                             ?>
                                             @endif
                                         @endforeach
@@ -579,12 +579,6 @@ $isHolder = Session::get('IS_HOLDER');
         });
         */
 
-        function setDatePicker() {
-            $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-                $(this).prev().focus();
-            });
-        }
-
         $(function() {
             if(memberId == -1 ) {
                 $('.alert').toggleClass('visuallyhidden');
@@ -687,6 +681,11 @@ $isHolder = Session::get('IS_HOLDER');
                 doSearch();
             }
         })
+
+        /*
+        $('.date-picker').datepicker({ dateFormat: "yyyy/mm/dd", changeMonth: true,
+            changeYear: true, yearRange: '1900:2020'
+        }).val('');*/
     </script>
     <script type="text/javascript">
         var capacityList = new Array();
@@ -736,8 +735,6 @@ $isHolder = Session::get('IS_HOLDER');
                     newrow = newrow + '">';
                     newrow = newrow + '{{$type['ShipType']}}' + '</option>';
                     @endforeach
-
-
                     newrow = newrow += '</select></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="Power[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addHistory(this)" class="form-control" name="TradingArea[]"value="" style="width: 100%;text-align: center"></td><td class="center no-padding"><div class="action-buttons"><a class="red" onclick="javascript:deleteHistory(this)"><i class="icon-trash"></i></a></div></td></tr>';
                     $("#history_table").append(newrow);
                     setDatePicker();

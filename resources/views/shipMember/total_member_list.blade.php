@@ -37,18 +37,18 @@ $isHolder = Session::get('IS_HOLDER');
                 <div id="item-manage-dialog" class="hide"></div>
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <div class="row">
-                    <div class="head-fix-div" id="crew-table" style="height:500px!important;">
+                    <div class="head-fix-div common-list" id="crew-table" style="">
                         <table id="table-shipmember-list" style="table-layout:fixed;">
                             <thead class="">
                                 <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
                                 <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
-                                <th class="text-center style-header" style="width: 11%;"><span>Rank</span></th>
+                                <th class="text-center style-header" style="width: 4%;"><span>Rank</span></th>
                                 <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
-                                <th class="text-center style-header" style="width: 14%;"><span>Chinese ID No.</span></th>
-                                <th class="text-center style-header" style="width: 12%;"><span>Date and place of birth</span></th>
-                                <th class="text-center style-header" style="width: 12%;"><span>Date and place of embarkation</span></th>
-                                <th class="text-center style-header" style="width: 12%;"><span>Seaman's Book No and Expire Date</span></th>
-                                <th class="text-center style-header" style="width: 12%;"><span>Passport's No and Expire Date</span></th>
+                                <th class="text-center style-header" style="width: 11%;"><span>Chinese ID No.</span></th>
+                                <th class="text-center style-header" style="width: 20%;"><span>Date and place of birth</span></th>
+                                <th class="text-center style-header" style="width: 20%;"><span>Date and place of embarkation</span></th>
+                                <th class="text-center style-header" style="width: 11%;"><span>Seaman's Book No and Expire Date</span></th>
+                                <th class="text-center style-header" style=""><span>Passport's No and Expire Date</span></th>
                             </thead>
                             <tbody class="" id="list-body">
                             </tbody>
@@ -134,7 +134,8 @@ $isHolder = Session::get('IS_HOLDER');
             if (shipName == "") return;
             if (listTable == null) initTable();
             $('#ship_name').html('"' + shipName + '"');
-            listTable.column(2).search($("#select-ship" ).val(), false, false).draw();
+            listTable.column(2).search($("#select-ship" ).val(), false, false);
+            listTable.column(3).search('off', false, false).draw();
         });
 
         $('.excel-btn').on('click', function() {
@@ -162,10 +163,16 @@ $isHolder = Session::get('IS_HOLDER');
                             tab.rows[j].childNodes[i].style.width = '140px';
                         }
                         else if (i == 2) {
-                            tab.rows[j].childNodes[i].style.width = '100px';
+                            tab.rows[j].childNodes[i].style.width = '60px';
                         }
                         else if (i == 4) {
-                            tab.rows[j].childNodes[i].style.width = '140px';
+                            tab.rows[j].childNodes[i].style.width = '160px';
+                        }
+                        else if (i == 5) {
+                            tab.rows[j].childNodes[i].style.width = '200px';
+                        }
+                        else if (i == 6) {
+                            tab.rows[j].childNodes[i].style.width = '200px';
                         }
                         else
                         {
@@ -176,7 +183,10 @@ $isHolder = Session::get('IS_HOLDER');
                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                 }
                 else
+                {
+                    tab.rows[j].childNodes[4].innerHTML = '="' + tab.rows[j].childNodes[4].innerHTML + '"';
                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                }
             }
 
             tab_text=tab_text+"</table>";

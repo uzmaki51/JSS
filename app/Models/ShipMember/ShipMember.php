@@ -455,12 +455,129 @@ class ShipMember extends Model
         ];
     }
 
+    public function getForWageDatatable($params) {
+        $selector = null;
+        $records = [];
+        $recordsFiltered = 0;
+        $selector = DB::table($this->table)->select('*');
+        $year = $params['year'];
+        $month = $params['month'];
+        $next_year = $year;
+        $next_month = $month;
+        if ($month == 12) {
+            $next_month = 1;
+            $next_year ++;
+        }
+        else
+        {
+            $next_month = $month + 1;
+        }
+
+        if (isset($params['columns'][2]['search']['value'])
+            && $params['columns'][2]['search']['value'] !== ''
+        ) {
+            $selector->where('ShipId', $params['columns'][2]['search']['value']);
+        }
+
+        //$now = "$year-$month-1";
+        //$next = "$next_year-$next_month-1";
+        $now = date('Y-m-d', strtotime("$year-$month-1"));
+        $next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
+
+        $selector->whereNull('DateOffboard')->orWhere(function($query) use ($now, $next){
+            $query->where('DateOffboard', '>=', $now)
+                  ->where('DateOffboard', '<', $next);
+        });
+
+        return $selector->getBindings();
+        
+        $selector->orderBy('DutyID_Book');
+        $records = $selector->get();
+        $recordsFiltered = $selector->count();
+        
+        $newArr = [];
+        $newindex = 0;
+        foreach($records as $index => $record) {
+            $rank = ShipPosition::find($record->DutyID_Book);
+            $newArr[$newindex]['rank'] = '&nbsp;';
+            if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Abb;
+
+            if ($record->Nationality == 'CHINESE') 
+                $newArr[$newindex]['name'] = $record->GivenName;
+            else
+                $newArr[$newindex]['name'] = $record->realname;
+
+            $newArr[$newindex]['WageCurrency'] = $record->WageCurrency;
+            $newArr[$newindex]['Salary'] = $record->Salary;
+            $newArr[$newindex]['DateOnboard'] = $record->DateOnboard;
+            $newArr[$newindex]['DateOffboard'] = $record->DateOffboard;
+            $newArr[$newindex]['SignDays'] = 9.5;
+            $newArr[$newindex]['MinusCash'] = 1000;
+            $newArr[$newindex]['TransInR'] = 11258.06;
+            $newArr[$newindex]['TransInD'] = 1745.44;
+            $newArr[$newindex]['TransDate'] = '';
+            $newArr[$newindex]['Remark'] = '1000先给付了';
+            $newArr[$newindex]['BankInformation'] = $record->BankInformation;
+
+            /*
+
+             {data: 'name', className: "text-center"},
+                    {data: 'rank', className: "text-center"},
+                    {data: 'WageCurrency', className: "text-center"},
+                    {data: 'Salary', className: "text-center"},
+                    {data: 'DateOnboard', className: "text-center"},
+                    {data: 'DateOffboard', className: "text-center"},
+                    {data: 'SignDays', className: "text-center"},
+                    {data: 'MinusCash', className: "text-center"},
+                    {data: 'TransInR', className: "text-center"},
+                    {data: 'TransInD', className: "text-center"},
+                    {data: 'TransDate', className: "text-center"},
+                    {data: 'Remark', className: "text-center"},
+                    {data: 'BankInformation', className: "text-center"},
+
+
+
+            $newArr[$newindex]['no'] = $record->id;
+            $newArr[$newindex]['name'] = $record->realname;
+            $rank = ShipPosition::find($record->DutyID_Book);
+            $newArr[$newindex]['rank'] = '&nbsp;';
+            if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Abb;
+            $newArr[$newindex]['nationality'] = $record->Nationality;
+            $newArr[$newindex]['cert-id'] = $record->CertNo;
+            $newArr[$newindex]['birth-and-place'] = $record->birthday;
+            $newArr[$newindex]['date-and-embarkation'] = $record->DateOnboard;
+            $newArr[$newindex]['bookno-expire'] = $record->crewNum;
+            $newArr[$newindex]['passport-expire'] = $record->PassportNo;
+            $newindex ++;
+            $newArr[$newindex]['no'] = $record->id;
+            $newArr[$newindex]['name'] = $record->GivenName;
+            $newArr[$newindex]['rank'] = '&nbsp;';
+            if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Abb;
+            $newArr[$newindex]['nationality'] = $record->Nationality;
+            $newArr[$newindex]['cert-id'] = $record->CertNo;
+            $newArr[$newindex]['birth-and-place'] = $record->BirthPlace;
+
+            $port = ShipPort::find($record->PortID_Book);
+            $newArr[$newindex]['date-and-embarkation'] = '&nbsp;';
+            if(!empty($port) && $port != null) $newArr[$newindex]['date-and-embarkation'] = $port->Port_En;
+            $newArr[$newindex]['bookno-expire'] = $record->ExpiryDate;
+            $newArr[$newindex]['passport-expire'] = $record->PassportExpiryDate;
+            */
+            $newindex ++;
+        }
+        return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => DB::table($this->table)->count(),
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $newArr,
+            'error' => 0,
+        ];
+    }
+
     public function getForDatatable($params) {
         $selector = null;
         $records = [];
         $recordsFiltered = 0;
-
-
         $selector = DB::table($this->table)->select('*');
         if (isset($params['columns'][1]['search']['value'])
             && $params['columns'][1]['search']['value'] !== ''
@@ -491,6 +608,10 @@ class ShipMember extends Model
                 $today = date("Y-m-d");
                 $selector->whereNull('DateOnboard')->orWhere('DateOnboard', '>', $today);
             }
+            else
+            {
+                $selector->whereNull('DateOffboard')->orWhere('DateOffboard', '');
+            }
         }
         
         $selector->orderBy('DutyID_Book');
@@ -503,6 +624,7 @@ class ShipMember extends Model
         
         $newArr = [];
         $newindex = 0;
+        //for($i=0;$i<10;$i++)
         foreach($records as $index => $record) {
             if ($record->PassportNo == $record->crewNum) {
                 $record->crewNum = "";
@@ -529,7 +651,7 @@ class ShipMember extends Model
 
             $port = ShipPort::find($record->PortID_Book);
             $newArr[$newindex]['date-and-embarkation'] = '&nbsp;';
-            if(!empty($port) && $port != null) $newArr[$newindex]['date-and-embarkation'] = $port->Port_Cn;
+            if(!empty($port) && $port != null) $newArr[$newindex]['date-and-embarkation'] = $port->Port_En;
             $newArr[$newindex]['bookno-expire'] = $record->ExpiryDate;
             $newArr[$newindex]['passport-expire'] = $record->PassportExpiryDate;
             $newindex ++;
@@ -542,5 +664,4 @@ class ShipMember extends Model
             'error' => 0,
         ];
     }
-
 }
