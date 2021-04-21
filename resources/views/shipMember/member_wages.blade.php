@@ -45,9 +45,9 @@ $isHolder = Session::get('IS_HOLDER');
                                     @endforeach
                                 </select>
                                 <label class="custom-label d-inline-block" style="padding: 6px;">减少天数:</label>
-                                <input type="number" id="minus-days" value="0.5" step="0.5" min="0" autocomplete="false" style="width:60px;margin-right:0px;"/>
+                                <input type="number" id="minus-days" value="0.5" step="0.5" min="0" autocomplete="off" style="width:60px;margin-right:0px;"/>
                                 <label class="custom-label d-inline-block" style="padding: 6px;">汇率:</label>
-                                <input type="number" id="rate" value="6.5" min="0" step="0.1" autocomplete="false" style="width:80px;margin-right:0px;"/>
+                                <input type="number" id="rate" value="6.5" min="0" step="0.1" autocomplete="off" style="width:80px;margin-right:0px;"/>
                             </div>
                         </div>
                         <div class="col-md-12" style="margin-top:10px;">

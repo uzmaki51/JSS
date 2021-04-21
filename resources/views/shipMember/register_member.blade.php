@@ -48,7 +48,7 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
                 <div class="col-md-12">
                     <div class="col-sm-6 f-left">
-                        <label><b>Name: </b><input type="text" class="typeahead" id="search-name" autocomplete="false"/></label>
+                        <label><b>Name: </b><input type="text" class="typeahead" id="search-name" autocomplete="off"/></label>
                         <label style="margin-left:5px;font-style:italic;"><b>Sign On (上船): </b></label><input id="search-signon" style="margin-top:5px; margin-left:5px; position:absolute;" type="checkbox" onclick="" checked/>
                     </div>
                     <div class="col-sm-6 f-right" style="padding:unset!important">
