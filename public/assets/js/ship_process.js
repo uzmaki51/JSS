@@ -7,12 +7,12 @@
 $(function () {
     $('.date-picker').datepicker({
         autoclose: true,
+        format: 'yyyy-mm-dd',
     }).next().on(ace.click_event, function () {
         $(this).prev().focus();
     });
 
     $('.chosen-select').chosen();
-
     // setInterval(function () {
     //     checkNewDecideReport();
     //     checkNewRecvDecideReport();
