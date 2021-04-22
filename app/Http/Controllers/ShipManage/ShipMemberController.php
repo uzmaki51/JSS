@@ -917,7 +917,22 @@ class ShipMemberController extends Controller
         $params = $request->all();
         $tbl = new ShipMember();
         $ret = $tbl->getForCertDatatable($params);
-        return response()->json($ret);
+        return response()->json($ret);//
+    }
+
+    public function autocomplete(Request $request)
+    {
+        $names = ShipMember::select("realname")
+                    ->where('realname', 'like', '%' . $request->terms . '%')->get();
+
+        $data = array();
+        foreach ($names as $name)
+        {
+            $data[] = $name->realname;
+        }
+        //echo json_encode($data);
+        return response()->json($data);
+        //echo json_encode($names);
     }
 
 }

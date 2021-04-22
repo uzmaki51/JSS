@@ -90,6 +90,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipMember/search', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMember']);
 	Route::post('shipMember/cert/list', ['uses' => 'ShipManage\ShipMemberController@ajaxShipMemberCertList']);
 	Route::post('shipMember/wage/list', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMemberWithWage']);
+	Route::get('shipMember/autocomplete', ['uses' => 'ShipManage\ShipMemberController@autocomplete']);
 
 	// ShipCert
 	Route::post('shipManage/cert/list', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertList']);

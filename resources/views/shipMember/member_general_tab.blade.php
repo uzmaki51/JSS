@@ -10,15 +10,15 @@
                             <span class="text-danger style-header">Seamanbook No*</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
-                            <input type="text" name="crewNum" class="form-control" style="width:100%" value="@if(isset($info)){{$info['crewNum']}}@endif" required>
+                            <input type="text" name="crewNum" class="form-control" maxlength="12" style="width:100%" value="@if(isset($info)){{$info['crewNum']}}@endif" required>
                         </td>
                     </tr>
                     <tr>
                         <td class="custom-td-label1" style="text-align:left">
-                            <span class="style-header">Name in English</span>
+                            <span class="text-danger style-header">Name in English*</span>
                         </td>
                         <td class="custom-td-report-text" colspan="2">
-                            <input type="text" name="realname" class="form-control" style="width:100%" value="@if(isset($info)){{$info['realname']}}@endif">
+                            <input type="text" name="realname" class="form-control" style="width:100%" value="@if(isset($info)){{$info['realname']}}@endif" required>
                         </td>
                     </tr>
                     <tr>
@@ -302,9 +302,9 @@
                                             @endif
                                             @foreach ($portList as $item)
                                                 @if ($item->id == $info['PortID_Book'])
-                                                    <span class="dynamic-option selected" data-value="{{$item->id}}" data-text="{{$item->Port_En.' ('.$item->Port_Cn.')'}}">{{$item->Port_En.' ('.$item->Port_En.')'}}</span>
+                                                    <span class="dynamic-option selected" data-value="{{$item->id}}" data-text="{{$item->Port_En.' ('.$item->Port_Cn.')'}}">{{$item->Port_En.' ('.$item->Port_Cn.')'}}</span>
                                                 @else
-                                                    <span class="dynamic-option" data-value="{{$item->id}}" data-text="{{$item->Port_En.' ('.$item->Port_Cn.')'}}">{{$item->Port_En.' ('.$item->Port_En.')'}}</span>
+                                                    <span class="dynamic-option" data-value="{{$item->id}}" data-text="{{$item->Port_En.' ('.$item->Port_Cn.')'}}">{{$item->Port_En.' ('.$item->Port_Cn.')'}}</span>
                                                 @endif
                                             @endforeach
                                         </div>

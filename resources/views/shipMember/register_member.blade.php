@@ -6,6 +6,7 @@ $isHolder = Session::get('IS_HOLDER');
 @section('styles')
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
     <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/-->
 @endsection
 @section('content')
 
@@ -47,7 +48,7 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
                 <div class="col-md-12">
                     <div class="col-sm-6 f-left">
-                        <label><b>Name: </b><input type="text" id="search-name" autocomplete="false"/></label>
+                        <label><b>Name: </b><input type="text" class="typeahead" id="search-name" autocomplete="off"/></label>
                         <label style="margin-left:5px;font-style:italic;"><b>Sign On (上船): </b></label><input id="search-signon" style="margin-top:5px; margin-left:5px; position:absolute;" type="checkbox" onclick="" checked/>
                     </div>
                     <div class="col-sm-6 f-right" style="padding:unset!important">
@@ -77,8 +78,8 @@ $isHolder = Session::get('IS_HOLDER');
                                     <th class="text-center style-header" style="width: 18%;"><span>Date and place of birth</span></th>
                                     <th class="text-center style-header" style="width: 18%;"><span>Date and place of embarkation</span></th>
                                     <th class="text-center style-header" style="width: 11%;"><span>Seaman's Book No and Expire Date</span></th>
-                                    <th class="text-center style-header" style="width: 11%;"><span>Passport's No and Expire Date</span></th>
-                                    <th style="width: 3%;"></th>
+                                    <th class="text-center style-header" style="width: 12%;"><span>Passport's No and Expire Date</span></th>
+                                    <th style=""></th>
                                 </thead>
                                 <tbody class="list-body" id="list-body">
                                     <tr data-index="@if(isset($info)){{$info['id']}}@endif" class="member-item odd" role="row">
@@ -383,15 +384,27 @@ $isHolder = Session::get('IS_HOLDER');
     <script src="{{ cAsset('assets/js/jsquery.dataTables.js') }}"></script>
     <script src="{{ asset('/assets/js/dataTables.rowsGroup.js') }}"></script>
     <script src="{{ asset('/assets/js/dycombo.js') }}"></script>
+    <script src="{{ asset('/assets/js/bootstrap-typeahead.min.js') }}"></script>
     <?php
 	echo '<script>';
 	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
 	echo '</script>';
 	?>
+
+    <script type="text/javascript">
+        var path=BASE_URL + 'ajax/shipMember/autocomplete';
+        $('input.typeahead').typeahead({
+            source:function(terms,process){
+                return $.get(path,{terms:terms},function(data){
+                    return process(data);
+                })
+            }
+        });
+    </script>
     <script>
         var token = '{!! csrf_token() !!}';
         var memberId = '@if(isset($info)){{$info['id']}}@endif';
-        
+        var avatar = '@if(isset($info)){{$info['crewPhoto']}}@endif';
         /*
         @if(isset($info))
         var memberId = '{!! $info['id'] !!}';
@@ -549,7 +562,8 @@ $isHolder = Session::get('IS_HOLDER');
                 });
                 }catch(e) {}
 
-                if (memberId == -1) {
+                if (memberId == -1 || avatar == '') {
+                    
                     $('#avatar').click();
                 }
             });
@@ -638,7 +652,6 @@ $isHolder = Session::get('IS_HOLDER');
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
                     $(row).attr('data-index', data['no']);
-                    $(row).attr('class', 'member-item');
                     //$('td', row).eq(1).attr('class', 'no-padding');
                     $('td', row).eq(0).html(index+1);
                     if (index % 2 == 0) {

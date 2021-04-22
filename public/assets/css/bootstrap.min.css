@@ -2936,7 +2936,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
     z-index: 1000;
     display: none;
     float: left;
-    min-width: 130px;
+    min-width: 166px;
     padding: 5px 0;
     margin: 2px 0 0;
     font-size: 14px;

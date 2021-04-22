@@ -323,7 +323,6 @@ class ShipMember extends Model
     }
 
     public function getForCertDatatable($params) {
-        return $this->getCertlistByShipId($params['columns'][2]['search']['value']);
         $selector = null;
         $records = [];
         $recordsFiltered = 0;
@@ -437,7 +436,8 @@ class ShipMember extends Model
 
                 if ($expire_days != 0) {
                     $datediff = strtotime($newArr[$newindex]['_expire']) - $today;
-                    if (round($datediff / (60 * 60 * 24)) < $expire_days) continue;
+                    //if (round($datediff / (60 * 60 * 24)) > 0) return round($datediff / (60 * 60 * 24));
+                    if (round($datediff / (60 * 60 * 24)) > ($expire_days - 1)) continue;
                 }
                 $count ++;
                 $newArr[$newindex]['count'] = $count;
@@ -459,9 +459,24 @@ class ShipMember extends Model
         $selector = null;
         $records = [];
         $recordsFiltered = 0;
+
+        if (!isset($params['columns'][3]['search']['value']) ||
+            $params['columns'][3]['search']['value'] == '' ||
+            !isset($params['columns'][4]['search']['value']) ||
+            $params['columns'][4]['search']['value'] == '' ||
+            !isset($params['columns'][5]['search']['value']) ||
+            $params['columns'][5]['search']['value'] == '' ||
+            !isset($params['columns'][6]['search']['value']) ||
+            $params['columns'][6]['search']['value'] == ''
+        ) {
+            return [];
+        }
+
         $selector = DB::table($this->table)->select('*');
-        $year = $params['year'];
-        $month = $params['month'];
+        $year = $params['columns'][3]['search']['value'];
+        $month = $params['columns'][4]['search']['value'];
+        $minus_days = $params['columns'][5]['search']['value'];
+        $rate = $params['columns'][6]['search']['value'];
         $next_year = $year;
         $next_month = $month;
         if ($month == 12) {
@@ -483,13 +498,17 @@ class ShipMember extends Model
         //$next = "$next_year-$next_month-1";
         $now = date('Y-m-d', strtotime("$year-$month-1"));
         $next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
-
-        $selector->whereNull('DateOffboard')->orWhere(function($query) use ($now, $next){
+        $selector->where('DateOnboard', '<', $next);
+        
+        /*
+        $selector->whereNull('DateOffboard')->orWhere(function($query) use($now, $next){
             $query->where('DateOffboard', '>=', $now)
                   ->where('DateOffboard', '<', $next);
         });
+        */
 
-        return $selector->getBindings();
+        //return $selector->getBindings();
+        $today = date("Y-m-d");
         
         $selector->orderBy('DutyID_Book');
         $records = $selector->get();
@@ -509,12 +528,39 @@ class ShipMember extends Model
 
             $newArr[$newindex]['WageCurrency'] = $record->WageCurrency;
             $newArr[$newindex]['Salary'] = $record->Salary;
-            $newArr[$newindex]['DateOnboard'] = $record->DateOnboard;
-            $newArr[$newindex]['DateOffboard'] = $record->DateOffboard;
-            $newArr[$newindex]['SignDays'] = 9.5;
-            $newArr[$newindex]['MinusCash'] = 1000;
-            $newArr[$newindex]['TransInR'] = 11258.06;
-            $newArr[$newindex]['TransInD'] = 1745.44;
+            if ($record->DateOnboard > $now && $record->DateOnboard < $next) {
+                $newArr[$newindex]['DateOnboard'] = $record->DateOnboard;
+            }
+            else {
+                $newArr[$newindex]['DateOnboard'] = $now;
+            }
+
+            $month_lastday = date('Y-m-d', strtotime('-1 day', strtotime($next)));
+            if ($record->DateOffboard == '' || $record->DateOffboard >= $next) {
+                $newArr[$newindex]['DateOffboard'] = $month_lastday;
+            }
+            else if ($record->DateOffboard < $next && $record->DateOffboard >= $now) {
+                $newArr[$newindex]['DateOffboard'] = $record->DateOffboard;
+            }
+
+            $month_total_days = round((strtotime($month_lastday) - strtotime($now)) / (60 * 60 * 24)) + 1;
+            if ($newArr[$newindex]['DateOnboard'] == $now && $newArr[$newindex]['DateOffboard'] == $month_lastday) {
+                $newArr[$newindex]['SignDays'] = $month_total_days;
+            }
+            else {
+                $newArr[$newindex]['SignDays'] = number_format(round((strtotime($newArr[$newindex]['DateOffboard']) - strtotime($newArr[$newindex]['DateOnboard'])) / (60 * 60 * 24)) - $minus_days + 1, 1);
+            }
+
+            $newArr[$newindex]['MinusCash'] = 100;
+            if ($record->WageCurrency == 0) {
+                $newArr[$newindex]['TransInR'] = number_format($record->Salary * $newArr[$newindex]['SignDays'] / $month_total_days - $newArr[$newindex]['MinusCash'], 2);
+                $newArr[$newindex]['TransInD'] = number_format($newArr[$newindex]['TransInR'] / $rate, 2);
+            }
+            else
+            {
+                $newArr[$newindex]['TransInD'] = number_format($record->Salary * $newArr[$newindex]['SignDays'] / $month_total_days - $newArr[$newindex]['MinusCash'], 2);
+                $newArr[$newindex]['TransInR'] = number_format($newArr[$newindex]['TransInD'] * $rate, 2);
+            }
             $newArr[$newindex]['TransDate'] = '';
             $newArr[$newindex]['Remark'] = '1000先给付了';
             $newArr[$newindex]['BankInformation'] = $record->BankInformation;
@@ -582,7 +628,8 @@ class ShipMember extends Model
         if (isset($params['columns'][1]['search']['value'])
             && $params['columns'][1]['search']['value'] !== ''
         ) {
-            $selector->where('realname', 'like', '%' . $params['columns'][1]['search']['value'] . '%');
+            //$selector->where('realname', 'like', '%' . $params['columns'][1]['search']['value'] . '%');
+            $selector->where('realname', $params['columns'][1]['search']['value']);
         }
 
         if (isset($params['columns'][2]['search']['value'])
@@ -596,17 +643,18 @@ class ShipMember extends Model
         ) {
             if ($params['columns'][3]['search']['value'] == 'true')
             {
+                // DateOnBoard != null && (DateOffboard == null or Dateoffboard > today)
                 $selector->whereNotNull('DateOnboard');
                 $selector->where(function($query) {
                     $today = date("Y-m-d");
                     $query->whereNull('DateOffboard')->orWhere('DateOffboard', '>', $today);
                 });
-                //$selector->whereNull('DateOffboard')->orWhere('DateOffboard', '<', $today);
             }
             else if ($params['columns'][3]['search']['value'] == 'false')
             {
+                // DateOnboard == null || (DateOffboard == null or Dateoffboard > today)
                 $today = date("Y-m-d");
-                $selector->whereNull('DateOnboard')->orWhere('DateOnboard', '<=', $today);
+                $selector->whereNull('DateOnboard')->orWhere('DateOnboard', '>', $today);
             }
             else
             {
