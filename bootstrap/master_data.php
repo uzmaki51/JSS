@@ -230,6 +230,14 @@ $CPTypeData = array(
 	CP_TYPE_TC      => 'TC'
 );
 
+define('QTY_TYPE_MOLOO', 1);
+define('QTY_TYPE_MOLCO', 2);
+$QtyTypeData = array(
+	QTY_TYPE_MOLOO		=> 'MOLOO',
+	QTY_TYPE_MOLCO		=> 'MOLCO'
+);
+
+
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,
 	    'ReportTypeLabelData'	        => $ReportTypeLabelData,
@@ -247,6 +255,7 @@ $CPTypeData = array(
 	    'ReportStatusData'			    => $ReportStatusData,
 		'NationalityData'				=> $NationalityData,
 	    'IssuerTypeData'				=> $IssuerTypeData,
-	    'CPTypeData'				    => $CPTypeData,
+		'CPTypeData'				    => $CPTypeData,
+	    'QtyTypeData'				    => $QtyTypeData,		
 
  );

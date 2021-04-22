@@ -18885,13 +18885,13 @@ input[readonly] {
 }
 
 input[readonly]:hover {
-    border-color: #c3c3c3
+    border-color: unset;
 }
 
 input[readonly]:focus {
     -webkit-box-shadow: none;
     box-shadow: none;
-    border-color: #aaa;
+    border-color: unset;
     background-color: #f9f9f9
 }
 

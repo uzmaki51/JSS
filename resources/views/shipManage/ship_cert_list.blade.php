@@ -48,7 +48,7 @@ $ships = Session::get('shipList');
                 </div>
                 <div class="col-md-6">
                     <div class="btn-group f-right">
-                        <button class="btn btn-report-search btn-sm search-btn" @click="doSearch()"><i class="icon-search"></i>搜索</button>
+                        <button class="btn btn-report-search btn-sm search-btn d-none" @click="doSearch()"><i class="icon-search"></i>搜索</button>
                         <a class="btn btn-sm btn-danger refresh-btn-over" type="button" @click="refresh">
                             <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">恢复
                         </a>
@@ -56,7 +56,12 @@ $ships = Session::get('shipList');
                     </div>
                     <div class="f-right" style="margin-right: 12px; padding-top: 2px;">
                         <label class="font-bold">提前:</label>
-                        <input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" v-model="expire_date" @change="onExpireChange" @keyup="onExpireChange" @keydown="onExpireChange">
+                        <select class="text-center" style="width: 60px;" name="expire_date" v-model="expire_date" @change="onExpireChange">
+                            <option value="0">All</option>
+                            <option value="90">90</option>
+                            <option value="120">120</option>
+                            <option value="180">180</option>
+                        </select>
                         <input type="hidden" class="text-center" style="width: 60px;" name="ship_id" v-model="ship_id">
                         <label>天</label>
                     </div>
@@ -159,8 +164,8 @@ $ships = Session::get('shipList');
                         getShipInfo(this.ship_id, this.expire_date);
                     },
                     onExpireChange(e) {
-                        if($(e.target).val() < 0)
-                            $(e.target).val(0)
+                        this.expire_date = $(e.target).val();
+                        this.getShipCertInfo();
                     }
                 }
             });

@@ -97,6 +97,9 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipManage/cert/delete', ['uses'=>'ShipManage\ShipRegController@ajaxCertItemDelete']);
 	Route::post('shipManage/shipCert/delete', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertDelete']);
 
+	//Business
+	Route::post('business/contract/info', ['uses'=>'Business\BusinessController@ajaxContractInfo']);
+
 });
 
 // Administrative Affairs

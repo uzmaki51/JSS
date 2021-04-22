@@ -63,8 +63,7 @@ class ShipCertRegistry extends Model
 		    	$query->whereRaw(DB::raw("expire_date <= ". "'" . $date . "'"))
 			            ->orwhereRaw(DB::raw("due_endorse <= ". "'" . $date . "'"));
 		    })
-		    ->where('expire_date', '!=', '0000-00-00')
-		    ->where('due_endorse', '!=', '0000-00-00')
+		    ->whereNotNull('issue_date')
 		    ->orderBy('cert_id', 'asc')
 		    ->select('*');
 

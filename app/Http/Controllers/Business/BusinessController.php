@@ -3688,4 +3688,14 @@ class BusinessController extends Controller
 
         return view('business.attend.ship_member_year_attend', ['info'=>$memberInfo, 'year'=>$year, 'list'=>$list, 'signPath'=>$signPath,'totalData'=>$totalData]);
     }
+
+    // Ajax
+    public function ajaxContractInfo(Request $request) {
+        $params = $request->all();
+        $shipId = $params['shipId'];
+
+        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+
+        return response()->json($shipInfo);
+    }
 }

@@ -620,6 +620,11 @@ footer {
 .visible-hidden {
     visibility: hidden;
 }
+
+.font-style-italic {
+    font-style: italic;
+}
+
 .mb-0 {
     margin-bottom: 0!important;
 }
@@ -757,11 +762,23 @@ footer {
 .voy-input-right .horizontal:first-child input[type=text] {
     border-top: 1px solid #4c4c4c;
 }
+
 .voy-input-right .horizontal .bigger-input {
     width: 120px;
 }
 
 
+.double-input-left {
+    width: 70px!important;
+    border: 1px solid #4c4c4c!important;
+    border-top: unset!important;
+}
+.double-input-right {
+    width: 50px!important;
+    border-right: 1px solid #4c4c4c!important;
+    border-left: unset!important;
+    border-bottom: 1px solid #4c4c4c!important;
+}
 
 .tab-right {
     width: 40%;
@@ -772,6 +789,7 @@ footer {
     border-top: 1px solid #4c4c4c;
     border-left: 1px solid #4c4c4c;
     border-bottom: 1px solid #4c4c4c;
+    min-height: 350px;
 }
 .contract-table tr td {
     border: none;
@@ -779,7 +797,7 @@ footer {
     border-right: 1px dotted #4c4c4c;
     background: #f3f3f3;
     text-align: left;
-    padding: 3px!important;
+    padding: 2px!important;
 }
 
 .contract-table tr td:first-child {

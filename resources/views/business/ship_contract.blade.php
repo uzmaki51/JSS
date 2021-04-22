@@ -37,7 +37,6 @@ $ships = Session::get('shipList');
 
         <div class="page-content">
             <div class="row">
-                <div class="col-md-12">
                     <div class="row">
                         <div class="col-lg-6">
                             <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
@@ -66,7 +65,8 @@ $ships = Session::get('shipList');
                         </div>
                     </div>
                     <div class="row" style="margin-top: 4px;">
-                        <div class="col-lg-12 head-fix-div d-line-height" style="height: 121px;">
+                    <div class="col-lg-12">
+                        <div class="head-fix-div d-line-height" style="height: 121px;">
                             <form action="shipCertList" method="post" id="certList-form" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 <input type="hidden" value="{{ $shipId }}" name="ship_id">
@@ -148,19 +148,19 @@ $ships = Session::get('shipList');
                         <div class="tab-content">
                             <div id="general" class="tab-pane active">
                                 <div class="d-flex" id="voy_input">
-                                    <div class="tab-left contract-input-div">
+                                    <div class="tab-left contract-input-div"  id="voy_input_div">
                                         <div class="d-flex">
                                             <label class="font-bold ml-3">预计</label>
 
                                             <label class="ml-3">货币</label>
-                                            <select class="ml-1">
-                                                <option>$</option>
-                                                <option>￥</option>
+                                            <select class="ml-1" name="currency" v-model="input['currency']">
+                                                <option value="USD">$</option>
+                                                <option value="CNY">￥</option>
                                             </select>
 
                                             <div class="label-input ml-1" style="width: 120px;">
                                                 <label>{!! trans('common.label.curr_rate') !!}</label>
-                                                <input type="text" name="rate">
+                                                <input type="text" name="rate" v-model="input['rate']">
                                             </div>
                                         </div>
                                         <div class="d-flex mt-2">
@@ -169,23 +169,23 @@ $ships = Session::get('shipList');
                                                 <div class="d-flex mt-20 attribute-div">
                                                     <div class="vertical">
                                                         <label>速度</label>
-                                                        <input type="text">
+                                                        <input type="text" name="speed" v-model="input['speed']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>距离(NM)</label>
-                                                        <input type="text">
+                                                        <input type="text" name="distance" v-model="input['distance']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>装货天数</label>
-                                                        <input type="text">
+                                                        <input type="text" name="up_ship_day" v-model="input['up_ship_day']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>卸货天数</label>
-                                                        <input type="text">
+                                                        <input type="text" name="down_ship_day" v-model="input['down_ship_day']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>等待天数</label>
-                                                        <input type="text">
+                                                        <input type="text" name="wait_day" v-model="input['wait_day']" @change="calcContractPreview">
                                                     </div>
                                                 </div>
 
@@ -198,73 +198,71 @@ $ships = Session::get('shipList');
                                                     </div>
                                                     <div class="vertical">
                                                         <label>航行</label>
-                                                        <input type="text" class="output-text">
-                                                        <input type="text" class="output-text">
+                                                        <input type="text" class="output-text" name="fo_sailing" v-model="input['fo_sailing']" @change="calcContractPreview">
+                                                        <input type="text" class="output-text" name="do_sailing" v-model="input['do_sailing']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>装/卸</label>
-                                                        <input type="text" class="output-text">
-                                                        <input type="text" class="output-text">
+                                                        <input type="text" class="output-text" name="fo_up_shipping" v-model="input['fo_up_shipping']" @change="calcContractPreview">
+                                                        <input type="text" class="output-text" name="do_up_shipping" v-model="input['do_up_shipping']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>等待</label>
-                                                        <input type="text" class="output-text">
-                                                        <input type="text" class="output-text">
+                                                        <input type="text" class="output-text" name="fo_waiting" v-model="input['fo_waiting']" @change="calcContractPreview">
+                                                        <input type="text" class="output-text" name="do_waiting" v-model="input['do_waiting']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>价格</label>
-                                                        <input type="text">
-                                                        <input type="text">
+                                                        <input type="text" name="fo_price" @change="calcContractPreview" v-model="input['fo_price']">
+                                                        <input type="text" name="do_price" @change="calcContractPreview" v-model="input['do_price']">
                                                     </div>
                                                 </div>
                                                 <hr class="gray-dotted-hr">
                                                 <div class="d-flex  mt-20 attribute-div">
                                                     <div class="vertical">
                                                         <label>程租</label>
-                                                        <labe>&nbsp;</labe>
+                                                        <label>&nbsp;</label>
                                                     </div>
                                                     <div class="vertical">
                                                         <label>货量(MT)</label>
-                                                        <input type="text">
+                                                        <input type="text" name="cargo_amount" v-model="input['cargo_amount']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>单价</label>
-                                                        <input type="text">
+                                                        <input type="text" name="freight_price" v-model="input['freight_price']" :readonly="batchStatus == true" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
-                                                        <label for="batch-manage" class="batch-manage"><input type="checkbox" id="batch-manage">包船</label>
-                                                        <input type="text" class="output-text" readonly>
+                                                        <label for="batch-manage" class="batch-manage"><input type="checkbox" v-model="batchStatus" id="batch-manage"  @change="calcContractPreview">包船</label>
+                                                        <input type="text" v-bind:class="batchStatus == true ? '' : 'output-text'" name="batch_price" :readonly="batchStatus == false" v-model="input['batch_price']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>佣金(%)</label>
-                                                        <input type="text">
+                                                        <input type="text" name="fee" v-model="input['fee']" @change="calcContractPreview">
                                                     </div>
                                                 </div>
                                                 <div class="d-flex  mt-20 attribute-div">
                                                     <div class="vertical">
-                                                        <labe>&nbsp;</labe>
+                                                        <label>&nbsp;</label>
                                                         <label>支出</label>
                                                     </div>
                                                     <div class="vertical">
                                                         <label>装港费</label>
-                                                        <input type="text">
+                                                        <input type="text" name="up_port_price" v-model="input['up_port_price']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>卸港费</label>
-                                                        <input type="text">
+                                                        <input type="text" name="down_port_price" v-model="input['down_port_price']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>日成本</label>
-                                                        <input type="text">
+                                                        <input type="text" name="cost_per_day" v-model="input['cost_per_day']" @change="calcContractPreview">
                                                     </div>
                                                     <div class="vertical">
                                                         <label>其他费用</label>
-                                                        <input type="text">
+                                                        <input type="text" name="cost_else" v-model="input['cost_else']" @change="calcContractPreview">
                                                     </div>
                                                 </div>
                                             </div>
-
-
 
 
                                             <div class="voy-input-right voy-child">
@@ -272,34 +270,34 @@ $ships = Session::get('shipList');
                                                 <div class="d-block mt-20">
                                                     <div class="d-flex horizontal">
                                                         <label>航次用时</label>
-                                                        <input type="text" class="text-right" readonly>
+                                                        <input type="text" class="text-right" readonly name="sail_time" v-model="output['sail_time']">
                                                         <span>天</span>
                                                     </div>
                                                     <div class="d-flex horizontal">
                                                         <label>航行</label>
-                                                        <input type="text" class="text-right" readonly>
+                                                        <input type="text" class="text-right" readonly name="sail_term" v-model="output['sail_term']">
                                                         <span>天</span>
                                                     </div>
                                                     <div class="d-flex horizontal">
                                                         <label>停泊</label>
-                                                        <input type="text" class="text-right" readonly>
+                                                        <input type="text" class="text-right" readonly name="moor" v-model="output['moor']">
                                                         <span>天</span>
                                                     </div>
                                                 </div>
                                                 <div class="d-block mt-20">
                                                     <div class="d-flex horizontal">
                                                         <label>油款</label>
-                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <input type="text" class="text-left bigger-input" readonly name="oil_money" v-model="output['oil_money']">
                                                         <span></span>
                                                     </div>
                                                     <div class="d-flex horizontal">
                                                         <label>FO</label>
-                                                        <input type="text" class="text-right" readonly>
+                                                        <input type="text" class="text-right" readonly name="fo_mt" v-model="output['fo_mt']">
                                                         <span>MT</span>
                                                     </div>
                                                     <div class="d-flex horizontal">
                                                         <label>DO</label>
-                                                        <input type="text" class="text-right" readonly>
+                                                        <input type="text" class="text-right" readonly name="do_mt" v-model="output['do_mt']">
                                                         <span>MT</span>
                                                     </div>
                                                 </div>
@@ -308,149 +306,165 @@ $ships = Session::get('shipList');
 
                                                 <div class="d-block mt-20">
                                                     <div class="d-flex horizontal">
-                                                        <label>油款</label>
-                                                        <input type="text" class="text-right bigger-input" readonly>
+                                                        <label>收入</label>
+                                                        <input type="text" class="text-left bigger-input" readonly name="credit" v-model="output['credit']">
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>支出</label>
+                                                        <input type="text" class="text-left bigger-input" readonly name="debit" v-model="output['debit']">
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>净利润</label>
+                                                        <input type="text" class="text-left bigger-input" readonly name="net_profit" v-model="output['net_profit']">
+                                                    </div>
+                                                    <div class="d-flex horizontal">
+                                                        <label>日净利润</label>
+                                                        <input type="text" class="text-left bigger-input" readonly name="net_profit_day" v-model="output['net_profit_day']">
                                                         <span></span>
                                                     </div>
                                                     <div class="d-flex horizontal">
-                                                        <label>FO</label>
-                                                        <input type="text" class="text-right bigger-input" readonly>
-                                                        <span>MT</span>
+                                                        <label>参考(最高)</label>
+                                                        <input type="text" class="text-left double-input-left" readonly name="max_profit" v-model="output['max_profit']">
+                                                        <input type="text" class="text-left double-input-right" readonly name="max_voy" v-model="output['max_voy']">
+                                                        <span>航次</span>
                                                     </div>
                                                     <div class="d-flex horizontal">
-                                                        <label>DO</label>
-                                                        <input type="text" class="text-right bigger-input" readonly>
-                                                        <span>MT</span>
-                                                    </div>
-                                                    <div class="d-flex horizontal">
-                                                        <label>油款</label>
-                                                        <input type="text" class="text-right bigger-input" readonly>
-                                                        <span></span>
-                                                    </div>
-                                                    <div class="d-flex horizontal">
-                                                        <label>FO</label>
-                                                        <input type="text" class="text-right bigger-input" readonly>
-                                                        <span>MT</span>
-                                                    </div>
-                                                    <div class="d-flex horizontal">
-                                                        <label>DO</label>
-                                                        <input type="text" class="text-right bigger-input" readonly>
-                                                        <span>MT</span>
+                                                        <label>参考(最低)</label>
+                                                        <input type="text" class="text-left double-input-left" readonly name="min_profit" v-model="output['min_profit']">
+                                                        <input type="text" class="text-left double-input-right" readonly name="min_voy" v-model="output['min_voy']">
+                                                        <span>航次</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="btn-group f-right mt-20">
-                                            <button class="btn btn-primary btn-sm">OK</button>
-                                            <button class="btn btn-danger btn-sm">Cancel</button>
+                                            <button class="btn btn-primary btn-sm" @click="onEditFinish">OK</button>
+                                            <button class="btn btn-danger btn-sm" @click="onEditContinue">Cancel</button>
                                         </div>
                                     </div>
-                                    <div class="tab-right contract-input-div">
+                                    <div class="tab-right contract-input-div" id="voy_contract_table">
                                         <label>航次</label>
-                                        <select>
-                                            <option>2103</option>
-                                            <option>2104</option>
-                                            <option>2105</option>
-                                        </select>
+                                        <input type="text">
                                         <table class="contract-table mt-2">
                                             <tr>
                                                 <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td class="font-style-italic">CP_DATE</td>
+                                                <td><input type="text" class="date-picker form-control" name="cp_date" v-model="cp_date"></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>租船种类</td>
+                                                <td class="font-style-italic">CP TYPE</td>
+                                                <td><input type="text" class="form-control" value="VOY" readonly></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>货名</td>
+                                                <td class="font-style-italic">CARGO</td>
+                                                <td colspan="2">
+                                                    <select class="form-control" name="cargo" v-model="cargo">
+                                                        <option>SODIUM</option>
+                                                        <option>PHOSPHATE</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>货量</td>
+                                                <td class="font-style-italic">QTTY</td>
+                                                <td><input type="text" class="form-control" name="qty_amount" v-model="qty_amount"></td>
+                                                <td>
+                                                    <select class="form-control" name="qty_type" v-model="qty_type">
+                                                        <option>MOLOO</option>
+                                                        <option>MOLCO</option>
+                                                    </selec>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>装港</td>
+                                                <td class="font-style-italic">LOADING PORT</td>
+                                                <td colspan="2">
+                                                    <select class="form-control" name="up_port" v-model="up_port">
+                                                        <option>MOLOO</option>
+                                                        <option>MOLCO</option>
+                                                    </selec>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>卸港</td>
+                                                <td class="font-style-italic">DISCHARGING PORT</td>
+                                                <td colspan="2">
+                                                    <select class="form-control" name="down_port" v-model="down_port">
+                                                        <option>MOLOO</option>
+                                                        <option>MOLCO</option>
+                                                    </selec>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>受载期</td>
+                                                <td class="font-style-italic">LAY/CAN</td>
+                                                <td><input type="text" class="date-picker form-control" name="lay_date" v-model="lay_date"></td>
+                                                <td><input type="text" class="date-picker form-control" name="can_date" v-model="can_date"></td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>装率</td>
+                                                <td class="font-style-italic">LOAD RATE</td>
+                                                <td colspan="2"><input type="text" class="form-control" name="load_rate" v-model="load_rate"></td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>卸率</td>
+                                                <td class="font-style-italic">DISCH RATE</td>
+                                                <td colspan="2"><input type="text" class="form-control" name="disch_rate" v-model="disch_rate"></td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>单价</td>
+                                                <td class="font-style-italic">FREGITH RATE</td>
+                                                <td><input type="text" class="form-control" name="freight_rate" readonly v-model="freight_rate"></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>包船</td>
+                                                <td class="font-style-italic">LUMPSUM</td>
+                                                <td><input type="text" class="form-control" name="lumpsum" readonly v-model="lumpsum"></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>滞期费</td>
+                                                <td class="font-style-italic">DEMURR/DETEN FEE</td>
+                                                <td><input type="text" class="form-control" name="deten_fee" v-model="deten_fee"></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>速追肥</td>
+                                                <td class="font-style-italic">DISPATCH FEE</td>
+                                                <td><input type="text" class="form-control" name="dispatch_fee" v-model="dispatch_fee"></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td>2021/04/20</td>
-                                                <td>CP_DATE</td>
+                                                <td>佣金</td>
+                                                <td class="font-style-italic">COM</td>
+                                                <td><input type="text" class="form-control" name="com_fee" readonly v-model="com_fee"></td>
+                                                <td>%</td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">SPORE INT'L MINERAL EXP<br> & IMP CO.LTD</td>
+                                                <td>租家</td>
+                                                <td class="font-style-italic">CHARTERER</td>
+                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">
+                                                    <textarea name="charterer" class="form-control" rows="2" v-model="charterer"></textarea>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">2021/04/20</td>
+                                                <td>电话</td>
+                                                <td class="font-style-italic">TEL</td>
+                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">
+                                                    <input type="text" class="form-control" name="tel_number" v-model="tel_number">
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>合同日期</td>
-                                                <td>CP_DATE</td>
-                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">2021/04/20<br>2021/04/20</td>
+                                                <td>备注</td>
+                                                <td class="font-style-italic">REMARK</td>
+                                                <td colspan="2" style="border-right: 1px solid #4c4c4c;">
+                                                    <textarea name="remark" class="form-control" rows="2" v-model="remark"></textarea>
+                                                </td>
                                             </tr>
                                         </table>
 
@@ -538,7 +552,7 @@ $ships = Session::get('shipList');
                                                 <div class="d-flex  mt-20 attribute-div">
                                                     <div class="vertical">
                                                         <label>程租</label>
-                                                        <labe>&nbsp;</labe>
+                                                        <label>&nbsp;</label>
                                                     </div>
                                                     <div class="vertical">
                                                         <label>货量(MT)</label>
@@ -559,7 +573,7 @@ $ships = Session::get('shipList');
                                                 </div>
                                                 <div class="d-flex  mt-20 attribute-div">
                                                     <div class="vertical">
-                                                        <labe>&nbsp;</labe>
+                                                        <label>&nbsp;</label>
                                                         <label>支出</label>
                                                     </div>
                                                     <div class="vertical">
@@ -580,9 +594,6 @@ $ships = Session::get('shipList');
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
 
                                             <div class="voy-input-right voy-child">
                                                 <h5 class="ml-5 brown font-bold">输出</h5>
@@ -845,8 +856,8 @@ $ships = Session::get('shipList');
                                 </div>
                             </div>
                         </div>
+        </div>
                     </div>
-                </div>
             </div>
         </div>
         <audio controls="controls" class="d-none" id="warning-audio">
@@ -856,9 +867,9 @@ $ships = Session::get('shipList');
     </div>
 
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>
-    <script src="https://unpkg.com/vuejs-datepicker/dist/locale/translations/zh.js"></script>
+    <script src="{{ cAsset('assets/js/bignumber.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
-    <script src="https://unpkg.com/vuejs-datepicker"></script>
+    <script src="{{ cAsset('assets/js/vue-numeral-filter.min.js') }}"></script>
     <script src="{{ asset('/assets/js/dycombo.js') }}"></script>
 
 	<?php
@@ -867,18 +878,13 @@ $ships = Session::get('shipList');
 	echo '</script>';
 	?>
     <script>
-        var certListObj = null;
-        var certTypeObj = null;
-        var shipCertTypeList = [];
-        var shipCertListTmp = new Array();
-        var certIdList = [];
-        var certIdListTmp = [];
-        var IS_FILE_KEEP = '{!! IS_FILE_KEEP !!}';
-        var IS_FILE_DELETE = '{!! IS_FILE_DELETE !!}';
-        var IS_FILE_UPDATE = '{!! IS_FILE_UPDATE !!}';
+        var voyInputObj = null;
+        var voyContractObj = null;
         var ship_id = '{!! $shipId !!}';
         var isChangeStatus = false;
-        var initLoad = true;
+
+        var DEFAULT_CURRENCY = '{!! USD_LABEL !!}';
+        var DECIMAL_SIZE = 2;
 
         var submitted = false;
         if(isChangeStatus == false)
@@ -905,299 +911,219 @@ $ships = Session::get('shipList');
             return confirmationMessage;
         });
         $(function () {
-            // Initialize
+            
             initialize();
 
         });
 
 
         function initialize() {
-            // Create Vue Obj
-            certListObj = new Vue({
-                el: '#cert_list',
-                data() { return {
-                    cert_array: [],
-                    certListTmp: [],
-                    certTypeList: [],
-                    zh: vdp_translation_zh.js,
-                    issuer_type: IssuerTypeData
-                }
-                },
-                components: {
-                    vuejsDatepicker
-                },
-                methods: {
-                    certTypeChange: function(event) {
-                        let hasClass = $(event.target).hasClass('open');
-                        if($(event.target).hasClass('open')) {
-                            $(event.target).removeClass('open');
-                            $(event.target).siblings(".dynamic-options").removeClass('open');
-                        } else {
-                            $(event.target).addClass('open');
-                            $(event.target).siblings(".dynamic-options").addClass('open');
-                        }
-                    },
-                    setCertInfo: function(array_index, cert) {
-                        var values = $("input[name='cert_id[]']")
-                            .map(function(){return parseInt($(this).val());}).get();
+            voyInputObj = new Vue({
+                el: "#voy_input_div",
+                data: {
+                    batchStatus: false,
+                    input: {
+                        currency:           DEFAULT_CURRENCY,
+                        rate:               0,
+                        speed:              0,
+                        distance:           0,
+                        up_ship_day:        0,
+                        down_ship_day:      0,
+                        wait_day:           0,
 
-                        if(values.includes(cert)) {alert('Can\'t register duplicate certificate.'); return false;}
+                        fo_sailing:         0,
+                        fo_up_shipping:     0,
+                        fo_waiting:         0,
+                        fo_price:           0,
+                        do_sailing:         0,
+                        do_up_shipping:     0,
+                        do_waiting:         0,
+                        do_price:           0,
 
-                        isChangeStatus = true;
-                        setCertInfo(cert, array_index);
-                        $(".dynamic-select__trigger").removeClass('open');
-                        $(".dynamic-options").removeClass('open');
+                        cargo_amount:       0,
+                        freight_price:      0,
+                        fee:                0,
+                        batch_price:        0,
+                        up_port_price:      0,
+                        down_port_price:    0,
+                        cost_per_day:       0,
+                        cost_else:          0
                     },
-                    customFormatter(date) {
-                        return moment(date).format('YYYY-MM-DD');
-                    },
-                    dateModify(e, index, type) {
-                        $(e.target).on("change", function() {
-                            certListObj.cert_array[index][type] = $(this).val();
-                        });
-                    },
-                    customInput() {
-                        return 'form-control';
-                    },
-                    onFileChange(e) {
-                        let index = e.target.getAttribute('data-index');
-                        certListObj.cert_array[index]['is_update'] = IS_FILE_UPDATE;
-                        certListObj.cert_array[index]['file_name'] = 'updated';
-                        isChangeStatus = true;
-                        this.$forceUpdate();
-                    },
-                    openShipCertList(e) {
-                        // Object.assign(certTypeObj.list, shipCertTypeList);
-                        // certTypeObj.list.push([]);
-                        $('.only-modal-show').click();
-                    },
-                    getImage: function(file_name) {
-                        if(file_name != '' && file_name != undefined)
-                            return '/assets/images/document.png';
-                        else
-                            return '/assets/images/paper-clip.png';
-                    },
-                    deleteCertItem(cert_id, is_tmp, array_index) {
-                        document.getElementById('warning-audio').play();
-                        if (is_tmp == 0) {
-                            bootbox.confirm("Are you sure you want to delete?", function (result) {
-                                if (result) {
-                                    $.ajax({
-                                        url: BASE_URL + 'ajax/shipManage/shipCert/delete',
-                                        type: 'post',
-                                        data: {
-                                            id: cert_id,
-                                        },
-                                        success: function (data, status, xhr) {
-                                            certListObj.cert_array.splice(array_index, 1);
-                                        }
-                                    })
-                                }
-                            });
-                        } else {
-                            certListObj.cert_array.splice(array_index, 1);
-                        }
+                    output: {
+                        sail_time:          0,
+                        sail_term:          0,
+                        moor:               0,
+                        oil_money:          0,
+                        fo_mt:              0,
+                        do_mt:              0,
+                        credit:             0,
+                        debit:              0,
+                        net_profit:         0,
+                        net_profit_day:     0,
+                        max_profit:         0,
+                        max_voy:            0,
+                        min_profit:         0,
+                        min_voy:            0,
                     }
-
                 },
-                updated() {
-                    // console.log(initLoad);
-                    // console.log('-----------');
-                    // if(initLoad == true) {
-                        console.log('++++++++++++++++');
-                        $('.date-picker').datepicker({
-                            autoclose: true,
-                        }).next().on(ace.click_event, function () {
-                            $(this).prev().focus();
-                        });
-                        console.log(initLoad);
-                        initLoad = false;
-                        console.log(initLoad);
-                    }
-                // }
-            });
-
-            certTypeObj = new Vue({
-                el: '#modal-cert-type',
-                data() {
-                    return {
-                        list: [],
-                    }
+                ready: function() {
+                    calcContractPreview();
                 },
                 methods: {
-                    deleteShipCert(index) {
-                        if(index == undefined || index == '')
-                            return false;
-
-                        bootbox.confirm("Are you sure you want to delete?", function (result) {
-                            if (result) {
-                                isChangeStatus = true;
-                                $.ajax({
-                                    url: BASE_URL + 'ajax/shipManage/cert/delete',
-                                    type: 'post',
-                                    data: {
-                                        id: index
-                                    },
-                                    success: function(data) {
-                                        certTypeObj.list = data;
-                                        // certTypeObj.list.push([]);
-                                        certTypeObj.$forceUpdate();
-                                        getShipInfo(ship_id);
-
-                                    }
-                                })
-                            }});
+                    onEditFinish: function() {
+                        voyContractObj.cp_date = this.getToday('-');
+                        voyContractObj.qty_amount = this.input['cargo_amount'];
+                        voyContractObj.freight_rate = this.input['fregith_price'];
+                        if(this.batchStatus == true) {
+                            voyContractObj.lumpsum = this.input['batch_price'];
+                            voyContractObj.freight_rate = 0;
+                        } else {
+                            voyContractObj.freight_rate = this.input['freight_price'];
+                        }
+                        
+                        voyContractObj.com_fee = this.input['fee'];
+                        $('#voy_input_div input').attr('readonly', true);
                     },
-                    ajaxFormSubmit() {
-                        let form = $('#shipCertForm').serialize();
-                        $.post('shipCertType', form).done(function (data) {
-                            let result = data;
-                            let result1 = data;
-                            let result2 = data;
-                            certTypeObj.list = result;
-                            certTypeObj.$forceUpdate();
-                            certListObj.certTypeList = result1;
-                            shipCertTypeList = result2;
-                            getShipInfo(ship_id);
-                            $('.close').click();
-                        });
+                    onEditContinue: function() {
+                        $('#voy_input_div input').attr('readonly', false);
                     },
-                    addNewRow(e) {
-                        isChangeStatus = true;
-                        certTypeObj.list.push([]);
+                    getToday: function(symbol) {
+                        var today = new Date();
+                        var dd = String(today.getDate()).padStart(2, '0');
+                        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                        var yyyy = today.getFullYear();
+                        today = yyyy + symbol + mm + symbol + dd;
+
+                        return today;
+                    },
+                    calcContractPreview: function() {
+                        if(parseInt(this.input['speed']) != 0) {
+                            let tmp = BigNumber(this.input['distance']).div(this.input['speed']);
+                            this.output['sail_term'] = BigNumber(tmp).div(24).toFixed(DECIMAL_SIZE);
+                        } else {
+                            this.output['sail_term'] = 0;
+                        }
+                        
+                        let moorTmp = BigNumber(this.input['up_ship_day']).plus(this.input['down_ship_day']);
+                        let fo_sailTmp1 = moorTmp;
+                        let fo_sailTmp2 = 0;
+                        let fo_sailTmp3 = 0;
+                        let do_sailTmp1 = moorTmp;
+                        let do_sailTmp2 = 0;
+                        let do_sailTmp3 = 0;
+
+                        moorTmp = BigNumber(moorTmp).plus(this.input['wait_day']);
+                        this.output['moor'] = BigNumber(moorTmp).toFixed(DECIMAL_SIZE);
+                        this.output['sail_time'] = BigNumber(this.output['moor']).plus(this.output['sail_term']).toFixed(DECIMAL_SIZE);
+
+                        // FO_MT
+                        fo_sailTmp1 = fo_sailTmp1.multipliedBy(this.input['fo_up_shipping']);
+                        fo_sailTmp2 = BigNumber(this.input['fo_sailing']).multipliedBy(this.output['sail_term']);
+                        fo_sailTmp3 = BigNumber(this.input['fo_waiting']).multipliedBy(this.input['wait_day']);
+                        this.output['fo_mt'] = BigNumber(fo_sailTmp1).plus(fo_sailTmp2).plus(fo_sailTmp3).toFixed(DECIMAL_SIZE);
+
+                        // DO_MT
+                        do_sailTmp1 = do_sailTmp1.multipliedBy(this.input['do_up_shipping']);
+                        do_sailTmp2 = BigNumber(this.input['do_sailing']).multipliedBy(this.output['sail_term']);
+                        do_sailTmp3 = BigNumber(this.input['do_waiting']).multipliedBy(this.input['wait_day']);
+                        this.output['do_mt'] = BigNumber(do_sailTmp1).plus(do_sailTmp2).plus(do_sailTmp3).toFixed(DECIMAL_SIZE);
+
+                        // Oil Price
+                        let fo_oil_price = BigNumber(this.output['fo_mt']).multipliedBy(this.input['fo_price']);
+                        let do_oil_price = BigNumber(this.output['do_mt']).multipliedBy(this.input['do_price']);
+                        this.output['oil_money'] = BigNumber(fo_oil_price).plus(do_oil_price).toFixed(DECIMAL_SIZE);
+
+                        // Credit
+                        if(this.batchStatus) {
+                            this.input['freight_price'] = 0;
+                        }
+                        let creditTmp = BigNumber(this.input['cargo_amount']).multipliedBy(this.input['freight_price']).plus(this.input['batch_price']);
+                        let percent = BigNumber(1).minus(BigNumber(this.input['fee']).div(100));
+                        creditTmp = BigNumber(creditTmp).multipliedBy(percent).toFixed(DECIMAL_SIZE);
+                        this.output['credit'] = creditTmp;
+
+                        // Debit
+                        let debitTmp1 = BigNumber(this.input['cost_per_day']).multipliedBy(this.output['sail_time']);
+                        let debitTmp2 = BigNumber(this.input['up_port_price']).plus(this.input['down_port_price']).plus(this.output['oil_money']).plus(this.input['cost_else']);
+                        this.output['debit'] = BigNumber(debitTmp1).plus(debitTmp2).toFixed(DECIMAL_SIZE);
+
+                        // Net Profit
+                        let netProfit = BigNumber(this.output['credit']).minus(this.output['debit']).toFixed(DECIMAL_SIZE);
+                        this.output['net_profit'] = netProfit;
+                        
+                        // Profit per day
+                        this.output['net_profit_day'] = BigNumber(netProfit).div(this.output['sail_time']).toFixed(0);
+
                     }
+                },
+            });
+
+            voyContractObj = new Vue({
+                el: '#voy_contract_table',
+                data: {
+                    cp_date:        '',
+                    cp_type:        'VOY',
+                    cargo:          0,
+                    qty_amount:    0,
+                    qty_type:      'MOLOO',
+                    up_port:        '',
+                    down_port:      '',
+                    lay_date:       '',
+                    can_date:       '',
+                    load_rate:      '',
+                    disch_rate:     '',
+                    freight_rate:   '',
+                    lumpsum:        0,
+                    demurr:         0,
+                    deten_fee:      0,
+                    dispatch_fee:   0,
+                    com_fee:        0,
+                    charterer:      '',
+                    tel_number:     '',
+                    remark:         '',
+                },
+            })
+
+            Vue.filter("currency", {
+                read: function(value) {
+                return "$" + value.toFixed(2);
+                },
+                write: function(value) {
+                var number = +value.replace(/[^\d.]/g, "");
+                return isNaN(number) ? 0 : number;
                 }
             });
 
-            getShipInfo(ship_id);
-
+            getInitInfo(ship_id);
         }
 
-        function getShipInfo(ship_id) {
+        function getInitInfo(ship_id) {
             $.ajax({
-                url: BASE_URL + 'ajax/shipManage/cert/list',
+                url: BASE_URL + 'ajax/business/contract/info',
                 type: 'post',
                 data: {
-                    ship_id: ship_id
+                    shipId: ship_id
                 },
                 success: function(data, status, xhr) {
-                    let ship_id = data['ship_id'];
-                    let ship_name = data['ship_name'];
-                    let typeList = data['cert_type'];
-                    shipCertTypeList = data['cert_type'];
-
-                    $('[name=ship_id]').val(ship_id);
-                    $('#ship_name').text(ship_name);
-                    //certListObj.cert_array = data['ship'];
-                    Object.assign(certListObj.cert_array, data['ship']);
-                    certListObj.certTypeList = typeList;
-
-                    Object.assign(certTypeObj.list, shipCertTypeList);
-                    certTypeObj.list.push([]);
-                    certIdList = [];
-                    certListObj.cert_array.forEach(function(value, index) {
-                        certIdList.push(value['cert_id']);
-                        certListObj.cert_array[index]['is_update'] = IS_FILE_KEEP;
-                        certListObj.cert_array[index]['is_tmp'] = 0;
-                        setCertInfo(value['cert_id'], index);
-                    });
-
-                    shipCertListTmp = JSON.parse(JSON.stringify(certListObj.cert_array));
+                    let result = data;
+                    console.log(result);
+                    voyInputObj.input['fo_sailing'] = result['FOSailCons_S'];
+                    voyInputObj.input['do_sailing'] = result['DOSailCons_S'];
+                    voyInputObj.input['fo_up_shipping'] = result['FOL/DCons_S'];
+                    voyInputObj.input['do_up_shipping'] = result['DOL/DCons_S'];
+                    voyInputObj.input['fo_waiting'] = result['FOIdleCons_S'];
+                    voyInputObj.input['do_waiting'] = result['DOIdleCons_S'];
                 }
             })
         }
 
-        function addCertItem() {
-            let reportLen = certListObj.cert_array.length;
-            let newCertId = 0;
-            if(reportLen == 0) {
-                reportLen = 0;
-                newCertId = 0;
-            } else {
-                newCertId = certListObj.cert_array[reportLen - 1]['cert_id'];
-            }
 
-            newCertId = getNearCertId(newCertId);
 
-            if(shipCertTypeList.length <= reportLen && reportLen > 0)
-                return false;
 
-            if(newCertId == '') {
-                newCertId = getNearCertId(0);
-            }
-
-            certListObj.cert_array.push([]);
-            certListObj.cert_array[reportLen]['cert_id']  = newCertId;
-            certListObj.cert_array[reportLen]['is_tmp']  = 1;
-            setCertInfo(newCertId, reportLen);
-            certListObj.cert_array[reportLen]['issue_date']  = $($('[name^=issue_date]')[reportLen - 1]).val();
-            certListObj.cert_array[reportLen]['expire_date']  = $($('[name^=expire_date]')[reportLen - 1]).val();
-            certListObj.cert_array[reportLen]['due_endorse']  = $($('[name^=due_endorse]')[reportLen - 1]).val();
-            certListObj.cert_array[reportLen]['issuer']  = 1;
-            $($('[name=cert_id]')[reportLen - 1]).focus();
-            certIdList.push(certListObj.cert_array[reportLen]['cert_id']);
-
-            $('[date-issue=' + reportLen + ']').datepicker({
-                autoclose: true,
-            }).next().on(ace.click_event, function () {
-                $(this).prev().focus();
-            });
-
-            isChangeStatus = true;
-        }
-
-        function getNearCertId(cert_id) {
-            var values = $("input[name='cert_id[]']")
-                .map(function(){return parseInt($(this).val());}).get();
-            let tmp = 0;
-            tmp = cert_id;
-            shipCertTypeList.forEach(function(value, key) {
-                if(value['id'] - tmp > 0 && !values.includes(value['id'])) {
-                    if(value['id'] - cert_id <= value['id'] - tmp)
-                        tmp = value['id'];
-                }
-            });
-
-            return tmp == cert_id ? 0 : tmp;
-        }
-
-        function setCertInfo(certId, index = 0) {
-            let status = 0;
-            shipCertTypeList.forEach(function(value, key) {
-                if(value['id'] == certId) {
-                    certListObj.cert_array[index]['order_no'] = value['order_no'];
-                    certListObj.cert_array[index]['cert_id'] = certId;
-                    certListObj.cert_array[index]['code'] = value['code'];
-                    certListObj.cert_array[index]['cert_name'] = value['name'];
-                    certListObj.$forceUpdate();
-                    status ++;
-                }
-            });
-        }
 
         $('#select-ship').on('change', function() {
             let ship_id = $(this).val();
             location.href = '/business/contract?shipId=' + ship_id;
-        });
-
-        $('#submit').on('click', function() {
-            $('#certList-form').submit();
-        });
-
-        $(document).mouseup(function(e) {
-            var container = $(".dynamic-options-scroll");
-            if (!container.is(e.target) && container.has(e.target).length === 0) {
-                $(".dynamic-options").removeClass('open');
-                $(".dynamic-options").siblings('.dynamic-select__trigger').removeClass('open')
-            }
-        });
-
-        $(".ui-draggable").draggable({
-            helper: 'move',
-            cursor: 'move',
-            tolerance: 'fit',
-            revert: "invalid",
-            revert: false
         });
     </script>
 @endsection
