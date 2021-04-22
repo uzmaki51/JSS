@@ -128,6 +128,8 @@ $isHolder = Session::get('IS_HOLDER');
         var shipName = '';
         var year = '';
         var month = '';
+        var minus_days = 0;
+        var rate = 1;
         $(function () {
             $.fn.editable.defaults.mode = 'inline';
             $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
@@ -150,7 +152,6 @@ $isHolder = Session::get('IS_HOLDER');
                 ajax: {
                     url: BASE_URL + 'ajax/shipMember/wage/list',
                     type: 'POST',
-                    data: {'year':year,'month':month},
                 },
                 "ordering": false,
                 "pageLength": 500,
@@ -194,10 +195,16 @@ $isHolder = Session::get('IS_HOLDER');
             shipName = $("#select-ship option:selected").text();
             year = $("#select-year option:selected").val();
             month = $("#select-month option:selected").val();
+            minus_days = $("#minus-days").val();
+            rate = $("#rate").val();
             if (shipName == "") return;
 
             if (listTable == null) initTable();
             $('#search_info').html('"' + shipName + '" ' + year + '年' + month + '月');
+            listTable.column(3).search(year, false, false);
+            listTable.column(4).search(month, false, false);
+            listTable.column(5).search(minus_days, false, false);
+            listTable.column(6).search(rate, false, false);
             listTable.column(2).search($("#select-ship").val(), false, false).draw();
         }
         $('#select-ship').on('change', function() {
@@ -209,6 +216,14 @@ $isHolder = Session::get('IS_HOLDER');
         });
 
         $('#select-month').on('change', function() {
+            selectInfo();
+        });
+
+        $('#minus-days').on('change', function() {
+            selectInfo();
+        });
+
+        $('#rate').on('change', function() {
             selectInfo();
         });
 
