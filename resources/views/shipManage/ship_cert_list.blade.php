@@ -49,7 +49,7 @@ $ships = Session::get('shipList');
                 <div class="col-md-6">
                     <div class="btn-group f-right">
                         <button class="btn btn-report-search btn-sm search-btn d-none" @click="doSearch()"><i class="icon-search"></i>搜索</button>
-                        <a class="btn btn-sm btn-danger refresh-btn-over" type="button" @click="refresh">
+                        <a class="btn btn-sm btn-danger refresh-btn-over d-none" type="button" @click="refresh">
                             <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">恢复
                         </a>
                         <button class="btn btn-warning btn-sm excel-btn" @click="onExport"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
