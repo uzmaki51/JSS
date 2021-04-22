@@ -31,12 +31,18 @@ $isHolder = Session::get('IS_HOLDER');
                 <div class="col-md-6">
                     <div class="f-right">
                         <label class="font-bold">提前:</label>
-                        <input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" id="expire-date" value="0">
+                        <!--input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" id="expire-date" value="0"-->
+                        <select id="expire-date" style="width: 60px;">
+                            <option value="0" selected>All</option>
+                            <option value="90">90</option>
+                            <option value="120">120</option>
+                            <option value="180">180</option>
+                        </select>
                         <label>天</label>
-                        <button class="btn btn-report-search btn-sm search-btn" onclick="" id="btn-search"><i class="icon-search"></i>搜索</button>
-                        <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="javascript:refresh()">
+                        <!--button class="btn btn-report-search btn-sm search-btn" onclick="" id="btn-search"><i class="icon-search"></i>搜索</button-->
+                        <!--a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="javascript:refresh()">
                             <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">恢复
-                        </a>
+                        </a-->
                         <button class="btn btn-warning btn-sm excel-btn" onclick=""><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
                     </div>
                 </div>
@@ -134,7 +140,7 @@ $isHolder = Session::get('IS_HOLDER');
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
                     $(row).attr('class', 'member-item');
-                    var cert_index = index % 15;
+                    var cert_index = data['index'];
                     $('td', row).eq(3).html('').append(data['count']);
                     $('td', row).eq(4).attr('class', 'text-center style-bold-italic');
                     if (cert_index == 0) {
@@ -184,6 +190,10 @@ $isHolder = Session::get('IS_HOLDER');
         $('#select-ship').on('change', function() {
             shipName = $(this).find(':selected').attr('data-name');
             $('#ship_name').html('"' + shipName + '"');
+            doSearch();
+        });
+
+        $('#expire-date').on('change', function() {
             doSearch();
         });
 
@@ -241,6 +251,7 @@ $isHolder = Session::get('IS_HOLDER');
             return 0;
         }
 
+        /*
         function refresh() {
             $('#expire-date').val('0');
             doSearch();
@@ -249,6 +260,7 @@ $isHolder = Session::get('IS_HOLDER');
         $('#btn-search').on('click', function() {
             doSearch();
         });
+        */
         
     </script>
 
