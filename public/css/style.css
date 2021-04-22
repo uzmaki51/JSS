@@ -301,3 +301,11 @@ div.input table tbody tr td
     font-size: 10pt;
     height: 20px;
 }
+
+.disable-td {
+    background: #ececec;
+}
+
+.disable-tr {
+    height: 20px;
+}

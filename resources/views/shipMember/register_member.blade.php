@@ -395,7 +395,7 @@ $isHolder = Session::get('IS_HOLDER');
         var path=BASE_URL + 'ajax/shipMember/autocomplete';
         $('input.typeahead').typeahead({
             source:function(terms,process){
-                return $.get(path,{terms:terms},function(data){
+                return $.get(path,{terms:terms, sign:$('#search-signon').is(":checked")},function(data){
                     return process(data);
                 })
             }
@@ -695,10 +695,10 @@ $isHolder = Session::get('IS_HOLDER');
             }
         })
 
-        /*
-        $('.date-picker').datepicker({ dateFormat: "yyyy-mm-dd", changeMonth: true,
-            changeYear: true, yearRange: '1900:2020'
-        }).val('');*/
+        $('#search-name').on('change', function(e) {
+            doSearch();
+        })
+        
     </script>
     <script type="text/javascript">
         var capacityList = new Array();

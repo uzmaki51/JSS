@@ -231,7 +231,7 @@
                 success: function(data, status, xhr) {
                     $('#rank-table').html('');
                     for (var i = 0; i < data.length; i ++) {
-                        var row = '<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_OrderNo[]"value="';
+                        var row = '<tr class="rank-tr"><input type="hidden" name="Rank_Id[]" value="' + data[i].id + '"/><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_OrderNo[]"value="';
                         row += (data[i].OrderNo != null) ? data[i].OrderNo : '';
                         row += '" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Name[]"value="';
                         row += (data[i].Duty_En != null) ? data[i].Duty_En : '';
@@ -254,6 +254,7 @@
         function dynamicRankSubmit(type) {
             var list = [];
             if (type == 'rank') {
+                list['id'] = $("input[name='Rank_Id[]']").map(function(){return $(this).val();}).get();
                 list['orderno'] = $("input[name='Rank_OrderNo[]']").map(function(){return $(this).val();}).get();
                 list['name'] = $("input[name='Rank_Name[]']").map(function(){return $(this).val();}).get();
                 list['abb'] = $("input[name='Rank_Abb[]']").map(function(){return $(this).val();}).get();
@@ -265,6 +266,7 @@
                 url: BASE_URL + 'ajax/setDynamicData', 
                 type: 'post',
                 data: {
+                    id: list['id'],
                     orderno: list['orderno'],
                     name: list['name'],
                     abb: list['abb'],
@@ -316,7 +318,7 @@
             if ($('#rank-table tr').length > 0)
             {
                 if (e == null || $(e).closest("tr").is(":last-child")) {
-                    $("#rank-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_OrderNo[]"value="' + '' + '" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Abb[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Description[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteRank(this)"><i class="icon-trash"></i></a></div></td></tr>');
+                    $("#rank-table").append('<tr class="rank-tr"><input type="hidden" name="Rank_Id[]" value=""><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_OrderNo[]"value="' + '' + '" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Abb[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addRank(this)" class="form-control" name="Rank_Description[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deleteRank(this)"><i class="icon-trash"></i></a></div></td></tr>');
                     var last_child = $('#rank-table tr:last-child');
                     last_child.children().eq(0).children().eq(0).val($("#rank-table tr").length);
                 }

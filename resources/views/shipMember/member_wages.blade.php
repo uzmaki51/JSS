@@ -39,9 +39,13 @@ $isHolder = Session::get('IS_HOLDER');
                             <div class="col-md-8">
                                 <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
                                 <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
-                                    <option value="" selected></option>
+                                    <!--option value="" selected></option-->
+                                    <?php $index = 0 ?>
                                     @foreach($shipList as $ship)
-                                        <option value="{{ $ship['IMO_No'] }}">{{$ship['shipName_En']}}</option>
+                                        <?php $index ++ ?>
+                                        @if ($index == 14) <option value="{{ $ship['IMO_No'] }}" selected>{{$ship['shipName_En']}}</option>
+                                        @else <option value="{{ $ship['IMO_No'] }}">{{$ship['shipName_En']}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 <label class="custom-label d-inline-block" style="padding: 6px;">减少天数:</label>
@@ -91,15 +95,15 @@ $isHolder = Session::get('IS_HOLDER');
                                             <th class="text-center style-normal-header" style="width: 5%;"><span>职务</span></th>
                                             <th class="text-center style-normal-header" style="width: 2%;"><span>币类</span></th>
                                             <th class="text-center style-normal-header" style="width: 6%;"><span>合约薪资</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>上船日期</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>下船/截止日期</span></th>
+                                            <th class="text-center style-normal-header" style="width: 7%;"><span>上船日期</span></th>
+                                            <th class="text-center style-normal-header" style="width: 7%;"><span>下船/截止日期</span></th>
                                             <th class="text-center style-normal-header" style="width: 4%;"><span>在船天数</span></th>
                                             <th class="text-center style-normal-header" style="width: 6%;"><span>扣款</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>家汇款<br>(¥)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>家汇款<br>($)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 4%;"><span>支付日期</span></th>
-                                            <th class="text-center style-normal-header" style="width: 14%;"><span>备注</span></th>
-                                            <th class="text-center style-normal-header" style="width: 24%;"><span>银行账户</span></th>
+                                            <th class="text-center style-normal-header" style="width: 8%;"><span>家汇款<br>(¥)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 8%;"><span>家汇款<br>($)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 6%;"><span>支付日期</span></th>
+                                            <th class="text-center style-normal-header" style="width: 9%;"><span>备注</span></th>
+                                            <th class="text-center style-normal-header" style="width: 20%;"><span>银行账户</span></th>
                                             <th class="text-center" style=""></th>
                                         </thead>
                                         <tbody class="" id="list-body">
@@ -144,7 +148,6 @@ $isHolder = Session::get('IS_HOLDER');
 
         var listTable = null;
         function initTable() {
-            console.log("initTable is called");
             listTable = $('#table-shipmember-list').DataTable({
                 processing: true,
                 serverSide: true,
@@ -152,6 +155,7 @@ $isHolder = Session::get('IS_HOLDER');
                 ajax: {
                     url: BASE_URL + 'ajax/shipMember/wage/list',
                     type: 'POST',
+                    data: { 'year':year, 'month':month, 'minus_days':minus_days, 'rate':rate},
                 },
                 "ordering": false,
                 "pageLength": 500,
@@ -176,10 +180,40 @@ $isHolder = Session::get('IS_HOLDER');
                 ],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
-                    $(row).attr('class', 'member-item');
+                    $(row).attr('class', 'member-item disable-tr');
+                    $(row).attr('data-index', data['no']);
                     $('td', row).eq(0).html('').append((pageInfo.page * pageInfo.length + index + 1));
-                    //$('td', row).eq(0).html(index/2+1);
+                    $('td', row).eq(0).attr('class', 'text-center disable-td');
+                    $('td', row).eq(1).attr('class', 'text-center disable-td');
+                    $('td', row).eq(2).attr('class', 'text-center disable-td');
+                    if (data['WageCurrency'] == 0)
+                        $('td', row).eq(3).html('¥');
+                    else
+                        $('td', row).eq(3).html('$');
+                    $('td', row).eq(3).attr('class', 'text-center disable-td');
+                    $('td', row).eq(4).attr('class', 'text-center disable-td');
+                    $('td', row).eq(5).attr('class', 'text-center disable-td');
+                    $('td', row).eq(6).attr('class', 'text-center disable-td');
+                    $('td', row).eq(7).attr('class', 'text-center disable-td');
+                    $('td', row).eq(9).attr('class', 'text-center disable-td');
+                    $('td', row).eq(10).attr('class', 'text-center disable-td');
+                    $('td', row).eq(13).attr('class', 'text-center disable-td');
+                    $('td', row).eq(13).attr('style', 'word-wrap:break-word');
+                    $('td', row).eq(14).html('').append('<div class="action-buttons"><a class="red" href="javascript:deleteItem(' + data['no'] + ')"><i class="icon-trash"></i></a></div>');
+
+                    $('td', row).eq(8).html('<input type="text" class="form-control" name="ItemNo" value="' + data['MinusCash'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(11).html('<input type="text" class="form-control" name="ItemNo" value="' + data['TransDate'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(12).html('<input type="text" class="form-control" name="ItemNo" value="' + data['Remark'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+
+
+                    $('td', row).eq(1).attr('name', 'Names[]');
+                    $('td', row).eq(9).attr('name', 'TransInR[]');
+                    $('td', row).eq(10).attr('name', 'TransInD[]');
+                    $('td', row).eq(11).attr('name', 'TransDate[]');
                 },
+                drawCallback: function (settings) {
+                    calcReport();
+                }
             });
 
             $('.paginate_button').hide();
@@ -188,7 +222,32 @@ $isHolder = Session::get('IS_HOLDER');
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         }
-        //initTable();
+        initTable();
+        function calcReport()
+        {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
+            //alert("!")
+            var TransInR = $('td[name="TransInR[]"]');
+            var TransInD = $('td[name="TransInD[]"]');
+            var TransDate = $('td[name="TransDate[]"]');
+            var sum_R = 0;
+            var sum_D = 0;
+            var sum_pre = 0;
+            for (var i=0;i<TransInR.length;i++) {
+                sum_R += parseFloat(TransInR[i].innerHTML);
+                sum_D += parseFloat(TransInD[i].innerHTML);
+                if (TransDate[i].innerHTML != '') {
+                    sum_pre += parseFloat(TransInR[i].innerHTML);
+                }
+            }
+            var sum_Real = sum_R - sum_pre;
+
+            $('#list-body').append('<tr class="" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">28</td><td class="sub-small-header style-normal-header" colspan="3"></td><td colspan="2" class="sub-small-header style-normal-header text-center">计算日期</td><td class="disable-td text-center">' + today + '</td><td colspan="2" class="sub-small-header style-normal-header text-center">合计</td><td class="style-normal-header disable-td text-center">¥ ' + sum_R.toFixed(2) + '</td><td class="style-normal-header text-center disable-td">$ ' + sum_D.toFixed(2) + '</td><td class="sub-small-header style-normal-header text-center">实发工资</td><td class="style-normal-header text-center disable-td">' + sum_Real.toFixed(2) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td></tr>');
+        }
 
         function selectInfo()
         {
@@ -198,14 +257,19 @@ $isHolder = Session::get('IS_HOLDER');
             minus_days = $("#minus-days").val();
             rate = $("#rate").val();
             if (shipName == "") return;
-
-            if (listTable == null) initTable();
             $('#search_info').html('"' + shipName + '" ' + year + '年' + month + '月');
-            listTable.column(3).search(year, false, false);
-            listTable.column(4).search(month, false, false);
-            listTable.column(5).search(minus_days, false, false);
-            listTable.column(6).search(rate, false, false);
-            listTable.column(2).search($("#select-ship").val(), false, false).draw();
+
+            if (listTable == null) {
+                initTable();
+            }
+            else
+            {
+                listTable.column(3).search(year, false, false);
+                listTable.column(4).search(month, false, false);
+                listTable.column(5).search(minus_days, false, false);
+                listTable.column(6).search(rate, false, false);
+                listTable.column(2).search($("#select-ship").val(), false, false).draw();
+            }
         }
         $('#select-ship').on('change', function() {
             selectInfo();

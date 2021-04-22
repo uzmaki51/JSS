@@ -922,17 +922,30 @@ class ShipMemberController extends Controller
 
     public function autocomplete(Request $request)
     {
-        $names = ShipMember::select("realname")
-                    ->where('realname', 'like', '%' . $request->terms . '%')->get();
+        $names = [];
+        if ($request->sign == 'true') {
+            $names = ShipMember::select("realname")
+                ->whereNotNull('DateOnboard')
+                ->where(function($query) {
+                    $today = date("Y-m-d");
+                    $query->whereNull('DateOffboard')->orWhere('DateOffboard', '>', $today);
+                })
+                ->where('realname', 'like', '%' . $request->terms . '%')->get();
+        }
+        else
+        {
+            $today = date("Y-m-d");
+            $names = ShipMember::select("realname")
+                ->whereNull('DateOnboard')->orWhere('DateOffboard', '<=', $today)
+                ->where('realname', 'like', '%' . $request->terms . '%')->get();
+        }
 
         $data = array();
         foreach ($names as $name)
         {
             $data[] = $name->realname;
         }
-        //echo json_encode($data);
         return response()->json($data);
-        //echo json_encode($names);
     }
 
 }
