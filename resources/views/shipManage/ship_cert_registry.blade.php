@@ -445,6 +445,7 @@ $ships = Session::get('shipList');
                     $('[name=ship_id]').val(ship_id);
                     $('#ship_name').text(ship_name);
                     //certListObj.cert_array = data['ship'];
+                    certListObj.cert_array = [];
                     Object.assign(certListObj.cert_array, data['ship']);
                     certListObj.certTypeList = typeList;
 
