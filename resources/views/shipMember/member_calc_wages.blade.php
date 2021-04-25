@@ -370,10 +370,10 @@ $isHolder = Session::get('IS_HOLDER');
                 setValue(TransInR[i], _R);
                 setValue(TransInD[i], _D);
 
-                sum_R += parseFloat(_R);
-                sum_D += parseFloat(_D);
+                sum_R += (_R=='')?0:parseFloat(_R);
+                sum_D += (_D=='')?0:parseFloat(_D);
                 if (TransDate[i].value != '') {
-                    sum_pre += parseFloat(_R);
+                    sum_pre += (_R=='')?0:parseFloat(_R);
                 }
             }
             var sum_Real = sum_R - sum_pre;
