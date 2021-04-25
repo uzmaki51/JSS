@@ -16,6 +16,7 @@ use App\Models\ShipMember\ShipWageList;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use DateTime;
 
 class ShipMember extends Model
 {
@@ -447,10 +448,10 @@ class ShipMember extends Model
                     unset($newArr[$newindex]);
                     continue;
                 }
+
                 if ($expire_days != 0) {
-                    $datediff = strtotime($newArr[$newindex]['_expire']) - $today;
-                    //if (round($datediff / (60 * 60 * 24)) > 0) return round($datediff / (60 * 60 * 24));
-                    if (round($datediff / (60 * 60 * 24)) > ($expire_days - 1)) {
+                    $datediff = strtotime2($newArr[$newindex]['_expire']) - $today;
+                    if (round($datediff / (60 * 60 * 24)) > $expire_days) {
                         unset($newArr[$newindex]);
                         continue;
                     }
@@ -526,7 +527,7 @@ class ShipMember extends Model
             if ($record->purchdate == null || $record->purchdate == '')
                 $newArr[$newindex]['purchdate'] = '';
             else
-                $newArr[$newindex]['purchdate'] = date('Y-m-d', strtotime($record->purchdate));
+                $newArr[$newindex]['purchdate'] = date('Y-m-d', $strtotime($record->purchdate));
             $newArr[$newindex]['sendbank'] = 0;
             $newArr[$newindex]['bankinfo'] = $record->bankinfo;
             $newArr[$newindex]['remark'] = $record->remark;
@@ -560,12 +561,12 @@ class ShipMember extends Model
             if ($record->signondate == null)
                 $newArr[$newindex]['DateOnboard'] = '';
             else
-                $newArr[$newindex]['DateOnboard'] = date('Y-m-d', strtotime($record->signondate));
+                $newArr[$newindex]['DateOnboard'] = date('Y-m-d', $strtotime($record->signondate));
                 
             if ($record->signoffdate == null)
                 $newArr[$newindex]['DateOffboard'] = '';
             else
-                $newArr[$newindex]['DateOffboard'] = date('Y-m-d', strtotime($record->signoffdate));
+                $newArr[$newindex]['DateOffboard'] = date('Y-m-d', $strtotime($record->signoffdate));
 
             $newArr[$newindex]['SignDays'] = $record->signdays;
             $newArr[$newindex]['MinusCash'] = $record->minuscash;
@@ -574,7 +575,7 @@ class ShipMember extends Model
             if ($record->purchdate == null)
                 $newArr[$newindex]['TransDate'] = '';
             else
-                $newArr[$newindex]['TransDate'] = date('Y-m-d', strtotime($record->purchdate));
+                $newArr[$newindex]['TransDate'] = date('Y-m-d', $strtotime($record->purchdate));
             $newArr[$newindex]['Remark'] = $record->remark;
             $newArr[$newindex]['BankInformation'] = $record->bankinfo;
             $newindex++;
@@ -642,8 +643,8 @@ class ShipMember extends Model
                 $query->whereNull('DateOffboard')->orWhere('DateOffboard', '>', $today);
             });
 
-        $now = date('Y-m-d', strtotime("$year-$month-1"));
-        $next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
+        $now = date('Y-m-d', $strtotime("$year-$month-1"));
+        $next = date('Y-m-d', $strtotime("$next_year-$next_month-1"));
         $selector->where('DateOnboard', '<', $next);
 
         $today = date("Y-m-d");
@@ -673,7 +674,7 @@ class ShipMember extends Model
                 $newArr[$newindex]['DateOnboard'] = $now;
             }
 
-            $month_lastday = date('Y-m-d', strtotime('-1 day', strtotime($next)));
+            $month_lastday = date('Y-m-d', $strtotime('-1 day', $strtotime($next)));
             if ($record->DateOffboard == '' || $record->DateOffboard >= $next) {
                 $newArr[$newindex]['DateOffboard'] = $month_lastday;
             }
@@ -681,12 +682,12 @@ class ShipMember extends Model
                 $newArr[$newindex]['DateOffboard'] = $record->DateOffboard;
             }
 
-            $month_total_days = round((strtotime($month_lastday) - strtotime($now)) / (60 * 60 * 24)) + 1;
+            $month_total_days = round(($strtotime($month_lastday) - $strtotime($now)) / (60 * 60 * 24)) + 1;
             if ($newArr[$newindex]['DateOnboard'] == $now && $newArr[$newindex]['DateOffboard'] == $month_lastday) {
                 $newArr[$newindex]['SignDays'] = $month_total_days;
             }
             else {
-                $newArr[$newindex]['SignDays'] = number_format(round((strtotime($newArr[$newindex]['DateOffboard']) - strtotime($newArr[$newindex]['DateOnboard'])) / (60 * 60 * 24)) - $minus_days + 1, 1);
+                $newArr[$newindex]['SignDays'] = number_format(round(($strtotime($newArr[$newindex]['DateOffboard']) - $strtotime($newArr[$newindex]['DateOnboard'])) / (60 * 60 * 24)) - $minus_days + 1, 1);
             }
 
             $newArr[$newindex]['MinusCash'] = 0;
@@ -792,8 +793,10 @@ class ShipMember extends Model
             else if ($params['columns'][3]['search']['value'] == 'false')
             {
                 // DateOnboard == null or (Dateoffboard <= today)
-                $today = date("Y-m-d");
-                $selector->whereNull('DateOnboard')->orWhere('DateOffboard', '<=', $today);
+                $selector->where(function($query) {
+                    $today = date("Y-m-d");
+                    $query->whereNull('DateOnboard')->orWhere('DateOffboard', '<=', $today);
+                });
             }
             else
             {

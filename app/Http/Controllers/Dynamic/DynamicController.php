@@ -96,6 +96,7 @@ class DynamicController extends Controller
 			$description = $params['description'];
 
 			//$result = DB::table('tb_ship_duty')->truncate();
+			DB::table('tb_ship_duty')->whereNotIn('id', $ids)->delete();
 			for ($i=0;$i<count($orderno);$i++)
 			{
 				if (/*$orderno[$i] != '' || */$abb[$i] != '' || $name[$i] != '' || $description[$i] != '') {
@@ -103,13 +104,6 @@ class DynamicController extends Controller
 						DB::table('tb_ship_duty')->insert(['OrderNo' => $orderno[$i], 'Abb' => $abb[$i], 'Duty_En' => $name[$i], 'Description' => $description[$i]]);
 					else
 						DB::table('tb_ship_duty')->where('id', $ids[$i])->update(['OrderNo' => $orderno[$i], 'Abb' => $abb[$i], 'Duty_En' => $name[$i], 'Description' => $description[$i]]);
-					/*
-					ShipMemberSubExaming::where('SeafarerId', $submask->SeafarerId)
-					->where('ExamId', $submask->ExamId)
-					->update(['ExamId'=>$exam->id]);
-					*/
-
-					//DB::table('tb_ship_duty')->update()
 				}
 			}
 		}
