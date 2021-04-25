@@ -236,7 +236,14 @@ $QtyTypeData = array(
 	QTY_TYPE_MOLOO		=> 'MOLOO',
 	QTY_TYPE_MOLCO		=> 'MOLCO'
 );
-
+define('BANK_TYPE_0', 0);
+define('BANK_TYPE_1', 1);
+define('BANK_TYPE_2', 2);
+$BankData = array(
+	BANK_TYPE_0		=> '农行',
+	BANK_TYPE_1		=> '华夏',
+	BANK_TYPE_2		=> '大连'
+);
 
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,
@@ -256,6 +263,7 @@ $QtyTypeData = array(
 		'NationalityData'				=> $NationalityData,
 	    'IssuerTypeData'				=> $IssuerTypeData,
 		'CPTypeData'				    => $CPTypeData,
-	    'QtyTypeData'				    => $QtyTypeData,		
+	    'QtyTypeData'				    => $QtyTypeData,	
+		'BankData'				    => $BankData,	
 
  );

@@ -11,6 +11,8 @@ use App\Models\ShipManage\Ship;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipMember\ShipPosition;
 use App\Models\ShipTechnique\ShipPort;
+use App\Models\ShipMember\ShipWage;
+use App\Models\ShipMember\ShipWageList;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -468,12 +470,131 @@ class ShipMember extends Model
             'error' => 0,
         ];
     }
+    
+    public function getSendList($params, $wage_list_record, $shipId, $year, $month)
+    {
+        $selector = ShipWageSend::where('shipId', $shipId)->where('year', $year)->where('month', $month);
+        $records = $selector->get();
+        $recordsFiltered = $selector->count();
+        return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => $recordsFiltered,
+            'recordsFiltered' => $recordsFiltered,
+            'original' => false,
+            'data' => $records,
+            'error' => 0,
+        ];
+    }
+
+    public function getForSendWageDatatable($params) {
+        $selector = null;
+        $records = [];
+        $recordsFiltered = 0;
+        if (!isset($params['columns'][3]['search']['value']) ||
+            $params['columns'][3]['search']['value'] == '' ||
+            !isset($params['columns'][4]['search']['value']) ||
+            $params['columns'][4]['search']['value'] == ''
+        ) {
+            $year = $params['year'];
+            $month = $params['month'];
+            $shipId = $params['shipId'];
+        }
+        else
+        {
+            $shipId = $params['columns'][2]['search']['value'];
+            $year = $params['columns'][3]['search']['value'];
+            $month = $params['columns'][4]['search']['value'];
+        }
+        
+        $wage_list_record = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 1)->first();
+        if (!is_null($wage_list_record)) {
+            return $this->getSendList($params, $wage_list_record, $shipId, $year, $month);
+        }
+
+        $selector = ShipWage::where('shipId', $shipId)->where('year', $year)->where('month', $month);
+        $records = $selector->get();
+        $recordsFiltered = $selector->count();
+        $newArr = [];
+        $newindex = 0;
+        foreach($records as $index => $record) {
+            $newArr[$newindex]['no'] = $record->member_id;
+            $newArr[$newindex]['name'] = $record->name;
+            $newArr[$newindex]['rank'] = $record->rank;
+            $newArr[$newindex]['cashR'] = $record->cashR;
+            $newArr[$newindex]['sendR'] = $record->cashR;
+            $newArr[$newindex]['sendD'] = '';
+            if ($record->purchdate == null || $record->purchdate == '')
+                $newArr[$newindex]['purchdate'] = '';
+            else
+                $newArr[$newindex]['purchdate'] = date('Y-m-d', strtotime($record->purchdate));
+            $newArr[$newindex]['sendbank'] = 0;
+            $newArr[$newindex]['bankinfo'] = $record->bankinfo;
+            $newArr[$newindex]['remark'] = $record->remark;
+            $newindex++;
+        }
+
+        return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => $recordsFiltered,
+            'recordsFiltered' => $recordsFiltered,
+            'original' => true,
+            'data' => $newArr,
+            'error' => 0,
+        ];
+    }
+
+    public function getCalcList($params, $wage_list_record, $shipId, $year, $month)
+    {
+        $selector = ShipWage::where('shipId', $shipId)->where('year', $year)->where('month', $month);
+        $records = $selector->get();
+        $recordsFiltered = $selector->count();
+        $newArr = [];
+        $newindex = 0;
+        //return $records;
+        foreach($records as $index => $record) {
+            $newArr[$newindex]['no'] = $record->member_id;
+            $newArr[$newindex]['name'] = $record->name;
+            $newArr[$newindex]['rank'] = $record->rank;
+            $newArr[$newindex]['WageCurrency'] = $record->currency;
+            $newArr[$newindex]['Salary'] = $record->salary;
+            if ($record->signondate == null)
+                $newArr[$newindex]['DateOnboard'] = '';
+            else
+                $newArr[$newindex]['DateOnboard'] = date('Y-m-d', strtotime($record->signondate));
+                
+            if ($record->signoffdate == null)
+                $newArr[$newindex]['DateOffboard'] = '';
+            else
+                $newArr[$newindex]['DateOffboard'] = date('Y-m-d', strtotime($record->signoffdate));
+
+            $newArr[$newindex]['SignDays'] = $record->signdays;
+            $newArr[$newindex]['MinusCash'] = $record->minuscash;
+            $newArr[$newindex]['TransInR'] = $record->cashR;
+            $newArr[$newindex]['TransInD'] = $record->cashD;
+            if ($record->purchdate == null)
+                $newArr[$newindex]['TransDate'] = '';
+            else
+                $newArr[$newindex]['TransDate'] = date('Y-m-d', strtotime($record->purchdate));
+            $newArr[$newindex]['Remark'] = $record->remark;
+            $newArr[$newindex]['BankInformation'] = $record->bankinfo;
+            $newindex++;
+        }
+
+        return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => $recordsFiltered,
+            'recordsFiltered' => $recordsFiltered,
+            'info' => $wage_list_record,
+            'original' => false,
+            'data' => $newArr,
+            'error' => 0,
+        ];
+    }
 
     public function getForWageDatatable($params) {
         $selector = null;
         $records = [];
         $recordsFiltered = 0;
-
         if (!isset($params['columns'][3]['search']['value']) ||
             $params['columns'][3]['search']['value'] == '' ||
             !isset($params['columns'][4]['search']['value']) ||
@@ -487,16 +608,22 @@ class ShipMember extends Model
             $month = $params['month'];
             $minus_days = $params['minus_days'];
             $rate = $params['rate'];
+            $shipId = $params['shipId'];
         }
         else
         {
+            $shipId = $params['columns'][2]['search']['value'];
             $year = $params['columns'][3]['search']['value'];
             $month = $params['columns'][4]['search']['value'];
             $minus_days = $params['columns'][5]['search']['value'];
             $rate = $params['columns'][6]['search']['value'];
         }
+        $wage_list_record = ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->first();
+        if (!is_null($wage_list_record)) {
+            return $this->getCalcList($params, $wage_list_record, $shipId, $year, $month);
+        }
 
-        $selector = DB::table($this->table)->select('*');
+        $selector = DB::table($this->table)->where('ShipId', $shipId);
         
         $next_year = $year;
         $next_month = $month;
@@ -509,11 +636,11 @@ class ShipMember extends Model
             $next_month = $month + 1;
         }
 
-        if (isset($params['columns'][2]['search']['value'])
-            && $params['columns'][2]['search']['value'] !== ''
-        ) {
-            $selector->where('ShipId', $params['columns'][2]['search']['value']);
-        }
+        $selector->whereNotNull('DateOnboard')
+            ->where(function($query) {
+                $today = date("Y-m-d");
+                $query->whereNull('DateOffboard')->orWhere('DateOffboard', '>', $today);
+            });
 
         $now = date('Y-m-d', strtotime("$year-$month-1"));
         $next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
@@ -527,7 +654,7 @@ class ShipMember extends Model
         $newArr = [];
         $newindex = 0;
         foreach($records as $index => $record) {
-            //$newArr[$newindex]['no'] = $record->id;
+            $newArr[$newindex]['no'] = $record->id;
             $rank = ShipPosition::find($record->DutyID_Book);
             $newArr[$newindex]['rank'] = '&nbsp;';
             if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Abb;
@@ -562,7 +689,7 @@ class ShipMember extends Model
                 $newArr[$newindex]['SignDays'] = number_format(round((strtotime($newArr[$newindex]['DateOffboard']) - strtotime($newArr[$newindex]['DateOnboard'])) / (60 * 60 * 24)) - $minus_days + 1, 1);
             }
 
-            $newArr[$newindex]['MinusCash'] = 100;
+            $newArr[$newindex]['MinusCash'] = 0;
             if ($record->WageCurrency == 0) {
                 $newArr[$newindex]['TransInR'] = number_format($record->Salary * $newArr[$newindex]['SignDays'] / $month_total_days - $newArr[$newindex]['MinusCash'], 2);
                 $newArr[$newindex]['TransInD'] = number_format($newArr[$newindex]['TransInR'] / $rate, 2);
@@ -573,7 +700,7 @@ class ShipMember extends Model
                 $newArr[$newindex]['TransInR'] = number_format($newArr[$newindex]['TransInD'] * $rate, 2);
             }
             $newArr[$newindex]['TransDate'] = '';
-            $newArr[$newindex]['Remark'] = '1000先给付了';
+            $newArr[$newindex]['Remark'] = '';
             $newArr[$newindex]['BankInformation'] = $record->BankInformation;
 
             /*
@@ -626,6 +753,7 @@ class ShipMember extends Model
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
             'recordsFiltered' => $recordsFiltered,
+            'original' => true,
             'data' => $newArr,
             'error' => 0,
         ];
