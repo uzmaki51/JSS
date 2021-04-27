@@ -201,12 +201,22 @@ class WageController extends Controller
         $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
                         ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                         ->get();
+        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = $start_year['min_date'];
+        }
+        $start_month = date("m", strtotime($start_year));
+        $start_year = date("Y", strtotime($start_year));
         return view('shipMember.member_calc_wages', [
         	'shipList'      => $shipList,
             'posList'       => $posList,
             'shipId'        => $shipId,
             'year'          => $year,
             'month'         => $month,
+            'start_year'    => $start_year,
+            'start_month'    => $start_month,
         ]);
     }
 
@@ -218,12 +228,49 @@ class WageController extends Controller
         $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
                         ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                         ->get();
+        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = $start_year['min_date'];
+        }
+        $start_month = date("m", strtotime($start_year));
+        $start_year = date("Y", strtotime($start_year));
         return view('shipMember.member_send_wages', [
         	'shipList'      => $shipList,
             'posList'       => $posList,
             'shipId'        => $shipId,
             'year'          => $year,
             'month'         => $month,
+            'start_year'    => $start_year,
+            'start_month'    => $start_month,
+        ]);
+    }
+
+    public function wagelist(Request $request) {
+        $shipId = $request->get('shipId');
+        $year = $request->get('year');
+        $month = $request->get('month');
+        $posList = ShipPosition::all();
+        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                        ->get();
+        $start_year = ShipMember::select(DB::raw('MIN(DateOnboard) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = $start_year['min_date'];
+        }
+        $start_month = date("m", strtotime($start_year));
+        $start_year = date("Y", strtotime($start_year));
+        return view('shipMember.member_wages_list', [
+        	'shipList'      => $shipList,
+            'posList'       => $posList,
+            'shipId'        => $shipId,
+            'year'          => $year,
+            'month'         => $month,
+            'start_year'    => $start_year,
+            'start_month'    => $start_month,
         ]);
     }
 }

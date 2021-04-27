@@ -28,17 +28,16 @@ $isHolder = Session::get('IS_HOLDER');
                                 <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
                                 <select class="custom-select d-inline-block" name="select-ship" id="select-ship" style="width:80px">
                                     @foreach($shipList as $ship)
-                                        <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif>{{$ship['shipName_En']}}</option>
+                                        <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                                     @endforeach
                                 </select>
-                                <label class="custom-label d-inline-block" style="padding: 6px;">月份:</label>
                                 <select name="select-year" id="select-year" style="font-size:13px">
-                                    @for($i=2020;$i<2025;$i++)
+                                    @for($i=$start_year;$i<=date("Y");$i++)
                                     <option value="{{$i}}" @if((isset($year) && ($year == $i)) || (date("Y")==$i))selected @endif>{{$i}}年</option>
                                     @endfor
                                 </select>
                                 <select name="select-month" id="select-month" style="font-size:13px">
-                                    @for($i=1;$i<13;$i++)
+                                    @for($i=1;$i<=date("m");$i++)
                                     <option value="{{$i}}" @if((isset($month) && ($month == $i)) || (date("m")==$i))selected @endif>{{$i}}月</option>
                                     @endfor
                                 </select>
@@ -92,6 +91,10 @@ $isHolder = Session::get('IS_HOLDER');
 	echo '<script>';
 	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
     echo 'var BankInfo = ' . json_encode(g_enum('BankData')) . ';';
+    echo 'var start_year = ' . $start_year . ';';
+    echo 'var start_month = ' . $start_month . ';';
+    echo 'var now_year = ' . date("Y") . ';';
+    echo 'var now_month = ' . date("m") . ';';
 	echo '</script>';
 	?>
     <script>
@@ -176,6 +179,7 @@ $isHolder = Session::get('IS_HOLDER');
         year = $("#select-year option:selected").val();
         month = $("#select-month option:selected").val();
         shipId = $("#select-ship").val();
+        $('#search_info').html('"' + $("#select-ship option:selected").attr('data-name') + '" ' + year + '年' + month + '月');
         initTable();
 
         function setValue(e, v) {
@@ -227,7 +231,7 @@ $isHolder = Session::get('IS_HOLDER');
             year = $("#select-year option:selected").val();
             month = $("#select-month option:selected").val();
             if (shipName == "") return;
-            $('#search_info').html('"' + shipName + '" ' + year + '年' + month + '月');
+            $('#search_info').html('"' + $("#select-ship option:selected").attr('data-name') + '" ' + year + '年' + month + '月');
 
             if (listTable == null) {
                 initTable();
@@ -247,6 +251,26 @@ $isHolder = Session::get('IS_HOLDER');
 
         $('#select-year').on('change', function() {
             year = $("#select-year option:selected").val();
+            var months = "";
+            if (year == now_year) {
+                for(var i=1;i<=now_month;i++)
+                {
+                    months += '<option value="' + i + '" ' + ((now_month==i)?'selected>':'>') +  i + '月</option>';
+                }
+            }
+            else if (year == start_year) {
+                for(var i=start_month;i<=12;i++)
+                {
+                    months += '<option value="' + i + '" ' + ((start_year==now_year && now_month==i)?'selected>':'>') +  i + '月</option>';
+                }
+            }
+            else
+            {
+                for(var i=1;i<=12;i++) {
+                    months += '<option value="' + i + '" >' + i + '月</option>';
+                }
+            }
+            $('#select-month').html(months);
             origForm = "";
             selectInfo();
         });
