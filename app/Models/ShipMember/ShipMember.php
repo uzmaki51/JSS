@@ -703,15 +703,15 @@ class ShipMember extends Model
         }
         $now = date('Y-m-d', strtotime("$year-$month-1"));
         $next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
-
+        $next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
+        
         $selector->where(function($query) use($now, $next){
-            $query->whereNull('DateOffboard')->orWhere(function($query2) use($now, $next) {
-                $query2->where('DateOffboard', '>=', $now);
-                $query2->where('DateOffboard', '<=', $next);
+            $query->orWhere(function($query) use($now, $next) {
+                $query->where('DateOnboard', '<=' , $next)->where('DateOffboard', '>=', $now);
+            })->orWhere(function($query) use($now, $next) {
+                $query->whereNotNull('DateOnboard')->where('DateOnboard', '<=' , $next)->whereNull('DateOffboard');
             });
         });
-
-        $selector->where('DateOnboard', '<', $next);
         $today = date("Y-m-d");
         $selector->orderBy('DutyID_Book');
         $records = $selector->get();
@@ -732,29 +732,25 @@ class ShipMember extends Model
 
             $newArr[$newindex]['WageCurrency'] = $record->WageCurrency;
             $newArr[$newindex]['Salary'] = $record->Salary;
-            if ($record->DateOnboard > $now && $record->DateOnboard < $next) {
+
+            if ($record->DateOnboard <= $now) {
+                $newArr[$newindex]['DateOnboard'] = $now;
+            } else {
                 $newArr[$newindex]['DateOnboard'] = $record->DateOnboard;
             }
-            else {
-                $newArr[$newindex]['DateOnboard'] = $now;
-            }
 
-            $month_lastday = date('Y-m-d', strtotime('-1 day', strtotime($next)));
-            if ($record->DateOffboard == '' || $record->DateOffboard >= $next) {
-                $newArr[$newindex]['DateOffboard'] = $month_lastday;
-            }
-            else if ($record->DateOffboard < $next && $record->DateOffboard >= $now) {
+            if ($record->DateOffboard == null || $record->DateOffboard >= $next) {
+                $newArr[$newindex]['DateOffboard'] = $next;
+            } else {
                 $newArr[$newindex]['DateOffboard'] = $record->DateOffboard;
             }
-
-            $month_total_days = round((strtotime($month_lastday) - strtotime($now)) / (60 * 60 * 24)) + 1;
-            if ($newArr[$newindex]['DateOnboard'] == $now && $newArr[$newindex]['DateOffboard'] == $month_lastday) {
+            $month_total_days = round((strtotime($next) - strtotime($now)) / (60 * 60 * 24)) + 1;
+            if ($newArr[$newindex]['DateOnboard'] == $now && $newArr[$newindex]['DateOffboard'] == $next) {
                 $newArr[$newindex]['SignDays'] = $month_total_days;
-            }
-            else {
+            } else {
                 $newArr[$newindex]['SignDays'] = number_format(round((strtotime($newArr[$newindex]['DateOffboard']) - strtotime($newArr[$newindex]['DateOnboard'])) / (60 * 60 * 24)) - $minus_days + 1, 1);
             }
-
+            
             $newArr[$newindex]['MinusCash'] = 0;
             if ($record->WageCurrency == 0) {
                 $newArr[$newindex]['TransInR'] = number_format($record->Salary * $newArr[$newindex]['SignDays'] / $month_total_days - $newArr[$newindex]['MinusCash'], 2);
@@ -768,7 +764,7 @@ class ShipMember extends Model
             $newArr[$newindex]['TransDate'] = '';
             $newArr[$newindex]['Remark'] = '';
             $newArr[$newindex]['BankInformation'] = $record->BankInformation;
-            $newArr[$newindex]['DateOnboard'] = $record->DateOnboard;
+            //$newArr[$newindex]['DateOnboard'] = $record->DateOnboard;
             $newindex ++;
         }
         return [
