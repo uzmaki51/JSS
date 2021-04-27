@@ -18,6 +18,7 @@ use Litipk\BigNumbers\Decimal;
  * @param string $keyField
  * @return array
  */
+
 function g_makeArrayIDKey($data, $idField='id')
 {
     $result = array();
@@ -795,3 +796,11 @@ function _convertDateFormat($date, $format) {
 	return date($format, strtotime($date));
 }
 
+function strtotime2($str) {
+ 
+    list($year, $month, $day) = explode('-', $str);
+    if($year > 2030) $year = 2030;
+    $timestamp = mktime(0, 0, 0, $month, $day, $year);
+    
+    return $timestamp;
+}

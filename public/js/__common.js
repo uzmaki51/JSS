@@ -184,6 +184,10 @@ function _convertDate(value, format = '/') {
     return date.getFullYear() + format + (date.getMonth() + 1) + format + date.getDate();
 }
 
+function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
 $(".modal-draggable").draggable({
 	helper: 'move',
 	cursor: 'move',

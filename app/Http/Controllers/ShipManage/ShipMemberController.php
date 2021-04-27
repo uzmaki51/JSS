@@ -913,6 +913,13 @@ class ShipMemberController extends Controller
         return response()->json($ret);
     }
 
+    public function ajaxSearchMemberWithSendWage(Request $request) {
+        $params = $request->all();
+        $tbl = new ShipMember();
+        $ret = $tbl->getForSendWageDatatable($params);
+        return response()->json($ret);
+    }
+
     public function ajaxShipMemberCertList(Request $request) {
         $params = $request->all();
         $tbl = new ShipMember();

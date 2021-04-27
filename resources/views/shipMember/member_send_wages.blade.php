@@ -5,81 +5,50 @@ $isHolder = Session::get('IS_HOLDER');
 
 @section('styles')
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')
     <div class="main-content">
         <style>
         </style>
         <div class="page-content">
+        <form id="wage-form" action="updateWageSendInfo" role="form" method="POST" enctype="multipart/form-data">
             <div class="page-header">
                 <div class="col-sm-3">
-                    <h4><b>工资管理</b></h4>
+                    <h4><b>工资汇款</b></h4>
                 </div>
             </div>
             <div class="space-4"></div>
-            <div class="tabbable">
-                <ul class="nav nav-tabs ship-register" id="memberTab">
-                    <li class="active">
-                        <a data-toggle="tab" href="#calc_wage">
-                            工资计算
-                        </a>
-                    </li>
-                    <li>
-                        <a data-toggle="tab" href="#transfer_wage">
-                            工资汇款
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tab-content">
+            <div class="col-md-12" style="margin-top:4px;">
                 <div id="calc_wage" class="tab-pane active">
                     <div class="space-4"></div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
-                                <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
-                                    <!--option value="" selected></option-->
-                                    <?php $index = 0 ?>
+                                <select class="custom-select d-inline-block" name="select-ship" id="select-ship" style="width:80px">
                                     @foreach($shipList as $ship)
-                                        <?php $index ++ ?>
-                                        @if ($index == 14) <option value="{{ $ship['IMO_No'] }}" selected>{{$ship['shipName_En']}}</option>
-                                        @else <option value="{{ $ship['IMO_No'] }}">{{$ship['shipName_En']}}</option>
-                                        @endif
+                                        <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif>{{$ship['shipName_En']}}</option>
                                     @endforeach
                                 </select>
-                                <label class="custom-label d-inline-block" style="padding: 6px;">减少天数:</label>
-                                <input type="number" id="minus-days" value="0.5" step="0.5" min="0" autocomplete="off" style="width:60px;margin-right:0px;"/>
-                                <label class="custom-label d-inline-block" style="padding: 6px;">汇率:</label>
-                                <input type="number" id="rate" value="6.5" min="0" step="0.1" autocomplete="off" style="width:80px;margin-right:0px;"/>
-                            </div>
-                        </div>
-                        <div class="col-md-12" style="margin-top:10px;">
-                            <div class="col-md-7">
                                 <label class="custom-label d-inline-block" style="padding: 6px;">月份:</label>
-                                <select id="select-year" style="font-size:13px">
+                                <select name="select-year" id="select-year" style="font-size:13px">
                                     @for($i=2020;$i<2025;$i++)
-                                    <option value="{{$i}}" @if(date("Y")==$i)selected @endif>{{$i}}年</option>
+                                    <option value="{{$i}}" @if((isset($year) && ($year == $i)) || (date("Y")==$i))selected @endif>{{$i}}年</option>
                                     @endfor
                                 </select>
-                                <select id="select-month" style="font-size:13px">
+                                <select name="select-month" id="select-month" style="font-size:13px">
                                     @for($i=1;$i<13;$i++)
-                                    <option value="{{$i}}" @if(date("m")==$i)selected @endif>{{$i}}月</option>
+                                    <option value="{{$i}}" @if((isset($month) && ($month == $i)) || (date("m")==$i))selected @endif>{{$i}}月</option>
                                     @endfor
                                 </select>
-                                <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>份工资单</strong>
+                                <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>份工资汇款单</strong>
                             </div>
                             <div class="col-md-5" style="padding:unset!important">
                                 <div class="btn-group f-right">
-                                    <a href="/shipMember/registerShipMember" class="btn btn-sm btn-primary btn-add" style="width: 80px">
-                                        <i class="icon-plus"></i>{{ trans('common.label.add') }}
-                                    </a>
-                                    <button type="submit" id="btnRegister" class="btn btn-sm btn-info" style="width: 80px">
+                                    <a id="btnSave" class="btn btn-sm btn-info" style="width: 80px">
                                         <i class="icon-save"></i>{{ trans('common.label.save') }}
-                                    </button>
-                                    <button type="submit" id="btnRegister" class="btn btn-sm btn-success" style="width: 80px">
-                                        <img src="http://192.168.3.214/assets/images/send_report.png" class="report-label-img">{{ trans('common.label.request') }}
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -92,19 +61,14 @@ $isHolder = Session::get('IS_HOLDER');
                                         <thead class="">
                                             <th class="text-center style-normal-header" style="width: 3%;"><span>No</span></th>
                                             <th class="text-center style-normal-header" style="width: 6%;"><span>姓名</span></th>
-                                            <th class="text-center style-normal-header" style="width: 5%;"><span>职务</span></th>
-                                            <th class="text-center style-normal-header" style="width: 2%;"><span>币类</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>合约薪资</span></th>
-                                            <th class="text-center style-normal-header" style="width: 7%;"><span>上船日期</span></th>
-                                            <th class="text-center style-normal-header" style="width: 7%;"><span>下船/截止日期</span></th>
-                                            <th class="text-center style-normal-header" style="width: 4%;"><span>在船天数</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>扣款</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;"><span>家汇款<br>(¥)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;"><span>家汇款<br>($)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>支付日期</span></th>
-                                            <th class="text-center style-normal-header" style="width: 9%;"><span>备注</span></th>
-                                            <th class="text-center style-normal-header" style="width: 20%;"><span>银行账户</span></th>
-                                            <th class="text-center" style=""></th>
+                                            <th class="text-center style-normal-header" style="width: 6%;"><span>职务</span></th>
+                                            <th class="text-center style-normal-header" style="width: 10%;"><span>家汇款<br>(¥)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 10%;"><span>实发款<br>(¥)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 10%;"><span>实发款<br>($)</span></th>
+                                            <th class="text-center style-normal-header" style="width: 9%;"><span>支付日期</span></th>
+                                            <th class="text-center style-normal-header" style="width: 6%;"><span>出款银行</span></th>
+                                            <th class="text-center style-normal-header" style="width: 28%;"><span>银行账户</span></th>
+                                            <th class="text-center style-normal-header" style="width: 12%;"><span>备注</span></th>
                                         </thead>
                                         <tbody class="" id="list-body">
                                         </tbody>
@@ -115,6 +79,7 @@ $isHolder = Session::get('IS_HOLDER');
                     </div>
                 </div>
             </div>
+        </form>
         </div>
     </div>
 
@@ -122,9 +87,11 @@ $isHolder = Session::get('IS_HOLDER');
     <script src="{{ asset('/assets/js/x-editable/ace-editable.min.js') }}"></script>
     <script src="{{ cAsset('assets/js/jsquery.dataTables.js') }}"></script>
     <script src="{{ asset('/assets/js/dataTables.rowsGroup.js') }}"></script>
+    
     <?php
 	echo '<script>';
 	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+    echo 'var BankInfo = ' . json_encode(g_enum('BankData')) . ';';
 	echo '</script>';
 	?>
     <script>
@@ -132,20 +99,14 @@ $isHolder = Session::get('IS_HOLDER');
         var shipName = '';
         var year = '';
         var month = '';
-        var minus_days = 0;
-        var rate = 1;
+        var shipId;
+        var original, info;
         $(function () {
             $.fn.editable.defaults.mode = 'inline';
             $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
             $.fn.editableform.buttons = '';
         });
             
-        function setDatePicker() {
-            $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-                $(this).prev().focus();
-            });
-        }
-
         var listTable = null;
         function initTable() {
             listTable = $('#table-shipmember-list').DataTable({
@@ -153,9 +114,9 @@ $isHolder = Session::get('IS_HOLDER');
                 serverSide: true,
                 searching: true,
                 ajax: {
-                    url: BASE_URL + 'ajax/shipMember/wage/list',
+                    url: BASE_URL + 'ajax/shipMember/wage/send',
                     type: 'POST',
-                    data: { 'year':year, 'month':month, 'minus_days':minus_days, 'rate':rate},
+                    data: { 'year':year, 'month':month, 'shipId':shipId},
                 },
                 "ordering": false,
                 "pageLength": 500,
@@ -165,53 +126,43 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: null, className: "text-center"},
                     {data: 'name', className: "text-center"},
                     {data: 'rank', className: "text-center"},
-                    {data: 'WageCurrency', className: "text-center"},
-                    {data: 'Salary', className: "text-center"},
-                    {data: 'DateOnboard', className: "text-center"},
-                    {data: 'DateOffboard', className: "text-center"},
-                    {data: 'SignDays', className: "text-center"},
-                    {data: 'MinusCash', className: "text-center"},
-                    {data: 'TransInR', className: "text-center"},
-                    {data: 'TransInD', className: "text-center"},
-                    {data: 'TransDate', className: "text-center"},
-                    {data: 'Remark', className: "text-center"},
-                    {data: 'BankInformation', className: "text-center"},
-                    {data: null, className: "text-center"},
+                    {data: 'cashR', className: "text-center"},
+                    {data: 'sendR', className: "text-center"},
+                    {data: 'sendD', className: "text-center"},
+                    {data: 'purchdate', className: "text-center"},
+                    {data: 'sendbank', className: "text-center"},
+                    {data: 'remark', className: "text-center"},
+                    {data: 'bankinfo', className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
                     $(row).attr('class', 'member-item disable-tr');
                     $(row).attr('data-index', data['no']);
-                    $('td', row).eq(0).html('').append((pageInfo.page * pageInfo.length + index + 1));
-                    $('td', row).eq(0).attr('class', 'text-center disable-td');
+                    $('td', row).eq(0).attr('class', 'text-center disable-td add-no');
                     $('td', row).eq(1).attr('class', 'text-center disable-td');
                     $('td', row).eq(2).attr('class', 'text-center disable-td');
-                    if (data['WageCurrency'] == 0)
-                        $('td', row).eq(3).html('¥');
-                    else
-                        $('td', row).eq(3).html('$');
                     $('td', row).eq(3).attr('class', 'text-center disable-td');
-                    $('td', row).eq(4).attr('class', 'text-center disable-td');
-                    $('td', row).eq(5).attr('class', 'text-center disable-td');
-                    $('td', row).eq(6).attr('class', 'text-center disable-td');
-                    $('td', row).eq(7).attr('class', 'text-center disable-td');
-                    $('td', row).eq(9).attr('class', 'text-center disable-td');
-                    $('td', row).eq(10).attr('class', 'text-center disable-td');
-                    $('td', row).eq(13).attr('class', 'text-center disable-td');
-                    $('td', row).eq(13).attr('style', 'word-wrap:break-word');
-                    $('td', row).eq(14).html('').append('<div class="action-buttons"><a class="red" href="javascript:deleteItem(' + data['no'] + ')"><i class="icon-trash"></i></a></div>');
+                    $('td', row).eq(8).attr('class', 'text-center disable-td');
+                    $('td', row).eq(8).attr('style', 'word-wrap:break-word');
 
-                    $('td', row).eq(8).html('<input type="text" class="form-control" name="ItemNo" value="' + data['MinusCash'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(11).html('<input type="text" class="form-control" name="ItemNo" value="' + data['TransDate'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(12).html('<input type="text" class="form-control" name="ItemNo" value="' + data['Remark'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-
-
-                    $('td', row).eq(1).attr('name', 'Names[]');
-                    $('td', row).eq(9).attr('name', 'TransInR[]');
-                    $('td', row).eq(10).attr('name', 'TransInD[]');
-                    $('td', row).eq(11).attr('name', 'TransDate[]');
+                    $('td', row).eq(0).html('').append('<label>' + (pageInfo.page * pageInfo.length + index + 1)+ '</label><input type="hidden" name="MemberId[]" value="' + data['no'] + '">');
+                    $('td', row).eq(1).html('<label>' + data['name'] + '</label><input type="hidden" name="Names[]" value="' + data['name'] + '">');
+                    $('td', row).eq(2).html('<label>' + data['rank'] + '</label><input type="hidden" name="Rank[]" value="' + data['rank'] + '">');
+                    $('td', row).eq(3).html('<label>' + data['cashR'] + '</label><input type="hidden" name="CashR[]" value="' + data['cashR'] + '">');
+                    $('td', row).eq(4).html('<input type="text" class="form-control add-sendR" name="SendR[]" value="' + data['sendR'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(5).html('<input type="text" class="form-control add-sendD" name="SendD[]" value="' + data['sendD'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(6).html('<div class="input-group"><input class="form-control add-trans-date date-picker" name="PurchDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + (data['purchdate'] == null ? "": data['purchdate'].substring(0,10)) + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
+                    var bank_info = '<select class="form-control" name="SendBank[]">';
+                    for (var i=0;i<BankInfo.length;i++)
+                        bank_info += '<option value="'+i+'"' + ((i==data['sendbank'])?'selected':'') + '>'+BankInfo[i]+'</option>';
+                    bank_info += '</select>';
+                    $('td', row).eq(7).html(bank_info);
+                    $('td', row).eq(8).html('<label>' + data['bankinfo'] + '</label><input type="hidden" name="BankInfo[]" value="' + data['bankinfo'] + '">');
+                    $('td', row).eq(9).html('<input type="text" class="form-control" name="Remark[]" value="' + data['remark'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                 },
-                drawCallback: function (settings) {
+                drawCallback: function (response) {
+                    original = response.json.original;
+                    setEvents();
                     calcReport();
                 }
             });
@@ -222,31 +173,52 @@ $isHolder = Session::get('IS_HOLDER');
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         }
+        year = $("#select-year option:selected").val();
+        month = $("#select-month option:selected").val();
+        shipId = $("#select-ship").val();
         initTable();
+
+        function setValue(e, v) {
+            e.closest("td").firstElementChild.innerHTML = v;
+            e.value = v;
+        }
         function calcReport()
         {
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var yyyy = today.getFullYear();
-            today = yyyy + '-' + mm + '-' + dd;
-            //alert("!")
-            var TransInR = $('td[name="TransInR[]"]');
-            var TransInD = $('td[name="TransInD[]"]');
-            var TransDate = $('td[name="TransDate[]"]');
+            var CashR = $('input[name="CashR[]"]');
+            var SendR = $('input[name="SendR[]"]');
+            var SendD = $('input[name="SendD[]"]');
+            var No = $('.add-no');
+            
             var sum_R = 0;
             var sum_D = 0;
-            var sum_pre = 0;
-            for (var i=0;i<TransInR.length;i++) {
-                sum_R += parseFloat(TransInR[i].innerHTML);
-                sum_D += parseFloat(TransInD[i].innerHTML);
-                if (TransDate[i].innerHTML != '') {
-                    sum_pre += parseFloat(TransInR[i].innerHTML);
-                }
-            }
-            var sum_Real = sum_R - sum_pre;
+            var sum_P = 0;
+            for (var i=0;i<CashR.length;i++) {
+                setValue(No[i], i + 1);
+                var _R = CashR[i].value;
+                var _D = SendR[i].value;
+                var _P = SendD[i].value;
 
-            $('#list-body').append('<tr class="" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">28</td><td class="sub-small-header style-normal-header" colspan="3"></td><td colspan="2" class="sub-small-header style-normal-header text-center">计算日期</td><td class="disable-td text-center">' + today + '</td><td colspan="2" class="sub-small-header style-normal-header text-center">合计</td><td class="style-normal-header disable-td text-center">¥ ' + sum_R.toFixed(2) + '</td><td class="style-normal-header text-center disable-td">$ ' + sum_D.toFixed(2) + '</td><td class="sub-small-header style-normal-header text-center">实发工资</td><td class="style-normal-header text-center disable-td">' + sum_Real.toFixed(2) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td></tr>');
+                setValue(CashR[i], _R);
+                setValue(SendR[i], _D);
+                setValue(SendD[i], _P);
+
+                sum_R += parseFloat(_R);
+                sum_D += parseFloat(_D);
+                sum_P += (_P=='')?0:parseFloat(_P);
+            }
+            if ($('#list-body tr:last').attr('class') == 'tr-report') {
+                $('#list-body tr:last').remove();
+            }
+            $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.member-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td><td class="style-normal-header disable-td text-center">¥ ' + sum_R.toFixed(2) + '</td><td class="style-normal-header text-center disable-td">¥ ' + sum_D.toFixed(2) + '</td><td class="style-normal-header text-center disable-td">$ ' + sum_P.toFixed(2)+ '</td><td class="sub-small-header style-normal-header" colspan="4"></td></tr>');
+            setDatePicker();
+            if (origForm == "")
+                origForm = $form.serialize();
+        }
+
+        function setDatePicker() {
+            $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
         }
 
         function selectInfo()
@@ -254,8 +226,6 @@ $isHolder = Session::get('IS_HOLDER');
             shipName = $("#select-ship option:selected").text();
             year = $("#select-year option:selected").val();
             month = $("#select-month option:selected").val();
-            minus_days = $("#minus-days").val();
-            rate = $("#rate").val();
             if (shipName == "") return;
             $('#search_info').html('"' + shipName + '" ' + year + '年' + month + '月');
 
@@ -266,28 +236,24 @@ $isHolder = Session::get('IS_HOLDER');
             {
                 listTable.column(3).search(year, false, false);
                 listTable.column(4).search(month, false, false);
-                listTable.column(5).search(minus_days, false, false);
-                listTable.column(6).search(rate, false, false);
                 listTable.column(2).search($("#select-ship").val(), false, false).draw();
             }
         }
         $('#select-ship').on('change', function() {
+            shipId = $('#select-ship').val();
+            origForm = "";
             selectInfo();
         });
 
         $('#select-year').on('change', function() {
+            year = $("#select-year option:selected").val();
+            origForm = "";
             selectInfo();
         });
 
         $('#select-month').on('change', function() {
-            selectInfo();
-        });
-
-        $('#minus-days').on('change', function() {
-            selectInfo();
-        });
-
-        $('#rate').on('change', function() {
+            month = $("#select-month option:selected").val();
+            origForm = "";
             selectInfo();
         });
 
@@ -296,6 +262,30 @@ $isHolder = Session::get('IS_HOLDER');
            fnExcelReport();
 		});
 
+        $('body').on('keydown', 'input', function(e) {
+            //if (e.target.id == "search-name") return;
+            if (e.key === "Enter") {
+                var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+                focusable = form.find('input').filter(':visible');
+                next = focusable.eq(focusable.index(this)+1);
+                if (next.length) {
+                    next.focus();
+                }
+                return false;
+            }
+        });
+
+        function setEvents()
+        {
+            $('.add-sendR').on('change', function() {
+                calcReport();
+            });
+
+            $('.add-sendD').on('change', function() {
+                calcReport();
+            });
+        }
+        
         function fnExcelReport()
         {
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
@@ -353,6 +343,28 @@ $isHolder = Session::get('IS_HOLDER');
             exportExcel(tab_text, filename, 'CREW LIST');
             return 0;
         }
+
+        var submitted = false;
+        $("#btnSave").on('click', function() {
+            submitted = true;
+            if ($('.member-item').length > 0) {
+                $('#wage-form').submit();
+            }
+        });
+
+        var $form = $('form');
+        var origForm = "";
+        window.addEventListener("beforeunload", function (e) {
+            var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+            var newForm = $form.serialize();
+            newForm = newForm.replace("editable-image-input-hidden=&", "");
+            if ((newForm !== origForm) && !submitted) {
+                (e || window.event).returnValue = confirmationMessage;
+            }
+            return confirmationMessage;
+        });
+
     </script>
 
 @endsection
