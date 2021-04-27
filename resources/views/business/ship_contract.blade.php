@@ -653,11 +653,24 @@ $ships = Session::get('shipList');
         location.href = '/business/contract?shipId=' + ship_id;
     });
 
-    if(isChangeStatus == false)
-        submitted = false;
-
-    $("form").submit(function() {
-        submitted = true;
+    $('#submit').on('click', function(e) {
+        if(ACTIVE_TAB == 'voy') {
+            if(voyContractObj.validate_voy_no == true && voyContractObj.voy_no != '') {
+                submitted = true;
+                $('#voyContractForm').submit();
+            } else {
+                alert('Please input data correclty.');
+                return false;
+            }
+        } else {
+            if(tcContractObj.validate_voy_no == true && tcContractObj.voy_no != '') {
+                submitted = true;
+                $('#tcContractForm').submit();
+            } else {
+                alert('Please input data correclty.');
+                return false;
+            }
+        }
     });
 
     </script>

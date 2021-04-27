@@ -700,25 +700,6 @@
         })
     }
 
-    $('#submit').on('click', function(e) {
-        if(ACTIVE_TAB == 'voy') {
-            if(voyContractObj.validate_voy_no == true && voyContractObj.voy_no != '')
-                $('#voyContractForm').submit();
-            else {
-                alert('Please input data correclty.');
-                return false;
-            }
-        } else {
-            if(tcContractObj.validate_voy_no == true && tcContractObj.voy_no != '')
-                $('#tcContractForm').submit();
-            else {
-                alert('Please input data correclty.');
-                return false;
-            }
-        }
-        
-    });
-
     
     $(document).mouseup(function(e) {
         var container = $(".dynamic-options-scroll");
