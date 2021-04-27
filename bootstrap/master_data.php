@@ -223,8 +223,8 @@ $NationalityData = array(
 
 
 # CPTypeData
-define('CP_TYPE_VOY',   1);
-define('CP_TYPE_TC',    2);
+define('CP_TYPE_VOY',   'VOY');
+define('CP_TYPE_TC',    'TC');
 $CPTypeData = array(
 	CP_TYPE_VOY     => 'VOY',
 	CP_TYPE_TC      => 'TC'

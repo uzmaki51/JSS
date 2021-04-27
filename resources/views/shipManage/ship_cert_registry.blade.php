@@ -357,20 +357,12 @@ $ships = Session::get('shipList');
 
                 },
                 updated() {
-                    // console.log(initLoad);
-                    // console.log('-----------');
-                    // if(initLoad == true) {
-                        console.log('++++++++++++++++');
                         $('.date-picker').datepicker({
                             autoclose: true,
                         }).next().on(ace.click_event, function () {
                             $(this).prev().focus();
                         });
-                        console.log(initLoad);
-                        initLoad = false;
-                        console.log(initLoad);
                     }
-                // }
             });
 
             certTypeObj = new Vue({
@@ -444,7 +436,6 @@ $ships = Session::get('shipList');
 
                     $('[name=ship_id]').val(ship_id);
                     $('#ship_name').text(ship_name);
-                    //certListObj.cert_array = data['ship'];
                     certListObj.cert_array = [];
                     Object.assign(certListObj.cert_array, data['ship']);
                     certListObj.certTypeList = typeList;

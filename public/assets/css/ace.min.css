@@ -18870,12 +18870,12 @@ select option[value=""], select.form-control option[value=""] {
 }
 
 input[disabled] {
-    color: #848484 !important;
+    color: #000000 !important;
     background-color: #eee !important
 }
 
 input[disabled]:hover {
-    border-color: #d5d5d5 !important
+    border-color: #4c4c4c !important
 }
 
 input[readonly] {

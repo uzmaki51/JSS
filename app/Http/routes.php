@@ -99,13 +99,23 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipManage/shipCert/delete', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertDelete']);
 
 	//Business
+	Route::post('business/cp/list', ['uses'	=> 'Business\BusinessController@ajaxVoyList']);
+	Route::post('business/cp/delete', ['uses'	=> 'Business\BusinessController@ajaxVoyDelete']);
 	Route::post('business/contract/info', ['uses'=>'Business\BusinessController@ajaxContractInfo']);
+	Route::post('business/voyNo/validate', ['uses'=>'Business\BusinessController@ajaxVoyNoValid']);
+	Route::post('business/cargo/list', ['uses'	=> 'Business\BusinessController@ajaxCargoList']);
+	Route::post('business/cargo/delete', ['uses'	=> 'Business\BusinessController@ajaxCargoDelete']);
+	Route::post('business/port/delete', ['uses'	=> 'Business\BusinessController@ajaxPortDelete']);
 
 });
 
 // Administrative Affairs
 Route::group(['prefix' => 'business'], function() {
 	Route::get('contract', ['uses' => 'Business\BusinessController@contract']);
+	Route::post('voyContractRegister', ['uses'	=> 'Business\BusinessController@saveVoyContract']);
+	Route::post('saveCargoList', ['uses'	=> 'Business\BusinessController@saveCargoList']);	
+	Route::post('savePortList', ['uses'	=> 'Business\BusinessController@savePortList']);	
+	Route::post('tcContractRegister', ['uses'	=> 'Business\BusinessController@saveTcContract']);
 	Route::get('/', ['uses'=>'Business\BusinessController@index']);
 	Route::get('newsTemaPage', ['uses'=>'Business\BusinessController@newsTemaPage']);
 	Route::get('temaInfo',['uses'=>'Business\BusinessController@getNewsTemaInfo']);

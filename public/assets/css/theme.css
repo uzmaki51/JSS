@@ -819,3 +819,10 @@ footer {
 .attachment-div {
     height: 26px;
 }
+.fixed-td {
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}

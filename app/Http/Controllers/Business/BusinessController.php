@@ -56,22 +56,13 @@ use App\Models\Decision\DecEnvironment;
 use Auth;
 
 
-
-
-class BusinessController extends Controller
-{
+class BusinessController extends Controller {
     public function __construct() {
         $this->middleware('auth');
     }
 
-    //-------------  전자게시판의 토론마당관리   ---------------------
-    public function index()
-    {
-        return redirect('business/EntryAndExit');
-    }
-
 	public function contract(Request $request) {
-		$params = $request->all();
+        $params = $request->all();
 		if(isset($params['shipId']))
 			$shipId = $params['shipId'];
 		else {
@@ -83,16 +74,145 @@ class BusinessController extends Controller
         }
 
 		$shipList = ShipRegister::all();
-		$cp_list = CP::where('Ship_ID', $shipId)->get();
+        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->take(3)->get();
+        $tmp = CP::orderBy('total_Freight', 'desc')->first();
+        if($tmp == null || $tmp == false) {
+            $maxVoyNo = '';
+            $maxFreight = 0;
+        } else {
+            $maxVoyNo = $tmp['Voy_No'];
+            $maxFreight = $tmp['total_Freight'];
+        }
+
+        $tmp = CP::orderBy('total_Freight', 'asc')->first();
+        if($tmp == null || $tmp == false) {
+            $minVoyNo = 0;
+            $minFreight = 0;
+        } else {
+            $minVoyNo = $tmp['Voy_No'];
+            $minFreight = $tmp['total_Freight'];
+        }
 
 		return view('business.ship_contract', array(
 			'shipId'	    =>  $shipId,
-
-
 			'shipList'      =>  $shipList,
-			'cp_list'       =>  $cp_list
+            'cp_list'       =>  $cp_list,
+            
+            'maxVoyNo'      => $maxVoyNo,
+            'maxFreight'    => $maxFreight,
+            'minVoyNo'      => $minVoyNo,
+            'minFreight'    => $minFreight,
 		));
-	}
+    }
+    
+    public function saveVoyContract(Request $request) {
+        $params = $request->all();
+
+        if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else 
+            return redirect()->back();
+
+        $cpTbl = new CP;
+        $cpTbl['CP_kind'] = $params['cp_type'];
+        $cpTbl['CP_Date'] = $params['cp_date'];
+        $cpTbl['Voy_No'] = $params['voy_no'];
+        $cpTbl['Ship_ID'] = $shipId;
+        $cpTbl['Cargo'] = $params['cargo'];
+        $cpTbl['Cgo_Qtty'] = $params['qty_amount'];
+        $cpTbl['Qtty_Type'] = $params['qty_type'];
+        $cpTbl['LPort'] = $params['up_port'];
+        $cpTbl['DPort'] = $params['down_port'];
+        $cpTbl['LayCan_Date1'] = $params['lay_date'];
+        $cpTbl['LayCan_Date2'] = $params['can_date'];
+        $cpTbl['L_Rate'] = $params['load_rate'];
+        $cpTbl['D_Rate'] = $params['disch_rate'];
+        $cpTbl['Freight'] = $params['freight_rate'];
+        $cpTbl['total_Freight'] = $params['lumpsum'];
+        $cpTbl['deten_fee'] = $params['deten_fee'];
+        $cpTbl['dispatch_fee'] = $params['dispatch_fee'];
+        $cpTbl['com_fee'] = $params['com_fee'];
+        $cpTbl['charterer'] = $params['charterer'];
+        $cpTbl['tel_number'] = $params['tel_number'];
+        $cpTbl['Remarks'] = $params['remark'];
+        $cpTbl->save();
+
+        return redirect()->back();
+        
+    }
+
+    public function saveTcContract(Request $request) {
+        $params = $request->all();
+
+        if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else 
+            return redirect()->back();
+
+        $cpTbl = new CP;
+        $cpTbl['CP_kind'] = $params['cp_type'];
+        $cpTbl['CP_Date'] = $params['cp_date'];
+        $cpTbl['Voy_No'] = $params['voy_no'];
+        $cpTbl['Ship_ID'] = $shipId;
+        $cpTbl['Cargo'] = $params['cargo'];
+        $cpTbl['Cgo_Qtty'] = $params['hire_duration'];
+        $cpTbl['LPort'] = $params['up_port'];
+        $cpTbl['DPort'] = $params['down_port'];
+        $cpTbl['LayCan_Date1'] = $params['lay_date'];
+        $cpTbl['LayCan_Date2'] = $params['can_date'];
+        $cpTbl['L_Rate'] = $params['dely'];
+        $cpTbl['D_Rate'] = $params['redely'];
+        $cpTbl['Freight'] = $params['hire'];
+        $cpTbl['net_profit_day'] = $params['net_profit_day'];
+        $cpTbl['ilohc'] = $params['ilohc'];
+        $cpTbl['c_v_e'] = $params['c_v_e'];
+        $cpTbl['com_fee'] = $params['com_fee'];
+        $cpTbl['charterer'] = $params['charterer'];
+        $cpTbl['tel_number'] = $params['tel_number'];
+        $cpTbl['Remarks'] = $params['remark'];
+        $cpTbl->save();
+
+        return redirect()->back();
+        
+    }
+
+    public function saveCargoList(Request $request) {
+        $params = $request->all();
+        $cargo_ids = $params['id'];
+		foreach($cargo_ids as $key => $item) {
+			$cargoTbl = new Cargo();
+			if($item != '' && $item != null) {
+				$cargoTbl = Cargo::find($item);
+			}
+
+			if($params['name'][$key] != "") {
+				$cargoTbl['name'] = $params['name'][$key];
+
+				$cargoTbl->save();
+			}
+		}
+
+        return Cargo::all();
+    }
+
+    public function savePortList(Request $request) {
+        $params = $request->all();
+        $port_ids = $params['id'];
+		foreach($port_ids as $key => $item) {
+			$portTbl = new ShipPort();
+			if($item != '' && $item != null) {
+				$portTbl = ShipPort::find($item);
+			}
+
+			if($params['Port_Cn'][$key] != "" || $params['Port_En'][$key] != "") {
+				$portTbl['Port_Cn'] = $params['Port_Cn'][$key];
+                $portTbl['Port_En'] = $params['Port_En'][$key];
+				$portTbl->save();
+			}
+		}
+
+        return ShipPort::all();
+    }
 
     public function newsTemaPage(Request $request) {
         $keyword = $request->get('keyword');
@@ -3694,8 +3814,60 @@ class BusinessController extends Controller
         $params = $request->all();
         $shipId = $params['shipId'];
 
-        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        $retVal['shipInfo'] = ShipRegister::where('IMO_No', $shipId)->first();
+        $retVal['portList'] = ShipPort::orderBy('Port_En', 'asc')->get();
+        $retVal['cargoList'] = Cargo::all();
 
-        return response()->json($shipInfo);
+        return response()->json($retVal);
+    }
+
+    public function ajaxVoyNoValid(Request $request) {
+        $params = $request->all();
+        $shipId = $params['shipId'];
+        $voyNo = $params['voyNo'];
+        $type = $params['type'];
+
+        $ret = false;
+        $shipInfo = CP::where('Ship_ID', $shipId)->where('Voy_No', $voyNo)->where('CP_kind', $type)->first();
+        if($shipInfo == false || $shipInfo == null)
+            $ret = true;
+
+        return response()->json($ret);
+    }
+
+    public function ajaxCargoDelete(Request $request) {
+        $params = $request->all();
+
+        $id = $params['id'];
+        Cargo::where('id', $id)->delete();
+
+        return response()->json(Cargo::all());
+    }
+
+    public function ajaxPortDelete(Request $request) {
+        $params = $request->all();
+
+        $id = $params['id'];
+        ShipPort::where('id', $id)->delete();
+
+        return response()->json(ShipPort::all());
+    }
+
+    public function ajaxVoyList(Request $request) {
+        $params = $request->all();
+        $shipId = $params['shipId'];
+
+        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->take(3)->get();
+
+        return response()->json($cp_list);
+    }
+
+    public function ajaxVoyDelete(Request $request) {
+        $params = $request->all();
+        $id = $params['id'];
+
+        $ret = CP::where('id', $id)->delete();
+
+        return response()->json(CP::take(3)->get());
     }
 }

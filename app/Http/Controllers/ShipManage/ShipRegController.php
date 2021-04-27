@@ -663,8 +663,6 @@ class ShipRegController extends Controller
 
 				$certTbl->save();
 			}
-
-
 		}
 
 		$retVal = ShipCertList::all();

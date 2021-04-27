@@ -100,4 +100,16 @@ class Cp extends Model
         return $result;
     }
 
+    public static function getReference($shipID) {
+        if($shipID == '') return array();
+
+        $result = static::query()
+            ->select(DB::raw('max(total_Freight)', 'Voy_No','CP_kind'))
+            ->where('Ship_ID', $shipID )
+            ->orderBy(DB::raw('CONVERT(Voy_No , DECIMAL(4,0))'), 'DESC')
+            ->get();
+
+        return $result;
+    }
+
 }
