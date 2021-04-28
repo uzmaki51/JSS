@@ -88,10 +88,17 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('setDynamicData', ['uses' => 'Dynamic\DynamicController@ajaxSetDynamicData']);
 
 	Route::post('shipMember/search', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMember']);
+	Route::post('shipMember/searchAll', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMemberAll']);
+	Route::post('shipMember/searchWageById', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchWageById']);
 	Route::post('shipMember/cert/list', ['uses' => 'ShipManage\ShipMemberController@ajaxShipMemberCertList']);
 	Route::post('shipMember/wage/list', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMemberWithWage']);
 	Route::post('shipMember/wage/send', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMemberWithSendWage']);
+	Route::post('shipMember/wage/shiplist', ['uses' => 'ShipManage\ShipMemberController@ajaxGetShipWageList']);
+	Route::post('shipMember/wage/memberlist', ['uses' => 'ShipManage\ShipMemberController@ajaxGetShipMemberList']);
+
+	
 	Route::get('shipMember/autocomplete', ['uses' => 'ShipManage\ShipMemberController@autocomplete']);
+	Route::get('shipMember/autocompleteAll', ['uses' => 'ShipManage\ShipMemberController@autocompleteAll']);
 
 	// ShipCert
 	Route::post('shipManage/cert/list', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertList']);
@@ -538,6 +545,7 @@ Route::group(['prefix' => 'shipMember'], function() {
 
 	Route::get('wagesCalc', ['uses' => 'ShipManage\WageController@index']);
 	Route::get('wagesSend', ['uses' => 'ShipManage\WageController@send']);
+	Route::get('wagesList', ['uses' => 'ShipManage\WageController@wagelist']);
 
 	Route::post('updateWageCalcInfo', ['uses' => 'ShipManage\WageController@updateWageCalcInfo']);
 	Route::post('updateWageSendInfo', ['uses' => 'ShipManage\WageController@updateWageSendInfo']);

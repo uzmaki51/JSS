@@ -28,17 +28,16 @@ $isHolder = Session::get('IS_HOLDER');
                                 <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
                                 <select class="custom-select d-inline-block" name="select-ship" id="select-ship" style="width:80px">
                                     @foreach($shipList as $ship)
-                                        <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif>{{$ship['shipName_En']}}</option>
+                                        <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                                     @endforeach
                                 </select>
-                                <label class="custom-label d-inline-block" style="padding: 6px;">月份:</label>
                                 <select name="select-year" id="select-year" style="font-size:13px">
-                                    @for($i=2020;$i<2025;$i++)
+                                    @for($i=$start_year;$i<=date("Y");$i++)
                                     <option value="{{$i}}" @if((isset($year) && ($year == $i)) || (date("Y")==$i))selected @endif>{{$i}}年</option>
                                     @endfor
                                 </select>
                                 <select name="select-month" id="select-month" style="font-size:13px">
-                                    @for($i=1;$i<13;$i++)
+                                    @for($i=1;$i<=date("m");$i++)
                                     <option value="{{$i}}" @if((isset($month) && ($month == $i)) || (date("m")==$i))selected @endif>{{$i}}月</option>
                                     @endfor
                                 </select>
@@ -92,6 +91,10 @@ $isHolder = Session::get('IS_HOLDER');
 	echo '<script>';
 	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
     echo 'var BankInfo = ' . json_encode(g_enum('BankData')) . ';';
+    echo 'var start_year = ' . $start_year . ';';
+    echo 'var start_month = ' . $start_month . ';';
+    echo 'var now_year = ' . date("Y") . ';';
+    echo 'var now_month = ' . date("m") . ';';
 	echo '</script>';
 	?>
     <script>
@@ -176,6 +179,7 @@ $isHolder = Session::get('IS_HOLDER');
         year = $("#select-year option:selected").val();
         month = $("#select-month option:selected").val();
         shipId = $("#select-ship").val();
+        $('#search_info').html('"' + $("#select-ship option:selected").attr('data-name') + '" ' + year + '年' + month + '月');
         initTable();
 
         function setValue(e, v) {
@@ -227,7 +231,7 @@ $isHolder = Session::get('IS_HOLDER');
             year = $("#select-year option:selected").val();
             month = $("#select-month option:selected").val();
             if (shipName == "") return;
-            $('#search_info').html('"' + shipName + '" ' + year + '年' + month + '月');
+            $('#search_info').html('"' + $("#select-ship option:selected").attr('data-name') + '" ' + year + '年' + month + '月');
 
             if (listTable == null) {
                 initTable();
@@ -247,6 +251,26 @@ $isHolder = Session::get('IS_HOLDER');
 
         $('#select-year').on('change', function() {
             year = $("#select-year option:selected").val();
+            var months = "";
+            if (year == now_year) {
+                for(var i=1;i<=now_month;i++)
+                {
+                    months += '<option value="' + i + '" ' + ((now_month==i)?'selected>':'>') +  i + '月</option>';
+                }
+            }
+            else if (year == start_year) {
+                for(var i=start_month;i<=12;i++)
+                {
+                    months += '<option value="' + i + '" ' + ((start_year==now_year && now_month==i)?'selected>':'>') +  i + '月</option>';
+                }
+            }
+            else
+            {
+                for(var i=1;i<=12;i++) {
+                    months += '<option value="' + i + '" >' + i + '月</option>';
+                }
+            }
+            $('#select-month').html(months);
             origForm = "";
             selectInfo();
         });
@@ -256,11 +280,6 @@ $isHolder = Session::get('IS_HOLDER');
             origForm = "";
             selectInfo();
         });
-
-        $('.excel-btn').on('click', function() {
-           $('td[style*="display: none;"]').remove();
-           fnExcelReport();
-		});
 
         $('body').on('keydown', 'input', function(e) {
             //if (e.target.id == "search-name") return;
@@ -291,56 +310,43 @@ $isHolder = Session::get('IS_HOLDER');
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             var real_tab = document.getElementById('table-shipmember-list');
             var tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='9' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>CREW LIST</td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;border-bottom:hidden;'>1.Name of Ship</td><td colspan='2'style='font-size:18px;border-bottom:hidden;text-align:center;'>2.Port of Arrival</td><td colspan='3' style='font-size:18px;border-bottom:hidden;text-align:center;'>3.Date of arrival</td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;'>&nbsp;&nbsp;" + shipName + "</td><td colspan='2'style='font-size:18px;text-align:center;'>&nbsp;&nbsp;ZHENJIANG</td><td colspan='3' style='font-size:18px;text-align:center;'>&nbsp;&nbsp;2020-12-</td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;border-bottom:hidden;'>4.Nationality of Ship</td><td colspan='2'style='font-size:18px;border-bottom:hidden;text-align:center;'>5.LAST Port of Call</td><td colspan='3' style='font-size:18px;border-bottom:hidden;'></td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;'>&nbsp;&nbsp;CHINA</td><td colspan='2'style='font-size:18px;text-align:center;'>&nbsp;&nbsp;DONGHAE</td><td colspan='3' style='font-size:18px;'></td></tr>";
+            //var tab = document.getElementById('table-shipmember-list');
+            tab_text=tab_text+"<tr><td colspan='10' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + "份工资汇款单</td></tr>";
             for(var j = 0 ; j < tab.rows.length ; j++) 
             {
                 if (j == 0) {
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
-                        if (i == 0) {
-                        }
-                        else if (i == 1) {
-                            tab.rows[j].childNodes[i].style.width = '140px';
-                        }
-                        else if (i == 2) {
-                            tab.rows[j].childNodes[i].style.width = '60px';
-                        }
-                        else if (i == 4) {
-                            tab.rows[j].childNodes[i].style.width = '160px';
-                        }
-                        else if (i == 5) {
-                            tab.rows[j].childNodes[i].style.width = '200px';
-                        }
-                        else if (i == 6) {
-                            tab.rows[j].childNodes[i].style.width = '200px';
-                        }
-                        else
-                        {
-                            tab.rows[j].childNodes[i].style.width = '100px';
-                        }
+                        tab.rows[j].childNodes[i].style.width = '100px';
                         tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
                     }
-                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                    tab.rows[j].childNodes[1].style.width = '140px';
+                    tab.rows[j].childNodes[2].style.width = '60px';
+                    tab.rows[j].childNodes[6].style.width = '80px';
+                    tab.rows[j].childNodes[8].style.width = '300px';
+                }
+                else if(j == (tab.rows.length -1))
+                {
+                    var i;
+                    for (i=0; i<tab.rows[j].childElementCount;i++) {
+                        tab.rows[j].childNodes[i].style.height = "30px";
+                        tab.rows[j].childNodes[i].style.fontWeight = "bold";
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#ebf1de';
+                    }
                 }
                 else
                 {
-                    tab.rows[j].childNodes[4].innerHTML = '="' + tab.rows[j].childNodes[4].innerHTML + '"';
-                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                    var bank_info = BankInfo[real_tab.rows[j].childNodes[7].childNodes[0].selectedIndex];
+                    tab.rows[j].childNodes[7].innerHTML = bank_info;
                 }
+                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
-
             tab_text=tab_text+"</table>";
-            //tab_text='<table border="2px" style="text-align:center;vertical-align:middle;"><tr><th class="text-center sorting_disabled" style="width: 78px;text-align:center;vertical-align:center;" rowspan="1" colspan="1"><span>No</span></th></tr><tr style="width: 78px;text-align:center;vertical-align:middle;"><td class="text-center sorting_disabled" rowspan="2" style="">你好</td></tr></table>';
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
 
-            //document.getElementById('test').innerHTML = tab_text;
-            var filename = 'CREW LIST(' + shipName + ')';
-            exportExcel(tab_text, filename, 'CREW LIST');
+            var filename = $("#select-ship option:selected").html() + '_' + year + '_' + month + '_工资汇款单';
+            exportExcel(tab_text, filename, year + '_' + month + '_工资汇款单');
             return 0;
         }
 
@@ -349,6 +355,8 @@ $isHolder = Session::get('IS_HOLDER');
             submitted = true;
             if ($('.member-item').length > 0) {
                 $('#wage-form').submit();
+                $('td[style*="display: none;"]').remove();
+                fnExcelReport();
             }
         });
 

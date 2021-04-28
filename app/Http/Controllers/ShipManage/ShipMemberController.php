@@ -906,6 +906,13 @@ class ShipMemberController extends Controller
         return response()->json($ret);
     }
 
+    public function ajaxSearchMemberAll(Request $request) {
+        $params = $request->all();
+        $tbl = new ShipMember();
+        $ret = $tbl->getForDatatableAll($params);
+        return response()->json($ret);
+    }
+
     public function ajaxSearchMemberWithWage(Request $request) {
         $params = $request->all();
         $tbl = new ShipMember();
@@ -920,10 +927,31 @@ class ShipMemberController extends Controller
         return response()->json($ret);
     }
 
+    public function ajaxGetShipWageList(Request $request) {
+        $params = $request->all();
+        $tbl = new ShipMember();
+        $ret = $tbl->getForShipWageListDatatable($params);
+        return response()->json($ret);
+    }
+
+    public function ajaxGetShipMemberList(Request $request) {
+        $params = $request->all();
+        $tbl = new ShipMember();
+        $ret = $tbl->getForMemberWageListDatatable($params);
+        return response()->json($ret);
+    }
+
     public function ajaxShipMemberCertList(Request $request) {
         $params = $request->all();
         $tbl = new ShipMember();
         $ret = $tbl->getForCertDatatable($params);
+        return response()->json($ret);//
+    }
+
+    public function ajaxSearchWageById(Request $request) {
+        $params = $request->all();
+        $tbl = new ShipMember();
+        $ret = $tbl->getWageById($params);
         return response()->json($ret);//
     }
 
@@ -946,6 +974,20 @@ class ShipMemberController extends Controller
                 ->whereNull('DateOnboard')->orWhere('DateOffboard', '<=', $today)
                 ->where('realname', 'like', '%' . $request->terms . '%')->get();
         }
+
+        $data = array();
+        foreach ($names as $name)
+        {
+            $data[] = $name->realname;
+        }
+        return response()->json($data);
+    }
+
+    public function autocompleteAll(Request $request)
+    {
+        $names = [];
+        $names = ShipMember::select("realname")
+                ->where('realname', 'like', '%' . $request->terms . '%')->get();
 
         $data = array();
         foreach ($names as $name)

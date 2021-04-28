@@ -302,6 +302,15 @@ div.input table tbody tr td
     height: 20px;
 }
 
+.style-blue-header {
+    font-weight: bold!important;
+    color: #2767c1;
+    height: 20px;
+}
+
+.style-search-header {
+    height: 25px;
+}
 .disable-td {
     background: #ececec;
 }

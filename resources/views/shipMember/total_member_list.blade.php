@@ -22,7 +22,7 @@ $isHolder = Session::get('IS_HOLDER');
                     <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
                         <option value="" selected></option>
                         @foreach($shipList as $ship)
-                            <option value="{{ $ship['IMO_No'] }}">{{$ship['shipName_En']}}</option>
+                            <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                         @endforeach
                     </select>
                     <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name"></span> CREW LIST</strong>
@@ -133,7 +133,7 @@ $isHolder = Session::get('IS_HOLDER');
             shipName = $("#select-ship option:selected").text();
             if (shipName == "") return;
             if (listTable == null) initTable();
-            $('#ship_name').html('"' + shipName + '"');
+            $('#ship_name').html('"' + $("#select-ship option:selected").attr('data-name') + '"');
             listTable.column(2).search($("#select-ship" ).val(), false, false);
             listTable.column(3).search('off', false, false).draw();
         });

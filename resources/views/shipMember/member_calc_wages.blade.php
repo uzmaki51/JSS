@@ -31,7 +31,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <?php $index = 0 ?>
                                     @foreach($shipList as $ship)
                                         <?php $index ++ ?>
-                                        <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif>{{$ship['shipName_En']}}</option>
+                                        <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                                     @endforeach
                                 </select>
                                 <label class="custom-label d-inline-block" style="padding: 6px;">减少天数:</label>
@@ -42,14 +42,13 @@ $isHolder = Session::get('IS_HOLDER');
                         </div>
                         <div class="col-md-12" style="margin-top:10px;">
                             <div class="col-md-7">
-                                <label class="custom-label d-inline-block" style="padding: 6px;">月份:</label>
                                 <select name="select-year" id="select-year" style="font-size:13px">
-                                    @for($i=2020;$i<2025;$i++)
+                                    @for($i=$start_year;$i<=date("Y");$i++)
                                     <option value="{{$i}}" @if((isset($year) && ($year == $i)) || (date("Y")==$i))selected @endif>{{$i}}年</option>
                                     @endfor
                                 </select>
                                 <select name="select-month" id="select-month" style="font-size:13px">
-                                    @for($i=1;$i<13;$i++)
+                                    @for($i=1;$i<=date("m");$i++)
                                     <option value="{{$i}}" @if((isset($month) && ($month == $i)) || (date("m")==$i))selected @endif>{{$i}}月</option>
                                     @endfor
                                 </select>
@@ -62,9 +61,6 @@ $isHolder = Session::get('IS_HOLDER');
                                     </a>
                                     <a id="btnSave" class="btn btn-sm btn-info" style="width: 80px">
                                         <i class="icon-save"></i>{{ trans('common.label.save') }}
-                                    </a>
-                                    <a id="btnRegister" class="btn btn-sm btn-success" style="width: 80px">
-                                        <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('common.label.request') }}
                                     </a>
                                 </div>
                             </div>
@@ -195,6 +191,10 @@ $isHolder = Session::get('IS_HOLDER');
     <?php
 	echo '<script>';
 	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+    echo 'var start_year = ' . $start_year . ';';
+    echo 'var start_month = ' . $start_month . ';';
+    echo 'var now_year = ' . date("Y") . ';';
+    echo 'var now_month = ' . date("m") . ';';
 	echo '</script>';
 	?>
     <script>
@@ -257,7 +257,7 @@ $isHolder = Session::get('IS_HOLDER');
                     else
                         $('td', row).eq(3).html('$');
                     $('td', row).eq(3).attr('class', 'text-center disable-td add-currency');
-                    $('td', row).eq(4).attr('class', 'text-center disable-td add-salary');
+                    $('td', row).eq(4).attr('class', 'text-center add-salary');
                     $('td', row).eq(5).attr('class', 'text-center disable-td');
                     $('td', row).eq(6).attr('class', 'text-center disable-td');
                     $('td', row).eq(7).attr('class', 'text-center disable-td add-signondays');
@@ -271,7 +271,8 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(1).html('<label>' + data['name'] + '</label><input type="hidden" name="Names[]" value="' + data['name'] + '">');
                     $('td', row).eq(2).html('<label>' + data['rank'] + '</label><input type="hidden" name="Rank[]" value="' + data['rank'] + '">');
                     $('td', row).eq(3).html('<label>' + ((data['WageCurrency'] == 0)?'¥':'$') + '</label><input type="hidden" name="Currency[]" value="' + data['WageCurrency'] + '">');
-                    $('td', row).eq(4).html('<label>' + data['Salary'] + '</label><input type="hidden" name="Salary[]" value="' + data['Salary'] + '">');
+                    //$('td', row).eq(4).html('<label>' + data['Salary'] + '</label><input type="hidden" name="Salary[]" value="' + data['Salary'] + '">');
+                    $('td', row).eq(4).html('<input type="text" class="form-control" name="Salary[]" value="' + data['Salary'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(5).html(data['DateOnboard'] + '<input type="hidden" name="DateOnboard[]" value="' + data['DateOnboard'] + '">');
                     $('td', row).eq(6).html(data['DateOffboard'] + '<input type="hidden" name="DateOffboard[]" value="' + data['DateOffboard'] + '">');
                     $('td', row).eq(7).html('<label>' + data['SignDays'] + '</label><input type="hidden" name="SignDays[]" value="' + data['SignDays'] + '">');
@@ -307,6 +308,7 @@ $isHolder = Session::get('IS_HOLDER');
         minus_days = $("#minus-days").val();
         rate = $("#rate").val();
         shipId = $("#select-ship").val();
+        $('#search_info').html('"' + $("#select-ship option:selected").attr('data-name') + '" ' + year + '年' + month + '月');
         initTable();
 
         function setValue(e, v) {
@@ -400,7 +402,7 @@ $isHolder = Session::get('IS_HOLDER');
             minus_days = $("#minus-days").val();
             rate = $("#rate").val();
             if (shipName == "") return;
-            $('#search_info').html('"' + shipName + '" ' + year + '年' + month + '月');
+            $('#search_info').html('"' + $("#select-ship option:selected").attr('data-name') + '" ' + year + '年' + month + '月');
 
             if (listTable == null) {
                 initTable();
@@ -422,6 +424,27 @@ $isHolder = Session::get('IS_HOLDER');
 
         $('#select-year').on('change', function() {
             year = $("#select-year option:selected").val();
+            var months = "";
+            if (year == now_year) {
+                for(var i=1;i<=now_month;i++)
+                {
+                    months += '<option value="' + i + '" ' + ((now_month==i)?'selected>':'>') +  i + '月</option>';
+                }
+            }
+            else if (year == start_year) {
+                for(var i=start_month;i<=12;i++)
+                {
+                    months += '<option value="' + i + '" ' + ((start_year==now_year && now_month==i)?'selected>':'>') +  i + '月</option>';
+                }
+            }
+            else
+            {
+                for(var i=1;i<=12;i++) {
+                    months += '<option value="' + i + '" >' + i + '月</option>';
+                }
+            }
+            $('#select-month').html(months);
+
             origForm = "";
             selectInfo();
         });
@@ -441,11 +464,6 @@ $isHolder = Session::get('IS_HOLDER');
             rate = $("#rate").val();
             calcReport();
         });
-
-        $('.excel-btn').on('click', function() {
-           $('td[style*="display: none;"]').remove();
-           fnExcelReport();
-		});
 
         $('body').on('keydown', 'input', function(e) {
             //if (e.target.id == "search-name") return;
@@ -539,7 +557,7 @@ $isHolder = Session::get('IS_HOLDER');
             '</td><td class="text-center disable-td"><label>' + add_name + '</label><input type="hidden" name="Names[]" value="' + add_name + '">' + 
             '</td><td class="text-center disable-td"><label>' + add_rank + '</label><input type="hidden" name="Rank[]" value="' + add_rank + '">'+
             '</td><td class="text-center disable-td add-currency"><label>' + ((add_currency == 0)?'¥':'$') + '</label><input type="hidden" name="Currency[]" value="' + add_currency + '">' +
-            '</td><td class="text-center disable-td add-salary"><label>' + add_wage.toFixed(2) + '</label><input type="hidden" name="Salary[]" value="' + add_wage.toFixed(2) + '">'+ 
+            '</td><td class="text-center add-salary"><input type="text" class="form-control" name="Salary[]" value="' + add_wage.toFixed(2) + '" style="width: 100%;text-align: center" autocomplete="off">'+ 
             '</td><td class="text-center disable-td"><label>' + add_signon_date + '</label><input type="hidden" name="DateOnboard[]" value="' + add_signon_date + '">'+
             '</td><td class="text-center disable-td"><label>' + add_signoff_date + '</label><input type="hidden" name="DateOffboard[]" value="' + add_signoff_date + '">'+
             '</td><td class="text-center disable-td add-signondays"><label>' + signon_days + '</label><input type="hidden" name="SignDays[]" value="' + signon_days + '">' +
@@ -552,71 +570,6 @@ $isHolder = Session::get('IS_HOLDER');
             setDatePicker();
             setEvents();
             calcReport();
-            /*
-            if ($('#list-body tr').length > 0)
-            {
-                if (e == null || $(e).closest("tr").is(":last-child")) {
-                    $("#port-table").append('<tr class="rank-tr"><td class="no-padding center"><input type="text" onfocus="addPort(this)" class="form-control" name="Port_En[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addPort(this)" class="form-control" name="Port_Cn[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deletePort(this)"><i class="icon-trash"></i></a></div></td></tr>');
-                }
-            }*/
-        }
-
-        function fnExcelReport()
-        {
-            var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
-            var real_tab = document.getElementById('table-shipmember-list');
-            var tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='9' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>CREW LIST</td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;border-bottom:hidden;'>1.Name of Ship</td><td colspan='2'style='font-size:18px;border-bottom:hidden;text-align:center;'>2.Port of Arrival</td><td colspan='3' style='font-size:18px;border-bottom:hidden;text-align:center;'>3.Date of arrival</td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;'>&nbsp;&nbsp;" + shipName + "</td><td colspan='2'style='font-size:18px;text-align:center;'>&nbsp;&nbsp;ZHENJIANG</td><td colspan='3' style='font-size:18px;text-align:center;'>&nbsp;&nbsp;2020-12-</td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;border-bottom:hidden;'>4.Nationality of Ship</td><td colspan='2'style='font-size:18px;border-bottom:hidden;text-align:center;'>5.LAST Port of Call</td><td colspan='3' style='font-size:18px;border-bottom:hidden;'></td></tr>";
-            tab_text=tab_text+"<tr><td colspan='4' style='font-size:18px;'>&nbsp;&nbsp;CHINA</td><td colspan='2'style='font-size:18px;text-align:center;'>&nbsp;&nbsp;DONGHAE</td><td colspan='3' style='font-size:18px;'></td></tr>";
-            for(var j = 0 ; j < tab.rows.length ; j++) 
-            {
-                if (j == 0) {
-                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
-                        if (i == 0) {
-                        }
-                        else if (i == 1) {
-                            tab.rows[j].childNodes[i].style.width = '140px';
-                        }
-                        else if (i == 2) {
-                            tab.rows[j].childNodes[i].style.width = '60px';
-                        }
-                        else if (i == 4) {
-                            tab.rows[j].childNodes[i].style.width = '160px';
-                        }
-                        else if (i == 5) {
-                            tab.rows[j].childNodes[i].style.width = '200px';
-                        }
-                        else if (i == 6) {
-                            tab.rows[j].childNodes[i].style.width = '200px';
-                        }
-                        else
-                        {
-                            tab.rows[j].childNodes[i].style.width = '100px';
-                        }
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
-                    }
-                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
-                }
-                else
-                {
-                    tab.rows[j].childNodes[4].innerHTML = '="' + tab.rows[j].childNodes[4].innerHTML + '"';
-                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
-                }
-            }
-
-            tab_text=tab_text+"</table>";
-            //tab_text='<table border="2px" style="text-align:center;vertical-align:middle;"><tr><th class="text-center sorting_disabled" style="width: 78px;text-align:center;vertical-align:center;" rowspan="1" colspan="1"><span>No</span></th></tr><tr style="width: 78px;text-align:center;vertical-align:middle;"><td class="text-center sorting_disabled" rowspan="2" style="">你好</td></tr></table>';
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
-
-            //document.getElementById('test').innerHTML = tab_text;
-            var filename = 'CREW LIST(' + shipName + ')';
-            exportExcel(tab_text, filename, 'CREW LIST');
-            return 0;
         }
 
         var submitted = false;
@@ -624,7 +577,9 @@ $isHolder = Session::get('IS_HOLDER');
             //origForm = $form.serialize();
             submitted = true;
             if ($('.member-item').length > 0) {
-                $('#wage-form').submit();
+                //$('#wage-form').submit();
+                $('td[style*="display: none;"]').remove();
+               fnExcelReport();
             }
         });
 
@@ -640,6 +595,60 @@ $isHolder = Session::get('IS_HOLDER');
             }
             return confirmationMessage;
         });
+
+        function fnExcelReport()
+        {
+            var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+            var real_tab = document.getElementById('table-shipmember-list');
+            var tab = real_tab.cloneNode(true);
+            tab_text=tab_text+"<tr><td colspan='14' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + "份工资单</td></tr>";
+            for(var j = 0 ; j < tab.rows.length ; j++) 
+            {
+                if (j == 0) {
+                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                        tab.rows[j].childNodes[i].style.width = '100px';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                    }
+                    tab.rows[j].childNodes[1].style.width = '140px';
+                    tab.rows[j].childNodes[2].style.width = '60px';
+                    tab.rows[j].childNodes[3].style.width = '40px';
+                    tab.rows[j].childNodes[6].style.width = '80px';
+                    tab.rows[j].childNodes[13].style.width = '300px';
+                    tab.rows[j].childNodes[14].remove();
+                }
+                else if(j == (tab.rows.length -1))
+                {
+                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                        tab.rows[j].childNodes[i].style.height = "30px";
+                        tab.rows[j].childNodes[i].style.fontWeight = "bold";
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#ebf1de';
+                    }
+                    tab.rows[j].childNodes[9].colSpan="1";
+                }
+                else
+                {
+                    var info = real_tab.rows[j].childNodes[4].childNodes[0].value;
+                    tab.rows[j].childNodes[4].innerHTML = info;
+                    info = real_tab.rows[j].childNodes[8].childNodes[0].value;
+                    tab.rows[j].childNodes[8].innerHTML = info;
+                    info = real_tab.rows[j].childNodes[11].childNodes[0].childNodes[0].value;
+                    tab.rows[j].childNodes[11].innerHTML = info;
+                    info = real_tab.rows[j].childNodes[12].childNodes[0].value;
+                    tab.rows[j].childNodes[12].innerHTML = info;
+                    
+                }
+                
+                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+            }
+            tab_text=tab_text+"</table>";
+            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+
+            var filename = $("#select-ship option:selected").html() + '_' + year + '_' + month + '_工资单';
+            exportExcel(tab_text, filename, year + '_' + month + '_工资单');
+            return 0;
+        }
 
     </script>
 
