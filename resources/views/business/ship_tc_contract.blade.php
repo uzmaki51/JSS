@@ -306,11 +306,6 @@
                                         <button type="button" class="btn btn-primary btn-sm" @click="confirmItem('down_port')">OK</button>
                                         <button type="button" class="btn btn-danger btn-sm" @click="closeDialog">Cancel</button>
                                     </div>
-                                    <div class="multi-edit-div">
-                                        <span class="edit-list-btn" id="edit-list-btn" @click="openDialog('port')">
-                                            <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px;">
-                                        </span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -631,7 +626,7 @@
                         tcContractObj.upPortIDList = [];
                         var values = $("input[name='up_port_id[]']").map(function() {
                             if($(this).prop('checked')) {
-                                nameTmp += tcContractObj.portList[$(this).val()]['Port_En'] + ', ';
+                                nameTmp += tcContractObj.portList[$(this).val()]['Port_En'] + '(' + tcContractObj.portList[$(this).val()]['Port_Cn'] + '), ';
                                 tcContractObj.upPortIDList.push(tcContractObj.portList[$(this).val()]['id']);
                             }
                         }).get();
@@ -643,7 +638,7 @@
                         tcContractObj.downPortIDList = [];
                         var values = $("input[name='down_port_id[]']").map(function() {
                             if($(this).prop('checked')) {
-                                nameTmp += tcContractObj.portList[$(this).val()]['Port_En'] + ', ';
+                                nameTmp += tcContractObj.portList[$(this).val()]['Port_En'] + '(' + tcContractObj.portList[$(this).val()]['Port_Cn'] + '), ';
                                 tcContractObj.downPortIDList.push(tcContractObj.portList[$(this).val()]['id']);
                             }
                         }).get();

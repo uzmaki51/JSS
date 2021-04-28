@@ -74,16 +74,16 @@ $ships = Session::get('shipList');
                                 <table id="voy_list" v-cloak>
                                     <thead class="">
                                     <tr>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_no') !!}<br>{!! trans('business.table.en.voy_no') !!}</th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_tc') !!}<br>{!! trans('business.table.en.voy_tc') !!}</th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cp_date') !!}<br>{!! trans('business.table.en.cp_date') !!}</th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br>{!! trans('business.table.en.cargo') !!}</th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.qty') !!}<br>{!! trans('business.table.en.qty') !!}</th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br>{!! trans('business.table.en.loading_port') !!}</th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br>{!! trans('business.table.en.discharge_port') !!}</th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.l_rate') !!}<br>{!! trans('business.table.en.l_rate') !!}</th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br>{!! trans('business.table.en.d_rate') !!}</th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br>{!! trans('business.table.en.frt_rate') !!}</th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cp_date') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cp_date') !!}</span></th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.loading_port') !!}</span></th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.discharge_port') !!}</span></th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.d_rate') !!}</span></th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
                                         <th class="text-center style-header" style="width: 60px;">{!! trans('business.table.cn.anticipate') !!}</th>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.contract_attach') !!}</th>
                                         <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;">{!! trans('common.label.delete') !!}</th>
@@ -292,8 +292,6 @@ $ships = Session::get('shipList');
         var tcContractObjTmp = new Array();
 
         var submitted = false;
-        if(isChangeStatus == false)
-            submitted = true;
 
         $("form").submit(function() {
             submitted = true;
@@ -444,7 +442,7 @@ $ships = Session::get('shipList');
                         if(tmp.length <= 1) {
                             portListObj.list.forEach(function(value, key) {
                                 if(tmp[0] == value['id']) {
-                                    tmpStr = value['Port_En'];
+                                    tmpStr = value['Port_En'] + '(' + value['Port_Cn'] + ')';
                                 }
                             });
 
@@ -453,7 +451,7 @@ $ships = Session::get('shipList');
                             portListObj.list.forEach(function(value, key) {
                                 tmp.forEach(function(tmpValue) {
                                     if(tmpValue == value['id'])
-                                        tmpStr += value['Port_En'] + ', ';
+                                        tmpStr += value['Port_En'] + '(' + value['Port_Cn'] + ')' + ', ';
                                 })
                             });
 
