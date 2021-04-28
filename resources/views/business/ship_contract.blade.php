@@ -53,7 +53,7 @@ $ships = Session::get('shipList');
                         </div>
                         <div class="col-lg-6">
                             <div class="btn-group f-right">
-                                <button class="btn btn-primary btn-sm search-btn" onclick="addCertItem()"><i class="icon-plus"></i>添加</button>
+                                <button class="btn btn-primary btn-sm search-btn" onclick="addNewItem()"><i class="icon-plus"></i>添加</button>
                                 <button class="btn btn-warning btn-sm excel-btn d-none"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                                 <a href="#modal-wizard" class="only-cargo-modal-show d-none" role="button" data-toggle="modal"></a>
                                 <a href="#modal-port-wizard" class="only-port-modal-show d-none" role="button" data-toggle="modal"></a>
@@ -89,7 +89,7 @@ $ships = Session::get('shipList');
                                         <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;">{!! trans('common.label.delete') !!}</th>
                                     </tr>
                                     <tr>
-                                        <th class="text-center style-header" style="width:20px;word-break: break-all;">{!! trans('business.table.cn.daily_profit') !!}</th>
+                                        <th class="text-center style-header" style="width:20px;word-break: break-all; border-top: unset!important;">{!! trans('business.table.cn.daily_profit') !!}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -129,6 +129,12 @@ $ships = Session::get('shipList');
                                 <a data-toggle="tab" href="#tc_contract_div" onclick="changeTab('tc')">
                                     期租<span style="font-style: italic;">(TC)</span>
                                 </a>
+                            </li>
+                            <li>
+                                <div class="alert alert-block alert-success center visuallyhidden">
+                                    <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+                                    <strong id="msg-content"> Please register a new ship contract.</strong>
+                                </div>
                             </li>
                         </ul>
 
@@ -379,6 +385,11 @@ $ships = Session::get('shipList');
         });
 
         function initialize() {
+            $('.alert').toggleClass('visuallyhidden');
+                setTimeout(function() {
+                    $('.alert').toggleClass('visuallyhidden');
+                }, 2000);
+
             voyListObj = new Vue({
                 el: '#voy_list',
                 data: {
@@ -650,6 +661,10 @@ $ships = Session::get('shipList');
         let ship_id = $(this).val();
         location.href = '/business/contract?shipId=' + ship_id;
     });
+
+    function addNewItem() {
+        location.href = '/business/contract?shipId=' + ship_id;
+    }
 
     $('#submit').on('click', function(e) {
         if(ACTIVE_TAB == 'voy') {
