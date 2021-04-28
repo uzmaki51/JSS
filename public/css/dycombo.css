@@ -320,3 +320,9 @@ table {
     bottom: -42px;
     left: 0;
 }
+
+@media (max-width: 1366px) {
+    .multi-dynamic-select {
+        max-width: 100%;
+    }
+}
