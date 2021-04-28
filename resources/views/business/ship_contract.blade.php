@@ -62,9 +62,9 @@ $ships = Session::get('shipList');
                                         <i class="icon-save"></i>保存
                                     </button>
                                 @endif
-                                <button type="button" class="btn btn-success btn-sm" onclick="reportSubmit">
+                                <button type="button" class="btn btn-success btn-sm d-none" onclick="reportSubmit">
                                     <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">申请
-                                </button>                                
+                                </button>
                             </div>
                         </div>
                     </div>
