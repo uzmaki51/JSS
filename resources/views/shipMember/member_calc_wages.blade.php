@@ -44,12 +44,12 @@ $isHolder = Session::get('IS_HOLDER');
                             <div class="col-md-7">
                                 <select name="select-year" id="select-year" style="font-size:13px">
                                     @for($i=$start_year;$i<=date("Y");$i++)
-                                    <option value="{{$i}}" @if((isset($year) && ($year == $i)) || (date("Y")==$i))selected @endif>{{$i}}年</option>
+                                    <option value="{{$i}}" @if(($year==$i)||(($year=='')&&($i==date("Y")))) selected @endif>{{$i}}年</option>
                                     @endfor
                                 </select>
                                 <select name="select-month" id="select-month" style="font-size:13px">
                                     @for($i=1;$i<=date("m");$i++)
-                                    <option value="{{$i}}" @if((isset($month) && ($month == $i)) || (date("m")==$i))selected @endif>{{$i}}月</option>
+                                    <option value="{{$i}}" @if(($month==$i)||(($month=='')&&($i==date("m")))) selected @endif>{{$i}}月</option>
                                     @endfor
                                 </select>
                                 <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>份工资单</strong>
@@ -172,8 +172,11 @@ $isHolder = Session::get('IS_HOLDER');
                             </table>
                             <div>
                                 <div class="btn-group f-right mt-20 d-flex">
-                                    <button data-bb-handler="cancel" type="button" class="btn btn-sm btn btn-success close-modal" data-dismiss="modal">Cancel</button>
-                                    <button data-bb-handler="confirm" type="button" class="btn btn-sm btn btn-danger" onclick="addWage();">OK</button>
+                                    <button type="button" class="btn btn-success small-btn ml-0" onclick="addWage();">
+                                        <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">OK
+                                    </button>
+                                    <div class="between-1"></div>
+                                    <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -319,7 +322,7 @@ $isHolder = Session::get('IS_HOLDER');
         {
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
             var yyyy = today.getFullYear();
             today = yyyy + '-' + mm + '-' + dd;
             
@@ -333,7 +336,6 @@ $isHolder = Session::get('IS_HOLDER');
                 }
             }
             
-
             var TransInR = $('input[name="TransInR[]"]');
             var TransInD = $('input[name="TransInD[]"]');
             var TransDate = $('input[name="TransDate[]"]');
@@ -342,6 +344,8 @@ $isHolder = Session::get('IS_HOLDER');
             var days = $('input[name="SignDays[]"]');
             var minus = $('input[name="MinusCash[]"]');
             var currency = $('input[name="Currency[]"]');
+            var dateon = $('input[name="DateOnboard[]"]');
+            var dateoff = $('input[name="DateOffboard[]"]');
             var rate = $('#rate').val();
             var No = $('.add-no');
             
@@ -350,13 +354,36 @@ $isHolder = Session::get('IS_HOLDER');
             var sum_pre = 0;
             var year = $("#select-year option:selected").val();
             var month = $("#select-month option:selected").val();
+
+            var next = "", now = "";
+            var next_year=year;
+            var next_month=month;
+            if (month == 12) {
+                next_year ++;
+                next_month = 1;
+            } else {
+                next_month ++;
+            }
+            now = new Date(year + "-" + month + "-01");
+            now.setDate(now.getDate());
+            now = now.getFullYear() + "-"  +(now.getMonth() + 1).toString().padStart(2, '0') + "-" + now.getDate().toString().padStart(2, '0');
+            next = new Date(next_year + "-" + next_month + "-01");
+            next.setDate(next.getDate() - 1);
+            next = next.getFullYear() + "-"  +(next.getMonth() + 1).toString().padStart(2, '0') + "-" + next.getDate().toString().padStart(2, '0');
+
             var td = daysInMonth(month, year);
             for (var i=0;i<TransInR.length;i++) {
                 setValue(No[i], i + 1);
-                var dd = parseFloat(days[i].value);
                 var m = parseFloat(minus[i].value);
                 var s = parseFloat(salary[i].value);
-
+                var don = dateon[i].value;
+                var doff = dateoff[i].value;
+                if (don < now) don = now;
+                var diff = new Date(new Date(doff) - new Date(don));
+                var signon_days = diff/1000/60/60/24+1;
+                if (signon_days != td) signon_days = signon_days - minus_days;
+                setValue(days[i], signon_days);
+                var dd = parseFloat(signon_days);
                 var _R = 0;
                 var _D = 0;
                 if (currency[i].value == 0) {
@@ -416,13 +443,36 @@ $isHolder = Session::get('IS_HOLDER');
                 listTable.column(2).search($("#select-ship").val(), false, false).draw();
             }
         }
-        $('#select-ship').on('change', function() {
+
+        function changeShip() {
             shipId = $('#select-ship').val();
             origForm = "";
             selectInfo();
+        }
+        $('#select-ship').on('change', function() {
+            var prevShip = $('#select-ship').val();
+            $('#select-ship').val(shipId);
+            var newForm = $form.serialize();
+            if ((newForm !== origForm) && !submitted) {
+                var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+                bootbox.confirm(confirmationMessage, function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    else {
+                        $('#select-ship').val(prevShip);
+                        changeShip();
+                    }
+                });
+            }
+            else {
+                $('#select-ship').val(prevShip);
+                changeShip();
+            }
         });
 
-        $('#select-year').on('change', function() {
+        function changeYear() {
             year = $("#select-year option:selected").val();
             var months = "";
             if (year == now_year) {
@@ -447,17 +497,63 @@ $isHolder = Session::get('IS_HOLDER');
 
             origForm = "";
             selectInfo();
+        }
+
+        $('#select-year').on('change', function() {
+            var prevYear = $('#select-year').val();
+            $('#select-year').val(year);
+            var newForm = $form.serialize();
+            if ((newForm !== origForm) && !submitted) {
+                var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+                bootbox.confirm(confirmationMessage, function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    else {
+                        $('#select-year').val(prevYear);
+                        changeYear();
+                    }
+                });
+            }
+            else {
+                $('#select-year').val(prevYear);
+                changeYear();
+            }
         });
 
-        $('#select-month').on('change', function() {
+        function changeMonth() {
             month = $("#select-month option:selected").val();
             origForm = "";
             selectInfo();
+        }
+
+        $('#select-month').on('change', function() {
+            var prevMonth = $('#select-month').val();
+            $('#select-month').val(month);
+            var newForm = $form.serialize();
+            if ((newForm !== origForm) && !submitted) {
+                var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+                bootbox.confirm(confirmationMessage, function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    else {
+                        $('#select-month').val(prevMonth);
+                        changeMonth();
+                    }
+                });
+            }
+            else {
+                $('#select-month').val(prevMonth);
+                changeMonth();
+            }
         });
 
         $('#minus-days').on('change', function() {
             minus_days = $("#minus-days").val();
-            selectInfo();
+            calcReport();
         });
 
         $('#rate').on('change', function() {
@@ -488,8 +584,16 @@ $isHolder = Session::get('IS_HOLDER');
                 calcReport();
             });
 
-            $('.add-trans-date').on('change', function() {
-                calcReport();
+            $('input[name="Salary[]"]').on('keydown', function(e) {
+                if (e.which == 13) {
+                    calcReport();
+                }
+            });
+
+            $('.add-trans-date').on('keydown', function(e) {
+                if (e.which == 13) {
+                    calcReport();
+                }
             });
         }
 
@@ -533,18 +637,49 @@ $isHolder = Session::get('IS_HOLDER');
             var add_purchase_date = $('#add-purchase-date').val();
             var add_remark = $('#add-remark').val();
             var add_bank_info = $('#add-bank-info').val();
-            $("#modal-add-wage").modal("hide");
+            
+            var year = $("#select-year option:selected").val();
+            var month = $("#select-month option:selected").val();
+            var minus_days = $("#minus-days").val();
 
             var rate = $("#rate").val();
             var add_money_R = 0;
             var add_money_D = 0;
 
-            var diff = new Date(new Date(add_signoff_date) - new Date(add_signon_date));
+            var next = "", now = "";
+            var next_year=year;
+            var next_month=month;
+            if (month == 12) {
+                next_year ++;
+                next_month = 1;
+            } else
+            {
+                next_month ++;
+            }
+
+            now = new Date(year + "-" + month + "-01");
+            now.setDate(now.getDate());
+            now = now.getFullYear() + "-"  +(now.getMonth() + 1).toString().padStart(2, '0') + "-" + now.getDate().toString().padStart(2, '0');
+            next = new Date(next_year + "-" + next_month + "-01");
+            next.setDate(next.getDate() - 1);
+            next = next.getFullYear() + "-"  +(next.getMonth() + 1).toString().padStart(2, '0') + "-" + next.getDate().toString().padStart(2, '0');
+
+            if ((add_signoff_date < add_signon_date) || (add_signon_date > next) || (add_signoff_date < now)) {
+                $('#add-signon-date').focus();
+                return;
+            }
+
+            if (add_signoff_date >= next) {
+                add_signoff_date = next;
+            }
+
+            $("#modal-add-wage").modal("hide");
+
+            var start_day;
+            if (add_signon_date <= now ) start_day = now;
+            var diff = new Date(new Date(add_signoff_date) - new Date(start_day));
             var signon_days = diff/1000/60/60/24+1;
             
-            var year = $("#select-year option:selected").val();
-            var month = $("#select-month option:selected").val();
-            var minus_days = $("#minus-days").val();
             if (add_currency == 0) {
                 add_money_R = add_wage * daysInMonth(month, year) / signon_days - add_minus_money;
                 add_money_D = add_money_R * rate;
@@ -577,7 +712,7 @@ $isHolder = Session::get('IS_HOLDER');
             //origForm = $form.serialize();
             submitted = true;
             if ($('.member-item').length > 0) {
-                //$('#wage-form').submit();
+                $('#wage-form').submit();
                 $('td[style*="display: none;"]').remove();
                fnExcelReport();
             }
@@ -589,7 +724,6 @@ $isHolder = Session::get('IS_HOLDER');
             var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
             var newForm = $form.serialize();
-            newForm = newForm.replace("editable-image-input-hidden=&", "");
             if ((newForm !== origForm) && !submitted) {
                 (e || window.event).returnValue = confirmationMessage;
             }
