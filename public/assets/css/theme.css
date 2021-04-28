@@ -746,7 +746,7 @@ footer {
 }
 
 .voy-input-right .horizontal label {
-    width: 80px;
+    width: 76px;
     text-align: right;
     margin-right: 8px;
 }
@@ -783,6 +783,9 @@ footer {
 .tab-right {
     width: 40%;
     border: 1px solid #4c4c4c;
+}
+.tab-right textarea {
+    resize: none;
 }
 
 .contract-table {

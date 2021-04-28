@@ -115,6 +115,9 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('business/cargo/delete', ['uses'	=> 'Business\BusinessController@ajaxCargoDelete']);
 	Route::post('business/port/delete', ['uses'	=> 'Business\BusinessController@ajaxPortDelete']);
 
+	Route::post('business/dynamic', ['uses'	=> 'Business\BusinessController@ajaxDynamic']);
+	Route::post('business/voy/list', ['uses'	=> 'Business\BusinessController@ajaxVoyAllList']);
+
 });
 
 // Administrative Affairs
@@ -124,7 +127,8 @@ Route::group(['prefix' => 'business'], function() {
 	Route::post('saveCargoList', ['uses'	=> 'Business\BusinessController@saveCargoList']);	
 	Route::post('savePortList', ['uses'	=> 'Business\BusinessController@savePortList']);	
 	Route::post('tcContractRegister', ['uses'	=> 'Business\BusinessController@saveTcContract']);
-	Route::get('/', ['uses'=>'Business\BusinessController@index']);
+
+	Route::get('dynRecord', ['uses' => 'Business\BusinessController@dynRecord']);
 	Route::get('newsTemaPage', ['uses'=>'Business\BusinessController@newsTemaPage']);
 	Route::get('temaInfo',['uses'=>'Business\BusinessController@getNewsTemaInfo']);
 

@@ -104,6 +104,13 @@ class BusinessController extends Controller {
             'minFreight'    => $minFreight,
 		));
     }
+
+    public function dynRecord(Request $request) {
+        $shipList = ShipRegister::all();
+        return view('business.dynamic.record', [
+            'shipList'          => $shipList,
+        ]);
+    }
     
     public function saveVoyContract(Request $request) {
         $params = $request->all();
@@ -3869,5 +3876,24 @@ class BusinessController extends Controller {
         $ret = CP::where('id', $id)->delete();
 
         return response()->json(CP::take(3)->get());
+    }
+
+    public function ajaxDynamic(Request $request) {
+        $params = $request->all();
+        $shipList = ShipRegister::all();
+
+        $retVal['shipList'] = $shipList;
+
+        return response()->json($retVal);
+    }
+
+    
+    public function ajaxVoyAllList(Request $request) {
+        $params = $request->all();
+        $shipId = $params['shipId'];
+
+        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'asc')->get();
+
+        return response()->json($cp_list);
     }
 }
