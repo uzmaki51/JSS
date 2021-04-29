@@ -52,6 +52,7 @@ use App\Models\ShipMember\ShipMember;
 // 일정계획
 use App\Models\Schedule;
 use App\Models\Decision\DecEnvironment;
+use Illuminate\Support\Str;
 //결재관리
 use Auth;
 
@@ -74,23 +75,23 @@ class BusinessController extends Controller {
         }
 
 		$shipList = ShipRegister::all();
-        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->take(3)->get();
-        $tmp = CP::orderBy('total_Freight', 'desc')->first();
+        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
+        $tmp = CP::orderBy('net_profit_day', 'desc')->first();
         if($tmp == null || $tmp == false) {
             $maxVoyNo = '';
             $maxFreight = 0;
         } else {
             $maxVoyNo = $tmp['Voy_No'];
-            $maxFreight = $tmp['total_Freight'];
+            $maxFreight = $tmp['net_profit_day'] == null ? 0 : $tmp['net_profit_day'];
         }
 
-        $tmp = CP::orderBy('total_Freight', 'asc')->first();
+        $tmp = CP::whereNotNull('net_profit_day')->orderBy('net_profit_day', 'asc')->first();
         if($tmp == null || $tmp == false) {
             $minVoyNo = 0;
             $minFreight = 0;
         } else {
             $minVoyNo = $tmp['Voy_No'];
-            $minFreight = $tmp['total_Freight'];
+            $minFreight = $tmp['net_profit_day'] == null ? 0 : $tmp['net_profit_day'];
         }
 
 		return view('business.ship_contract', array(
@@ -136,12 +137,23 @@ class BusinessController extends Controller {
         $cpTbl['D_Rate'] = $params['disch_rate'];
         $cpTbl['Freight'] = $params['freight_rate'];
         $cpTbl['total_Freight'] = $params['lumpsum'];
+        $cpTbl['net_profit_day'] = $params['net_profit_day'];
         $cpTbl['deten_fee'] = $params['deten_fee'];
         $cpTbl['dispatch_fee'] = $params['dispatch_fee'];
         $cpTbl['com_fee'] = $params['com_fee'];
         $cpTbl['charterer'] = $params['charterer'];
         $cpTbl['tel_number'] = $params['tel_number'];
         $cpTbl['Remarks'] = $params['remark'];
+
+        if($request->hasFile('attachment')) {
+            $cpTbl['is_attachment'] = 1;
+            $file = $request->file('attachment');
+            $fileName = $file->getClientOriginalName();
+            $name = date('Ymd_His_VOY') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+            $file->move(public_path() . '/contract/', $name);
+            $cpTbl['attachment_url'] = url() . '/contract/' . $name;
+        }
+        
         $cpTbl->save();
 
         return redirect()->back();
@@ -177,6 +189,16 @@ class BusinessController extends Controller {
         $cpTbl['charterer'] = $params['charterer'];
         $cpTbl['tel_number'] = $params['tel_number'];
         $cpTbl['Remarks'] = $params['remark'];
+
+        if($request->hasFile('attachment')) {
+            $cpTbl['is_attachment'] = 1;
+            $file = $request->file('attachment');
+            $fileName = $file->getClientOriginalName();
+            $name = date('Ymd_His_TC') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+            $file->move(public_path() . '/contract/', $name);
+            $cpTbl['attachment_url'] = url() . '/contract/' . $name;
+        }
+
         $cpTbl->save();
 
         return redirect()->back();
@@ -3823,7 +3845,7 @@ class BusinessController extends Controller {
 
         $retVal['shipInfo'] = ShipRegister::where('IMO_No', $shipId)->first();
         $retVal['portList'] = ShipPort::orderBy('Port_En', 'asc')->get();
-        $retVal['cargoList'] = Cargo::all();
+        $retVal['cargoList'] = Cargo::orderBy('name', 'asc')->get();
 
         return response()->json($retVal);
     }
@@ -3864,7 +3886,7 @@ class BusinessController extends Controller {
         $params = $request->all();
         $shipId = $params['shipId'];
 
-        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->take(3)->get();
+        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
 
         return response()->json($cp_list);
     }

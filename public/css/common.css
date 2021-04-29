@@ -116,6 +116,12 @@
 .pl-0 {
     padding-left: 0!important;
 }
+.lr-no-p {
+    padding-right: 0!important;
+    padding-left: 0!important;
+    padding-top: inherit;
+    padding-bottom: inherit;
+}
 .mt-2 {
     margin-top: 4px;
 }

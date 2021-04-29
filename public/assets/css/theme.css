@@ -823,9 +823,23 @@ footer {
     height: 26px;
 }
 .fixed-td {
-    max-width: 160px;
+    max-width: 140px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
+}
+
+.horizontal-line {
+    background: transparent;
+}
+.horizontal-line span {
+    height: 50%;
+    width: 100%;
+    display: block;
+    padding-right: 2px;
+    padding-left: 2px;
+}
+.horizontal-line span:first-child {
+    border-bottom: 1px solid;
 }

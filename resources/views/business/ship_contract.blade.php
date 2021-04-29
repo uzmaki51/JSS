@@ -70,7 +70,7 @@ $ships = Session::get('shipList');
                     </div>
                     <div class="row" style="margin-top: 4px;">
                     <div class="col-lg-12">
-                        <div class="head-fix-div d-line-height" style="height: 122px;">
+                        <div class="head-fix-div d-line-height" style="height: 129px;">
                                 <table id="voy_list" v-cloak>
                                     <thead class="">
                                     <tr>
@@ -84,12 +84,9 @@ $ships = Session::get('shipList');
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.d_rate') !!}</span></th>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
-                                        <th class="text-center style-header" style="width: 60px;">{!! trans('business.table.cn.anticipate') !!}</th>
+                                        <th class="text-center style-header lr-no-p" style="width: 60px;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span>{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.contract_attach') !!}</th>
                                         <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;">{!! trans('common.label.delete') !!}</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-center style-header" style="width:20px;word-break: break-all; border-top: unset!important;">{!! trans('business.table.cn.daily_profit') !!}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -104,8 +101,12 @@ $ships = Session::get('shipList');
                                             <td class="text-center">@{{ item.L_Rate }}</td>
                                             <td class="text-center">@{{ item.D_Rate }}</td>
                                             <td class="text-center">@{{ item.Freight }}</td>
-                                            <td class="text-center">@{{ item.daily_net_profit }}</td>
-                                            <td class="text-center">@{{ item.daily_net_profit }}</td>
+                                            <td class="text-center">@{{ item.net_profit_day }}</td>
+                                            <td class="text-center">
+                                                <a :href="item.attachment_url" target="_blank" v-bind:class="[item.is_attachment == 1 ? '' : 'd-none']">
+                                                    <img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15">
+                                                </a>
+                                            </td>
                                             <td class="text-center">
                                                 <div class="action-buttons">
                                                     <a class="red" @click="deleteItem(item.id)">
