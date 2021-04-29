@@ -149,7 +149,7 @@ class BusinessController extends Controller {
             $cpTbl['is_attachment'] = 1;
             $file = $request->file('attachment');
             $fileName = $file->getClientOriginalName();
-            $name = date('Ymd_His_VOY') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+            $name = date('Ymd_His') . '_VOY_' . Str::random(10). '.' . $file->getClientOriginalExtension();
             $file->move(public_path() . '/contract/', $name);
             $cpTbl['attachment_url'] = url() . '/contract/' . $name;
         }
@@ -194,7 +194,7 @@ class BusinessController extends Controller {
             $cpTbl['is_attachment'] = 1;
             $file = $request->file('attachment');
             $fileName = $file->getClientOriginalName();
-            $name = date('Ymd_His_TC') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+            $name = date('Ymd_His') . '_TC_' . Str::random(10). '.' . $file->getClientOriginalExtension();
             $file->move(public_path() . '/contract/', $name);
             $cpTbl['attachment_url'] = url() . '/contract/' . $name;
         }

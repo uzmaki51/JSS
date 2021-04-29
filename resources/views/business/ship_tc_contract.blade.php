@@ -618,7 +618,7 @@
                 },
                 removeFile() {
                     this.fileName = '添加附件';
-                    $('#contract_tc_attach').replaceWith( $('#contract_tc_attach').val('').clone( true ) );
+                    $('#contract_tc_attach').val('');
                 },
                 confirmItem: function(activeId) {
                     let nameTmp = '';
