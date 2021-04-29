@@ -75,8 +75,8 @@ class BusinessController extends Controller {
         }
 
 		$shipList = ShipRegister::all();
-        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
-        $tmp = CP::orderBy('net_profit_day', 'desc')->first();
+        $cp_list = CP::where('Ship_ID', $shipId)->whereNotNull('net_profit_day')->orderBy('Voy_No', 'desc')->get();
+        $tmp = CP::where('Ship_ID', $shipId)->orderBy('net_profit_day', 'desc')->first();
         if($tmp == null || $tmp == false) {
             $maxVoyNo = '';
             $maxFreight = 0;
@@ -85,7 +85,7 @@ class BusinessController extends Controller {
             $maxFreight = $tmp['net_profit_day'] == null ? 0 : $tmp['net_profit_day'];
         }
 
-        $tmp = CP::whereNotNull('net_profit_day')->orderBy('net_profit_day', 'asc')->first();
+        $tmp = CP::where('Ship_ID', $shipId)->whereNotNull('net_profit_day')->orderBy('net_profit_day', 'asc')->first();
         if($tmp == null || $tmp == false) {
             $minVoyNo = 0;
             $minFreight = 0;
@@ -3915,6 +3915,16 @@ class BusinessController extends Controller {
         $shipId = $params['shipId'];
 
         $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'asc')->get();
+        foreach($cp_list as $key => $item) {
+            $LPort = $item->LPort;
+            $LPort = explode(',', $LPort);
+            $cp_list[$key]->LPort = ShipPort::whereIn('id', $LPort)->get();
+            $DPort = $item->DPort;
+        }
+
+
+
+
 
         return response()->json($cp_list);
     }

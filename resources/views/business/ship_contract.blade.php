@@ -82,7 +82,7 @@ $ships = Session::get('shipList');
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.loading_port') !!}</span></th>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.discharge_port') !!}</span></th>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.d_rate') !!}</span></th>
+                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.d_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.d_rate') !!}</span></th>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
                                         <th class="text-center style-header lr-no-p" style="width: 60px;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span>{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.contract_attach') !!}</th>
@@ -333,7 +333,7 @@ $ships = Session::get('shipList');
         Vue.component('my-currency-input', {
             props: ["value", "fixednumber", 'prefix', 'type'],
             template: `
-                    <input type="text" v-model="displayValue" @blur="isInputActive = false" @focus="isInputActive = true" @change="calcPreview"/>
+                    <input type="text" @keyup.enter="nextFocus($event.target)" v-model="displayValue" @blur="isInputActive = false" @focus="isInputActive = true" @change="calcPreview"/>
                 `,
             data: function() {
                 return {
@@ -375,6 +375,14 @@ $ships = Session::get('shipList');
                         tcInputObj.calcContractPreview();
                     else
                         voyInputObj.calcContractPreview();
+                },
+                nextFocus: function(elem) {
+                    const currentIndex = Array.from($('#voy_contract_div')).indexOf(elem);
+                        elem.form.elements.item(
+                            currentIndex < elem.form.elements.length - 1 ?
+                            currentIndex + 1 :
+                            0
+                        ).focus();
                 }
             }
         });

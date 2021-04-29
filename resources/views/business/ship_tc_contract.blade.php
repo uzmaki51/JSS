@@ -97,11 +97,11 @@
                     </div>
                     <div class="vertical">
                         <label>装港费</label>
-                        <my-currency-input v-model="input['up_port_price']" name="up_port_price" v-bind:fixednumber="0" v-bind:type="'tc'"></my-currency-input>
+                        <input v-model="input['up_port_price']" name="up_port_price" readonly type="text">
                     </div>
                     <div class="vertical">
                         <label>卸港费</label>
-                        <my-currency-input v-model="input['down_port_price']" name="down_port_price" v-bind:fixednumber="0" v-bind:type="'tc'"></my-currency-input>
+                        <input v-model="input['down_port_price']" name="down_port_price" readonly type="text">
                     </div>
                     <div class="vertical">
                         <label>日成本</label>
@@ -136,7 +136,7 @@
                 <div class="d-block mt-20">
                     <div class="d-flex horizontal">
                         <label>油款</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['oil_money']" name="oil_money" v-bind:type="'tc'"></my-currency-input>
+                        <input class="text-left bigger-input" style="border-top: 1px solid #4c4c4c;" disabled v-model="output['oil_money']" name="oil_money">
                         <span></span>
                     </div>
                     <div class="d-flex horizontal">
@@ -429,8 +429,8 @@
                     ilohc:              0,
                     fee:                0,
                     c_v_e:              0,
-                    up_port_price:      0,
-                    down_port_price:    0,
+                    up_port_price:      '',
+                    down_port_price:    '',
                     cost_per_day:       0,
                     cost_else:          0
                 },
@@ -438,7 +438,7 @@
                     sail_time:          0,
                     sail_term:          0,
                     moor:               0,
-                    oil_money:          0,
+                    oil_money:          '',
                     fo_mt:              0,
                     do_mt:              0,
                     credit:             0,
@@ -513,7 +513,7 @@
                     // Oil Price
                     let fo_oil_price = BigNumber(this.output['fo_mt']).multipliedBy(this.input['fo_price']);
                     let do_oil_price = BigNumber(this.output['do_mt']).multipliedBy(this.input['do_price']);
-                    this.output['oil_money'] = BigNumber(fo_oil_price).plus(do_oil_price);
+                    // this.output['oil_money'] = BigNumber(fo_oil_price).plus(do_oil_price);
 
                     // Credit
                     if(this.batchStatus) {
@@ -542,7 +542,7 @@
                         this.output['net_profit_day'] = 0;
 
                 }
-            },
+            }
         });
 
         tcInputObj.output['max_profit'] = parseFloat('{!! $maxFreight !!}');
