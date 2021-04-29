@@ -333,7 +333,7 @@ $ships = Session::get('shipList');
         Vue.component('my-currency-input', {
             props: ["value", "fixednumber", 'prefix', 'type'],
             template: `
-                    <input type="text" @keyup.enter="nextFocus($event.target)" v-model="displayValue" @blur="isInputActive = false" @focus="isInputActive = true" @change="calcPreview"/>
+                    <input type="text" v-model="displayValue" @blur="isInputActive = false" @focus="isInputActive = true" @change="calcPreview"/>
                 `,
             data: function() {
                 return {
@@ -376,14 +376,6 @@ $ships = Session::get('shipList');
                     else
                         voyInputObj.calcContractPreview();
                 },
-                nextFocus: function(elem) {
-                    const currentIndex = Array.from($('#voy_contract_div')).indexOf(elem);
-                        elem.form.elements.item(
-                            currentIndex < elem.form.elements.length - 1 ?
-                            currentIndex + 1 :
-                            0
-                        ).focus();
-                }
             }
         });
 
@@ -694,6 +686,18 @@ $ships = Session::get('shipList');
                 alert('Please input data correclty.');
                 return false;
             }
+        }
+    });
+
+    $('body').on('keydown', 'input, select', function(e) {
+        if (e.key === "Enter") {
+            var self = $(this), form = $('#voy_contract_div'), focusable, next;
+            focusable = form.find('input,a,select,textarea').filter(':visible');
+            next = focusable.eq(focusable.index(this)+1);
+            if (next.length) {
+                next.focus();
+            }
+            return false;
         }
     });
 

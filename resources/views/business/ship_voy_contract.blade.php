@@ -20,7 +20,7 @@
                 <div class="d-flex mt-20 attribute-div">
                     <div class="vertical">
                         <label>速度</label>
-                        <my-currency-input v-model="input['speed']" name="speed" v-bind:prefix="''"></my-currency-input>
+                        <my-currency-input v-model="input['speed']" name="speed" v-bind:prefix="''" v-bind:fixednumber="1"></my-currency-input>
                     </div>
                     <div class="vertical">
                         <label>距离(NM)</label>
@@ -388,11 +388,8 @@
             <div class="attachment-div d-flex mt-20">
                 <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
                 <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
-                <label for="contract_attach" class="ml-1 blue contract-attach">
-                    @{{ fileName }}
-                    <button type="button" class="btn btn-danger p-0" style="min-width: 30px;" @click="removeFile"><i class="icon-remove mr-0"></i></button>
-                </label>
-                <input type="file" id="contract_attach" name="attachment" class="d-none" @change="onFileChange">
+                <label for="contract_attach" class="ml-1 blue contract-attach">添加附件</label>
+                <input type="file" id="contract_attach" class="d-none">
             </div>
             </form>
         </div>
@@ -599,8 +596,6 @@
                 upPortNames:    '',
                 downPortIDList: [],
                 downPortNames:  '',
-
-                fileName: '添加附件',
             },
 
             computed: {
@@ -622,15 +617,6 @@
                 closeDialog: function(index) {
                     $(".dynamic-select__trigger").removeClass('open');
                     $(".dynamic-options").removeClass('open');
-                },
-                onFileChange(e) {
-                    var files = e.target.files || e.dataTransfer.files;
-                    let fileName = files[0].name;
-                    this.fileName = fileName;
-                },
-                removeFile() {
-                    this.fileName = '添加附件';
-                    $('#contract_attach').val('');
                 },
                 confirmItem: function(activeId) {
                     let nameTmp = '';
@@ -717,18 +703,5 @@
             $(".dynamic-options").siblings('.dynamic-select__trigger').removeClass('open')
         }
     });
-
-    $('body').on('keydown', 'input', function(e) {
-            //if (e.target.id == "search-name") return;
-            if (e.key === "Enter") {
-                var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
-                focusable = form.find('input').filter(':visible');
-                next = focusable.eq(focusable.index(this)+1);
-                if (next.length) {
-                    next.focus();
-                }
-                return false;
-            }
-        });
 
 </script>                                
