@@ -181,12 +181,15 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
-                    
+                    $('td', row).eq(1).html(prettyValue(data['totalR']));
+                    $('td', row).eq(2).html(prettyValue(data['totalD']));
                     if (index == 12) {
                         $('td', row).eq(0).attr('class', 'sub-small-header style-normal-header text-center');
                         $('td', row).eq(1).attr('class', 'style-normal-header style-blue-header text-center');
                         $('td', row).eq(2).attr('class', 'style-normal-header text-center');
                         $('td', row).eq(3).attr('class', 'sub-small-header style-normal-header text-center');
+                        $('td', row).eq(1).html('¥ ' + prettyValue(data['totalR']));
+                        $('td', row).eq(2).html('$ ' + prettyValue(data['totalD']));
                         $('td', row).eq(3).html('');
                     }
                     else
@@ -204,6 +207,11 @@ $isHolder = Session::get('IS_HOLDER');
         year = $("#select-year option:selected").val();
         shipId = $("#select-ship").val();
         initTable();
+
+        function prettyValue(value)
+        {
+            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+        }
 
         function selectInfo()
         {
@@ -230,6 +238,14 @@ $isHolder = Session::get('IS_HOLDER');
         });
 
         // 海员工资
+        var name = "";
+        function doSearch() {
+            name = $('#search-name').val();
+            if (name == '') return;
+            if (listTable2 == null) initTable2();
+            else listTable2.column(1).search(name, false, false).draw();
+        }
+
         function initTable2() {
             listTable2 = $('#table-shipmember-list').DataTable({
                 processing: true,
@@ -238,6 +254,7 @@ $isHolder = Session::get('IS_HOLDER');
                 ajax: {
                     url: BASE_URL + 'ajax/shipMember/searchAll',
                     type: 'POST',
+                    data: { 'name':name},
                 },
                 "ordering": false,
                 "pageLength": 500,
@@ -255,6 +272,7 @@ $isHolder = Session::get('IS_HOLDER');
                 createdRow: function (row, data, index) {
                     $(row).attr('data-index', data['no']);
                     $('td', row).eq(0).attr('class', 'style-search-header text-center');
+                    $('td', row).eq(4).html(prettyValue(data['salary']));
                 },
             });
             $('.paginate_button').hide();
@@ -273,25 +291,28 @@ $isHolder = Session::get('IS_HOLDER');
             doSearch();
         })
 
+        var member_id = "";
+        var ship_year;
+        function doSearchWage() {
+            if (listTable3 == null ) initTable3();
+            listTable3.column(1).search(member_id, false, false);
+            listTable3.column(2).search(ship_year, false, false).draw();
+        }
         $('.list-body').on('click', function(evt) {
             let cell = $(evt.target).closest('td');
             if(cell.index() < 9) {
-                let member_id = this.firstElementChild.getAttribute('data-index');
-                var year = $("#select-member-year option:selected").val();
+                member_id = this.firstElementChild.getAttribute('data-index');
+                ship_year = $("#select-member-year option:selected").val();
                 if (member_id != "" && member_id != null) {
-                    if (listTable3 == null ) initTable3();
-                    listTable3.column(1).search(member_id, false, false);
-                    listTable3.column(2).search(year, false, false).draw();
+                    doSearchWage();
                 }
             }
         });
 
-        function doSearch() {
-            if (listTable2 == null) initTable2();
-            var name = $('#search-name').val();
-            listTable2.column(1).search(name, false, false).draw();
-        }
-
+        $('#select-member-year').on('change', function() {
+            ship_year = $("#select-member-year option:selected").val();
+            doSearchWage();
+        });
         function initTable3() {
             listTable3 = $('#table-memberwage-list').DataTable({
                 processing: true,
@@ -300,6 +321,7 @@ $isHolder = Session::get('IS_HOLDER');
                 ajax: {
                     url: BASE_URL + 'ajax/shipMember/searchWageById',
                     type: 'POST',
+                    data: { 'member_id':member_id, 'year':ship_year},
                 },
                 "ordering": false,
                 "pageLength": 500,
@@ -318,10 +340,10 @@ $isHolder = Session::get('IS_HOLDER');
                     if (index == 12) {
                         $('td', row).eq(0).attr('class', 'sub-small-header style-normal-header text-center');
                         $('td', row).eq(0).attr('colspan', '2');
-                        $('td', row).eq(1).html(data['sendR']);
+                        $('td', row).eq(1).html('¥ ' + prettyValue(data['sendR']));
                         $('td', row).eq(1).attr('class', 'style-normal-header style-blue-header text-center');
                         $('td', row).eq(2).attr('class', 'style-normal-header text-center');
-                        $('td', row).eq(2).html(data['sendD']==0?'-':data['sendD']);
+                        $('td', row).eq(2).html(data['sendD']==0?'-':'$ ' + prettyValue(data['sendD']));
                         $('td', row).eq(3).attr('class', 'sub-small-header style-normal-header text-center');
                         $('td', row).eq(3).html('');
                         $('td', row).eq(4).attr('class', 'sub-small-header style-normal-header text-center');
@@ -329,8 +351,10 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(5).remove();
                     }
                     else {
+                        $('td', row).eq(1).html(data['purchdate'].substr(0,10));
+                        $('td', row).eq(2).html(prettyValue(data['sendR']));
                         $('td', row).eq(2).attr('class', 'style-blue-header text-center');
-                        $('td', row).eq(3).html(data['sendD']==0?'':data['sendD']);
+                        $('td', row).eq(3).html(data['sendD']==0?'':prettyValue(data['sendD']));
                         $('td', row).eq(5).html('').append('<div class="action-buttons"><a class="blue" onclick="javascript:showReport(this)"><i class="icon-file"></i></a></div>');
                     }
                 },

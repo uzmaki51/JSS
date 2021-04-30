@@ -506,7 +506,8 @@ class ShipMember extends Model
             $year = $params['columns'][2]['search']['value'];
         }
         else {
-            return;
+            $member_id = $params['member_id'];
+            $year = $params['year'];
         }
 
         $selector = ShipWageSend::where('member_id', $member_id)->where('year', $year);
@@ -940,12 +941,13 @@ class ShipMember extends Model
         if (isset($params['columns'][1]['search']['value'])
             && $params['columns'][1]['search']['value'] !== ''
         ) {
-            $selector->where('realname', $params['columns'][1]['search']['value']);
+            $name = $params['columns'][1]['search']['value'];
         }
         else {
-            return;
+            $name = $params['name'];
         }
 
+        $selector->where('realname', $name);
         $record = $selector->first();
         $recordsFiltered = $selector->count();
         
