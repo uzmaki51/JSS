@@ -62,6 +62,9 @@ $isHolder = Session::get('IS_HOLDER');
                                     <a id="btnSave" class="btn btn-sm btn-info" style="width: 80px">
                                         <i class="icon-save"></i>{{ trans('common.label.save') }}
                                     </a>
+                                    <a onclick="javascript:fnExcelReport();" class="btn btn-warning btn-sm excel-btn">
+                                        <i class="icon-table"></i>{{ trans('common.label.excel') }}
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -314,7 +317,8 @@ $isHolder = Session::get('IS_HOLDER');
         $('#search_info').html('"' + $("#select-ship option:selected").attr('data-name') + '" ' + year + '年' + month + '月');
         initTable();
 
-        function setValue(e, v) {
+        function setValue(e, v, isNumber) {
+            //e.closest("td").firstElementChild.innerHTML = isNumber ? prettyValue(v) : v;
             e.closest("td").firstElementChild.innerHTML = v;
             e.value = v;
         }
@@ -373,7 +377,7 @@ $isHolder = Session::get('IS_HOLDER');
 
             var td = daysInMonth(month, year);
             for (var i=0;i<TransInR.length;i++) {
-                setValue(No[i], i + 1);
+                setValue(No[i], i + 1, false);
                 var m = parseFloat(minus[i].value);
                 var s = parseFloat(salary[i].value);
                 var don = dateon[i].value;
@@ -382,7 +386,7 @@ $isHolder = Session::get('IS_HOLDER');
                 var diff = new Date(new Date(doff) - new Date(don));
                 var signon_days = diff/1000/60/60/24+1;
                 if (signon_days != td) signon_days = signon_days - minus_days;
-                setValue(days[i], signon_days);
+                setValue(days[i], signon_days, false);
                 var dd = parseFloat(signon_days);
                 var _R = 0;
                 var _D = 0;
@@ -396,8 +400,8 @@ $isHolder = Session::get('IS_HOLDER');
                     _D = d.toFixed(2);
                     _R = (d * rate).toFixed(2);
                 }
-                setValue(TransInR[i], _R);
-                setValue(TransInD[i], _D);
+                setValue(TransInR[i], _R, true);
+                setValue(TransInD[i], _D, true);
 
                 sum_R += (_R=='')?0:parseFloat(_R);
                 sum_D += (_D=='')?0:parseFloat(_D);
@@ -409,10 +413,15 @@ $isHolder = Session::get('IS_HOLDER');
             if ($('#list-body tr:last').attr('class') == 'tr-report') {
                 $('#list-body tr:last').remove();
             }
-            $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.member-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="3"></td><td colspan="2" class="sub-small-header style-normal-header text-center">计算日期</td><td class="disable-td text-center">' + calc_date + '<input type="hidden" name="report_date" value="' + calc_date + '"></td><td colspan="2" class="sub-small-header style-normal-header text-center">合计</td><td class="style-normal-header disable-td text-center">¥ ' + sum_R.toFixed(2) + '</td><td class="style-normal-header text-center disable-td">$ ' + sum_D.toFixed(2) + '</td><td class="sub-small-header style-normal-header text-center">实发工资</td><td class="style-normal-header text-center disable-td">' + sum_Real.toFixed(2) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td></tr>');
+            $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.member-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="3"></td><td colspan="2" class="sub-small-header style-normal-header text-center">计算日期</td><td class="disable-td text-center">' + calc_date + '<input type="hidden" name="report_date" value="' + calc_date + '"></td><td colspan="2" class="sub-small-header style-normal-header text-center">合计</td><td class="style-normal-header disable-td text-center">¥ ' + prettyValue(sum_R) + '</td><td class="style-normal-header text-center disable-td">$ ' + prettyValue(sum_D) + '</td><td class="sub-small-header style-normal-header text-center">实发工资</td><td class="style-normal-header text-center disable-td">¥ ' + prettyValue(sum_Real) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td></tr>');
             setDatePicker();
             if (origForm == "")
                 origForm = $form.serialize();
+        }
+
+        function prettyValue(value)
+        {
+            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         function setDatePicker() {
@@ -580,20 +589,20 @@ $isHolder = Session::get('IS_HOLDER');
 
         function setEvents()
         {
-            $('.add-minus').on('change', function() {
+            $('.add-minus').on('keyup', function() {
                 calcReport();
             });
 
-            $('input[name="Salary[]"]').on('keydown', function(e) {
-                if (e.which == 13) {
-                    calcReport();
-                }
+            $('input[name="Salary[]"]').on('keyup', function(e) {
+                calcReport();
             });
 
-            $('.add-trans-date').on('keydown', function(e) {
-                if (e.which == 13) {
-                    calcReport();
-                }
+            $('input[name="TransDate[]"]').on('keyup', function(e) {
+                calcReport();
+            });
+
+            $('.add-trans-date').on('change', function(e) {
+                calcReport();
             });
         }
 
@@ -714,7 +723,6 @@ $isHolder = Session::get('IS_HOLDER');
             if ($('.member-item').length > 0) {
                 $('#wage-form').submit();
                 $('td[style*="display: none;"]').remove();
-               fnExcelReport();
             }
         });
 

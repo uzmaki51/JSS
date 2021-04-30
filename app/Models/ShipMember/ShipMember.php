@@ -764,7 +764,7 @@ class ShipMember extends Model
             $newArr[$newindex]['TransDate'] = '';
             $newArr[$newindex]['Remark'] = '';
             $newArr[$newindex]['BankInformation'] = $record->BankInformation;
-            //$newArr[$newindex]['DateOnboard'] = $record->DateOnboard;
+            $newArr[$newindex]['DateOnboard'] = $record->DateOnboard;
             $newindex ++;
         }
         return [
