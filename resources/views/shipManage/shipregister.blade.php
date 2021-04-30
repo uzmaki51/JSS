@@ -298,13 +298,6 @@ $shipList = Session::get('shipList');
             }
         });
 
-        $("input[name='Deadweight']").keyup(function(e) {
-            if ($(this).val() >= 33000){
-                $(this).val('32767')
-            }
-        });
-
-
         $('body').on('keydown', 'input, select', function(e) {
             if (e.key === "Enter") {
                 var self = $(this), form = self.parents('form:eq(0)'), focusable, next;
