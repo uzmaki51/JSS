@@ -48,6 +48,7 @@ use App\Models\Attend\AttendShip;
 use App\Models\ShipManage\Ship;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipMember\ShipMember;
+use App\Models\Convert\VoyLog;
 
 // 일정계획
 use App\Models\Schedule;
@@ -107,11 +108,74 @@ class BusinessController extends Controller {
     }
 
     public function dynRecord(Request $request) {
+        $params = $request->all();
+        $shipName = '';
+		if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else {
+            $firstShipInfo = ShipRegister::first();
+            if($firstShipInfo == null && $firstShipInfo == false)
+                return redirect()->back();
+
+            $shipId = $firstShipInfo->IMO_No;
+        }
+
+        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        if($shipInfo == null || $shipInfo == false)
+            return redirect()->back();
+        else {
+            $shipName = $shipInfo->shipName_En;
+        }
+
         $shipList = ShipRegister::all();
         return view('business.dynamic.record', [
             'shipList'          => $shipList,
+            'shipId'            => $shipId,
+            'shipName'          => $shipName,
         ]);
     }
+
+    public function saveDynamic(Request $request) {
+        $params = $request->all();
+        if(!isset($params['shipId']))
+            return redirect()->back();
+        
+        $shipId = $params['shipId'];
+        $ids = $params['id'];
+// var_dump($params['Voy_Type']);die;
+        foreach($ids as $key => $item) {
+            $voyLog = new VoyLog();
+			if($item != '' && $item != null) {
+				$voyLog = VoyLog::find($item);
+			}
+
+            $voyLog['CP_ID'] = $params['CP_ID'][$key];
+            $voyLog['Ship_ID'] = $shipId;
+            if(isset($params['Voy_Date'][$key]) && $params['Voy_Date'][$key] != '')
+                $voyLog['Voy_Date'] = $params['Voy_Date'][$key];
+
+            $voyLog['Voy_Hour'] = $params['Voy_Hour'][$key];
+            $voyLog['Voy_Minute'] = $params['Voy_Minute'][$key];
+            $voyLog['GMT'] = $params['GMT'][$key];
+            $voyLog['Voy_Type'] = $params['Voy_Type'][$key];
+            $voyLog['Voy_Status'] = $params['Voy_Status'][$key];
+            $voyLog['Ship_Position'] = $params['Ship_Position'][$key];
+            $voyLog['Cargo_Qtty'] = $params['Cargo_Qtty'][$key];
+            $voyLog['Sail_Distance'] = $params['Sail_Distance'][$key];
+            $voyLog['Speed'] = $params['Speed'][$key];
+            $voyLog['RPM'] = $params['RPM'][$key];
+            $voyLog['ROB_FO'] = $params['ROB_FO'][$key];
+            $voyLog['ROB_DO'] = $params['ROB_DO'][$key];
+            $voyLog['BUNK_FO'] = $params['BUNK_FO'][$key];
+            $voyLog['BUNK_DO'] = $params['BUNK_DO'][$key];
+            $voyLog['Remark'] = $params['Remark'][$key];
+    
+            $voyLog->save();            
+        }
+
+
+    }
+    
     
     public function saveVoyContract(Request $request) {
         $params = $request->all();
@@ -3909,22 +3973,60 @@ class BusinessController extends Controller {
         return response()->json($retVal);
     }
 
+    public function ajaxDynamicList(Request $request) {
+        $params = $request->all();
+
+        if(isset($params['shipId']) && isset($params['voyId'])) {
+            $shipId = $params['shipId'];
+            $voyId = $params['voyId'];
+        } else {
+            return redirect()->back();
+        }
+
+        $prevData = [];
+        $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc')->first();
+        $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISH)->orderBy('CP_ID', 'desc')->first();
+        $retVal['currentData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->get();
+        $retVal['max_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISH)->first();
+
+        if($retVal['min_date'] == false || $retVal['min_date'] == null)
+            $retVal['min_date'] = false;
+        else 
+            $retVal['min_date'] = $retVal['min_date'];
+
+        if($retVal['max_date'] == false || $retVal['max_date'] == null)
+            $retVal['max_date'] = false;
+        else
+            $retVal['max_date'] = $retVal['max_date'];
+
+        return response()->json($retVal);
+    }
+
     
     public function ajaxVoyAllList(Request $request) {
         $params = $request->all();
         $shipId = $params['shipId'];
 
-        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'asc')->get();
+        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
         foreach($cp_list as $key => $item) {
             $LPort = $item->LPort;
             $LPort = explode(',', $LPort);
-            $cp_list[$key]->LPort = ShipPort::whereIn('id', $LPort)->get();
+            $LPort = ShipPort::whereIn('id', $LPort)->get();
+            $tmp = '';
+            foreach($LPort as $port)
+                $tmp .= $port->Port_En . ', ' . $port->Port_Cn . ' / ';
+            $cp_list[$key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
+
             $DPort = $item->DPort;
+
+            $DPort = $item->DPort;
+            $DPort = explode(',', $DPort);
+            $DPort = ShipPort::whereIn('id', $DPort)->get();
+            $tmp = '';
+            foreach($DPort as $port)
+                $tmp .= $port->Port_En . ', ' . $port->Port_Cn . ' / ';
+            $cp_list[$key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
         }
-
-
-
-
 
         return response()->json($cp_list);
     }

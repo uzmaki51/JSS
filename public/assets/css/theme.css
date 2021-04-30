@@ -374,8 +374,6 @@ table th {
     text-align: left;
     background-color: #c9dfff;
     color: black;
-    font-weight: normal!important;
-    font-style: normal!important;
     z-index: 100;
 }
 
@@ -842,4 +840,31 @@ footer {
 }
 .horizontal-line span:first-child {
     border-bottom: 1px solid;
+}
+
+.align-bottom {
+    display: flex;
+    align-items: flex-end;
+}
+.ship-title {
+    display: block;
+    background: rgb(185 236 255);
+    padding: 4px 2px;
+    border: 1px solid #666666;
+    width: fit-content;
+    font-weight: bold;
+    font-size: 14px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.auto-width {
+    max-width: 150px!important;
+}
+.white-bg {
+    background: #ffffff;
+}
+.prev-voy td {
+    background: #f2f2f2;
 }

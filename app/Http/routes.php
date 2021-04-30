@@ -116,6 +116,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('business/port/delete', ['uses'	=> 'Business\BusinessController@ajaxPortDelete']);
 
 	Route::post('business/dynamic', ['uses'	=> 'Business\BusinessController@ajaxDynamic']);
+	Route::post('business/dynamic/list', ['uses'	=> 'Business\BusinessController@ajaxDynamicList']);
 	Route::post('business/voy/list', ['uses'	=> 'Business\BusinessController@ajaxVoyAllList']);
 
 });
@@ -129,6 +130,8 @@ Route::group(['prefix' => 'business'], function() {
 	Route::post('tcContractRegister', ['uses'	=> 'Business\BusinessController@saveTcContract']);
 
 	Route::get('dynRecord', ['uses' => 'Business\BusinessController@dynRecord']);
+	Route::post('saveDynamic', ['uses'=>'Business\BusinessController@saveDynamic']);
+
 	Route::get('newsTemaPage', ['uses'=>'Business\BusinessController@newsTemaPage']);
 	Route::get('temaInfo',['uses'=>'Business\BusinessController@getNewsTemaInfo']);
 

@@ -245,6 +245,115 @@ $BankData = array(
 	BANK_TYPE_2		=> '大连'
 );
 
+
+define('DYNAMIC_SUB_ELSE', 			1);
+define('DYNAMIC_SUB_WEATHER', 		2);
+define('DYNAMIC_SUB_SUPPLY', 		3);
+define('DYNAMIC_SUB_REPAIR', 		4);
+define('DYNAMIC_SUB_WAITING', 		5);
+define('DYNAMIC_SUB_LOADING', 		6);
+define('DYNAMIC_SUB_SALING', 		7);
+
+$DynamicSub = array(
+	DYNAMIC_SUB_ELSE		=> '其他',
+	DYNAMIC_SUB_WEATHER		=> '天气',
+	DYNAMIC_SUB_SUPPLY		=> '供应',
+	DYNAMIC_SUB_REPAIR		=> '修理',
+	DYNAMIC_SUB_WAITING		=> '待泊',
+	DYNAMIC_SUB_LOADING		=> '装货',
+	DYNAMIC_SUB_SALING		=> '航行',
+);
+
+# Dynamic Status
+define('DYNAMIC_DEPARTURE', 		1);
+define('DYNAMIC_SAILING', 			2);
+define('DYNAMIC_ANCHORING', 		3);
+define('DYNAMIC_ARRIVAL', 			4);
+define('DYNAMIC_POB', 				5);
+define('DYNAMIC_BERTH', 			6);
+define('DYNAMIC_UNBERTH', 			7);
+define('DYNAMIC_CMNC', 				8);
+define('DYNAMIC_LOADING', 			9);
+define('DYNAMIC_CMPLT_LOADING', 	10);
+define('DYNAMIC_CMNC_DISCH', 		11);
+define('DYNAMIC_DISCHARG', 			12);
+define('DYNAMIC_CMPLT_DISH', 		13);
+define('DYNAMIC_STOP', 				14);
+define('DYNAMIC_RESUME', 			15);
+define('DYNAMIC_DOCKING', 			16);
+define('DYNAMIC_UNDOCKING', 		17);
+
+$DynamicStatus = array(
+	DYNAMIC_DEPARTURE 			=> ['DEPARTURE', [
+			DYNAMIC_SUB_ELSE, 
+			DYNAMIC_SUB_WEATHER, 
+			DYNAMIC_SUB_SUPPLY, 
+			DYNAMIC_SUB_REPAIR
+		]],
+	DYNAMIC_SAILING 			=> ['SAILING', [
+			DYNAMIC_SUB_SALING
+	]],
+	DYNAMIC_ANCHORING 			=> ['ANCHORING', [
+			DYNAMIC_SUB_SALING,
+			DYNAMIC_SUB_WEATHER,
+			DYNAMIC_SUB_REPAIR,
+			DYNAMIC_SUB_ELSE
+	]],
+	DYNAMIC_ARRIVAL 			=> ['ARRIVAL', [
+		DYNAMIC_SUB_SALING
+	]],
+	DYNAMIC_POB 				=> ['POB', [
+		DYNAMIC_SUB_WAITING
+	]],
+	DYNAMIC_BERTH 				=> ['BERTH', [
+		DYNAMIC_SUB_SALING,
+		DYNAMIC_SUB_WAITING,
+	]],
+	DYNAMIC_UNBERTH 			=> ['UNBERTH', [
+			DYNAMIC_SUB_ELSE
+	]],
+	DYNAMIC_CMNC 				=> ['CMNC', [
+			DYNAMIC_SUB_ELSE,
+			DYNAMIC_SUB_WAITING
+	]],
+	DYNAMIC_LOADING 			=> ['LOADING', [
+		DYNAMIC_SUB_LOADING
+	]],
+	DYNAMIC_CMPLT_LOADING 		=> ['CMPLT LOADING', [
+		DYNAMIC_SUB_LOADING
+	]],
+	DYNAMIC_CMNC_DISCH 			=> ['CMNC DISCH', [
+		DYNAMIC_SUB_ELSE,
+		DYNAMIC_SUB_WAITING,
+	]],
+	DYNAMIC_DISCHARG 			=> ['DISCHARG', [
+		DYNAMIC_SUB_LOADING,
+	]],
+	DYNAMIC_CMPLT_DISH 			=> ['CMPLT DISH', [
+		DYNAMIC_SUB_LOADING,
+	]],
+	DYNAMIC_STOP 				=> ['STOP', [
+		DYNAMIC_SUB_LOADING,
+		DYNAMIC_SUB_WAITING
+	]],
+	DYNAMIC_RESUME 				=> ['RESUME', [
+		DYNAMIC_SUB_ELSE, 
+		DYNAMIC_SUB_WEATHER, 
+		DYNAMIC_SUB_SUPPLY, 
+		DYNAMIC_SUB_REPAIR
+	]],
+	DYNAMIC_DOCKING 			=> ['DOCKING', [
+		DYNAMIC_SUB_ELSE
+	]],
+	DYNAMIC_UNDOCKING 			=> ['UNDOCKING', [
+		DYNAMIC_SUB_REPAIR
+	]],
+);
+
+
+
+
+
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,
 	    'ReportTypeLabelData'	        => $ReportTypeLabelData,
@@ -264,6 +373,8 @@ $BankData = array(
 	    'IssuerTypeData'				=> $IssuerTypeData,
 		'CPTypeData'				    => $CPTypeData,
 	    'QtyTypeData'				    => $QtyTypeData,	
-		'BankData'				    => $BankData,	
+		'BankData'				    	=> $BankData,
+		'DynamicStatus'				    => $DynamicStatus,
+		'DynamicSub'					=> $DynamicSub,
 
  );
