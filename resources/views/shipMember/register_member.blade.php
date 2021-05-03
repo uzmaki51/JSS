@@ -763,6 +763,7 @@ $isHolder = Session::get('IS_HOLDER');
                 next = focusable.eq(focusable.index(this)+1);
                 if (next.length) {
                     next.focus();
+                    next.select();
                 } else {
                     form.submit();
                 }

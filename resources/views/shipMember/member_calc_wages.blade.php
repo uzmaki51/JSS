@@ -25,7 +25,7 @@ $isHolder = Session::get('IS_HOLDER');
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-8">
-                                <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
+                                <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                                 <select class="custom-select d-inline-block" name="select-ship" id="select-ship" style="width:80px">
                                     <!--option value="" selected></option-->
                                     <?php $index = 0 ?>
@@ -34,9 +34,9 @@ $isHolder = Session::get('IS_HOLDER');
                                         <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
                                     @endforeach
                                 </select>
-                                <label class="custom-label d-inline-block" style="padding: 6px;">减少天数:</label>
+                                <label class="custom-label d-inline-block font-bold" style="padding: 6px;">减少天数:</label>
                                 <input type="number" name="minus-days" id="minus-days" value="0.5" step="0.5" min="0" autocomplete="off" style="width:60px;margin-right:0px;"/>
-                                <label class="custom-label d-inline-block" style="padding: 6px;">汇率:</label>
+                                <label class="custom-label d-inline-block font-bold" style="padding: 6px;">汇率:</label>
                                 <input type="number" name="rate" id="rate" value="6.5" min="0" step="0.1" autocomplete="off" style="width:80px;margin-right:0px;"/>
                             </div>
                         </div>
@@ -578,6 +578,7 @@ $isHolder = Session::get('IS_HOLDER');
                 next = focusable.eq(focusable.index(this)+1);
                 if (next.length) {
                     next.focus();
+                    next.select();
                 }
                 return false;
             }
