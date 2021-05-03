@@ -691,7 +691,13 @@ $ships = Session::get('shipList');
 
     $('body').on('keydown', 'input, select', function(e) {
         if (e.key === "Enter") {
-            var self = $(this), form = $('#voy_contract_div'), focusable, next;
+            var self = $(this), form, focusable, next;
+            if(ACTIVE_TAB == 'voy') {
+                form = $('#voy_contract_div');
+            }
+            else {
+                form = $('#tc_contract_div');
+            }
             focusable = form.find('input,a,select,textarea').filter(':visible');
             next = focusable.eq(focusable.index(this)+1);
             if (next.length) {
