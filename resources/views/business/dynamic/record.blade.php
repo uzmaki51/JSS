@@ -207,7 +207,7 @@
                                 <td class="text-center">FO</td>
                                 <td class="text-center">DO</td>
                                 <td class="text-center">FO</td>
-                                <td class="text-center">DO</td>                                
+                                <td class="text-center">DO</td>
                             </tr>
                             <tr>
                                 <td>@{{ activeVoy }}</td>

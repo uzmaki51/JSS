@@ -61,10 +61,13 @@ $ships = Session::get('shipList');
                                     <button class="btn btn-sm btn-warning" id="submit">
                                         <i class="icon-save"></i>保存
                                     </button>
-                                @endif
+                                @endif  
                                 <button type="button" class="btn btn-success btn-sm d-none" onclick="reportSubmit">
                                     <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">申请
                                 </button>
+                                <a onclick="javascript:fnExcelReport();" class="btn btn-warning btn-sm excel-btn">
+                                    <i class="icon-table"></i>{{ trans('common.label.excel') }}
+                                </a>                                
                             </div>
                         </div>
                     </div>
@@ -100,7 +103,7 @@ $ships = Session::get('shipList');
                                             <td class="text-center"><div class="fixed-td">@{{ getPortName(item.DPort) }}</div></td>
                                             <td class="text-center">@{{ item.L_Rate }}</td>
                                             <td class="text-center">@{{ item.D_Rate }}</td>
-                                            <td class="text-center">@{{ item.Freight }}</td>
+                                            <td class="text-center">@{{ getFrtRate(item.Freight, item.total_Freight) }}</td>
                                             <td class="text-center">@{{ item.net_profit_day }}</td>
                                             <td class="text-center">
                                                 <a :href="item.attachment_url" target="_blank" v-bind:class="[item.is_attachment == 1 ? '' : 'd-none']">
@@ -333,19 +336,23 @@ $ships = Session::get('shipList');
         Vue.component('my-currency-input', {
             props: ["value", "fixednumber", 'prefix', 'type'],
             template: `
-                    <input type="text" v-model="displayValue" @blur="isInputActive = false" @focus="isInputActive = true" @change="calcPreview"/>
+                    <input type="text" v-model="displayValue" @blur="isInputActive = false" @focus="isInputActive = true; $event.target.select()" @change="calcPreview" v-on:keyup="keymonitor" />
                 `,
             data: function() {
                 return {
                     isInputActive: false
                 }
             },
+
             computed: {
                 displayValue: {
                     get: function() {
+                        this.setFocus;
                         if (this.isInputActive) {
-                            // Cursor is inside the input field. unformat display value for user
-                            return this.value.toString()
+                            if(isNaN(this.value))
+                                return 0;
+
+                            return this.value.toString();
                         } else {
                             let fixedLength = 2;
                             let prefix = '$ ';
@@ -353,29 +360,49 @@ $ships = Session::get('shipList');
                                 fixedLength = this.fixednumber;
 
                             if(this.prefix != undefined)
-                                prefix = this.prefix;
-                                
-                            return prefix + this.value.toFixed(fixedLength).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
+                                prefix = this.prefix + ' ';
+                            
+                            return prefix + number_format(this.value, fixedLength);
                         }
                     },
                     set: function(modifiedValue) {
-                        let newValue = parseFloat(modifiedValue.replace(/[^\d\.]/g, ""))
-
-                        if (isNaN(newValue)) {
-                            newValue = 0
+                        if (isNaN(modifiedValue)) {
+                            modifiedValue = 0
                         }
 
-                        this.$emit('input', newValue)
+                        this.$emit('input', parseFloat(modifiedValue))
+                        this.setFocus
                     },
                 }
             },
             methods: {
-                calcPreview: function() {
+                calcPreview: function(e) {
+                    let fixedLength = 2;
+                    let prefix = '$ ';
+                    if(this.fixednumber != undefined)
+                        fixedLength = this.fixednumber;
+
+                    if(this.prefix != undefined)
+                        prefix = this.prefix;
+                    this.$emit('input', parseFloat(this.value ,10).toFixed(fixedLength));
                     if(this.type == 'tc')
                         tcInputObj.calcContractPreview();
                     else
                         voyInputObj.calcContractPreview();
+
                 },
+                keymonitor: function(e) {
+                    if(e.keyCode == 9 || e.keyCode == 13)
+                        $(e.target).select()
+                },
+                setValue: function() {
+
+                }
+            },
+            watch: {
+                setFocus: function(e) {
+                    $(e.target).select();
+                }
             }
         });
 
@@ -423,6 +450,10 @@ $ships = Session::get('shipList');
                                 voyListObj.list = data;
                             }
                         })
+                    },
+                    getFrtRate: function(a, b) {
+                        console.log(a, b)
+                        return parseFloat(a) == 0 || a == undefined ? b : a;
                     },
                     getCargoName: function(ids) {
                         if(ids == '' || ids == undefined) return '';
@@ -671,7 +702,6 @@ $ships = Session::get('shipList');
         if(ACTIVE_TAB == 'voy') {
             if(voyContractObj.validate_voy_no == true && voyContractObj.voy_no != '') {
                 submitted = true;
-                fnExcelVoy();
                 $('#voyContractForm').submit();
             } else {
                 alert('Please input data correclty.');
@@ -680,7 +710,6 @@ $ships = Session::get('shipList');
         } else {
             if(tcContractObj.validate_voy_no == true && tcContractObj.voy_no != '') {
                 submitted = true;
-                fnExcelTc();
                 $('#tcContractForm').submit();
             } else {
                 alert('Please input data correclty.');
@@ -688,6 +717,16 @@ $ships = Session::get('shipList');
             }
         }
     });
+
+    function fnExcelReport() {
+        if(ACTIVE_TAB == 'voy') {
+            if(voyContractObj.validate_voy_no == true && voyContractObj.voy_no != '')
+                fnExcelVoy();
+        } else {
+            if(tcContractObj.validate_voy_no == true && tcContractObj.voy_no != '') 
+                fnExcelTc();
+        }        
+    }
 
     $('body').on('keydown', 'input, select', function(e) {
         if (e.key === "Enter") {
@@ -841,7 +880,7 @@ $ships = Session::get('shipList');
         tab_text += '<td colspan="4" style="border-bottom:3px #484848 solid!important;text-align:left;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">' + $($('[name=net_profit_day]')[1]).val() + '</td>';
         tab_text += '<tr><td colspan="8" style="height:30px;border-top:1px solid black;">&nbsp;</td></tr>';
         
-        var filename = '合同输出(TC)' + '_航次' + tcContractObj.voy_no;
+        var filename = '{!! $shipName !!}' + '_' + tcContractObj.voy_no + '合同分析(TC)';
         exportExcel(tab_text, filename, filename);
         return 0;
     }
@@ -986,7 +1025,8 @@ $ships = Session::get('shipList');
         tab_text += '<td colspan="4" style="border-bottom:3px #484848 solid!important;text-align:left;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">' + $('[name=net_profit_day]').val() + '</td>';
         tab_text += '<tr><td colspan="8" style="height:30px;border-top:1px solid black;">&nbsp;</td></tr>';
         
-        var filename = '合同输出(VOY)' + '_航次' + $('[name=voy_no]').val();
+        var filename = '{!! $shipName !!}' + '_' + tcContractObj.voy_no + '合同分析(TC)';
+        var filename = '{!! $shipName !!}' + '_' + $('[name=voy_no]').val() + '合同分析(VOY)';
         exportExcel(tab_text, filename, filename);
         return 0;
     }

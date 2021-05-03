@@ -20,11 +20,11 @@
                 <div class="d-flex mt-20 attribute-div">
                     <div class="vertical">
                         <label>速度</label>
-                        <my-currency-input v-model="input['speed']" name="speed" v-bind:prefix="''" v-bind:fixednumber="1"></my-currency-input>
+                        <my-currency-input v-model="input['speed']" name="speed" v-bind:prefix="''" v-bind:fixednumber="1" maxlength="4" minlength="4"></my-currency-input>
                     </div>
                     <div class="vertical">
                         <label>距离(NM)</label>
-                        <my-currency-input v-model="input['distance']" name="distance" v-bind:prefix="''"></my-currency-input>
+                        <my-currency-input v-model="input['distance']" name="distance" v-bind:prefix="''" v-bind:fixednumber="0" maxlength="4" minlength="4" step="1"></my-currency-input>
                     </div>
                     <div class="vertical">
                         <label>装货天数</label>
@@ -80,11 +80,11 @@
                     </div>
                     <div class="vertical">
                         <label>单价</label>
-                        <my-currency-input v-model="input['freight_price']" :readonly="batchStatus == true" name="freight_price"></my-currency-input>
+                        <my-currency-input v-model="input['freight_price']" :disabled="batchStatus == true" name="freight_price"></my-currency-input>
                     </div>
                     <div class="vertical">
                         <label for="batch-manage" class="batch-manage"><input type="checkbox" v-model="batchStatus" id="batch-manage"  @change="calcContractPreview">包船</label>
-                        <input type="text" v-bind:class="batchStatus == true ? '' : 'output-text'" name="batch_price" :readonly="batchStatus == false" v-model="input['batch_price']" @change="calcContractPreview">
+                        <my-currency-input type="text" v-bind:class="batchStatus == true ? '' : 'output-text'" name="batch_price" :disabled="batchStatus == false"  v-bind:fixednumber="0" v-model="input['batch_price']" @change="calcContractPreview"></my-currency-input>
                     </div>
                     <div class="vertical">
                         <label>佣金(%)</label>
@@ -169,7 +169,7 @@
                     </div>
                     <div class="d-flex horizontal">
                         <label>日净利润</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['net_profit_day']" name="net_profit_day" v-bind:fixedNumber="0"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" disabled v-model="output['net_profit_day']" name="net_profit_day" v-bind:fixedNumber="0" maxlength="5"></my-currency-input>
                         <span></span>
                     </div>
                     <div class="d-flex horizontal">
@@ -388,8 +388,13 @@
             <div class="attachment-div d-flex mt-20">
                 <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
                 <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
-                <label for="contract_attach" class="ml-1 blue contract-attach">添加附件</label>
-                <input type="file" id="contract_attach" class="d-none">
+                <label for="contract_attach" class="ml-1 blue contract-attach">
+                    @{{ fileName }}
+                    <button type="button" class="btn btn-danger p-0" style="min-width: 30px;" @click="removeFile"><i class="icon-remove mr-0"></i></button>
+                </label>
+                <input type="file" id="contract_attach" name="attachment" class="d-none" @change="onFileChange">
+                <input type="hidden" name="voy_currency" v-model="currency">
+                <input type="hidden" name="voy_rate" v-model="rate">
             </div>
             </form>
         </div>
@@ -464,7 +469,10 @@
                     voyContractObj.cp_date = this.getToday('-');
                     voyContractObj.qty_amount = this.input['cargo_amount'];
                     voyContractObj.freight_rate = this.input['fregith_price'];
-                    voyContractObj.net_profit_day = this.output['net_profit_day'];
+                    voyContractObj.net_profit_day = this.output['net_profit_day'].toFixed(0);
+                    voyContractObj.currency = this.input['currency'];
+                    voyContractObj.rate = this.input['rate'];
+
                     if(this.batchStatus == true) {
                         voyContractObj.lumpsum = this.input['batch_price'];
                         voyContractObj.freight_rate = 0;
@@ -479,6 +487,14 @@
                 onEditContinue: function() {
                     $('#voy_input_div input').removeAttr('disabled', 'disabled');
                     $('[name=currency]').removeAttr('disabled', 'disabled');
+                    if(voyInputObj.batchStatus) {
+                        $('[name=batch_price]').removeAttr('disabled', 'disabled');
+                        $('[name=freight_price]').attr('disabled', 'disabled');
+
+                    } else {
+                        $('[name=batch_price]').attr('disabled', 'disabled');
+                        $('[name=freight_price]').removeAttr('disabled', 'disabled');
+                    }
                 },
                 getToday: function(symbol) {
                     var today = new Date();
@@ -564,6 +580,8 @@
                 shipId:             ship_id,
                 voy_no:             '',
                 validate_voy_no:    true,
+                currency:           'CNY',
+                rate:               1,
                 cp_date:            '',
                 cp_type:            'VOY',
                 cargo:              'SODIUM',
@@ -596,6 +614,7 @@
                 upPortNames:    '',
                 downPortIDList: [],
                 downPortNames:  '',
+                fileName: '添加附件',
             },
 
             computed: {
@@ -617,6 +636,15 @@
                 closeDialog: function(index) {
                     $(".dynamic-select__trigger").removeClass('open');
                     $(".dynamic-options").removeClass('open');
+                },
+                onFileChange(e) {
+                    var files = e.target.files || e.dataTransfer.files;
+                    let fileName = files[0].name;
+                    this.fileName = fileName;
+                },
+                removeFile() {
+                    this.fileName = '添加附件';
+                    $('#contract_tc_attach').val('');
                 },
                 confirmItem: function(activeId) {
                     let nameTmp = '';

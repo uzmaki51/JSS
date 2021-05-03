@@ -390,6 +390,8 @@
                 <input type="file" id="contract_tc_attach" name="attachment" class="d-none" @change="onFileChange">
             </div>
             <input type="hidden" name="net_profit_day" v-model="net_profit_day">
+            <input type="hidden" name="tc_currency" v-model="currency">
+            <input type="hidden" name="tc_rate" v-model="rate">
             </form>
         </div>
 </div>
@@ -461,7 +463,10 @@
                     tcContractObj.ilohc = this.input['ilohc'];
                     tcContractObj.c_v_e = this.input['c_v_e'];
                     tcContractObj.com_fee = this.input['fee'];
-                    tcContractObj.net_profit_day = this.output['net_profit_day'];
+                    tcContractObj.net_profit_day = this.output['net_profit_day'].toFixed(0);
+                    tcContractObj.currency = this.input['currency'];
+                    tcContractObj.rate = this.input['rate'];
+
                     $('#tc_input_div input').attr('disabled', 'disabled');
                     $('[name=currency]').attr('disabled', 'disabled');
                 },
@@ -556,6 +561,9 @@
                 shipId:             ship_id,
                 voy_no:             '',
                 validate_voy_no:    true,
+                currency:           'CNY',
+                rate:               1,
+                
                 cp_date:            '',
                 cp_type:            'TC',
                 cargo:              'SODIUM',

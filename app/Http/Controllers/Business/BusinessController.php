@@ -65,14 +65,17 @@ class BusinessController extends Controller {
 
 	public function contract(Request $request) {
         $params = $request->all();
-		if(isset($params['shipId']))
-			$shipId = $params['shipId'];
-		else {
+		if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+            $firstShipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+            $shipName = isset($firstShipInfo->NickName) &&  $firstShipInfo->NickName != '' ? $firstShipInfo->NickName : $firstShipInfo->shipName_En;
+        } else {
             $firstShipInfo = ShipRegister::first();
             if($firstShipInfo == null && $firstShipInfo == false)
                 return redirect()->back();
 
             $shipId = $firstShipInfo->IMO_No;
+            $shipName = isset($firstShipInfo->NickName) &&  $firstShipInfo->NickName != '' ? $firstShipInfo->NickName : $firstShipInfo->shipName_En;
         }
 
 		$shipList = ShipRegister::all();
@@ -96,7 +99,8 @@ class BusinessController extends Controller {
         }
 
 		return view('business.ship_contract', array(
-			'shipId'	    =>  $shipId,
+            'shipId'	    =>  $shipId,
+            'shipName'	    =>  $shipName,
 			'shipList'      =>  $shipList,
             'cp_list'       =>  $cp_list,
             
@@ -186,6 +190,8 @@ class BusinessController extends Controller {
             return redirect()->back();
 
         $cpTbl = new CP;
+        $cpTbl['currency'] = $params['voy_currency'];
+        $cpTbl['rate'] = $params['voy_rate'];
         $cpTbl['CP_kind'] = $params['cp_type'];
         $cpTbl['CP_Date'] = $params['cp_date'];
         $cpTbl['Voy_No'] = $params['voy_no'];
@@ -233,6 +239,8 @@ class BusinessController extends Controller {
             return redirect()->back();
 
         $cpTbl = new CP;
+        $cpTbl['currency'] = $params['tc_currency'];
+        $cpTbl['rate'] = $params['tc_rate'];
         $cpTbl['CP_kind'] = $params['cp_type'];
         $cpTbl['CP_Date'] = $params['cp_date'];
         $cpTbl['Voy_No'] = $params['voy_no'];
