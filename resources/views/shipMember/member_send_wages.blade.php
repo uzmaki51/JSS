@@ -25,7 +25,7 @@ $isHolder = Session::get('IS_HOLDER');
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-7">
-                                <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
+                                <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                                 <select class="custom-select d-inline-block" name="select-ship" id="select-ship" style="width:80px">
                                     @foreach($shipList as $ship)
                                         <option value="{{ $ship['IMO_No'] }}" @if(isset($shipId) && ($shipId == $ship['IMO_No'])) selected @endif data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
@@ -289,6 +289,7 @@ $isHolder = Session::get('IS_HOLDER');
                 next = focusable.eq(focusable.index(this)+1);
                 if (next.length) {
                     next.focus();
+                    next.select();
                 }
                 return false;
             }

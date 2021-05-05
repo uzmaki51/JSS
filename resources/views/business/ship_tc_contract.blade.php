@@ -1,3 +1,4 @@
+<form method="post" action="tcContractRegister" enctype="multipart/form-data" id="tcContractForm">
 <div class="d-flex" id="tc_input">
     <div class="tab-left contract-input-div"  id="tc_input_div" v-cloak>
         <div class="d-flex">
@@ -5,7 +6,7 @@
             <label class="ml-3">货币</label>
             <select class="ml-1" name="currency" v-model="input['currency']">
                 <option value="USD">$</option>
-                <option value="CNY">￥</option>
+                <option value="CNY">¥</option>
             </select>
 
             <div class="label-input ml-1" style="width: 120px;">
@@ -19,11 +20,11 @@
                 <div class="d-flex mt-20 attribute-div">
                     <div class="vertical">
                         <label>速度</label>
-                        <my-currency-input v-model="input['speed']" name="speed" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input v-model="input['speed']" name="speed" v-bind:prefix="''" v-bind:type="'tc'" v-bind:fixednumber="1" maxlength="4" minlength="4"></my-currency-input>
                     </div>
                     <div class="vertical">
                         <label>距离(NM)</label>
-                        <my-currency-input v-model="input['distance']" name="distance" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input v-model="input['distance']" name="distance" v-bind:prefix="''" v-bind:type="'tc'" v-bind:fixednumber="0" maxlength="4" minlength="4" step="1"></my-currency-input>
                     </div>
                     <div class="vertical">
                         <label>装货天数</label>
@@ -79,11 +80,11 @@
                     </div>
                     <div class="vertical">
                         <label>ILOHC</label>
-                        <my-currency-input v-model="input['ilohc']" name="ilohc" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input v-model="input['ilohc']" name="in_ilohc" v-bind:type="'tc'"></my-currency-input>
                     </div>
                     <div class="vertical">
                         <label>C/V/E</label>
-                        <my-currency-input v-model="input['c_v_e']" name="c_v_e" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input v-model="input['c_v_e']" name="in_c_v_e" v-bind:type="'tc'"></my-currency-input>
                     </div>
                     <div class="vertical">
                         <label>佣金(%)</label>
@@ -119,34 +120,34 @@
                 <div class="d-block mt-20">
                     <div class="d-flex horizontal">
                         <label>航次用时</label>
-                        <my-currency-input class="text-right" disabled v-model="output['sail_time']" name="sail_time" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input class="text-right" readonly v-model="output['sail_time']" name="sail_time" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
                         <span>天</span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>航行</label>
-                        <my-currency-input class="text-right" disabled v-model="output['sail_term']" name="sail_term" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input class="text-right" readonly v-model="output['sail_term']" name="sail_term" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
                         <span>天</span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>停泊</label>
-                        <my-currency-input class="text-right" disabled v-model="output['moor']" name="moor" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input class="text-right" readonly v-model="output['moor']" name="moor" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
                         <span>天</span>
                     </div>
                 </div>
                 <div class="d-block mt-20">
                     <div class="d-flex horizontal">
                         <label>油款</label>
-                        <input class="text-left bigger-input" style="border-top: 1px solid #4c4c4c;" disabled v-model="output['oil_money']" name="oil_money">
+                        <input class="text-left bigger-input" style="border-top: 1px solid #4c4c4c;" readonly v-model="output['oil_money']" name="oil_money">
                         <span></span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>FO</label>
-                        <my-currency-input class="text-right" disabled v-model="output['fo_mt']" name="fo_mt" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input class="text-right" readonly v-model="output['fo_mt']" name="fo_mt" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
                         <span>MT</span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>DO</label>
-                        <my-currency-input class="text-right" disabled v-model="output['do_mt']" name="do_mt" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input class="text-right" readonly v-model="output['do_mt']" name="do_mt" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
                         <span>MT</span>
                     </div>
                 </div>
@@ -156,49 +157,50 @@
                 <div class="d-block mt-20">
                     <div class="d-flex horizontal">
                         <label>收入</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['credit']" name="credit" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" readonly v-model="output['credit']" name="credit" v-bind:type="'tc'"></my-currency-input>
                     </div>
                     <div class="d-flex horizontal">
                         <label>支出</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['debit']" name="debit" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" readonly v-model="output['debit']" name="debit" v-bind:type="'tc'"></my-currency-input>
                     </div>
                     <div class="d-flex horizontal">
                         <label>净利润</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['net_profit']" name="net_profit" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" readonly v-model="output['net_profit']" name="net_profit" v-bind:type="'tc'"></my-currency-input>
                     </div>
                     <div class="d-flex horizontal">
                         <label>日净利润</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['net_profit_day']" name="net_profit_day" v-bind:fixedNumber="0" v-bind:type="'tc'"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" readonly v-model="output['net_profit_day']" name="net_profit_day" v-bind:fixedNumber="0" v-bind:type="'tc'"></my-currency-input>
                         <span></span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>参考(最高)</label>
-                        <my-currency-input class="text-left double-input-left" style="color: #126EB9 !important; font-weight: bold" disabled v-model="output['max_profit']" name="max_profit" v-bind:fixednumber="0" v-bind:type="'tc'"></my-currency-input>
-                        <input type="text" class="text-left double-input-right" disabled name="max_voy" v-model="output['max_voy']">
+                        <my-currency-input class="text-left double-input-left" style="color: #126EB9 !important; font-weight: bold" readonly v-model="output['max_profit']" name="max_profit" v-bind:fixednumber="0" v-bind:type="'tc'"></my-currency-input>
+                        <input type="text" class="text-left double-input-right" readonly name="max_voy" v-model="output['max_voy']">
                         <span>航次</span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>(最低)</label>
-                        <my-currency-input class="text-left double-input-left" style="color: red!important; font-weight: bold" disabled v-model="output['min_profit']" name="min_profit" v-bind:fixednumber="0" v-bind:type="'tc'"></my-currency-input>
-                        <input type="text" class="text-left double-input-right" disabled name="min_voy" v-model="output['min_voy']">
+                        <my-currency-input class="text-left double-input-left" style="color: red!important; font-weight: bold" readonly v-model="output['min_profit']" name="min_profit" v-bind:fixednumber="0" v-bind:type="'tc'"></my-currency-input>
+                        <input type="text" class="text-left double-input-right" readonly name="min_voy" v-model="output['min_voy']">
                         <span>航次</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="btn-group f-right mt-20">
-            <button class="btn btn-primary btn-sm" @click="onEditFinish">OK</button>
-            <button class="btn btn-danger btn-sm" @click="onEditContinue">Cancel</button>
+            <a class="btn btn-primary btn-sm" @click="onEditFinish">OK</a>
+            <a class="btn btn-danger btn-sm" @click="onEditContinue">Cancel</a>
         </div>
     </div>
     
         <div class="tab-right contract-input-div" id="tc_contract_table" v-cloak>
-        <form method="post" action="tcContractRegister" enctype="multipart/form-data" id="tcContractForm">
+        
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <input type="hidden" value="{{ $shipId }}" name="shipId" v-model="shipId">
+            <input type="hidden" value="{{ $voy_id }}" name="voy_id" id="voy_id">
             <label>航次: </label>
             <input type="text" name="voy_no" v-model="voy_no" minlength="4" maxlength="4" style="width:80px;" @change="validateVoyNo" required>
-            <span class="text-danger" v-bind:class="getValidClass">Voy No already exits.</span>
+            <!--span class="text-danger" v-bind:class="getValidClass">Voy No already exits.</span-->
             <table class="contract-table mt-2">
                 <tr>
                     <td style="width: 80px;">合同日期</td>
@@ -389,13 +391,13 @@
                 </label>
                 <input type="file" id="contract_tc_attach" name="attachment" class="d-none" @change="onFileChange">
             </div>
-            <input type="hidden" name="net_profit_day" v-model="net_profit_day">
+            <input type="hidden" name="tc_file_remove" id="tc_file_remove" value="0">
             <input type="hidden" name="tc_currency" v-model="currency">
             <input type="hidden" name="tc_rate" v-model="rate">
             </form>
         </div>
 </div>
-
+</form>
 <script>
 
     var tcInputObj = null;
@@ -467,12 +469,12 @@
                     tcContractObj.currency = this.input['currency'];
                     tcContractObj.rate = this.input['rate'];
 
-                    $('#tc_input_div input').attr('disabled', 'disabled');
-                    $('[name=currency]').attr('disabled', 'disabled');
+                    $('#tc_input_div input').attr('readonly', '');
+                    $('[name=currency]').attr('readonly', '');
                 },
                 onEditContinue: function() {
-                    $('#tc_input_div input').removeAttr('disabled', 'disabled');
-                    $('[name=currency]').removeAttr('disabled', 'disabled');
+                    $('#tc_input_div input').removeAttr('readonly');
+                    $('[name=currency]').removeAttr('readonly');
                 },
                 getToday: function(symbol) {
                     var today = new Date();
@@ -577,11 +579,10 @@
                 dely:      '',
                 redely:     '',
                 hire:   '',
-                first_hire:        0,
-                demurr:         0,
-                ilohc:      0,
-                c_v_e:   0,
-                com_fee:        0,
+                first_hire:     '0.00',
+                ilohc:          '0.00',
+                c_v_e:          '0.00',
+                com_fee:        '0.00',
                 charterer:      '',
                 tel_number:     '',
                 remark:         '',
@@ -623,10 +624,12 @@
                     var files = e.target.files || e.dataTransfer.files;
                     let fileName = files[0].name;
                     this.fileName = fileName;
+                    $('#tc_file_remove').val(0);
                 },
                 removeFile() {
                     this.fileName = '添加附件';
                     $('#contract_tc_attach').val('');
+                    $('#tc_file_remove').val(1);
                 },
                 confirmItem: function(activeId) {
                     let nameTmp = '';

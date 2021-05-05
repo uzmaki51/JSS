@@ -2,7 +2,6 @@
 
 @section('styles')
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
-    <link href="{{ cAsset('assets/css/datatables.min.css') }}" rel="stylesheet"/>
     <style>
         [v-cloak] { display: none; }
     </style>
@@ -19,28 +18,35 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="space-6"></div>
-                    <div class="col-lg-2 form-group d-flex search-div mb-0">
-                        <label class="search-label">{{ transDecideManage("captions.ship_name") }}:</label>
-                        <input type="text" class="search-input" id="ship_name">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3">
+                        <label class="search-label font-bold" style="float:left;padding-top:7px;">{{ transDecideManage("captions.ship_name") }}:</label>
+                        <!--input type="text" class="search-input" id="ship_name"-->
+                        <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
+                            @if(isset($shipList))
+                                @foreach($shipList as $key => $item)
+                                    <option value="{{ $item->id }}">{{ $item->NickName }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
-                    <div class="col-lg-4 form-group d-flex search-div mb-0">
-                        <label class="search-label">{{transDecideManage("captions.draftDate")}}:</label>
-                        <input class="search-input date-picker" id="fromDate" type="text" data-date-format="yyyy-mm-dd">
-                        <i class="icon-calendar bigger-110 search-calendar"></i>
-                        <label class="search-label">&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;</label>
-                        <input class="search-input date-picker" id="toDate" type="text" data-date-format="yyyy-mm-dd">
+                    <div class="col-lg-4">
+                        <label class="search-label font-bold" style="float:left;padding-top:7px;">{{transDecideManage("captions.draftDate")}}:</label>
+                        <input class="search-input date-picker" id="fromDate" type="text" data-date-format="yyyy-mm-dd" style="height:25px;">
+                        <i class="icon-calendar bigger-110 search-calendar"></i>&nbsp;~&nbsp;
+                        <input class="search-input date-picker" id="toDate" type="text" data-date-format="yyyy-mm-dd" style="height:25px;">
                         <i class="icon-calendar bigger-110 search-calendar"></i>
                     </div>
-                    <div class="col-lg-2 form-group pr-0 mb-0">
+                    <div class="col-lg-2" style="padding:unset!important;">
                         <div class="btn-group f-right">
-                            <button class="btn btn-sm btn-report-search no-radius" type="button" onclick="doSearch()">
+                            <button class="btn btn-sm btn-success no-radius" type="button" onclick="doSearch()">
                                 <i class="icon-search"></i>{{transDecideManage("captions.search")}}
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="space-4"></div>
+                    <div class="space-2"></div>
                     <div class="table-responsive">
                         <table id="report_info_table" class="table table-bordered">
                             <thead>
@@ -265,8 +271,11 @@
                 },
             });
 
+            $('.paginate_button').hide();
             $('.dataTables_length').hide();
+            $('.paging_simple_numbers').hide();
             $('.dataTables_info').hide();
+            $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         });
 
         function doSearch() {

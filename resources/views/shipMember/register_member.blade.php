@@ -377,6 +377,10 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
             </div>
         </div>
+        <audio controls="controls" class="d-none" id="warning-audio">
+            <source src="{{ cAsset('assets/sound/delete.wav') }}">
+            <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
+        </audio>
     </div>
 
     <script src="{{ asset('/assets/js/x-editable/bootstrap-editable.min.js') }}"></script>
@@ -607,7 +611,12 @@ $isHolder = Session::get('IS_HOLDER');
             }
         })
 
+        function alertAudio() {
+            document.getElementById('warning-audio').play();
+        }
+
         function deleteItem(memberId) {
+            alertAudio();
             bootbox.confirm("All related records are about to be damaged.<br>Are you sure you want to delete?", function (result) {
                 if (result) {
                     $.post('deleteShipMember', {'_token':token, 'dataId':memberId}, function (result) {
@@ -763,6 +772,7 @@ $isHolder = Session::get('IS_HOLDER');
                 next = focusable.eq(focusable.index(this)+1);
                 if (next.length) {
                     next.focus();
+                    next.select();
                 } else {
                     form.submit();
                 }

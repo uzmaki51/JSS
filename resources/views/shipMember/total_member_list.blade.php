@@ -18,7 +18,7 @@ $isHolder = Session::get('IS_HOLDER');
             </div>
             <div class="row col-md-12">
                 <div class="col-md-6">
-                    <label class="custom-label d-inline-block" style="padding: 6px;">船名:</label>
+                    <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                     <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
                         <option value="" selected></option>
                         @foreach($shipList as $ship)

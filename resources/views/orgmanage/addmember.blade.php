@@ -1,4 +1,13 @@
-@extends('layout.sidebar')
+@extends('layout.header')
+<?php
+$isHolder = Session::get('IS_HOLDER');
+?>
+
+@section('styles')
+    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/-->
+@endsection
 
 @section('content')
     <div class="main-content">
@@ -130,6 +139,10 @@
             </div>
             </form>
         </div>
+        <audio controls="controls" class="d-none" id="warning-audio">
+            <source src="{{ cAsset('assets/sound/delete.wav') }}">
+            <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
+        </audio>
     </div>
     <script>
         var menuId = 10;
@@ -144,7 +157,13 @@
             }
             $('#validation-form').submit();
         }
+
+        function alertAudio() {
+            document.getElementById('warning-audio').play();
+        }
+
         function deleteMember(userid) {
+            alertAudio();
             bootbox.confirm("Are you sure you want to delete?", function (result) {
                 if (result) {
                     $.ajax({
