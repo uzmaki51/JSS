@@ -134,6 +134,7 @@ class BusinessController extends Controller {
         $shipList = ShipRegister::all();
         return view('business.dynamic.record', [
             'shipList'          => $shipList,
+            'shipInfo'          => $shipInfo,
             'shipId'            => $shipId,
             'shipName'          => $shipName,
         ]);
@@ -146,17 +147,20 @@ class BusinessController extends Controller {
         
         $shipId = $params['shipId'];
         $ids = $params['id'];
-// var_dump($params['Voy_Type']);die;
+        $CP_ID = $params['CP_ID'];
+
         foreach($ids as $key => $item) {
             $voyLog = new VoyLog();
 			if($item != '' && $item != null) {
 				$voyLog = VoyLog::find($item);
 			}
 
-            $voyLog['CP_ID'] = $params['CP_ID'][$key];
+            $voyLog['CP_ID'] = $CP_ID;
             $voyLog['Ship_ID'] = $shipId;
-            if(isset($params['Voy_Date'][$key]) && $params['Voy_Date'][$key] != '')
+            if(isset($params['Voy_Date'][$key]) && $params['Voy_Date'][$key] != '0000-00-00' && $params['Voy_Date'][$key] != '')
                 $voyLog['Voy_Date'] = $params['Voy_Date'][$key];
+            else
+                $voyLog['Voy_Date'] = null;
 
             $voyLog['Voy_Hour'] = $params['Voy_Hour'][$key];
             $voyLog['Voy_Minute'] = $params['Voy_Minute'][$key];
@@ -177,7 +181,7 @@ class BusinessController extends Controller {
             $voyLog->save();            
         }
 
-
+        return redirect()->back();
     }
     
     
@@ -3993,9 +3997,9 @@ class BusinessController extends Controller {
 
         $prevData = [];
         $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc')->first();
-        $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISH)->orderBy('CP_ID', 'desc')->first();
-        $retVal['currentData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->get();
-        $retVal['max_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISH)->first();
+        $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('CP_ID', 'desc')->first();
+        $retVal['currentData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->get();
+        $retVal['max_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->first();
 
         if($retVal['min_date'] == false || $retVal['min_date'] == null)
             $retVal['min_date'] = false;
@@ -4022,7 +4026,7 @@ class BusinessController extends Controller {
             $LPort = ShipPort::whereIn('id', $LPort)->get();
             $tmp = '';
             foreach($LPort as $port)
-                $tmp .= $port->Port_En . ', ' . $port->Port_Cn . ' / ';
+                $tmp .= $port->Port_En . ', (' . $port->Port_Cn . ') / ';
             $cp_list[$key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
 
             $DPort = $item->DPort;
@@ -4032,7 +4036,7 @@ class BusinessController extends Controller {
             $DPort = ShipPort::whereIn('id', $DPort)->get();
             $tmp = '';
             foreach($DPort as $port)
-                $tmp .= $port->Port_En . ', ' . $port->Port_Cn . ' / ';
+                $tmp .= $port->Port_En . ', (' . $port->Port_Cn . ') / ';
             $cp_list[$key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
         }
 

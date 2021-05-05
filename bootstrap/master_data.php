@@ -253,6 +253,7 @@ define('DYNAMIC_SUB_REPAIR', 		4);
 define('DYNAMIC_SUB_WAITING', 		5);
 define('DYNAMIC_SUB_LOADING', 		6);
 define('DYNAMIC_SUB_SALING', 		7);
+define('DYNAMIC_SUB_DISCH', 		8);
 
 $DynamicSub = array(
 	DYNAMIC_SUB_ELSE		=> '其他',
@@ -262,6 +263,7 @@ $DynamicSub = array(
 	DYNAMIC_SUB_WAITING		=> '待泊',
 	DYNAMIC_SUB_LOADING		=> '装货',
 	DYNAMIC_SUB_SALING		=> '航行',
+	DYNAMIC_SUB_DISCH		=> '卸货',
 );
 
 # Dynamic Status
@@ -277,7 +279,7 @@ define('DYNAMIC_LOADING', 			9);
 define('DYNAMIC_CMPLT_LOADING', 	10);
 define('DYNAMIC_CMNC_DISCH', 		11);
 define('DYNAMIC_DISCHARG', 			12);
-define('DYNAMIC_CMPLT_DISH', 		13);
+define('DYNAMIC_CMPLT_DISCH', 		13);
 define('DYNAMIC_STOP', 				14);
 define('DYNAMIC_RESUME', 			15);
 define('DYNAMIC_DOCKING', 			16);
@@ -327,14 +329,14 @@ $DynamicStatus = array(
 		DYNAMIC_SUB_WAITING,
 	]],
 	DYNAMIC_DISCHARG 			=> ['DISCHARG', [
-		DYNAMIC_SUB_LOADING,
+		DYNAMIC_SUB_DISCH,
 	]],
-	DYNAMIC_CMPLT_DISH 			=> ['CMPLT DISH', [
-		DYNAMIC_SUB_LOADING,
+	DYNAMIC_CMPLT_DISCH 			=> ['CMPLT DISCH', [
+		DYNAMIC_SUB_DISCH,
 	]],
 	DYNAMIC_STOP 				=> ['STOP', [
 		DYNAMIC_SUB_LOADING,
-		DYNAMIC_SUB_WAITING
+		DYNAMIC_SUB_DISCH
 	]],
 	DYNAMIC_RESUME 				=> ['RESUME', [
 		DYNAMIC_SUB_ELSE, 

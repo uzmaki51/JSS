@@ -868,3 +868,6 @@ footer {
 .prev-voy td {
     background: #f2f2f2;
 }
+.table-layout-fixed {
+    table-layout: fixed;
+}
