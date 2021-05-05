@@ -78,6 +78,11 @@ class BusinessController extends Controller {
             $shipName = isset($firstShipInfo->NickName) &&  $firstShipInfo->NickName != '' ? $firstShipInfo->NickName : $firstShipInfo->shipName_En;
         }
 
+        if(isset($params['voy_id']))
+            $voy_id = $params['voy_id'];
+        else
+            $voy_id = null;
+
 		$shipList = ShipRegister::all();
         $cp_list = CP::where('Ship_ID', $shipId)->whereNotNull('net_profit_day')->orderBy('Voy_No', 'desc')->get();
         $tmp = CP::where('Ship_ID', $shipId)->orderBy('net_profit_day', 'desc')->first();
@@ -98,11 +103,15 @@ class BusinessController extends Controller {
             $minFreight = $tmp['net_profit_day'] == null ? 0 : $tmp['net_profit_day'];
         }
 
+        $status = Session::get('status');
+
 		return view('business.ship_contract', array(
             'shipId'	    =>  $shipId,
             'shipName'	    =>  $shipName,
 			'shipList'      =>  $shipList,
             'cp_list'       =>  $cp_list,
+            'voy_id'        =>  $voy_id,
+            'status'        =>  $status,
             
             'maxVoyNo'      => $maxVoyNo,
             'maxFreight'    => $maxFreight,
@@ -189,11 +198,37 @@ class BusinessController extends Controller {
         } else 
             return redirect()->back();
 
-        $cpTbl = new CP;
-        $cpTbl['currency'] = $params['voy_currency'];
-        $cpTbl['rate'] = $params['voy_rate'];
+        if (isset($params['voy_no'])) {
+            $Voy_No = $params['voy_no'];
+        } else 
+            return redirect()->back();
+
+        if(isset($params['voy_id'])) {
+            $voy_id = $params['voy_id'];
+            $cpTbl = CP::find($voy_id);
+            if(empty($cpTbl)) {
+                $cpTbl = new CP;
+            }
+        }
+        else
+        {
+            $cpTbl = new CP;
+        }
+
+        $isExist = CP::where('Voy_No', $Voy_No)->first();
+        if(!empty($isExist) && ($isExist['id'] != $voy_id) && $Voy_No != "") {
+            return redirect()->back()->with(['status'=>'error']);
+        }
+
+        
+        $cpTbl['currency'] = $params['currency'];
+        $cpTbl['rate'] = $params['rate'];
         $cpTbl['CP_kind'] = $params['cp_type'];
-        $cpTbl['CP_Date'] = $params['cp_date'];
+        
+        if ($params['cp_date'] == '')
+            $cpTbl['CP_Date'] = null;
+        else
+            $cpTbl['CP_Date'] = $params['cp_date'];
         $cpTbl['Voy_No'] = $params['voy_no'];
         $cpTbl['Ship_ID'] = $shipId;
         $cpTbl['Cargo'] = $params['cargo'];
@@ -201,21 +236,30 @@ class BusinessController extends Controller {
         $cpTbl['Qtty_Type'] = $params['qty_type'];
         $cpTbl['LPort'] = $params['up_port'];
         $cpTbl['DPort'] = $params['down_port'];
-        $cpTbl['LayCan_Date1'] = $params['lay_date'];
-        $cpTbl['LayCan_Date2'] = $params['can_date'];
+        if ($params['lay_date'] == '')
+            $cpTbl['LayCan_Date1']= null;
+        else
+            $cpTbl['LayCan_Date1'] = $params['lay_date'];
+        if ($params['can_date'] == '')
+            $cpTbl['LayCan_Date2']= null;
+        else
+            $cpTbl['LayCan_Date2'] = $params['can_date'];
         $cpTbl['L_Rate'] = $params['load_rate'];
         $cpTbl['D_Rate'] = $params['disch_rate'];
-        $cpTbl['Freight'] = $params['freight_rate'];
+        $cpTbl['Freight'] = $params['freight_rate'] == '' ? 0 : $params['freight_rate'];
         $cpTbl['total_Freight'] = $params['lumpsum'];
-        $cpTbl['net_profit_day'] = $params['net_profit_day'];
+        $cpTbl['net_profit_day'] = str_replace(',','',substr($params['net_profit_day'], 2));
         $cpTbl['deten_fee'] = $params['deten_fee'];
         $cpTbl['dispatch_fee'] = $params['dispatch_fee'];
         $cpTbl['com_fee'] = $params['com_fee'];
-        $cpTbl['charterer'] = $params['charterer'];
-        $cpTbl['tel_number'] = $params['tel_number'];
-        $cpTbl['Remarks'] = $params['remark'];
-
-        if($request->hasFile('attachment')) {
+        $cpTbl['charterer'] = $params['charterer'] == '' ? '' : $params['charterer'];
+        $cpTbl['tel_number'] = $params['tel_number'] == '' ? '' : $params['tel_number'];
+        $cpTbl['Remarks'] = $params['remark'] == '' ? '' : $params['remark'];
+        if ($params['file_remove'] == '1') {
+            $cpTbl['is_attachment'] = 0;
+            $cpTbl['attachment_url'] = null;
+        }
+        else if($request->hasFile('attachment')) {
             $cpTbl['is_attachment'] = 1;
             $file = $request->file('attachment');
             $fileName = $file->getClientOriginalName();
@@ -223,6 +267,28 @@ class BusinessController extends Controller {
             $file->move(public_path() . '/contract/', $name);
             $cpTbl['attachment_url'] = url() . '/contract/' . $name;
         }
+        $cpTbl['speed'] = str_replace(',','',$params['speed']);
+        $cpTbl['distance'] = str_replace(',','',$params['distance']);
+        $cpTbl['up_ship_day'] = str_replace(',','',$params['up_ship_day']);
+        $cpTbl['down_ship_day'] = str_replace(',','',$params['down_ship_day']);
+        $cpTbl['wait_day'] = str_replace(',','',$params['wait_day']);
+        $cpTbl['fo_sailing'] = str_replace(',','',$params['fo_sailing']);
+        $cpTbl['fo_up_shipping'] = str_replace(',','',$params['fo_up_shipping']);
+        $cpTbl['fo_waiting'] = str_replace(',','',$params['fo_waiting']);
+        $cpTbl['fo_price'] = str_replace(',','',substr($params['fo_price'], 2));
+        $cpTbl['do_sailing'] = str_replace(',','',$params['do_sailing']);
+        $cpTbl['do_up_shipping'] = str_replace(',','',$params['do_up_shipping']);
+        $cpTbl['do_waiting'] = str_replace(',','',$params['do_waiting']);
+        $cpTbl['do_price'] = str_replace(',','',substr($params['do_price'], 2));
+        $cpTbl['cargo_amount'] = str_replace(',','',$params['cargo_amount']);
+        if (isset($params['freight_price'])) $cpTbl['freight_price'] = str_replace(',','',substr($params['freight_price'], 2));
+        if (isset($params['batch_manage'])) $cpTbl['batch_manage'] = $params['batch_manage'] == 'on' ? 1 : 0;
+        if (isset($params['batch_price'])) $cpTbl['batch_price'] = str_replace(',','',substr($params['batch_price'], 2));
+        $cpTbl['fee'] = str_replace(',','',$params['fee']);
+        $cpTbl['up_port_price'] = str_replace(',','',substr($params['up_port_price'], 2));
+        $cpTbl['down_port_price'] = str_replace(',','',substr($params['down_port_price'], 2));
+        $cpTbl['cost_per_day'] = str_replace(',','',substr($params['cost_per_day'], 2));
+        $cpTbl['cost_else'] = str_replace(',','',substr($params['cost_else'], 2));
         
         $cpTbl->save();
 
@@ -238,23 +304,54 @@ class BusinessController extends Controller {
         } else 
             return redirect()->back();
 
-        $cpTbl = new CP;
-        $cpTbl['currency'] = $params['tc_currency'];
-        $cpTbl['rate'] = $params['tc_rate'];
+        if (isset($params['voy_no'])) {
+            $Voy_No = $params['voy_no'];
+        } else 
+            return redirect()->back();
+
+        if(isset($params['voy_id'])) {
+            $voy_id = $params['voy_id'];
+            $cpTbl = CP::find($voy_id);
+            if(empty($cpTbl) || ($cpTbl['id'] != $voy_id) || ($voy_id == "")) {
+                $cpTbl = new CP;
+            }
+        }
+        else
+        {
+            $cpTbl = new CP;
+        }
+
+        $isExist = CP::where('Voy_No', $Voy_No)->first();
+        if(!empty($isExist) && ($isExist['id'] != $voy_id) && $Voy_No != "") {
+            return redirect()->back()->with(['status'=>'error']);
+        }
+
+        $cpTbl['currency'] = $params['currency'];
+        $cpTbl['rate'] = $params['rate'];
         $cpTbl['CP_kind'] = $params['cp_type'];
-        $cpTbl['CP_Date'] = $params['cp_date'];
+        if ($params['cp_date'] == '')
+            $cpTbl['CP_Date'] = null;
+        else
+            $cpTbl['CP_Date'] = $params['cp_date'];
         $cpTbl['Voy_No'] = $params['voy_no'];
         $cpTbl['Ship_ID'] = $shipId;
         $cpTbl['Cargo'] = $params['cargo'];
         $cpTbl['Cgo_Qtty'] = $params['hire_duration'];
         $cpTbl['LPort'] = $params['up_port'];
         $cpTbl['DPort'] = $params['down_port'];
-        $cpTbl['LayCan_Date1'] = $params['lay_date'];
-        $cpTbl['LayCan_Date2'] = $params['can_date'];
+        if ($params['lay_date'] == '')
+            $cpTbl['LayCan_Date1']= null;
+        else
+            $cpTbl['LayCan_Date1'] = $params['lay_date'];
+        if ($params['can_date'] == '')
+            $cpTbl['LayCan_Date2']= null;
+        else
+            $cpTbl['LayCan_Date2'] = $params['can_date'];
         $cpTbl['L_Rate'] = $params['dely'];
         $cpTbl['D_Rate'] = $params['redely'];
-        $cpTbl['Freight'] = $params['hire'];
-        $cpTbl['net_profit_day'] = $params['net_profit_day'];
+        $cpTbl['Freight'] = $params['hire'] == '' ? 0 : $params['hire'];
+        $cpTbl['net_profit_day'] = str_replace(',','',substr($params['net_profit_day'], 2));
+        $cpTbl['total_Freight'] = $params['first_hire'];
         $cpTbl['ilohc'] = $params['ilohc'];
         $cpTbl['c_v_e'] = $params['c_v_e'];
         $cpTbl['com_fee'] = $params['com_fee'];
@@ -262,7 +359,11 @@ class BusinessController extends Controller {
         $cpTbl['tel_number'] = $params['tel_number'];
         $cpTbl['Remarks'] = $params['remark'];
 
-        if($request->hasFile('attachment')) {
+        if ($params['tc_file_remove'] == '1') {
+            $cpTbl['is_attachment'] = 0;
+            $cpTbl['attachment_url'] = null;
+        }
+        else if($request->hasFile('attachment')) {
             $cpTbl['is_attachment'] = 1;
             $file = $request->file('attachment');
             $fileName = $file->getClientOriginalName();
@@ -270,6 +371,28 @@ class BusinessController extends Controller {
             $file->move(public_path() . '/contract/', $name);
             $cpTbl['attachment_url'] = url() . '/contract/' . $name;
         }
+
+        $cpTbl['speed'] = str_replace(',','',$params['speed']);
+        $cpTbl['distance'] = str_replace(',','',$params['distance']);
+        $cpTbl['up_ship_day'] = str_replace(',','',$params['up_ship_day']);
+        $cpTbl['down_ship_day'] = str_replace(',','',$params['down_ship_day']);
+        $cpTbl['wait_day'] = str_replace(',','',$params['wait_day']);
+        $cpTbl['fo_sailing'] = str_replace(',','',$params['fo_sailing']);
+        $cpTbl['fo_up_shipping'] = str_replace(',','',$params['fo_up_shipping']);
+        $cpTbl['fo_waiting'] = str_replace(',','',$params['fo_waiting']);
+        $cpTbl['fo_price'] = str_replace(',','',substr($params['fo_price'], 2));
+        $cpTbl['do_sailing'] = str_replace(',','',$params['do_sailing']);
+        $cpTbl['do_up_shipping'] = str_replace(',','',$params['do_up_shipping']);
+        $cpTbl['do_waiting'] = str_replace(',','',$params['do_waiting']);
+        $cpTbl['do_price'] = str_replace(',','',substr($params['do_price'], 2));
+        $cpTbl['cargo_amount'] = str_replace(',','',$params['daily_rent']);
+        $cpTbl['freight_price'] = str_replace(',','',substr($params['in_ilohc'], 2));
+        $cpTbl['batch_price'] = str_replace(',','',substr($params['in_c_v_e'], 2));
+        $cpTbl['fee'] = str_replace(',','',$params['fee']);
+        //$cpTbl['up_port_price'] = str_replace(',','',substr($params['up_port_price'], 2));
+        //$cpTbl['down_port_price'] = str_replace(',','',substr($params['down_port_price'], 2));
+        $cpTbl['cost_per_day'] = str_replace(',','',substr($params['cost_per_day'], 2));
+        $cpTbl['cost_else'] = str_replace(',','',substr($params['cost_else'], 2));
 
         $cpTbl->save();
 
@@ -3958,7 +4081,7 @@ class BusinessController extends Controller {
         $params = $request->all();
         $shipId = $params['shipId'];
 
-        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
+        $cp_list = CP::where('Ship_ID', $shipId)->orderByRaw('CONVERT(Voy_No, SIGNED) desc')->get();
 
         return response()->json($cp_list);
     }
@@ -3966,10 +4089,9 @@ class BusinessController extends Controller {
     public function ajaxVoyDelete(Request $request) {
         $params = $request->all();
         $id = $params['id'];
-
         $ret = CP::where('id', $id)->delete();
 
-        return response()->json(CP::take(3)->get());
+        return $this->ajaxVoyList($request);
     }
 
     public function ajaxDynamic(Request $request) {

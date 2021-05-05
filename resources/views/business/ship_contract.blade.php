@@ -61,7 +61,7 @@ $ships = Session::get('shipList');
                                     <button class="btn btn-sm btn-warning" id="submit">
                                         <i class="icon-save"></i>保存
                                     </button>
-                                @endif  
+                                @endif
                                 <button type="button" class="btn btn-success btn-sm d-none" onclick="reportSubmit">
                                     <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">申请
                                 </button>
@@ -73,9 +73,9 @@ $ships = Session::get('shipList');
                     </div>
                     <div class="row" style="margin-top: 4px;">
                     <div class="col-lg-12">
-                        <div class="head-fix-div d-line-height" style="height: 129px;">
+                        <div class="head-fix-div d-line-height" id="voy_div" style="height: 129px;">
                                 <table id="voy_list" v-cloak>
-                                    <thead class="">
+                                    <thead id="list-header" class="">
                                     <tr>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
@@ -89,11 +89,15 @@ $ships = Session::get('shipList');
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
                                         <th class="text-center style-header lr-no-p" style="width: 60px;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span>{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
                                         <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.contract_attach') !!}</th>
-                                        <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;">{!! trans('common.label.delete') !!}</th>
+                                        <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;"><!--{!! trans('common.label.delete') !!}--></th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr v-for="(item, index) in list">
+                                    <tbody id="list-body">
+                                        @if(isset($voy_id))
+                                        <tr class="contract-item" v-bind:class="item.id == {{$voy_id}} ? 'selected' : ''" v-for="(item, index) in list" v-bind:data-index="item.id">
+                                        @else
+                                        <tr class="contract-item" v-for="(item, index) in list" v-bind:data-index="item.id">
+                                        @endif
                                             <td class="text-center">@{{ item.Voy_No }}</td>
                                             <td class="text-center">@{{ item.CP_kind }}</td>
                                             <td class="text-center">@{{ item.CP_Date }}</td>
@@ -290,6 +294,8 @@ $ships = Session::get('shipList');
 
     <script>
         var ship_id = '{!! $shipId !!}';
+        var voy_id = '{!! $voy_id !!}';
+        var is_scrolled = false;
         var ACTIVE_TAB = 'voy';
         var isChangeStatus = false;
         var cargoListObj = null;
@@ -302,9 +308,22 @@ $ships = Session::get('shipList');
         var tcContractObjTmp = new Array();
 
         var submitted = false;
+        var state = '@if(isset($status)){{$status}}@endif';
 
         $("form").submit(function() {
             submitted = true;
+        });
+
+        $('.head-fix-div').on('click', 'tr', function(evt) {
+            let cell = $(evt.target).closest('td');
+            if(!$(this).hasClass('contract-item')) return false;
+            if(cell.index() < 11) {
+                if($(this).hasClass('selected'))
+                    return;
+
+                let voy_id = $(this).attr('data-index');
+                location.href = BASE_URL + 'business/contract?shipId=' + ship_id + '&voy_id=' + voy_id;
+            }
         });
 
 
@@ -410,13 +429,23 @@ $ships = Session::get('shipList');
             initialize();
             initializeVoy();
             initializeTc();
+
+            if(state == 'error') {
+                $.gritter.add({
+                    title: '错误',
+                    text: 'Voy_No不可以重复了!',
+                    class_name: 'gritter-error'
+                });
+            }
         });
 
         function initialize() {
-            $('.alert').toggleClass('visuallyhidden');
-                setTimeout(function() {
-                    $('.alert').toggleClass('visuallyhidden');
-                }, 2000);
+            if (voy_id < 1) {
+                $('.alert').toggleClass('visuallyhidden');
+                    setTimeout(function() {
+                        $('.alert').toggleClass('visuallyhidden');
+                    }, 2000);
+            }
 
             voyListObj = new Vue({
                 el: '#voy_list',
@@ -511,6 +540,7 @@ $ships = Session::get('shipList');
                                     type: 'post',
                                     data: {
                                         id: id,
+                                        shipId: ship_id,
                                     },
                                     success: function(data, status, xhr) {
                                         voyListObj.list = data;
@@ -518,6 +548,16 @@ $ships = Session::get('shipList');
                                 })
                             }
                         });
+                    }
+                },
+                updated() {
+                    if (!is_scrolled) {
+                        if (voy_id > 0) {
+                            var row = $(".contract-item.selected");
+                            var headrow = $('#list-header');
+                            $('#voy_div').scrollTop(row.position().top - headrow.innerHeight());
+                        }
+                        is_scrolled = true;
                     }
                 },
                 mounted() {
@@ -580,7 +620,6 @@ $ships = Session::get('shipList');
             }
 
         })
-
 
         portListObj = new Vue({
             el: '#port_list_div',
@@ -649,20 +688,6 @@ $ships = Session::get('shipList');
                 let shipInfo = data['shipInfo'];
                 let portList = data['portList'];
                 let cargoList = data['cargoList'];
-                voyInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
-                voyInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
-                voyInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
-                voyInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
-                voyInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
-                voyInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
-
-                tcInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
-                tcInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
-                tcInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
-                tcInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
-                tcInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
-                tcInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
-                
                 voyContractObj.portList = Object.assign([], [], portList);
                 tcContractObj.portList = Object.assign([], [], portList);
 
@@ -675,6 +700,171 @@ $ships = Session::get('shipList');
                 portListObj.list = Object.assign([], [], portList);
                 portListObj.list.push([]);
 
+                var index = $('table > tbody> tr.selected').index();
+                if (index >= 0)
+                {
+                    if (voyListObj.list[index].CP_kind == "VOY")
+                    {
+                        voyInputObj.input["speed"] = voyListObj.list[index].speed;
+                        voyInputObj.input["distance"] = voyListObj.list[index].distance;
+
+                        voyInputObj.input["up_ship_day"] = voyListObj.list[index].up_ship_day;
+                        voyInputObj.input["down_ship_day"] = voyListObj.list[index].down_ship_day;
+                        voyInputObj.input["wait_day"] = voyListObj.list[index].wait_day;
+                        voyInputObj.input["fo_sailing"] = voyListObj.list[index].fo_sailing;
+                        voyInputObj.input["fo_up_shipping"] = voyListObj.list[index].fo_up_shipping;
+                        voyInputObj.input["fo_waiting"] = voyListObj.list[index].fo_waiting;
+                        voyInputObj.input["fo_price"] = voyListObj.list[index].fo_price;
+                        voyInputObj.input["do_sailing"] = voyListObj.list[index].do_sailing;
+                        voyInputObj.input["do_up_shipping"] = voyListObj.list[index].do_up_shipping;
+                        voyInputObj.input["do_waiting"] = voyListObj.list[index].do_waiting;
+                        voyInputObj.input["do_price"] = voyListObj.list[index].do_price;
+                        voyInputObj.input["cargo_amount"] = voyListObj.list[index].cargo_amount;
+                        if (voyListObj.list[index].batch_manage == 1) {
+                            voyInputObj.batchStatus = true;
+                            voyInputObj.input["batch_price"] = voyListObj.list[index].batch_price;
+                        }
+                        else
+                        {
+                            voyInputObj.batchStatus = false;
+                            voyInputObj.input["freight_price"] = voyListObj.list[index].freight_price;
+                        }
+                        voyInputObj.input["fee"] = voyListObj.list[index].fee;
+                        voyInputObj.input["up_port_price"] = voyListObj.list[index].up_port_price;
+                        voyInputObj.input["down_port_price"] = voyListObj.list[index].down_port_price;
+                        voyInputObj.input["cost_per_day"] = voyListObj.list[index].cost_per_day;
+                        voyInputObj.input["cost_else"] = voyListObj.list[index].cost_else;
+                        voyInputObj.input["currency"] = voyListObj.list[index].currency;
+                        voyInputObj.input["rate"] = voyListObj.list[index].rate;
+
+                        voyContractObj.voy_no = voyListObj.list[index].Voy_No;
+                        voyContractObj.cp_date = voyListObj.list[index].CP_Date;
+                        
+                        voyContractObj.cargo = voyListObj.list[index].Cargo;
+                        voyContractObj.cargoNames = voyListObj.getCargoName(voyListObj.list[index].Cargo);
+                        voyContractObj.cargoIDList = voyListObj.list[index].Cargo;
+
+                        voyContractObj.qty_amount = voyListObj.list[index].Cgo_Qtty;
+                        voyContractObj.qty_type = voyListObj.list[index].Qtty_Type;
+                        
+                        voyContractObj.up_port = voyListObj.list[index].LPort;
+                        voyContractObj.upPortNames = voyListObj.getPortName(voyListObj.list[index].LPort);
+                        voyContractObj.upPortIDList = voyListObj.list[index].LPort;
+                        voyContractObj.down_port = voyListObj.list[index].DPort;
+                        voyContractObj.downPortNames = voyListObj.getPortName(voyListObj.list[index].DPort);
+                        voyContractObj.downPortIDList = voyListObj.list[index].DPort;
+
+                        voyContractObj.lay_date = voyListObj.list[index].LayCan_Date1;
+                        voyContractObj.can_date = voyListObj.list[index].LayCan_Date2;
+                        voyContractObj.load_rate = voyListObj.list[index].L_Rate;
+                        voyContractObj.disch_rate = voyListObj.list[index].D_Rate;
+                        voyContractObj.freight_rate = voyListObj.list[index].Freight;
+                        voyContractObj.lumpsum = voyListObj.list[index].total_Freight;
+                        voyContractObj.deten_fee = voyListObj.list[index].deten_fee;
+                        voyContractObj.dispatch_fee = voyListObj.list[index].dispatch_fee;
+                        voyContractObj.com_fee = voyListObj.list[index].com_fee;
+                        voyContractObj.charterer = voyListObj.list[index].charterer;
+                        voyContractObj.tel_number = voyListObj.list[index].tel_number;
+                        voyContractObj.remark = voyListObj.list[index].Remarks;
+                        if (voyListObj.list[index].is_attachment == 1) {
+                            voyContractObj.fileName = voyListObj.list[index].attachment_url.substr(voyListObj.list[index].attachment_url.lastIndexOf("contract/")+9);
+                        }
+
+                        voyInputObj.calcContractPreview();
+                        
+                        $($('.ship-register li')[1]).removeClass('active');
+                        $($('.ship-register li')[0]).addClass('active');
+                        $('#voy_contract_div').addClass('active');
+                        $('#tc_contract_div').removeClass('active');
+                        changeTab('voy');
+                    }
+                    else
+                    {
+                        tcInputObj.input["speed"] = voyListObj.list[index].speed;
+                        tcInputObj.input["distance"] = voyListObj.list[index].distance;
+
+                        tcInputObj.input["up_ship_day"] = voyListObj.list[index].up_ship_day;
+                        tcInputObj.input["down_ship_day"] = voyListObj.list[index].down_ship_day;
+                        tcInputObj.input["wait_day"] = voyListObj.list[index].wait_day;
+                        tcInputObj.input["fo_sailing"] = voyListObj.list[index].fo_sailing;
+                        tcInputObj.input["fo_up_shipping"] = voyListObj.list[index].fo_up_shipping;
+                        tcInputObj.input["fo_waiting"] = voyListObj.list[index].fo_waiting;
+                        tcInputObj.input["fo_price"] = voyListObj.list[index].fo_price;
+                        tcInputObj.input["do_sailing"] = voyListObj.list[index].do_sailing;
+                        tcInputObj.input["do_up_shipping"] = voyListObj.list[index].do_up_shipping;
+                        tcInputObj.input["do_waiting"] = voyListObj.list[index].do_waiting;
+                        tcInputObj.input["do_price"] = voyListObj.list[index].do_price;
+                        
+                        tcInputObj.input["daily_rent"] = voyListObj.list[index].cargo_amount;
+                        tcInputObj.input["c_v_e"] = voyListObj.list[index].batch_price;
+                        tcInputObj.input["ilohc"] = voyListObj.list[index].freight_price;
+                        tcInputObj.input["fee"] = voyListObj.list[index].fee;
+
+                        tcInputObj.input["up_port_price"] = voyListObj.list[index].up_port_price;
+                        tcInputObj.input["down_port_price"] = voyListObj.list[index].down_port_price;
+                        tcInputObj.input["cost_per_day"] = voyListObj.list[index].cost_per_day;
+                        tcInputObj.input["cost_else"] = voyListObj.list[index].cost_else;
+                        tcInputObj.input["currency"] = voyListObj.list[index].currency;
+                        tcInputObj.input["rate"] = voyListObj.list[index].rate;
+
+                        tcContractObj.voy_no = voyListObj.list[index].Voy_No;
+                        tcContractObj.cp_date = voyListObj.list[index].CP_Date;
+                        
+                        tcContractObj.cargo = voyListObj.list[index].Cargo;
+                        tcContractObj.cargoNames = voyListObj.getCargoName(voyListObj.list[index].Cargo);
+                        tcContractObj.cargoIDList = voyListObj.list[index].Cargo;
+
+                        tcContractObj.hire_duration = voyListObj.list[index].Cgo_Qtty;
+                        
+                        tcContractObj.up_port = voyListObj.list[index].LPort;
+                        tcContractObj.upPortNames = voyListObj.getPortName(voyListObj.list[index].LPort);
+                        tcContractObj.upPortIDList = voyListObj.list[index].LPort;
+                        tcContractObj.down_port = voyListObj.list[index].DPort;
+                        tcContractObj.downPortNames = voyListObj.getPortName(voyListObj.list[index].DPort);
+                        tcContractObj.downPortIDList = voyListObj.list[index].DPort;
+
+                        tcContractObj.lay_date = voyListObj.list[index].LayCan_Date1;
+                        tcContractObj.can_date = voyListObj.list[index].LayCan_Date2;
+
+                        tcContractObj.dely = voyListObj.list[index].L_Rate;
+                        tcContractObj.redely = voyListObj.list[index].D_Rate;
+                        tcContractObj.hire = voyListObj.list[index].Freight;
+                        tcContractObj.first_hire = voyListObj.list[index].total_Freight;
+                        tcContractObj.ilohc = voyListObj.list[index].ilohc;
+                        tcContractObj.c_v_e = voyListObj.list[index].c_v_e;
+                        tcContractObj.com_fee = voyListObj.list[index].com_fee;
+                        tcContractObj.charterer = voyListObj.list[index].charterer;
+                        tcContractObj.tel_number = voyListObj.list[index].tel_number;
+                        tcContractObj.remark = voyListObj.list[index].Remarks;
+                        if (voyListObj.list[index].is_attachment == 1) {
+                            tcContractObj.fileName = voyListObj.list[index].attachment_url.substr(voyListObj.list[index].attachment_url.lastIndexOf("contract/")+9);
+                        }
+
+                        tcInputObj.calcContractPreview();
+                        
+                        $($('.ship-register li')[0]).removeClass('active');
+                        $($('.ship-register li')[1]).addClass('active');
+                        $('#voy_contract_div').removeClass('active');
+                        $('#tc_contract_div').addClass('active');
+                        changeTab('tc');
+                    }
+                }
+                else
+                {
+                    voyInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
+                    voyInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
+                    voyInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
+                    voyInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
+                    voyInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
+                    voyInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
+
+                    tcInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
+                    tcInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
+                    tcInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
+                    tcInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
+                    tcInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
+                    tcInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
+                }
                 voyInputObjTmp = JSON.parse(JSON.stringify(voyInputObj.input));
                 tcInputObjTmp = JSON.parse(JSON.stringify(tcInputObj.input));
             }
@@ -700,19 +890,21 @@ $ships = Session::get('shipList');
 
     $('#submit').on('click', function(e) {
         if(ACTIVE_TAB == 'voy') {
-            if(voyContractObj.validate_voy_no == true && voyContractObj.voy_no != '') {
+            if(/*voyContractObj.validate_voy_no == true && */ voyContractObj.voy_no != '' && voyContractObj.voy_no.length == 4) {
                 submitted = true;
                 $('#voyContractForm').submit();
             } else {
-                alert('Please input data correclty.');
+                alert('Please input VoyNo correctly.');
+                $('[name=voy_no').focus();
                 return false;
             }
         } else {
-            if(tcContractObj.validate_voy_no == true && tcContractObj.voy_no != '') {
+            if(/*tcContractObj.validate_voy_no == true && */ tcContractObj.voy_no != '' && tcContractObj.voy_no.length == 4) {
                 submitted = true;
                 $('#tcContractForm').submit();
             } else {
-                alert('Please input data correclty.');
+                alert('Please input VoyNo correctly.');
+                $($('[name=voy_no')[1]).focus();
                 return false;
             }
         }
@@ -1036,7 +1228,6 @@ $ships = Session::get('shipList');
         exportExcel(tab_text, filename, filename);
         return 0;
     }
-
     </script>
 
 @endsection

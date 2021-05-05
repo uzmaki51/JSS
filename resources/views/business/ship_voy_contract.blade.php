@@ -1,12 +1,13 @@
-
+<form method="post" action="voyContractRegister" enctype="multipart/form-data" id="voyContractForm">
 <div class="d-flex" id="voy_input">
+    
     <div class="tab-left contract-input-div"  id="voy_input_div" v-cloak>
         <div class="d-flex">
             <label class="font-bold ml-3">预计</label>
             <label class="ml-3">货币</label>
             <select class="ml-1" name="currency" v-model="input['currency']">
                 <option value="USD">$</option>
-                <option value="CNY">￥</option>
+                <option value="CNY">¥</option>
             </select>
 
             <div class="label-input ml-1" style="width: 120px;">
@@ -80,11 +81,11 @@
                     </div>
                     <div class="vertical">
                         <label>单价</label>
-                        <my-currency-input v-model="input['freight_price']" :disabled="batchStatus == true" name="freight_price"></my-currency-input>
+                        <my-currency-input v-model="input['freight_price']" :readonly="batchStatus == true" name="freight_price"></my-currency-input>
                     </div>
                     <div class="vertical">
-                        <label for="batch-manage" class="batch-manage"><input type="checkbox" v-model="batchStatus" id="batch-manage"  @change="calcContractPreview">包船</label>
-                        <my-currency-input type="text" v-bind:class="batchStatus == true ? '' : 'output-text'" name="batch_price" :disabled="batchStatus == false"  v-bind:fixednumber="0" v-model="input['batch_price']" @change="calcContractPreview"></my-currency-input>
+                        <label for="batch-manage" class="batch-manage"><input type="checkbox" v-model="batchStatus" name="batch_manage" id="batch-manage" @change="calcContractPreview">包船</label>
+                        <my-currency-input type="text" v-bind:class="batchStatus == true ? '' : 'output-text'" name="batch_price" :readonly="batchStatus == false"  v-bind:fixednumber="0" v-model="input['batch_price']" @change="calcContractPreview"></my-currency-input>
                     </div>
                     <div class="vertical">
                         <label>佣金(%)</label>
@@ -120,34 +121,34 @@
                 <div class="d-block mt-20">
                     <div class="d-flex horizontal">
                         <label>航次用时</label>
-                        <my-currency-input class="text-right" disabled v-model="output['sail_time']" name="sail_time" v-bind:prefix="''"></my-currency-input>
+                        <my-currency-input class="text-right" readonly v-model="output['sail_time']" name="sail_time" v-bind:prefix="''"></my-currency-input>
                         <span>天</span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>航行</label>
-                        <my-currency-input class="text-right" disabled v-model="output['sail_term']" name="sail_term" v-bind:prefix="''"></my-currency-input>
+                        <my-currency-input class="text-right" readonly v-model="output['sail_term']" name="sail_term" v-bind:prefix="''"></my-currency-input>
                         <span>天</span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>停泊</label>
-                        <my-currency-input class="text-right" disabled v-model="output['moor']" name="moor" v-bind:prefix="''"></my-currency-input>
+                        <my-currency-input class="text-right" readonly v-model="output['moor']" name="moor" v-bind:prefix="''"></my-currency-input>
                         <span>天</span>
                     </div>
                 </div>
                 <div class="d-block mt-20">
                     <div class="d-flex horizontal">
                         <label>油款</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['oil_money']" name="oil_money"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" readonly v-model="output['oil_money']" name="oil_money"></my-currency-input>
                         <span></span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>FO</label>
-                        <my-currency-input class="text-right" disabled v-model="output['fo_mt']" name="fo_mt" v-bind:prefix="''"></my-currency-input>
+                        <my-currency-input class="text-right" readonly v-model="output['fo_mt']" name="fo_mt" v-bind:prefix="''"></my-currency-input>
                         <span>MT</span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>DO</label>
-                        <my-currency-input class="text-right" disabled v-model="output['do_mt']" name="do_mt" v-bind:prefix="''"></my-currency-input>
+                        <my-currency-input class="text-right" readonly v-model="output['do_mt']" name="do_mt" v-bind:prefix="''"></my-currency-input>
                         <span>MT</span>
                     </div>
                 </div>
@@ -157,248 +158,248 @@
                 <div class="d-block mt-20">
                     <div class="d-flex horizontal">
                         <label>收入</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['credit']" name="credit"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" readonly v-model="output['credit']" name="credit"></my-currency-input>
                     </div>
                     <div class="d-flex horizontal">
                         <label>支出</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['debit']" name="debit"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" readonly v-model="output['debit']" name="debit"></my-currency-input>
                     </div>
                     <div class="d-flex horizontal">
                         <label>净利润</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['net_profit']" name="net_profit"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" readonly v-model="output['net_profit']" name="net_profit"></my-currency-input>
                     </div>
                     <div class="d-flex horizontal">
                         <label>日净利润</label>
-                        <my-currency-input class="text-left bigger-input" disabled v-model="output['net_profit_day']" name="net_profit_day" v-bind:fixedNumber="0" maxlength="5"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" readonly v-model="output['net_profit_day']" name="net_profit_day" v-bind:fixedNumber="0" maxlength="5"></my-currency-input>
                         <span></span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>参考(最高)</label>
-                        <my-currency-input class="text-left double-input-left" style="color: #126EB9 !important; font-weight: bold" disabled v-model="output['max_profit']" name="max_profit" v-bind:fixednumber="0"></my-currency-input>
-                        <input type="text" class="text-left double-input-right" disabled name="max_voy" v-model="output['max_voy']">
+                        <my-currency-input class="text-left double-input-left" style="color: #126EB9 !important; font-weight: bold" readonly v-model="output['max_profit']" name="max_profit" v-bind:fixednumber="0"></my-currency-input>
+                        <input type="text" class="text-left double-input-right" readonly name="max_voy" v-model="output['max_voy']">
                         <span>航次</span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>(最低)</label>
-                        <my-currency-input class="text-left double-input-left" style="color: red!important; font-weight: bold" disabled v-model="output['min_profit']" name="min_profit" v-bind:fixednumber="0"></my-currency-input>
-                        <input type="text" class="text-left double-input-right" disabled name="min_voy" v-model="output['min_voy']">
+                        <my-currency-input class="text-left double-input-left" style="color: red!important; font-weight: bold" readonly v-model="output['min_profit']" name="min_profit" v-bind:fixednumber="0"></my-currency-input>
+                        <input type="text" class="text-left double-input-right" readonly name="min_voy" v-model="output['min_voy']">
                         <span>航次</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="btn-group f-right mt-20">
-            <button class="btn btn-primary btn-sm" @click="onEditFinish">OK</button>
-            <button class="btn btn-danger btn-sm" @click="onEditContinue">Cancel</button>
+            <a class="btn btn-primary btn-sm" @click="onEditFinish">OK</a>
+            <a class="btn btn-danger btn-sm" @click="onEditContinue">Cancel</a>
         </div>
     </div>
     
-        <div class="tab-right contract-input-div" id="voy_contract_table" v-cloak>
-        <form method="post" action="voyContractRegister" enctype="multipart/form-data" id="voyContractForm">
-            <input type="hidden" name="_token" value="{{csrf_token()}}">
-            <input type="hidden" value="{{ $shipId }}" name="shipId" v-model="shipId">
-            <label>航次: </label>
-            <input type="text" name="voy_no" v-model="voy_no" minlength="4" maxlength="4" style="width:80px;" @change="validateVoyNo" require>
-            <span class="text-danger" v-bind:class="getValidClass">Voy No already exits.</span>
-            <table class="contract-table mt-2">
-                <tr>
-                    <td style="width: 80px;">合同日期</td>
-                    <td class="font-style-italic">CP_DATE</td>
-                    <td><input type="text" class="date-picker form-control" name="cp_date" v-model="cp_date" @click="dateModify($event, 'cp_date')"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>租船种类</td>
-                    <td class="font-style-italic">CP TYPE</td>
-                    <td><input type="text" class="form-control font-bold" value="VOY" name="cp_type" readonly></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>货名</td>
-                    <td class="font-style-italic">CARGO</td>
-                    <td colspan="2" style="border-right: 1px solid #4c4c4c">
-                        <div class="dynamic-select-wrapper" @click="certTypeChange">
-                            <div class="dynamic-select" style="color:#12539b">
-                                <input type="hidden"  name="cargo" v-model="cargoIDList"/>
-                                <div class="dynamic-select__trigger dynamic-arrow multi-dynamic-select">
-                                    @{{ cargoNames }}
+    <div class="tab-right contract-input-div" id="voy_contract_table" v-cloak>
+        <input type="hidden" name="_token" value="{{csrf_token()}}">
+        <input type="hidden" value="{{ $shipId }}" name="shipId" v-model="shipId">
+        <input type="hidden" value="{{ $voy_id }}" name="voy_id" id="voy_id">
+        <label>航次: </label>
+        <input type="text" name="voy_no" v-model="voy_no" minlength="4" maxlength="4" style="width:80px;" @change="validateVoyNo" require>
+        <!--span class="text-danger" v-bind:class="getValidClass">Voy No already exits.</span-->
+        <table class="contract-table mt-2">
+            <tr>
+                <td style="width: 80px;">合同日期</td>
+                <td class="font-style-italic">CP_DATE</td>
+                <td><input type="text" class="date-picker form-control" name="cp_date" v-model="cp_date" @click="dateModify($event, 'cp_date')"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>租船种类</td>
+                <td class="font-style-italic">CP TYPE</td>
+                <td><input type="text" class="form-control font-bold" value="VOY" name="cp_type" readonly></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>货名</td>
+                <td class="font-style-italic">CARGO</td>
+                <td colspan="2" style="border-right: 1px solid #4c4c4c">
+                    <div class="dynamic-select-wrapper" @click="certTypeChange">
+                        <div class="dynamic-select" style="color:#12539b">
+                            <input type="hidden"  name="cargo" v-model="cargoIDList"/>
+                            <div class="dynamic-select__trigger dynamic-arrow multi-dynamic-select">
+                                @{{ cargoNames }}
+                            </div>
+                            <div class="dynamic-options multi-select" style="margin-top: -17px;">
+                                <div class="dynamic-options-scroll">
+                                    <div v-for="(cargoItem, index) in cargoList" class="d-flex dynamic-option" v-bind:class="getOptionCls(cargoItem.is_selected)">
+                                        <input type="checkbox" name="cargo_id[]" v-bind:value="index" v-bind:id="index">
+                                        <label :for="index" class="width-100">@{{ cargoItem.name }}</label>
+                                    </div>
                                 </div>
-                                <div class="dynamic-options multi-select" style="margin-top: -17px;">
-                                    <div class="dynamic-options-scroll">
-                                        <div v-for="(cargoItem, index) in cargoList" class="d-flex dynamic-option" v-bind:class="getOptionCls(cargoItem.is_selected)">
-                                            <input type="checkbox" name="cargo_id[]" v-bind:value="index" v-bind:id="index">
-                                            <label :for="index" class="width-100">@{{ cargoItem.name }}</label>
-                                        </div>
-                                    </div>
-                                    <hr class="gray-dotted" style="margin: 8px 0;">
-                                    <div class="btn-group f-right" style="margin: 0 0 8px 0;">
-                                        <button type="button" class="btn btn-primary btn-sm" @click="confirmItem('cargo')">OK</button>
-                                        <button type="button" class="btn btn-danger btn-sm" @click="closeDialog">Cancel</button>
-                                    </div>
-                                    <div class="multi-edit-div">
-                                        <span class="edit-list-btn" id="edit-list-btn" @click="openDialog('cargo')">
-                                            <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px;">
-                                        </span>
-                                    </div>
+                                <hr class="gray-dotted" style="margin: 8px 0;">
+                                <div class="btn-group f-right" style="margin: 0 0 8px 0;">
+                                    <button type="button" class="btn btn-primary btn-sm" @click="confirmItem('cargo')">OK</button>
+                                    <button type="button" class="btn btn-danger btn-sm" @click="closeDialog">Cancel</button>
+                                </div>
+                                <div class="multi-edit-div">
+                                    <span class="edit-list-btn" id="edit-list-btn" @click="openDialog('cargo')">
+                                        <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px;">
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>货量</td>
-                    <td class="font-style-italic">QTTY</td>
-                    <td><input type="text" class="form-control" name="qty_amount" v-model="qty_amount"></td>
-                    <td>
-                        <select class="form-control" name="qty_type" v-model="qty_type">
-                            <option>MOLOO</option>
-                            <option>MOLCO</option>
-                        </selec>
-                    </td>
-                </tr>
-                <tr>
-                    <td>装港</td>
-                    <td class="font-style-italic">LOADING PORT</td>
-                    <td colspan="2" style="border-right: 1px solid #4c4c4c">
-                        <div class="dynamic-select-wrapper" @click="certTypeChange">
-                            <div class="dynamic-select" style="color:#12539b">
-                                <input type="hidden" name="up_port" v-model="upPortIDList"/>
-                                <div class="dynamic-select__trigger dynamic-arrow multi-dynamic-select">
-                                    @{{ upPortNames }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>货量</td>
+                <td class="font-style-italic">QTTY</td>
+                <td><input type="text" class="form-control" name="qty_amount" v-model="qty_amount"></td>
+                <td>
+                    <select class="form-control" name="qty_type" v-model="qty_type">
+                        <option>MOLOO</option>
+                        <option>MOLCO</option>
+                    </selec>
+                </td>
+            </tr>
+            <tr>
+                <td>装港</td>
+                <td class="font-style-italic">LOADING PORT</td>
+                <td colspan="2" style="border-right: 1px solid #4c4c4c">
+                    <div class="dynamic-select-wrapper" @click="certTypeChange">
+                        <div class="dynamic-select" style="color:#12539b">
+                            <input type="hidden" name="up_port" v-model="upPortIDList"/>
+                            <div class="dynamic-select__trigger dynamic-arrow multi-dynamic-select">
+                                @{{ upPortNames }}
+                            </div>
+                            <div class="dynamic-options multi-select" style="margin-top: -17px;">
+                                <div class="dynamic-options-scroll">
+                                    <div v-for="(portItem, index) in portList" class="d-flex dynamic-option">
+                                        <input type="checkbox" name="up_port_id[]" v-bind:value="index" v-bind:id="index + '_upPort'">
+                                        <label :for="index + '_upPort'" class="width-100">@{{ portItem.Port_En }}</label>
+                                    </div>
                                 </div>
-                                <div class="dynamic-options multi-select" style="margin-top: -17px;">
-                                    <div class="dynamic-options-scroll">
-                                        <div v-for="(portItem, index) in portList" class="d-flex dynamic-option">
-                                            <input type="checkbox" name="up_port_id[]" v-bind:value="index" v-bind:id="index + '_upPort'">
-                                            <label :for="index + '_upPort'" class="width-100">@{{ portItem.Port_En }}</label>
-                                        </div>
-                                    </div>
-                                    <hr class="gray-dotted" style="margin: 8px 0;">
-                                    <div class="btn-group f-right" style="margin: 0 0 8px 0;">
-                                        <button type="button" class="btn btn-primary btn-sm" @click="confirmItem('up_port')">OK</button>
-                                        <button type="button" class="btn btn-danger btn-sm" @click="closeDialog">Cancel</button>
-                                    </div>
-                                    <div class="multi-edit-div">
-                                        <span class="edit-list-btn" id="edit-list-btn" @click="openDialog('port')">
-                                            <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px;">
-                                        </span>
-                                    </div>
+                                <hr class="gray-dotted" style="margin: 8px 0;">
+                                <div class="btn-group f-right" style="margin: 0 0 8px 0;">
+                                    <button type="button" class="btn btn-primary btn-sm" @click="confirmItem('up_port')">OK</button>
+                                    <button type="button" class="btn btn-danger btn-sm" @click="closeDialog">Cancel</button>
+                                </div>
+                                <div class="multi-edit-div">
+                                    <span class="edit-list-btn" id="edit-list-btn" @click="openDialog('port')">
+                                        <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px;">
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>卸港</td>
-                    <td class="font-style-italic">DISCHARGING PORT</td>
-                    <td colspan="2" style="border-right: 1px solid #4c4c4c">
-                        <div class="dynamic-select-wrapper" @click="certTypeChange">
-                            <div class="dynamic-select" style="color:#12539b">
-                                <input type="hidden" name="down_port" v-model="downPortIDList"/>
-                                <div class="dynamic-select__trigger dynamic-arrow multi-dynamic-select">
-                                    @{{ downPortNames }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>卸港</td>
+                <td class="font-style-italic">DISCHARGING PORT</td>
+                <td colspan="2" style="border-right: 1px solid #4c4c4c">
+                    <div class="dynamic-select-wrapper" @click="certTypeChange">
+                        <div class="dynamic-select" style="color:#12539b">
+                            <input type="hidden" name="down_port" v-model="downPortIDList"/>
+                            <div class="dynamic-select__trigger dynamic-arrow multi-dynamic-select">
+                                @{{ downPortNames }}
+                            </div>
+                            <div class="dynamic-options multi-select" style="margin-top: -17px;">
+                                <div class="dynamic-options-scroll">
+                                    <div v-for="(portItem, index) in portList" class="d-flex dynamic-option">
+                                        <input type="checkbox" name="down_port_id[]" v-bind:value="index" v-bind:id="index + '_downPort'">
+                                        <label :for="index + '_downPort'" class="width-100">@{{ portItem.Port_En }}</label>
+                                    </div>
                                 </div>
-                                <div class="dynamic-options multi-select" style="margin-top: -17px;">
-                                    <div class="dynamic-options-scroll">
-                                        <div v-for="(portItem, index) in portList" class="d-flex dynamic-option">
-                                            <input type="checkbox" name="down_port_id[]" v-bind:value="index" v-bind:id="index + '_downPort'">
-                                            <label :for="index + '_downPort'" class="width-100">@{{ portItem.Port_En }}</label>
-                                        </div>
-                                    </div>
-                                    <hr class="gray-dotted" style="margin: 8px 0;">
-                                    <div class="btn-group f-right" style="margin: 0 0 8px 0;">
-                                        <button type="button" class="btn btn-primary btn-sm" @click="confirmItem('down_port')">OK</button>
-                                        <button type="button" class="btn btn-danger btn-sm" @click="closeDialog">Cancel</button>
-                                    </div>
+                                <hr class="gray-dotted" style="margin: 8px 0;">
+                                <div class="btn-group f-right" style="margin: 0 0 8px 0;">
+                                    <button type="button" class="btn btn-primary btn-sm" @click="confirmItem('down_port')">OK</button>
+                                    <button type="button" class="btn btn-danger btn-sm" @click="closeDialog">Cancel</button>
                                 </div>
                             </div>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>受载期</td>
-                    <td class="font-style-italic">LAY/CAN</td>
-                    <td><input type="text" class="date-picker form-control" name="lay_date" v-model="lay_date" @click="dateModify($event, 'lay_date')"></td>
-                    <td><input type="text" class="date-picker form-control" name="can_date" v-model="can_date" @click="dateModify($event, 'can_date')"></td>
-                </tr>
-                <tr>
-                    <td>装率</td>
-                    <td class="font-style-italic">LOAD RATE</td>
-                    <td colspan="2" style="border-right: 1px solid #4c4c4c"><input type="text" class="form-control" name="load_rate" v-model="load_rate"></td>
-                </tr>
-                <tr>
-                    <td>卸率</td>
-                    <td class="font-style-italic">DISCH RATE</td>
-                    <td colspan="2" style="border-right: 1px solid #4c4c4c"><input type="text" class="form-control" name="disch_rate" v-model="disch_rate"></td>
-                </tr>
-                <tr>
-                    <td>单价</td>
-                    <td class="font-style-italic">FREGITH RATE</td>
-                    <td><input type="text" class="form-control" name="freight_rate" readonly v-model="freight_rate"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>包船</td>
-                    <td class="font-style-italic">LUMPSUM</td>
-                    <td><input type="text" class="form-control" name="lumpsum" readonly v-model="lumpsum"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>滞期费</td>
-                    <td class="font-style-italic">DEMURR/DETEN FEE</td>
-                    <td><input type="text" class="form-control" name="deten_fee" v-model="deten_fee"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>速追肥</td>
-                    <td class="font-style-italic">DISPATCH FEE</td>
-                    <td><input type="text" class="form-control" name="dispatch_fee" v-model="dispatch_fee"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>佣金</td>
-                    <td class="font-style-italic">COM</td>
-                    <td><input type="text" class="form-control" name="com_fee" readonly v-model="com_fee"></td>
-                    <td>%</td>
-                </tr>
-                <tr>
-                    <td>租家</td>
-                    <td class="font-style-italic">CHARTERER</td>
-                    <td colspan="2" style="border-right: 1px solid #4c4c4c;">
-                        <textarea name="charterer" class="form-control" rows="2" v-model="charterer"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>电话</td>
-                    <td class="font-style-italic">TEL</td>
-                    <td colspan="2" style="border-right: 1px solid #4c4c4c;">
-                        <input type="text" class="form-control" name="tel_number" v-model="tel_number">
-                    </td>
-                </tr>
-                <tr>
-                    <td>备注</td>
-                    <td class="font-style-italic">REMARK</td>
-                    <td colspan="2" style="border-right: 1px solid #4c4c4c;">
-                        <textarea name="remark" class="form-control" rows="2" v-model="remark"></textarea>
-                    </td>
-                </tr>
-            </table>
-            <input type="hidden" name="net_profit_day" v-model="net_profit_day">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>受载期</td>
+                <td class="font-style-italic">LAY/CAN</td>
+                <td><input type="text" class="date-picker form-control" name="lay_date" v-model="lay_date" @click="dateModify($event, 'lay_date')"></td>
+                <td><input type="text" class="date-picker form-control" name="can_date" v-model="can_date" @click="dateModify($event, 'can_date')"></td>
+            </tr>
+            <tr>
+                <td>装率</td>
+                <td class="font-style-italic">LOAD RATE</td>
+                <td colspan="2" style="border-right: 1px solid #4c4c4c"><input type="text" class="form-control" name="load_rate" v-model="load_rate"></td>
+            </tr>
+            <tr>
+                <td>卸率</td>
+                <td class="font-style-italic">DISCH RATE</td>
+                <td colspan="2" style="border-right: 1px solid #4c4c4c"><input type="text" class="form-control" name="disch_rate" v-model="disch_rate"></td>
+            </tr>
+            <tr>
+                <td>单价</td>
+                <td class="font-style-italic">FREGITH RATE</td>
+                <td><input type="text" class="form-control" name="freight_rate" readonly v-model="freight_rate"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>包船</td>
+                <td class="font-style-italic">LUMPSUM</td>
+                <td><input type="text" class="form-control" name="lumpsum" readonly v-model="lumpsum"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>滞期费</td>
+                <td class="font-style-italic">DEMURR/DETEN FEE</td>
+                <td><input type="text" class="form-control" name="deten_fee" v-model="deten_fee"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>速追肥</td>
+                <td class="font-style-italic">DISPATCH FEE</td>
+                <td><input type="text" class="form-control" name="dispatch_fee" v-model="dispatch_fee"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>佣金</td>
+                <td class="font-style-italic">COM</td>
+                <td><input type="text" class="form-control" name="com_fee" readonly v-model="com_fee"></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td>租家</td>
+                <td class="font-style-italic">CHARTERER</td>
+                <td colspan="2" style="border-right: 1px solid #4c4c4c;">
+                    <textarea name="charterer" class="form-control" rows="2" v-model="charterer"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>电话</td>
+                <td class="font-style-italic">TEL</td>
+                <td colspan="2" style="border-right: 1px solid #4c4c4c;">
+                    <input type="text" class="form-control" name="tel_number" v-model="tel_number">
+                </td>
+            </tr>
+            <tr>
+                <td>备注</td>
+                <td class="font-style-italic">REMARK</td>
+                <td colspan="2" style="border-right: 1px solid #4c4c4c;">
+                    <textarea name="remark" class="form-control" rows="2" v-model="remark"></textarea>
+                </td>
+            </tr>
+        </table>
 
-            <div class="attachment-div d-flex mt-20">
-                <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
-                <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
-                <label for="contract_attach" class="ml-1 blue contract-attach">
-                    @{{ fileName }}
-                    <button type="button" class="btn btn-danger p-0" style="min-width: 30px;" @click="removeFile"><i class="icon-remove mr-0"></i></button>
-                </label>
-                <input type="file" id="contract_attach" name="attachment" class="d-none" @change="onFileChange">
-                <input type="hidden" name="voy_currency" v-model="currency">
-                <input type="hidden" name="voy_rate" v-model="rate">
-            </div>
-            </form>
+        <div class="attachment-div d-flex mt-20">
+            <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
+            <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
+            <label for="contract_attach" class="ml-1 blue contract-attach">
+                @{{ fileName }}
+                <button type="button" class="btn btn-danger p-0" style="min-width: 30px;" @click="removeFile"><i class="icon-remove mr-0"></i></button>
+            </label>
+            <input type="file" id="contract_attach" name="attachment" class="d-none" @change="onFileChange">
+            <input type="hidden" name="file_remove" id="file_remove" value="0">
+            <input type="hidden" name="voy_currency" v-model="currency">
+            <input type="hidden" name="voy_rate" v-model="rate">
         </div>
+    </div>
 </div>
+</form>
 <script src="{{ cAsset('assets/js/moment.js') }}"></script>
 <script src="{{ cAsset('assets/js/bignumber.js') }}"></script>
 <script src="{{ cAsset('assets/js/vue.js') }}"></script>
@@ -481,19 +482,19 @@
                     }
                     
                     voyContractObj.com_fee = this.input['fee'];
-                    $('#voy_input_div input').attr('disabled', 'disabled');
-                    $('[name=currency]').attr('disabled', 'disabled');
+                    $('#voy_input_div input').attr('readonly', '');
+                    $('[name=currency]').attr('readonly', '');
                 },
                 onEditContinue: function() {
-                    $('#voy_input_div input').removeAttr('disabled', 'disabled');
-                    $('[name=currency]').removeAttr('disabled', 'disabled');
+                    $('#voy_input_div input').removeAttr('readonly');
+                    $('[name=currency]').removeAttr('readonly');
                     if(voyInputObj.batchStatus) {
-                        $('[name=batch_price]').removeAttr('disabled', 'disabled');
-                        $('[name=freight_price]').attr('disabled', 'disabled');
+                        $('[name=batch_price]').removeAttr('readonly');
+                        $('[name=freight_price]').attr('readonly', '');
 
                     } else {
-                        $('[name=batch_price]').attr('disabled', 'disabled');
-                        $('[name=freight_price]').removeAttr('disabled', 'disabled');
+                        $('[name=batch_price]').attr('readonly','');
+                        $('[name=freight_price]').removeAttr('readonly');
                     }
                 },
                 getToday: function(symbol) {
@@ -594,12 +595,11 @@
                 can_date:       '',
                 load_rate:      '',
                 disch_rate:     '',
-                freight_rate:   '',
-                lumpsum:        0,
-                demurr:         0,
-                deten_fee:      0,
-                dispatch_fee:   0,
-                com_fee:        0,
+                freight_rate:   '0.00',
+                lumpsum:        '0.00',
+                deten_fee:      '0.00',
+                dispatch_fee:   '0.00',
+                com_fee:        '0.00',
                 charterer:      '',
                 tel_number:     '',
                 remark:         '',
@@ -619,7 +619,13 @@
 
             computed: {
                 getValidClass: function() {
-                    return this.validate_voy_no == true ? 'd-none' : '';
+                    if (voy_id > 0) {
+                        return 'd-none';
+                    }
+                    else {
+                        //$('#submit').prop('disabled', !this.validate_voy_no);
+                        return this.validate_voy_no == true ? 'd-none' : '';
+                    }
                 },
             },
             methods: {
@@ -641,10 +647,12 @@
                     var files = e.target.files || e.dataTransfer.files;
                     let fileName = files[0].name;
                     this.fileName = fileName;
+                    $('#file_remove').val(0);
                 },
                 removeFile() {
                     this.fileName = '添加附件';
-                    $('#contract_tc_attach').val('');
+                    $('#contract_attach').val('');
+                    $('#file_remove').val(1);
                 },
                 confirmItem: function(activeId) {
                     let nameTmp = '';
@@ -684,8 +692,6 @@
 
                         voyContractObj.downPortNames = nameTmp.slice(0,-2);
                     } else return false;
-
-
                     
                     this.closeDialog();
                 },
@@ -723,7 +729,6 @@
         })
     }
 
-    
     $(document).mouseup(function(e) {
         var container = $(".dynamic-options-scroll");
         if (!container.is(e.target) && container.has(e.target).length === 0) {

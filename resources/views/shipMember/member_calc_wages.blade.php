@@ -187,6 +187,10 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
             </div>
         </div>
+        <audio controls="controls" class="d-none" id="warning-audio">
+            <source src="{{ cAsset('assets/sound/delete.wav') }}">
+            <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
+        </audio>
     </div>
 
     <script src="{{ asset('/assets/js/x-editable/bootstrap-editable.min.js') }}"></script>
@@ -607,8 +611,13 @@ $isHolder = Session::get('IS_HOLDER');
             });
         }
 
+        function alertAudio() {
+            document.getElementById('warning-audio').play();
+        }
+
         function deleteItem(e)
         {
+            alertAudio();
             bootbox.confirm("Are you sure you want to delete?", function (result) {
                 if (result) {
                     $(e).closest("tr").remove();

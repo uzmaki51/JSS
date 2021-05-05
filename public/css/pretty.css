@@ -150,6 +150,14 @@
     background-color: #ffe3e082;
 }
 
+.contract-item {
+    background-color: white;
+    cursor:pointer;
+}
+.contract-item:hover {
+    background-color: #ffe3e082;
+}
+
 .selected td {
     background: #ffe3e0;
 }
