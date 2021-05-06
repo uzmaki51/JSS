@@ -56,8 +56,6 @@ $isHolder = Session::get('IS_HOLDER');
                     </div>
                 </div>
             </div>
-            <div id="test">
-            </div>
         </div>
     </div>
 
