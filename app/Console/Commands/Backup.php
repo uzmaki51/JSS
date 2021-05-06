@@ -37,7 +37,7 @@ class Backup extends Command {
 			$date = date('Y-m-d-His');
 			$file = $date . '.sql';
 
-			$mysqlPath = "E:\\xampp/mysql/bin/mysqldump";
+			$mysqlPath = "C:\\xampp/mysql/bin/mysqldump";
 			$command = sprintf('%s -h localhost -u %s -p%s %s > %s', $mysqlPath, $user, $password, $database, $path . $file);
 			if (!is_dir($path)) {
 				mkdir($path, 0755, true);
