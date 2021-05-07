@@ -56,6 +56,30 @@ class WageController extends Controller
         $this->middleware('auth');
     }
 
+    public function initWageCalcInfo(Request $request) {
+        $params = $request->all();
+        $shipId = $params['shipId'];
+        $year = $params['year'];
+        $month = $params['month'];
+
+        ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 0)->delete();
+        ShipWage::where('shipId', $shipId)->where('year', $year)->where('month', $month)->delete();
+
+        return 1;
+    }
+
+    public function initWageSendInfo(Request $request) {
+        $params = $request->all();
+        $shipId = $params['shipId'];
+        $year = $params['year'];
+        $month = $params['month'];
+
+        ShipWageList::where('shipId', $shipId)->where('year', $year)->where('month', $month)->where('type', 1)->delete();
+        ShipWageSend::where('shipId', $shipId)->where('year', $year)->where('month', $month)->delete();
+
+        return 1;
+    }
+
     public function updateWageSendInfo(Request $request) {
         $shipId = $request->get('select-ship');
         $year = $request->get('select-year');

@@ -52,6 +52,9 @@ Route::group(['prefix' => 'org'], function() {
 	Route::get('privilege',		['uses'=>'OrgManage\OrgmanageController@addPrivilege']);
 	Route::post('storePrivilege',		['uses'=>'OrgManage\OrgmanageController@storePrivilege']);
 
+	// System Backup/Restore
+	Route::get('system/backup', ['uses'=>'OrgManage\BackupController@index']);
+
 
 });
 
@@ -96,6 +99,9 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipMember/wage/shiplist', ['uses' => 'ShipManage\ShipMemberController@ajaxGetShipWageList']);
 	Route::post('shipMember/wage/memberlist', ['uses' => 'ShipManage\ShipMemberController@ajaxGetShipMemberList']);
 
+	Route::post('shipMember/wage/initCalc', ['uses' => 'ShipManage\WageController@initWageCalcInfo']);
+	Route::post('shipMember/wage/initSend', ['uses' => 'ShipManage\WageController@initWageSendInfo']);
+
 	
 	Route::get('shipMember/autocomplete', ['uses' => 'ShipManage\ShipMemberController@autocomplete']);
 	Route::get('shipMember/autocompleteAll', ['uses' => 'ShipManage\ShipMemberController@autocompleteAll']);
@@ -118,6 +124,12 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('business/dynamic', ['uses'	=> 'Business\BusinessController@ajaxDynamic']);
 	Route::post('business/dynamic/list', ['uses'	=> 'Business\BusinessController@ajaxDynamicList']);
 	Route::post('business/voy/list', ['uses'	=> 'Business\BusinessController@ajaxVoyAllList']);
+
+	
+	Route::post('system/backup/list', ['uses'=>'OrgManage\BackupController@getList']);
+	Route::post('system/backup/add', ['uses'=>'OrgManage\BackupController@add']);
+	Route::post('system/backup/backup', ['uses'=>'OrgManage\BackupController@backup']);
+	Route::post('system/backup/restore', ['uses'=>'OrgManage\BackupController@restore']);
 
 });
 
