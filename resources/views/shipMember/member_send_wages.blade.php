@@ -33,20 +33,32 @@ $isHolder = Session::get('IS_HOLDER');
                                 </select>
                                 <select name="select-year" id="select-year" style="font-size:13px">
                                     @for($i=$start_year;$i<=date("Y");$i++)
-                                    <option value="{{$i}}" @if((isset($year) && ($year == $i)) || (date("Y")==$i))selected @endif>{{$i}}年</option>
+                                    <option value="{{$i}}" @if(($year==$i)||(($year=='')&&($i==date("Y")))) selected @endif>{{$i}}年</option>
                                     @endfor
                                 </select>
                                 <select name="select-month" id="select-month" style="font-size:13px">
-                                    @for($i=1;$i<=date("m");$i++)
-                                    <option value="{{$i}}" @if((isset($month) && ($month == $i)) || (date("m")==$i))selected @endif>{{$i}}月</option>
-                                    @endfor
+                                    @if($year==date("Y"))
+                                        @for($i=1;$i<=date("m");$i++)
+                                        <option value="{{$i}}" @if(($month==$i)||(($month=='')&&($i==date("m")))) selected @endif>{{$i}}月</option>
+                                        @endfor
+                                    @else
+                                        @for($i=1;$i<=12;$i++)
+                                        <option value="{{$i}}" @if(($month==$i)||(($month=='')&&($i==date("m")))) selected @endif>{{$i}}月</option>
+                                        @endfor
+                                    @endif
                                 </select>
                                 <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>份工资汇款单</strong>
                             </div>
                             <div class="col-md-5" style="padding:unset!important">
                                 <div class="btn-group f-right">
+                                    <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()">
+                                        <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初期化
+                                    </a>
                                     <a id="btnSave" class="btn btn-sm btn-info" style="width: 80px">
                                         <i class="icon-save"></i>{{ trans('common.label.save') }}
+                                    </a>
+                                    <a onclick="javascript:fnExcelReport();" class="btn btn-warning btn-sm excel-btn">
+                                        <i class="icon-table"></i>{{ trans('common.label.excel') }}
                                     </a>
                                 </div>
                             </div>
@@ -80,8 +92,11 @@ $isHolder = Session::get('IS_HOLDER');
             </div>
         </form>
         </div>
+        <audio controls="controls" class="d-none" id="warning-audio">
+            <source src="{{ cAsset('assets/sound/delete.wav') }}">
+            <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
+        </audio>
     </div>
-
     <script src="{{ asset('/assets/js/x-editable/bootstrap-editable.min.js') }}"></script>
     <script src="{{ asset('/assets/js/x-editable/ace-editable.min.js') }}"></script>
     <script src="{{ cAsset('assets/js/jsquery.dataTables.js') }}"></script>
@@ -219,6 +234,35 @@ $isHolder = Session::get('IS_HOLDER');
                 origForm = $form.serialize();
         }
 
+        function alertAudio() {
+            document.getElementById('warning-audio').play();
+        }
+
+        function init()
+        {
+            alertAudio();
+            bootbox.confirm("Are you sure you want to init?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: BASE_URL + 'ajax/shipMember/wage/initSend',
+                        type: 'POST',
+                        data: {'shipId':shipId,'year':year,'month':month},
+                        success: function(result) {
+                            listTable.ajax.reload();
+                            $.gritter.add({
+                                title: '成功',
+                                text: '初期化成功!',
+                                class_name: 'gritter-success'
+                            });
+                            return;
+                        },
+                        error: function(error) {
+                        }
+                    });
+                }
+            });
+        }
+
         function setDatePicker() {
             $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
                 $(this).prev().focus();
@@ -249,7 +293,7 @@ $isHolder = Session::get('IS_HOLDER');
             selectInfo();
         });
 
-        $('#select-year').on('change', function() {
+        function changeYear() {
             year = $("#select-year option:selected").val();
             var months = "";
             if (year == now_year) {
@@ -273,12 +317,59 @@ $isHolder = Session::get('IS_HOLDER');
             $('#select-month').html(months);
             origForm = "";
             selectInfo();
+        }
+
+        $('#select-year').on('change', function() {
+            var prevYear = $('#select-year').val();
+            $('#select-year').val(year);
+            var newForm = $form.serialize();
+            if ((newForm !== origForm) && !submitted) {
+                var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+                bootbox.confirm(confirmationMessage, function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    else {
+                        $('#select-year').val(prevYear);
+                        changeYear();
+                    }
+                });
+            }
+            else {
+                $('#select-year').val(prevYear);
+                changeYear();
+            }
+            
         });
 
-        $('#select-month').on('change', function() {
+        function changeMonth() {
             month = $("#select-month option:selected").val();
             origForm = "";
             selectInfo();
+        }
+
+        $('#select-month').on('change', function() {
+            var prevMonth = $('#select-month').val();
+            $('#select-month').val(month);
+            var newForm = $form.serialize();
+            if ((newForm !== origForm) && !submitted) {
+                var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+                bootbox.confirm(confirmationMessage, function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    else {
+                        $('#select-month').val(prevMonth);
+                        changeMonth();
+                    }
+                });
+            }
+            else {
+                $('#select-month').val(prevMonth);
+                changeMonth();
+            }
         });
 
         $('body').on('keydown', 'input', function(e) {
@@ -338,6 +429,15 @@ $isHolder = Session::get('IS_HOLDER');
                 {
                     var bank_info = BankInfo[real_tab.rows[j].childNodes[7].childNodes[0].selectedIndex];
                     tab.rows[j].childNodes[7].innerHTML = bank_info;
+
+                    var info = real_tab.rows[j].childNodes[4].childNodes[0].value;
+                    tab.rows[j].childNodes[4].innerHTML = info;
+                    info = real_tab.rows[j].childNodes[5].childNodes[0].value;
+                    tab.rows[j].childNodes[5].innerHTML = info;
+                    info = real_tab.rows[j].childNodes[6].childNodes[0].childNodes[0].value;
+                    tab.rows[j].childNodes[6].innerHTML = info;
+                    info = real_tab.rows[j].childNodes[9].childNodes[0].value;
+                    tab.rows[j].childNodes[9].innerHTML = info;
                 }
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
             }
@@ -347,6 +447,8 @@ $isHolder = Session::get('IS_HOLDER');
             tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
 
             var filename = $("#select-ship option:selected").html() + '_' + year + '_' + month + '_工资汇款单';
+
+            //$('#test').html(tab_text);
             exportExcel(tab_text, filename, year + '_' + month + '_工资汇款单');
             return 0;
         }
@@ -357,7 +459,6 @@ $isHolder = Session::get('IS_HOLDER');
             if ($('.member-item').length > 0) {
                 $('#wage-form').submit();
                 $('td[style*="display: none;"]').remove();
-                fnExcelReport();
             }
         });
 

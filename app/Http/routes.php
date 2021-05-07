@@ -99,6 +99,9 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipMember/wage/shiplist', ['uses' => 'ShipManage\ShipMemberController@ajaxGetShipWageList']);
 	Route::post('shipMember/wage/memberlist', ['uses' => 'ShipManage\ShipMemberController@ajaxGetShipMemberList']);
 
+	Route::post('shipMember/wage/initCalc', ['uses' => 'ShipManage\WageController@initWageCalcInfo']);
+	Route::post('shipMember/wage/initSend', ['uses' => 'ShipManage\WageController@initWageSendInfo']);
+
 	
 	Route::get('shipMember/autocomplete', ['uses' => 'ShipManage\ShipMemberController@autocomplete']);
 	Route::get('shipMember/autocompleteAll', ['uses' => 'ShipManage\ShipMemberController@autocompleteAll']);

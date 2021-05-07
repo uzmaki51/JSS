@@ -48,14 +48,24 @@ $isHolder = Session::get('IS_HOLDER');
                                     @endfor
                                 </select>
                                 <select name="select-month" id="select-month" style="font-size:13px">
-                                    @for($i=1;$i<=date("m");$i++)
-                                    <option value="{{$i}}" @if(($month==$i)||(($month=='')&&($i==date("m")))) selected @endif>{{$i}}月</option>
-                                    @endfor
+                                    @if($year==date("Y"))
+                                        @for($i=1;$i<=date("m");$i++)
+                                        <option value="{{$i}}" @if(($month==$i)||(($month=='')&&($i==date("m")))) selected @endif>{{$i}}月</option>
+                                        @endfor
+                                    @else
+                                        @for($i=1;$i<=12;$i++)
+                                        <option value="{{$i}}" @if(($month==$i)||(($month=='')&&($i==date("m")))) selected @endif>{{$i}}月</option>
+                                        @endfor
+                                    @endif
                                 </select>
+                                <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()">
+                                    <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初期化
+                                </a>
                                 <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>份工资单</strong>
                             </div>
                             <div class="col-md-5" style="padding:unset!important">
                                 <div class="btn-group f-right">
+                                    
                                     <a onclick="javascript:openAddPage();" class="btn btn-sm btn-primary btn-add" style="width: 80px" data-toggle="modal">
                                         <i class="icon-plus"></i>{{ trans('common.label.add') }}
                                     </a>
@@ -83,10 +93,10 @@ $isHolder = Session::get('IS_HOLDER');
                                             <th class="text-center style-normal-header" style="width: 7%;"><span>上船日期</span></th>
                                             <th class="text-center style-normal-header" style="width: 7%;"><span>下船/截止日期</span></th>
                                             <th class="text-center style-normal-header" style="width: 4%;"><span>在船天数</span></th>
-                                            <th class="text-center style-normal-header" style="width: 6%;"><span>扣款</span></th>
+                                            <th class="text-center style-normal-header" style="width: 5%;"><span>扣款</span></th>
                                             <th class="text-center style-normal-header" style="width: 8%;"><span>家汇款<br>(¥)</span></th>
                                             <th class="text-center style-normal-header" style="width: 8%;"><span>家汇款<br>($)</span></th>
-                                            <th class="text-center style-normal-header" style="width: 8%;"><span>支付日期</span></th>
+                                            <th class="text-center style-normal-header" style="width: 9%;"><span>支付日期</span></th>
                                             <th class="text-center style-normal-header" style="width: 9%;"><span>备注</span></th>
                                             <th class="text-center style-normal-header" style="width: 19%;"><span>银行账户</span></th>
                                             <th class="text-center" style=""></th>
@@ -507,7 +517,6 @@ $isHolder = Session::get('IS_HOLDER');
                 }
             }
             $('#select-month').html(months);
-
             origForm = "";
             selectInfo();
         }
@@ -622,6 +631,31 @@ $isHolder = Session::get('IS_HOLDER');
                 if (result) {
                     $(e).closest("tr").remove();
                     calcReport();
+                }
+            });
+        }
+
+        function init()
+        {
+            alertAudio();
+            bootbox.confirm("Are you sure you want to init?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: BASE_URL + 'ajax/shipMember/wage/initCalc',
+                        type: 'POST',
+                        data: {'shipId':shipId,'year':year,'month':month},
+                        success: function(result) {
+                            listTable.ajax.reload();
+                            $.gritter.add({
+                                title: '成功',
+                                text: '初期化成功!',
+                                class_name: 'gritter-success'
+                            });
+                            return;
+                        },
+                        error: function(error) {
+                        }
+                    });
                 }
             });
         }
@@ -787,7 +821,6 @@ $isHolder = Session::get('IS_HOLDER');
                     tab.rows[j].childNodes[11].innerHTML = info;
                     info = real_tab.rows[j].childNodes[12].childNodes[0].value;
                     tab.rows[j].childNodes[12].innerHTML = info;
-                    
                 }
                 
                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
