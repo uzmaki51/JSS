@@ -263,7 +263,9 @@
     <script>
         var searchObj = null;
         var shipId = '{!! $shipId !!}';
-        var shipInfo = JSON.parse('{!! $shipInfo !!}');
+        var shipInfo = '{!! $shipInfo !!}';
+        shipInfo=shipInfo.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
+        shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
         var DYNAMIC_SUB_DISCH = '{!! DYNAMIC_SUB_DISCH !!}';
