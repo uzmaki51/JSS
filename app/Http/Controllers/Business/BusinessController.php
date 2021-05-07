@@ -49,6 +49,7 @@ use App\Models\ShipManage\Ship;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipMember\ShipMember;
 use App\Models\Convert\VoyLog;
+use Illuminate\Support\Facades\DB;
 
 // 일정계획
 use App\Models\Schedule;
@@ -4110,18 +4111,38 @@ class BusinessController extends Controller {
     public function ajaxDynamicList(Request $request) {
         $params = $request->all();
 
-        if(isset($params['shipId']) && isset($params['voyId'])) {
+        if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
-            $voyId = $params['voyId'];
         } else {
             return redirect()->back();
         }
 
-        $prevData = [];
-        $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc')->first();
-        $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('CP_ID', 'desc')->first();
-        $retVal['currentData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->get();
-        $retVal['max_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->first();
+        $voyTbl = VoyLog::where('Ship_ID', $shipId);
+        $voyTbl2 = VoyLog::where('Ship_ID', $shipId);
+        if(isset($params['type']) && isset($params['type']) != '') {
+            if($params['type'] == 'all') {
+                $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
+                $voyTbl2->orderBy('Voy_Date', 'asc');
+            } else {
+
+            }
+        }
+
+        if(isset($params['year']) && $params['year'] != '') {
+            $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
+            $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'asc');
+        }
+
+        if(isset($params['voy_id']) && $params['voy_id'] != '') {
+            $voyTbl->where('CP_ID', $params['voy_id']);
+            $voyTbl2->where('CP_ID', '<', $params['voy_id'])->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc');
+        }
+
+
+        $retVal['prevData'] = $voyTbl2->first();
+        $retVal['min_date'] = $voyTbl2->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('CP_ID', 'desc')->first();
+        $retVal['currentData'] = $voyTbl->get();
+        $retVal['max_date'] = $voyTbl->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->first();
 
         if($retVal['min_date'] == false || $retVal['min_date'] == null)
             $retVal['min_date'] = false;
@@ -4136,7 +4157,6 @@ class BusinessController extends Controller {
         return response()->json($retVal);
     }
 
-    
     public function ajaxVoyAllList(Request $request) {
         $params = $request->all();
         $shipId = $params['shipId'];

@@ -461,6 +461,35 @@ class ShipRegController extends Controller
 
     }
 
+    public function dynamicList(Request $request) {
+        $params = $request->all();
+        $shipName = '';
+		if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else {
+            $firstShipInfo = ShipRegister::first();
+            if($firstShipInfo == null && $firstShipInfo == false)
+                return redirect()->back();
+
+            $shipId = $firstShipInfo->IMO_No;
+        }
+
+        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        if($shipInfo == null || $shipInfo == false)
+            return redirect()->back();
+        else {
+            $shipName = $shipInfo->shipName_En;
+        }
+
+        $shipList = ShipRegister::all();
+        return view('shipManage.dynamic_list', [
+            'shipList'          => $shipList,
+            'shipInfo'          => $shipInfo,
+            'shipId'            => $shipId,
+            'shipName'          => $shipName,
+        ]);
+    }
+
     public function shipDataTabPage(Request $request) {
         $shipId = $request->get('shipId');
         $tabName = $request->get('tabName');

@@ -107,7 +107,7 @@
                                 <th class="text-center font-style-italic" colspan="2">TIME[LT]</th>
                                 <th class="text-center font-style-italic" rowspan="2">GMT</th>
                                 <th class="text-center font-style-italic">STATUS</th>
-                                <th class="text-center font-style-italic">动态</th>
+                                <th class="text-center">状态</th>
                                 <th class="text-center font-style-italic">POSITION</th>
                                 <th class="text-center font-style-italic">DTG[NM]</th>
                                 <th class="text-center font-style-italic">SPEED</th>
@@ -122,7 +122,7 @@
                                 <th class="text-center font-style-italic">YY/MM/DD</th>
                                 <th class="text-center font-style-italic">hh</th>
                                 <th class="text-center font-style-italic">mm</th>
-                                <th class="text-center font-style-italic">动态</th>
+                                <th class="text-center">动态</th>
                                 <th class="text-center">种类</th>
                                 <th class="text-center">港口(坐标)</th>
                                 <th class="text-center">距离</th>
@@ -154,36 +154,36 @@
                                 <td class="text-center font-weight-bold text-danger">@{{ prevData['ROB_DO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_FO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_DO'] }}</td>
-                                <td class="text-center">@{{ prevData['Remark'] }}</td>
+                                <td>@{{ prevData['Remark'] }}</td>
                             </tr>
                             <template v-for="(currentItem, index) in currentData">
                                 <tr>
                                     <td class="d-none"><input type="hidden" :value="currentItem.id" name="id[]"></td>
                                     <td class="text-center voy-td"><input type="text" disabled  v-model="activeVoy" name="CP_ID[]" class="form-control text-center"></td>
                                     <td class="text-center date-width"><input type="text" class="date-picker form-control text-center" name="Voy_Date[]" v-model="currentItem.Voy_Date" @click="dateModify($event, index)" data-date-format="yyyy-mm-dd"></td>
-                                    <td class="time-width"><input type="number" class="form-control text-center" name="Voy_Hour[]" v-model="currentItem.Voy_Hour" @click="addRow"></td>
-                                    <td class="time-width"><input type="number" class="form-control text-center" name="Voy_Minute[]" v-model="currentItem.Voy_Minute" @click="addRow"></td>
-                                    <td class="time-width"><input type="number" class="form-control text-center" name="GMT[]" v-model="currentItem.GMT" @click="addRow"></td>
+                                    <td class="time-width"><input type="number" class="form-control text-center" name="Voy_Hour[]" v-model="currentItem.Voy_Hour" @blur="limitHour($event, index)" @keyup="limitHour($event, index)"></td>
+                                    <td class="time-width"><input type="number" class="form-control text-center" name="Voy_Minute[]" v-model="currentItem.Voy_Minute" @blur="limitMinute($event, index)" @keyup="limitMinute($event, index)"></td>
+                                    <td class="time-width"><input type="number" class="form-control text-center" name="GMT[]" v-model="currentItem.GMT"></td>
                                     <td>
                                         <select type="number" class="form-control" name="Voy_Status[]" v-model="currentItem.Voy_Status" @change="onChangeStatus($event, index)" style="width: 120px;">
                                             <option v-for="(item, index) in dynamicStatus" v-bind:value="index">@{{ item[0] }}</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select type="number" class="form-control" name="Voy_Type[]" v-model="currentItem.Voy_Type" style="width: 55px;" @change="addRow">
+                                        <select type="number" class="form-control" name="Voy_Type[]" v-model="currentItem.Voy_Type" style="width: 55px;">
                                             <option v-for="(item, index) in currentItem.dynamicSub" v-bind:value="item[0]">@{{ item[1] }}</option>
                                         </select>
                                     </td>
-                                    <td class="position-width"><input type="text" maxlength="25" class="form-control" name="Ship_Position[]" v-model="currentItem.Ship_Position" @click="addRow"></td>
-                                    <td><input type="number" max="100000" class="form-control text-center" name="Sail_Distance[]" v-model="currentItem.Sail_Distance" @click="addRow"></td>
-                                    <td><input type="number" class="form-control text-center" name="Speed[]" v-model="currentItem.Speed" @click="addRow"></td>
-                                    <td><input type="number" class="form-control text-center" name="RPM[]" v-model="currentItem.RPM" @click="addRow"></td>
-                                    <td><input type="number" class="form-control text-right font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty[]" v-model="currentItem.Cargo_Qtty" @click="addRow"></td>
-                                    <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO[]" v-model="currentItem.ROB_FO" @click="addRow"></td>
-                                    <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO" @click="addRow"></td>
-                                    <td><input type="number" class="form-control text-center" name="BUNK_FO[]" v-model="currentItem.BUNK_FO" @click="addRow"></td>
-                                    <td><input type="number" class="form-control text-center" name="BUNK_DO[]" v-model="currentItem.BUNK_DO" @click="addRow"></td>
-                                    <td class="position-width"><input type="text" class="form-control" name="Remark[]" maxlength="50" v-model="currentItem.Remark" @click="addRow"></td>
+                                    <td class="position-width"><input type="text" maxlength="25" class="form-control" name="Ship_Position[]" v-model="currentItem.Ship_Position" autocomplete="off"></td>
+                                    <td><input type="number" max="100000" class="form-control text-center" name="Sail_Distance[]" v-model="currentItem.Sail_Distance"></td>
+                                    <td><input type="number" class="form-control text-center" name="Speed[]" v-model="currentItem.Speed"></td>
+                                    <td><input type="number" class="form-control text-center" name="RPM[]" v-model="currentItem.RPM"></td>
+                                    <td><input type="number" class="form-control text-right font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty[]" v-model="currentItem.Cargo_Qtty"></td>
+                                    <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO[]" v-model="currentItem.ROB_FO"></td>
+                                    <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO"></td>
+                                    <td><input type="number" class="form-control text-center" name="BUNK_FO[]" v-model="currentItem.BUNK_FO"></td>
+                                    <td><input type="number" class="form-control text-center" name="BUNK_DO[]" v-model="currentItem.BUNK_DO"></td>
+                                    <td class="position-width"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" maxlength="50" v-on:keyup="addRow" autocomplete="off">@{{ currentItem.Remark }}</textarea></td>
                                 </tr>
                             </template>
                             </tbody>
@@ -406,6 +406,15 @@
                                         searchObj.bunker_fo += value['BUNK_FO'];
                                         searchObj.bunker_do += value['BUNK_DO'];
 
+                                        searchObj.currentData[key]['Sail_Distance'] = parseFloat(value['Sail_Distance']) == 0 ? '' : value['Sail_Distance'];
+                                        searchObj.currentData[key]['Speed'] = parseFloat(value['Speed']) == 0 ? '' : value['Speed'];
+                                        searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty']) == 0 ? '' : value['Cargo_Qtty'];
+                                        searchObj.currentData[key]['RPM'] = parseFloat(value['RPM']) == 0 ? '' : value['RPM'];
+                                        searchObj.currentData[key]['ROB_FO'] = parseFloat(value['ROB_FO']) == 0 ? '' : value['ROB_FO'];
+                                        searchObj.currentData[key]['ROB_DO'] = parseFloat(value['ROB_DO']) == 0 ? '' : value['ROB_DO'];
+                                        searchObj.currentData[key]['BUNK_FO'] = parseFloat(value['BUNK_FO']) == 0 ? '' : value['BUNK_FO'];
+                                        searchObj.currentData[key]['BUNK_DO'] = parseFloat(value['BUNK_DO']) == 0 ? '' : value['BUNK_DO'];
+
                                         if(key > 0) {
                                             // Calc Sail Count
                                             if(value['Voy_Type'] == DYNAMIC_SUB_SALING) {
@@ -527,8 +536,9 @@
 
                         return today;
                     },
-                    addRow: function() {
-                        this.setDefaultData();
+                    addRow: function(e) {
+                        if(e.keyCode == 13)
+                            this.setDefaultData();
                     },
                     setDefaultData() {
                         let length = searchObj.currentData.length;
@@ -541,6 +551,20 @@
                         searchObj.currentData[length]['Voy_Minute'] = 0;
                         searchObj.currentData[length]['Voy_Date'] = this.getToday('-');
                         searchObj.$forceUpdate();
+                    },
+                    limitHour: function(e, index) {
+                        let val = e.target.value;
+                        if(val > 25)
+                            this.currentData[index]['Voy_Hour'] = 23;
+                        if(val < 0)
+                            this.currentData[index]['Voy_Hour'] = 1;
+                    },
+                    limitMinute: function(e, index) {
+                        let val = e.target.value;
+                        if(val > 60)
+                            this.currentData[index]['Voy_Minute'] = 59;
+                        if(val < 0)
+                            this.currentData[index]['Voy_Minute'] = 1;
                     }
                 },
                 updated() {
@@ -611,6 +635,7 @@
             console.log(parseFloat(diffDay.div(24).toFixed(2)));
             return parseFloat(diffDay.div(24));
         }
+
     </script>
 
 @endsection

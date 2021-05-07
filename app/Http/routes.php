@@ -409,7 +409,7 @@ Route::group(['prefix' => 'operation'], function() {
 
 // 배등록
 Route::group(['prefix' => 'shipManage'], function() {
-	Route:get('/', ['uses'=>'ShipManage\ShipRegController@index']);
+	Route::get('/', ['uses'=>'ShipManage\ShipRegController@index']);
 	Route::get('shipinfo', ['uses'=>'ShipManage\ShipRegController@loadShipGeneralInfos']);
 	Route::get('registerShipData', ['uses'=>'ShipManage\ShipRegController@registerShipData']);
 	Route::post('deleteShipData', ['uses'=>'ShipManage\ShipRegController@deleteShipData']);
@@ -426,6 +426,9 @@ Route::group(['prefix' => 'shipManage'], function() {
 	Route::post('deleteShipSafetyData', ['uses'=>'ShipManage\ShipRegController@deleteShipSafetyData']);
 	Route::post('uploadShipPicture', ['uses'=>'ShipManage\ShipRegController@uploadShipPicture']);
 	Route::post('deleteShipPhotoImage', ['uses'=>'ShipManage\ShipRegController@deleteShipPhotoImage']);
+
+	// Daily Report
+	Route::get('dynamicList', ['uses'=>'ShipManage\ShipRegController@dynamicList']);
 
 	Route::get('shipCertList', ['uses'=>'ShipManage\ShipRegController@shipCertList']);
 	Route::post('shipCertList', ['uses'=>'ShipManage\ShipRegController@saveShipCertList']);
