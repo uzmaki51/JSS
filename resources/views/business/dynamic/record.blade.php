@@ -116,6 +116,7 @@
                                 <th class="text-center font-style-italic" colspan="2">ROB</th>
                                 <th class="text-center font-style-italic" colspan="2">BUNKERING</th>
                                 <th class="text-center font-style-italic">REMARK</th>
+                                <th></th>
                             </tr>
                             <tr>
                                 <th class="text-center">航次</th>
@@ -134,6 +135,7 @@
                                 <th class="text-center font-style-italic">FO</th>
                                 <th class="text-center font-style-italic">DO</th>
                                 <th class="text-center"></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -155,6 +157,7 @@
                                 <td class="text-center">@{{ prevData['BUNK_FO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_DO'] }}</td>
                                 <td>@{{ prevData['Remark'] }}</td>
+                                <td></td>
                             </tr>
                             <template v-for="(currentItem, index) in currentData">
                                 <tr>
@@ -184,6 +187,13 @@
                                     <td><input type="number" class="form-control text-center" name="BUNK_FO[]" v-model="currentItem.BUNK_FO"></td>
                                     <td><input type="number" class="form-control text-center" name="BUNK_DO[]" v-model="currentItem.BUNK_DO"></td>
                                     <td class="position-width"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" maxlength="50" v-on:keyup="addRow" autocomplete="off">@{{ currentItem.Remark }}</textarea></td>
+                                    <td class="text-center">
+                                        <div class="action-buttons">
+                                            <a class="red" @click="deleteItem(currentItem.id, index)">
+                                                <i class="icon-trash" style="color: red!important;"></i>
+                                            </a>
+                                        </div>
+                                    </td>
                                 </tr>
                             </template>
                             </tbody>
@@ -500,7 +510,7 @@
                     },
                     onChangeStatus: function(e, index) {
                         let voyStatus = $(e.target).val();
-                        searchObj.currentData[index]['dynamicSub'] = getSubList(voyStatus);console.log(index);
+                        searchObj.currentData[index]['dynamicSub'] = getSubList(voyStatus);
                         searchObj.currentData[index]['Voy_Type'] = getSubList(voyStatus)[0][0];
                         searchObj.$forceUpdate();
                     },
@@ -518,7 +528,6 @@
                         $this.forEach(function(value, key) {
                             if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_DISCH) {
                                 if($this[key]['Cargo_Qtty'] == 0) {
-                                    console.log(key, $this[key]['ROB_FO'] , $this[key]['ROB_DO'] );
                                     if($this[key]['ROB_FO'] == undefined || $this[key]['ROB_DO'] == undefined) {
                                         retVal = false;
                                     }
@@ -551,7 +560,11 @@
                         searchObj.currentData[length]['GMT'] = 8;
                         searchObj.currentData[length]['Voy_Hour'] = 8;
                         searchObj.currentData[length]['Voy_Minute'] = 0;
-                        searchObj.currentData[length]['Voy_Date'] = this.getToday('-');
+                        if(length > 0)
+                            searchObj.currentData[length]['Voy_Date'] = searchObj.currentData[length - 1]['Voy_Date'];
+                        else 
+                            searchObj.currentData[length]['Voy_Date'] = this.getToday('-');
+
                         searchObj.$forceUpdate();
                     },
                     limitHour: function(e, index) {
@@ -567,6 +580,27 @@
                             this.currentData[index]['Voy_Minute'] = 59;
                         if(val < 0)
                             this.currentData[index]['Voy_Minute'] = 1;
+                    },
+                    deleteItem: function(id, index) {
+                        __alertAudio();
+                        if (id != undefined) {
+                            bootbox.confirm("Are you sure you want to delete?", function (result) {
+                                if (result) {
+                                    $.ajax({
+                                        url: BASE_URL + 'ajax/business/dynrecord/delete',
+                                        type: 'post',
+                                        data: {
+                                            id: id,
+                                        },
+                                        success: function (data, status, xhr) {
+                                            searchObj.currentData.splice(index, 1);
+                                        }
+                                    })
+                                }
+                            });
+                        } else {
+                            searchObj.currentData.splice(index, 1);
+                        }                        
                     }
                 },
                 updated() {
@@ -634,7 +668,7 @@
             currentDate = BigNumber(currentDate).minus(currentGMT).div(DAY_UNIT);
             prevDate = BigNumber(prevDate).minus(prevGMT).div(DAY_UNIT);
             diffDay = currentDate.minus(prevDate);
-            console.log(parseFloat(diffDay.div(24).toFixed(2)));
+
             return parseFloat(diffDay.div(24));
         }
 

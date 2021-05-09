@@ -271,7 +271,7 @@ define('DYNAMIC_DEPARTURE', 		1);
 define('DYNAMIC_SAILING', 			2);
 define('DYNAMIC_ANCHORING', 		3);
 define('DYNAMIC_ARRIVAL', 			4);
-define('DYNAMIC_POB', 				5);
+define('DYNAMIC_POB', 				18);
 define('DYNAMIC_BERTH', 			6);
 define('DYNAMIC_UNBERTH', 			7);
 define('DYNAMIC_CMNC', 				8);
@@ -284,7 +284,7 @@ define('DYNAMIC_STOP', 				14);
 define('DYNAMIC_RESUME', 			15);
 define('DYNAMIC_DOCKING', 			16);
 define('DYNAMIC_UNDOCKING', 		17);
-define('DYNAMIC_WAITING', 			18);
+define('DYNAMIC_WAITING', 			5);
 
 $DynamicStatus = array(
 	DYNAMIC_DEPARTURE 			=> ['DEPARTURE', [

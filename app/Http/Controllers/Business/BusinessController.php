@@ -4184,4 +4184,13 @@ class BusinessController extends Controller {
 
         return response()->json($cp_list);
     }
+
+    function ajaxDeleteDynrecord(Request $request) {
+        $params = $request->all();
+
+        $id = $params['id'];
+        $ret = VoyLog::where('id', $id)->delete();
+
+        return response()->json($ret);
+    }
 }

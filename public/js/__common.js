@@ -195,3 +195,7 @@ $(".modal-draggable").draggable({
 	revert: "invalid",
 	revert: false
 });
+
+function __alertAudio() {
+    document.getElementById('warning-audio').play();
+}

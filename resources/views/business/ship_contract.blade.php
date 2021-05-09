@@ -531,7 +531,7 @@ $ships = Session::get('shipList');
                         }
                     },
                     deleteItem: function(id) {
-                        alertAudio();
+                        __alertAudio();
                         bootbox.confirm("Are you sure you want to delete?", function (result) {
                             if (result) {
                                 isChangeStatus = true;
@@ -575,7 +575,7 @@ $ships = Session::get('shipList');
                     if(index == undefined || index == '')
                         return false;
 
-                    alertAudio();
+                    __alertAudio();
                     bootbox.confirm("Are you sure you want to delete?", function (result) {
                         if (result) {
                             isChangeStatus = true;
@@ -631,7 +631,7 @@ $ships = Session::get('shipList');
                     if(index == undefined || index == '')
                         return false;
 
-                    alertAudio();
+                    __alertAudio();
                     bootbox.confirm("Are you sure you want to delete?", function (result) {
                         if (result) {
                             isChangeStatus = true;
@@ -869,10 +869,6 @@ $ships = Session::get('shipList');
                 tcInputObjTmp = JSON.parse(JSON.stringify(tcInputObj.input));
             }
         });
-    }
-
-    function alertAudio() {
-        document.getElementById('warning-audio').play();
     }
 
     function changeTab(type) {

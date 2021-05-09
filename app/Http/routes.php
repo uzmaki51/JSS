@@ -123,6 +123,7 @@ Route::group(['prefix' => 'ajax'], function() {
 
 	Route::post('business/dynamic', ['uses'	=> 'Business\BusinessController@ajaxDynamic']);
 	Route::post('business/dynamic/list', ['uses'	=> 'Business\BusinessController@ajaxDynamicList']);
+	Route::post('business/dynrecord/delete', ['uses'	=> 'Business\BusinessController@ajaxDeleteDynrecord']);
 	Route::post('business/voy/list', ['uses'	=> 'Business\BusinessController@ajaxVoyAllList']);
 
 	
