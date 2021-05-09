@@ -58,7 +58,7 @@ $ships = Session::get('shipList');
                                 <a href="#modal-wizard" class="only-cargo-modal-show d-none" role="button" data-toggle="modal"></a>
                                 <a href="#modal-port-wizard" class="only-port-modal-show d-none" role="button" data-toggle="modal"></a>
                                 @if(!$isHolder)
-                                    <button class="btn btn-sm btn-warning" id="submit">
+                                    <button class="btn btn-sm btn-success" id="submit">
                                         <i class="icon-save"></i>保存
                                     </button>
                                 @endif
