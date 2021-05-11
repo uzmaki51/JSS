@@ -134,6 +134,9 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('system/backup/backup', ['uses'=>'OrgManage\BackupController@backup']);
 	Route::post('system/backup/restore', ['uses'=>'OrgManage\BackupController@restore']);
 
+	Route::post('finance/books/list', ['uses'=>'Finance\FinanceController@getBookList']);
+	Route::post('finance/books/save', ['uses'=>'Finance\FinanceController@saveBookList']);
+
 });
 
 // Administrative Affairs
@@ -274,6 +277,11 @@ Route::group(['prefix' => 'business'], function() {
 	Route::any('shipMemberYearReportPrint', ['uses'=>'PrintController@shipMemberYearReportPrint']);
 	Route::any('memberMonthAttendPrint', ['uses'=>'PrintController@memberMonthAttendPrint']);
 	Route::any('shipMemberMonthAttendPrint', ['uses'=>'PrintController@shipMemberMonthAttendPrint']);
+});
+
+// Administrative Affairs
+Route::group(['prefix' => 'finance'], function() {
+	Route::get('books', ['uses' => 'Finance\FinanceController@books']);
 });
 
 //게시판관련
