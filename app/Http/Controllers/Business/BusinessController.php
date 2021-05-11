@@ -134,6 +134,11 @@ class BusinessController extends Controller {
             $shipId = $firstShipInfo->IMO_No;
         }
 
+        $voyId = '';
+        if(isset($params['voyNo']) && isset($params['voyNo']) != '' && isset($params['voyNo']) != 0) {
+            $voyId = $params['voyNo'];
+        }
+
         $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
         if($shipInfo == null || $shipInfo == false)
             return redirect()->back();
@@ -147,6 +152,7 @@ class BusinessController extends Controller {
             'shipInfo'          => $shipInfo,
             'shipId'            => $shipId,
             'shipName'          => $shipName,
+            'voyId'             => $voyId,
         ]);
     }
 
@@ -191,7 +197,7 @@ class BusinessController extends Controller {
             $voyLog->save();            
         }
 
-        return redirect()->back();
+        return redirect('/business/dynRecord?shipId=' . $shipId . '&voyNo=' . $CP_ID);
     }
     
     
@@ -4108,40 +4114,28 @@ class BusinessController extends Controller {
         return response()->json($retVal);
     }
 
+
     public function ajaxDynamicList(Request $request) {
         $params = $request->all();
 
-        if(isset($params['shipId'])) {
+        if(isset($params['shipId']) && isset($params['voyId'])) {
             $shipId = $params['shipId'];
+            $voyId = $params['voyId'];
         } else {
             return redirect()->back();
         }
 
-        $voyTbl = VoyLog::where('Ship_ID', $shipId);
-        $voyTbl2 = VoyLog::where('Ship_ID', $shipId);
-        if(isset($params['type']) && isset($params['type']) != '') {
-            if($params['type'] == 'all') {
-                $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
-                $voyTbl2->orderBy('Voy_Date', 'asc');
-            } else {
+        $prevData = [];
+        $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc')->first();
+        $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('CP_ID', 'desc')->first();
+        $retVal['currentData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->get();
+        $retVal['max_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->first();
 
-            }
-        }
-
-        if(isset($params['voyId']) && $params['voyId'] != '') {
-            $voyTbl->where('CP_ID', $params['voyId']);
-            $voyTbl2->where('CP_ID', '<', $params['voyId'])->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc');
-        }
-
-
-        $retVal['prevData'] = $voyTbl2->first();
-        $retVal['min_date'] = $voyTbl2->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('CP_ID', 'desc')->first();
-        $retVal['currentData'] = $voyTbl->get();
-        $retVal['max_date'] = $voyTbl->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->first();
-
-        if($retVal['min_date'] == false || $retVal['min_date'] == null)
-            $retVal['min_date'] = false;
-        else 
+        if($retVal['min_date'] == false || $retVal['min_date'] == null) {
+            $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->first();
+            if($retVal['min_date'] == null)
+                $retVal['min_date'] = false;
+        } else 
             $retVal['min_date'] = $retVal['min_date'];
 
         if($retVal['max_date'] == false || $retVal['max_date'] == null)

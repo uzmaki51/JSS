@@ -18,10 +18,8 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="space-6"></div>
-                    <div class="col-lg-3"></div>
                     <div class="col-lg-3">
                         <label class="search-label font-bold" style="float:left;padding-top:7px;">{{ transDecideManage("captions.ship_name") }}:</label>
-                        <!--input type="text" class="search-input" id="ship_name"-->
                         <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
                             @if(isset($shipList))
                                 @foreach($shipList as $key => $item)
@@ -37,6 +35,7 @@
                         <input class="search-input date-picker" id="toDate" type="text" data-date-format="yyyy-mm-dd" style="height:25px;">
                         <i class="icon-calendar bigger-110 search-calendar"></i>
                     </div>
+                    <div class="col-lg-3"></div>
                     <div class="col-lg-2" style="padding:unset!important;">
                         <div class="btn-group f-right">
                             <button class="btn btn-sm btn-success no-radius" type="button" onclick="doSearch()">
@@ -198,7 +197,8 @@
 	echo 'var ReportTypeLabelData = ' . json_encode(g_enum('ReportTypeLabelData')) . ';';
 	echo 'var ReportTypeData = ' . json_encode(g_enum('ReportTypeData')) . ';';
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
-	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+    echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+    echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
 	echo '</script>';
 	?>
     <script>
@@ -250,6 +250,16 @@
                     $('td', row).eq(2).html('').append(
                         '<span>' + _convertDate(data['create_at']) + '</span>'
                     );
+
+                    if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
+                        $('td', row).eq(5).html('').append(
+                            '<span>' + FeeTypeData[data['flowid']][data['profit_type']] + '</span>'
+                        );  
+                    } else {
+                        $('td', row).eq(5).html('').append(
+                            ''
+                        );  
+                    }
 
                     if(data['currency'] != '') {
                         $('td', row).eq(7).html('').append(

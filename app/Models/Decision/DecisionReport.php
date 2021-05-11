@@ -85,7 +85,6 @@ class DecisionReport extends Model {
 
 			$records[$key]->shipName = $shipName;
 			$records[$key]->realname = $reporter;
-			$records[$key]->profit_type = $profit;
 			$records[$key]->voyNo = $voyName;
 
 		}

@@ -37,7 +37,7 @@
                         <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
                             @if(isset($shipList))
                                 @foreach($shipList as $key => $item)
-                                    <option value="{{ $item->id }}">{{ $item->NickName }}</option>
+                                    <option value="{{ $item->IMO_No }}">{{ $item->NickName }}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -118,7 +118,7 @@
                                                     <td class="custom-modal-td-label" >船名</td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="shipNo" class="form-control width-100" @change="onGetVoyNoList($event)" required v-model="currentShipNo">
-                                                            <option v-for="(item, index) in shipList" v-bind:value="item.shipID">@{{ item.shipName_Cn }}</option>
+                                                            <option v-for="(item, index) in shipList" v-bind:value="item.IMO_No">@{{ item.shipName_Cn }}</option>
                                                         </select>
                                                     </td>
 
@@ -138,7 +138,7 @@
                                                     <td class="custom-modal-td-label">收支种类</td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="profit_type" class="form-control width-100 transparent-input" required v-model="currentProfitType">
-                                                            <option v-for="(item, index) in profitType" v-bind:value="item.id">@{{ item.AC_Item_Cn }}</option>
+                                                            <option v-for="(item, index) in profitType" v-bind:value="index">@{{ item }}</option>
                                                         </select>
                                                     </td>
                                                 </tr>
@@ -231,7 +231,8 @@
 	echo 'var ReportTypeLabelData = ' . json_encode(g_enum('ReportTypeLabelData')) . ';';
 	echo 'var ReportTypeData = ' . json_encode(g_enum('ReportTypeData')) . ';';
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
-	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+    echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+    echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
 	echo '</script>';
 	?>
     <script>
@@ -387,18 +388,9 @@
         }
 
         function getProfit(profitType, selected) {
-            $.ajax({
-                url: BASE_URL + 'ajax/profit/list',
-                type: 'post',
-                data: {
-                    profitType: profitType
-                },
-                success: function(data, status, xhr) {
-                    reportObj.profitType = data;
-                    if(selected != false)
-                        reportObj.currentProfitType = selected;
-                }
-            })
+            reportObj.profitType = FeeTypeData[profitType];
+            if(selected != false)
+                reportObj.currentProfitType = selected;
         }
 
         function disableProfit(type, selected) {
@@ -598,6 +590,16 @@
                     $('td', row).eq(2).html('').append(
                         '<span>' + _convertDate(data['create_at']) + '</span>'
                     );
+                    
+                    if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
+                        $('td', row).eq(5).html('').append(
+                            '<span>' + FeeTypeData[data['flowid']][data['profit_type']] + '</span>'
+                        );  
+                    } else {
+                        $('td', row).eq(5).html('').append(
+                            ''
+                        );  
+                    }
 
                     if(data['currency'] != '') {
                         $('td', row).eq(7).html('').append(

@@ -57,7 +57,7 @@ class DecisionController extends Controller
 	// Draft List
 	public function draftReport(Request $request) {
 		Util::getMenuInfo($request);
-		$shipList = ShipRegister::getShipListByOrigin();
+		$shipList = ShipRegister::all();
 
 		return view('decision.draft_report', ['shipList'    => $shipList]);
 	}
@@ -204,11 +204,10 @@ class DecisionController extends Controller
 	public function ajaxReportData(Request $request) {
 		$params = $request->all();
 
-		$shipList = ShipRegister::getShipListByOrigin();
+		$shipList = ShipRegister::all();
 
 		if(isset($params['shipId'])) {
-			$shipRegNo = ShipRegister::find($params['shipId'])['RegNo'];
-			$voyList = VoyLog::where('ship_ID', $shipRegNo)->get();
+			$voyList = VoyLog::where('Ship_ID', $params['shipId'])->groupBy('CP_ID')->get();
 		} else {
 			$voyList = array();
 		}

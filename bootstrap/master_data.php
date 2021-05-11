@@ -55,16 +55,15 @@ $IssuerTypeData = array(
 	ISSUER_TYPE_EL      => '其他',
 );
 
-
 # FileUpload Status
 define('IS_FILE_KEEP',      0);
 define('IS_FILE_DELETE',    1);
 define('IS_FILE_UPDATE',    2);
 
 # IncomeData
-define('INCOME_UNIM',       '运费');
-define('INCOME_BODY_FEE',   '滞期费');
-define('INCOME_ELSE',       '其他收入');
+define('INCOME_UNIM',       '1');
+define('INCOME_BODY_FEE',   '2');
+define('INCOME_ELSE',       '3');
 $InComeData = array(
 	INCOME_UNIM         => '运费',
 	INCOME_BODY_FEE     => '滞期费',
@@ -97,6 +96,7 @@ $FeeTypeData = array(
 	REPORT_TYPE_CONTRACT           => [],
 	REPORT_TYPE_EVIDENCE_OUT       => $OutComeData,
 	REPORT_TYPE_EVIDENCE_IN        => $InComeData,
+	REPORT_TYPE_OTHER			   => []
 );
 # UserLabelInfo
 define('IS_STAFF',          0);

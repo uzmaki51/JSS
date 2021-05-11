@@ -164,9 +164,9 @@
                                     <td class="d-none"><input type="hidden" :value="currentItem.id" name="id[]"></td>
                                     <td class="text-center voy-td"><input type="text" disabled  v-model="activeVoy" name="CP_ID[]" class="form-control text-center"></td>
                                     <td class="text-center date-width"><input type="text" class="date-picker form-control text-center" name="Voy_Date[]" v-model="currentItem.Voy_Date" @click="dateModify($event, index)" data-date-format="yyyy-mm-dd"></td>
-                                    <td class="time-width"><input type="number" class="form-control text-center" name="Voy_Hour[]" v-model="currentItem.Voy_Hour" @blur="limitHour($event, index)" @keyup="limitHour($event, index)"></td>
-                                    <td class="time-width"><input type="number" class="form-control text-center" name="Voy_Minute[]" v-model="currentItem.Voy_Minute" @blur="limitMinute($event, index)" @keyup="limitMinute($event, index)"></td>
-                                    <td class="time-width"><input type="number" class="form-control text-center" name="GMT[]" v-model="currentItem.GMT"></td>
+                                    <td class="time-width"><input type="number" class="form-control text-center hour-input" name="Voy_Hour[]" v-model="currentItem.Voy_Hour" @blur="limitHour($event, index)" @keyup="limitHour($event, index)"></td>
+                                    <td class="time-width"><input type="number" class="form-control text-center minute-input" name="Voy_Minute[]" v-model="currentItem.Voy_Minute" @blur="limitMinute($event, index)" @keyup="limitMinute($event, index)"></td>
+                                    <td class="time-width"><input type="number" class="form-control text-center gmt-input" name="GMT[]" v-model="currentItem.GMT" @blur="limitGMT($event, index)" @keyup="limitGMT($event, index)"></td>
                                     <td>
                                         <select type="number" class="form-control" name="Voy_Status[]" v-model="currentItem.Voy_Status" @change="onChangeStatus($event, index)" style="width: 120px;">
                                             <option v-for="(item, index) in dynamicStatus" v-bind:value="index">@{{ item[0] }}</option>
@@ -273,6 +273,7 @@
     <script>
         var searchObj = null;
         var shipId = '{!! $shipId !!}';
+        var voyId = '{!! $voyId !!}';
         var shipInfo = '{!! $shipInfo !!}';
         shipInfo=shipInfo.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
         shipInfo = JSON.parse(shipInfo);
@@ -572,14 +573,21 @@
                         if(val > 25)
                             this.currentData[index]['Voy_Hour'] = 23;
                         if(val < 0)
-                            this.currentData[index]['Voy_Hour'] = 1;
+                            this.currentData[index]['Voy_Hour'] = 0;
                     },
                     limitMinute: function(e, index) {
                         let val = e.target.value;
                         if(val > 60)
                             this.currentData[index]['Voy_Minute'] = 59;
                         if(val < 0)
-                            this.currentData[index]['Voy_Minute'] = 1;
+                            this.currentData[index]['Voy_Minute'] = 0;
+                    },
+                    limitGMT: function(e, index) {
+                        let val = e.target.value;
+                        if(val > 10)
+                            this.currentData[index]['GMT'] = 9;
+                        if(val < 0)
+                            this.currentData[index]['GMT'] = 0;
                     },
                     deleteItem: function(id, index) {
                         __alertAudio();
@@ -609,11 +617,41 @@
                     }).next().on(ace.click_event, function () {
                         $(this).prev().focus();
                     });
+
+                    $('.hour-input').on('blur keyup', function() {
+                        let val = $(this).val();
+                        if(val > 25)
+                            $(this).val(23);
+                        if(val < 0)
+                            $(this).val(0);
+                    });
+
+                    $('.minute-input').on('blur keyup', function() {
+                        let val = $(this).val();
+                        if(val > 60)
+                            $(this).val(59);
+                        if(val < 0)
+                            $(this).val(0);
+                    });
+
+                    $('.gmt-input').on('blur keyup', function() {
+                        let val = $(this).val();
+                        if(val > 10)
+                            $(this).val(9);
+                        if(val < 0)
+                            $(this).val(0);
+                    });
+
+
                 }
             });
 
 
+            if(voyId != '')
+                searchObj.activeVoy = voyId;
+
             searchObj.shipId = shipId;
+            
             getInitInfo();
         }
 
@@ -627,7 +665,7 @@
                 success: function(result) {
                     searchObj.voy_list = [];
                     searchObj.voy_list = Object.assign([], [], result);
-                    if(searchObj.voy_list.length > 0) {
+                    if(searchObj.voy_list.length > 0 && voyId == '') {
                         searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
                     }
 
