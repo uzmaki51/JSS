@@ -4128,14 +4128,9 @@ class BusinessController extends Controller {
             }
         }
 
-        if(isset($params['year']) && $params['year'] != '') {
-            $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
-            $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'asc');
-        }
-
-        if(isset($params['voy_id']) && $params['voy_id'] != '') {
-            $voyTbl->where('CP_ID', $params['voy_id']);
-            $voyTbl2->where('CP_ID', '<', $params['voy_id'])->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc');
+        if(isset($params['voyId']) && $params['voyId'] != '') {
+            $voyTbl->where('CP_ID', $params['voyId']);
+            $voyTbl2->where('CP_ID', '<', $params['voyId'])->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc');
         }
 
 
@@ -4157,11 +4152,113 @@ class BusinessController extends Controller {
         return response()->json($retVal);
     }
 
+    public function ajaxDynamicSearch(Request $request) {
+        $params = $request->all();
+
+        if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else {
+            return redirect()->back();
+        }
+
+        $voyTbl = VoyLog::where('Ship_ID', $shipId);
+        $voyTbl2 = VoyLog::where('Ship_ID', $shipId);
+        if(isset($params['type']) && isset($params['type']) != '') {
+            if($params['type'] == 'all') {
+                $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
+                $voyTbl2->orderBy('Voy_Date', 'asc');
+
+                if(isset($params['year']) && $params['year'] != 0) {
+                    $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
+                    $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'asc');
+                }
+        
+                if(isset($params['voyId']) && $params['voyId'] != 0) {
+                    $voyTbl->where('CP_ID', $params['voyId']);
+                    $voyTbl2->where('CP_ID', '<', $params['voyId'])->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc');
+                }
+
+            } else {
+                if(isset($params['year']) && $params['year'] != 0) {
+                    $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
+                    $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'asc');
+                }
+        
+                $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
+                $voyTbl2->orderBy('Voy_Date', 'asc');
+            }
+        }
+
+        $retVal['min_date'] = $voyTbl2->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('CP_ID', 'desc')->first();
+        $retVal['currentData'] = $voyTbl->get();
+        $retVal['max_date'] = $voyTbl->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->first();
+
+        $retVal['prevData'] = $voyTbl2->first();
+        if($retVal['prevData'] == null || $retVal['prevData'] == false) {
+            if(isset($retVal['currentData']) && count($retVal['currentData']) > 0) {
+                $retVal['prevData'] = $retVal['currentData'][0];
+                $retVal['prevData']['Voy_Status'] = DYNAMIC_CMNC_DISCH;
+
+                $retVal['min_date'] = $retVal['currentData'][0];
+                $retVal['max_date'] = $retVal['currentData'][count($retVal['currentData']) - 1];
+            } else
+                $retVal['prevData'] = null;
+        }
+
+        if($params['type'] == 'analyze') {
+            $retTmp = [];
+            $voyArray = [];
+            $tmpVoyId = 0;
+            $cp_list = [];
+            foreach($retVal['currentData'] as $key => $item) {
+                if($tmpVoyId != $item->CP_ID) {
+                    $voyArray[] = $item->CP_ID;
+
+                    $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();
+                    foreach($cp_list as $cp_key => $cp_item) {
+                        $LPort = $cp_item->LPort;
+                        $LPort = explode(',', $LPort);
+                        $LPort = ShipPort::whereIn('id', $LPort)->get();
+                        $tmp = '';
+                        foreach($LPort as $port)
+                            $tmp .= $port->Port_En . ', ';
+                        $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
+            
+                        $DPort = $cp_item->DPort;
+            
+                        $DPort = $cp_item->DPort;
+                        $DPort = explode(',', $DPort);
+                        $DPort = ShipPort::whereIn('id', $DPort)->get();
+                        $tmp = '';
+                        foreach($DPort as $port)
+                            $tmp .= $port->Port_En . ', ';
+                        $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
+                    }
+                    $retVal['cpData'][$item->CP_ID] = $cp_list[0];
+                }
+
+                $retTmp[$item->CP_ID][] = $item;
+                $tmpVoyId = $item->CP_ID;
+                
+            }
+
+            $retVal['currentData'] = $retTmp;
+            $retVal['voyData'] = $voyArray;
+        }
+
+        return response()->json($retVal);
+    }    
+
     public function ajaxVoyAllList(Request $request) {
         $params = $request->all();
         $shipId = $params['shipId'];
 
-        $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
+        if(isset($params['year'])) {
+            $cp_list = CP::where('Ship_ID', $shipId)->whereRaw(DB::raw('mid(CP_Date, 1, 4) like ' . $params['year']))->orderBy('Voy_No', 'desc')->get();
+        } else {
+            $cp_list = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
+        }
+
         foreach($cp_list as $key => $item) {
             $LPort = $item->LPort;
             $LPort = explode(',', $LPort);
