@@ -871,3 +871,10 @@ footer {
 .table-layout-fixed {
     table-layout: fixed;
 }
+.voy-no {
+    background: #d9f8fb!important;
+    cursor: pointer;
+}
+.voy-no:hover {
+    background: #c5e9ec!important;
+}

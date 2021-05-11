@@ -39,62 +39,6 @@
             .chosen-drop {
                 width : 350px !important;
             }
-
-            .c3 path {
-            stroke-width: 3px;
-        }
-
-        #chartist-h-bars .ct-series-a line {
-            stroke: #81afe4;
-            /*stroke-width: 5px;
-            stroke-dasharray: 10px 20px;*/
-        }
-
-        #chartist-h-bars .ct-series-b line {
-            stroke: #f58787;
-        }
-
-        #chartist-h-bars .ct-series-c line {
-            stroke: #b5ce71;
-        }
-
-        #chartist-h-bars-02 .ct-series-b line {
-            stroke: #f58787;
-        }
-
-        #chartist-h-bars-02 .ct-series-c line {
-            stroke: #b5ce71;
-        }
-
-        #chartist-h-bars-02 .ct-series-a line {
-            stroke: #81afe4;
-        }
-
-        .ship-item:hover {
-            background-color: #ffe3e082;
-        }
-
-        .c3-legend-item text {
-            font-size:14px;
-        }
-        .c3-xgrid-line line {
-            stroke: blue;
-        }
-        .c3-xgrid-line.grid4 line {
-            stroke: pink;
-        }
-        .c3-xgrid-line.grid4 text {
-            fill: pink;
-        }
-        .c3-ygrid-line line {
-            stroke: red;
-        }
-        .c3-ygrid-line.grid800 line {
-            stroke: green;
-        }
-        .c3-ygrid-line.grid800 text {
-            fill: green;
-        }
         </style>
         <div class="page-header">
             <div class="col-md-3">
@@ -117,11 +61,11 @@
                         </select>
                         <div class="btn-group ml-1">
                             <div class="d-flex">
-                                <input type="radio" class="width-auto mt-0" id="all" name="record_type" @change="onTypeChange('all')" :checked="true">
+                                <input type="radio" class="width-auto mt-0" id="all" name="record_type" @change="onTypeChange('all')" :checked="record_type == 'all' ? 'true' : ''">
                                 <label for="all" class="ml-1">全部记录</label>
                             </div>
                             <div class="d-flex mt-2">
-                                <input type="radio" class="width-auto mt-0" id="analyze" name="record_type" @change="onTypeChange('analyze')">
+                                <input type="radio" class="width-auto mt-0" id="analyze" name="record_type" @change="onTypeChange('analyze')" :checked="record_type == 'analyze' ? 'true' : ''">
                                 <label for="analyze" class="ml-1">记录分析</label>
                             </div>
                         </div>
@@ -144,7 +88,7 @@
                     <div class="col-md-3">
                         <div class="d-flex f-left">
                             <strong class="f-right" style="font-size: 16px; padding-top: 6px;">
-                                <span id="search_info">"{{ $shipName }}"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">动态记录</span>
+                                <span id="search_info">"{{ $shipName }}"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ page_title }}</span>
                             </strong>
                         </div>
                     </div>
@@ -346,7 +290,7 @@
                             </tr>
                             <template v-for="(item, index) in analyze.list">
                             <tr class="dynamic-footer-result">
-                                <td>@{{ item.voy_no }}</td>
+                            <td class="voy-no" @click="onVoyDetail(item.voy_no)">@{{ item.voy_no }}</td>
                                 <td>@{{ item.voy_count }}</td>
                                 <td>@{{ item.voy_start }} ~ @{{ item.voy_end }}</td>
                                 <td>@{{ item.sail_time }}</td>
@@ -429,10 +373,10 @@
                     </table>
                 </div>
             </div>
+            <div v-show="record_type == 'analyze'">
+                <div id="economic-chart" style="height: 250px"></div>
+            </div>
             <!-- Main Contents End -->
-        </div>
-        <div>
-            <div id="economic-chart" style="height: 250px"></div>
         </div>
         <audio controls="controls" class="d-none" id="warning-audio">
             <source src="{{ cAsset('assets/sound/delete.wav') }}">
@@ -522,6 +466,7 @@
                     save_do:                0,
 
                     record_type:            'all',
+                    page_title:             '动态记录',
 
                     analyze: {
                         list: [],
@@ -567,8 +512,10 @@
                     onTypeChange(val) {
                         this.record_type = val;
                         if(this.record_type == 'all') {
+                            this.page_title = '动态记录'
                             this.getData();
                         } else {
+                            this.page_title = '动态记录分析'
                             this.getAnalyzeData();
                         }
                         
@@ -581,6 +528,13 @@
                         } else {
                             this.getAnalyzeData();
                         }
+                    },
+                    onVoyDetail(index) {
+                        this.activeVoy = index;
+                        this.record_type = 'all';
+                        this.$forceUpdate();
+                        this.setPortName();
+                        this.getData();
                     },
                     getAnalyzeData() {
                         let $_this = this.analyze.list;
@@ -740,7 +694,10 @@
 
                                     searchObj.analyze.list.push(realData);
                                     searchObj.analyze.xAxis.push(parseFloat(realData.economic_rate));
-                                    searchObj.analyze.xAxisLabel.push(realData['voy_no']);
+                                    let xAxisTmp = [];
+                                    xAxisTmp.push(realData['voy_no']);
+                                    xAxisTmp.push(realData['economic_rate']);
+                                    searchObj.analyze.xAxisLabel.push(xAxisTmp);
                                 });
 
                                 searchObj.analyze.total = footerData;
@@ -751,9 +708,7 @@
 
                                 $.plot($('#economic-chart'), [
                                     {
-                                    data: [
-                                        [ 6, 196 ], [ 7, 175 ], [ 8, 212 ], [ 9, 247 ], [ 10, 152 ], [ 11, 225 ], [ 12, 155 ], [ 13, 203 ], [ 14, 166 ], [ 15, 151 ]
-                                    ]
+                                        data: searchObj.analyze.xAxisLabel
                                     },
                                 ], {
                                     series: {
