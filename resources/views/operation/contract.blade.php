@@ -317,7 +317,7 @@ $isHolder = Session::get('IS_HOLDER');
                     if(state == 'error') {
                         $.gritter.add({
                             title: '错误',
-                            text: '穿名称和航次号码重复了。',
+                            text: '船名和航次号码重复了。',
                             class_name: 'gritter-error'
                         });
                     } else if(state == 'success') {

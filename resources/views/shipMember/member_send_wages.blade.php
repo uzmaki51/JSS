@@ -54,7 +54,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()">
                                         <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初期化
                                     </a>
-                                    <a id="btnSave" class="btn btn-sm btn-info" style="width: 80px">
+                                    <a id="btnSave" class="btn btn-sm btn-success" style="width: 80px">
                                         <i class="icon-save"></i>{{ trans('common.label.save') }}
                                     </a>
                                     <a onclick="javascript:fnExcelReport();" class="btn btn-warning btn-sm excel-btn">

@@ -69,7 +69,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <a onclick="javascript:openAddPage();" class="btn btn-sm btn-primary btn-add" style="width: 80px" data-toggle="modal">
                                         <i class="icon-plus"></i>{{ trans('common.label.add') }}
                                     </a>
-                                    <a id="btnSave" class="btn btn-sm btn-info" style="width: 80px">
+                                    <a id="btnSave" class="btn btn-sm btn-success" style="width: 80px">
                                         <i class="icon-save"></i>{{ trans('common.label.save') }}
                                     </a>
                                     <a onclick="javascript:fnExcelReport();" class="btn btn-warning btn-sm excel-btn">

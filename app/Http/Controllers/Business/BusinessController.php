@@ -220,7 +220,7 @@ class BusinessController extends Controller {
             $cpTbl = new CP;
         }
 
-        $isExist = CP::where('Voy_No', $Voy_No)->first();
+        $isExist = CP::where('Voy_No', $Voy_No)->where('Ship_Id', $shipId)->where('CP_kind', 'VOY')->first();
         if(!empty($isExist) && ($isExist['id'] != $voy_id) && $Voy_No != "") {
             return redirect()->back()->with(['status'=>'error']);
         }
@@ -326,7 +326,7 @@ class BusinessController extends Controller {
             $cpTbl = new CP;
         }
 
-        $isExist = CP::where('Voy_No', $Voy_No)->first();
+        $isExist = CP::where('Voy_No', $Voy_No)->where('Ship_Id', $shipId)->where('CP_kind', 'TC')->first();
         if(!empty($isExist) && ($isExist['id'] != $voy_id) && $Voy_No != "") {
             return redirect()->back()->with(['status'=>'error']);
         }
