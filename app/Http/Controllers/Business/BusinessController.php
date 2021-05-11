@@ -172,20 +172,20 @@ class BusinessController extends Controller {
             else
                 $voyLog['Voy_Date'] = null;
 
-            $voyLog['Voy_Hour'] = $params['Voy_Hour'][$key];
-            $voyLog['Voy_Minute'] = $params['Voy_Minute'][$key];
-            $voyLog['GMT'] = $params['GMT'][$key];
-            $voyLog['Voy_Type'] = $params['Voy_Type'][$key];
-            $voyLog['Voy_Status'] = $params['Voy_Status'][$key];
+            $voyLog['Voy_Hour'] = $params['Voy_Hour'][$key] == '' ? null : $params['Voy_Hour'][$key];
+            $voyLog['Voy_Minute'] = $params['Voy_Minute'][$key] == '' ? null : $params['Voy_Minute'][$key];
+            $voyLog['GMT'] = $params['GMT'][$key] == '' ? null : $params['GMT'][$key];
+            $voyLog['Voy_Type'] = $params['Voy_Type'][$key] == '' ? null : $params['Voy_Type'][$key];
+            $voyLog['Voy_Status'] = $params['Voy_Status'][$key] == '' ? null : $params['Voy_Status'][$key];
             $voyLog['Ship_Position'] = $params['Ship_Position'][$key];
-            $voyLog['Cargo_Qtty'] = $params['Cargo_Qtty'][$key];
-            $voyLog['Sail_Distance'] = $params['Sail_Distance'][$key];
-            $voyLog['Speed'] = $params['Speed'][$key];
-            $voyLog['RPM'] = $params['RPM'][$key];
-            $voyLog['ROB_FO'] = $params['ROB_FO'][$key];
-            $voyLog['ROB_DO'] = $params['ROB_DO'][$key];
-            $voyLog['BUNK_FO'] = $params['BUNK_FO'][$key];
-            $voyLog['BUNK_DO'] = $params['BUNK_DO'][$key];
+            $voyLog['Cargo_Qtty'] = $params['Cargo_Qtty'][$key] == '' ? null : $params['Cargo_Qtty'][$key];
+            $voyLog['Sail_Distance'] = $params['Sail_Distance'][$key] == '' ? null : $params['Sail_Distance'][$key];
+            $voyLog['Speed'] = $params['Speed'][$key] == '' ? null : $params['Speed'][$key];
+            $voyLog['RPM'] = $params['RPM'][$key] == '' ? null : $params['RPM'][$key];
+            $voyLog['ROB_FO'] = $params['ROB_FO'][$key] == '' ? null : $params['ROB_FO'][$key];
+            $voyLog['ROB_DO'] = $params['ROB_DO'][$key] == '' ? null : $params['ROB_DO'][$key];
+            $voyLog['BUNK_FO'] = $params['BUNK_FO'][$key] == '' ? null : $params['BUNK_FO'][$key];
+            $voyLog['BUNK_DO'] = $params['BUNK_DO'][$key] == '' ? null : $params['BUNK_DO'][$key];
             $voyLog['Remark'] = $params['Remark'][$key];
     
             $voyLog->save();            
