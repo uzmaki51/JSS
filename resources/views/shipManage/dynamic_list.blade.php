@@ -28,9 +28,17 @@
     <link rel="stylesheet" href="{{ cAsset('assets/js/chartjs/flot.css') }}">
     
     <script src="{{ cAsset('assets/js/chartjs/chartist.js') }}"></script>
+    <script src="{{ cAsset('assets/js/chartjs/chartjs.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/d3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/c3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/flot.js') }}"></script>
+    
+    <script>
+
+
+  
+    </script>
+    
     <div class="main-content">
         <style>
             .filter_row {
@@ -39,6 +47,7 @@
             .chosen-drop {
                 width : 350px !important;
             }
+            [v-cloak] { display: none; }
         </style>
         <div class="page-header">
             <div class="col-md-3">
@@ -47,9 +56,9 @@
                 </h4>
             </div>
         </div>
-        <div class="page-content" id="search-div">
+        <div class="page-content" id="search-div" v-cloak>
             <div class="row">
-                <div class="col-md-12 align-bottom" v-cloak>
+                <div class="col-md-12 align-bottom">
                     <div class="col-md-5">
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                         <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
@@ -180,7 +189,7 @@
                                 <td class="text-center">@{{ prevData['BUNK_DO'] }}</td>
                                 <td class="text-center">@{{ prevData['Remark'] }}</td>
                             </tr>
-                            <template v-for="(currentItem, index) in currentData">
+                            <template v-for="(currentItem, index) in currentData" v-cloak>
                                 <tr>
                                     <td class="d-none"><input type="hidden" :value="currentItem.id" name="id[]"></td>
                                     <td class="text-center voy-td">@{{ currentItem.CP_ID }}</td>
@@ -288,7 +297,7 @@
                                 <td class="text-center">供应</td>
                                 <td class="text-center">其他</td>
                             </tr>
-                            <template v-for="(item, index) in analyze.list">
+                            <template v-for="(item, index) in analyze.list" v-cloak>
                             <tr class="dynamic-footer-result">
                             <td class="voy-no" @click="onVoyDetail(item.voy_no)">@{{ item.voy_no }}</td>
                                 <td>@{{ item.voy_count }}</td>
@@ -314,7 +323,7 @@
                         </tbody>
                     </table>
 
-                    <table class="dynamic-result-table analyze-table" v-show="record_type == 'analyze'">
+                    <table class="dynamic-result-table analyze-table" v-show="record_type == 'analyze'" v-cloak>
                             <tbody>
                             <tr class="dynamic-footer">
                                 <td class="text-center" rowspan="2" style="width: 45px;">航次数</td>
@@ -373,9 +382,16 @@
                     </table>
                 </div>
             </div>
-            <div v-show="record_type == 'analyze'">
-                <div id="economic-chart" style="height: 250px"></div>
+            <div class="col-lg-12 mt2" v-show="record_type == 'analyze'" >
+                <div class="d-flex">
+                    <strong style="font-size: 16px; margin: 30px auto 10px;" class=>{{ $shipName }} @{{ activeYear == 0 ? '' : activeYear }}年经济日占率</p>
+                </div>
+                <div class="chart-div">
+                    
+                </div>
             </div>
+
+            
             <!-- Main Contents End -->
         </div>
         <audio controls="controls" class="d-none" id="warning-audio">
@@ -471,10 +487,8 @@
                     analyze: {
                         list: [],
                         total: [],
-                        xAxis: ['pv'],
-                        xAxisLabel: ['x'],
-                        yAxis: ['pv'],
-                        yAxisLabel: ['x'],
+                        xAxis: [],
+                        xAxisLabel: [],
                     }
                 },
                 init: function() {
@@ -512,7 +526,7 @@
                     onTypeChange(val) {
                         this.record_type = val;
                         if(this.record_type == 'all') {
-                            this.page_title = '动态记录'
+                            this.page_title = '动态记录';
                             this.getData();
                         } else {
                             this.page_title = '动态记录分析'
@@ -524,6 +538,8 @@
                         this.activeYear = e.target.value;
                         this.getVoyList(this.shipId);
                         if(this.record_type == 'all') {
+                            if(this.activeYear == 0)
+                                this.activeVoy = 0;
                             this.getData();
                         } else {
                             this.getAnalyzeData();
@@ -572,6 +588,8 @@
                                 footerData['total_repair_time'] = 0;
                                 footerData['total_supply_time'] = 0;
                                 footerData['total_else_time'] = 0;
+                                searchObj.analyze.xAxisLabel = [];
+                                searchObj.analyze.xAxis = [];
 
                                 voyData.forEach(function(value, key) {
                                     let tmpData = data[value];
@@ -593,8 +611,8 @@
                                     realData['voy_count'] = tmpData.length;
                                     realData['voy_start'] = tmpData[0]['Voy_Date'];
                                     realData['voy_end'] = tmpData[tmpData.length - 1]['Voy_Date'];
-                                    realData['lport'] = cpData[value]['LPort'];
-                                    realData['dport'] = cpData[value]['DPort'];
+                                    realData['lport'] = cpData[value]['LPort'] == false ? '-' : cpData[value]['LPort'];
+                                    realData['dport'] = cpData[value]['DPort'] == false ? '-' : cpData[value]['DPort'];
                                     realData['sail_time'] = __getTermDay(realData['voy_start'], realData['voy_end'], tmpData[0]['GMT'], tmpData[tmpData.length - 1]['GMT']);
 
                                     // searchObj.setTotalInfo(data);
@@ -693,11 +711,11 @@
                                     footerData['economic_rate'] = BigNumber(realData['loading_time']).plus(realData['disch_time']).plus(realData['total_sail_time']).div(realData['sail_time']).multipliedBy(100).div(voyData.length).toFixed(1);
 
                                     searchObj.analyze.list.push(realData);
-                                    searchObj.analyze.xAxis.push(parseFloat(realData.economic_rate));
                                     let xAxisTmp = [];
                                     xAxisTmp.push(realData['voy_no']);
                                     xAxisTmp.push(realData['economic_rate']);
-                                    searchObj.analyze.xAxisLabel.push(xAxisTmp);
+                                    searchObj.analyze.xAxisLabel.push(realData['voy_no']);
+                                    searchObj.analyze.xAxis.push(parseFloat(realData['economic_rate']));
                                 });
 
                                 searchObj.analyze.total = footerData;
@@ -706,35 +724,68 @@
                                 var gridBorder = '#eeeeee';
                                 var legendBg = '#f5f5f5';
 
-                                $.plot($('#economic-chart'), [
-                                    {
-                                        data: searchObj.analyze.xAxisLabel
+                                $('.chart-div').empty();
+                                $('.chart-div').append('<canvas id="economic-chart" height="250" class="chartjs-demo"></canvas>');
+                                
+
+                                var graphChart = new Chart(document.getElementById('economic-chart').getContext("2d"), {
+                                    type: 'line',
+                                    data: {
+                                        labels: searchObj.analyze.xAxisLabel,
+                                        datasets: [{
+                                            label:           '',
+                                            data:            searchObj.analyze.xAxis,
+                                            borderWidth:     3,
+                                            backgroundColor: 'rgba(255, 193, 7, 0.3)',
+                                            borderColor:     'red',
+                                            fill: false
+                                        }],
                                     },
-                                ], {
-                                    series: {
-                                    shadowSize: 0,
-                                    lines: {
-                                        show: true
-                                    },
-                                    points: {
-                                        show: true,
-                                        radius: 4
+
+                                    options: {
+                                        tooltips: {
+                                        callbacks: {
+                                            label: function(tooltipItem) {
+                                                    return tooltipItem.yLabel + '%';
+                                                }   
+                                            }
+                                        },
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        scales: {
+         xAxes: [{
+            barPercentage:1,
+            categoryPercentage:0.5,
+            gridLines:{
+               display:false
+            },
+            ticks: {
+               fontColor:"#8f9092"
+            }
+         }],
+         yAxes: [{
+            display: true,
+            scaleLabel: {
+               show: true
+            },
+            gridLines:{
+               color:"#ecedef"
+            },
+            ticks: {
+               beginAtZero:true,
+               stepSize: 1.3,
+               fontColor:"#8f9092",
+               callback:function(value) {
+                
+                     return value + '%';
+               }
+            }
+         }]
+        },
+      legend: {
+         position:'bottom'
+       }
                                     }
-                                    },
-
-                                    grid: {
-                                    color: gridColor,
-                                    borderColor: gridBorder,
-                                    borderWidth: 1,
-                                    hoverable: true,
-                                    clickable: true
-                                    },
-
-                                    xaxis: { tickColor: gridBorder, },
-                                    yaxis: { tickColor: gridBorder, },
-                                    legend: { backgroundColor: legendBg },
-                                    tooltip: { show: true },
-                                    colors: ["red"]
                                 });
                             }
                         });
@@ -797,6 +848,12 @@
                                                 total_waiting_time += __getTermDay(start_date, end_date, searchObj.currentData[preKey]['GMT'], value['GMT']);
                                             }
                                         }
+
+                                        if(searchObj.currentData[key]['Voy_Hour'] < 10)
+                                            searchObj.currentData[key]['Voy_Hour'] = "0" + searchObj.currentData[key]['Voy_Hour'];
+
+                                        if(searchObj.currentData[key]['Voy_Minute'] < 10)
+                                            searchObj.currentData[key]['Voy_Minute'] = "0" + searchObj.currentData[key]['Voy_Minute'];
                                     });
 
                                     searchObj.total_sail_time = total_sail_time.toFixed(2);
@@ -972,7 +1029,6 @@
             diffDay = currentDate.minus(prevDate);
             return parseFloat(diffDay.div(24));
         }
-        
 
     </script>
 

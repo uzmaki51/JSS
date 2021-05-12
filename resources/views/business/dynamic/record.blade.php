@@ -415,7 +415,9 @@
                                     searchObj.setTotalInfo(data);
                                     searchObj.currentData.forEach(function(value, key) {
                                         searchObj.currentData[key]['dynamicSub'] = getSubList(value['Voy_Status']);
-                                        searchObj.total_distance += parseInt(value["Sail_Distance"]);
+                                        if(isNaN(parseInt(value["Sail_Distance"])))
+                                            searchObj.total_distance += isNaN(parseInt(value["Sail_Distance"]));
+
                                         searchObj.bunker_fo += value['BUNK_FO'];
                                         searchObj.bunker_do += value['BUNK_DO'];
 
@@ -454,6 +456,13 @@
                                                 total_waiting_time += __getTermDay(start_date, end_date, searchObj.currentData[preKey]['GMT'], value['GMT']);
                                             }
                                         }
+
+                                        if(searchObj.currentData[key]['Voy_Hour'] < 10)
+                                            searchObj.currentData[key]['Voy_Hour'] = "0" + searchObj.currentData[key]['Voy_Hour'];
+
+                                        if(searchObj.currentData[key]['Voy_Minute'] < 10)
+                                            searchObj.currentData[key]['Voy_Minute'] = "0" + searchObj.currentData[key]['Voy_Minute'];
+                                        
                                     });
 
                                     searchObj.total_sail_time = total_sail_time.toFixed(2);
@@ -561,8 +570,8 @@
                         searchObj.currentData[length]['dynamicSub'] = getSubList(DYNAMIC_SAILING);
                         searchObj.currentData[length]['Voy_Type'] = DYNAMIC_SUB_SALING;
                         searchObj.currentData[length]['GMT'] = 8;
-                        searchObj.currentData[length]['Voy_Hour'] = 8;
-                        searchObj.currentData[length]['Voy_Minute'] = 0;
+                        searchObj.currentData[length]['Voy_Hour'] = "08";
+                        searchObj.currentData[length]['Voy_Minute'] = "00";
                         if(length > 0)
                             searchObj.currentData[length]['Voy_Date'] = searchObj.currentData[length - 1]['Voy_Date'];
                         else 

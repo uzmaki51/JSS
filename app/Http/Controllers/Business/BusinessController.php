@@ -165,36 +165,40 @@ class BusinessController extends Controller {
         $ids = $params['id'];
         $CP_ID = $params['CP_ID'];
 
-        foreach($ids as $key => $item) {
-            $voyLog = new VoyLog();
-			if($item != '' && $item != null) {
-				$voyLog = VoyLog::find($item);
-			}
+        try {
+            foreach($ids as $key => $item) {
+                $voyLog = new VoyLog();
+                if($item != '' && $item != null) {
+                    $voyLog = VoyLog::find($item);
+                }
 
-            $voyLog['CP_ID'] = $CP_ID;
-            $voyLog['Ship_ID'] = $shipId;
-            if(isset($params['Voy_Date'][$key]) && $params['Voy_Date'][$key] != '0000-00-00' && $params['Voy_Date'][$key] != '')
-                $voyLog['Voy_Date'] = $params['Voy_Date'][$key];
-            else
-                $voyLog['Voy_Date'] = null;
+                $voyLog['CP_ID'] = $CP_ID;
+                $voyLog['Ship_ID'] = $shipId;
+                if(isset($params['Voy_Date'][$key]) && $params['Voy_Date'][$key] != '0000-00-00' && $params['Voy_Date'][$key] != '')
+                    $voyLog['Voy_Date'] = $params['Voy_Date'][$key];
+                else
+                    $voyLog['Voy_Date'] = null;
 
-            $voyLog['Voy_Hour'] = $params['Voy_Hour'][$key] == '' ? null : $params['Voy_Hour'][$key];
-            $voyLog['Voy_Minute'] = $params['Voy_Minute'][$key] == '' ? null : $params['Voy_Minute'][$key];
-            $voyLog['GMT'] = $params['GMT'][$key] == '' ? null : $params['GMT'][$key];
-            $voyLog['Voy_Type'] = $params['Voy_Type'][$key] == '' ? null : $params['Voy_Type'][$key];
-            $voyLog['Voy_Status'] = $params['Voy_Status'][$key] == '' ? null : $params['Voy_Status'][$key];
-            $voyLog['Ship_Position'] = $params['Ship_Position'][$key];
-            $voyLog['Cargo_Qtty'] = $params['Cargo_Qtty'][$key] == '' ? null : $params['Cargo_Qtty'][$key];
-            $voyLog['Sail_Distance'] = $params['Sail_Distance'][$key] == '' ? null : $params['Sail_Distance'][$key];
-            $voyLog['Speed'] = $params['Speed'][$key] == '' ? null : $params['Speed'][$key];
-            $voyLog['RPM'] = $params['RPM'][$key] == '' ? null : $params['RPM'][$key];
-            $voyLog['ROB_FO'] = $params['ROB_FO'][$key] == '' ? null : $params['ROB_FO'][$key];
-            $voyLog['ROB_DO'] = $params['ROB_DO'][$key] == '' ? null : $params['ROB_DO'][$key];
-            $voyLog['BUNK_FO'] = $params['BUNK_FO'][$key] == '' ? null : $params['BUNK_FO'][$key];
-            $voyLog['BUNK_DO'] = $params['BUNK_DO'][$key] == '' ? null : $params['BUNK_DO'][$key];
-            $voyLog['Remark'] = $params['Remark'][$key];
-    
-            $voyLog->save();            
+                $voyLog['Voy_Hour'] = $params['Voy_Hour'][$key] == '' ? null : $params['Voy_Hour'][$key];
+                $voyLog['Voy_Minute'] = $params['Voy_Minute'][$key] == '' ? null : $params['Voy_Minute'][$key];
+                $voyLog['GMT'] = $params['GMT'][$key] == '' ? null : $params['GMT'][$key];
+                $voyLog['Voy_Type'] = $params['Voy_Type'][$key] == '' ? null : $params['Voy_Type'][$key];
+                $voyLog['Voy_Status'] = $params['Voy_Status'][$key] == '' ? null : $params['Voy_Status'][$key];
+                $voyLog['Ship_Position'] = $params['Ship_Position'][$key];
+                $voyLog['Cargo_Qtty'] = $params['Cargo_Qtty'][$key] == '' ? null : $params['Cargo_Qtty'][$key];
+                $voyLog['Sail_Distance'] = $params['Sail_Distance'][$key] == '' ? null : $params['Sail_Distance'][$key];
+                $voyLog['Speed'] = $params['Speed'][$key] == '' ? null : $params['Speed'][$key];
+                $voyLog['RPM'] = $params['RPM'][$key] == '' ? null : $params['RPM'][$key];
+                $voyLog['ROB_FO'] = $params['ROB_FO'][$key] == '' ? null : $params['ROB_FO'][$key];
+                $voyLog['ROB_DO'] = $params['ROB_DO'][$key] == '' ? null : $params['ROB_DO'][$key];
+                $voyLog['BUNK_FO'] = $params['BUNK_FO'][$key] == '' ? null : $params['BUNK_FO'][$key];
+                $voyLog['BUNK_DO'] = $params['BUNK_DO'][$key] == '' ? null : $params['BUNK_DO'][$key];
+                $voyLog['Remark'] = $params['Remark'][$key];
+        
+                $voyLog->save();            
+            }
+        } catch (\Exception $exception) {
+            return redirect()->back();
         }
 
         return redirect('/business/dynRecord?shipId=' . $shipId . '&voyNo=' . $CP_ID);
@@ -4156,48 +4160,43 @@ class BusinessController extends Controller {
         }
 
         $voyTbl = VoyLog::where('Ship_ID', $shipId);
-        $voyTbl2 = VoyLog::where('Ship_ID', $shipId);
+        $voyTbl2 = VoyLog::where('Ship_ID', $shipId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH);
+        $voyTbl3 = VoyLog::where('Ship_ID', $shipId);
+        $prevData = null;
         if(isset($params['type']) && isset($params['type']) != '') {
             if($params['type'] == 'all') {
-                $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
-                $voyTbl2->orderBy('Voy_Date', 'asc');
-
-                if(isset($params['year']) && $params['year'] != 0) {
+                if(isset($params['year']) && $params['year'] != 0 && isset($params['voyId']) && $params['voyId'] == 0) {
                     $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
-                    $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'asc');
+                    $voyTbl3->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
+                    $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('CP_ID', 'asc');
                 }
         
                 if(isset($params['voyId']) && $params['voyId'] != 0) {
                     $voyTbl->where('CP_ID', $params['voyId']);
-                    $voyTbl2->where('CP_ID', '<', $params['voyId'])->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc');
+                    $voyTbl3->where('CP_ID', $params['voyId']);
+                    $voyTbl2->where('CP_ID', '<', $params['voyId'])->orderBy('CP_ID', 'desc');
                 }
 
-            } else {
+            } else if($params['type'] == 'analyze') {
                 if(isset($params['year']) && $params['year'] != 0) {
                     $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
-                    $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'asc');
+                    $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'desc');
                 }
         
                 $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
-                $voyTbl2->orderBy('Voy_Date', 'asc');
+                $voyTbl2->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
             }
         }
 
-        $retVal['min_date'] = $voyTbl2->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('CP_ID', 'desc')->first();
-        $retVal['currentData'] = $voyTbl->get();
-        $retVal['max_date'] = $voyTbl->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->first();
 
-        $retVal['prevData'] = $voyTbl2->first();
-        if($retVal['prevData'] == null || $retVal['prevData'] == false) {
-            if(isset($retVal['currentData']) && count($retVal['currentData']) > 0) {
-                $retVal['prevData'] = $retVal['currentData'][0];
-                $retVal['prevData']['Voy_Status'] = DYNAMIC_CMNC_DISCH;
+        $retVal['currentData'] = $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->get();
+        $prevData = $voyTbl2->first();
+        if($prevData == null)
+            $prevData = $voyTbl->first();
 
-                $retVal['min_date'] = $retVal['currentData'][0];
-                $retVal['max_date'] = $retVal['currentData'][count($retVal['currentData']) - 1];
-            } else
-                $retVal['prevData'] = null;
-        }
+        $retVal['prevData'] = $prevData;
+        $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+        $retVal['min_date'] = $prevData;
 
         if($params['type'] == 'analyze') {
             $retTmp = [];
