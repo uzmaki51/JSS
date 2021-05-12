@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel {
 		'App\Console\Commands\Inspire',
 		'App\Console\Commands\Backup',
 		'App\Console\Commands\Restore',
+		'App\Console\Commands\UpdateShipInfo',
 	];
 
 	/**

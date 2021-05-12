@@ -70,6 +70,8 @@ $InComeData = array(
 	INCOME_ELSE         => '其他',
 );
 
+define('MCRYPT_RIJNDAEL_128', '123456');
+
 # OutcomeData
 define('OUTCOME_FEE1',       '1');
 define('OUTCOME_FEE2',       '2');

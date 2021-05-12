@@ -588,14 +588,14 @@ class ShipRegController extends Controller
     public function shipCertList(Request $request) {
         $shipRegList = ShipRegister::all();
 
-        $shipId = $request->get('id');
+        $shipId = $request->get('id'); 
 	    $shipNameInfo = null;
         if(isset($shipId)) {
 	        $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
 	        $shipNameInfo = ShipRegister::find($shipId);
         } else {
 	        $shipNameInfo = ShipRegister::first();
-	        $shipId = $shipNameInfo['id'];
+	        $shipId = $shipNameInfo['IMO_No'];
         }
 
         $certType = ShipCertList::all();
@@ -788,7 +788,7 @@ class ShipRegController extends Controller
 		    $shipNameInfo = ShipRegister::find($shipId);
 	    } else {
 		    $shipNameInfo = ShipRegister::first();
-		    $shipId = $shipNameInfo['id'];
+		    $shipId = $shipNameInfo['IMO_No'];
 	    }
 
 	    return view('shipManage.ship_cert_list', [
@@ -803,7 +803,7 @@ class ShipRegController extends Controller
 		$shipName = '';
 		if(isset($shipId)) {
 			$retVal = ShipCertRegistry::where('ship_id', $shipId)->get();
-			$shipName = ShipRegister::where('id', $shipId)->first()->shipName_En;
+			$shipName = ShipRegister::where('IMO_No', $shipId)->first()->shipName_En;
 		} else {
 			return redirect()->back();
 		}
@@ -1825,7 +1825,7 @@ class ShipRegController extends Controller
 	    $retVal['cert_type'] = ShipCertList::all();
 
 	    $retVal['ship_id'] = $params['ship_id'];
-	    $retVal['ship_name'] = ShipRegister::where('id', $id)->first()->shipName_En;
+	    $retVal['ship_name'] = ShipRegister::where('IMO_No', $id)->first()->shipName_En;
 
     	return response()->json($retVal);
     }

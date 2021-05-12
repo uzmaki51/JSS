@@ -42,8 +42,8 @@ $ships = Session::get('shipList');
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
                         <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;">
                             @foreach($shipList as $ship)
-                                <option value="{{ $ship['id'] }}"
-                                        {{ isset($shipId) && $shipId == $ship['id'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
+                                <option value="{{ $ship['IMO_No'] }}"
+                                        {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
                                 </option>
                             @endforeach
                         </select>
