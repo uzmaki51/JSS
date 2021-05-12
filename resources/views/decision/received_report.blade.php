@@ -42,12 +42,14 @@
                             @endif
                         </select>
                     </div>
-                    <div class="col-lg-4">
-                        <label class="search-label font-bold" style="float:left;padding-top:7px;">{{transDecideManage("captions.draftDate")}}:</label>
-                        <input class="search-input date-picker" id="fromDate" type="text" data-date-format="yyyy-mm-dd" style="height:25px;">
-                        <i class="icon-calendar bigger-110 search-calendar"></i>&nbsp;~&nbsp;
-                        <input class="search-input date-picker" id="toDate" type="text" data-date-format="yyyy-mm-dd" style="height:25px;">
+                    <div class="col-lg-4 form-group d-flex search-div mb-0">
+                        <label class="search-label">{{transDecideManage ("captions.draftDate")}}:</label>
+                        <input class="search-input date-picker" id="fromDate" type="text">
                         <i class="icon-calendar bigger-110 search-calendar"></i>
+                        <label class="search-label">&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;</label>
+                        <input class="search-input date-picker" id="toDate" type="text">
+                        <i class="icon-calendar bigger-110 search-calendar"></i>
+
                     </div>
                     <div class="col-lg-2" style="padding:unset!important;">
                         <div class="btn-group f-right">
@@ -202,11 +204,11 @@
                                             </table>
                                             <div  v-show="reportStatus">
                                                 <div class="btn-group f-left mt-20 d-flex">
-                                                    <button type="button" class="btn btn-success small-btn ml-0" @click="reportSubmit($evt)">
+                                                    <button type="button" class="btn btn-success small-btn ml-0" @click="reportSubmit($event)">
                                                         <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}
                                                     </button>
                                                     <div class="between-1"></div>
-                                                    <button type="button" class="btn btn-warning small-btn" @click="saveDraft($evt)">
+                                                    <button type="button" class="btn btn-warning small-btn" @click="saveDraft($event)">
                                                         <img src="{{ cAsset('assets/images/draft.png') }}" class="report-label-img">{{ trans('decideManage.button.draft') }}
                                                     </button>
                                                     <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>{{ trans('decideManage.button.cancel') }}</a>
