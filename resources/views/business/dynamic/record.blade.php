@@ -186,7 +186,7 @@
                                     <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO"></td>
                                     <td><input type="number" class="form-control text-center" name="BUNK_FO[]" v-model="currentItem.BUNK_FO"></td>
                                     <td><input type="number" class="form-control text-center" name="BUNK_DO[]" v-model="currentItem.BUNK_DO"></td>
-                                    <td class="position-width"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" maxlength="50" v-on:keyup="addRow" autocomplete="off">@{{ currentItem.Remark }}</textarea></td>
+                                    <td class="position-width"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" maxlength="50" @click="addRow" autocomplete="off">@{{ currentItem.Remark }}</textarea></td>
                                     <td class="text-center">
                                         <div class="action-buttons">
                                             <a class="red" @click="deleteItem(currentItem.id, index)">
@@ -421,7 +421,10 @@
 
                                         searchObj.currentData[key]['Sail_Distance'] = parseFloat(value['Sail_Distance']) == 0 ? '' : value['Sail_Distance'];
                                         searchObj.currentData[key]['Speed'] = parseFloat(value['Speed']) == 0 ? '' : value['Speed'];
-                                        searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty']) == 0 ? '' : value['Cargo_Qtty'];
+                                        if(value['Voy_Status'] == 13)
+                                            searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty']) == 0 || !isNaN(value['Cargo_Qtty']) ? '0' : value['Cargo_Qtty'];
+                                        else
+                                            searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty']) == 0 ? '0' : value['Cargo_Qtty'];
                                         searchObj.currentData[key]['RPM'] = parseFloat(value['RPM']) == 0 ? '' : value['RPM'];
                                         searchObj.currentData[key]['ROB_FO'] = parseFloat(value['ROB_FO']) == 0 ? '' : value['ROB_FO'];
                                         searchObj.currentData[key]['ROB_DO'] = parseFloat(value['ROB_DO']) == 0 ? '' : value['ROB_DO'];
@@ -549,8 +552,7 @@
                         return today;
                     },
                     addRow: function(e) {
-                        if(e.keyCode == 13)
-                            this.setDefaultData();
+                        this.setDefaultData();
                     },
                     setDefaultData() {
                         let length = searchObj.currentData.length;
@@ -665,8 +667,8 @@
                 success: function(result) {
                     searchObj.voy_list = [];
                     searchObj.voy_list = Object.assign([], [], result);
-                    if(searchObj.voy_list.length > 0 && voyId == '') {
-                        searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
+                    if(searchObj.voy_list.length > 0) {
+                        searchObj.activeVoy = voyId != '' ? voyId : searchObj.voy_list[0]['Voy_No'];
                     }
 
                     searchObj.setPortName();
@@ -710,6 +712,19 @@
             return parseFloat(diffDay.div(24));
         }
 
+        $('body').on('keydown', 'input, select', function(e) {
+        if (e.key === "Enter") {
+            var self = $(this), form, focusable, next;
+            form = $('#dynamic-form');
+        
+            focusable = form.find('input,a,select,textarea').filter(':visible');
+            next = focusable.eq(focusable.index(this)+1);
+            if (next.length) {
+                next.focus();
+            }
+            return false;
+        }
+    });
     </script>
 
 @endsection

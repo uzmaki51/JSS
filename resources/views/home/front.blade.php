@@ -356,43 +356,6 @@
             slidesToScroll: 1
         });
 
-        $(function() {
-            // var chart3 = new Chart(document.getElementById('statistics-chart-3').getContext("2d"), {
-            //     type: 'bar',
-            //     data: {
-            //         datasets: [{
-            //             data: [[24, 92, 77, 90, 91, 78, 28, 49, 23, 81]],
-            //             borderWidth: 1,
-            //             barPercentage: 0.5,
-            //             barThickness: 6,
-            //             maxBarThickness: 8,
-            //             minBarLength: 2,
-            //             backgroundColor: '#82ccff',
-            //         }],
-            //         labels: ['船舶1', '船舶2', '船舶3', '船舶4', '船舶5', '船舶6', '船舶7', '船舶8', '船舶9', '船舶10']
-            //     },
-            //
-            //     options: {
-            //         scales: {
-            //             xAxes: [{
-            //                 barPercentage: 0.5,
-            //                 barThickness: 30,
-            //                 maxBarThickness: 30,
-            //                 minBarLength: 2,
-            //                 display: true,
-            //             }],
-            //             yAxes: [{
-            //                 display: false
-            //             }]
-            //         },
-            //         legend: {
-            //             display: false
-            //         },
-            //         responsive: true,
-            //         maintainAspectRatio: false
-            //     }
-            // });
-        });
     </script>
     <script type="text/javascript">
         Qfast.add('widgets', { path: "{{ cAsset('assets/css/terminator.js') }}", type: "js", requires: ['fx'] });

@@ -63,7 +63,7 @@ class HomeController extends Controller {
 		$shipList = ShipRegister::all();
 		$shipForDecision = array();
 		foreach($shipList as $key => $item) {
-			$shipForDecision[$item->id] = $item->shipName_En;
+			$shipForDecision[$item->IMO_No] = $item->shipName_En;
 		}
 
 		$expired_certData['ship'] = array();
@@ -73,8 +73,9 @@ class HomeController extends Controller {
 		$memberCertTbl = new ShipMember();
 
 		$expired_certData['ship'] = $shipCertTbl->getExpiredList();
+
 		foreach($expired_certData['ship'] as $key => $item) {
-			$expired_certData['ship'][$key]->ship_name = ShipRegister::where('id', $item->ship_id)->first()->shipName_En;
+			$expired_certData['ship'][$key]->ship_name = ShipRegister::where('IMO_No', $item->ship_id)->first()->shipName_En;
 			$expired_certData['ship'][$key]->cert_name = ShipCertList::where('id', $item->cert_id)->first()->name;
 		}
 
