@@ -4196,7 +4196,12 @@ class BusinessController extends Controller {
 
         $retVal['prevData'] = $prevData;
         $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+        if($retVal['max_date'] == null)
+            $retVal['max_date'] = false;
+
         $retVal['min_date'] = $prevData;
+        if($retVal['min_date'] == null)
+            $retVal['min_date'] = false;
 
         if($params['type'] == 'analyze') {
             $retTmp = [];
