@@ -4130,20 +4130,20 @@ class BusinessController extends Controller {
         }
 
         $prevData = [];
-        $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('CP_ID', 'desc')->orderBy('Voy_Date', 'desc')->first();
-        $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('CP_ID', 'desc')->first();
-        $retVal['currentData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->get();
-        $retVal['max_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->first();
+        $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+        $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', '<',$voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+        $retVal['currentData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->get();
+        $retVal['max_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
 
         if($retVal['min_date'] == false || $retVal['min_date'] == null) {
-            $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->first();
+            $retVal['min_date'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
             if($retVal['min_date'] == null)
                 $retVal['min_date'] = false;
         } else 
             $retVal['min_date'] = $retVal['min_date'];
 
         if($retVal['prevData'] == null)
-            $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->first();
+            $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
 
         if($retVal['max_date'] == false || $retVal['max_date'] == null)
             $retVal['max_date'] = false;
