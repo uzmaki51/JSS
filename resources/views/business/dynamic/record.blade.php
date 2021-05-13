@@ -416,7 +416,7 @@
                                     searchObj.currentData.forEach(function(value, key) {
                                         searchObj.currentData[key]['dynamicSub'] = getSubList(value['Voy_Status']);
                                         if(isNaN(parseInt(value["Sail_Distance"])))
-                                            searchObj.total_distance += isNaN(parseInt(value["Sail_Distance"]));
+                                            searchObj.total_distance += parseInt(value["Sail_Distance"]);
 
                                         searchObj.bunker_fo += value['BUNK_FO'];
                                         searchObj.bunker_do += value['BUNK_DO'];
