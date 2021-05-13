@@ -4142,6 +4142,9 @@ class BusinessController extends Controller {
         } else 
             $retVal['min_date'] = $retVal['min_date'];
 
+        if($retVal['prevData'] == null)
+            $retVal['prevData'] = VoyLog::where('Ship_ID', $shipId)->where('CP_ID', $voyId)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->first();
+
         if($retVal['max_date'] == false || $retVal['max_date'] == null)
             $retVal['max_date'] = false;
         else
