@@ -245,6 +245,17 @@ $BankData = array(
 	BANK_TYPE_2		=> '大连'
 );
 
+define('PAY_TYPE_0', 0);
+define('PAY_TYPE_1', 1);
+define('PAY_TYPE_2', 2);
+define('PAY_TYPE_3', 3);
+$PayTypeData = array(
+	PAY_TYPE_0		=> '汇款',
+	PAY_TYPE_1		=> '现钞',
+	PAY_TYPE_2		=> '扣除',
+	PAY_TYPE_3		=> '转账',
+);
+
 
 define('DYNAMIC_SUB_ELSE', 			1);
 define('DYNAMIC_SUB_WEATHER', 		2);
@@ -390,6 +401,7 @@ $DynamicStatus = array(
 		'CPTypeData'				    => $CPTypeData,
 	    'QtyTypeData'				    => $QtyTypeData,	
 		'BankData'				    	=> $BankData,
+		'PayTypeData'					=> $PayTypeData,
 		'DynamicStatus'				    => $DynamicStatus,
 		'DynamicSub'					=> $DynamicSub,
 

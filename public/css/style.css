@@ -304,7 +304,7 @@ div.input table tbody tr td
 
 .style-blue-header {
     font-weight: bold!important;
-    color: #2767c1;
+    color: #2767c1!important;
     height: 20px;
 }
 
@@ -317,4 +317,24 @@ div.input table tbody tr td
 
 .disable-tr {
     height: 20px;
+}
+
+.style-blue-input {
+    font-weight: bold!important;
+    color: #2767c1!important;
+    height: 24px;
+}
+
+.style-red-input {
+    font-weight: bold!important;
+    color: #f12929!important;
+    height: 24px;
+}
+
+.style-blue-input::-webkit-outer-spin-button,
+.style-blue-input::-webkit-inner-spin-button,
+.style-red-input::-webkit-outer-spin-button,
+.style-red-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

@@ -58,14 +58,13 @@ $isHolder = Session::get('IS_HOLDER');
                                         @endfor
                                     @endif
                                 </select>
-                                <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()">
-                                    <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初期化
+                                <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()" style="width: 80px;height: 26px!important;margin-bottom: 1px;padding: 5px!important;">
+                                    <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初始化
                                 </a>
                                 <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>份工资单</strong>
                             </div>
                             <div class="col-md-5" style="padding:unset!important">
                                 <div class="btn-group f-right">
-                                    
                                     <a onclick="javascript:openAddPage();" class="btn btn-sm btn-primary btn-add" style="width: 80px" data-toggle="modal">
                                         <i class="icon-plus"></i>{{ trans('common.label.add') }}
                                     </a>
@@ -266,7 +265,7 @@ $isHolder = Session::get('IS_HOLDER');
                 ],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
-                    $(row).attr('class', 'member-item disable-tr');
+                    $(row).attr('class', 'wage-item disable-tr');
                     $(row).attr('data-index', data['no']);
                     
                     $('td', row).eq(0).attr('class', 'text-center disable-td add-no');
@@ -427,7 +426,7 @@ $isHolder = Session::get('IS_HOLDER');
             if ($('#list-body tr:last').attr('class') == 'tr-report') {
                 $('#list-body tr:last').remove();
             }
-            $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.member-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="3"></td><td colspan="2" class="sub-small-header style-normal-header text-center">计算日期</td><td class="disable-td text-center">' + calc_date + '<input type="hidden" name="report_date" value="' + calc_date + '"></td><td colspan="2" class="sub-small-header style-normal-header text-center">合计</td><td class="style-normal-header disable-td text-center">¥ ' + prettyValue(sum_R) + '</td><td class="style-normal-header text-center disable-td">$ ' + prettyValue(sum_D) + '</td><td class="sub-small-header style-normal-header text-center">实发工资</td><td class="style-normal-header text-center disable-td">¥ ' + prettyValue(sum_Real) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td></tr>');
+            $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.wage-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="3"></td><td colspan="2" class="sub-small-header style-normal-header text-center">计算日期</td><td class="disable-td text-center">' + calc_date + '<input type="hidden" name="report_date" value="' + calc_date + '"></td><td colspan="2" class="sub-small-header style-normal-header text-center">合计</td><td class="style-normal-header disable-td text-center">¥ ' + prettyValue(sum_R) + '</td><td class="style-normal-header text-center disable-td">$ ' + prettyValue(sum_D) + '</td><td class="sub-small-header style-normal-header text-center">实发工资</td><td class="style-normal-header text-center disable-td">¥ ' + prettyValue(sum_Real) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td></tr>');
             setDatePicker();
             if (origForm == "")
                 origForm = $form.serialize();
@@ -648,7 +647,7 @@ $isHolder = Session::get('IS_HOLDER');
                             listTable.ajax.reload();
                             $.gritter.add({
                                 title: '成功',
-                                text: '初期化成功!',
+                                text: '初始化成功!',
                                 class_name: 'gritter-success'
                             });
                             return;
@@ -740,7 +739,7 @@ $isHolder = Session::get('IS_HOLDER');
                 add_money_D = add_wage * daysInMonth(month, year) / signon_days - add_minus_money;
                 add_money_R = add_money_D / rate;
             }
-            var new_row = '<tr class="member-item disable-tr" role="row"><td class="text-center disable-td add-no new-member"><label>' + ($('.member-item').length+1) +
+            var new_row = '<tr class="wage-item disable-tr" role="row"><td class="text-center disable-td add-no new-member"><label>' + ($('.wage-item').length+1) +
             '</label><input type="hidden" name="MemberId[]" value="new_' + ($('.new-member').length) + '">' +
             '</td><td class="text-center disable-td"><label>' + add_name + '</label><input type="hidden" name="Names[]" value="' + add_name + '">' + 
             '</td><td class="text-center disable-td"><label>' + add_rank + '</label><input type="hidden" name="Rank[]" value="' + add_rank + '">'+
@@ -754,7 +753,7 @@ $isHolder = Session::get('IS_HOLDER');
             '</td><td class="text-center disable-td add-transD"><label>' + add_money_D.toFixed(2) + '</label><input type="hidden" name="TransInD[]" value="' + add_money_D.toFixed(2) + '">' +
             '</td><td class=" text-center""><div class="input-group"><input class="form-control add-trans-date date-picker" name="TransDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + add_purchase_date + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div></td><td class=" text-center"><input type="text" class="form-control" name="Remark[]" value="'+ add_remark + '" style="width: 100%;text-align: center" autocomplete="off"></td><td class="text-center disable-td add-bankinfo" style="word-wrap:break-word"><label>'+ add_bank_info + '</label><input type="hidden" name="BankInfo[]" value="' + add_bank_info + '">' +
             '</td><td class=" text-center"><div class="action-buttons"><a class="red" onclick="javascript:deleteItem(this)"><i class="icon-trash"></i></a></div></td></tr>';
-            $('.member-item').last().after(new_row);
+            $('.wage-item').last().after(new_row);
             setDatePicker();
             setEvents();
             calcReport();
@@ -764,7 +763,7 @@ $isHolder = Session::get('IS_HOLDER');
         $("#btnSave").on('click', function() {
             //origForm = $form.serialize();
             submitted = true;
-            if ($('.member-item').length > 0) {
+            if ($('.wage-item').length > 0) {
                 $('#wage-form').submit();
                 $('td[style*="display: none;"]').remove();
             }

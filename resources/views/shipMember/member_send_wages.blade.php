@@ -52,7 +52,7 @@ $isHolder = Session::get('IS_HOLDER');
                             <div class="col-md-5" style="padding:unset!important">
                                 <div class="btn-group f-right">
                                     <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()">
-                                        <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初期化
+                                        <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初始化
                                     </a>
                                     <a id="btnSave" class="btn btn-sm btn-success" style="width: 80px">
                                         <i class="icon-save"></i>{{ trans('common.label.save') }}
@@ -154,7 +154,7 @@ $isHolder = Session::get('IS_HOLDER');
                 ],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
-                    $(row).attr('class', 'member-item disable-tr');
+                    $(row).attr('class', 'wage-item disable-tr');
                     $(row).attr('data-index', data['no']);
                     $('td', row).eq(0).attr('class', 'text-center disable-td add-no');
                     $('td', row).eq(1).attr('class', 'text-center disable-td');
@@ -228,7 +228,7 @@ $isHolder = Session::get('IS_HOLDER');
             if ($('#list-body tr:last').attr('class') == 'tr-report') {
                 $('#list-body tr:last').remove();
             }
-            $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.member-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td><td class="style-normal-header disable-td text-center">¥ ' + sum_R.toFixed(2) + '</td><td class="style-normal-header text-center disable-td">¥ ' + sum_D.toFixed(2) + '</td><td class="style-normal-header text-center disable-td">$ ' + sum_P.toFixed(2)+ '</td><td class="sub-small-header style-normal-header" colspan="4"></td></tr>');
+            $('#list-body').append('<tr class="tr-report" style="height:30px;border:2px solid black;"><td class="sub-small-header style-normal-header text-center">' + ($('.wage-item').length) + '</td><td class="sub-small-header style-normal-header" colspan="2"></td><td class="style-normal-header disable-td text-center">¥ ' + prettyValue(sum_R) + '</td><td class="style-normal-header text-center disable-td">¥ ' + prettyValue(sum_D) + '</td><td class="style-normal-header text-center disable-td">$ ' + prettyValue(sum_P)+ '</td><td class="sub-small-header style-normal-header" colspan="4"></td></tr>');
             setDatePicker();
             if (origForm == "")
                 origForm = $form.serialize();
@@ -251,7 +251,7 @@ $isHolder = Session::get('IS_HOLDER');
                             listTable.ajax.reload();
                             $.gritter.add({
                                 title: '成功',
-                                text: '初期化成功!',
+                                text: '初始化成功!',
                                 class_name: 'gritter-success'
                             });
                             return;
@@ -261,6 +261,11 @@ $isHolder = Session::get('IS_HOLDER');
                     });
                 }
             });
+        }
+
+        function prettyValue(value)
+        {
+            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
         }
 
         function setDatePicker() {
@@ -456,7 +461,7 @@ $isHolder = Session::get('IS_HOLDER');
         var submitted = false;
         $("#btnSave").on('click', function() {
             submitted = true;
-            if ($('.member-item').length > 0) {
+            if ($('.wage-item').length > 0) {
                 $('#wage-form').submit();
                 $('td[style*="display: none;"]').remove();
             }

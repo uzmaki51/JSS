@@ -28,6 +28,7 @@ class DecisionReportAttachment extends Model {
 				    'reportId'  => $reportId,
 				    'file_name' => $item[0],
 				    'file_url'  => $item[1],
+					'file_link'  => $item[2],
 				    'index'     => $key
 			    ]);
 	    }

@@ -351,7 +351,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td>速追肥</td>
+                <td>速遣费</td>
                 <td class="font-style-italic">DISPATCH FEE</td>
                 <td><input type="text" class="form-control" name="dispatch_fee" v-model="dispatch_fee"></td>
                 <td></td>

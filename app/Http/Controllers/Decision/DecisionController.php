@@ -132,7 +132,7 @@ class DecisionController extends Controller
 				$fileName = $file->getClientOriginalName();
 				$name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
 				$file->move(public_path() . '/reports/' . $params['flowid'] . '/', $name);
-				$fileList[] =  array($fileName, public_path() . '/reports/' . $params['flowid'] . '/' . $name);
+				$fileList[] =  array($fileName, public_path() . '/reports/' . $params['flowid'] . '/' . $name, url() . '/reports/' . $params['flowid'] . '/' . $name);
 			}
 
 			$ret = $attachmentTbl->updateAttach($lastId, $fileList);

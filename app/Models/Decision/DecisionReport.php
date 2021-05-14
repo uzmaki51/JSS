@@ -12,6 +12,9 @@ namespace App\Models\Decision;
 use App\Models\Convert\VoyLog;
 use App\Models\Operations\AcItem;
 use App\Models\ShipManage\ShipRegister;
+use App\Models\Finance\BooksList;
+use App\Models\Finance\ReportSave;
+
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +23,118 @@ use Auth;
 class DecisionReport extends Model {
 	protected $table = 'tb_decision_report';
 	protected $table_register_ship = 'tb_ship_register';
+
+	public function getForSavedBookDatatable($params, $year, $month) {
+		$selector = ReportSave::where('year', $year)->where('month', $month);
+        $recordsFiltered = $selector->count();
+		$records = $selector->orderBy('id', 'asc')->get();
+		$newArr = [];
+        $newindex = 0;
+		foreach($records as $index => $record) {
+			$newArr[$newindex]['id'] = $record->orig_id;
+			$newArr[$newindex]['flowid'] = $record->flowid;
+			$newArr[$newindex]['report_no'] = $record->id;
+			$newArr[$newindex]['book_no'] = $record->book_no == null ? '' : $record->book_no;
+			$newArr[$newindex]['datetime'] = $record->create_time;
+			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
+			$newArr[$newindex]['obj'] = $ship->NickName;
+			$contract = VoyLog::where('id', $record->voyNo)->first();
+			$newArr[$newindex]['voyNo'] = $contract->CP_ID;
+			$newArr[$newindex]['currency'] = $record->currency == 'USD' ? "$" : "¥";
+			$newArr[$newindex]['type'] = $record->type;
+			$newArr[$newindex]['profit_type'] = $record->profit_type;
+			$newArr[$newindex]['content'] = $record->content;
+			$newArr[$newindex]['amount'] = $record->amount;
+			$newArr[$newindex]['rate'] = $record->rate == null ? '' : $record->rate;
+			$attachment = DecisionReportAttachment::where('reportId', $record->id)->first();
+			if (!empty($attachment)) {
+				$newArr[$newindex]['attachment'] = $attachment->file_link;
+			}
+			
+			$newindex ++;
+		}
+
+		return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => DB::table($this->table)->count(),
+            'recordsFiltered' => $newindex,
+            'original' => false,
+            'data' => $newArr,
+            'error' => 0,
+        ];
+	}
+
+	public function getForBookDatatable($params) {
+		$year = $params['year'];
+        $month = $params['month'];
+
+		if ($year == null) {
+			$year = $params['columns'][1]['search']['value'];
+			$month = $params['columns'][2]['search']['value'];
+		}
+
+		$report_list_record = BooksList::where('year', $year)->where('month', $month)->first();
+        if (!is_null($report_list_record)) {
+            return $this->getForSavedBookDatatable($params, $year, $month);
+        }
+
+		$selector = DB::table($this->table)
+			->orderBy('update_at', 'asc')
+			->select('*');
+
+		$next_year = $year;
+        $next_month = $month;
+        if ($month == 12) {
+            $next_month = 1;
+            $next_year ++;
+        }
+        else
+        {
+            $next_month = $month + 1;
+        }
+		$now = date('Y-m-d', strtotime("$year-$month-1"));
+		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
+		$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
+			
+		$selector->where('create_at', '>=', $now)->where('create_at', '<', $next);
+		$recordsFiltered = $selector->count();
+		$records = $selector->get();
+
+		$newArr = [];
+        $newindex = 0;
+		foreach($records as $index => $record) {
+			$newArr[$newindex]['id'] = $record->id;
+			$newArr[$newindex]['flowid'] = $record->flowid;
+			$newArr[$newindex]['report_no'] = $record->id;
+			$newArr[$newindex]['book_no'] = '';
+			$newArr[$newindex]['datetime'] = $record->create_at;
+			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
+			$newArr[$newindex]['obj'] = $ship->NickName;
+			$contract = VoyLog::where('id', $record->voyNo)->first();
+			$newArr[$newindex]['voyNo'] = $contract->CP_ID;
+			$newArr[$newindex]['currency'] = $record->currency == 'USD' ? "$" : "¥";
+			$newArr[$newindex]['type'] = $record->type;
+			$newArr[$newindex]['profit_type'] = $record->profit_type;
+			$newArr[$newindex]['content'] = $record->content;
+			$newArr[$newindex]['amount'] = $record->amount;
+			$newArr[$newindex]['rate'] = '';
+			$attachment = DecisionReportAttachment::where('reportId', $record->id)->first();
+			if (!empty($attachment)) {
+				$newArr[$newindex]['attachment'] = $attachment->file_link;
+			}
+			
+			$newindex ++;
+		}
+
+		return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => DB::table($this->table)->count(),
+            'recordsFiltered' => $newindex,
+            'original' => true,
+            'data' => $newArr,
+            'error' => 0,
+        ];
+	}
 
 	public function getForDatatable($params, $status = null) {
 		$user = Auth::user();

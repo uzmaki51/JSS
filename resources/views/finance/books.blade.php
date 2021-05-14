@@ -19,7 +19,7 @@ $isHolder = Session::get('IS_HOLDER');
             }
         </style>
         <div class="page-content">
-        <form id="books-form" action="updateWageSendInfo" role="form" method="POST" enctype="multipart/form-data">
+        <form id="books-form" action="books/save" role="form" method="POST" enctype="multipart/form-data">
             <div class="space-4"></div>
             <div class="col-md-12">
                 <div class="row">
@@ -79,28 +79,102 @@ $isHolder = Session::get('IS_HOLDER');
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" style="margin-top:4px;margin-left:18px;">
+                                <div class="col-md-12" style="margin-top:4px;">
                                     <div id="item-manage-dialog" class="hide"></div>
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                    <div class="head-fix-div common-list" id="crew-table" style="">
-                                        <table id="table-books-list" style="table-layout:fixed;">
-                                            <thead class="">
-                                                <th class="text-center style-normal-header" style="width: 10%;height:35px;"><span>{{ trans('decideManage.table.no') }}</span></th>
-                                                <th class="text-center style-normal-header" style="width: 40%;"><span>{{ trans('decideManage.table.type') }}</span></th>
-                                                <th class="text-center style-normal-header" style="width: 40%;"><span>{{ trans('decideManage.table.type') }}</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
-                                                <th class="text-center style-normal-header" style="width: 10%;"><span>详细</span></th>
-                                            </thead>
-                                            <tbody class="" id="list-ship-wage">
-                                            </tbody>
-                                        </table>
+                                    <div class="row">
+                                        <div class="head-fix-div" id="crew-table" style="height: 300px;">
+                                            <table id="table-books-list" style="table-layout:fixed;">
+                                                <thead class="">
+                                                    <th class="text-center style-normal-header" style="width: 4%;height:35px;"><span style="cursor:pointer" onclick="javascript:clearSelection();">记账绑定</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 6%;"><span>审核<br/>编号</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 7%;"><span>记账编号</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 7%;"><span>日期</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>对象</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>航次</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 6%;"><span>收支种类</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 27%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 3%;"><span>币类</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 9%;"><span>收入</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 9%;"><span>支出</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 8%;"><span>汇率</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>原始凭证</span></th>
+                                                </thead>
+                                                <tbody class="" id="list-book-body">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="tabbable">
+                                            <!--a id="btnKeep" class="btn btn-sm btn-primary" style="width: 50px;margin-top:10px;">
+                                                <i class="icon-plus"></i>记账凭证
+                                            </a-->
+                                            <button type="button" id="btnKeep" style="margin-top:10px;width:100px;height:30px;">记账凭证</button>
+                                        </div>
+                                        <div class="tab-content">
+                                            <div id="general" class="tab-pane active">
+                                                <div class="space-4"></div>
+                                                <div class="col-md-12" style="margin-bottom:6px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-2">
+                                                            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">记账编号:</label>
+                                                            <input type="text" name="keep-list-bookno" id="keep-list-bookno" style="width:60px;margin-right:0px;" readonly/>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <label class="search-label font-bold" style="float:left;padding-top:7px;">日期:</label>
+                                                            <input class="search-input date-picker" id="keep-list-datetime" name="keep-list-datetime" type="text" data-date-format="yyyy-mm-dd" style="height:24px;width:70px;">
+                                                            <i class="icon-calendar bigger-110 search-calendar"></i>
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">汇率:</label>
+                                                            <input type="number" name="keep_rate" id="keep_rate" value="6.5" min="4" step="0.01" autocomplete="off" style="width:80px;margin-right:0px;"/>
+                                                        </div> 
+                                                        <div class="col-lg-2">
+                                                            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">收支方式:</label>
+                                                            <select class="" name="pay_type" id="pay_type">
+                                                                <option value="0">汇款</option>
+                                                                <option value="1">现钞</option>
+                                                                <option value="2">扣除</option>
+                                                                <option value="3">转账</option>
+                                                            </select>
+                                                        </div>                                                             
+                                                        <div class="col-lg-2">
+                                                            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">账户:</label>
+                                                            <select class="" name="account_type" id="account_type">
+                                                                <option value="0">汇款</option>
+                                                                <option value="1">现钞</option>
+                                                                <option value="2">扣除</option>
+                                                                <option value="3">转账</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin:8px;">
+                                                    <div class="space-4"></div>
+                                                    <table id="table-keep-list" class="table table-bordered">
+                                                        <thead>
+                                                            <th class="center sub-header font-bold" style="width:6%">审核编号</td>
+                                                            <th class="center sub-header font-bold" style="width:6%">对象</td>
+                                                            <th class="center sub-header font-bold" style="width:6%">航次</td>
+                                                            <th class="center sub-header font-bold" style="width:6%">收支种类</td>
+                                                            <th class="center sub-header font-bold" style="width:42%">摘要</td>
+                                                            <th class="center sub-header font-bold" style="width:4%">币类</td>
+                                                            <th class="center sub-header font-bold" style="width:15%">借方</td>
+                                                            <th class="center sub-header font-bold" style="width:15%">贷方</td>
+                                                        </thead>
+                                                        <tbody id="table-keep-body">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="row" style="margin:8px;">
+                                                    <div class="btn-group f-right mt-20">
+                                                        <a class="btn btn-primary btn-sm" id="btnOK" disabled>OK</a>
+                                                        <a class="btn btn-danger btn-sm" id="btnCancel" disabled>Cancel</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -178,20 +252,37 @@ $isHolder = Session::get('IS_HOLDER');
     <script src="{{ cAsset('assets/js/jsquery.dataTables.js') }}"></script>
     <script src="{{ asset('/assets/js/dataTables.rowsGroup.js') }}"></script>
     
+    <?php
+	echo '<script>';
+    echo 'var start_year = ' . $start_year . ';';
+    echo 'var start_month = ' . $start_month . ';';
+    echo 'var now_year = ' . date("Y") . ';';
+    echo 'var now_month = ' . date("m") . ';';
+    echo 'var book_no = ' . $book_no . ';';
+    echo 'var ReportTypeData = ' . json_encode(g_enum('ReportTypeData')) . ';';
+	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
+    echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
+    echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
+    echo 'var PayTypeData = ' . json_encode(g_enum('PayTypeData')) . ';';
+	echo '</script>';
+	?>
+
     <script>
         var token = '{!! csrf_token() !!}';
         var year = '';
         var month = '';
 
         var listTable = null;
+        var listBook = null;
         function initTable() {
             listTable = $('#table-books-list').DataTable({
                 processing: true,
                 serverSide: true,
                 searching: true,
                 ajax: {
-                    url: BASE_URL + 'ajax/decide/receive',
+                    url: BASE_URL + 'ajax/finance/books/list',
                     type: 'POST',
+                    data: {'year':year, 'month':month},
                 },
                 "ordering": false,
                 "pageLength": 500,
@@ -201,62 +292,79 @@ $isHolder = Session::get('IS_HOLDER');
                     searchable: false
                 }],
                 columns: [
-                    {data: 'id', className: "text-center each"},
-                    {data: 'flowid', className: "text-center each"},
-                    {data: 'create_at', className: "text-center each"},
-                    {data: 'shipName', className: "text-center each"},
-                    {data: 'voyNo', className: "text-center each"},
-                    {data: 'profit_type', className: "text-center each"},
-                    {data: 'content', className: "text-center each"},
-                    {data: 'currency', className: "text-center each"},
-                    {data: 'amount', className: "text-center each"},
-                    {data: 'realname', className: "text-center each"},
-                    {data: 'attachment', className: "text-center each"},
-                    {data: 'state', className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: 'report_no', className: "text-center"},
+                    {data: 'book_no', className: "text-center"},
+                    {data: 'datetime', className: "text-center"},
+                    {data: 'obj', className: "text-center"},
+                    {data: 'voyNo', className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: 'content', className: "text-center"},
+                    {data: 'currency', className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: null, className: "text-center"},
+                    {data: 'rate', className: "text-center"},
+                    {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
+
+                    $('td', row).eq(1).attr('class', 'text-center disable-td');
+                    $('td', row).eq(2).attr('class', 'text-center disable-td');
+                    $('td', row).eq(3).attr('class', 'text-center disable-td');
+                    $('td', row).eq(4).attr('class', 'text-center disable-td');
+                    $('td', row).eq(5).attr('class', 'text-center disable-td');
+                    $('td', row).eq(6).attr('class', 'text-center disable-td');
+                    $('td', row).eq(7).attr('class', 'text-center disable-td');
+                    $('td', row).eq(8).attr('class', 'text-center disable-td');
+                    $('td', row).eq(9).attr('class', 'text-center disable-td');
+                    $('td', row).eq(10).attr('class', 'text-center disable-td');
+                    $('td', row).eq(11).attr('class', 'text-center disable-td');
+
+                    if (data['book_no'] != '')
+                        $('td', row).eq(0).html('').append('<input type="checkbox" checked disabled></input>');
+                    else
+                        $('td', row).eq(0).html('').append('<input class="need_chk" type="checkbox"></input>');
+                    
+                    $('td', row).eq(0).append('<input type="hidden" name="report_id[]" value="' + data['id'] + '">');
+
+                    $('td', row).eq(3).html('').append(data['datetime'].substr(0,10));
+                    $('td', row).eq(6).html('').append(FeeTypeData[data['flowid']][data['profit_type']]);
+
+                    $('td', row).eq(2).html('<input type="text" class="form-control" readonly name="book_no[]" value="' + data['book_no'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    if (data['flowid'] == "Credit") {
+                        if (data['amount'] >= 0)
+                            $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        else
+                            $('td', row).eq(9).html('<input type="text" class="form-control style-red-input" name="credit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        $('td', row).eq(10).html('<input type="text" class="form-control style-blue-input" name="debit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                    } else if(data['flowid'] == "Debit") {
+                        if (data['amount'] >= 0)
+                            $('td', row).eq(10).html('<input type="text" class="form-control style-blue-input" name="debit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        else
+                            $('td', row).eq(10).html('<input type="text" class="form-control style-red-input" name="debit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                    }
+                    var link_html = '<label><a href="' + data['attachment'] + '" target="_blank" class="' + (data['attachment']==null ? 'visible-hidden':'') + '"><img src="' + "{{ cAsset('assets/images/document.png') }}" + '"' + ' width="15" height="15" style="cursor: pointer;"></a></label>';
+                    $('td', row).eq(11).html('<input type="text" class="form-control" readonly name="rate[]" value="' + data['rate'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(12).html('').append(link_html);
+                    $('td', row).eq(7).html('<input type="text" class="form-control" readonly name="report_remark[]" value="' + data['content'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    
+                    /*
                     $(row).attr('data-index', data['id']);
                     $(row).attr('data-status', data['state']);
                     $('td', row).eq(0).html('').append(
                         '<span>' + (pageInfo.page * pageInfo.length + index + 1) + '</span>'
                     );
-                    $('td', row).eq(1).html('').append(
-                        '<span data-index="' + data['id'] + '">' + ReportTypeData[data['flowid']] + '</span>'
-                    );
-
-                    $('td', row).eq(2).html('').append(
-                        '<span>' + _convertDate(data['create_at']) + '</span>'
-                    );
-
-                    if(data['currency'] != '') {
-                        $('td', row).eq(7).html('').append(
-                            '<span>' + CurrencyLabel[data['currency']] + '</span>'
-                        );
-                    }
-
-
-                    if(data['attachment']  == 1) {
-                        $('td', row).eq(10).html('').append(
-                            '<span><i class="icon-file bigger-125"></i></span>'
-                        );
-                    } else {
-                        $('td', row).eq(10).html('').append();
-                    }
-
-                    let status = '';
-                    if (data['state'] == 0) {
-                        $('td', row).eq(11).css({'background': '#ffb871'});
-                        status = '<div class="report-status"><span>' + ReportStatusData[data['state']][0] + '</span></div>';
-                    } else if (data['state'] == 1) {
-                        $('td', row).eq(11).css({'background': '#ccffcc'});
-                        status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';
-                    } else if (data['state'] == 2) {
-                        $('td', row).eq(11).css({'background': '#ff7c80'});
-                        status = '<div class="report-status"><span><i class="icon-remove"></i></span></div>';
-                    }
-                    $('td', row).eq(11).html('').append(status);
+                    */
                 },
+                drawCallback: function (response) {
+                    listBook = response.json.data;
+                    setEvents();
+                    origForm = $form.serialize();
+                    origForm = origForm.replace(/select-year\=|[0-9]/gi,'');
+                    origForm = origForm.replace(/select-month\=|[0-9]/gi,'');
+                }
             });
 
             $('.paginate_button').hide();
@@ -271,6 +379,11 @@ $isHolder = Session::get('IS_HOLDER');
         $('#search_info').html(year + '年' + month + '月份');
         initTable();
 
+        function prettyValue(value)
+        {
+            return parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
+        }
+
         function selectInfo()
         {
             year = $("#select-year option:selected").val();
@@ -282,11 +395,22 @@ $isHolder = Session::get('IS_HOLDER');
             }
             else
             {
-                listTable.column(3).search(year, false, false);
-                listTable.column(4).search(month, false, false);
+                listTable.column(1).search(year, false, false);
+                listTable.column(2).search(month, false, false);
             }
         }
 
+        function setState(f) {
+            if (f) {
+                $('#btnKeep').prop('disabled', true);
+                $('#btnOK').attr('disabled', false);
+                $('#btnCancel').attr('disabled', false);
+            } else {
+                $('#btnKeep').prop('disabled', false);
+                $('#btnOK').attr('disabled', true);
+                $('#btnCancel').attr('disabled', true);
+            }
+        }
         function changeYear() {
             year = $("#select-year option:selected").val();
             var months = "";
@@ -309,15 +433,191 @@ $isHolder = Session::get('IS_HOLDER');
                 }
             }
             $('#select-month').html(months);
-            origForm = "";
             selectInfo();
         }
+
+        var currency = "";
+        var datetime = "";
+        var rate = 6.5;
+        var pay_type = 0;
+        var account_type = 0;
+        var keepContent = "";
+        $('#btnKeep').on('click', function() {
+            /*
+            var confirmationMessage = 'Are you sure you to apply?';
+            if ($('#table-keep-body').children().length > 0)
+            {
+                bootbox.confirm(confirmationMessage, function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    else {
+                        setKeepTable();
+                    }
+                });
+            }
+            else
+            {
+                setKeepTable();
+            }
+            */
+            setKeepTable();
+        })
+
+        function setKeepTable()
+        {
+            var count = $('input.need_chk:checked').length;
+            if (count <= 0) return;
+            
+            var book_list = document.getElementById('list-book-body');
+            $('#table-keep-body').html('');
+            
+            currency = "";
+            for(var i = 0 ; i < book_list.rows.length ; i++) 
+            {
+                if (book_list.rows[i].childNodes[0].childNodes[0].checked && !book_list.rows[i].childNodes[0].childNodes[0].disabled) {
+                    if (currency == "") {
+                        currency = listBook[i].currency;
+                        datetime = listBook[i].datetime.substr(0,10);
+                    }
+                    if (currency != listBook[i].currency){
+                        alert("You can't choose different kind of currency.");
+                        return;
+                    }
+                }
+            }
+
+            setState(true);
+            count = 0;
+            for(var i = 0 ; i < book_list.rows.length ; i++)
+            {
+                if (book_list.rows[i].childNodes[0].childNodes[0].checked && !book_list.rows[i].childNodes[0].childNodes[0].disabled) {
+                    var row_html = '';
+                    var credit = book_list.rows[i].childNodes[9].childNodes[0].value;
+                    var debit = book_list.rows[i].childNodes[10].childNodes[0].value;
+                    row_html = "<tr data-ref='" + i + "'><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[6].innerText + "</td><td>";
+                    row_html += '<input type="text" class="form-control" name="Keep_Remark[]" value="' + book_list.rows[i].childNodes[7].childNodes[0].value + '" style="width: 100%;text-align: center" autocomplete="off">';
+                    row_html += "</td><td class='text-center disable-td no-padding'>" + listBook[i].currency + "</td><td>";
+                    if (credit >= 0)
+                        row_html += '<input type="text" class="form-control style-blue-input keep_credit" name="Keep_credit[]" value="' + credit + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
+                    else
+                        row_html += '<input type="text" class="form-control style-red-input keep_credit" name="Keep_credit[]" value="' + credit + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
+
+                    if (debit >= 0)
+                        row_html += '<input type="text" class="form-control style-blue-input keep_debit" name="Keep_debit[]" value="' + debit + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
+                    else
+                        row_html += '<input type="text" class="form-control style-red-input keep_debit" name="Keep_debit[]" value="' + debit + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
+                    row_html += "</tr>";
+                    
+                    $('#table-keep-body').append(row_html);
+                    count ++;
+                }
+            }
+            if (count == 0) return;
+            $('#keep-list-bookno').val("J-" + (book_no + 1));
+            calcKeepReport(true);
+            setEvents();
+            keepContent = $('#general').html();
+        }
+
+        function calcKeepReport(first)
+        {
+            if (!first) {
+                $('#table-keep-body tr:last').remove();
+                $('#table-keep-body tr:last').remove();
+            }
+            var sum_credit = 0;
+            var sum_debit = 0;
+
+            var credit = $('input[name="Keep_credit[]"]');
+            var debit = $('input[name="Keep_debit[]"]');
+
+            for (var i=0;i<credit.length;i++) {
+                if (credit[i] != "") sum_credit += credit[i].value==""?0:parseFloat(credit[i].value.replace(",",""));
+                if (debit[i] != "") sum_debit += debit[i].value==""?0:parseFloat(debit[i].value.replace(",",""));
+            }
+            
+            var report_html = "";
+            report_html = "<tr><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header style-normal-header text-center'>合计</td><td class='style-normal-header sub-small-header text-center disable-td'>" + currency + "</td><td class='style-normal-header sub-small-header text-right disable-td' style='padding:5px!important;'>" + (sum_credit==0?"":prettyValue(sum_credit)) + "</td><td class='style-normal-header sub-small-header text-right disable-td' style='padding:5px!important;'>" + (sum_debit==0?"":prettyValue(sum_debit)) + "</td></tr>";
+            $('#table-keep-body').append(report_html);
+            report_html = "<tr><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header style-normal-header text-center'>记账金额</td><td class='style-normal-header sub-small-header text-center disable-td'>" + currency + "</td>";
+            report_html += '<td><input type="text" class="form-control ' + (sum_credit>=0?'style-blue-input':'style-red-input') + '" name="sum_credit" value="' + (sum_credit==0?"":prettyValue(sum_credit)) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
+            report_html += '<td><input type="text" class="form-control ' + (sum_debit>=0?'style-blue-input':'style-red-input') + '" name="sum_debit" value="' + (sum_debit==0?"":prettyValue(sum_debit)) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
+            report_html += "</tr>";
+            $('#table-keep-body').append(report_html);
+            $('#keep-list-datetime').val(datetime);
+        }
+
+        $('#btnOK').on('click', function() {
+            rate = $('#keep_rate').val();
+            if (rate == "" || (parseFloat(rate) <= 0)) {
+                $('#keep_rate').focus();
+                return;
+            }
+            pay_type = $('#pay_type').val();
+            account_type = $('#account_type').val();
+            datetime = $("#keep-list-datetime").val();
+
+            if (datetime == "") {
+                $("#keep-list-datetime").focus();
+                return;
+            }
+
+            var confirmationMessage = 'Are you sure you to apply?';
+            bootbox.confirm(confirmationMessage, function (result) {
+                if (!result) {
+                    return;
+                }
+                else {
+                    var book_list = document.getElementById('list-book-body');
+                    var keep_list = document.getElementById('table-keep-body');
+                    
+                    book_no = book_no + 1;
+                    for(var i = 0 ; i < keep_list.rows.length ; i++) 
+                    {
+                        var book_id = keep_list.rows[i].getAttribute('data-ref');
+                        if (book_id != null)
+                        {
+                            book_list.rows[book_id].childNodes[2].childNodes[0].value = "J-" + book_no;
+                            book_list.rows[book_id].childNodes[7].childNodes[0].value = keep_list.rows[i].childNodes[4].childNodes[0].value;
+                            book_list.rows[book_id].childNodes[9].childNodes[0].value = keep_list.rows[i].childNodes[6].childNodes[0].value;
+                            book_list.rows[book_id].childNodes[10].childNodes[0].value = keep_list.rows[i].childNodes[7].childNodes[0].value;
+                            book_list.rows[book_id].childNodes[11].childNodes[0].value = rate;
+                            $(book_list.rows[book_id].childNodes[9].childNodes[0]).trigger('change');
+                            $(book_list.rows[book_id].childNodes[10].childNodes[0]).trigger('change');
+                            //$('#table-keep-body').html('');
+                        }
+                    }
+                    setState(false);
+                }
+            });
+        })
+
+        $('#btnCancel').on('click', function() {
+            var confirmationMessage = 'Are you sure you to cancel?';
+            bootbox.confirm(confirmationMessage, function (result) {
+                if (!result) {
+                    return;
+                }
+                else {
+                    $('#keep-list-bookno').val('');
+                    $('#keep-list-datetime').val('');
+                    $('#pay_type').val(0);
+                    $('#account_type').val(0);
+                    
+                    $('#table-keep-body').html('');
+                    setState(false);
+                }
+            });
+        })
 
         $('#select-year').on('change', function() {
             var prevYear = $('#select-year').val();
             $('#select-year').val(year);
             var newForm = $form.serialize();
-            if ((newForm !== origForm) && !submitted) {
+            newForm = newForm.replace(/select-year\=|[0-9]/gi,'');
+            newForm = newForm.replace(/select-month\=|[0-9]/gi,'');
+            if ((newForm !== origForm) && (origForm != "") && !submitted) {
                 var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
                 bootbox.confirm(confirmationMessage, function (result) {
@@ -335,18 +635,58 @@ $isHolder = Session::get('IS_HOLDER');
                 changeYear();
             }
         });
+        
+        $('#keep_rate').on('keyup', function(evt) {
+            $(evt.target).val(evt.target.value.replace(/(\.\d{4})\d+/g, '$1'));
+        });
+
+        $('#keepTab').on('click', function() {
+            alert("input Enabled");
+        });
 
         function changeMonth() {
             month = $("#select-month option:selected").val();
-            origForm = "";
             selectInfo();
+        }
+
+        function setEvents() {
+            $('.style-blue-input,.style-red-input').on('change', function(evt) {
+                if (evt.target.value == '') return;
+                var val = evt.target.value.replace(',','');
+                if (val >= 0)
+                {
+                    $(evt.target).removeClass("style-red-input");
+                    $(evt.target).addClass("style-blue-input");
+                }
+                else
+                {
+                    $(evt.target).removeClass("style-blue-input");
+                    $(evt.target).addClass("style-red-input");
+                }
+                $(evt.target).val(prettyValue(val));
+            })
+            $('.style-blue-input,.style-red-input').on('keypress', function(e) {
+                if (e.which != 46 && e.which != 45 && e.which != 46 && !(e.which >= 48 && e.which <= 57)) {
+                    return false;
+                }
+            })
+
+            $('.keep_credit,.keep_debit').on('change', function(evt) {
+                calcKeepReport(false);
+            })
         }
 
         $('#select-month').on('change', function() {
             var prevMonth = $('#select-month').val();
             $('#select-month').val(month);
             var newForm = $form.serialize();
-            if ((newForm !== origForm) && !submitted) {
+            newForm = newForm.replace(/select-year\=|[0-9]/gi,'');
+            newForm = newForm.replace(/select-month\=|[0-9]/gi,'');
+
+            console.log(newForm);
+            console.log(origForm);
+
+            if ((newForm !== origForm) && (origForm != "") && !submitted) {
                 var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
                 bootbox.confirm(confirmationMessage, function (result) {
@@ -375,12 +715,19 @@ $isHolder = Session::get('IS_HOLDER');
             }
         });
 
+        function clearSelection()
+        {
+            $('input.need_chk:checked').prop("checked", false);
+        }
+
         var $form = $('form');
         var origForm = "";
         window.addEventListener("beforeunload", function (e) {
             var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
             var newForm = $form.serialize();
+            newForm = newForm.replace(/select-year\=|[0-9]/gi,'');
+            newForm = newForm.replace(/select-month\=|[0-9]/gi,'');
             if ((newForm !== origForm) && !submitted) {
                 (e || window.event).returnValue = confirmationMessage;
             }

@@ -150,6 +150,14 @@
     background-color: #ffe3e082;
 }
 
+.wage-item:hover {
+    background-color: #ff988c82;
+}
+
+.wage-item td:hover {
+    background-color: #ff988c82;
+}
+
 .contract-item {
     background-color: white;
     cursor:pointer;

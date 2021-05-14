@@ -1121,7 +1121,7 @@ $ships = Session::get('shipList');
         tab_text += '<tr style="font-size:14px;font-family:simsun;">';
         tab_text += '<td style="background:#f3f3f3;text-align:right;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">' + '装港' + '</td>';
         tab_text += '<td colspan="2" style="text-align:left;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">' + voyContractObj.upPortNames + '</td>';
-        tab_text += '<td style="background:#f3f3f3;text-align:right;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;">' + '速追肥' + '</td>';
+        tab_text += '<td style="background:#f3f3f3;text-align:right;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;">' + '速遣费' + '</td>';
         tab_text += '<td colspan="4" style="text-align:left;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">$ ' + $('[name=dispatch_fee]').val() + '</td>';
         tab_text += '</tr>';
         tab_text += '<tr style="font-size:14px;font-family:simsun;">';
