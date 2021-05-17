@@ -137,6 +137,8 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('system/backup/restore', ['uses'=>'OrgManage\BackupController@restore']);
 
 	Route::post('finance/books/list', ['uses'=>'Finance\FinanceController@getBookList']);
+	Route::post('finance/books/init', ['uses'=>'Finance\FinanceController@initBookList']);
+	Route::post('finance/waters/list', ['uses'=>'Finance\FinanceController@getWaterList']);
 
 });
 

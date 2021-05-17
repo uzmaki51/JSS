@@ -134,7 +134,7 @@ $isHolder = Session::get('IS_HOLDER');
                 ajax: {
                     url: BASE_URL + 'ajax/shipMember/wage/send',
                     type: 'POST',
-                    data: { 'year':year, 'month':month, 'shipId':shipId},
+                    data: {'year':year, 'month':month, 'shipId':shipId},
                 },
                 "ordering": false,
                 "pageLength": 500,
@@ -331,6 +331,7 @@ $isHolder = Session::get('IS_HOLDER');
             if ((newForm !== origForm) && !submitted) {
                 var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
+                alertAudio();                                    
                 bootbox.confirm(confirmationMessage, function (result) {
                     if (!result) {
                         return;
@@ -361,6 +362,7 @@ $isHolder = Session::get('IS_HOLDER');
             if ((newForm !== origForm) && !submitted) {
                 var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
+                alertAudio();                                    
                 bootbox.confirm(confirmationMessage, function (result) {
                     if (!result) {
                         return;

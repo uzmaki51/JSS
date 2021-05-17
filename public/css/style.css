@@ -331,6 +331,12 @@ div.input table tbody tr td
     height: 24px;
 }
 
+.style-gray-input {
+    font-weight: bold!important;
+    color: #d2d2d2!important;
+    height: 24px;
+}
+
 .style-blue-input::-webkit-outer-spin-button,
 .style-blue-input::-webkit-inner-spin-button,
 .style-red-input::-webkit-outer-spin-button,

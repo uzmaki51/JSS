@@ -14,6 +14,7 @@ use App\Models\Operations\AcItem;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\Finance\BooksList;
 use App\Models\Finance\ReportSave;
+use App\Models\Finance\WaterList;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -38,6 +39,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['datetime'] = $record->create_time;
 			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
 			$newArr[$newindex]['obj'] = $ship->NickName;
+			$newArr[$newindex]['ship_no'] = $record->shipNo;
 			$contract = VoyLog::where('id', $record->voyNo)->first();
 			$newArr[$newindex]['voyNo'] = $contract->CP_ID;
 			$newArr[$newindex]['currency'] = $record->currency == 'USD' ? "$" : "¥";
@@ -46,6 +48,55 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['content'] = $record->content;
 			$newArr[$newindex]['amount'] = $record->amount;
 			$newArr[$newindex]['rate'] = $record->rate == null ? '' : $record->rate;
+			$attachment = DecisionReportAttachment::where('reportId', $record->orig_id)->first();
+			if (!empty($attachment)) {
+				$newArr[$newindex]['attachment'] = $attachment->file_link;
+			}
+			$newindex ++;
+		}
+
+		///////////////// Need to Optimize
+		$selector = DB::table($this->table)
+			->orderBy('update_at', 'asc')
+			->select('*');
+
+		$next_year = $year;
+        $next_month = $month;
+        if ($month == 12) {
+            $next_month = 1;
+            $next_year ++;
+        }
+        else
+        {
+            $next_month = $month + 1;
+        }
+		$now = date('Y-m-d', strtotime("$year-$month-1"));
+		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
+		$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
+			
+		$selector->where('create_at', '>=', $now)->where('create_at', '<', $next);
+		$recordsFiltered = $selector->count();
+		$records = $selector->get();
+		foreach($records as $index => $record) {
+			$report_original_record = ReportSave::where('orig_id', $record->id)->first();
+			if (!empty($report_original_record)) continue;
+
+			$newArr[$newindex]['id'] = $record->id;
+			$newArr[$newindex]['flowid'] = $record->flowid;
+			$newArr[$newindex]['report_no'] = $record->id;
+			$newArr[$newindex]['book_no'] = '';
+			$newArr[$newindex]['datetime'] = $record->create_at;
+			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
+			$newArr[$newindex]['obj'] = $ship->NickName;
+			$newArr[$newindex]['ship_no'] = $record->shipNo;
+			$contract = VoyLog::where('id', $record->voyNo)->first();
+			$newArr[$newindex]['voyNo'] = $contract->CP_ID;
+			$newArr[$newindex]['currency'] = $record->currency == 'USD' ? "$" : "¥";
+			$newArr[$newindex]['type'] = $record->type;
+			$newArr[$newindex]['profit_type'] = $record->profit_type;
+			$newArr[$newindex]['content'] = $record->content;
+			$newArr[$newindex]['amount'] = $record->amount;
+			$newArr[$newindex]['rate'] = '';
 			$attachment = DecisionReportAttachment::where('reportId', $record->id)->first();
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
@@ -65,10 +116,16 @@ class DecisionReport extends Model {
 	}
 
 	public function getForBookDatatable($params) {
-		$year = $params['year'];
-        $month = $params['month'];
-
-		if ($year == null) {
+		if (!isset($params['columns'][1]['search']['value']) ||
+            $params['columns'][1]['search']['value'] == '' ||
+            !isset($params['columns'][2]['search']['value']) ||
+            $params['columns'][2]['search']['value'] == ''
+        ) {
+            $year = $params['year'];
+        	$month = $params['month'];
+        }
+		else
+		{
 			$year = $params['columns'][1]['search']['value'];
 			$month = $params['columns'][2]['search']['value'];
 		}
@@ -110,6 +167,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['datetime'] = $record->create_at;
 			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
 			$newArr[$newindex]['obj'] = $ship->NickName;
+			$newArr[$newindex]['ship_no'] = $record->shipNo;
 			$contract = VoyLog::where('id', $record->voyNo)->first();
 			$newArr[$newindex]['voyNo'] = $contract->CP_ID;
 			$newArr[$newindex]['currency'] = $record->currency == 'USD' ? "$" : "¥";
@@ -118,6 +176,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['content'] = $record->content;
 			$newArr[$newindex]['amount'] = $record->amount;
 			$newArr[$newindex]['rate'] = '';
+			$newArr[$newindex]['attachment'] = $record->id;
 			$attachment = DecisionReportAttachment::where('reportId', $record->id)->first();
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
@@ -211,6 +270,58 @@ class DecisionReport extends Model {
 			'data' => $records,
 			'error' => 0,
 		];
+	}
+
+	public function getForWaterDatatable($params) {
+		if (!isset($params['columns'][1]['search']['value']) ||
+            $params['columns'][1]['search']['value'] == '' ||
+            !isset($params['columns'][2]['search']['value']) ||
+            $params['columns'][2]['search']['value'] == ''
+        ) {
+            $year = $params['year'];
+        	$month = $params['month'];
+        }
+		else
+		{
+			$year = $params['columns'][1]['search']['value'];
+			$month = $params['columns'][2]['search']['value'];
+		}
+
+		$selector = WaterList::where('year', $year)->where('month', $month)->select('*');
+		$recordsFiltered = $selector->count();
+		$records = $selector->get();
+
+		$newArr = [];
+        $newindex = 0;
+		foreach($records as $index => $record) {
+			$newArr[$newindex]['book_no'] = $record->book_no;
+			$newArr[$newindex]['ship_name'] = $record->ship_name;
+			//$newArr[$newindex]['datetime'] = $record->create_at;
+			$newArr[$newindex]['datetime'] = $record->register_time;
+			//$newArr[$newindex]['report_no'] = $record->id;
+			$newArr[$newindex]['content'] = $record->content;
+			$newArr[$newindex]['currency'] = $record->currency;
+			$newArr[$newindex]['credit'] = $record->credit;
+			$newArr[$newindex]['debit'] = $record->debit;
+			$newArr[$newindex]['rate'] = $record->rate;
+			$newArr[$newindex]['pay_type'] = $record->pay_type;
+			$newArr[$newindex]['account_type'] = $record->account_type;
+			$newArr[$newindex]['report_id'] = $record->report_id;
+			$attachment = DecisionReportAttachment::where('reportId', $record->report_id)->first();
+			if (!empty($attachment)) {
+				$newArr[$newindex]['attachment'] = $attachment->file_link;
+			}
+			$newindex ++;
+		}
+
+		return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => DB::table($this->table)->count(),
+            'recordsFiltered' => $newindex,
+            'original' => true,
+            'data' => $newArr,
+            'error' => 0,
+        ];
 	}
 
 	public function decideReport($params) {
