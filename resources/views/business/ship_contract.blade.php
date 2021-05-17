@@ -74,57 +74,56 @@ $ships = Session::get('shipList');
                     <div class="row" style="margin-top: 4px;">
                     <div class="col-lg-12">
                         <div class="head-fix-div d-line-height" id="voy_div" style="height: 129px;">
-                                <table id="voy_list" v-cloak>
-                                    <thead id="list-header" class="">
-                                    <tr>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cp_date') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cp_date') !!}</span></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.loading_port') !!}</span></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.discharge_port') !!}</span></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.d_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.d_rate') !!}</span></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
-                                        <th class="text-center style-header lr-no-p" style="width: 60px;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span>{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
-                                        <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.contract_attach') !!}</th>
-                                        <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;"><!--{!! trans('common.label.delete') !!}--></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="list-body">
-                                        @if(isset($voy_id))
-                                        <tr class="contract-item" v-bind:class="item.id == {{$voy_id}} ? 'selected' : ''" v-for="(item, index) in list" v-bind:data-index="item.id">
-                                        @else
-                                        <tr class="contract-item" v-for="(item, index) in list" v-bind:data-index="item.id">
-                                        @endif
-                                            <td class="text-center">@{{ item.Voy_No }}</td>
-                                            <td class="text-center">@{{ item.CP_kind }}</td>
-                                            <td class="text-center">@{{ item.CP_Date }}</td>
-                                            <td class="text-left"><div class="fixed-td">@{{ getCargoName(item.Cargo) }}</div></td>
-                                            <td class="text-center">@{{ item.Cgo_Qtty }}</td>
-                                            <td class="text-center"><div class="fixed-td">@{{ getPortName(item.LPort) }}</div></td>
-                                            <td class="text-center"><div class="fixed-td">@{{ getPortName(item.DPort) }}</div></td>
-                                            <td class="text-center">@{{ item.L_Rate }}</td>
-                                            <td class="text-center">@{{ item.D_Rate }}</td>
-                                            <td class="text-center">@{{ getFrtRate(item.Freight, item.total_Freight) }}</td>
-                                            <td class="text-center">@{{ item.net_profit_day }}</td>
-                                            <td class="text-center">
-                                                <a :href="item.attachment_url" target="_blank" v-bind:class="[item.is_attachment == 1 ? '' : 'd-none']">
-                                                    <img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15">
+                            <table id="voy_list" v-cloak>
+                                <thead id="list-header" class="">
+                                <tr>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cp_date') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cp_date') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.loading_port') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.discharge_port') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.d_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.d_rate') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
+                                    <th class="text-center style-header lr-no-p" style="width: 60px;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span>{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.contract_attach') !!}</th>
+                                    <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;"><!--{!! trans('common.label.delete') !!}--></th>
+                                </tr>
+                                </thead>
+                                <tbody id="list-body">
+                                    @if(isset($voy_id))
+                                    <tr class="contract-item" v-bind:class="item.id == {{$voy_id}} ? 'selected' : ''" v-for="(item, index) in list" v-bind:data-index="item.id">
+                                    @else
+                                    <tr class="contract-item" v-for="(item, index) in list" v-bind:data-index="item.id">
+                                    @endif
+                                        <td class="text-center">@{{ item.Voy_No }}</td>
+                                        <td class="text-center">@{{ item.CP_kind }}</td>
+                                        <td class="text-center">@{{ item.CP_Date }}</td>
+                                        <td class="text-left"><div class="fixed-td">@{{ getCargoName(item.Cargo) }}</div></td>
+                                        <td class="text-center">@{{ item.Cgo_Qtty }}</td>
+                                        <td class="text-center"><div class="fixed-td">@{{ getPortName(item.LPort) }}</div></td>
+                                        <td class="text-center"><div class="fixed-td">@{{ getPortName(item.DPort) }}</div></td>
+                                        <td class="text-center">@{{ item.L_Rate }}</td>
+                                        <td class="text-center">@{{ item.D_Rate }}</td>
+                                        <td class="text-center">@{{ getFrtRate(item.Freight, item.total_Freight) }}</td>
+                                        <td class="text-center">@{{ item.net_profit_day }}</td>
+                                        <td class="text-center">
+                                            <a :href="item.attachment_url" target="_blank" v-bind:class="[item.is_attachment == 1 ? '' : 'd-none']">
+                                                <img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15">
+                                            </a>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="action-buttons">
+                                                <a class="red" @click="deleteItem(item.id)">
+                                                    <i class="icon-trash"></i>
                                                 </a>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="action-buttons">
-                                                    <a class="red" @click="deleteItem(item.id)">
-                                                        <i class="icon-trash"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    
-                                    </tbody>
-                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
 
                         <ul class="nav nav-tabs ship-register">
@@ -337,12 +336,28 @@ $ships = Session::get('shipList');
                     isChangeStatus = true;
                 else
                     isChangeStatus = false;
+
+                if(!isChangeStatus) {
+                    let currentObj = JSON.parse(JSON.stringify(voyContractObj._data));
+                    if(JSON.stringify(voyContractObjTmp) != JSON.stringify(currentObj))
+                        isChangeStatus = true;
+                    else
+                        isChangeStatus = false;
+                }
             } else {
                 let currentObj = JSON.parse(JSON.stringify(tcInputObj.input));
                 if(JSON.stringify(tcInputObjTmp) != JSON.stringify(currentObj))
                     isChangeStatus = true;
                 else
                     isChangeStatus = false;
+
+                if(!isChangeStatus) {
+                    let currentObj = JSON.parse(JSON.stringify(tcContractObj._data));
+                    if(JSON.stringify(tcContractObjTmp) != JSON.stringify(currentObj))
+                        isChangeStatus = true;
+                    else
+                        isChangeStatus = false;
+                    }                    
             }
 
             if (!submitted && isChangeStatus) {
@@ -371,7 +386,7 @@ $ships = Session::get('shipList');
                             if(isNaN(this.value))
                                 return 0;
 
-                            return this.value.toString();
+                            return this.value;
                         } else {
                             let fixedLength = 2;
                             let prefix = '$ ';
@@ -777,6 +792,8 @@ $ships = Session::get('shipList');
                         $('#voy_contract_div').addClass('active');
                         $('#tc_contract_div').removeClass('active');
                         changeTab('voy');
+                        
+                        voyContractObjTmp = JSON.parse(JSON.stringify(voyContractObj._data));
                     }
                     else
                     {
@@ -847,6 +864,8 @@ $ships = Session::get('shipList');
                         $('#voy_contract_div').removeClass('active');
                         $('#tc_contract_div').addClass('active');
                         changeTab('tc');
+
+                        tcContractObjTmp = JSON.parse(JSON.stringify(tcContractObj._data));
                     }
                 }
                 else
@@ -867,6 +886,9 @@ $ships = Session::get('shipList');
                 }
                 voyInputObjTmp = JSON.parse(JSON.stringify(voyInputObj.input));
                 tcInputObjTmp = JSON.parse(JSON.stringify(tcInputObj.input));
+
+                voyContractObjTmp = JSON.parse(JSON.stringify(voyContractObj._data));
+                tcContractObjTmp = JSON.parse(JSON.stringify(tcContractObj._data));
             }
         });
     }

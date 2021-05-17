@@ -194,7 +194,6 @@
     </div>
     
         <div class="tab-right contract-input-div" id="tc_contract_table" v-cloak>
-        
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <input type="hidden" value="{{ $shipId }}" name="shipId" v-model="shipId">
             <input type="hidden" value="{{ $voy_id }}" name="voy_id" id="voy_id">
@@ -471,6 +470,8 @@
 
                     $('#tc_input_div input').attr('readonly', '');
                     $('[name=currency]').attr('readonly', '');
+
+                    tcContractObjTmp = JSON.parse(JSON.stringify(tcContractObj._data));
                 },
                 onEditContinue: function() {
                     $('#tc_input_div input').removeAttr('readonly');

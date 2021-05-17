@@ -166,16 +166,16 @@
                     </div>
                     <div class="d-flex horizontal">
                         <label>净利润</label>
-                        <my-currency-input class="text-left bigger-input" readonly v-model="output['net_profit']" name="net_profit"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" :class="profitClass(output['net_profit'])" readonly v-model="output['net_profit']" name="net_profit"></my-currency-input>
                     </div>
                     <div class="d-flex horizontal">
                         <label>日净利润</label>
-                        <my-currency-input class="text-left bigger-input" readonly v-model="output['net_profit_day']" name="net_profit_day" v-bind:fixedNumber="0" maxlength="5"></my-currency-input>
+                        <my-currency-input class="text-left bigger-input" :class="profitClass(output['net_profit_day'])" readonly v-model="output['net_profit_day']" name="net_profit_day" v-bind:fixedNumber="2" maxlength="5"></my-currency-input>
                         <span></span>
                     </div>
                     <div class="d-flex horizontal">
                         <label>参考(最高)</label>
-                        <my-currency-input class="text-left double-input-left" style="color: #126EB9 !important; font-weight: bold" readonly v-model="output['max_profit']" name="max_profit" v-bind:fixednumber="0"></my-currency-input>
+                        <my-currency-input class="text-left double-input-left" style="color: #126EB9 !important; font-weight: bold" readonly v-model="output['max_profit']" name="max_profit" v-bind:fixednumber="2"></my-currency-input>
                         <input type="text" class="text-left double-input-right" readonly name="max_voy" v-model="output['max_voy']">
                         <span>航次</span>
                     </div>
@@ -484,6 +484,8 @@
                     voyContractObj.com_fee = this.input['fee'];
                     $('#voy_input_div input').attr('readonly', '');
                     $('[name=currency]').attr('readonly', '');
+
+                    voyContractObjTmp = JSON.parse(JSON.stringify(voyContractObj._data));
                 },
                 onEditContinue: function() {
                     $('#voy_input_div input').removeAttr('readonly');
@@ -563,9 +565,13 @@
                     
                     // Profit per day
                     if(this.output['sail_time'] != 0)
-                        this.output['net_profit_day'] = BigNumber(netProfit).div(this.output['sail_time']);
+                        this.output['net_profit_day'] = BigNumber(netProfit).div(this.output['sail_time']).toFixed(2);
                     else 
                         this.output['net_profit_day'] = 0;
+                },
+                profitClass: function(param) {
+                    let value = parseFloat(param);
+                    return value <= 0 ? 'text-danger' : '';
                 }
             },
         });

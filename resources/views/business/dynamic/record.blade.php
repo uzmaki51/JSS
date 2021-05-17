@@ -69,12 +69,12 @@
                             <table class="contract-table mt-2 table-layout-fixed" style="min-height: auto;">
                             <tr>
                                 <td class="width-10">装港</td>
-                                <td class="font-style-italic width-40">LOADING PORT</td>
+                                <td class="font-style-italic width-30">LOADING PORT</td>
                                 <td class="font-style-italic width-50 text-ellipsis white-bg" style="border-right: 1px solid #4c4c4c;">@{{ port['loading'] }}</td>
                             </tr>
                             <tr>
                                 <td style="width-10">卸港</td>
-                                <td class="font-style-italic width-40">DISCHARGING PORT</td>
+                                <td class="font-style-italic width-30">DISCHARGING PORT</td>
                                 <td class="font-style-italic width-50 text-ellipsis white-bg" style="border-right: 1px solid #4c4c4c;">@{{ port['discharge'] }}</td>
                             </tr>                            
                             </table>
@@ -102,8 +102,8 @@
                     <table class="table-bordered dynamic-table">
                         <thead>
                             <tr>
-                                <th class="text-center font-style-italic">VOY No</th>
-                                <th class="text-center font-style-italic">DATE</th>
+                                <th class="text-center font-style-italic" style="width: 60px;">VOY No</th>
+                                <th class="text-center font-style-italic" style="width: 70px;">DATE</th>
                                 <th class="text-center font-style-italic" colspan="2">TIME[LT]</th>
                                 <th class="text-center font-style-italic" rowspan="2">GMT</th>
                                 <th class="text-center font-style-italic">STATUS</th>
@@ -112,11 +112,11 @@
                                 <th class="text-center font-style-italic">DTG[NM]</th>
                                 <th class="text-center font-style-italic">SPEED</th>
                                 <th class="text-center font-style-italic">RPM</th>
-                                <th class="text-center font-style-italic">CGO QTY</th>
+                                <th class="text-center font-style-italic" style="border-right: 2px solid #4c4c4c;">CGO QTY</th>
                                 <th class="text-center font-style-italic" colspan="2">ROB</th>
                                 <th class="text-center font-style-italic" colspan="2">BUNKERING</th>
                                 <th class="text-center font-style-italic">REMARK</th>
-                                <th></th>
+                                <th style="width: 16px;"></th>
                             </tr>
                             <tr>
                                 <th class="text-center">航次</th>
@@ -129,7 +129,7 @@
                                 <th class="text-center">距离</th>
                                 <th class="text-center">速度</th>
                                 <th class="text-center">转数</th>
-                                <th class="text-center">存货量</th>
+                                <th class="text-center" style="border-right: 2px solid #4c4c4c;">存货量</th>
                                 <th class="text-center font-style-italic">FO</th>
                                 <th class="text-center font-style-italic">DO</th>
                                 <th class="text-center font-style-italic">FO</th>
@@ -151,7 +151,7 @@
                                 <td class="text-center">@{{ prevData['Sail_Distance'] }}</td>
                                 <td class="text-center">@{{ prevData['Speed'] }}</td>
                                 <td class="text-center">@{{ prevData['RPM'] }}</td>
-                                <td class="text-right font-weight-bold text-danger">@{{ prevData['Cargo_Qtty'] }}</td>
+                                <td class="text-right font-weight-bold text-danger" style="border-right: 2px solid #484f5b;">@{{ prevData['Cargo_Qtty'] }}</td>
                                 <td class="text-center font-weight-bold text-danger">@{{ prevData['ROB_FO'] }}</td>
                                 <td class="text-center font-weight-bold text-danger">@{{ prevData['ROB_DO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_FO'] }}</td>
@@ -160,7 +160,7 @@
                                 <td></td>
                             </tr>
                             <template v-for="(currentItem, index) in currentData">
-                                <tr>
+                                <tr class="dynamic-item">
                                     <td class="d-none"><input type="hidden" :value="currentItem.id" name="id[]"></td>
                                     <td class="text-center voy-td"><input type="text" disabled  v-model="activeVoy" name="CP_ID[]" class="form-control text-center"></td>
                                     <td class="text-center date-width"><input type="text" class="date-picker form-control text-center" name="Voy_Date[]" v-model="currentItem.Voy_Date" @click="dateModify($event, index)" data-date-format="yyyy-mm-dd"></td>
@@ -181,34 +181,34 @@
                                     <td><input type="number" max="100000" class="form-control text-center" name="Sail_Distance[]" v-model="currentItem.Sail_Distance"></td>
                                     <td><input type="number" class="form-control text-center" name="Speed[]" v-model="currentItem.Speed"></td>
                                     <td><input type="number" class="form-control text-center" name="RPM[]" v-model="currentItem.RPM"></td>
-                                    <td><input type="number" class="form-control text-right font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty[]" v-model="currentItem.Cargo_Qtty"></td>
+                                    <td style="border-right: 2px solid #484f5b;"><input type="number" class="form-control text-right font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="Cargo_Qtty[]" v-model="currentItem.Cargo_Qtty"></td>
                                     <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_FO[]" v-model="currentItem.ROB_FO"></td>
                                     <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO"></td>
-                                    <td><input type="number" class="form-control text-center" name="BUNK_FO[]" v-model="currentItem.BUNK_FO"></td>
-                                    <td><input type="number" class="form-control text-center" name="BUNK_DO[]" v-model="currentItem.BUNK_DO"></td>
-                                    <td class="position-width"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" maxlength="50" @click="addRow" autocomplete="off">@{{ currentItem.Remark }}</textarea></td>
+                                    <td><input type="number" class="form-control text-center" name="BUNK_FO[]"  style="color: blue!important" v-model="currentItem.BUNK_FO"></td>
+                                    <td><input type="number" class="form-control text-center" name="BUNK_DO[]"  style="color: blue!important" v-model="currentItem.BUNK_DO"></td>
+                                    <td class="position-width"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" @click="addRow(index)" maxlength="50" autocomplete="off" v-model="currentItem.Remark"></textarea></td>
                                     <td class="text-center">
                                         <div class="action-buttons">
-                                            <a class="red" @click="deleteItem(currentItem.id, index)">
+                                            <a class="red" @click="deleteItem(currentItem.id, index)" :class="deleteClass">
                                                 <i class="icon-trash" style="color: red!important;"></i>
                                             </a>
                                         </div>
                                     </td>
                                 </tr>
                             </template>
-                            </tbody>
+                        </tbody>
                             </table>
-                            <table class="dynamic-result-table">
+                            <table class="dynamic-result-table table-layout-fixed">
                             <tbody>
                             <tr class="dynamic-footer">
-                                <td class="text-center" rowspan="2">航次</td>
-                                <td class="text-center" rowspan="2">报告次</td>
-                                <td class="text-center" rowspan="2" colspan="2">时间</td>
-                                <td class="text-center" rowspan="2">航次用时</td>
-                                <td class="text-center" rowspan="2">距离<br>[NM]</td>
-                                <td class="text-center" rowspan="2">平均<br>速度</td>
+                                <td class="text-center" style="width: 60px;" rowspan="2">航次</td>
+                                <td class="text-center" style="width: 70px;" rowspan="2">报告次</td>
+                                <td class="text-center" rowspan="2" style="width: 209px;" colspan="2">时间</td>
+                                <td class="text-center" rowspan="2" style="width: 56px;">航次用时</td>
+                                <td class="text-center" rowspan="2" style="width: 70px;">距离<br>[NM]</td>
+                                <td class="text-center" rowspan="2" style="width: 70px;">平均<br>速度</td>
                                 <td class="text-center">经济天</td>
-                                <td class="text-center"><span class="text-warning">@{{ number_format(economic_rate) }}%</span></td>
+                                <td class="text-center"><span class="text-warning" :class="dangerClass(economic_rate)">@{{ number_format(economic_rate) }}%</span></td>
                                 <td class="text-center" colspan="2">总消耗</td>
                                 <td class="text-center" colspan="2">加油量</td>
                                 <td class="text-center" colspan="2">标准消耗</td>
@@ -217,32 +217,32 @@
                             <tr class="dynamic-footer">
                                 <td class="text-center">航行</td>
                                 <td class="text-center">装卸货</td>
-                                <td class="text-center">FO</td>
-                                <td class="text-center">DO</td>
-                                <td class="text-center">FO</td>
-                                <td class="text-center">DO</td>
-                                <td class="text-center">FO</td>
-                                <td class="text-center">DO</td>
-                                <td class="text-center">FO</td>
-                                <td class="text-center">DO</td>
+                                <td class="text-center" style="width: 50px;">FO</td>
+                                <td class="text-center" style="width: 50px;">DO</td>
+                                <td class="text-center" style="width: 50px;">FO</td>
+                                <td class="text-center" style="width: 50px;">DO</td>
+                                <td class="text-center" style="width: 50px;">FO</td>
+                                <td class="text-center" style="width: 50px;">DO</td>
+                                <td class="text-center" style="width: 35px;">FO</td>
+                                <td class="text-center" style="width: 35px;">DO</td>
                             </tr>
                             <tr class="dynamic-footer-result">
                                 <td>@{{ activeVoy }}</td>
-                                <td>@{{ number_format(this.currentData.length, 0) }}</td>
-                                <td colspan="2">@{{ sail_term['min_date'] }} ~ @{{ sail_term['max_date'] }}</td>
-                                <td>@{{ number_format(sail_time, 2) }}</td>
-                                <td>@{{ number_format(total_distance, 0) }}</td>
-                                <td>@{{ number_format(average_speed) }}</td>
-                                <td>@{{ number_format(total_sail_time, 2) }}</td>
-                                <td>@{{ number_format(total_loading_time) }}</td>
-                                <td>@{{ number_format(rob_fo) }}</td>
-                                <td>@{{ number_format(rob_do) }}</td>
-                                <td>@{{ number_format(bunker_fo) }}</td>
-                                <td>@{{ number_format(bunker_do) }}</td>
-                                <td>@{{ number_format(used_fo) }}</td>
-                                <td>@{{ number_format(used_do) }}</td>
-                                <td>@{{ number_format(save_fo) }}</td>
-                                <td>@{{ number_format(save_do) }}</td>
+                                <td>@{{ number_format(total_count, 0) }}</td>
+                                <td colspan="2" style="width: 209px;">@{{ sail_term['min_date'] }} ~ @{{ sail_term['max_date'] }}</td>
+                                <td :class="dangerClass(sail_time)">@{{ number_format(sail_time, 2) }}</td>
+                                <td :class="dangerClass(total_distance)">@{{ number_format(total_distance, 0) }}</td>
+                                <td :class="dangerClass(average_speed)">@{{ number_format(average_speed) }}</td>
+                                <td :class="dangerClass(total_sail_time)">@{{ number_format(total_sail_time, 2) }}</td>
+                                <td :class="dangerClass(total_loading_time)">@{{ number_format(total_loading_time) }}</td>
+                                <td :class="dangerClass(rob_fo)">@{{ number_format(rob_fo) }}</td>
+                                <td :class="dangerClass(rob_do)">@{{ number_format(rob_do) }}</td>
+                                <td :class="dangerClass(bunker_fo)">@{{ number_format(bunker_fo) }}</td>
+                                <td :class="dangerClass(bunker_do)">@{{ number_format(bunker_do) }}</td>
+                                <td :class="dangerClass(used_fo)">@{{ number_format(used_fo) }}</td>
+                                <td :class="dangerClass(used_do)">@{{ number_format(used_do) }}</td>
+                                <td :class="dangerClass(save_fo)">@{{ number_format(save_fo) }}</td>
+                                <td :class="dangerClass(save_do)">@{{ number_format(save_do) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -354,7 +354,10 @@
                     used_fo:                0,
                     used_do:                0,
                     save_fo:                0,
-                    save_do:                0
+                    save_do:                0,
+                    total_count:            0,
+
+                    empty:                  true,
                 },
                 init: function() {
                     this.changeShip();
@@ -380,8 +383,10 @@
                         });
                     },
                     number_format: function(value, decimal = 1) {
-
                         return isNaN(value) ? '-' : number_format(value, decimal);
+                    },
+                    dangerClass: function(value) {
+                        return isNaN(value) ? 'text-danger' : '';
                     },
                     onChangeVoy: function(evt) {
                         this.setPortName();
@@ -403,6 +408,11 @@
                                     searchObj.prevData = Object.assign([], [], data['prevData']);
                                     searchObj.prevData['Voy_Type'] = DynamicSub[searchObj.prevData['Voy_Type']];
                                     searchObj.prevData['Voy_Status'] = DynamicStatus[searchObj.prevData['Voy_Status']][0];
+                                    if(searchObj.prevData['Voy_Hour'] < 10)
+                                            searchObj.prevData['Voy_Hour'] = "0" + searchObj.prevData['Voy_Hour'];
+
+                                    if(searchObj.prevData['Voy_Minute'] < 10)
+                                        searchObj.prevData['Voy_Minute'] = "0" + searchObj.prevData['Voy_Minute'];
                                 }
                                 
                                 if(data['currentData'] != undefined && data['currentData'] != null && data['currentData'].length > 0) {
@@ -415,7 +425,7 @@
                                     searchObj.setTotalInfo(data);
                                     searchObj.currentData.forEach(function(value, key) {
                                         searchObj.currentData[key]['dynamicSub'] = getSubList(value['Voy_Status']);
-                                        if(isNaN(parseInt(value["Sail_Distance"])))
+                                        if(!isNaN(parseInt(value["Sail_Distance"])))
                                             searchObj.total_distance += parseInt(value["Sail_Distance"]);
 
                                         searchObj.bunker_fo += value['BUNK_FO'];
@@ -423,10 +433,8 @@
 
                                         searchObj.currentData[key]['Sail_Distance'] = parseFloat(value['Sail_Distance']) == 0 ? '' : value['Sail_Distance'];
                                         searchObj.currentData[key]['Speed'] = parseFloat(value['Speed']) == 0 ? '' : value['Speed'];
-                                        if(value['Voy_Status'] == 13)
-                                            searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty']) == 0 || !isNaN(value['Cargo_Qtty']) ? '0' : value['Cargo_Qtty'];
-                                        else
-                                            searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty']) == 0 ? '0' : value['Cargo_Qtty'];
+                                        searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty'])
+
                                         searchObj.currentData[key]['RPM'] = parseFloat(value['RPM']) == 0 ? '' : value['RPM'];
                                         searchObj.currentData[key]['ROB_FO'] = parseFloat(value['ROB_FO']) == 0 ? '' : value['ROB_FO'];
                                         searchObj.currentData[key]['ROB_DO'] = parseFloat(value['ROB_DO']) == 0 ? '' : value['ROB_DO'];
@@ -494,6 +502,8 @@
                                     searchObj.setDefaultData();
                                 }
 
+                                searchObj.total_count = searchObj.currentData.length;
+
                                 searchObjTmp = JSON.parse(JSON.stringify(searchObj.currentData));
 
                             }
@@ -560,7 +570,11 @@
 
                         return today;
                     },
-                    addRow: function(e) {
+                    addRow: function(index) {
+                        let length = this.currentData.length;
+                        if(length != 0 && length - 1 != index)
+                            return;
+                            
                         this.setDefaultData();
                     },
                     setDefaultData() {
@@ -569,13 +583,15 @@
                         searchObj.currentData[length]['Voy_Status'] = DYNAMIC_SAILING;
                         searchObj.currentData[length]['dynamicSub'] = getSubList(DYNAMIC_SAILING);
                         searchObj.currentData[length]['Voy_Type'] = DYNAMIC_SUB_SALING;
-                        searchObj.currentData[length]['GMT'] = 8;
                         searchObj.currentData[length]['Voy_Hour'] = "08";
                         searchObj.currentData[length]['Voy_Minute'] = "00";
-                        if(length > 0)
+                        if(length > 0) {
                             searchObj.currentData[length]['Voy_Date'] = searchObj.currentData[length - 1]['Voy_Date'];
-                        else 
+                            searchObj.currentData[length]['GMT'] = searchObj.currentData[length - 1]['GMT'];
+                        } else {
                             searchObj.currentData[length]['Voy_Date'] = this.getToday('-');
+                            searchObj.currentData[length]['GMT'] = 8;
+                        }
 
                         searchObj.$forceUpdate();
                     },
@@ -601,25 +617,55 @@
                             this.currentData[index]['GMT'] = 0;
                     },
                     deleteItem: function(id, index) {
+                        let length = this.currentData.length;
+                        let _this = this;
+                        if(length == 0 && this.empty) {
+                            return;
+                        }
                         __alertAudio();
-                        if (id != undefined) {
-                            bootbox.confirm("Are you sure you want to delete?", function (result) {
-                                if (result) {
-                                    $.ajax({
-                                        url: BASE_URL + 'ajax/business/dynrecord/delete',
-                                        type: 'post',
-                                        data: {
-                                            id: id,
-                                        },
-                                        success: function (data, status, xhr) {
-                                            searchObj.currentData.splice(index, 1);
+                        bootbox.confirm("Are you sure you want to delete?", function (result) {
+                            if (result) {
+                                if (id != undefined) {
+                                $.ajax({
+                                    url: BASE_URL + 'ajax/business/dynrecord/delete',
+                                    type: 'post',
+                                    data: {
+                                        id: id,
+                                    },
+                                    success: function (data, status, xhr) {
+                                        searchObj.currentData.splice(index, 1);                                     
+                                        console.log(_this.currentData.length);
+                                        if(_this.currentData.length == 0) {
+                                            _this.empty = true;
+                                            console.log('insert')
+                                            _this.setDefaultData();
                                         }
-                                    })
+                                        searchObjTmp = JSON.parse(JSON.stringify(_this.currentData));
+                                    }
+                                });
+                                } else {
+                                    searchObj.currentData.splice(index, 1);
+                                    if(_this.currentData.length == 0) {
+                                        _this.empty = true;
+                                        console.log('insert')
+                                        _this.setDefaultData();
+                                    }
+                                    searchObjTmp = JSON.parse(JSON.stringify(_this.currentData));
                                 }
-                            });
-                        } else {
-                            searchObj.currentData.splice(index, 1);
-                        }                        
+                            }
+                        });
+                    }
+                },
+                computed: {
+                    deleteClass: function() {console.log('delete');
+                        let length = this.currentData.length;
+                        let _this = this;
+                        this.currentData.map(function(data) {
+                            if(data.id != undefined)
+                                _this.empty = false;
+                        });
+
+                        return _this.empty && length == 1 ? 'd-none' : '';
                     }
                 },
                 updated() {
@@ -684,18 +730,6 @@
                     searchObj.getData();
                 }
             });
-            // $.ajax({
-            //     url: BASE_URL + 'ajax/business/dynamic',
-            //     type: 'post',
-            //     data: {
-            //         shipId: searchObj.shipId,
-            //         voyNo: searchObj.voyNo,
-            //     }
-            //     success: function(result) {
-            //         let data = result['shipList'];
-            //         searchObj.ship_list = data;
-            //     }
-            // });
         }
 
         function getSubList(type) {

@@ -125,8 +125,10 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('business/dynamic/list', ['uses'	=> 'Business\BusinessController@ajaxDynamicList']);
 	Route::post('business/dynrecord/delete', ['uses'	=> 'Business\BusinessController@ajaxDeleteDynrecord']);
 	Route::post('business/voy/list', ['uses'	=> 'Business\BusinessController@ajaxVoyAllList']);
-
 	Route::post('business/dynamic/search', ['uses'	=> 'Business\BusinessController@ajaxDynamicSearch']);
+
+	## CTM
+	Route::get('business/ctm', ['uses'	=> 'Business\BusinessController@ctm']);
 
 	
 	Route::post('system/backup/list', ['uses'=>'OrgManage\BackupController@getList']);

@@ -142,7 +142,9 @@
     overflow: hidden;
     margin: 2px 2px 2px 10px;
 }
-
+.text-danger {
+    color:  red!important;
+}
 .search-label {
     padding: 2px;
 }
@@ -431,6 +433,9 @@ ul.timeline > li {
 }
 .dynamic-table input {
     color: #333333!important;
+}
+.dynamic-item:hover {
+    background: #ffe3e0;
 }
 @media (min-width: 1367px) {
     .inner-wrap {

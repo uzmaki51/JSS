@@ -325,13 +325,6 @@ td > a {
 	overflow-y: auto;
 }
 
-textarea {
-    color: #12539b !important;
-}
-
-input {
-    color: #12539b !important;
-}
 
 table {
     font-size: 12px !important;
@@ -752,9 +745,9 @@ footer {
     width: 80px;
     border: none;
     background: #f3f3f3;
-    border-right: 1px solid #4c4c4c;
-    border-left: 1px solid #4c4c4c;
-    border-bottom: 1px solid #4c4c4c;
+    border-right: 1px solid #4c4c4c!important;
+    border-left: 1px solid #4c4c4c!important;
+    border-bottom: 1px solid #4c4c4c!important;
 }
 
 .voy-input-right .horizontal:first-child input[type=text] {
