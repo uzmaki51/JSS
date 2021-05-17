@@ -7,6 +7,7 @@ use App\Http\Controllers\Util;
 use App\Models\Decision\DecisionReport;
 use App\Models\Finance\BooksList;
 use App\Models\Finance\ReportSave;
+use App\Models\Finance\WaterList;
 
 use App\User;
 use Illuminate\Contracts\Logging\Log;
@@ -27,12 +28,26 @@ class FinanceController extends Controller
 		$year = $request->get('year');
         $month = $request->get('month');
 
+		$max_item = WaterList::select(DB::raw('MAX(book_no) as max_no'))->first();
+		$book_no = $max_item['max_no'];
+		if (($book_no == null) || ($book_no == '')) $book_no = (int)(substr($year,2) . "0000");
+
+		$start_year = DecisionReport::select(DB::raw('MIN(create_at) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = $start_year['min_date'];
+        }
+        $start_month = date("m", strtotime($start_year));
+        //$start_year = date("Y", strtotime($start_year));
+		$start_year = '2020';
+
         return view('finance.books', [
-            'start_year' => '2020',
-			'start_month' => '11',
+            'start_year' => $start_year,
+			'start_month' => $start_month,
 			'year' => $year,
 			'month' => $month,
-			'book_no' => 3,
+			'book_no' => $book_no,
         ]);
     }
 
@@ -40,11 +55,6 @@ class FinanceController extends Controller
 	{
 		$year = $request->get('select-year');
         $month = $request->get('select-month');
-		$rate = $request->get('keep_rate');
-		$book_no = $request->get('keep-list-bookno');
-		$datetime = $request->get('keep-list-datetime');
-		$pay_type = $request->get('pay_type');
-		$account_type = $request->get('account_type');
 
 		$report_ids = $request->get('report_id');
 		$report_contents = $request->get('report_remark');
@@ -53,10 +63,26 @@ class FinanceController extends Controller
 		$report_debits = $request->get('debit');
 		$report_rates = $request->get('rate');
 
-
-		//var_dump($report_booknos);
-		//die;
-		//return $report_debits;
+		$keep_list = json_decode($request->get('keep_list'));
+		for ($i=0;$i<count($keep_list);$i++)
+		{
+			$record = new WaterList();
+			$record['book_no'] = $keep_list[$i]->no;
+			$record['ship_no'] = $keep_list[$i]->ship_no;
+			$record['content'] = $keep_list[$i]->content;
+			$record['year'] = $year;
+			$record['month'] = $month;
+			$record['register_time'] = $keep_list[$i]->datetime;
+			$record['rate'] = $keep_list[$i]->rate;
+			$record['pay_type'] = $keep_list[$i]->pay_type;
+			$record['account_type'] = $keep_list[$i]->account_type;
+			$record['currency'] = $keep_list[$i]->currency;
+			$record['credit'] = $keep_list[$i]->credit;
+			$record['debit'] = $keep_list[$i]->debit;
+			$record['ship_name'] = $keep_list[$i]->ship_name;
+			$record['report_id'] = $keep_list[$i]->report_id;
+			$record->save();
+		}
 
 		$report_list_record = BooksList::where('year', $year)->where('month', $month)->first();
         if (is_null($report_list_record)) {
@@ -91,7 +117,6 @@ class FinanceController extends Controller
 				$report_save_record['amount'] = $report_original_record->amount;
 			}
 
-
 			$report_save_record['currency'] = $report_original_record->currency;
 			$report_save_record['creator'] = $report_original_record->creator;
 			$report_save_record['recvUser'] = $report_original_record->recvUser;
@@ -109,11 +134,34 @@ class FinanceController extends Controller
 		return redirect('finance/books?'.'year='.$year.'&month='.$month);
 	}
 
+	public function initBookList(Request $request)
+	{
+		$params = $request->all();
+        $year = $params['year'];
+        $month = $params['month'];
+
+        BooksList::where('year', $year)->where('month', $month)->delete();
+        ReportSave::where('year', $year)->where('month', $month)->delete();
+		WaterList::where('year', $year)->where('month', $month)->delete();
+
+        return 1;
+	}
+
 	public function getBookList(Request $request)
 	{
 		$params = $request->all();
 		$decideTbl = new DecisionReport();
 		$reportList = $decideTbl->getForBookDatatable($params);
+
+		return response()->json($reportList);
+	}
+
+	public function getWaterList(Request $request)
+	{
+		$params = $request->all();
+
+		$decideTbl = new DecisionReport();
+		$reportList = $decideTbl->getForWaterDatatable($params);
 
 		return response()->json($reportList);
 	}

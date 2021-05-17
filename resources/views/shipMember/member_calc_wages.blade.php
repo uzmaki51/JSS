@@ -478,6 +478,7 @@ $isHolder = Session::get('IS_HOLDER');
             if ((newForm !== origForm) && !submitted) {
                 var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
+                alertAudio();
                 bootbox.confirm(confirmationMessage, function (result) {
                     if (!result) {
                         return;
@@ -527,6 +528,7 @@ $isHolder = Session::get('IS_HOLDER');
             if ((newForm !== origForm) && !submitted) {
                 var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
+                alertAudio();
                 bootbox.confirm(confirmationMessage, function (result) {
                     if (!result) {
                         return;
@@ -556,6 +558,7 @@ $isHolder = Session::get('IS_HOLDER');
             if ((newForm !== origForm) && !submitted) {
                 var confirmationMessage = 'It looks like you have been editing something. '
                                     + 'If you leave before saving, your changes will be lost.';
+                alertAudio();
                 bootbox.confirm(confirmationMessage, function (result) {
                     if (!result) {
                         return;
