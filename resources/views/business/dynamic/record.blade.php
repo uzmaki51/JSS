@@ -198,7 +198,7 @@
                             </template>
                         </tbody>
                             </table>
-                            <table class="dynamic-result-table table-layout-fixed">
+                        <table class="dynamic-result-table table-layout-fixed">
                             <tbody>
                             <tr class="dynamic-footer">
                                 <td class="text-center" style="width: 60px;" rowspan="2">航次</td>
@@ -756,18 +756,18 @@
         }
 
         $('body').on('keydown', 'input, select', function(e) {
-        if (e.key === "Enter") {
-            var self = $(this), form, focusable, next;
-            form = $('#dynamic-form');
-        
-            focusable = form.find('input,a,select,textarea').filter(':visible');
-            next = focusable.eq(focusable.index(this)+1);
-            if (next.length) {
-                next.focus();
+            if (e.key === "Enter") {
+                var self = $(this), form, focusable, next;
+                form = $('#dynamic-form');
+            
+                focusable = form.find('input,a,select,textarea').filter(':visible');
+                next = focusable.eq(focusable.index(this)+1);
+                if (next.length) {
+                    next.focus();
+                }
+                return false;
             }
-            return false;
-        }
-    });
+        });
     </script>
 
 @endsection

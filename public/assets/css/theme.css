@@ -860,6 +860,7 @@ footer {
 }
 .prev-voy td {
     background: #f2f2f2;
+    padding: 4px!important;
 }
 .table-layout-fixed {
     table-layout: fixed;
@@ -870,4 +871,8 @@ footer {
 }
 .voy-no:hover {
     background: #c5e9ec!important;
+}
+
+.ctm-footer tr td {
+    padding: 8px 4px!important;
 }

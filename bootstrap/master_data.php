@@ -377,8 +377,35 @@ $DynamicStatus = array(
 	]],
 );
 
+define('PROFIT_TYPE_1', 1);
+define('PROFIT_TYPE_2', 2);
+define('PROFIT_TYPE_3', 3);
+define('PROFIT_TYPE_4', 4);
+define('PROFIT_TYPE_5', 5);
+define('PROFIT_TYPE_6', 6);
+define('PROFIT_TYPE_7', 7);
+define('PROFIT_TYPE_8', 8);
+define('PROFIT_TYPE_9', 9);
+define('PROFIT_TYPE_10', 10);
+define('PROFIT_TYPE_11', 11);
+define('PROFIT_TYPE_12', 12);
 
+$ProfitTypeData = array(
+	PROFIT_TYPE_1		=> '接收',
+	PROFIT_TYPE_2		=> '伙食费',
+	PROFIT_TYPE_3		=> '劳务费',
+	PROFIT_TYPE_4		=> '娱乐费',
+	PROFIT_TYPE_5		=> '物料费',
+	PROFIT_TYPE_6		=> '招待费',
+	PROFIT_TYPE_7		=> '奖励',
+	PROFIT_TYPE_8		=> '小费',
+	PROFIT_TYPE_9		=> '修理费',
+	PROFIT_TYPE_10		=> '证书费',
+	PROFIT_TYPE_11		=> '通信费',
+	PROFIT_TYPE_12		=> '其他',
+);
 
+define('ZERO_DATE', '0000-00-00');
 
 
  $g_masterData = array(
@@ -404,5 +431,6 @@ $DynamicStatus = array(
 		'PayTypeData'					=> $PayTypeData,
 		'DynamicStatus'				    => $DynamicStatus,
 		'DynamicSub'					=> $DynamicSub,
+		'ProfitTypeData'				=> $ProfitTypeData
 
  );

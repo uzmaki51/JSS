@@ -49,6 +49,7 @@ use App\Models\ShipManage\Ship;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipMember\ShipMember;
 use App\Models\Convert\VoyLog;
+use App\Models\ShipManage\Ctm;
 use Illuminate\Support\Facades\DB;
 
 // 일정계획
@@ -453,10 +454,116 @@ class BusinessController extends Controller {
         return ShipPort::all();
     }
 
-    public function ctm(Request $request) {
+    public function saveCtmList(Request $request) {
         $params = $request->all();
 
-        return view('business.ctm.index');
+        if(isset($params['id']))
+            $ids = $params['id'];
+        else
+            return redirect()->back();
+        
+        if(isset($params['shipId']))
+            $shipId = $params['shipId'];
+
+        if(isset($params['ctm_type']))
+            $ctm_type = $params['ctm_type'];
+
+        if(isset($params['activeYear']))
+            $activeYear = $params['activeYear'];
+
+        
+        $seperator_symbol = g_enum('CurrencyLabel')[$ctm_type];
+
+        foreach($ids as $key => $item) {
+            $tbl = new Ctm();
+            if($item != '' && $item != null)
+                $tbl = Ctm::find($item);
+
+            $reg_date = $params['reg_date'][$key];
+            if(isset($reg_date) && $reg_date != '' && $reg_date != ZERO_DATE)
+                $tbl['reg_date'] = $reg_date;
+            else
+                $tbl['reg_date'] = null;
+            
+            $tbl['shipId'] = $shipId;
+            $tbl['voy_no'] = $params['voy_no'][$key];
+            $tbl['ctm_no'] = $params['ctm_no'][$key];
+            $tbl['ctm_type'] = $ctm_type;
+            $tbl['profit_type'] = $params['profit_type'][$key];
+            $tbl['abstract'] = $params['abstract'][$key];
+            $tbl['credit'] = _convertStr2Int(str_replace($seperator_symbol, '', $params['credit'][$key]));
+            $tbl['debit'] = _convertStr2Int(str_replace($seperator_symbol, '', $params['debit'][$key]));
+            if($ctm_type == 'CNY')
+                $tbl['ex_debit'] = $params['usd_debit'][$key];
+            else
+                $tbl['ex_debit'] = $params['cny_debit'][$key];
+
+            $tbl['balance'] = _convertStr2Int(str_replace($seperator_symbol, '', $params['balance'][$key]));
+            $tbl['rate'] = $params['rate'][$key];
+            $tbl['remark'] = $params['remark'][$key];
+
+            // Attachment Upload
+		    if($params['is_update'][$key] == IS_FILE_UPDATE) {
+			    if($request->hasFile('attachment')) {
+			    	$file = $request->file('attachment')[$key];
+				    $fileName = $file->getClientOriginalName();
+				    $name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+				    $file->move(public_path() . '/ctm/', $name);
+					if($tbl['attachment'] != '' && $tbl['attachment'] != null) {
+						if(file_exists($tbl['attachment']))
+							@unlink($tbl['attachment']);
+					}
+
+				    $tbl['attachment'] = public_path('/ctm/') . $name;
+				    $tbl['attachment_link'] = url() . '/ctm/' . $name;
+				    $tbl['file_name'] = $fileName;
+			    }
+            }
+            
+            $tbl->save();
+            
+        }
+        
+        return redirect('/business/ctm?shipId=' . $shipId . '&year=' . $activeYear . '&type=' . $ctm_type);
+    }
+
+    public function ctm(Request $request) {
+        $shipRegList = ShipRegister::all();
+
+        $params = $request->all();
+        $shipId = $request->get('shipId'); 
+	    $shipNameInfo = null;
+        if(isset($shipId)) {
+	        $shipNameInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        } else {
+	        $shipNameInfo = ShipRegister::first();
+	        $shipId = $shipNameInfo['IMO_No'];
+        }
+
+        $ctmTbl = new Ctm();
+        $yearList = $ctmTbl->getYearList($shipId);
+
+        if(isset($params['year']) && $params['year'] != '')
+            $activeYear = $params['year'];
+        else {
+            $activeYear = $yearList[0];
+        }
+
+        if(isset($params['type']) && $params['type'] != '')
+            $type = $params['type'];
+        else {
+            $type = 'CNY';
+        }        
+
+        return view('business.ctm.index', [
+        	    'shipList'      =>  $shipRegList,
+                'shipName'      =>  $shipNameInfo,
+                'shipId'        =>  $shipId,
+                'yearList'      =>  $yearList,
+
+                'activeYear'    =>  $activeYear,
+                'type'          =>  $type,
+            ]);
     }
     public function newsTemaPage(Request $request) {
         $keyword = $request->get('keyword');
@@ -4296,4 +4403,52 @@ class BusinessController extends Controller {
 
         return response()->json($ret);
     }
+
+    function ajaxCtm(Request $request) {
+        $params = $request->all();
+
+        $tbl = Ctm::orderBy('reg_date', 'desc');
+        $prevTbl = Ctm::orderBy('reg_date', 'desc');
+        if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+            $tbl->where('shipId', $shipId);
+            $prevTbl->where('shipId', $shipId);
+        } else
+            return response()->json(false);
+
+        if(isset($params['year']) && $params['year'] != '') {
+            $year = $params['year'];
+            $tbl->whereRaw(DB::raw('mid(reg_date, 1, 4) like ' . $year));
+            $prevTbl->whereRaw(DB::raw('mid(reg_date, 1, 4) < ' . $year));
+        }
+
+        if(isset($params['type']) && $params['type'] != '') {
+            $type = $params['type'];
+            $tbl->where('ctm_type', $type);
+            $prevTbl->where('ctm_type', $type);
+        }
+
+        $list = $tbl->get();
+        $prevList = $prevTbl->first();
+        $voyList = CP::where('Ship_ID', $shipId)->get();
+
+        $retVal['list'] = $list;
+        $retVal['prevList'] = $prevList;
+        if($prevList == null) {
+            $retVal['prevList']['balance'] = 0;
+            $retVal['prevList']['rate'] = 0;
+        }
+        $retVal['voyList'] = $voyList;
+
+        return response()->json($retVal);
+    }
+
+    function ajaxCtmDelete(Request $request) {
+        $params = $request->all();
+
+        $id = $params['id'];
+        $ret = Ctm::where('id', $id)->delete();
+
+        return response()->json($ret);
+    }   
 }

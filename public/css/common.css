@@ -113,6 +113,9 @@
 .pr-8 {
     padding-right: 8px!important;
 }
+.pt-2 {
+    padding-top: 20px!important;
+}
 .pl-0 {
     padding-left: 0!important;
 }
@@ -144,6 +147,9 @@
 }
 .text-danger {
     color:  red!important;
+}
+.text-profit {
+    color:  #026fcd!important;
 }
 .search-label {
     padding: 2px;
@@ -436,6 +442,10 @@ ul.timeline > li {
 }
 .dynamic-item:hover {
     background: #ffe3e0;
+}
+
+.remark {
+    text-align: left!important;
 }
 @media (min-width: 1367px) {
     .inner-wrap {

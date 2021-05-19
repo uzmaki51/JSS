@@ -18879,7 +18879,7 @@ input[disabled]:hover {
 }
 
 input[readonly] {
-    color: #939192;
+    color: #333333;
     background: #f5f5f5;
     cursor: default
 }

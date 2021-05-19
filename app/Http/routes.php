@@ -127,9 +127,8 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('business/voy/list', ['uses'	=> 'Business\BusinessController@ajaxVoyAllList']);
 	Route::post('business/dynamic/search', ['uses'	=> 'Business\BusinessController@ajaxDynamicSearch']);
 
-	## CTM
-	Route::get('business/ctm', ['uses'	=> 'Business\BusinessController@ctm']);
-
+	Route::post('business/ctm/list', ['uses'	=> 'Business\BusinessController@ajaxCtm']);	
+	Route::post('business/ctm/delete', ['uses'	=> 'Business\BusinessController@ajaxCtmDelete']);	
 	
 	Route::post('system/backup/list', ['uses'=>'OrgManage\BackupController@getList']);
 	Route::post('system/backup/add', ['uses'=>'OrgManage\BackupController@add']);
@@ -157,6 +156,9 @@ Route::group(['prefix' => 'business'], function() {
 
 	Route::get('dynRecord', ['uses' => 'Business\BusinessController@dynRecord']);
 	Route::post('saveDynamic', ['uses'=>'Business\BusinessController@saveDynamic']);
+
+	Route::get('ctm', ['uses'	=> 'Business\BusinessController@ctm']);
+	Route::post('saveCtmList', ['uses'	=> 'Business\BusinessController@saveCtmList']);
 
 	Route::get('newsTemaPage', ['uses'=>'Business\BusinessController@newsTemaPage']);
 	Route::get('temaInfo',['uses'=>'Business\BusinessController@getNewsTemaInfo']);

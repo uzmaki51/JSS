@@ -804,3 +804,11 @@ function strtotime2($str) {
     
     return $timestamp;
 }
+
+function _convertStr2Int($str) {
+    // 1,234.23 -> 1234.23
+    $str = str_replace(',', '', $str);
+    $str = str_replace(', ', '', $str);
+    
+    return floatval($str);
+}

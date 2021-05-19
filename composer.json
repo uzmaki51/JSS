@@ -20,7 +20,7 @@
 		}
 	},
 	"autoload-dev": {
-		"classmap": [
+		"classmap": [	
 			"tests/TestCase.php"
 		]
 	},
