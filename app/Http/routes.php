@@ -140,6 +140,11 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('finance/books/init', ['uses'=>'Finance\FinanceController@initBookList']);
 	Route::post('finance/waters/list', ['uses'=>'Finance\FinanceController@getWaterList']);
 
+	Route::post('finance/accounts/report/list', ['uses'=>'Finance\FinanceController@getReportList']);
+	Route::post('finance/accounts/analysis/list', ['uses'=>'Finance\FinanceController@getAnalysisList']);
+	Route::post('finance/accounts/info/list', ['uses'=>'Finance\FinanceController@getPersonalInfoList']);
+	Route::post('finance/accounts/setting/list', ['uses'=>'Finance\FinanceController@getSettingList']);
+
 });
 
 // Administrative Affairs
@@ -285,7 +290,11 @@ Route::group(['prefix' => 'business'], function() {
 // Administrative Affairs
 Route::group(['prefix' => 'finance'], function() {
 	Route::get('books', ['uses' => 'Finance\FinanceController@books']);
+	Route::get('accounts', ['uses' => 'Finance\FinanceController@accounts']);
 	Route::post('books/save', ['uses'=>'Finance\FinanceController@saveBookList']);
+	
+	Route::post('accounts/info/save', ['uses'=>'Finance\FinanceController@savePersonalInfoList']);
+	Route::post('accounts/setting/save', ['uses'=>'Finance\FinanceController@saveSettingList']);
 });
 
 //게시판관련

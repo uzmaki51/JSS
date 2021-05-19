@@ -8,6 +8,8 @@ use App\Models\Decision\DecisionReport;
 use App\Models\Finance\BooksList;
 use App\Models\Finance\ReportSave;
 use App\Models\Finance\WaterList;
+use App\Models\Finance\AccountPersonalInfo;
+use App\Models\Finance\AccountSetting;
 
 use App\User;
 use Illuminate\Contracts\Logging\Log;
@@ -23,10 +25,98 @@ class FinanceController extends Controller
         $this->middleware('auth');
     }
 
+	public function getReportList(Request $request) {
+		$params = $request->all();
+
+		$decideTbl = new DecisionReport();
+		$reportList = $decideTbl->getForAccountReportDatatable($params);
+
+		return response()->json($reportList);
+	}
+
+	public function getAnalysisList(Request $request) {
+		$params = $request->all();
+
+		$decideTbl = new DecisionReport();
+		$reportList = $decideTbl->getForAccountAnalysisDatatable($params);
+
+		return response()->json($reportList);
+	}
+
+	public function getSettingList(Request $request) {
+		$params = $request->all();
+		$settingTbl = new AccountSetting();
+		$settingList = $settingTbl->getForDatatable($params);
+
+		return response()->json($settingList);
+	}
+
+	public function saveSettingList(Request $request) {
+		$setting_ids = $request->get('setting_id');
+		$setting_account = $request->get('setting_name');
+		$setting_contents = $request->get('setting_content');
+		$setting_remarks = $request->get('setting_remark');
+		$records = AccountSetting::select('*')->get();
+		foreach($records as $record) {
+			if (!in_array($record->id, $setting_ids)) {
+				$record->delete();
+			}
+		}
+		foreach($setting_ids as $index => $item) {
+			if ($item == '0') {
+				$setting_new_record = new AccountSetting();
+				$setting_new_record['account'] = $setting_account[$index];
+				$setting_new_record['info'] = $setting_contents[$index];
+				$setting_new_record['remark'] = $setting_remarks[$index];
+				$setting_new_record->save();
+			}
+			else {
+				AccountSetting::where('id', $item)->update(['account' => $setting_account[$index], 'info' => $setting_contents[$index], 'remark' => $setting_remarks[$index]]);
+			}
+		}
+		return redirect('finance/accounts');
+	}
+
+	public function getPersonalInfoList(Request $request) {
+		$params = $request->all();
+		$infoTbl = new AccountPersonalInfo();
+		$infoList = $infoTbl->getForDatatable($params);
+
+		return response()->json($infoList);
+	}
+
+	public function savePersonalInfoList(Request $request) {
+		$info_ids = $request->get('info_id');
+		$info_names = $request->get('info_name');
+		$info_contents = $request->get('info_content');
+		$info_remarks = $request->get('info_remark');
+		$records = AccountPersonalInfo::select('*')->get();
+		foreach($records as $record) {
+			if (!in_array($record->id, $info_ids)) {
+				$record->delete();
+			}
+		}
+		foreach($info_ids as $index => $item) {
+			if ($item == '0') {
+				$info_new_record = new AccountPersonalInfo();
+				$info_new_record['person'] = $info_names[$index];
+				$info_new_record['info'] = $info_contents[$index];
+				$info_new_record['remark'] = $info_remarks[$index];
+				$info_new_record->save();
+			}
+			else {
+				AccountPersonalInfo::where('id', $item)->update(['person' => $info_names[$index], 'info' => $info_contents[$index], 'remark' => $info_remarks[$index]]);
+			}
+		}
+		return redirect('finance/accounts');
+	}
+
     public function books(Request $request)
     {
 		$year = $request->get('year');
         $month = $request->get('month');
+		if ($year == '') $year = date("Y");
+		if ($month == '') $month = date("m");
 
 		$max_item = WaterList::select(DB::raw('MAX(book_no) as max_no'))->first();
 		$book_no = $max_item['max_no'];
@@ -39,14 +129,47 @@ class FinanceController extends Controller
             $start_year = $start_year['min_date'];
         }
         $start_month = date("m", strtotime($start_year));
-        //$start_year = date("Y", strtotime($start_year));
-		$start_year = '2020';
+        $start_year = date("Y", strtotime($start_year));
+
+		$accounts = AccountSetting::all();
 
         return view('finance.books', [
             'start_year' => $start_year,
 			'start_month' => $start_month,
 			'year' => $year,
 			'month' => $month,
+			'book_no' => $book_no,
+			'accounts' => $accounts,
+        ]);
+    }
+
+	public function accounts(Request $request)
+    {
+		$year = $request->get('year');
+        $month = $request->get('month');
+		if ($year == '') $year = date("Y");
+		if ($month == '') $month = date("m");
+
+		$max_item = WaterList::select(DB::raw('MAX(book_no) as max_no'))->first();
+		$book_no = $max_item['max_no'];
+		if (($book_no == null) || ($book_no == '')) $book_no = (int)(substr($year,2) . "0000");
+
+		$start_year = DecisionReport::select(DB::raw('MIN(create_at) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = $start_year['min_date'];
+        }
+        $start_month = date("m", strtotime($start_year));
+        $start_year = date("Y", strtotime($start_year));
+		$accounts = WaterList::select(array('account_type', 'account_name'))->groupBy('account_type')->get();
+
+        return view('finance.accounts', [
+            'start_year' => $start_year,
+			'start_month' => $start_month,
+			'year' => $year,
+			'month' => $month,
+			'accounts' => $accounts,
 			'book_no' => $book_no,
         ]);
     }
@@ -76,6 +199,7 @@ class FinanceController extends Controller
 			$record['rate'] = $keep_list[$i]->rate;
 			$record['pay_type'] = $keep_list[$i]->pay_type;
 			$record['account_type'] = $keep_list[$i]->account_type;
+			$record['account_name'] = $keep_list[$i]->account_name;
 			$record['currency'] = $keep_list[$i]->currency;
 			$record['credit'] = $keep_list[$i]->credit;
 			$record['debit'] = $keep_list[$i]->debit;

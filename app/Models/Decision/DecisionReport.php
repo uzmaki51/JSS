@@ -272,6 +272,100 @@ class DecisionReport extends Model {
 		];
 	}
 
+	public function getForAccountReportDatatable($params) {
+		if (!isset($params['columns'][1]['search']['value']) ||
+            $params['columns'][1]['search']['value'] == '' ||
+            !isset($params['columns'][2]['search']['value']) ||
+            $params['columns'][2]['search']['value'] == ''
+        ) {
+            $year = $params['year'];
+        	$month = $params['month'];
+        }
+		else
+		{
+			$year = $params['columns'][1]['search']['value'];
+			$month = $params['columns'][2]['search']['value'];
+		}
+
+		if ($month == 0)
+			$selector = WaterList::where('year', $year);
+		else
+			$selector = WaterList::where('year', $year)->where('month', $month);
+		
+		$selector = $selector->groupBy('account_type')->selectRaw('sum(credit) as credit, sum(debit) as debit, max(register_time) as update_date, currency, account_type, account_name')->groupBy('currency');
+		$recordsFiltered = $selector->count();
+		$records = $selector->get();
+
+		return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => DB::table($this->table)->count(),
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $records,
+            'error' => 0,
+        ];
+	}
+
+	public function getForAccountAnalysisDatatable($params) {
+		if (!isset($params['columns'][1]['search']['value']) ||
+            $params['columns'][1]['search']['value'] == '' ||
+            !isset($params['columns'][2]['search']['value']) ||
+            $params['columns'][2]['search']['value'] == '' ||
+			!isset($params['columns'][3]['search']['value']) ||
+            $params['columns'][3]['search']['value'] == ''
+        ) {
+            $year = $params['year'];
+        	$month = $params['month'];
+			$account_type = $params['account'];
+        }
+		else
+		{
+			$year = $params['columns'][1]['search']['value'];
+			$month = $params['columns'][2]['search']['value'];
+			$account_type = $params['columns'][3]['search']['value'];
+		}
+
+		if ($month == 0) {
+			$selector = WaterList::where('year', $year)->where('account_type',$account_type)->select('*');
+		} else {
+			$selector = WaterList::where('year', $year)->where('month', $month)->where('account_type',$account_type)->select('*');
+		}
+		$recordsFiltered = $selector->count();
+		$records = $selector->get();
+
+		$newArr = [];
+        $newindex = 0;
+		foreach($records as $index => $record) {
+			$newArr[$newindex]['book_no'] = $record->book_no;
+			$newArr[$newindex]['ship_name'] = $record->ship_name;
+			//$newArr[$newindex]['datetime'] = $record->create_at;
+			$newArr[$newindex]['datetime'] = $record->register_time;
+			//$newArr[$newindex]['report_no'] = $record->id;
+			$newArr[$newindex]['content'] = $record->content;
+			$newArr[$newindex]['currency'] = $record->currency;
+			$newArr[$newindex]['credit'] = $record->credit;
+			$newArr[$newindex]['debit'] = $record->debit;
+			$newArr[$newindex]['rate'] = $record->rate;
+			$newArr[$newindex]['pay_type'] = $record->pay_type;
+			//$newArr[$newindex]['account_type'] = $record->account_type;
+			$newArr[$newindex]['account_name'] = $record->account_name;
+			$newArr[$newindex]['report_id'] = $record->report_id;
+			$attachment = DecisionReportAttachment::where('reportId', $record->report_id)->first();
+			if (!empty($attachment)) {
+				$newArr[$newindex]['attachment'] = $attachment->file_link;
+			}
+			$newindex ++;
+		}
+
+		return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => DB::table($this->table)->count(),
+            'recordsFiltered' => $newindex,
+            'original' => true,
+            'data' => $newArr,
+            'error' => 0,
+        ];
+	}
+
 	public function getForWaterDatatable($params) {
 		if (!isset($params['columns'][1]['search']['value']) ||
             $params['columns'][1]['search']['value'] == '' ||
@@ -305,7 +399,8 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['debit'] = $record->debit;
 			$newArr[$newindex]['rate'] = $record->rate;
 			$newArr[$newindex]['pay_type'] = $record->pay_type;
-			$newArr[$newindex]['account_type'] = $record->account_type;
+			//$newArr[$newindex]['account_type'] = $record->account_type;
+			$newArr[$newindex]['account_name'] = $record->account_name;
 			$newArr[$newindex]['report_id'] = $record->report_id;
 			$attachment = DecisionReportAttachment::where('reportId', $record->report_id)->first();
 			if (!empty($attachment)) {

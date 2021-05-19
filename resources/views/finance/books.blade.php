@@ -90,10 +90,10 @@ $isHolder = Session::get('IS_HOLDER');
                                                     <th class="text-center style-normal-header" style="width: 6%;"><span>审核<br/>编号</span></th>
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>记账编号</span></th>
                                                     <th class="text-center style-normal-header" style="width: 7%;"><span>日期</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 4%;"><span>对象</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 10%;"><span>对象</span></th>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>航次</span></th>
                                                     <th class="text-center style-normal-header" style="width: 6%;"><span>收支种类</span></th>
-                                                    <th class="text-center style-normal-header" style="width: 27%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 21%;"><span>摘要</span></th>
                                                     <th class="text-center style-normal-header" style="width: 3%;"><span>币类</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>收入</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>支出</span></th>
@@ -142,10 +142,13 @@ $isHolder = Session::get('IS_HOLDER');
                                                         <div class="col-lg-2">
                                                             <label class="custom-label d-inline-block font-bold" style="padding: 6px;">账户:</label>
                                                             <select class="" name="account_type" id="account_type">
-                                                                <option value="0">汇款</option>
-                                                                <option value="1">现钞</option>
-                                                                <option value="2">扣除</option>
-                                                                <option value="3">转账</option>
+                                                            @if(isset($accounts) && count($accounts) > 0)
+                                                            @foreach ($accounts as $account)
+                                                                <option value="{{ $account->id }}">{{ $account->account }}</option>
+                                                            @endforeach
+                                                            @else
+                                                                <option value="0"></option>
+                                                            @endif
                                                             </select>
                                                         </div>
                                                     </div>
@@ -220,7 +223,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <div id="item-manage-dialog" class="hide"></div>
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <div class="row">
-                                        <div class="head-fix-div" id="water-table" style="height: 300px;">
+                                        <div class="head-fix-div" id="water-table" style="height: 600px;">
                                             <table id="table-water-list" style="table-layout:fixed;">
                                                 <thead class="">
                                                     <th class="text-center style-normal-header" style="width: 7%;height:35px;"><span>记账编号</span></th>
@@ -265,7 +268,6 @@ $isHolder = Session::get('IS_HOLDER');
     echo 'var now_year = ' . date("Y") . ';';
     echo 'var now_month = ' . date("m") . ';';
     echo 'var book_no = ' . $book_no . ';';
-    echo 'var book_no_start = ' . $book_no . ';';
     echo 'var ReportTypeData = ' . json_encode(g_enum('ReportTypeData')) . ';';
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
     echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
@@ -341,9 +343,9 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(6).html('').append(FeeTypeData[data['flowid']][data['profit_type']]);
 
                     if (data['book_no'] == '')
-                        $('td', row).eq(2).html('<input type="text" class="form-control" readonly name="book_no[]" value="" style="width: 100%;text-align: center" autocomplete="off">');
+                        $('td', row).eq(2).html('<input type="text" class="form-control style-blue-input" readonly name="book_no[]" value="" style="width: 100%;text-align: center" autocomplete="off">');
                     else
-                        $('td', row).eq(2).html('<input type="text" class="form-control" readonly name="book_no[]" value="' + ('J-'+data['book_no']) + '" style="width: 100%;text-align: center" autocomplete="off">');
+                        $('td', row).eq(2).html('<input type="text" class="form-control style-blue-input" readonly name="book_no[]" value="' + ('J-'+data['book_no']) + '" style="width: 100%;text-align: center" autocomplete="off">');
                     if (data['flowid'] == "Credit") {
                         if (data['amount'] >= 0)
                             $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
@@ -358,17 +360,9 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                     }
                     var link_html = '<label><a href="' + data['attachment'] + '" target="_blank" class="' + (data['attachment']==null ? 'visible-hidden':'') + '"><img src="' + "{{ cAsset('assets/images/document.png') }}" + '"' + ' width="15" height="15" style="cursor: pointer;"></a></label>';
-                    $('td', row).eq(11).html('<input type="text" class="form-control" readonly name="rate[]" value="' + data['rate'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(11).html('<input type="text" class="form-control style-blue-input" readonly name="rate[]" value="' + data['rate'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(12).html('').append(link_html);
-                    $('td', row).eq(7).html('<input type="text" class="form-control" readonly name="report_remark[]" value="' + data['content'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    
-                    /*
-                    $(row).attr('data-index', data['id']);
-                    $(row).attr('data-status', data['state']);
-                    $('td', row).eq(0).html('').append(
-                        '<span>' + (pageInfo.page * pageInfo.length + index + 1) + '</span>'
-                    );
-                    */
+                    $('td', row).eq(7).html('<input type="text" class="form-control style-blue-input" readonly name="report_remark[]" value="' + data['content'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                 },
                 drawCallback: function (response) {
                     listBook = response.json.data;
@@ -419,7 +413,7 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: 'debit', className: "text-center"},
                     {data: 'rate', className: "text-center"},
                     {data: 'pay_type', className: "text-center"},
-                    {data: 'account_type', className: "text-center"},
+                    {data: 'account_name', className: "text-center"},
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
@@ -437,8 +431,9 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(10).attr('class', 'text-center disable-td');
 
                     $('td', row).eq(8).html('').append(PayTypeData[data['pay_type']]);
-                    $('td', row).eq(9).html('').append(PayTypeData[data['account_type']]);
+                    $('td', row).eq(9).html('').append(data['account_name']);
 
+                    $('td', row).eq(0).html('').append("J-" + data['book_no']);
                     if (data['currency']== 0)
                     {
                         $('td', row).eq(4).html('').append('¥');
@@ -469,6 +464,12 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(10).html('').append(link_html);
                 },
                 drawCallback: function (response) {
+                    if (response.json.data.length == 0) {
+                        sum_credit_R = 0;
+                        sum_debit_R = 0;
+                        sum_credit_D = 0;
+                        sum_debit_D = 0;
+                    }
                     var report_row = '<tr class="tr-report" style="height:30px;border:2px solid black;">';
                     report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">合计 (RMB)</td><td class="sub-small-header style-normal-header"></td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (sum_credit_R >= 0 ? 'style-blue-input':'style-red-input') + '">¥ ' + prettyValue(sum_credit_R) + '</td>';
@@ -534,7 +535,6 @@ $isHolder = Session::get('IS_HOLDER');
             }
             else
             {
-                console.log("search");
                 listTable.column(1).search(year, false, false);
                 listTable.column(2).search(month, false, false).draw();
             }
@@ -597,6 +597,7 @@ $isHolder = Session::get('IS_HOLDER');
         var rate = 6.5;
         var pay_type = 0;
         var account_type = 0;
+        var account_name = "";
         var keepContent = "";
         $('#btnKeep').on('click', function() {
             setKeepTable();
@@ -686,6 +687,8 @@ $isHolder = Session::get('IS_HOLDER');
             var credit = $('input[name="Keep_credit[]"]');
             var debit = $('input[name="Keep_debit[]"]');
 
+            sum_credit = 0;
+            sum_debit = 0;
             for (var i=0;i<credit.length;i++) {
                 if (credit[i] != "") sum_credit += credit[i].value==""?0:parseFloat(credit[i].value.replace(",",""));
                 if (debit[i] != "") sum_debit += debit[i].value==""?0:parseFloat(debit[i].value.replace(",",""));
@@ -712,6 +715,12 @@ $isHolder = Session::get('IS_HOLDER');
             }
             pay_type = $('#pay_type').val();
             account_type = $('#account_type').val();
+            if (account_type == 0) {
+                alert("There are no account informations.");
+                return;
+            }
+            account_name = $('#account_type option:selected').text();
+
             datetime = $("#keep-list-datetime").val();
 
             if (datetime == "") {
@@ -763,7 +772,7 @@ $isHolder = Session::get('IS_HOLDER');
                         }
                     }
                     setState(false);
-                    var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_id, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
+                    var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_id, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
                     console.log(new_item);
                     books.push(new_item);
                     $('#keep_list').val(JSON.stringify(books));
@@ -782,7 +791,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('#keep-list-bookno').val('');
                     $('#keep-list-datetime').val('');
                     $('#pay_type').val(0);
-                    $('#account_type').val(0);
+                    $('#account_type').val(1);
                     
                     $('#table-keep-body').html('');
                     setState(false);
@@ -932,20 +941,19 @@ $isHolder = Session::get('IS_HOLDER');
         function init()
         {
             alertAudio();
-            bootbox.confirm("Are you sure you want to init?", function (result) {
+            bootbox.confirm("Are you sure you want to initialize all data?", function (result) {
                 if (result) {
                     $.ajax({
                         url: BASE_URL + 'ajax/finance/books/init',
                         type: 'POST',
                         data: {'year':year,'month':month},
                         success: function(result) {
-                            listTable.ajax.reload();
-                            book_no = book_no_start;
                             $.gritter.add({
                                 title: '成功',
                                 text: '初始化成功!',
                                 class_name: 'gritter-success'
                             });
+                            location.reload();
                             return;
                         },
                         error: function(error) {
@@ -960,7 +968,7 @@ $isHolder = Session::get('IS_HOLDER');
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             var real_tab = document.getElementById('table-books-list');
             var tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='14' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + "记账簿</td></tr>";
+            tab_text=tab_text+"<tr><td colspan='11' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + "记账簿</td></tr>";
             for(var j = 0 ; j < tab.rows.length ; j++) 
             {
                 if (j == 0) {
@@ -1007,7 +1015,7 @@ $isHolder = Session::get('IS_HOLDER');
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             var real_tab = document.getElementById('table-water-list');
             var tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='14' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + "流水账</td></tr>";
+            tab_text=tab_text+"<tr><td colspan='10' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + "流水账</td></tr>";
             for(var j = 0 ; j < tab.rows.length ; j++) 
             {
                 if (j == 0) {
