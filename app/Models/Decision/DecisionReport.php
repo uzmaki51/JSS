@@ -176,7 +176,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['content'] = $record->content;
 			$newArr[$newindex]['amount'] = $record->amount;
 			$newArr[$newindex]['rate'] = '';
-			$newArr[$newindex]['attachment'] = $record->id;
+			$newArr[$newindex]['attachment'] = null;
 			$attachment = DecisionReportAttachment::where('reportId', $record->id)->first();
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;

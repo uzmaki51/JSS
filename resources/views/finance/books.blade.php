@@ -773,7 +773,6 @@ $isHolder = Session::get('IS_HOLDER');
                     }
                     setState(false);
                     var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_id, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
-                    console.log(new_item);
                     books.push(new_item);
                     $('#keep_list').val(JSON.stringify(books));
                 }

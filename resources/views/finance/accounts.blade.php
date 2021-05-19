@@ -30,7 +30,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 </a>
                             </li>
                             <li>
-                                <a data-toggle="tab" href="#tab_analysis">
+                                <a data-toggle="tab" href="#tab_analysis" id="analysis">
                                     账户分析
                                 </a>
                             </li>
@@ -330,6 +330,10 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
+                    $('td', row).eq(0).append('<input type="hidden" value="' + data['account_type'] + '">');
+                    $('td', row).eq(0).attr('style', 'cursor:pointer;background-color:#bcfcff;');
+                    $('td', row).eq(0).attr('class', 'select-account');
+
                     $('td', row).eq(3).attr('style', 'padding: 5px!important');
                     $('td', row).eq(4).attr('style', 'padding: 5px!important');
                     $('td', row).eq(5).attr('style', 'padding: 5px!important');
@@ -373,6 +377,7 @@ $isHolder = Session::get('IS_HOLDER');
                     }
                 },
                 drawCallback: function (response) {
+                    setEvents();
                     if (response.json.data.length == 0) {
                         //$('#table-accounts-report-body').html('');
                         report_credit_sum_R = 0;
@@ -632,6 +637,22 @@ $isHolder = Session::get('IS_HOLDER');
 
         $('#account_analysis_title').html(year_analysis + '年' + month_analysis + '月份');
         initAnalysisTable();
+        
+        function setEvents() {
+            $('.select-account').on('click', function(e) {
+                alertAudio();
+                bootbox.confirm("Are you sure to show more?", function (result) {
+                    if (result) {
+                        var val = e.target.childNodes[1].value;
+                        $('#select-analysis-year').val(year_report);
+                        $('#select-analysis-month').val(month_report);
+                        $('#account_type').val(val);
+                        $('#account_type').trigger('change');
+                        $('#analysis').click();
+                    }
+                });
+            })
+        }
 
 
         // Personal Information
@@ -952,6 +973,7 @@ $isHolder = Session::get('IS_HOLDER');
             
             return 0;
         }
+
     </script>
 
 @endsection
