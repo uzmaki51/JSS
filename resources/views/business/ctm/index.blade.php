@@ -31,7 +31,7 @@ $ships = Session::get('shipList');
             <div class="page-header">
                 <div class="col-md-3">
                     <h4>
-                        <b>船舶证书记录</b>
+                        <b>CTM记录</b>
                     </h4>
                 </div>
 
