@@ -90,6 +90,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('getDynamicData', ['uses' => 'Dynamic\DynamicController@ajaxGetDynamicData']);
 	Route::post('setDynamicData', ['uses' => 'Dynamic\DynamicController@ajaxSetDynamicData']);
 
+	Route::post('shipMember/listAll', ['uses' => 'ShipManage\ShipMemberController@ajaxGetWholeList']);
 	Route::post('shipMember/search', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMember']);
 	Route::post('shipMember/searchAll', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchMemberAll']);
 	Route::post('shipMember/searchWageById', ['uses' => 'ShipManage\ShipMemberController@ajaxSearchWageById']);
