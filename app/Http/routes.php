@@ -128,7 +128,10 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('business/dynamic/search', ['uses'	=> 'Business\BusinessController@ajaxDynamicSearch']);
 
 	Route::post('business/ctm/list', ['uses'	=> 'Business\BusinessController@ajaxCtm']);	
-	Route::post('business/ctm/delete', ['uses'	=> 'Business\BusinessController@ajaxCtmDelete']);	
+	Route::post('business/ctm/delete', ['uses'	=> 'Business\BusinessController@ajaxCtmDelete']);
+
+	Route::post('shipmanage/ctm/total', ['uses'=>'ShipManage\ShipRegController@ajaxCtmTotal']);
+	Route::post('shipmanage/ctm/debit', ['uses'=>'ShipManage\ShipRegController@ajaxCtmDebit']);
 	
 	Route::post('system/backup/list', ['uses'=>'OrgManage\BackupController@getList']);
 	Route::post('system/backup/add', ['uses'=>'OrgManage\BackupController@add']);
@@ -467,6 +470,8 @@ Route::group(['prefix' => 'shipManage'], function() {
 
 	// Daily Report
 	Route::get('dynamicList', ['uses'=>'ShipManage\ShipRegController@dynamicList']);
+
+	Route::get('ctm/analytics', ['uses'=>'ShipManage\ShipRegController@ctmAnalytics']);
 
 	Route::get('shipCertList', ['uses'=>'ShipManage\ShipRegController@shipCertList']);
 	Route::post('shipCertList', ['uses'=>'ShipManage\ShipRegController@saveShipCertList']);

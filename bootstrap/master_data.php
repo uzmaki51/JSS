@@ -405,6 +405,20 @@ $ProfitTypeData = array(
 	PROFIT_TYPE_12		=> '其他',
 );
 
+$ProfitDebitData = array(
+	PROFIT_TYPE_2		=> '伙食费',
+	PROFIT_TYPE_3		=> '劳务费',
+	PROFIT_TYPE_4		=> '娱乐费',
+	PROFIT_TYPE_5		=> '物料费',
+	PROFIT_TYPE_6		=> '招待费',
+	PROFIT_TYPE_7		=> '奖励',
+	PROFIT_TYPE_8		=> '小费',
+	PROFIT_TYPE_9		=> '修理费',
+	PROFIT_TYPE_10		=> '证书费',
+	PROFIT_TYPE_11		=> '通信费',
+	PROFIT_TYPE_12		=> '其他',
+);
+
 define('ZERO_DATE', '0000-00-00');
 
 
@@ -431,6 +445,7 @@ define('ZERO_DATE', '0000-00-00');
 		'PayTypeData'					=> $PayTypeData,
 		'DynamicStatus'				    => $DynamicStatus,
 		'DynamicSub'					=> $DynamicSub,
-		'ProfitTypeData'				=> $ProfitTypeData
+		'ProfitTypeData'				=> $ProfitTypeData,
+		'ProfitDebitData'				=> $ProfitDebitData,
 
  );

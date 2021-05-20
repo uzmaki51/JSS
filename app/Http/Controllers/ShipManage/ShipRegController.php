@@ -41,6 +41,7 @@ use App\Models\ShipManage\ShipEquipmentProperty;
 use App\Models\ShipManage\ShipIssaCode;
 use App\Models\ShipManage\ShipIssaCodeNo;
 use App\Models\ShipManage\ShipFreeBoard;
+use App\Models\ShipManage\Ctm;
 
 use App\Models\ShipTechnique\EquipmentUnit;
 
@@ -488,6 +489,46 @@ class ShipRegController extends Controller
             'shipId'            => $shipId,
             'shipName'          => $shipName,
         ]);
+    }
+
+
+    public function ctmAnalytics(Request $request) {
+        $shipRegList = ShipRegister::all();
+
+        $params = $request->all();
+        $shipId = $request->get('shipId'); 
+	    $shipNameInfo = null;
+        if(isset($shipId)) {
+	        $shipNameInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        } else {
+	        $shipNameInfo = ShipRegister::first();
+	        $shipId = $shipNameInfo['IMO_No'];
+        }
+
+        $ctmTbl = new Ctm();
+        $yearList = $ctmTbl->getYearList($shipId);
+
+        if(isset($params['year']) && $params['year'] != '')
+            $activeYear = $params['year'];
+        else {
+            $activeYear = $yearList[0];
+        }
+
+        if(isset($params['type']) && $params['type'] != '')
+            $type = $params['type'];
+        else {
+            $type = 'total';
+        }
+
+        return view('shipManage.ctm_analytics', [
+        	    'shipList'      =>  $shipRegList,
+                'shipName'      =>  $shipNameInfo,
+                'shipId'        =>  $shipId,
+                'yearList'      =>  $yearList,
+
+                'activeYear'    =>  $activeYear,
+                'type'          =>  $type,
+            ]);
     }
 
     public function shipDataTabPage(Request $request) {
@@ -1867,5 +1908,29 @@ class ShipRegController extends Controller
 		ShipCertRegistry::where('id', $params['id'])->delete();
 
 		return response()->json(1);
-	}
+    }
+    
+    public function ajaxCtmTotal(Request $request) {
+        $params = $request->all();
+
+        $shipId = $params['shipId'];
+        $year = $params['year'];
+
+        $ctmTbl = new Ctm();
+        $retVal = $ctmTbl->getCtmTotal($shipId, $year);
+
+        return response()->json($retVal);
+    }
+
+    public function ajaxCtmDebit(Request $request) {
+        $params = $request->all();
+
+        $shipId = $params['shipId'];
+        $year = $params['year'];
+
+        $ctmTbl = new Ctm();
+        $retVal = $ctmTbl->getCtmDebit($shipId, $year);
+
+        return response()->json($retVal);
+    }    
 }

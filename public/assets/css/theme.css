@@ -876,3 +876,10 @@ footer {
 .ctm-footer tr td {
     padding: 8px 4px!important;
 }
+
+.ctm-analytics th {
+    font-size: 20px;
+    background: #f8f8f8!important;
+    padding: 12px;
+    text-align:center;
+}
