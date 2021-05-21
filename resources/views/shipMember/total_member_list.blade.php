@@ -74,6 +74,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                         <th class="text-center style-header" style="width: 2%;"><span>No</span></th>
                                                         <th class="text-center style-header" style="width: 6%;"><span>姓名</span></th>
                                                         <th class="text-center style-header" style="width: 3%;"><span>职务</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>电话号码</span></th>
                                                         <th class="text-center style-header" style="width: 4%;"><span>国籍</span></th>
                                                         <th class="text-center style-header" style="width: 7%;"><span>身份证号</span></th>
                                                         <th class="text-center style-header" style="width: 4%;"><span>出生日期</span></th>
@@ -85,7 +86,6 @@ $isHolder = Session::get('IS_HOLDER');
                                                         <th class="text-center style-header" style="width: 4%;"><span>海员证到期</span></th>
                                                         <th class="text-center style-header" style="width: 6%;"><span>护照号</span></th>
                                                         <th class="text-center style-header" style="width: 4%;"><span>护照到期</span></th>
-                                                        <th class="text-center style-header" style="width: 10%;"><span>电话号码</span></th>
                                                         <th class="text-center style-header" style="width: 20%;"><span>地址</span></th>
                                                     </thead>
                                                     <tbody class="" id="total-list-body">
@@ -249,6 +249,7 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: null, className: "text-center"},
                     {data: 'name', className: "text-center"},
                     {data: 'rank', className: "text-center"},
+                    {data: 'phone', className: "text-center"},
                     {data: 'nationality', className: "text-center"},
                     {data: 'cert-id', className: "text-center"},
                     {data: 'birthday', className: "text-center"},
@@ -260,7 +261,6 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: 'bookno-expire', className: "text-center"},
                     {data: 'passport-no', className: "text-center"},
                     {data: 'passport-expire', className: "text-center"},
-                    {data: 'phone', className: "text-center"},
                     {data: 'address', className: "text-center"}
                 ],
                 createdRow: function (row, data, index) {

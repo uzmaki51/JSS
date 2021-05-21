@@ -9,6 +9,76 @@
         </style>
         <div class="page-content">
             <div class="page-header">
+                <div class="col-sm-3">
+                    <h4><b>{{transOrgManage("title.MemberInfo")}}</b></h4>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:4px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-7">
+                            <label class="font-bold">{{transOrgManage("captions.name")}}:</label>
+                            <input type="text" class="realname" style="width:25%;margin-left: 10px" value="@if(isset($realname)){{$realname}}@endif">
+                            <strong class="f-right" style="font-size: 20px; padding-top: 6px;">吉速船舶有限公司</strong>
+                        </div>
+                        <div class="col-md-5" style="padding:unset!important">
+                            <div class="btn-group f-right">
+                                <a onclick="javascript:openAddPage();" class="btn btn-sm btn-primary btn-add" style="width: 80px" data-toggle="modal">
+                                    <i class="icon-plus"></i>{{ trans('common.label.add') }}
+                                </a>
+                                <a id="btnSave" class="btn btn-sm btn-success" style="width: 80px">
+                                    <i class="icon-save"></i>{{ trans('common.label.save') }}
+                                </a>
+                                <a onclick="javascript:fnExcelReport();" class="btn btn-warning btn-sm excel-btn">
+                                    <i class="icon-table"></i>{{ trans('common.label.excel') }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="margin-top:4px;">
+                    <div id="item-manage-dialog" class="hide"></div>
+                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    <div class="row">
+                        <div class="head-fix-div common-list" id="crew-table" style="">
+                            <table id="table-shipmember-list" style="table-layout:fixed;">
+                                <thead class="">
+                                    <th class="text-center style-normal-header" style="width: 3%;height:35px;"><span>No</span></th>
+                                    <th class="text-center style-normal-header" style="width: 10%;"><span>姓名</span></th>
+                                    <th class="text-center style-normal-header" style="width: 10%;"><span>ID</span></th>
+                                    <th class="text-center style-normal-header" style="width: 10%;"><span>职位</span></th>
+                                    <th class="text-center style-normal-header" style="width: 15%;"><span>手机号码</span></th>
+                                    <th class="text-center style-normal-header" style="width: 9%;"><span>到职日期</span></th>
+                                    <th class="text-center style-normal-header" style="width: 9%;"><span>退职日期</span></th>
+                                    <th class="text-center style-normal-header" style="width: 30%;"><span>备注</span></th>
+                                    <th class="text-center" style=""></th>
+                                </thead>
+                                <tbody class="" id="list-body">
+                                @if (isset($list) && count($list) > 0)
+                                <?php $index = 1;?>
+                                @foreach ($list as $userInfo)
+                                    <tr>
+                                        <td class="center" style="height:35px;">{{$index++}}</td>
+                                        <td class="center">{{$userInfo['realname']}}</td>
+                                        <td class="center">{{$userInfo['account']}}</td>
+                                        <td></td>
+                                        <td class="center">{{$userInfo['phone']}}</td>
+                                        <td class="center">{{$userInfo['entryDate']}}</td>
+                                        <td class="center">{{$userInfo['releaseDate']}}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                @endforeach
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="page-header">
                 <div class="col-md-3">
                     <h4>
                         <b>{{transOrgManage("title.MemberInfo")}}</b>

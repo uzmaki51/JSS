@@ -865,7 +865,11 @@ class ShipMember extends Model
                 $record->crewNum = "";
             }
 
-            $newArr[$newindex]['name'] = $record->realname;
+            if ($record->Nationality == 'CHINA')
+                $newArr[$newindex]['name'] = $record->GivenName;
+            else
+                $newArr[$newindex]['name'] = $record->realname;
+
             $newArr[$newindex]['rank'] = '&nbsp;';
             $rank = ShipPosition::find($record->DutyID_Book);
             if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Abb;
