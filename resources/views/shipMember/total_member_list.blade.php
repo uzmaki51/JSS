@@ -10,7 +10,7 @@ $isHolder = Session::get('IS_HOLDER');
     <div class="main-content">
         <style>
             .member-item-odd {
-                background-color: #ffe3e0;
+                background-color: #efefef;
             }
 
             .member-item-even:hover {

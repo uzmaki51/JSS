@@ -82,7 +82,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		if(isset($status))
 			$query->where('tb_users.status', $status);
 
-		$result = $query->orderBy('tb_unit.orderkey')->orderBy('tb_pos.orderNum')->paginate()->setPath('');
+		//$result = $query->orderBy('tb_unit.orderkey')->orderBy('tb_pos.orderNum')->paginate()->setPath('');
+		$result = $query->orderBy('tb_users.pos', 'asc')->paginate()->setPath('');
 
 		return $result;
 	}

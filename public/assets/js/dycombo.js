@@ -546,6 +546,115 @@
             }
         }
 
+        ///////////////////////////////////////////////////////////////////
+        /// POSITION LIST DYNAMIC LIST
+        ///////////////////////////////////////////////////////////////////
+        function openPosList(type) {
+            $.ajax({
+                url: BASE_URL + 'ajax/getDynamicData',
+                type: 'post',
+                data: {
+                    type: type
+                },
+                success: function(data, status, xhr) {
+                    $('#pos-table').html('');
+                    console.log(data);
+                    for (var i = 0; i < data.length; i ++) {
+                        var row = '<tr class="pos-tr"><input type="hidden" name="Pos_Id[]" value="' + data[i].id + '"/><td class="no-padding center"><input type="text" onfocus="addPos(this)" class="form-control" name="Pos_OrderNum[]"value="';
+                        row += (data[i].orderNum != null) ? data[i].orderNum : '';
+                        row += '" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addPos(this)" class="form-control" name="Pos_Name[]"value="';
+                        row += (data[i].title != null) ? data[i].title : '';
+                        row += '" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deletePos(this)"><i class="icon-trash"></i></a></div></td></tr>';
+                        $('#pos-table').append(row);
+                    }
+                    addPos(null);
+                    $('#modal-pos-list').modal('show');
+                },
+                error: function(error, status) {
+                    alert(error);
+                }
+            });
+        }
+        
+        function dynamicPosSubmit(type) {
+            var list = [];
+            if (type == 'pos') {
+                list['id'] = $("input[name='Pos_Id[]']").map(function(){return $(this).val();}).get();
+                list['orderno'] = $("input[name='Pos_OrderNum[]']").map(function(){return $(this).val();}).get();
+                list['name'] = $("input[name='Pos_Name[]']").map(function(){return $(this).val();}).get();
+            }
+
+            $("#modal-pos-list").modal("hide");
+            $.ajax({
+                url: BASE_URL + 'ajax/setDynamicData', 
+                type: 'post',
+                data: {
+                    id: list['id'],
+                    orderno: list['orderno'],
+                    name: list['name'],
+                    type: type,
+                },
+                success: function(data, status, xhr) {
+                    if (data != '-1') {
+                        var def = 0;
+                        var id='';
+                        if (type == 'pos') {
+                            id = 'Position';
+                        }
+                        var dest = $('input[name="' + id + '"]').closest('.dynamic-select');
+                        dest.find('.dynamic-select__trigger input').val("");
+                        dest.children(":first").val(def);
+                        dest = dest.find('.dynamic-options-scroll');
+                        dest.html('');
+                        dest.html(dest.html() + '<span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>');
+                        for (var i=0;i<list['name'].length;i++) {
+                            if (list['orderno'][i] != '' || list['name'][i] != '')
+                                dest.html(dest.html() + '<span class="dynamic-option" data-value="' + (i+1) + '" data-text="' + list['name'][i] + '">' + list['name'][i] + '</span>');
+                        }
+                        
+                        addCustomEvent();
+                        //alert("Success!");
+                    }
+                },
+                error: function(error, status) {
+                    alert("Failed!");
+                }
+            })
+        }
+
+        function deletePos(e)
+        {
+            if ($('#pos-table tr').length > 2 && !$(e).closest("tr").is(":last-child")) { // && !$(e).closest("tr").is(":last-child")) {
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        resortPos(e);
+                        $(e).closest("tr").remove();
+                    }
+                });
+            }
+        }
+
+        function addPos(e)
+        {
+            if ($('#pos-table tr').length > 0)
+            {
+                if (e == null || $(e).closest("tr").is(":last-child")) {
+                    $("#pos-table").append('<tr class="pos-tr"><input type="hidden" name="Pos_Id[]" value=""><td class="no-padding center"><input type="text" onfocus="addPos(this)" class="form-control" name="Pos_OrderNum[]"value="' + '' + '" style="width: 100%;text-align: center"></td><td class="no-padding"><input type="text" onfocus="addPos(this)" class="form-control" name="Pos_Name[]"value="" style="width: 100%;text-align: center"></td><td class="no-padding center"><div class="action-buttons"><a class="red" onClick="javascript:deletePos(this)"><i class="icon-trash"></i></a></div></td></tr>');
+                    var last_child = $('#pos-table tr:last-child');
+                    last_child.children().eq(0).children().eq(0).val($("#pos-table tr").length);
+                }
+            }
+        }
+
+        function resortPos(e)
+        {
+            var index = parseInt($(e).closest("tr").children().eq(0).children().eq(0).val());
+            for (var i=$('#pos-table tr').index($(e).closest("tr"))+1;i<$('#pos-table').children().length;i++) {
+                $($('#pos-table').children()[i].firstChild.firstChild).val(index);
+                index ++;
+            }
+        }
+
         function addCustomEvent()
         {
             for (const option of document.querySelectorAll(".dynamic-option")) {

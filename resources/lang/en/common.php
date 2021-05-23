@@ -37,7 +37,7 @@ return [
 
 	"message"   => [
 		'please_select'     => 'Please Select',
-		'no_data'           => 'No Data',
+		'no_data'           => 'No records found',
 		'delete'            => 'Are you sure to delete?',
 		'register'          =>      [
 				'success'       => '登录操作成功了。',
