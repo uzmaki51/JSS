@@ -109,7 +109,7 @@ class DecisionController extends Controller
 			$reportTbl['currency'] = '';
 		} else {
 			$reportTbl['profit_type'] = isset($params['profit_type']) ? $params['profit_type'] : '';
-			$reportTbl['amount'] = isset($params['amount']) ? $params['amount'] : 0;
+			$reportTbl['amount'] = isset($params['amount']) ? _convertStr2Int($params['amount']) : 0;
 			$reportTbl['currency'] = isset($params['currency']) ? $params['currency'] : CNY_LABEL;
 		}
 
