@@ -643,22 +643,24 @@ $isHolder = Session::get('IS_HOLDER');
             {
                 if (book_list.rows[i].childNodes[0].childNodes[0].checked && !book_list.rows[i].childNodes[0].childNodes[0].disabled) {
                     var row_html = '';
-                    var credit = book_list.rows[i].childNodes[9].childNodes[0].value;
-                    var debit = book_list.rows[i].childNodes[10].childNodes[0].value;
+                    var credit_text = book_list.rows[i].childNodes[9].childNodes[0].value;
+                    var credit = credit_text.replace(",","");
+                    var debit_text = book_list.rows[i].childNodes[10].childNodes[0].value;
+                    var debit = debit_text.replace(",","");
                     
                     row_html = "<tr data-ref='" + i + "' ship-no='" + book_list.rows[i].childNodes[0].childNodes[2].value + "'";
                     row_html += " report-id='" + book_list.rows[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[6].innerText + "</td><td>";
                     row_html += '<input type="text" class="form-control" name="Keep_Remark[]" value="' + book_list.rows[i].childNodes[7].childNodes[0].value + '" style="width: 100%;text-align: center" autocomplete="off">';
                     row_html += "</td><td class='text-center disable-td no-padding'>" + listBook[i].currency + "</td><td>";
                     if (credit >= 0)
-                        row_html += '<input type="text" class="form-control style-blue-input keep_credit" name="Keep_credit[]" value="' + credit + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
+                        row_html += '<input type="text" class="form-control style-blue-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
                     else
-                        row_html += '<input type="text" class="form-control style-red-input keep_credit" name="Keep_credit[]" value="' + credit + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
+                        row_html += '<input type="text" class="form-control style-red-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
 
                     if (debit >= 0)
-                        row_html += '<input type="text" class="form-control style-blue-input keep_debit" name="Keep_debit[]" value="' + debit + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
+                        row_html += '<input type="text" class="form-control style-blue-input keep_debit" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
                     else
-                        row_html += '<input type="text" class="form-control style-red-input keep_debit" name="Keep_debit[]" value="' + debit + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
+                        row_html += '<input type="text" class="form-control style-red-input keep_debit" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
                     row_html += "</tr>";
                     
                     $('#table-keep-body').append(row_html);
@@ -719,6 +721,7 @@ $isHolder = Session::get('IS_HOLDER');
                 alert("There are no account informations.");
                 return;
             }
+            else console.log(account_type);
             account_name = $('#account_type option:selected').text();
 
             datetime = $("#keep-list-datetime").val();
@@ -790,7 +793,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('#keep-list-bookno').val('');
                     $('#keep-list-datetime').val('');
                     $('#pay_type').val(0);
-                    $('#account_type').val(1);
+                    $('#account_type').val(0);
                     
                     $('#table-keep-body').html('');
                     setState(false);

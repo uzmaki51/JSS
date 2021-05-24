@@ -831,6 +831,74 @@ class ShipMember extends Model
         ];
     }
 
+    public function getForWholeDatatable($params) {
+        $selector = null;
+        $records = [];
+        $recordsFiltered = 0;
+        $selector = DB::table($this->table)->select('*');
+        
+        if (isset($params['columns'][1]['search']['value'])
+            && $params['columns'][1]['search']['value'] !== ''
+        ) {
+            $selector->where('ShipId', $params['columns'][1]['search']['value']);
+        }
+        else
+        {
+            return [
+                'draw' => $params['draw']+0,
+                'recordsTotal' => 0,
+                'recordsFiltered' => 0,
+                'data' => [],
+                'error' => 0,
+            ];
+        }
+
+        $selector->orderBy('DutyID_Book');
+        $records = $selector->get();
+        $recordsFiltered = $selector->count();
+        
+        $newArr = [];
+        $newindex = 0;
+        //for($i=0;$i<10;$i++)
+        foreach($records as $index => $record) {
+            if ($record->PassportNo == $record->crewNum) {
+                $record->crewNum = "";
+            }
+
+            if ($record->Nationality == 'CHINA')
+                $newArr[$newindex]['name'] = $record->GivenName;
+            else
+                $newArr[$newindex]['name'] = $record->realname;
+
+            $newArr[$newindex]['rank'] = '&nbsp;';
+            $rank = ShipPosition::find($record->DutyID_Book);
+            if(!empty($rank) && $rank != null) $newArr[$newindex]['rank'] = $rank->Abb;
+            $newArr[$newindex]['nationality'] = $record->Nationality;
+            $newArr[$newindex]['cert-id'] = $record->CertNo;
+            $newArr[$newindex]['birthday'] = $record->birthday;
+            $newArr[$newindex]['birthplace'] = $record->BirthPlace;
+            $newArr[$newindex]['signon-date'] = $record->DateOnboard;
+            $port = ShipPort::find($record->PortID_Book);
+            $newArr[$newindex]['signon-port'] = '&nbsp;';
+            if(!empty($port) && $port != null) $newArr[$newindex]['signon-port'] = $port->Port_En;
+            $newArr[$newindex]['signoff-date'] = $record->DateOffboard;
+            $newArr[$newindex]['bookno'] = $record->crewNum;
+            $newArr[$newindex]['bookno-expire'] = $record->ExpiryDate;
+            $newArr[$newindex]['passport-no'] = $record->PassportNo;
+            $newArr[$newindex]['passport-expire'] = $record->PassportExpiryDate;
+            $newArr[$newindex]['phone'] = $record->phone;
+            $newArr[$newindex]['address'] = $record->address;
+            $newindex ++;
+        }
+        return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => DB::table($this->table)->count(),
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $newArr,
+            'error' => 0,
+        ];
+    }
+
     public function getForDatatable($params) {
         $selector = null;
         $records = [];

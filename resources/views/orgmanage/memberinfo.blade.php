@@ -6,118 +6,88 @@
             .table thead>tr>th {
                 padding: 6px 3px;
             }
+
+            .member-item-odd {
+                background-color: #efefef;
+            }
+
+            .member-item-even:hover {
+                background-color: #ffe3e082;
+            }
+
+            .member-item-odd:hover {
+                background-color: #ffe3e082;
+            }
         </style>
         <div class="page-content">
             <div class="page-header">
-                <div class="col-md-3">
-                    <h4>
-                        <b>{{transOrgManage("title.MemberInfo")}}</b>
-                    </h4>
+                <div class="col-sm-3">
+                    <h4><b>{{transOrgManage("title.MemberInfo")}}</b></h4>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style="margin-top:4px;">
                 <div class="row">
-                    <div class="col-sm-12">
-                        <div class="col-md-2">
-                            <label class="font-bold" style="float:left;padding-top:7px">{{transOrgManage("captions.department")}}:</label>
-                            <div class="col-md-9" style="padding-left:10px">
-                                <select class="custom-select d-inline-block select_unit" style="max-width:120px;">
-                                    <option value="">{{transOrgManage("captions.total")}}</option>
-                                    @foreach($unitList as $unit)
-                                        <option value="{{$unit['id']}}" @if(isset($unitId) && ($unitId == $unit['id'])) selected @endif>{{$unit['title']}}</option>
-                                    @endforeach
-                                </select>
+                    <div class="col-md-12">
+                        <div class="col-md-7">
+                            <strong class="f-right" style="font-size: 20px; padding-top: 6px;">吉速船舶有限公司</strong>
+                        </div>
+                        <div class="col-md-5" style="padding:unset!important">
+                            <div class="btn-group f-right">
+                                <a href="{{ url('org/memberadd') }}" class="btn btn-sm btn-primary btn-add" style="width: 80px">
+                                    <i class="icon-plus"></i>{{ trans('common.label.add') }}
+                                </a>
+                                <a onclick="javascript:fnExcelReport();" class="btn btn-warning btn-sm excel-btn">
+                                    <i class="icon-table"></i>{{ trans('common.label.excel') }}
+                                </a>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="font-bold" style="float:left;padding-top:7px">{{transOrgManage("captions.officePosition")}}:</label>
-                            <div class="col-md-9" style="padding-left:10px">
-                                <select class="custom-select d-inline-block select_pos">
-                                    <option value="">{{transOrgManage("captions.total")}}</option>
-                                    @foreach($posList as $pos)
-                                        <option value="{{$pos['id']}}" @if(isset($posId) && ($posId == $pos['id'])) selected @endif>{{$pos['title']}}</option>
-                                    @endforeach
-                                    <option value="{{ IS_SHAREHOLDER }}">船东</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2 input-group">
-                            <label class="font-bold">{{transOrgManage("captions.name")}}:</label>
-                            <input type="text" class="realname" style="width:65%;margin-left: 10px" value="@if(isset($realname)){{$realname}}@endif">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="font-bold" style="float: left;padding-top:7px">{{transOrgManage("captions.status")}}:</label>
-                            <div class="col-md-8" style="float:left;padding-left: 10px">
-                                <select class="custom-select d-inline-block select_status">
-                                    <option value="">{{transOrgManage("captions.total")}}</option>
-                                    @foreach(g_enum('EmployeeStatusData') as $key => $item)
-                                        <option value="{{ $key }}" @if(isset($status) && ($status == $key)) selected @endif>{{ $item[0] }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3 f-right">
-                        <button class="btn btn-primary btn-sm search-btn" style="float:left; width: 80px"><i class="icon-search"></i>{{transOrgManage("captions.search")}}</button>
-                            <a href="{{ url('org/memberadd') }}" class="btn btn-success btn-sm">
-                                <i class="icon-plus-sign-alt"></i>{{transOrgManage("captions.add")}}
-                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="space-2"></div>
-                    <div class="table-responsive" id="user_list_table">
-                        <table class="table table-striped table-bordered table-hover" id="user-table">
-                            <thead>
-                            <tr class="black br-hblue">
-                                <th class="text-center style-normal-header" rowspan="2">No</th>
-                                <th class="text-center style-normal-header">{{transOrgManage("captions.department")}}</th>
-                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.name")}}</th>
-                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.loginID")}}</th>
-                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.phoneNumber")}}</th>
-                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.level")}}</th>
-                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.status")}}</th>
-                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.enterDate")}}</th>
-                                <th class="text-center style-normal-header" rowspan="2">{{transOrgManage("captions.exitDate")}}</th>
-                                <th rowspan="2" width="50px"></th>
-                            </tr>
-                            <tr class="black br-hblue">
-                                <th class="text-center style-normal-header">{{transOrgManage("captions.officePosition")}}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if (isset($list) && count($list) > 0)
-								<?php $index = ($list->currentPage() - 1) * 15 + 1; ?>
+                <div class="col-md-12" style="margin-top:4px;">
+                    <div id="item-manage-dialog" class="hide"></div>
+                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    <div class="row">
+                        <div class="head-fix-div common-list" id="crew-table" style="">
+                            <table id="table-shipmember-list" style="table-layout:fixed;">
+                                <thead class="">
+                                    <th class="text-center style-normal-header" style="width: 3%;height:35px;"><span>No</span></th>
+                                    <th class="text-center style-normal-header" style="width: 10%;"><span>姓名</span></th>
+                                    <th class="text-center style-normal-header" style="width: 10%;"><span>ID</span></th>
+                                    <th class="text-center style-normal-header" style="width: 10%;"><span>职位</span></th>
+                                    <th class="text-center style-normal-header" style="width: 15%;"><span>手机号码</span></th>
+                                    <th class="text-center style-normal-header" style="width: 9%;"><span>到职日期</span></th>
+                                    <th class="text-center style-normal-header" style="width: 9%;"><span>退职日期</span></th>
+                                    <th class="text-center style-normal-header" style="width: 30%;"><span>备注</span></th>
+                                    <th class="text-center" style=""></th>
+                                </thead>
+                                <tbody class="" id="list-body">
+                                @if (isset($list) && count($list) > 0)
+                                <?php $index = 1;?>
                                 @foreach ($list as $userInfo)
-
-                                    <tr>
-                                        <td rowspan="2" class="center">{{$index++}}</td>
-                                        <td class="center">{{is_null($userInfo['unitTitle'])?'&nbsp;':$userInfo['unitTitle']}}</td>
-                                        <td rowspan="2" class="center">{{$userInfo['realname']}}</td>
-                                        <td rowspan="2" class="center">{{$userInfo['account']}}</td>
-                                        <td class="center" rowspan="2">{{$userInfo['phone']}}</td>
-                                        <td class="center" rowspan="2"><span class="badge badge-{{ g_enum('UserLabelInfo')[$userInfo['isAdmin']][1] }}">{{ g_enum('UserLabelInfo')[$userInfo['isAdmin']][0] }}</span></td>
-                                        <td class="center" rowspan="2"><span class="badge badge-{{ g_enum('EmployeeStatusData')[$userInfo['status']][1] }}">{{ g_enum('EmployeeStatusData')[$userInfo['status']][0] }}</span></td>
-                                        <td class="center" rowspan="2">{{$userInfo['entryDate']}}</td>
-                                        <td rowspan="2" class="center">{{$userInfo['releaseDate']}}</td>
-                                        <td class="action-buttons center" rowspan="2">
+                                    <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
+                                        <td class="center" style="height:35px;">{{$index++}}</td>
+                                        <td class="center">{{$userInfo['realname']}}</td>
+                                        <td class="center">{{$userInfo['account']}}</td>
+                                        <td class="center">{{is_null($userInfo['posTitle']) ? '&nbsp;':$userInfo['posTitle']}}</td>
+                                        <td class="center">{{$userInfo['phone']}}</td>
+                                        <td class="center">{{$userInfo['entryDate']}}</td>
+                                        <td class="center">{{$userInfo['releaseDate']}}</td>
+                                        <td class="center">{{$userInfo['remark']}}</td>
+                                        <td class="action-buttons center">
                                             <a class="blue" href="{{ 'memberadd' }}?uid={{$userInfo->id}}">
                                                 <i class="icon-edit bigger-130"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="center">{{is_null($userInfo['posTitle']) ? '&nbsp;':$userInfo['posTitle']}}</td>
-                                    </tr>
                                 @endforeach
-                            @else
+                                @else
                                 <tr>
-                                    <td colspan="10">{{ trans('common.message.no_data') }}</td>
+                                    <td colspan="9">{{ trans('common.message.no_data') }}</td>
                                 </tr>
-                            @endif
-                            </tbody>
-                        </table>
-                        {!! $list->render() !!}
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -9,50 +9,143 @@ $isHolder = Session::get('IS_HOLDER');
 @section('content')
     <div class="main-content">
         <style>
+            .member-item-odd {
+                background-color: #efefef;
+            }
+
+            .member-item-even:hover {
+                background-color: #ffe3e082;
+            }
+
+            .member-item-odd:hover {
+                background-color: #ffe3e082;
+            }
         </style>
         <div class="page-content">
-            <div class="page-header">
-                <div class="col-sm-3">
-                    <h4><b>Crew List</b></h4>
-                </div>
-            </div>
-            <div class="row col-md-12">
-                <div class="col-md-6">
-                    <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
-                    <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
-                        <option value="" selected></option>
-                        @foreach($shipList as $ship)
-                            <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
-                        @endforeach
-                    </select>
-                    <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name"></span> CREW LIST</strong>
-                </div>
-                <div class="col-md-6" style="padding:unset!important">
-                    <div class="btn-group f-right">
-                        <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12" style="margin-top:4px;">
-                <div id="item-manage-dialog" class="hide"></div>
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <div class="row">
-                    <div class="head-fix-div common-list" id="crew-table" style="">
-                        <table id="table-shipmember-list" style="table-layout:fixed;">
-                            <thead class="">
-                                <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
-                                <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
-                                <th class="text-center style-header" style="width: 4%;"><span>Rank</span></th>
-                                <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
-                                <th class="text-center style-header" style="width: 11%;"><span>Chinese ID No.</span></th>
-                                <th class="text-center style-header" style="width: 20%;"><span>Date and place of birth</span></th>
-                                <th class="text-center style-header" style="width: 20%;"><span>Date and place of embarkation</span></th>
-                                <th class="text-center style-header" style="width: 11%;"><span>Seaman's Book No and Expire Date</span></th>
-                                <th class="text-center style-header" style=""><span>Passport's No and Expire Date</span></th>
-                            </thead>
-                            <tbody class="" id="list-body">
-                            </tbody>
-                        </table>
+            <div class="space-4"></div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs ship-register" id="memberTab">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#tab_all_list">
+                                        船员名单
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#tab_crew_list">
+                                        CREW LIST
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div id="tab_all_list" class="tab-pane active">
+                                <div class="page-header">
+                                    <div class="col-sm-3">
+                                        <h4><b>船员名单</b></h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
+                                            <select class="custom-select d-inline-block" id="select-ship-total" style="width:80px">
+                                                <option value="" selected></option>
+                                                @foreach($shipList as $ship)
+                                                    <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
+                                                @endforeach
+                                            </select>
+                                            <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name_total"></span> 船员名单</strong>
+                                        </div>
+                                        <div class="col-md-6" style="padding:unset!important">
+                                            <div class="btn-group f-right">
+                                                <button class="btn btn-warning btn-sm excel-btn" id="btn_export_total"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="margin-top:4px;">
+                                        <div id="item-manage-dialog-total" class="hide"></div>
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                        <div class="row" style="margin-bottom:40px">
+                                            <div class="head-fix-div common-list" id="total-table" style="">
+                                                <table id="table-shipmember-list-total" style="table-layout:fixed;width:2000px!important;">
+                                                    <thead class="">
+                                                        <th class="text-center style-header" style="width: 2%;"><span>No</span></th>
+                                                        <th class="text-center style-header" style="width: 6%;"><span>姓名</span></th>
+                                                        <th class="text-center style-header" style="width: 3%;"><span>职务</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>电话号码</span></th>
+                                                        <th class="text-center style-header" style="width: 4%;"><span>国籍</span></th>
+                                                        <th class="text-center style-header" style="width: 7%;"><span>身份证号</span></th>
+                                                        <th class="text-center style-header" style="width: 4%;"><span>出生日期</span></th>
+                                                        <th class="text-center style-header" style="width: 4%;"><span>籍贯</span></th>
+                                                        <th class="text-center style-header" style="width: 4%;"><span>上船日期</span></th>
+                                                        <th class="text-center style-header" style="width: 12%;"><span>上船港</span></th>
+                                                        <th class="text-center style-header" style="width: 4%;"><span>下船日期</span></th>
+                                                        <th class="text-center style-header" style="width: 6%;"><span>海员证号</span></th>
+                                                        <th class="text-center style-header" style="width: 4%;"><span>海员证到期</span></th>
+                                                        <th class="text-center style-header" style="width: 6%;"><span>护照号</span></th>
+                                                        <th class="text-center style-header" style="width: 4%;"><span>护照到期</span></th>
+                                                        <th class="text-center style-header" style="width: 20%;"><span>地址</span></th>
+                                                    </thead>
+                                                    <tbody class="" id="total-list-body">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab_crew_list" class="tab-pane">
+                                <div class="page-header">
+                                    <div class="col-sm-3">
+                                        <h4><b>CREW LIST</b></h4>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:40px">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
+                                            <select class="custom-select d-inline-block" id="select-ship" style="width:80px">
+                                                <option value="" selected></option>
+                                                @foreach($shipList as $ship)
+                                                    <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{$ship['NickName']}}</option>
+                                                @endforeach
+                                            </select>
+                                            <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="ship_name"></span> CREW LIST</strong>
+                                        </div>
+                                        <div class="col-md-6" style="padding:unset!important">
+                                            <div class="btn-group f-right">
+                                                <button class="btn btn-warning btn-sm excel-btn" id="btn_export_list"><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="margin-top:4px;">
+                                        <div id="item-manage-dialog" class="hide"></div>
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                        <div class="row">
+                                            <div class="head-fix-div common-list" id="crew-table" style="">
+                                                <table id="table-shipmember-list" style="table-layout:fixed;">
+                                                    <thead class="">
+                                                        <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
+                                                        <th class="text-center style-header" style="width: 12%;"><span>Family Name, Given Name</span></th>
+                                                        <th class="text-center style-header" style="width: 4%;"><span>Rank</span></th>
+                                                        <th class="text-center style-header" style="width: 9%;"><span>Nationality</span></th>
+                                                        <th class="text-center style-header" style="width: 12%;"><span>Chinese ID No.</span></th>
+                                                        <th class="text-center style-header" style="width: 19%;"><span>Date and place of birth</span></th>
+                                                        <th class="text-center style-header" style="width: 20%;"><span>Date and place of embarkation</span></th>
+                                                        <th class="text-center style-header" style="width: 11%;"><span>Seaman's Book No and Expire Date</span></th>
+                                                        <th class="text-center style-header" style=""><span>Passport's No and Expire Date</span></th>
+                                                    </thead>
+                                                    <tbody class="" id="list-body">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,6 +164,7 @@ $isHolder = Session::get('IS_HOLDER');
     <script>
         var token = '{!! csrf_token() !!}';
         var shipName = '';
+        var shipName_total = '';
         $(function () {
             $.fn.editable.defaults.mode = 'inline';
             $.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
@@ -113,7 +207,9 @@ $isHolder = Session::get('IS_HOLDER');
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
                     
-                    $(row).attr('class', 'member-item');
+                    if((index%4)==2 || (index%4)==3)
+                        $(row).attr('class', 'member-item-odd');
+                    
                     //$('td', row).eq(0).html('').append((pageInfo.page * pageInfo.length + index + 1));
                     $('td', row).eq(0).html(index/2+1);
                 },
@@ -125,8 +221,6 @@ $isHolder = Session::get('IS_HOLDER');
             $('.dataTables_info').hide();
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         }
-        //initTable();
-
         $('#select-ship').on('change', function() {
             shipName = $("#select-ship option:selected").text();
             if (shipName == "") return;
@@ -136,10 +230,71 @@ $isHolder = Session::get('IS_HOLDER');
             listTable.column(3).search('off', false, false).draw();
         });
 
-        $('.excel-btn').on('click', function() {
-           $('td[style*="display: none;"]').remove();
+        var listTotalTable = null;
+        function initTotalTable() {
+            listTotalTable = $('#table-shipmember-list-total').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: true,
+                bAutoWidth: false, 
+                ajax: {
+                    url: BASE_URL + 'ajax/shipMember/listAll',
+                    type: 'POST',
+                },
+                "ordering": false,
+                "pageLength": 500,
+                columnDefs: [
+                ],
+                columns: [
+                    {data: null, className: "text-center"},
+                    {data: 'name', className: "text-center"},
+                    {data: 'rank', className: "text-center"},
+                    {data: 'phone', className: "text-center"},
+                    {data: 'nationality', className: "text-center"},
+                    {data: 'cert-id', className: "text-center"},
+                    {data: 'birthday', className: "text-center"},
+                    {data: 'birthplace', className: "text-center"},
+                    {data: 'signon-date', className: "text-center"},
+                    {data: 'signon-port', className: "text-center"},
+                    {data: 'signoff-date', className: "text-center"},
+                    {data: 'bookno', className: "text-center"},
+                    {data: 'bookno-expire', className: "text-center"},
+                    {data: 'passport-no', className: "text-center"},
+                    {data: 'passport-expire', className: "text-center"},
+                    {data: 'address', className: "text-center"}
+                ],
+                createdRow: function (row, data, index) {
+                    var pageInfo = listTotalTable.page.info();
+                    $(row).attr('class', 'member-item');
+                    $('td', row).eq(0).html('').append((pageInfo.page * pageInfo.length + index + 1));
+                    if ((index%2) == 0)
+                        $(row).attr('class', 'member-item-even');
+                    else
+                        $(row).attr('class', 'member-item-odd');
+
+                },
+            });
+
+            $('.paginate_button').hide();
+            $('.dataTables_length').hide();
+            $('.paging_simple_numbers').hide();
+            $('.dataTables_info').hide();
+            $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
+        }
+
+        
+        $('#select-ship-total').on('change', function() {
+            shipName_total = $("#select-ship-total option:selected").text();
+            if (shipName_total == "") return;
+            if (listTotalTable == null) initTotalTable();
+            $('#ship_name_total').html('"' + $("#select-ship-total option:selected").attr('data-name') + '"');
+            listTotalTable.column(1).search($("#select-ship-total" ).val(), false, false).draw();
+        });
+        
+        $('#btn_export_list').on('click', function() {
+            $('td[style*="display: none;"]').remove();
            fnExcelReport();
-		});
+        })
 
         function fnExcelReport()
         {
@@ -196,6 +351,68 @@ $isHolder = Session::get('IS_HOLDER');
             //document.getElementById('test').innerHTML = tab_text;
             var filename = 'CREW LIST(' + shipName + ')';
             exportExcel(tab_text, filename, 'CREW LIST');
+            return 0;
+        }
+
+        $('#btn_export_total').on('click', function() {
+            $('td[style*="display: none;"]').remove();
+            fnExcelTotalReport();
+        })
+
+        function fnExcelTotalReport()
+        {
+            var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+            var real_tab = document.getElementById('table-shipmember-list-total');
+            var tab = real_tab.cloneNode(true);
+            tab_text=tab_text+"<tr><td colspan='16' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>船员名单</td></tr>";
+            for(var j = 0 ; j < tab.rows.length ; j++) 
+            {
+                if (j == 0) {
+                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                        if (i == 0) {
+                        }
+                        else if (i == 1) {
+                            tab.rows[j].childNodes[i].style.width = '140px';
+                        }
+                        else if (i == 2) {
+                            tab.rows[j].childNodes[i].style.width = '60px';
+                        }
+                        else if (i == 4) {
+                            tab.rows[j].childNodes[i].style.width = '160px';
+                        }
+                        else if (i == 5) {
+                            tab.rows[j].childNodes[i].style.width = '200px';
+                        }
+                        else if (i == 6) {
+                            tab.rows[j].childNodes[i].style.width = '200px';
+                        }
+                        else if (i == 15) {
+                            tab.rows[j].childNodes[i].style.width = '500px';
+                        }
+                        else
+                        {
+                            tab.rows[j].childNodes[i].style.width = '100px';
+                        }
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                    }
+                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                }
+                else
+                {
+                    tab.rows[j].childNodes[4].innerHTML = '="' + tab.rows[j].childNodes[4].innerHTML + '"';
+                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                }
+            }
+
+            tab_text=tab_text+"</table>";
+            //tab_text='<table border="2px" style="text-align:center;vertical-align:middle;"><tr><th class="text-center sorting_disabled" style="width: 78px;text-align:center;vertical-align:center;" rowspan="1" colspan="1"><span>No</span></th></tr><tr style="width: 78px;text-align:center;vertical-align:middle;"><td class="text-center sorting_disabled" rowspan="2" style="">你好</td></tr></table>';
+            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+            //document.getElementById('test').innerHTML = tab_text;
+            var filename = '船员名单(' + shipName_total + ')';
+            exportExcel(tab_text, filename, '船员名单');
             return 0;
         }
     </script>

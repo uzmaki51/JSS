@@ -308,9 +308,10 @@ class OrgmanageController extends Controller
         $user = User::find($userid);
 	    $user->account = $param['account'];
 	    $user->realname = $param['name'];
-	    $user->unit = $param['unit'];
 	    $user->phone = $param['phone'];
+        $user->remark = $param['remark'];
 	    $user->pos = $param['pos'];
+        
 	    $user->entryDate = $param['enterdate'] == '' ? null : $param['enterdate'];
 	    $releaseDate = $param['releaseDate'];
 	    if(!empty($param['enterdate']))
@@ -323,6 +324,10 @@ class OrgmanageController extends Controller
 		    $user->status = STATUS_ACTIVE;
 
 	    $user->isAdmin = (isset($param['isAdmin']) && $param['isAdmin'] == 1) ? 1 : ($param['pos'] == IS_SHAREHOLDER ? IS_SHAREHOLDER : 0);
+
+        if ($param['pos'] == 1) $user->isAdmin = 1;
+        else $user->isAdmin = 0;
+
         if(isset($param['password_reset']) && $param['password_reset'] == true)
 	        $user->password = bcrypt(DEFAULT_PASS);
 
@@ -354,9 +359,9 @@ class OrgmanageController extends Controller
         $user->account = $param['account'];
 	    $user->realname = $param['name'];
 	    $user->password = bcrypt(DEFAULT_PASS);
-	    $user->unit = $param['unit'];
 	    $user->pos = $param['pos'];
 	    $user->phone = $param['phone'];
+        $user->remark = $param['remark'];
 	    if(!empty($param['enterdate']))
 	        $user->entryDate = $param['enterdate'];
 
@@ -387,8 +392,8 @@ class OrgmanageController extends Controller
     	$params = $request->all();
     	$userid = $params['userid'];
 	    $ret = User::where('id', $userid)->delete();
-	    $ret = Career::where('userId', $userid)->delete();
-	    $ret = UserInfo::where('id', $userid)->delete();
+	    //$ret = Career::where('userId', $userid)->delete();
+	    //$ret = UserInfo::where('id', $userid)->delete();
 
     	return response()->json($ret);
     }
@@ -429,7 +434,7 @@ class OrgmanageController extends Controller
 	// 권한관리편집화면
 	public function addPrivilege(Request $request) {
 		$units = Unit::unitFullNameList();
-		$posts = Post::orderBy('orderNum')->get();
+		$posts = Post::orderBy('orderNum')->orderByRaw('CAST(OrderNum AS SIGNED) ASC')->get();
 		$pmenus = Menu::where('parentId', '=', 0)->get();
 		$cmenus = array();
 		$index = 0;

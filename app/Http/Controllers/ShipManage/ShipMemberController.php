@@ -899,6 +899,13 @@ class ShipMemberController extends Controller
         return $member_infolist;
     }
 
+    public function ajaxGetWholeList(Request $request) {
+        $params = $request->all();
+        $tbl = new ShipMember();
+        $ret = $tbl->getForWholeDatatable($params);
+        return response()->json($ret);
+    }
+
     public function ajaxSearchMember(Request $request) {
         $params = $request->all();
         $tbl = new ShipMember();

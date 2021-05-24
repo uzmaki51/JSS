@@ -51,6 +51,10 @@ class DynamicController extends Controller
 			$result = DB::table('tbl_port')->select('*')->orderBy('Port_En')->get();
 			return response()->json($result);
 		}
+		else if ($type == 'pos') {
+			$result = DB::table('tb_pos')->select('*')->orderByRaw('CAST(orderNum AS SIGNED) ASC')->get();			
+			return response()->json($result);
+		}
 
 		return response()->json('fail');
     }
@@ -129,6 +133,23 @@ class DynamicController extends Controller
 			{
 				if ($Port_En[$i] != '' || $Port_Cn[$i] != '') {
 					DB::table('tbl_port')->insert(['Port_En' => $Port_En[$i], 'Port_Cn' => $Port_Cn[$i]]);
+				}
+			}
+		}
+		else if($type == 'pos') {
+			$ids = $params['id'];
+			$Pos_OrderNum = $params['orderno'];
+			$Pos_Title = $params['name'];
+
+			//$result = DB::table('tbl_port')->truncate();
+			DB::table('tb_pos')->whereNotIn('id', $ids)->delete();
+			for ($i=0;$i<count($Pos_OrderNum);$i++)
+			{
+				if ($Pos_Title[$i] != '') {
+					if ($ids[$i] == '')
+						DB::table('tb_pos')->insert(['orderNum' => $Pos_OrderNum[$i], 'title' => $Pos_Title[$i]]);
+					else
+						DB::table('tb_pos')->where('id', $ids[$i])->update(['orderNum' => $Pos_OrderNum[$i], 'title' => $Pos_Title[$i]]);
 				}
 			}
 		}
