@@ -18,11 +18,11 @@ return [
 	],
 
 	'table'		=> [
-		'no'				=> 'No',
+		'no'				=> '审批编号',
 		'type'				=> '文件种类',
 		'date'				=> '日期',
 		'state'				=> '状态',
-		'shipName'			=> '船名',
+		'shipName'			=> '对象',
 		'voy_no'			=> '航次',
 		'profit_type'		=> '收支种类',
 		'content'			=> '内容',

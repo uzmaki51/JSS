@@ -589,7 +589,7 @@ footer {
 }
 .attach-list li span {
     display: inline-block;
-    width: 214px;
+    width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -882,4 +882,8 @@ footer {
     background: #f8f8f8!important;
     padding: 12px;
     text-align:center;
+}
+.report-attachment img {
+    margin: 2px 4px;
+    cursor: pointer;
 }

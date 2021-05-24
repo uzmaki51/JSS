@@ -18,7 +18,8 @@ use Auth;
 use Session;
 
 class DecisionReportAttachment extends Model {
-    protected $table = 'tb_decision_report_attachment';
+	protected $table = 'tb_decision_report_attachment';
+	protected $table_report = 'tb_decision_report';
 
     public function updateAttach($reportId, $fileList) {
 
@@ -42,13 +43,32 @@ class DecisionReportAttachment extends Model {
 		        ->select('*');
     	$result = $selector->first();
 
-        if(file_exists($result->file_url))
-            @unlink($result->file_url);
+		if($result != null) {
+			if(file_exists($result->file_url))
+				@unlink($result->file_url);
+		}
 
 		$ret = DB::table($this->table)
             ->where('id', $id)
             ->delete();
 
 		return true;
-    }
+	}
+	
+	public function deleteAttach($id) {
+		$is_exist = self::where('reportId', $id)->first();
+		if($is_exist != null) {
+			$file_url = $is_exist->file_url;
+			@unlink($file_url);
+			self::where('reportId', $id)->delete();
+		}
+
+		DB::table($this->table_report)
+			->where('id', $id)
+			->update([
+				'attachment'		=> 0
+			]);
+
+		return 1;
+	}
 }

@@ -109,9 +109,11 @@
                             </div>
                             <div class="card-body expired-cert-border" style="padding: 0 8px!important;">
                                 <ul class="timeline">
+                                @if(isset($expired_data['ship']) && count($expired_data['ship']) > 0)
                                     @foreach($expired_data['ship'] as $item)
                                         <li><a target="_blank" href="#">{{ $item->ship_name . ' - ' . $item->cert_name }}</a></li>
                                     @endforeach
+                                @endif
                                 </ul>
                             </div>
                         </div>

@@ -34,9 +34,9 @@ define('REPORT_TYPE_EVIDENCE_OUT',  'Debit');
 define('REPORT_TYPE_CONTRACT',      'Contract');
 define('REPORT_TYPE_OTHER',         'Other');
 $ReportTypeData = array(
-	REPORT_TYPE_EVIDENCE_IN         => '支出',
+	REPORT_TYPE_EVIDENCE_OUT        => '支出',
 	REPORT_TYPE_CONTRACT            => '合同',
-	REPORT_TYPE_EVIDENCE_OUT        => '收入',
+	REPORT_TYPE_EVIDENCE_IN        	=> '收入',
 	REPORT_TYPE_OTHER 		        => '其他',
 	
 );
@@ -66,8 +66,8 @@ define('INCOME_BODY_FEE',   '2');
 define('INCOME_ELSE',       '3');
 $InComeData = array(
 	INCOME_UNIM         => '运费',
-	INCOME_BODY_FEE     => '滞期费',
-	INCOME_ELSE         => '其他',
+	INCOME_BODY_FEE     => '租期费',
+	INCOME_ELSE         => '滞期费',
 );
 
 # OutcomeData
@@ -80,16 +80,28 @@ define('OUTCOME_FEE6',       '6');
 define('OUTCOME_FEE7',       '7');
 define('OUTCOME_FEE8',       '8');
 define('OUTCOME_FEE9',       '9');
+define('OUTCOME_FEE10',       '10');
+define('OUTCOME_FEE11',       '11');
+define('OUTCOME_FEE12',       '12');
+define('OUTCOME_FEE13',       '13');
+define('OUTCOME_FEE14',       '14');
+define('OUTCOME_FEE15',       '15');
 $OutComeData = array(
-	OUTCOME_FEE1    => '港费',
-	OUTCOME_FEE2    => '加油',
-	OUTCOME_FEE3    => '工资',
-	OUTCOME_FEE4    => '佣金',
-	OUTCOME_FEE5    => '物料',
-	OUTCOME_FEE6    => '修理',
-	OUTCOME_FEE7    => '证书',
-	OUTCOME_FEE8    => '保险',
-	OUTCOME_FEE9    => '其他',
+	OUTCOME_FEE1    	=> '港费',
+	OUTCOME_FEE2    	=> '油款',
+	OUTCOME_FEE3    	=> '工资',
+	OUTCOME_FEE4    	=> 'CTM',
+	OUTCOME_FEE5    	=> '伙食费',
+	OUTCOME_FEE6    	=> '劳务费',
+	OUTCOME_FEE7    	=> '物料费',
+	OUTCOME_FEE8    	=> '修理费',
+	OUTCOME_FEE9    	=> '管理费',
+	OUTCOME_FEE10    	=> '保险费',
+	OUTCOME_FEE11    	=> '检验费',
+	OUTCOME_FEE12    	=> '证书费',
+	OUTCOME_FEE13    	=> '办公费',
+	OUTCOME_FEE14    	=> '兑换',
+	OUTCOME_FEE15    	=> '其他',
 );
 
 $FeeTypeData = array(
@@ -124,11 +136,11 @@ $ReportTypeLabelData = array(
 
 define('CNY_LABEL', 'CNY');
 define('USD_LABEL', 'USD');
-define('EUR_LABEL', 'EUR');
+define('EUR_LABEL', 'OTHER');
 $CurrencyLabel = array(
 	CNY_LABEL   =>  '¥',
 	USD_LABEL   =>  '$',
-	EUR_LABEL   =>  '€',
+	EUR_LABEL   =>  'C',
 );
 
 #Inventory Status Data
@@ -420,6 +432,9 @@ $ProfitDebitData = array(
 );
 
 define('ZERO_DATE', '0000-00-00');
+
+define('OBJECT_TYPE_SHIP', 		'1');
+define('OBJECT_TYPE_PERSON', 	'2');
 
 
  $g_masterData = array(

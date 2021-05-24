@@ -79,6 +79,8 @@ class HomeController extends Controller {
 			$expired_certData['ship'][$key]->cert_name = ShipCertList::where('id', $item->cert_id)->first()->name;
 		}
 
+		// var_dump($shipForDecision);die;
+
 		return view('home.front', [
 			'shipList'          => $shipList,
 			'reportList'        => $reportList,

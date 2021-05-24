@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Util;
 
 use App\Models\Convert\VoyLog;
+use App\Models\Operations\CP;
 use App\Models\Decision\DecEnvironment;
 use App\Models\Decision\DecisionFlow;
 use App\Models\Decision\DecisionReport;
@@ -24,9 +25,11 @@ use App\Models\Operations\AcItem;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\UserInfo;
 use App\User;
+use App\Models\Common;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Member\Unit;
+use App\Models\Finance\AccountPersonalInfo;
 
 use Auth;
 use Illuminate\Support\Facades\Session;
@@ -70,8 +73,7 @@ class DecisionController extends Controller
 		return redirect('decision/receivedReport?id=' . $draftId);
 	}
 
-	// New Definition by Uzmaki
-
+	// Added by Uzmaki
 	public function reportSubmit(Request $request) {
 		$params = $request->all();
 
@@ -81,11 +83,26 @@ class DecisionController extends Controller
 		else
 			$reportTbl =new DecisionReport();
 
-		$user = Auth::user();
 
+		$commonTbl = new Common();
+		$reportNo = $commonTbl->generateReportID();
+		$user = Auth::user();
+		$reportTbl['report_id'] = $reportNo;
+		$reportTbl['obj_type'] = $params['object_type'];
+		$reportTbl['report_date'] = $params['report_date'];
 		$reportTbl['flowid'] = $params['flowid'];
-		$reportTbl['shipNo'] = isset($params['shipNo']) ? $params['shipNo'] : 0;
-		$reportTbl['voyNo'] = isset($params['voyNo']) ? $params['voyNo'] : 0;
+		if($params['object_type'] == OBJECT_TYPE_SHIP) {
+			$reportTbl['shipNo'] = isset($params['shipNo']) ? $params['shipNo'] : null;
+			$reportTbl['voyNo'] = isset($params['voyNo']) ? $params['voyNo'] : null;
+			$reportTbl['obj_no'] = null;
+			$reportTbl['obj_name'] = null;
+		} else if($params['object_type'] == OBJECT_TYPE_PERSON) {
+			$reportTbl['obj_no'] = isset($params['obj_no']) ? $params['obj_no'] : null;
+			$reportTbl['obj_name'] = AccountPersonalInfo::where('id', $params['obj_no'])->first()->person;
+			$reportTbl['shipNo'] = null;
+			$reportTbl['voyNo'] = null;
+		}
+
 		if($params['flowid'] == REPORT_TYPE_CONTRACT) {
 			$reportTbl['profit_type'] = '';
 			$reportTbl['amount'] = '';
@@ -192,8 +209,6 @@ class DecisionController extends Controller
 		$userRole = Auth::user()->isAdmin;
 
 		Session::forget('reportFiles');
-//		if($userRole != SUPER_ADMIN)
-//			return response()->json('-1');
 
 		$decideTbl = new DecisionReport();
 		$retVal = $decideTbl->getReportDetail($params);
@@ -207,7 +222,7 @@ class DecisionController extends Controller
 		$shipList = ShipRegister::all();
 
 		if(isset($params['shipId'])) {
-			$voyList = VoyLog::where('Ship_ID', $params['shipId'])->groupBy('CP_ID')->get();
+			$voyList = CP::where('Ship_ID', $params['shipId'])->groupBy('Voy_No')->get();
 		} else {
 			$voyList = array();
 		}
@@ -261,4 +276,29 @@ class DecisionController extends Controller
 
 		return response()->json($retVal);
 	}
+
+	public function ajaxObject() {
+		$retVal = AccountPersonalInfo::all();
+
+		return response()->json($retVal);
+	}
+
+	public function ajaxDeleteReportAttach(Request $request) {
+		$params = $request->all();
+		$id = $params['id'];
+
+		$decisionTbl = new DecisionReportAttachment();
+
+		$ret = $decisionTbl->deleteAttach($id);
+
+		return response()->json($ret);
+	}
+
+	public function ajaxDelete(Request $request) {
+		$params = $request->all();
+		$id = $params['id'];
+		$ret = DecisionReport::where('id', $id)->delete();
+
+		return response()->json($ret);
+	}	
 }

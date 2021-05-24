@@ -212,19 +212,23 @@ class DecisionReport extends Model {
 		if (isset($params['columns'][0]['search']['value'])
 			&& $params['columns'][0]['search']['value'] !== ''
 		) {
-			$selector->where('shipNo', $params['columns'][0]['search']['value']);
+			$selector->whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $params['columns'][0]['search']['value']));
 		}
 		if (isset($params['columns'][1]['search']['value'])
 			&& $params['columns'][1]['search']['value'] !== ''
 		) {
-			$fromDate = str_replace('/', '-', $params['columns'][1]['search']['value']);
-			$selector->where('create_at', '>=', $fromDate . ' ' . '00:00:00');
+			$selector->whereRaw(DB::raw('mid(report_date, 6, 7) = ' . sprintf("%'02d\n", $params['columns'][1]['search']['value'])));
 		}
 		if (isset($params['columns'][2]['search']['value'])
 			&& $params['columns'][2]['search']['value'] !== ''
 		) {
-			$fromDate = str_replace('/', '-', $params['columns'][2]['search']['value']);
-			$selector->where('create_at', '<=', $fromDate . ' ' . '23:59:59');
+			$obj = $params['columns'][2]['search']['value'];
+			if($obj == 'OBJ') {
+				$selector->where('obj_type', OBJECT_TYPE_PERSON);
+			} else {
+				$selector->where('obj_type', OBJECT_TYPE_SHIP);
+				$selector->where('shipNo', $obj);
+			}
 		}
 
 		// number of filtered records
@@ -243,8 +247,8 @@ class DecisionReport extends Model {
 		$records = $selector->get();
 
 		foreach($records as $key => $item) {
-			if(ShipRegister::where('id', $item->shipNo)->first())
-				$shipName = ShipRegister::where('id', $item->shipNo)->first()->NickName;
+			if(ShipRegister::where('IMO_No', $item->shipNo)->first())
+				$shipName = ShipRegister::where('IMO_No', $item->shipNo)->first()->NickName;
 			else
 				$shipName = '';
 			if(ACItem::where('id', $item->profit_type)->first())
