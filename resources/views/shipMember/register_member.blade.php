@@ -32,7 +32,7 @@ $isHolder = Session::get('IS_HOLDER');
                 background-color: #ffffff;
             }
             .list-body:hover {
-                background-color: #ffe3e082;
+                background-color: #efefef;
                 cursor: pointer;
             }
 
@@ -113,15 +113,7 @@ $isHolder = Session::get('IS_HOLDER');
                                         <td class=" text-center" style="display: none;"></td>
                                         <td class=" text-center" style="display: none;"></td>
                                         <td class=" text-center">@if(isset($info)){{$info['BirthPlace']}}@endif</td>
-                                        <?php $port = "";
-                                        ?>
-                                        @foreach ($portList as $item)
-                                            @if ($item->id == $info['PortID_Book'])
-                                            <?php $port = $item->Port_En; 
-                                            ?>
-                                            @endif
-                                        @endforeach
-                                        <td class=" text-center">{{$port}}</td>
+                                        <td class=" text-center">@if(isset($info)){{$info['PortID_Book']}}@endif</td>
                                         <td class=" text-center">@if(isset($info)){{$info['ExpiryDate']}}@endif</td>
                                         <td class=" text-center">@if(isset($info)){{$info['PassportExpiryDate']}}@endif</td>
                                     </tr>

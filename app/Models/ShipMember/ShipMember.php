@@ -878,9 +878,13 @@ class ShipMember extends Model
             $newArr[$newindex]['birthday'] = $record->birthday;
             $newArr[$newindex]['birthplace'] = $record->BirthPlace;
             $newArr[$newindex]['signon-date'] = $record->DateOnboard;
+
+            $newArr[$newindex]['signon-port'] = $record->PortID_Book;
+            /*
             $port = ShipPort::find($record->PortID_Book);
             $newArr[$newindex]['signon-port'] = '&nbsp;';
             if(!empty($port) && $port != null) $newArr[$newindex]['signon-port'] = $port->Port_En;
+            */
             $newArr[$newindex]['signoff-date'] = $record->DateOffboard;
             $newArr[$newindex]['bookno'] = $record->crewNum;
             $newArr[$newindex]['bookno-expire'] = $record->ExpiryDate;
@@ -985,9 +989,12 @@ class ShipMember extends Model
             $newArr[$newindex]['cert-id'] = $record->CertNo;
             $newArr[$newindex]['birth-and-place'] = $record->BirthPlace;
 
-            $port = ShipPort::find($record->PortID_Book);
+            $newArr[$newindex]['date-and-embarkation'] = $record->PortID_Book;
+            /*$port = ShipPort::find($record->PortID_Book);
             $newArr[$newindex]['date-and-embarkation'] = '&nbsp;';
             if(!empty($port) && $port != null) $newArr[$newindex]['date-and-embarkation'] = $port->Port_En;
+            */
+            
             $newArr[$newindex]['bookno-expire'] = $record->ExpiryDate;
             $newArr[$newindex]['passport-expire'] = $record->PassportExpiryDate;
             $newindex ++;
