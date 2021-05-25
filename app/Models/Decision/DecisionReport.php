@@ -34,14 +34,30 @@ class DecisionReport extends Model {
 		foreach($records as $index => $record) {
 			$newArr[$newindex]['id'] = $record->orig_id;
 			$newArr[$newindex]['flowid'] = $record->flowid;
-			$newArr[$newindex]['report_no'] = $record->id;
+			$newArr[$newindex]['report_no'] = $record->report_id;
 			$newArr[$newindex]['book_no'] = $record->book_no == null ? '' : $record->book_no;
 			$newArr[$newindex]['datetime'] = $record->create_time;
+
+			if ($record->obj_type == 1) {
+				$newArr[$newindex]['ship_no'] = $record->shipNo;
+				$newArr[$newindex]['voyNo'] = $record->voyNo;
+
+				$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
+				$newArr[$newindex]['obj'] = $ship->NickName;
+			}
+			else
+			{
+				$newArr[$newindex]['ship_no'] = $record->obj_no;
+				$newArr[$newindex]['voyNo'] = '';
+				$newArr[$newindex]['obj'] = $record->obj_name;
+			}
+			/*
 			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
 			$newArr[$newindex]['obj'] = $ship->NickName;
 			$newArr[$newindex]['ship_no'] = $record->shipNo;
 			$contract = VoyLog::where('id', $record->voyNo)->first();
 			$newArr[$newindex]['voyNo'] = $contract->CP_ID;
+			*/
 			$newArr[$newindex]['currency'] = $record->currency == 'USD' ? "$" : "¥";
 			$newArr[$newindex]['type'] = $record->type;
 			$newArr[$newindex]['profit_type'] = $record->profit_type;
@@ -58,7 +74,7 @@ class DecisionReport extends Model {
 		///////////////// Need to Optimize
 		$selector = DB::table($this->table)
 			->orderBy('update_at', 'asc')
-			->select('*');
+			->where('state', 1);
 
 		$next_year = $year;
         $next_month = $month;
@@ -83,14 +99,29 @@ class DecisionReport extends Model {
 
 			$newArr[$newindex]['id'] = $record->id;
 			$newArr[$newindex]['flowid'] = $record->flowid;
-			$newArr[$newindex]['report_no'] = $record->id;
+			$newArr[$newindex]['report_no'] = $record->report_id;
 			$newArr[$newindex]['book_no'] = '';
 			$newArr[$newindex]['datetime'] = $record->create_at;
+			/*
 			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
 			$newArr[$newindex]['obj'] = $ship->NickName;
 			$newArr[$newindex]['ship_no'] = $record->shipNo;
 			$contract = VoyLog::where('id', $record->voyNo)->first();
 			$newArr[$newindex]['voyNo'] = $contract->CP_ID;
+			*/
+			if ($record->obj_type == 1) {
+				$newArr[$newindex]['ship_no'] = $record->shipNo;
+				$newArr[$newindex]['voyNo'] = $record->voyNo;
+
+				$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
+				$newArr[$newindex]['obj'] = $ship->NickName;
+			}
+			else
+			{
+				$newArr[$newindex]['ship_no'] = $record->obj_no;
+				$newArr[$newindex]['voyNo'] = '';
+				$newArr[$newindex]['obj'] = $record->obj_name;
+			}
 			$newArr[$newindex]['currency'] = $record->currency == 'USD' ? "$" : "¥";
 			$newArr[$newindex]['type'] = $record->type;
 			$newArr[$newindex]['profit_type'] = $record->profit_type;
@@ -137,7 +168,7 @@ class DecisionReport extends Model {
 
 		$selector = DB::table($this->table)
 			->orderBy('update_at', 'asc')
-			->select('*');
+			->where('state', 1);
 
 		$next_year = $year;
         $next_month = $month;
@@ -162,14 +193,24 @@ class DecisionReport extends Model {
 		foreach($records as $index => $record) {
 			$newArr[$newindex]['id'] = $record->id;
 			$newArr[$newindex]['flowid'] = $record->flowid;
-			$newArr[$newindex]['report_no'] = $record->id;
+			$newArr[$newindex]['report_no'] = $record->report_id;
 			$newArr[$newindex]['book_no'] = '';
 			$newArr[$newindex]['datetime'] = $record->create_at;
-			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
-			$newArr[$newindex]['obj'] = $ship->NickName;
-			$newArr[$newindex]['ship_no'] = $record->shipNo;
-			$contract = VoyLog::where('id', $record->voyNo)->first();
-			$newArr[$newindex]['voyNo'] = $contract->CP_ID;
+			
+			if ($record->obj_type == 1) {
+				$newArr[$newindex]['ship_no'] = $record->shipNo;
+				$newArr[$newindex]['voyNo'] = $record->voyNo;
+
+				$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
+				$newArr[$newindex]['obj'] = $ship->NickName;
+			}
+			else
+			{
+				$newArr[$newindex]['ship_no'] = $record->obj_no;
+				$newArr[$newindex]['voyNo'] = '';
+				$newArr[$newindex]['obj'] = $record->obj_name;
+			}
+
 			$newArr[$newindex]['currency'] = $record->currency == 'USD' ? "$" : "¥";
 			$newArr[$newindex]['type'] = $record->type;
 			$newArr[$newindex]['profit_type'] = $record->profit_type;

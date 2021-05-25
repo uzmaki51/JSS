@@ -74,7 +74,11 @@
                             <div class="card-body decide-border" style="padding: 0 8px!important;">
                                 <ul class="timeline">
                                     @foreach($reportList as $item)
+                                        @if($item->obj_type == 1)
                                         <li><a target="_blank" href="https://www.totoprayogo.com/#"><div class="arrow-navi"><span class="visually-hidden">Read More</span></div>从[{{ $item->realname }}]收到了[{{ $shipForDecision[$item->shipNo] }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.</a></li>
+                                        @else
+                                        <li><a target="_blank" href="https://www.totoprayogo.com/#"><div class="arrow-navi"><span class="visually-hidden">Read More</span></div>从[{{ $item->realname }}]收到了[{{ $item->obj_name }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.</a></li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </div>
@@ -92,7 +96,11 @@
                                 <ul class="timeline">
                                     @foreach($reportList as $item)
                                         @if($item->attachment == '' || $item->attachment == null)
-                                            <li><a target="_blank" href="https://www.totoprayogo.com/#">从[{{ $item->realname }}]收到了[{{ $shipForDecision[$item->shipNo] }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.</a></li>
+                                            @if($item->obj_type == 1)
+                                            <li><a target="_blank" href="https://www.totoprayogo.com/#"><div class="arrow-navi"><span class="visually-hidden">Read More</span></div>从[{{ $item->realname }}]收到了[{{ $shipForDecision[$item->shipNo] }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.</a></li>
+                                            @else
+                                            <li><a target="_blank" href="https://www.totoprayogo.com/#"><div class="arrow-navi"><span class="visually-hidden">Read More</span></div>从[{{ $item->realname }}]收到了[{{ $item->obj_name }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.</a></li>
+                                            @endif
                                         @endif
                                     @endforeach
                                 </ul>
@@ -163,7 +171,11 @@
                                                 <div style="height: auto; outline: unset;">
                                                     <h5>
                                                         <a href="/decision/receivedReport?reportId={{$item->id}}" style="color: white; outline: unset;" target="_blank">
+                                                            @if($item->obj_type == 1)
                                                             从[{{ $item->realname }}]收到了[{{ $shipForDecision[$item->shipNo] }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.
+                                                            @else
+                                                            从[{{ $item->realname }}]收到了[{{ $item->obj_name }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.
+                                                            @endif
                                                         </a>
                                                     </h5>
                                                 </div>

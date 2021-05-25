@@ -62,7 +62,7 @@ class DecisionController extends Controller
 		Util::getMenuInfo($request);
 		$shipList = ShipRegister::all();
 
-		return view('decision.draft_report', ['shipList'    => $shipList]);
+		return view('decision.draft_report', ['shipList' => $shipList]);
 	}
 
 	public function redirect(Request $request) {
