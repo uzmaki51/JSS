@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Log;
 
 class ShipCertRegistry extends Model
 {
+    use SoftDeletes;
 //    use SoftDeletes;
     protected $table = 'tb_ship_certregistry';
+    protected $date = ['deleted_at'];
 //    protected $date = ['deleted_at'];
 
     public static function getShipCertList($shipId, $certName, $issuName, $expire) {
@@ -47,12 +49,17 @@ class ShipCertRegistry extends Model
             $expireDate = $date->format('Y-m-d');
 
             $query->where('tb_ship_certregistry.ExpiredDate', '<', $expireDate);
+//            $query->orWhere(function($query) {
+//                $query->whereNull('IssuedDate')
+//                    ->orWhere('IssuedDate', '=', '');
+//            });
 
         }
 
         $list = $query->orderBy('tb_ship_certlist.CertNo')->get();
         return $list;
     }
+
 
     public function getExpiredList($date = 0, $ship_id = '') {
         $date = date('Y-m-d', strtotime('+' . $date . ' days'));
