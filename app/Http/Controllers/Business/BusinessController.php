@@ -65,6 +65,12 @@ class BusinessController extends Controller {
         $this->middleware('auth');
     }
 
+    public function dailyAverageCost(Request $request) {
+        return view('business.daily_average_cost', array(
+            'shipId'	    =>  0,
+		));
+    }
+
 	public function contract(Request $request) {
         $params = $request->all();
 		if(isset($params['shipId'])) {

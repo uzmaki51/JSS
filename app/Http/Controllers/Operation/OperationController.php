@@ -661,6 +661,22 @@ class OperationController extends Controller
     }
 
     //----------------- 수입지출 ------------------//
+    public function incomeExpense(Request $request) {
+        $start_year = 2020;
+
+        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                        ->get();
+        return view('operation.incomeExpense', array(
+            'start_year' => $start_year,
+            'shipList'   => $shipList,
+        ));
+    }
+
+    public function ajaxIncomeExportListByShip(Request $request) {
+        
+    }
+
     public function import(Request $request)
     {
         Util::getMenuInfo($request);

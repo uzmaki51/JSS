@@ -151,6 +151,8 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('finance/accounts/info/list', ['uses'=>'Finance\FinanceController@getPersonalInfoList']);
 	Route::post('finance/accounts/setting/list', ['uses'=>'Finance\FinanceController@getSettingList']);
 
+	Route::post('operation/listByShip', ['uses'=>'Operation\OperationController@ajaxIncomeExportListByShip']);
+
 });
 
 // Administrative Affairs
@@ -169,6 +171,8 @@ Route::group(['prefix' => 'business'], function() {
 
 	Route::get('newsTemaPage', ['uses'=>'Business\BusinessController@newsTemaPage']);
 	Route::get('temaInfo',['uses'=>'Business\BusinessController@getNewsTemaInfo']);
+
+	Route::get('dailyAverageCost', ['uses'=>'Business\BusinessController@dailyAverageCost']);
 
 	Route::get('mainplan', ['uses'=>'Business\BusinessController@mainPlan']);
 	Route::post('planUpdate', ['uses'=>'Business\BusinessController@planUpdate']);
@@ -365,6 +369,8 @@ Route::group(['prefix' => 'operation'], function() {
 	Route::post('getShipYearPlan', ['uses' => 'Operation\OperationController@getShipYearPlan']);
 
 	//수입 및 지출
+	Route::get('incomeExpense', ['uses' => 'Operation\OperationController@incomeExpense']);
+
 	Route::get('import', ['uses' => 'Operation\OperationController@import']);
 	Route::post('updateShipInvoice', ['uses' => 'Operation\OperationController@updateShipInvoice']);
 	Route::post('getSupplyElement', ['uses' => 'Operation\OperationController@getSupplyElement']);
