@@ -3,6 +3,7 @@
 @section('styles')
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
     <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('assets/css/datatables.min.css') }}" rel="stylesheet"/>
     <style>
         [v-cloak] { display: none; }
     </style>
@@ -19,6 +20,24 @@
             <div class="col-md-12">
                 <div class="space-6"></div>
                 <div class="row">
+                    <div class="space-6"></div>
+                    <div class="col-lg-4 form-group pl-0 mb-0">
+                        <div class="btn-group f-left">
+                            <a class="btn btn-sm btn-warning {{ Auth::user()->isAdmin == 1 ? '' : 'right-no-radius' }} refresh-btn-over" type="button" onclick="refresh()">
+                                <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">收件
+                            </a>
+                            @if(!Auth::user()->isAdmin)
+                                <a href="#modal-wizard" class="btn btn-sm btn-report-search left-no-radius report-btn-over show-modal" role="button" data-toggle="modal">
+                                    <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">写件
+                                </a>
+                            @endif
+                            <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 form-group d-flex search-div mb-0">
+                        <label class="search-label">{{ transDecideManage("captions.ship_name") }}:</label>
+                        <select type="text" class="search-input" id="ship_name">
+                            <option value="">请选择船舶。</option>
                     <div class="col-lg-7">
                         <select class="custom-select d-inline-block" id="year">
                             <option value="">全部</option>
@@ -48,6 +67,7 @@
                             <option value="OBJ">个体</option>
                             @if(isset($shipList))
                                 @foreach($shipList as $key => $item)
+                                    <option value="{{ $item->id }}">{{ $item->NickName }}</option>
                                     <option value="{{ $item->IMO_No }}" {{ isset($shipId) && $shipId == $item->IMO_No ?  "selected" : "" }}>
                                         {{ $item->NickName == '' ? $item->shipName_En : $item->NickName }}
                                     </option>
@@ -55,8 +75,30 @@
                             @endif
                         </select>
                     </div>
+                    <div class="col-lg-4 form-group d-flex search-div mb-0">
+                        <label class="search-label">{{transDecideManage ("captions.draftDate")}}:</label>
+                        <input class="search-input date-picker" id="fromDate" type="text">
+                        <i class="icon-calendar bigger-110 search-calendar"></i>
+                        <label class="search-label">&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;</label>
+                        <input class="search-input date-picker" id="toDate" type="text">
+                        <i class="icon-calendar bigger-110 search-calendar"></i>
+
+                    </div>
+                    <div class="col-lg-2 form-group pr-0 mb-0">
                     <div class="col-lg-5">
+
+
+
+
+
+
+
+
+
                         <div class="btn-group f-right">
+                            <button class="btn btn-sm btn-report-search no-radius" type="button" onclick="doSearch()">
+                                <i class="icon-search"></i>{{transDecideManage("captions.search")}}
+                            </button>
                             @if(!Auth::user()->isAdmin)
                                 <a href="#modal-wizard" class="btn btn-sm btn-success no-radius show-modal" role="button" data-toggle="modal">
                                     <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">写件
@@ -70,11 +112,14 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="space-4"></div>
                     <div class="space-2"></div>
                     <div class="table-responsive">
                         <table id="report_info_table" class="table table-bordered">
                             <thead>
                             <tr class="br-hblue">
+                                <th style="width: 4%;">{{ trans('decideManage.table.no') }}</th>
+                                <th style="width: 4%;">{{ trans('decideManage.table.type') }}</th>
                                 <th class="text-center style-normal-header" style="width: 5%;">{{ trans('decideManage.table.no') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.type') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
@@ -82,9 +127,12 @@
                                 <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.profit_type') }}</th>
                                 <th style="width: 30%;">{{ trans('decideManage.table.content') }}</th>
+                                <th style="width: 4%;">{{ trans('decideManage.table.currency') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.currency') }}</th>
                                 <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
+                                <th style="width: 4%;">{{ trans('decideManage.table.attachment') }}</th>
+                                <th style="width: 4%;">{{ trans('decideManage.table.state') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.attachment') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.state') }}</th>
                                 <th class="{{ Auth::user()->isAdmin == SUPER_ADMIN ? '' : 'd-none' }}"></th>
@@ -96,6 +144,7 @@
                     </div>
                 </div>
 
+                <div id="modal-wizard" class="modal" aria-hidden="true" style="display: none; margin-top: 15%;">
                 <div id="modal-wizard" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
                     <div class="dynamic-modal-dialog">
                         <div class="dynamic-modal-content" style="border: 0;width:400px!important;">
@@ -139,27 +188,37 @@
                                                     </td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="flowid" class="form-control width-100" @change="onGetProfit($event)" required v-model="currentReportType">
+                                                            <option v-for="(item, index) in reportType" v-bind:value="index">@{{ item }}</option>
                                                             <option v-for="(item, index) in reportType" v-bind:value="index" :class="reportTypeCls(index)">@{{ item }}</option>
                                                         </select>
                                                     </td>
+
                                                 </tr>
+                                                <tr>
+                                                    <td class="custom-modal-td-label" >船名</td>
                                                 <tr v-show="object_type == 1">
                                                     <td class="custom-modal-td-label">对象</td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="shipNo" class="form-control width-100" @change="onGetVoyNoList($event)" required v-model="currentShipNo">
+                                                            <option v-for="(item, index) in shipList" v-bind:value="item.shipID">@{{ item.shipName_Cn }}</option>
                                                             <option v-for="(item, index) in shipList" v-bind:value="item.IMO_No">@{{ item.shipName_Cn }}</option>
                                                         </select>
                                                     </td>
+
                                                 </tr>
+                                                <tr>
+                                                    <td class="custom-modal-td-label" >
                                                 <tr v-show="object_type == 1">
                                                     <td class="custom-modal-td-label">
                                                         航次
                                                     </td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="voyNo" class="form-control width-100" required v-model="currentVoyNo">
+                                                            <option v-for="(item, index) in voyNoList" v-bind:value="item.id">@{{ item.CP_ID }}</option>
                                                             <option v-for="(item, index) in voyNoList" v-bind:value="item.Voy_No">@{{ item.Voy_No }}</option>
                                                         </select>
                                                     </td>
+
                                                 </tr>
                                                 <tr v-show="object_type == 2">
                                                     <td class="custom-modal-td-label">对象</td>
@@ -173,6 +232,7 @@
                                                     <td class="custom-modal-td-label">收支种类</td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="profit_type" class="form-control width-100 transparent-input" required v-model="currentProfitType">
+                                                            <option v-for="(item, index) in profitType" v-bind:value="item.id">@{{ item.AC_Item_Cn }}</option>
                                                             <option v-for="(item, index) in profitType" v-bind:value="index">@{{ item }}</option>
                                                         </select>
                                                     </td>
@@ -181,6 +241,8 @@
                                                 <tr>
                                                     <td class="custom-modal-td-label">币类</td>
                                                     <td class="custom-modal-td-text1">
+                                                        <select name="currency" class="form-control width-100" v-model="currentCurrency">
+                                                            <option v-for="(item, index) in currency" v-bind:value="index">@{{ item }}</option>
                                                         <select name="currency" class="form-control width-100 font-weight-bold" v-model="currentCurrency" :class="currencyCls(currentCurrency)">
                                                             <option v-for="(item, index) in currency" v-bind:value="index" class="font-weight-bold" :class="currencyCls(index)">@{{ item }}</option>
                                                         </select>
@@ -191,12 +253,14 @@
                                                         金额
                                                     </td>
                                                     <td class="custom-modal-td-text1">
+                                                        <input type="text" name="amount" style="display: inline-block;" class="form-control transparent-input" v-model="amount">
                                                         <my-currency-input v-model="amount" style="display: inline-block;" :class="reportTypeCls(currentReportType)" class="form-control transparent-input" :class="creditClass(item.credit)" name="amount" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:type="'credit'"></my-currency-input>
                                                         <!--input type="text" name="amount"class="" v-model="amount"-->
                                                     </td>
                                                 </tr>
                                                 
                                                 <tr>
+                                                    <td class="custom-modal-td-label">{{transDecideManage("captions.approveName")}} <span class="require">*</span></td>
                                                     <td class="custom-modal-td-label">申请人</td>
                                                     <td class="custom-modal-td-text1">
                                                         <input type="text" name="decTitle" id="decTitle" class="form-control transparent-input" style="width: 100%" v-bind:value="reporter" disabled>
@@ -210,10 +274,13 @@
                                                             <option v-for="(item, index) in department" v-bind:value="item.id">@{{ item.title }}</option>
                                                         </select>
                                                     </td>
+
                                                 </tr>
                                                 <tr>
+                                                    <td class="custom-modal-td-label">{{transDecideManage("captions.content")}} <span class="require">*</span></td>
                                                     <td class="custom-modal-td-label">摘要</td>
                                                     <td class="custom-modal-td-text1" colspan="2">
+                                                        <input name="content" class="form-control" v-model="content">
                                                         <textarea name="content" class="form-control" rows="2">@{{ content }}</textarea>
                                                     </td>
                                                 </tr>
@@ -221,6 +288,7 @@
                                                     <td class="custom-modal-td-label" >凭证文件</td>
                                                     <td class="custom-td-dec-text" colspan="2">
                                                         <div class="form-group mb-0">
+                                                            <input type="file" name="attachments[]" style="display: none;" @change="onFileChange" multiple="multiple" id="file_name"/>
                                                             <input type="file" name="attachments[]" style="display: none;" @change="onFileChange" id="file_name"/>
                                                             <label for="file_name" class="upload-btn"><img src="{{ cAsset('assets/images/upload.png') }}" class="report-label-img">添加附件</label>
                                                         </div>
@@ -239,10 +307,12 @@
                                             </table>
                                             <div  v-show="reportStatus">
                                                 <div class="btn-group f-left mt-20 d-flex">
+                                                    <button type="button" class="btn btn-success small-btn ml-0" @click="reportSubmit($evt)">
                                                     <button type="button" class="btn btn-success small-btn ml-0" @click="reportSubmit($event)">
                                                         <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}
                                                     </button>
                                                     <div class="between-1"></div>
+                                                    <button type="button" class="btn btn-warning small-btn" @click="saveDraft($evt)">
                                                     <button type="button" class="btn btn-warning small-btn" @click="saveDraft($event)">
                                                         <img src="{{ cAsset('assets/images/draft.png') }}" class="report-label-img">{{ trans('decideManage.button.draft') }}
                                                     </button>
@@ -268,6 +338,7 @@
 	echo 'var ReportTypeLabelData = ' . json_encode(g_enum('ReportTypeLabelData')) . ';';
 	echo 'var ReportTypeData = ' . json_encode(g_enum('ReportTypeData')) . ';';
 	echo 'var ReportStatusData = ' . json_encode(g_enum('ReportStatusData')) . ';';
+	echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
     echo 'var CurrencyLabel = ' . json_encode(g_enum('CurrencyLabel')) . ';';
     echo 'var FeeTypeData = ' . json_encode(g_enum('FeeTypeData')) . ';';
 	echo '</script>';
@@ -298,6 +369,7 @@
                 if(reportStatus != 0) return false;
                 if(isAdmin != 1) return false;
                 decideReport(reportId, reportStatus);
+            } else {
             } else if(cell.index() != 10 && cell.index() != 12) {
                 $(this).addClass('selected');
                 showReportDetail(reportId);
@@ -487,13 +559,22 @@
             });
         }
 
+        function getProfit(profitType, selected) {
         function getObject() {
             $.ajax({
+                url: BASE_URL + 'ajax/profit/list',
                 url: BASE_URL + 'ajax/object',
                 type: 'post',
+                data: {
+                    profitType: profitType
+                },
                 success: function(data, status, xhr) {
+                    reportObj.profitType = data;
+                    if(selected != false)
+                        reportObj.currentProfitType = selected;
                     reportObj.objectList = data;
                 }
+            })
             });
         }
 
@@ -595,6 +676,8 @@
                         reportObj.attachments = [];
 
                         this.currentReportType = REPORT_TYPE_EVIDENCE_IN;
+                        this.currentShipNo = '';
+                        this.currentProfitType = '';
                         if(this.shipList.length > 0)
                             this.currentShipNo = this.shipList[0].IMO_No;
                         getVoyList(this.currentShipNo);
@@ -717,14 +800,18 @@
                     searchable: false
                 }],
                 columns: [
+                    {data: 'id', className: "text-center each"},
                     {data: 'report_id', className: "text-center each"},
                     {data: 'flowid', className: "text-center each"},
+                    {data: 'create_at', className: "text-center each"},
                     {data: 'report_date', className: "text-center each"},
                     {data: 'shipName', className: "text-center each"},
                     {data: 'voyNo', className: "text-center each"},
                     {data: 'profit_type', className: "text-center each"},
+                    {data: 'content', className: "text-center each"},
                     {data: 'content', className: "text-left each"},
                     {data: 'currency', className: "text-center each"},
+                    {data: 'amount', className: "text-center each"},
                     {data: 'amount', className: "text-right each"},
                     {data: 'realname', className: "text-center each"},
                     {data: 'attachment', className: "text-center each"},
@@ -735,11 +822,16 @@
                     var pageInfo = listTable.page.info();
                     $(row).attr('data-index', data['id']);
                     $(row).attr('data-status', data['state']);
+                    $('td', row).eq(0).html('').append(
+                        '<span>' + (pageInfo.page * pageInfo.length + index + 1) + '</span>'
+                    );
                     $('td', row).eq(1).html('').append(
+                        '<span data-index="' + data['id'] + '">' + ReportTypeData[data['flowid']] + '</span>'
                         '<span data-index="' + data['id'] + '" class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + ReportTypeData[data['flowid']] + '</span>'
                     );
 
                     $('td', row).eq(2).html('').append(
+                        '<span>' + _convertDate(data['create_at']) + '</span>'
                         '<span>' + _convertDate(data['report_date']) + '</span>'
                     );
 
@@ -781,9 +873,11 @@
 
                     if(data['attachment']  == 1) {
                         $('td', row).eq(10).html('').append(
+                            '<span><i class="icon-file bigger-125"></i></span>'
                             '<div class="report-attachment"><img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15"><img src="{{ cAsset('assets/images/cancel.png') }}" onclick="deleteAttach(' + data['id'] + ')" width="10" height="10"></div>'
                         );
                     } else {
+                        $('td', row).eq(10).html('').append();
                         $('td', row).eq(10).html('').append(
                             '<img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15">'
                         );
