@@ -226,6 +226,11 @@ class FinanceController extends Controller
 			$report_save_record['profit_type'] = $report_original_record->profit_type;
 			$report_save_record['shipNo'] = $report_original_record->shipNo;
 			$report_save_record['voyNo'] = $report_original_record->voyNo;
+			$report_save_record['report_date'] = $report_original_record->report_date;
+			$report_save_record['report_id'] = $report_original_record->report_id;
+			$report_save_record['obj_no'] = $report_original_record->obj_no;
+			$report_save_record['obj_name'] = $report_original_record->obj_name;
+			$report_save_record['obj_type'] = $report_original_record->obj_type;
 			
 			
 			if ($report_booknos[$index] != '')

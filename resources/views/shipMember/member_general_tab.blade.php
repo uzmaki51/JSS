@@ -231,7 +231,7 @@
                             <select class="form-control currency-type" name="WageCurrency" style="border-right: 1px solid #cccccc!important;color:#12539b!important">
                                 <option value="0" @if(isset($info) && ($info['WageCurrency'] == 0)) selected @endif>{{g_enum('CurrencyLabel')['CNY']}}</option>
                                 <option value="1" @if(isset($info) && ($info['WageCurrency'] == 1)) selected @endif>{{g_enum('CurrencyLabel')['USD']}}</option>
-                                <option value="2" @if(isset($info) && ($info['WageCurrency'] == 2)) selected @endif>{{g_enum('CurrencyLabel')['EUR']}}</option>
+                                <!--option value="2" @if(isset($info) && ($info['WageCurrency'] == 2)) selected @endif>{{g_enum('CurrencyLabel')['OTHER']}}</option-->
                             </select>
                             <input type="text" name="Salary" class="form-control currency-input" value="@if(isset($info)){{$info['Salary']}}@endif" placeholder="">
                         </td>
@@ -277,45 +277,7 @@
                             <span class="style-header">Port (Sign On)</span>
                         </td>
                         <td style="width:40%">
-                            <?php $port = "";
-                            $port_id = 0;
-                                ?>
-                            @foreach ($portList as $item)
-                                @if ($item->id == $info['PortID_Book'])
-                                <?php $port = $item->Port_En; 
-                                $port_id = $item->id;
-                                ?>
-                                @endif
-                            @endforeach
-                            <div class="dynamic-select-wrapper">
-                                <div class="dynamic-select" style="color:#12539b">
-                                    <input type="hidden"  name="PortID_Book" value="{{$port_id}}"/>
-                                    <div class="dynamic-select__trigger"><input type="text" class="form-control dynamic-select-span" style="background:white!important;" value="{{$port}}" readonly>
-                                        <div class="arrow"></div>
-                                    </div>
-                                    <div class="dynamic-options">
-                                        <div class="dynamic-options-scroll">
-                                            @if ($port == "")
-                                            <span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>
-                                            @else
-                                            <span class="dynamic-option" data-value="" data-text="">&nbsp;</span>
-                                            @endif
-                                            @foreach ($portList as $item)
-                                                @if ($item->id == $info['PortID_Book'])
-                                                    <span class="dynamic-option selected" data-value="{{$item->id}}" data-text="{{$item->Port_En.' ('.$item->Port_Cn.')'}}">{{$item->Port_En.' ('.$item->Port_Cn.')'}}</span>
-                                                @else
-                                                    <span class="dynamic-option" data-value="{{$item->id}}" data-text="{{$item->Port_En.' ('.$item->Port_Cn.')'}}">{{$item->Port_En.' ('.$item->Port_Cn.')'}}</span>
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                        <div>
-                                            <span class="edit-list-btn" id="edit-list-btn" onclick="javascript:openPortList('port')">
-                                                <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items">
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <input type="text" name="PortID_Book" class="form-control d-in-block" style="width:100%" value="@if(isset($info)){{$info['PortID_Book']}}@endif">
                         </td>
                     </tr>
                     <tr>

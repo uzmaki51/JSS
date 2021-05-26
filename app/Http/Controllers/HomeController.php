@@ -80,7 +80,6 @@ class HomeController extends Controller {
 		}
 
 		// var_dump($shipForDecision);die;
-
 		return view('home.front', [
 			'shipList'          => $shipList,
 			'reportList'        => $reportList,

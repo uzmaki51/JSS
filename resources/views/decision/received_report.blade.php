@@ -75,18 +75,18 @@
                         <table id="report_info_table" class="table table-bordered">
                             <thead>
                             <tr class="br-hblue">
-                                <th class="text-center style-normal-header" style="width: 4%;">{{ trans('decideManage.table.no') }}</th>
-                                <th style="width: 4%;">{{ trans('decideManage.table.type') }}</th>
+                                <th class="text-center style-normal-header" style="width: 5%;">{{ trans('decideManage.table.no') }}</th>
+                                <th style="width: 5%;">{{ trans('decideManage.table.type') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.profit_type') }}</th>
                                 <th style="width: 30%;">{{ trans('decideManage.table.content') }}</th>
-                                <th style="width: 4%;">{{ trans('decideManage.table.currency') }}</th>
+                                <th style="width: 5%;">{{ trans('decideManage.table.currency') }}</th>
                                 <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
-                                <th style="width: 4%;">{{ trans('decideManage.table.attachment') }}</th>
-                                <th style="width: 4%;">{{ trans('decideManage.table.state') }}</th>
+                                <th style="width: 5%;">{{ trans('decideManage.table.attachment') }}</th>
+                                <th style="width: 5%;">{{ trans('decideManage.table.state') }}</th>
                                 <th class="{{ Auth::user()->isAdmin == SUPER_ADMIN ? '' : 'd-none' }}"></th>
                             </tr>
                             </thead>
@@ -777,6 +777,7 @@
                         $('td', row).eq(8).html('').append(
                             ''
                         );
+                        $('td', row).eq(8).attr('style', 'padding-right:5px!important;')
 
                     if(data['attachment']  == 1) {
                         $('td', row).eq(10).html('').append(
