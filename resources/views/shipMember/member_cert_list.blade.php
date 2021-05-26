@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <?php
 if(isset($excel)) $header = 'excel-header';
 else $header = 'sidebar';
@@ -10,11 +11,21 @@ $ships = Session::get('shipList');
 
 @extends('layout.'.$header)
 
+=======
+@extends('layout.header')
+<?php
+$isHolder = Session::get('IS_HOLDER');
+?>
+
+>>>>>>> Stashed changes
 @section('styles')
     <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
     <link href="{{ cAsset('css/vue.css') }}" rel="stylesheet"/>
 @endsection
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 @section('content')
     <div class="main-content">
         <style>
@@ -32,6 +43,7 @@ $ships = Session::get('shipList');
                         <b>船舶证书记录</b>
                     </h4>
                 </div>
+<<<<<<< Updated upstream
 
             </div>
             <div class="inner-wrap col-md-12" id="cert_list" v-cloak>
@@ -101,14 +113,73 @@ $ships = Session::get('shipList');
                             </tbody>
                         </table>
                     </div>
+=======
+            </div>
+            <div class="row col-md-12" style="margin-bottom: 4px;">
+                <div class="col-md-6">
+                    <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
+                    <select class="custom-select d-inline-block" id="select-ship" style="max-width: 100px;">
+                        <option value="" selected></option>
+                        @foreach($shipList as $ship)
+                            <option value="{{ $ship['IMO_No'] }}" data-name="{{$ship['shipName_En']}}">{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}</option>
+                        @endforeach
+                    </select>
+                    <strong class="f-right" style="font-size: 16px; padding-top: 6px;align-content: flex-end;display: flex;"><span id="ship_name" class="list-header"></span> CREW CERTIFICATES LIST</strong>
+                </div>
+                <div class="col-md-6">
+                    <div class="f-right">
+                        <label class="font-bold">提前:</label>
+                        <!--input type="number" min="0" step="1" class="text-center" style="width: 60px;" name="expire_date" id="expire-date" value="0"-->
+                        <select id="expire-date" style="width: 60px;">
+                            <option value="0" selected>All</option>
+                            <option value="90">90</option>
+                            <option value="120">120</option>
+                            <option value="180">180</option>
+                        </select>
+                        <label>天</label>
+                        <!--button class="btn btn-report-search btn-sm search-btn" onclick="" id="btn-search"><i class="icon-search"></i>搜索</button-->
+                        <!--a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="javascript:refresh()">
+                            <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">恢复
+                        </a-->
+                        <button class="btn btn-warning btn-sm excel-btn" onclick=""><i class="icon-table"></i>{{ trans('common.label.excel') }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="" style="margin-top:8px;">
+                <div id="item-manage-dialog" class="hide"></div>
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                <div>
+                    <table id="table-shipmember-list" class="custom-table-striped">
+                        <thead>
+                        <tr class="black br-hblue" style="height:45px;">
+                            <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
+                            <th class="text-center style-header" style="width: 8%;"><span>Name</span></th>
+                            <th class="text-center style-header" style="width: 7%;"><span>Rank</span></th>
+                            <th class="text-center style-header" style="width: 2%;"><span>DOC No</span></th>
+                            <th class="text-center style-header" style="width: 15%;"><span>Type of certificates</span></th>
+                            <th class="text-center style-header" style="width: 7%;"><span>Certificates No.</span></th>
+                            <th class="text-center style-header" style="width: 6%;"><span>Issued Date</span></th>
+                            <th class="text-center style-header" style="width: 6%;"><span>Expire Date</span></th>
+                            <th class="text-center style-header" style="width: 6%;"><span>Issued by</span></th>
+                        </tr>
+                        </thead>
+                        <tbody class="" id="list-body">
+                        </tbody>
+                    </table>
+                </div>
+                <div id="test">
+>>>>>>> Stashed changes
                 </div>
             </div>
         </div>
     </div>
+<<<<<<< Updated upstream
 
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
     <script src="https://unpkg.com/vuejs-datepicker"></script>
+=======
+>>>>>>> Stashed changes
 
 	<?php
 	echo '<script>';
@@ -116,14 +187,30 @@ $ships = Session::get('shipList');
 	echo '</script>';
 	?>
     <script>
+<<<<<<< Updated upstream
         var certListObj = null;
         var shipCertTypeList = [];
 
+=======
+        var certList = new Array();
+        var cIndex = 0;
+        
+        @foreach($security as $type)
+            var cert = new Object();
+            cert.value = '{{$type["title"]}}';
+            certList[cIndex] = cert;
+            cIndex++;
+        @endforeach
+
+        var token = '{!! csrf_token() !!}';
+        var shipName = '';
+>>>>>>> Stashed changes
         $(function () {
             // Initialize
             initialize();
         });
 
+<<<<<<< Updated upstream
         function initialize() {
             // Create Vue Obj
             certListObj = new Vue({
@@ -134,6 +221,18 @@ $ships = Session::get('shipList');
                     issuer_type: IssuerTypeData,
                     expire_date: 0,
                     ship_id: 0,
+=======
+        var listTable = null;
+        function initTable() {
+            listTable = $('#table-shipmember-list').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: true,
+                ajax: {
+                    url: BASE_URL + 'ajax/shipMember/cert/list',
+                    type: 'POST',
+                    data: {'type' : 'crew'},
+>>>>>>> Stashed changes
                 },
                 methods: {
                     customFormatter(date) {
@@ -157,11 +256,30 @@ $ships = Session::get('shipList');
                     getShipCertInfo() {
                         getShipInfo(this.ship_id, this.expire_date);
                     }
+<<<<<<< Updated upstream
                 }
             });
 
             certListObj.ship_id = '{!! $shipId !!}';
             getShipInfo(certListObj.ship_id, certListObj.expire_date);
+=======
+                },
+            });
+
+            $('.paginate_button').hide();
+            $('.dataTables_length').hide();
+            $('.paging_simple_numbers').hide();
+            $('.dataTables_info').hide();
+            $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
+        }
+
+        function doSearch() {
+            if (shipName == "") return;
+            if (listTable == null) initTable();
+            $('#ship_name').html('"' + shipName + '"');
+            listTable.column(2).search($("#select-ship" ).val(), false, false);
+            listTable.column(3).search($("#expire-date").val(), false, false).draw();
+>>>>>>> Stashed changes
         }
 
         function getShipInfo(ship_id, expire_date) {
@@ -185,6 +303,7 @@ $ships = Session::get('shipList');
                     totalRecord = data['ship'].length;
 
                 }
+<<<<<<< Updated upstream
             })
         }
 
@@ -207,3 +326,35 @@ $ships = Session::get('shipList');
 
     </script>
 @endsection
+=======
+                else
+                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+            }
+
+            tab_text=tab_text+"</table>";
+            //tab_text='<table border="2px" style="text-align:center;vertical-align:middle;"><tr><th class="text-center sorting_disabled" style="width: 78px;text-align:center;vertical-align:center;" rowspan="1" colspan="1"><span>No</span></th></tr><tr style="width: 78px;text-align:center;vertical-align:middle;"><td class="text-center sorting_disabled" rowspan="2" style="">你好</td></tr></table>';
+            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+            //document.getElementById('test').innerHTML = tab_text;
+            var filename = 'CREW CERTIFICATES LIST(' + shipName + ')';
+            exportExcel(tab_text, filename, 'CREW CERTIFICATES LIST');
+            return 0;
+        }
+
+        /*
+        function refresh() {
+            $('#expire-date').val('0');
+            doSearch();
+        }
+
+        $('#btn-search').on('click', function() {
+            doSearch();
+        });
+        */
+        
+    </script>
+
+@endsection
+>>>>>>> Stashed changes
