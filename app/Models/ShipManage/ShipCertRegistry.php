@@ -15,15 +15,9 @@ use Illuminate\Support\Facades\Log;
 
 class ShipCertRegistry extends Model
 {
-<<<<<<< Updated upstream
-    use SoftDeletes;
-    protected $table = 'tb_ship_certregistry';
-    protected $date = ['deleted_at'];
-=======
 //    use SoftDeletes;
     protected $table = 'tb_ship_certregistry';
 //    protected $date = ['deleted_at'];
->>>>>>> Stashed changes
 
     public static function getShipCertList($shipId, $certName, $issuName, $expire) {
         $query = static::query()
@@ -53,38 +47,32 @@ class ShipCertRegistry extends Model
             $expireDate = $date->format('Y-m-d');
 
             $query->where('tb_ship_certregistry.ExpiredDate', '<', $expireDate);
-<<<<<<< Updated upstream
-//            $query->orWhere(function($query) {
-//                $query->whereNull('IssuedDate')
-//                    ->orWhere('IssuedDate', '=', '');
-//            });
-=======
 
->>>>>>> Stashed changes
         }
 
         $list = $query->orderBy('tb_ship_certlist.CertNo')->get();
         return $list;
     }
 
-<<<<<<< Updated upstream
-    public function getExpiredList() {
-    	$date = date('y-m-d');
-=======
     public function getExpiredList($date = 0, $ship_id = '') {
         $date = date('Y-m-d', strtotime('+' . $date . ' days'));
 
->>>>>>> Stashed changes
     	$selector = DB::table($this->table)
-		    ->where('expire_date', '<', $date)
-		    ->where('expire_date', '!=', '0000-00-00')
+		    ->where(function($query) use ($date)
+		    {
+		    	$query->whereRaw(DB::raw("expire_date < ". "'" . $date . "'"))
+			            ->orwhereRaw(DB::raw("due_endorse < ". "'" . $date . "'"));
+		    })
+		    ->whereNotNull('issue_date')
+		    ->orderBy('cert_id', 'asc')
 		    ->select('*');
+
+	    if($ship_id != '')
+		    $selector->where('ship_id', $ship_id);
 
     	$result = $selector->get();
 
     	return $result;
-
-
 
     }
 }
