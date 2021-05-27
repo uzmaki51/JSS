@@ -15,6 +15,9 @@ use App\Models\ShipManage\ShipRegister;
 use App\Models\Finance\BooksList;
 use App\Models\Finance\ReportSave;
 use App\Models\Finance\WaterList;
+use App\Models\Finance\AccountPersonalInfo;
+use App\Models\Decision\DecisionReportAttachment;
+use App\Models\Member\Unit;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -239,7 +242,7 @@ class DecisionReport extends Model {
 	public function getForDatatable($params, $status = null) {
 		$user = Auth::user();
 		$selector = DB::table($this->table)
-			->orderBy('update_at', 'desc')
+			->orderBy('report_id', 'desc')
 			->select('*');
 
 		if($status != null)
@@ -288,24 +291,43 @@ class DecisionReport extends Model {
 		$records = $selector->get();
 
 		foreach($records as $key => $item) {
-			if(ShipRegister::where('IMO_No', $item->shipNo)->first())
-				$shipName = ShipRegister::where('IMO_No', $item->shipNo)->first()->NickName;
+			if($item->obj_type == OBJECT_TYPE_SHIP) {
+				$shipInfo = ShipRegister::where('IMO_No', $item->shipNo)->first();
+				if($shipInfo == null)
+					$shipName = '';
+				else {
+					$shipName = $shipInfo->NickName == '' ? $shipInfo->shipName_En : $shipInfo->NickName;
+				}
+			} else {
+				$personInfo = AccountPersonalInfo::where('id', $item->obj_no)->first();
+				if($personInfo == null) 
+					$shipName = '';
+				else {
+					$shipName = $personInfo->person;
+				}
+			}
+				
+			$attach = DecisionReportAttachment::where('reportId', $item->id)->first();
+			if($attach != null)
+				$records[$key]->attach_link = $attach->file_link;
 			else
-				$shipName = '';
+				$records[$key]->attach_link = '';
+
 			if(ACItem::where('id', $item->profit_type)->first())
 				$profit = ACItem::where('id', $item->profit_type)->first()->AC_Item_Cn;
 			else
 				$profit = '';
-			if(VoyLog::where('id', $item->voyNo)->first())
-				$voyName = VoyLog::where('id', $item->voyNo)->first()->CP_ID;
+
+			$retVal = Unit::where('parentId', '!=', 0)->where('id', $item->depart_id)->first();
+			if($retVal == null)
+				$records[$key]->depart_name = '';
 			else
-				$voyName = '';
+				$records[$key]->depart_name = $retVal->title;
+
 			$reporter = User::where('id', $item->creator)->first()->realname;
 
 			$records[$key]->shipName = $shipName;
 			$records[$key]->realname = $reporter;
-			$records[$key]->voyNo = $voyName;
-
 		}
 
 		return [
@@ -481,7 +503,7 @@ class DecisionReport extends Model {
 		$result = $selector->first();
 
 		if(isset($params['reportId'])) {
-			$attachmentList = DecisionReportAttachment::where('reportId', $params['reportId'])->get();
+			$attachmentList = DecisionReportAttachment::where('reportId', $params['reportId'])->first();
 		}
 
 		return array(

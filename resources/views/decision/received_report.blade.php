@@ -16,10 +16,10 @@
                     <h4><b>审批文件</b></h4>
                 </div>
             </div>
+            <div class="space-6"></div>
             <div class="col-md-12">
-                <div class="space-6"></div>
                 <div class="row">
-                    <div class="col-lg-7">
+                    <div class="col-md-6">
                         <select class="custom-select d-inline-block" id="year">
                             <option value="">全部</option>
                             <option value="2021">2021</option>
@@ -42,7 +42,7 @@
                             <option value="11">11月</option>
                             <option value="12">12月</option>
                         </select>
-                        <label>对象</label>              
+                        <label style="margin-left: 8px;">对象</label>              
                         <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
                             <option value="">全部</option>
                             <option value="OBJ">个体</option>
@@ -55,11 +55,11 @@
                             @endif
                         </select>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-md-6">
                         <div class="btn-group f-right">
                             @if(!Auth::user()->isAdmin)
                                 <a href="#modal-wizard" class="btn btn-sm btn-success no-radius show-modal" role="button" data-toggle="modal">
-                                    <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">写件
+                                    <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">起草
                                 </a>
                             @endif
                             <a class="btn btn-sm btn-warning refresh-btn-over" type="button" onclick="refresh()">
@@ -71,22 +71,23 @@
                 </div>
                 <div class="row">
                     <div class="space-2"></div>
-                    <div class="table-responsive">
+                    <div class="table-responsive head-fix-div common-list">
                         <table id="report_info_table" class="table table-bordered">
                             <thead>
                             <tr class="br-hblue">
-                                <th class="text-center style-normal-header" style="width: 5%;">{{ trans('decideManage.table.no') }}</th>
-                                <th style="width: 5%;">{{ trans('decideManage.table.type') }}</th>
+                                <th class="text-center style-normal-header" style="width: 5%;">{!! trans('decideManage.table.no') !!}</th>
+                                <th style="width: 5%;">{!! trans('decideManage.table.type') !!}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
-                                <th style="width: 7%;">{{ trans('decideManage.table.profit_type') }}</th>
-                                <th style="width: 30%;">{{ trans('decideManage.table.content') }}</th>
+                                <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
+                                <th style="width: 25%;">{{ trans('decideManage.table.content') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.currency') }}</th>
                                 <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
-                                <th style="width: 5%;">{{ trans('decideManage.table.attachment') }}</th>
-                                <th style="width: 5%;">{{ trans('decideManage.table.state') }}</th>
+                                <th style="width: 5%;">涉及<br>部门</th>
+                                <th style="width: 5%;">{!! trans('decideManage.table.attachment') !!}</th>
+                                <th style="width: 5%;">{!! trans('decideManage.table.state') !!}</th>
                                 <th class="{{ Auth::user()->isAdmin == SUPER_ADMIN ? '' : 'd-none' }}"></th>
                             </tr>
                             </thead>
@@ -113,12 +114,13 @@
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <input type="hidden" name="reportId" value="">
                                         <input type="hidden" name="reportType" value="0">
+                                        <input type="hidden" name="draftId" value="{{ $draftId }}">
                                         <div class="table-responsive" id="report_div" v-cloak>
                                             <input type="hidden" name="object_type" v-model="object_type">
                                             <table class="table table-bordered" style="table-layout: fixed">
                                                 <tbody>
                                                 <tr>
-                                                    <td class="d-flex">
+                                                    <td class="d-flex" colspan="2">
                                                         <label for="obj_type_ship" class="d-inline-block">船舶</label>
                                                         <input type="radio" name="obj_type" id="obj_type_ship" class="form-control d-inline-block mt-0" checked value="{{ OBJECT_TYPE_SHIP }}" @change="changeObjType">
                                                         <label for="obj_type_person" class="d-inline-block">个体</label>
@@ -138,7 +140,7 @@
                                                         文件种类
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <select name="flowid" class="form-control width-100" @change="onGetProfit($event)" required v-model="currentReportType">
+                                                        <select name="flowid" class="form-control width-100" :class="reportTypeCls(currentReportType)" @change="onGetProfit($event)" required v-model="currentReportType">
                                                             <option v-for="(item, index) in reportType" v-bind:value="index" :class="reportTypeCls(index)">@{{ item }}</option>
                                                         </select>
                                                     </td>
@@ -147,7 +149,7 @@
                                                     <td class="custom-modal-td-label">对象</td>
                                                     <td class="custom-modal-td-text1">
                                                         <select name="shipNo" class="form-control width-100" @change="onGetVoyNoList($event)" required v-model="currentShipNo">
-                                                            <option v-for="(item, index) in shipList" v-bind:value="item.IMO_No">@{{ item.shipName_Cn }}</option>
+                                                            <option v-for="(item, index) in shipList" v-bind:value="item.IMO_No">@{{ item.NickName }}</option>
                                                         </select>
                                                     </td>
                                                 </tr>
@@ -172,7 +174,7 @@
                                                 <tr>
                                                     <td class="custom-modal-td-label">收支种类</td>
                                                     <td class="custom-modal-td-text1">
-                                                        <select name="profit_type" class="form-control width-100 transparent-input" required v-model="currentProfitType">
+                                                        <select name="profit_type" class="form-control width-100 transparent-input" :class="reportTypeCls(currentReportType)" required v-model="currentProfitType">
                                                             <option v-for="(item, index) in profitType" v-bind:value="index">@{{ item }}</option>
                                                         </select>
                                                     </td>
@@ -191,8 +193,7 @@
                                                         金额
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <my-currency-input v-model="amount" style="display: inline-block;" :class="reportTypeCls(currentReportType)" class="form-control transparent-input" :class="creditClass(item.credit)" name="amount" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:type="'credit'"></my-currency-input>
-                                                        <!--input type="text" name="amount"class="" v-model="amount"-->
+                                                        <my-currency-input v-model="amount" :class="reportTypeCls(currentReportType)" class="form-control transparent-input" :class="creditClass(item.credit)" name="amount" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:type="'credit'" required></my-currency-input>
                                                     </td>
                                                 </tr>
                                                 
@@ -206,7 +207,7 @@
                                                 <tr>
                                                     <td class="custom-modal-td-label">涉及部门</td>
                                                     <td class="custom-modal-td-text1">
-                                                        <select name="unit" class="form-control width-100" v-model="currentDepartment">
+                                                        <select name="depart_id" class="form-control width-100" v-model="currentDepartment">
                                                             <option v-for="(item, index) in department" v-bind:value="item.id">@{{ item.title }}</option>
                                                         </select>
                                                     </td>
@@ -220,19 +221,14 @@
                                                 <tr>
                                                     <td class="custom-modal-td-label" >凭证文件</td>
                                                     <td class="custom-td-dec-text" colspan="2">
-                                                        <div class="form-group mb-0">
-                                                            <input type="file" name="attachments[]" style="display: none;" @change="onFileChange" id="file_name"/>
-                                                            <label for="file_name" class="upload-btn"><img src="{{ cAsset('assets/images/upload.png') }}" class="report-label-img">添加附件</label>
+                                                        <div class="attachment-div d-flex">
+                                                            <label for="attach" class="ml-1 blue contract-attach d-flex">
+                                                                <span style="width: 186px;" class="text-ellipsis">@{{ fileName }}</span>
+                                                                <button type="button" class="btn btn-danger p-0" style="min-width: 30px;" @click="removeFile"><i class="icon-remove mr-0"></i></button>
+                                                            </label>
+                                                            <input type="file" id="attach" name="attachment" class="d-none" @change="onFileChange">
+                                                            <input type="hidden" name="file_remove" id="file_remove" value="0">
                                                         </div>
-                                                        <ul class="attach-list">
-                                                            <li class="item" v-for="(item, index) in attachments" v-show="item[2]">
-                                                                <div>
-                                                                    <input type="hidden" name="is_update[]" v-bind:value="item[1] + '_' + item[3]">
-                                                                    <span class="name">@{{ item[0] }}</span>
-                                                                    <button type="button" class="btn btn-danger p-0" @click="removeItem(index)"><i class="icon-remove"></i></button>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -243,7 +239,7 @@
                                                         <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}
                                                     </button>
                                                     <div class="between-1"></div>
-                                                    <button type="button" class="btn btn-warning small-btn" @click="saveDraft($event)">
+                                                    <button type="button" class="btn btn-warning small-btn save-draft" @click="saveDraft($event)">
                                                         <img src="{{ cAsset('assets/images/draft.png') }}" class="report-label-img">{{ trans('decideManage.button.draft') }}
                                                     </button>
                                                     <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>{{ trans('decideManage.button.cancel') }}</a>
@@ -251,7 +247,6 @@
                                             </div>
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
@@ -280,6 +275,7 @@
         var draftId = '{!! $draftId !!}';
         var isAdmin = '{!! Auth::user()->isAdmin !!}';
         var REPORT_TYPE_EVIDENCE_IN = '{!! REPORT_TYPE_EVIDENCE_IN !!}';
+        var REPORT_TYPE_EVIDENCE_OUT = '{!! REPORT_TYPE_EVIDENCE_OUT !!}';
         var DEFAULT_CURRENCY = '{!! CNY_LABEL !!}';
         var OBJECT_TYPE_SHIP = '{!! OBJECT_TYPE_SHIP !!}';
 
@@ -294,12 +290,13 @@
             let reportId = $(this).attr('data-index');
             let reportStatus = $(this).attr('data-status');
             if(reportId == undefined) return false;
-            if(cell.index() == 11) {
+            if(cell.index() == 12) {
                 if(reportStatus != 0) return false;
                 if(isAdmin != 1) return false;
                 decideReport(reportId, reportStatus);
-            } else if(cell.index() != 10 && cell.index() != 12) {
+            } else if(cell.index() != 11 && cell.index() != 13 && isAdmin != 1) {
                 $(this).addClass('selected');
+                $('[name=draftId]').val(-1);
                 showReportDetail(reportId);
             }
 
@@ -326,17 +323,17 @@
                             return this.value;
                         } else {
                             let fixedLength = 2;
-                            let prefix = '$ ';
+                            let prefix = '';
                             if(this.fixednumber != undefined)
                                 fixedLength = this.fixednumber;
 
                             if(this.prefix != undefined)
-                                prefix = this.prefix + ' ';
+                                prefix = this.prefix + '';
                             
                             if(this.value == 0 || this.value == undefined || isNaN(this.value))
                                 return '';
                             
-                            return prefix + number_format(this.value, fixedLength);
+                            return number_format(this.value, fixedLength);
                         }
                     },
                     set: function(modifiedValue) {
@@ -430,26 +427,39 @@
                     $('[name=reportId]').val(reportId);
                     let result = data['list'];
                     let attach = data['attach'];
+                    reportObj.object_type = result['obj_type'];
+                    if(result['obj_type'] == OBJECT_TYPE_SHIP) {
+                        $('#obj_type_person').prop('checked', false);
+                        $('#obj_type_ship').prop('checked', true);
+                        getVoyList(result['shipNo'], result['voyNo']);
+                    } else {
+                        $('#obj_type_person').prop('checked', true);
+                        $('#obj_type_ship').prop('checked', false);
+                        getObject(result['obj_no']);
+                    }
+                    
+                    reportObj.report_date = result['report_date'];
                     reportObj.currentReportType = result['flowid'];
                     reportObj.currentShipNo = result['shipNo'];
                     reportObj.amount = result['amount'];
                     reportObj.currentCurrency = result['currency'];
                     reportObj.content = result['content'];
-                    getVoyList(result['shipNo'], result['voyNo']);
+                    
                     disableProfit(result['flowid'], result['profit_type']);
-                    reportObj.attachments = [];
-                    if(attach != undefined && attach.length != 0)
-                        attach.forEach(function(value, key) {
-                            reportObj.attachments.push([value['file_name'], 'keep', true, value['id']]);
-                        });
-                    else
-                        reportObj.attachments = [];
+
+                    if(attach != null && attach != undefined) 
+                        reportObj.fileName = attach['file_name'];
+                    else 
+                        reportObj.fileName = '添加附件';
 
                     if(result['state'] == '{!! REPORT_STATUS_REQUEST !!}' || result['state'] == '{!! REPORT_STATUS_DRAFT !!}') {
                         reportObj.reportStatus = true;
                     } else {
                         reportObj.reportStatus = false;
                     }
+                    
+                    if($('[name=draftId]').val() == -1)
+                        $('.save-draft').attr('disabled', 'disabled');
 
                     $('.only-modal-show').click();
                 },
@@ -464,6 +474,9 @@
 
         $('.show-modal').on('click', function() {
             $('[name=reportId]').val('');
+            if($('[name=draftId]') != -1)
+                $('.save-draft').removeAttr('disabled');
+
             reportObj.init();
         });
 
@@ -487,12 +500,15 @@
             });
         }
 
-        function getObject() {
+        function getObject(obj_no = '') {
             $.ajax({
                 url: BASE_URL + 'ajax/object',
                 type: 'post',
                 success: function(data, status, xhr) {
                     reportObj.objectList = data;
+                    if(obj_no != '') {
+                        reportObj.currentObjectNo = obj_no;
+                    }
                 }
             });
         }
@@ -510,6 +526,8 @@
                 $('[name=profit_type]').attr('disabled', 'disabled');
                 $('[name=amount]').attr('disabled', 'disabled');
                 $('[name=currency]').attr('disabled', 'disabled');
+            } else if(type == 'Other') {
+                $('[name=profit_type]').attr('disabled', 'disabled');
             } else {
                 $('[name=profit_type]').removeAttr('disabled');
                 $('[name=amount]').removeAttr('disabled');
@@ -566,7 +584,7 @@
                     reporter: reportName,
                     department: '',
                     content: '',
-                    attachments: [],
+                    fileName: '添加附件',
 
                     currentReportType: REPORT_TYPE_EVIDENCE_IN,
                     currentShipNo: '',
@@ -631,19 +649,17 @@
                     },
                     onFileChange(e) {
                         var files = e.target.files || e.dataTransfer.files;
-                        if(files) {
-                            for (var index = 0; index < files.length; index++) {
-                                this.attachments.push([files[index].name, 'insert', true, 0]);
-                            }
-                        }
+                        let fileName = files[0].name;
+                        this.fileName = fileName;
+                        $('#file_remove').val(0);
                     },
-                    removeItem(index) {
-                        reportObj.attachments[index][1] = 'remove';
-                        reportObj.attachments[index][2] = false;
-                        this.$forceUpdate();
+                    removeFile() {
+                        this.fileName = '添加附件';
+                        $('#contract_attach').val('');
+                        $('#file_remove').val(1);
                     },
                     reportTypeCls: function(item) {
-                        return item == 'Credit' ? 'text-profit font-weight-bold' : '';
+                        return item == 'Credit' ? 'text-profit font-weight-bold' : 'text-black';
                     },
                     currencyCls: function(item) {
                         let className = '';
@@ -663,31 +679,61 @@
                     },
                     reportSubmit(e) {
                         $('[name=reportType]').val(0);
-                        $('#report-form').validate({
+                        let obj_type = reportObj.object_type;
+                        let shipNo = 'required';
+                        let voyNo = 'required';
+                        let profit_type = 'required';
+                        let amount = 'required';
+                        let currency = 'required';
+                        let content = 'required';
+                        let obj_no = 'required';
+
+                        let shipNoMsg = '请选择对象。';
+                        let obj_noMsg = '请选择对象。';
+                        let voyNoMsg = '请选择航次号码。';
+                        let profit_typeMsg = '请选择收支种类。';
+                        let amountMsg = '请输入金额。';
+                        let currencyMsg = '请选择币类。'
+                        let contentMsg = '请输入摘要。';
+
+                        if(obj_type != OBJECT_TYPE_SHIP) {
+                            shipNo = '';
+                            voyNo = '';
+                        }
+
+                        if($('[name=flowid]').val() == 'Contract' || $('[name=flowid]').val() == 'Other') {
+                            profit_type = '';
+                            amount = '';
+                            currency = '';
+                        }
+
+                        let validateParams = {
                             rules: {
-                                flowid : "required",
-                                shipNo : "required",
-                                voyNo: "required",
+                                shipNo : shipNo,
+                                voyNo: voyNo,
+                                profit_type: profit_type,
+                                currency: currency,
+                                amount: amount,
+                                content: content,
+                                obj_no: obj_no,
                             },
                             messages: {
-                                flowid: "请选择文件种类。",
-                                shipNo: "请选择船名。",
-                                voyNo: "请选择航次号码。",
+                                shipNo : shipNoMsg,
+                                voyNo: voyNoMsg,
+                                profit_type: profit_typeMsg,
+                                currency: currencyMsg,
+                                amount: amountMsg,
+                                content: contentMsg,
+                                obj_no: obj_noMsg,
                             }
-                        });
-                        if($('[name=flowid]').val() != 'Contract')
-                            $('#report-form').validate({
-                                rules: {
-                                    profit_type : "required",
-                                },
-                                messages: {
-                                    profit_type: "请选择收支分类。",
-                                }
-                            });
+                        };
 
-                        $('#report-form').submit();
-
-                        return true;
+                        if($('#report-form').validate(validateParams)) {
+                            $('#report-form').submit();
+                            return true;
+                        } else 
+                            return false;
+                        
                     },
                     saveDraft(e) {
                         $('[name=reportType]').val(3);
@@ -727,6 +773,7 @@
                     {data: 'currency', className: "text-center each"},
                     {data: 'amount', className: "text-right each"},
                     {data: 'realname', className: "text-center each"},
+                    {data: 'depart_name', className: "text-center each"},
                     {data: 'attachment', className: "text-center each"},
                     {data: 'state', className: "text-center"},
                     {data: null, className: "text-center"},
@@ -740,7 +787,7 @@
                     );
 
                     $('td', row).eq(2).html('').append(
-                        '<span>' + _convertDate(data['report_date']) + '</span>'
+                        '<span>' + data['report_date'] + '</span>'
                     );
 
                     if(data['obj_type'] == OBJECT_TYPE_SHIP) {
@@ -764,14 +811,24 @@
                     }
 
                     if(data['currency'] != '') {
-                        $('td', row).eq(7).html('').append(
-                            '<span>' + CurrencyLabel[data['currency']] + '</span>'
-                        );
+                        if(data['currency'] == 'CNY') {
+                            $('td', row).eq(7).html('').append(
+                                '<span class="text-danger">' + CurrencyLabel[data['currency']] + '</span>'
+                            );
+                        } else if(data['currency'] == 'USD') {
+                            $('td', row).eq(7).html('').append(
+                                '<span class="text-profit">' + CurrencyLabel[data['currency']] + '</span>'
+                            );
+                        } else {
+                            $('td', row).eq(7).html('').append(
+                                '<span>' + CurrencyLabel[data['currency']] + '</span>'
+                            );
+                        }
                     }
 
                     if(data['amount'] != 0)
                         $('td', row).eq(8).html('').append(
-                            '<span>' + number_format(data['amount'], 2) + '</span>'
+                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + number_format(data['amount'], 2) + '</span>'
                         );
                     else 
                         $('td', row).eq(8).html('').append(
@@ -780,33 +837,37 @@
                         $('td', row).eq(8).attr('style', 'padding-right:5px!important;')
 
                     if(data['attachment']  == 1) {
-                        $('td', row).eq(10).html('').append(
-                            '<div class="report-attachment"><img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15"><img src="{{ cAsset('assets/images/cancel.png') }}" onclick="deleteAttach(' + data['id'] + ')" width="10" height="10"></div>'
+                        $('td', row).eq(11).html('').append(
+                            '<div class="report-attachment">' + 
+                            '<a href="' + data['attach_link'] + '" target="_blank">' +
+                                '<img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15">' +
+                            '</a>' + 
+                            '<img src="{{ cAsset('assets/images/cancel.png') }}" onclick="deleteAttach(' + data['id'] + ')" width="10" height="10"></div>'
                         );
                     } else {
-                        $('td', row).eq(10).html('').append(
-                            '<img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15">'
+                        $('td', row).eq(11).html('').append(
+                            '<img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="margin: 2px 4px">'
                         );
                     }
 
                     let status = '';
                     if (data['state'] == 0) {
-                        $('td', row).eq(11).css({'background': '#ffb871'});
+                        $('td', row).eq(12).css({'background': '#ffb871'});
                         status = '<div class="report-status"><span>' + ReportStatusData[data['state']][0] + '</span></div>';
                     } else if (data['state'] == 1) {
-                        $('td', row).eq(11).css({'background': '#ccffcc'});
+                        $('td', row).eq(12).css({'background': '#ccffcc'});
                         status = '<div class="report-status"><span><i class="icon-ok"></i></span></div>';
                     } else if (data['state'] == 2) {
-                        $('td', row).eq(11).css({'background': '#ff7c80'});
+                        $('td', row).eq(12).css({'background': '#ff7c80'});
                         status = '<div class="report-status"><span><i class="icon-remove"></i></span></div>';
                     }
-                    $('td', row).eq(11).html('').append(status);
+                    $('td', row).eq(12).html('').append(status);
                     if(isAdmin == 1)
-                        $('td', row).eq(12).html('').append(
+                        $('td', row).eq(13).html('').append(
                                 '<div class="action-buttons"><a class="red" onclick="deleteItem(' + data['id'] + ')"><i class="icon-trash"></i></a></div>'
                         );
                     else
-                    $('td', row).eq(12).addClass('d-none');
+                    $('td', row).eq(13).addClass('d-none');
                 },
             });
 
@@ -912,7 +973,15 @@
             listTable.column(1).search(month, false, false);
             listTable.column(2).search(obj, false, false);
             listTable.draw();            
-        });        
+        });
+
+        $('input').attr('autocomplete', 'off');
+
+        $("#modal-wizard").on("hidden.bs.modal", function () {
+            if(draftId != -1)
+                location.href = "/decision/receivedReport";
+        });
+
     </script>
 
 @stop

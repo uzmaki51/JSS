@@ -222,7 +222,7 @@ define('REPORT_STATUS_REJECT',      2);
 define('REPORT_STATUS_DRAFT',       3);
 
 $ReportStatusData = array(
-	REPORT_STATUS_REQUEST   => ['等批', 'primary'],
+	REPORT_STATUS_REQUEST   => ['等待', 'primary'],
 	REPORT_STATUS_ACCEPT    => ['通过', 'info'],
 	REPORT_STATUS_REJECT    => ['否决', 'secondary'],
 );

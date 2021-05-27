@@ -21,25 +21,21 @@ class DecisionReportAttachment extends Model {
 	protected $table = 'tb_decision_report_attachment';
 	protected $table_report = 'tb_decision_report';
 
-    public function updateAttach($reportId, $fileList) {
-
-	    foreach($fileList as $key => $item) {
-		    $ret = DB::table($this->table)
-			    ->insert([
-				    'reportId'  => $reportId,
-				    'file_name' => $item[0],
-				    'file_url'  => $item[1],
-					'file_link'  => $item[2],
-				    'index'     => $key
-			    ]);
-	    }
+    public function updateAttach($reportId, $fileName, $fileDir, $fileLink) {
+		$ret = DB::table($this->table)
+			->insert([
+				'reportId'  => $reportId,
+				'file_name' => $fileName,
+				'file_url'  => $fileDir,
+				'file_link' => $fileLink,
+			]);
 
 	    return true;
     }
 
     public function deleteRecord($id) {
             $selector = DB::table($this->table)
-		        ->where('id', '=', $id)
+		        ->where('reportId', $id)
 		        ->select('*');
     	$result = $selector->first();
 
@@ -49,7 +45,7 @@ class DecisionReportAttachment extends Model {
 		}
 
 		$ret = DB::table($this->table)
-            ->where('id', $id)
+            ->where('reportId', $id)
             ->delete();
 
 		return true;

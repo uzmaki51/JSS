@@ -21,9 +21,23 @@ class Common extends Model
 		try {
 			DB::beginTransaction();
 			DB::table($this->table)->lockForUpdate();
-			$count = self::count();
+			$year = date('Y');
+			$count = self::whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $year))->orderBy('report_id', 'desc')->first();
+			if($count == null)
+				$count = date('y') . '0001';
+			else {
+				$count = $count->report_id + 1;
+			}
+
+			$sufix = substr($count, 2, strlen($count) - 1);
+			if(intval($sufix) >= 10000) {
+				DB::rollback();
+				return false;
+			}
+
 			$today = date('y');
-			$retVal = $today . sprintf("%'04d\n", $count);
+
+			$retVal = $today . $sufix;
 			
 			$is_exist = DB::table($this->table)->where('report_id', $retVal)->first();
 			if($is_exist != null)

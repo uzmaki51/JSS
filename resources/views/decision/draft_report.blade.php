@@ -17,51 +17,24 @@
             </div>
             <div class="col-md-12">
                 <div class="row">
-                    <div class="space-6"></div>
-                    <div class="col-lg-3">
-                        <label class="search-label font-bold" style="float:left;padding-top:7px;">{{ transDecideManage("captions.ship_name") }}:</label>
-                        <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
-                            @if(isset($shipList))
-                                @foreach($shipList as $key => $item)
-                                    <option value="{{ $item->id }}">{{ $item->NickName }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-lg-4">
-                        <label class="search-label font-bold" style="float:left;padding-top:7px;">{{transDecideManage("captions.draftDate")}}:</label>
-                        <input class="search-input date-picker" id="fromDate" type="text" data-date-format="yyyy-mm-dd" style="height:25px;">
-                        <i class="icon-calendar bigger-110 search-calendar"></i>&nbsp;~&nbsp;
-                        <input class="search-input date-picker" id="toDate" type="text" data-date-format="yyyy-mm-dd" style="height:25px;">
-                        <i class="icon-calendar bigger-110 search-calendar"></i>
-                    </div>
-                    <div class="col-lg-3"></div>
-                    <div class="col-lg-2" style="padding:unset!important;">
-                        <div class="btn-group f-right">
-                            <button class="btn btn-sm btn-success no-radius" type="button" onclick="doSearch()">
-                                <i class="icon-search"></i>{{transDecideManage("captions.search")}}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="space-2"></div>
                     <div class="table-responsive">
                         <table id="report_info_table" class="table table-bordered">
                             <thead>
                             <tr class="br-hblue">
-                                <th style="width: 4%;">{{ trans('decideManage.table.no') }}</th>
-                                <th style="width: 4%;">{{ trans('decideManage.table.type') }}</th>
+                                <th style="width: 4%;">号码</th>
+                                <th style="width: 4%;">{!! trans('decideManage.table.type') !!}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.date') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.shipName') }}</th>
                                 <th style="width: 7%;">{{ trans('decideManage.table.voy_no') }}</th>
-                                <th style="width: 7%;">{{ trans('decideManage.table.profit_type') }}</th>
+                                <th style="width: 7%;">{!! trans('decideManage.table.profit_type') !!}</th>
                                 <th style="width: 30%;">{{ trans('decideManage.table.content') }}</th>
                                 <th style="width: 4%;">{{ trans('decideManage.table.currency') }}</th>
                                 <th style="width: 10%;">{{ trans('decideManage.table.amount') }}</th>
                                 <th style="width: 5%;">{{ trans('decideManage.table.reporter') }}</th>
-                                <th style="width: 4%;">{{ trans('decideManage.table.attachment') }}</th>
-                                <th style="width: 4%;">{{ trans('decideManage.table.state') }}</th>
+                                <th style="width: 5%;">涉及<br>部门</th>
+                                <th style="width: 4%;">{!! trans('decideManage.table.attachment') !!}</th>
+                                <th style="width: 2%;"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -183,13 +156,10 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ cAsset('assets/js/datatables.min.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
 	<?php
@@ -206,6 +176,8 @@
         var reportObj = null;
         var reportList = null;
         var reportName = '{!! Auth::user()->realname !!}';
+        var OBJECT_TYPE_SHIP = '{!! OBJECT_TYPE_SHIP !!}';
+
         $(function() {
             listTable = $('#report_info_table').DataTable({
                 processing: true,
@@ -229,9 +201,10 @@
                     {data: 'shipName', className: "text-center each"},
                     {data: 'voyNo', className: "text-center each"},
                     {data: 'profit_type', className: "text-center each"},
-                    {data: 'content', className: "text-center each"},
+                    {data: 'content', className: "text-left each"},
                     {data: 'currency', className: "text-center each"},
-                    {data: 'amount', className: "text-center each"},
+                    {data: 'amount', className: "text-right each"},
+                    {data: 'depart_name', className: "text-center each"},
                     {data: 'realname', className: "text-center each"},
                     {data: 'attachment', className: "text-center each"},
                     {data: 'state', className: "text-center"},
@@ -244,16 +217,26 @@
                         '<span>' + (pageInfo.page * pageInfo.length + index + 1) + '</span>'
                     );
                     $('td', row).eq(1).html('').append(
-                        '<span data-index="' + data['id'] + '">' + ReportTypeData[data['flowid']] + '</span>'
+                        '<span data-index="' + data['id'] + '" class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + ReportTypeData[data['flowid']] + '</span>'
                     );
 
                     $('td', row).eq(2).html('').append(
-                        '<span>' + _convertDate(data['create_at']) + '</span>'
+                        '<span>' + data['report_date'] + '</span>'
                     );
 
+                    if(data['obj_type'] == OBJECT_TYPE_SHIP) {
+                        $('td', row).eq(3).html('').append(
+                            '<span>' + data['shipName'] + '</span>'
+                        );
+                    } else {
+                        $('td', row).eq(3).html('').append(
+                            '<span>' + data['obj_name'] + '</span>'
+                        );
+                    }
+                    
                     if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
                         $('td', row).eq(5).html('').append(
-                            '<span>' + FeeTypeData[data['flowid']][data['profit_type']] + '</span>'
+                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + FeeTypeData[data['flowid']][data['profit_type']] + '</span>'
                         );  
                     } else {
                         $('td', row).eq(5).html('').append(
@@ -262,21 +245,45 @@
                     }
 
                     if(data['currency'] != '') {
-                        $('td', row).eq(7).html('').append(
-                            '<span>' + CurrencyLabel[data['currency']] + '</span>'
-                        );
+                        if(data['currency'] == 'CNY') {
+                            $('td', row).eq(7).html('').append(
+                                '<span class="text-danger">' + CurrencyLabel[data['currency']] + '</span>'
+                            );
+                        } else if(data['currency'] == 'USD') {
+                            $('td', row).eq(7).html('').append(
+                                '<span class="text-profit">' + CurrencyLabel[data['currency']] + '</span>'
+                            );
+                        } else {
+                            $('td', row).eq(7).html('').append(
+                                '<span>' + CurrencyLabel[data['currency']] + '</span>'
+                            );
+                        }
                     }
+
+                    if(data['amount'] != 0)
+                        $('td', row).eq(8).html('').append(
+                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + number_format(data['amount'], 2) + '</span>'
+                        );
+                    else 
+                        $('td', row).eq(8).html('').append(
+                            ''
+                        );
+                        $('td', row).eq(8).attr('style', 'padding-right:5px!important;')
 
 
                     if(data['attachment']  == 1) {
-                        $('td', row).eq(10).html('').append(
-                            '<span><i class="icon-file bigger-125"></i></span>'
+                        $('td', row).eq(11).html('').append(
+                            '<div class="report-attachment">' + 
+                            '<a href="' + data['attach_link'] + '" target="_blank">' +
+                                '<img src="{{ cAsset('assets/images/document.png') }}" width="15" height="15">' +
+                            '</a></div>'
                         );
                     } else {
-                        $('td', row).eq(10).html('').append();
+                        $('td', row).eq(11).html('').append();
                     }
-                    $('td', row).eq(11).html('').append(
-                        '<a href="/decision/redirect?id=' + data['id'] + '"><i class="icon-edit"></i></a>'
+
+                    $('td', row).eq(12).html('').append(
+                        '<div class="action-buttons"><a class="red" onclick="deleteItem(' + data['id'] + ')"><i class="icon-trash"></i></a></div>'
                     );
                 },
             });
@@ -288,6 +295,20 @@
             $('.dataTables_processing').attr('style', 'position:absolute;display:none;visibility:hidden;');
         });
 
+        $('#report_info_table').on('click', 'tr', function(evt) {
+            let cell = $(evt.target).closest('td');
+            let reportId = $(this).attr('data-index');
+            let reportStatus = $(this).attr('data-status');
+            if(reportId == undefined) return false;
+            if(cell.index() == 12) {
+            } else if(cell.index() != 11 && cell.index() != 12) {
+                $(this).addClass('selected');
+                location.href = '/decision/redirect?id=' + reportId;
+            }
+
+            return true;
+        });
+
         function doSearch() {
             let shipName = $('#ship_name').val();
             let fromDate = $('#fromDate').val();
@@ -297,6 +318,27 @@
             listTable.column(1).search(fromDate, false, false);
             listTable.column(2).search(toDate, false, false);
             listTable.draw();
+        }
+
+        
+        function deleteItem(id) {
+            __alertAudio();
+            bootbox.confirm("Are you sure you want to delete?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: BASE_URL + 'ajax/report/delete',
+                        type: 'post',
+                        data: {
+                            id: id
+                        },
+                        success: function(data) {
+                            listTable.draw();
+                        }
+                    });
+                } else {
+                    return true;
+                }
+            });
         }
 
     </script>

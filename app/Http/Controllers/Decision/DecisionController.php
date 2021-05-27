@@ -59,7 +59,6 @@ class DecisionController extends Controller
 
 	// Draft List
 	public function draftReport(Request $request) {
-		Util::getMenuInfo($request);
 		$shipList = ShipRegister::all();
 
 		return view('decision.draft_report', ['shipList' => $shipList]);
@@ -83,13 +82,24 @@ class DecisionController extends Controller
 		else
 			$reportTbl =new DecisionReport();
 
+		$draftId = $params['draftId'];
 
-		$commonTbl = new Common();
-		$reportNo = $commonTbl->generateReportID();
 		$user = Auth::user();
-		$reportTbl['report_id'] = $reportNo;
+		if($params['reportType'] != REPORT_STATUS_DRAFT) {
+			if((!isset($reportId) || $reportId == "") || $draftId != -1) {
+				$commonTbl = new Common();
+				$reportNo = $commonTbl->generateReportID();
+				if($reportNo == false) return redirect()->back();
+				$reportTbl['report_id'] = $reportNo;
+			}
+		}
 		$reportTbl['obj_type'] = $params['object_type'];
-		$reportTbl['report_date'] = $params['report_date'];
+
+		if(!isset($params['report_date']) || $params['report_date'] == EMPTY_DATE) {
+			$reportTbl['report_date'] = null;	
+		} else
+			$reportTbl['report_date'] = $params['report_date'];
+
 		$reportTbl['flowid'] = $params['flowid'];
 		if($params['object_type'] == OBJECT_TYPE_SHIP) {
 			$reportTbl['shipNo'] = isset($params['shipNo']) ? $params['shipNo'] : null;
@@ -109,10 +119,11 @@ class DecisionController extends Controller
 			$reportTbl['currency'] = '';
 		} else {
 			$reportTbl['profit_type'] = isset($params['profit_type']) ? $params['profit_type'] : '';
-			$reportTbl['amount'] = isset($params['amount']) ? str_replace(",","",$params['amount']) : 0;
+			$reportTbl['amount'] = isset($params['amount']) ? _convertStr2Int($params['amount']) : 0;
 			$reportTbl['currency'] = isset($params['currency']) ? $params['currency'] : CNY_LABEL;
 		}
 
+		$reportTbl['depart_id'] = $params['depart_id'];
 		$reportTbl['creator'] = $user->id;
 		$reportTbl['content'] = isset($params['content']) ? $params['content'] : '';
 		$reportTbl['state'] = $params['reportType'];
@@ -129,32 +140,21 @@ class DecisionController extends Controller
 		}
 
 		$attachmentTbl = new DecisionReportAttachment();
-		$files = $request->file('attachments');
-
-		if(isset($params['is_update'])) {
-			$isUpdate = $params['is_update'];
-			foreach ($isUpdate as $item) {
-				$value = explode('_', $item);
-				if ($value[0] == 'remove') {
-					$attachmentTbl->deleteRecord($value[1]);
-				}
-			}
+		if ($params['file_remove'] == '1') {
+			$attachmentTbl->deleteRecord($lastId);
+            $reportTbl['attachment'] = 0;
+        } else if($request->hasFile('attachment')) {
+			$reportTbl['attachment'] = 1;
+			$file = $request->file('attachment');
+            $fileName = $file->getClientOriginalName();
+			$name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+			$file->move(public_path() . '/reports/' . $params['flowid'] . '/', $name);
+			$fileDir =  public_path() . '/reports/' . $params['flowid'] . '/' . $name;
+			$fileLink = url() . '/reports/' . $params['flowid'] . '/' . $name;
+			$ret = $attachmentTbl->updateAttach($lastId, $fileName, $fileDir, $fileLink);
 		}
-
-		if($request->hasFile('attachments')) {
-			$attachmentUpdate = DecisionReport::find($lastId);
-			$attachmentUpdate['attachment'] = 1;
-			$attachmentUpdate->save();
-			foreach ($files as $file) {
-				$fileName = $file->getClientOriginalName();
-				$name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
-				$file->move(public_path() . '/reports/' . $params['flowid'] . '/', $name);
-				$fileList[] =  array($fileName, public_path() . '/reports/' . $params['flowid'] . '/' . $name, url() . '/reports/' . $params['flowid'] . '/' . $name);
-			}
-
-			$ret = $attachmentTbl->updateAttach($lastId, $fileList);
-		}
-
+		
+		$reportTbl->save();
 		return redirect('decision/receivedReport');
 	}
 	public function getACList(Request $request) {
@@ -220,9 +220,12 @@ class DecisionController extends Controller
 		$params = $request->all();
 
 		$shipList = ShipRegister::all();
+		foreach($shipList as $key => $item) {
+			$shipList[$key]->NickName = $shipList[$key]->NickName == '' ? $shipList[$key]->shipName_En : $shipList[$key]->NickName;
+		}
 
 		if(isset($params['shipId'])) {
-			$voyList = CP::where('Ship_ID', $params['shipId'])->groupBy('Voy_No')->get();
+			$voyList = CP::where('Ship_ID', $params['shipId'])->orderBy('Voy_No', 'desc')->groupBy('Voy_No')->get();
 		} else {
 			$voyList = array();
 		}

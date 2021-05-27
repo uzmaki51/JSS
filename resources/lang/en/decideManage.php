@@ -18,18 +18,18 @@ return [
 	],
 
 	'table'		=> [
-		'no'				=> '审批编号',
-		'type'				=> '文件种类',
+		'no'				=> '审批<br>编号',
+		'type'				=> '文件<br>种类',
 		'date'				=> '日期',
-		'state'				=> '状态',
+		'state'				=> '审批<br>状态',
 		'shipName'			=> '对象',
 		'voy_no'			=> '航次',
-		'profit_type'		=> '收支种类',
-		'content'			=> '内容',
+		'profit_type'		=> '收支<br>种类',
+		'content'			=> '摘要',
 		'currency'			=> '币类',
 		'amount'			=> '金额',
-		'reporter'			=> '寄件人',
-		'attachment'		=> '凭证文件',
+		'reporter'			=> '申请人',
+		'attachment'		=> '原始<br>凭证',
 		'operation'		    => 'Operation'
 	],
 
