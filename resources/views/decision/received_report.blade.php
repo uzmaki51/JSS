@@ -423,7 +423,7 @@
                 data: {
                     reportId: reportId
                 },
-                success: function(data, status, xhr) {console.log(data)
+                success: function(data, status, xhr) {
                     $('[name=reportId]').val(reportId);
                     let result = data['list'];
                     let attach = data['attach'];
@@ -558,7 +558,6 @@
                 type: 'post',
                 success: function(data, status, xhr) {
                     reportObj.department = data;
-                    console.log(data);
                     if(data != undefined && data != null && data.length > 0)
                         reportObj.currentDepartment = data[0].id;
                 },
@@ -883,7 +882,6 @@
                 type: 'post',
                 success: function(data) {
                     reportObj.shipList = data['shipList'];
-                    console.log( data['shipList'][0].IMO_No)
                     if(data['shipList'] != undefined && data['shipList'] != null && data['shipList'].length > 0)
                         reportObj.currentShipNo = data['shipList'][0].IMO_No;
                 }
@@ -951,7 +949,7 @@
             listTable.column(0).search(year, false, false);
             listTable.column(1).search(month, false, false);
             listTable.column(2).search(obj, false, false);
-            listTable.draw();            
+            listTable.draw();
         });
 
         $('#month').on('change', function() {
