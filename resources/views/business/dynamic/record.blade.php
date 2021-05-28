@@ -425,8 +425,16 @@
                                     searchObj.setTotalInfo(data);
                                     searchObj.currentData.forEach(function(value, key) {
                                         searchObj.currentData[key]['dynamicSub'] = getSubList(value['Voy_Status']);
-                                        if(!isNaN(parseInt(value["Sail_Distance"])))
-                                            searchObj.total_distance += parseInt(value["Sail_Distance"]);
+                                        value['Sail_Distance'] = __parseFloat(value['Sail_Distance']);
+                                        value['Speed'] = __parseFloat(value['Speed']);
+                                        value['Cargo_Qtty'] = __parseFloat(value['Cargo_Qtty']);
+                                        value['RPM'] = __parseFloat(value['RPM']);
+                                        value['ROB_FO'] = __parseFloat(value['ROB_FO']);
+                                        value['ROB_DO'] = __parseFloat(value['ROB_DO']);
+                                        value['BUNK_FO'] = __parseFloat(value['BUNK_FO']);
+                                        value['BUNK_DO'] = __parseFloat(value['BUNK_DO']);
+
+                                        searchObj.total_distance += parseInt(value["Sail_Distance"]);
 
                                         searchObj.bunker_fo += value['BUNK_FO'];
                                         searchObj.bunker_do += value['BUNK_DO'];
@@ -440,6 +448,8 @@
                                         searchObj.currentData[key]['ROB_DO'] = parseFloat(value['ROB_DO']) == 0 ? '' : value['ROB_DO'];
                                         searchObj.currentData[key]['BUNK_FO'] = parseFloat(value['BUNK_FO']) == 0 ? '' : value['BUNK_FO'];
                                         searchObj.currentData[key]['BUNK_DO'] = parseFloat(value['BUNK_DO']) == 0 ? '' : value['BUNK_DO'];
+
+                                        console.log(value['ROB_FO'], value['ROB_DO'])
 
                                         if(key > 0) {
                                             // Calc Sail Count
@@ -480,8 +490,7 @@
                                     searchObj.economic_rate = BigNumber(total_loading_time).plus(searchObj.total_sail_time).div(searchObj.sail_time).multipliedBy(100).toFixed(1);
                                     searchObj.prevData['ROB_FO'] = searchObj.prevData['ROB_FO'] == null || searchObj.prevData['ROB_FO'] == undefined ? 0 : searchObj.prevData['ROB_FO'];
                                     searchObj.prevData['ROB_DO'] = searchObj.prevData['ROB_DO'] == null || searchObj.prevData['ROB_DO'] == undefined ? 0 : searchObj.prevData['ROB_DO'];
-
-                                    searchObj.rob_fo = BigNumber(searchObj.prevData['ROB_FO']).plus(searchObj.bunker_fo).minus(data['max_date']['ROB_FO']).toFixed(1);
+                                    searchObj.rob_fo = BigNumber(searchObj.prevData['ROB_FO']).plus(searchObj.bunker_fo).minus(__parseFloat(data['max_date']['ROB_FO'])).toFixed(1);
                                     searchObj.rob_do = BigNumber(searchObj.prevData['ROB_DO']).plus(searchObj.bunker_do).minus(data['max_date']['ROB_DO']).toFixed(1);
 
                                     let usedFoTmp1 = BigNumber(searchObj.total_sail_time).multipliedBy(shipInfo['FOSailCons_S']);
@@ -657,7 +666,7 @@
                     }
                 },
                 computed: {
-                    deleteClass: function() {console.log('delete');
+                    deleteClass: function() {
                         let length = this.currentData.length;
                         let _this = this;
                         this.currentData.map(function(data) {

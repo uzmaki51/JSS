@@ -199,3 +199,10 @@ $(".modal-draggable").draggable({
 function __alertAudio() {
     document.getElementById('warning-audio').play();
 }
+
+function __parseFloat(value) {
+    if(value == undefined || value == null || isNaN(value) || value == '') 
+        return 0;
+
+    return parseFloat(value);
+}
