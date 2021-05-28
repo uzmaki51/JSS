@@ -423,6 +423,7 @@
                                     let total_waiting_time = 0;
 
                                     searchObj.setTotalInfo(data);
+                                    searchObj.setTotalDefault();
                                     searchObj.currentData.forEach(function(value, key) {
                                         searchObj.currentData[key]['dynamicSub'] = getSubList(value['Voy_Status']);
                                         value['Sail_Distance'] = __parseFloat(value['Sail_Distance']);
@@ -448,8 +449,6 @@
                                         searchObj.currentData[key]['ROB_DO'] = parseFloat(value['ROB_DO']) == 0 ? '' : value['ROB_DO'];
                                         searchObj.currentData[key]['BUNK_FO'] = parseFloat(value['BUNK_FO']) == 0 ? '' : value['BUNK_FO'];
                                         searchObj.currentData[key]['BUNK_DO'] = parseFloat(value['BUNK_DO']) == 0 ? '' : value['BUNK_DO'];
-
-                                        console.log(value['ROB_FO'], value['ROB_DO'])
 
                                         if(key > 0) {
                                             // Calc Sail Count
@@ -526,6 +525,25 @@
                         
                         this.sail_time = __getTermDay(start_date, end_date, data['min_date']['GMT'], data['max_date']['GMT']);
                     },
+                    setTotalDefault: function() {
+                        this.sail_time = 0;
+                        this.total_distance = 0;
+                        this.total_sail_time = 0;
+                        this.total_loading_time = 0;
+                        this.economic_rate = 0;
+                        this.average_speed = 0;
+
+                        this.rob_fo = 0;
+                        this.rob_do = 0;
+                        this.bunker_fo = 0;
+                        this.bunker_do = 0;
+
+                        this.used_fo = 0;
+                        this.used_do = 0;
+                        this.save_fo = 0;
+                        this.save_do = 0;
+                        this.total_count = 0;
+                    },
                     setPortName: function() {
                         searchObj.voy_list.forEach(function(value, index) {
                             if(searchObj.activeVoy == value['Voy_No']) {
@@ -559,15 +577,20 @@
                         let retVal = true;
                         $this.forEach(function(value, key) {
                             if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_DISCH) {
-                                if($this[key]['Cargo_Qtty'] == 0) {
+                                console.log(value['Cargo_Qtty'])
+                                if(value['Cargo_Qtty'] == '')
+                                    retVal = -100;
+                                else if($this[key]['Cargo_Qtty'] == 0) {
                                     if($this[key]['ROB_FO'] == undefined || $this[key]['ROB_DO'] == undefined) {
-                                        retVal = false;
+                                        retVal = -2;
                                     }
                                 }
                             }
                         });
 
-                        return retVal;
+                        console.log(retVal)
+                        // return false;
+                        return false;
 
                     },
                     getToday: function(symbol) {

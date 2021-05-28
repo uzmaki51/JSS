@@ -470,7 +470,7 @@
                     voyContractObj.cp_date = this.getToday('-');
                     voyContractObj.qty_amount = this.input['cargo_amount'];
                     voyContractObj.freight_rate = this.input['fregith_price'];
-                    voyContractObj.net_profit_day = this.output['net_profit_day'].toFixed(0);
+                    voyContractObj.net_profit_day = this.output['net_profit_day'];
                     voyContractObj.currency = this.input['currency'];
                     voyContractObj.rate = this.input['rate'];
 
