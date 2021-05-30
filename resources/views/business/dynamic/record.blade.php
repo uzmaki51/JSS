@@ -566,31 +566,31 @@
                     },
                     submitForm: function() {
                         submitted = true;
-                        if(!this.validateForm()) {
+                        if(this.validateForm() == -2) {
                             alert('Please input ROB/FO, ROB/DO value.');
                             return;
-                        } else
+                        } else if(this.validateForm() == -1) {
+                            alert('"CGO QTY" is require input field.');
+                            return;
+                        } else 
                             $('#dynamic-form').submit();
                     },
                     validateForm() {
                         let $this = this.currentData;
-                        let retVal = true;
+                        var retVal = true;
                         $this.forEach(function(value, key) {
                             if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_DISCH) {
-                                console.log(value['Cargo_Qtty'])
-                                // if(value['Cargo_Qtty'] == '')
-                                //     retVal = -100;
-                                // else if($this[key]['Cargo_Qtty'] == 0) {
-                                //     if($this[key]['ROB_FO'] == undefined || $this[key]['ROB_DO'] == undefined) {
-                                //         retVal = -2;
-                                //     }
-                                // }
+                                if(value['Cargo_Qtty'] == undefined || value['Cargo_Qtty'] == null) {
+                                    retVal = -1;
+                                } else if(value['Cargo_Qtty'] == 0) {
+                                    if(__parseFloat(value['ROB_FO']) == 0 || __parseFloat(value['ROB_DO']) == 0) {
+                                        retVal = -2;
+                                    }
+                                }
                             }
                         });
-
-                        console.log(retVal)
-                        // return false;
-                        return true;
+                        
+                        return retVal;
 
                     },
                     getToday: function(symbol) {
