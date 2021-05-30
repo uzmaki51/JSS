@@ -11,7 +11,7 @@
                 </select>
                 <select class="text-center ml-1" style="width: 60px;" id="usd_year_list">
                     @foreach($yearList as $key => $item)
-                        <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}</option>
+                        <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}年</option>
                     @endforeach
                 </select>
                 @if(isset($shipName['shipName_En']))
@@ -21,13 +21,8 @@
             <div class="col-lg-6">
                 <div class="btn-group f-right">
                     <button class="btn btn-primary btn-sm search-btn" onclick="addRowUsd()"><i class="icon-plus"></i>添加</button>
+                    <button class="btn btn-sm btn-success" id="usd-submit"><i class="icon-save"></i>保存</button>
                     <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
-                    <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
-                    @if(!$isHolder)
-                        <button class="btn btn-sm btn-success" id="usd-submit">
-                            <i class="icon-save"></i>保存
-                        </button>
-                    @endif
                 </div>
             </div>
         </div>

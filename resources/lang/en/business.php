@@ -11,7 +11,7 @@ return [
 			'discharge_port'        => '卸港',
 			'l_rate'                => '装率(交船地点)',
 			'd_rate'                => '卸率(还船地点)',
-			'frt_rate'              => '单价(日租金)',
+			'frt_rate'              => '运费率(日租金)',
 			'anticipate'            => '预计',
 			'daily_profit'          => '日净利润',
 			'contract_attach'       => '合同原本',

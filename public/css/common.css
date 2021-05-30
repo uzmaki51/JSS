@@ -419,16 +419,36 @@ ul.timeline > li {
 }
 .dynamic-footer td {
     background: #d9f8fb;
+    position: sticky!important;
+    bottom: 0;
 }
 
+.dynamic-footer td {
+    bottom: 18px;
+    box-shadow: inset 0 -1px 0 -1px #000, 1px -1px #000;
+}
+
+.dynamic-footer .fix-top {
+    bottom: 35px;
+}
 .dynamic-footer-result td {
     background: #eeeeee;
     text-align: center;
+}
+.dynamic-footer-result td {
+    position: sticky!important;
+    bottom: 0;
+    box-shadow: inset 0 -1px #000, 1px -1px #000;
 }
 
 .dynamic-result-table {
     position: sticky;
     bottom: 0;
+}
+
+.dynamic-result-table tr:first-child td,
+.dynamic-result-table tr:nth-child(2) td {
+    background: #d9f8fb;
 }
 
 .dynamic-table input::-webkit-outer-spin-button,

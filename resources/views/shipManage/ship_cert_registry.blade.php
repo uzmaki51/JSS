@@ -98,7 +98,7 @@ $ships = Session::get('shipList');
                                                         <span v-for="(certItem, index) in certTypeList" v-bind:class="[item.cert_id == certItem.id ? 'dynamic-option  selected' : 'dynamic-option ']" @click="setCertInfo(array_index, certItem.id)">@{{ certItem.name }}</span>
                                                     </div>
                                                     <div>
-                                                    <span class="edit-list-btn" id="edit-list-btn" @click="openShipCertList">
+                                                    <span class="edit-list-btn" id="edit-list-btn" @click="openShipCertList(array_index)">
                                                         <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px;">
                                                     </span>
                                                     </div>
@@ -235,6 +235,7 @@ $ships = Session::get('shipList');
         var ship_id = '{!! $shipId !!}';
         var isChangeStatus = false;
         var initLoad = true;
+        var activeId = 0;
 
         var submitted = false;
         if(isChangeStatus == false)
@@ -322,7 +323,8 @@ $ships = Session::get('shipList');
                         isChangeStatus = true;
                         this.$forceUpdate();
                     },
-                    openShipCertList(e) {
+                    openShipCertList(index) {
+                        activeId = index;
                         // Object.assign(certTypeObj.list, shipCertTypeList);
                         // certTypeObj.list.push([]);
                         $('.only-modal-show').click();
@@ -387,10 +389,11 @@ $ships = Session::get('shipList');
                                         id: index
                                     },
                                     success: function(data) {
-                                        certTypeObj.list = data;
+                                        certTypeObj.list = Object.assign([], [], data);
+                                        // certListObj.
                                         // certTypeObj.list.push([]);
-                                        certTypeObj.$forceUpdate();
-                                        getShipInfo(ship_id);
+                                        // certTypeObj.$forceUpdate();
+                                        // getShipInfo(ship_id);
 
                                     }
                                 })
@@ -402,11 +405,16 @@ $ships = Session::get('shipList');
                             let result = data;
                             let result1 = data;
                             let result2 = data;
-                            certTypeObj.list = result;
-                            certTypeObj.$forceUpdate();
-                            certListObj.certTypeList = result1;
-                            shipCertTypeList = result2;
-                            getShipInfo(ship_id);
+                            certTypeObj.list = Object.assign([], [], result);
+                            
+                            certListObj.certTypeList = Object.assign([], [], result);
+                            shipCertTypeList = Object.assign([], [], result);
+                            certListObj.$forceUpdate();
+                            certTypeObj.list.forEach(function(value) {
+                                if(value.id == certListObj.cert_array[activeId].cert_id)
+                                    certListObj.cert_array[activeId].cert_name = value.name;
+                            })
+                            // getShipInfo(ship_id);
                             $('.close').click();
                         });
                     },

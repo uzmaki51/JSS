@@ -320,14 +320,14 @@ $shipList = Session::get('shipList');
                             <tbody>
                             <tr>
                                 <td class="custom-td-label1" style="text-align: left; width: 40%;">
-                                <span class="style-header">{{ transShipManager('General.Registration Date') }}</span>
+                                <span class="text-danger style-header">{{ transShipManager('General.Registration Date') }}*</span>
                                 </td>
                                 <td class="custom-td-dec-text">
                                     <div class="input-group">
-                                        <input class="form-control date-picker" name="RegDate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($shipInfo['RegDate'])){{$shipInfo['RegDate']}}@endif">
+                                        <input class="form-control date-picker" name="RegDate" type="text" style="display: block;" data-date-format="yyyy-mm-dd" value="@if(isset($shipInfo['RegDate'])){{$shipInfo['RegDate']}}@endif" required>
                                         <span class="input-group-addon">
-                                                    <i class="icon-calendar "></i>
-                                                </span>
+                                            <i class="icon-calendar "></i>
+                                        </span>
                                     </div>
                                 </td>
                             </tr>

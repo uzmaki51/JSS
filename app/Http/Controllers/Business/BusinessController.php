@@ -4213,8 +4213,9 @@ class BusinessController extends Controller {
     public function ajaxVoyList(Request $request) {
         $params = $request->all();
         $shipId = $params['shipId'];
+        $activeYear = $params['year'];
 
-        $cp_list = CP::where('Ship_ID', $shipId)->orderByRaw('CONVERT(Voy_No, SIGNED) desc')->get();
+        $cp_list = CP::where('Ship_ID', $shipId)->whereRaw(DB::raw('mid(CP_Date, 1, 4) like ' . $activeYear))->orderByRaw('CONVERT(Voy_No, SIGNED) desc')->get();
 
         return response()->json($cp_list);
     }
@@ -4330,7 +4331,7 @@ class BusinessController extends Controller {
             $tmpVoyId = 0;
             $cp_list = [];
             foreach($retVal['currentData'] as $key => $item) {
-                if($tmpVoyId != $item->CP_ID) {
+                if(!in_array($item->CP_ID, $voyArray)) {
                     $voyArray[] = $item->CP_ID;
 
                     $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();

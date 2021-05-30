@@ -20,12 +20,11 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6">
-                        <select class="custom-select d-inline-block" id="year">
+                        <select class="custom-select d-inline-block" id="year" style="width: auto;">
                             <option value="">全部</option>
-                            <option value="2021">2021</option>
-                            <option value="2020">2020</option>
-                            <option value="2019">2019</option>
-                            <option value="2018">2018</option>
+                            @foreach($years as $year)
+                                <option value="{{ $year }}">{{ $year }}年</option>
+                            @endforeach
                         </select>
                         <select class="custom-select d-inline-block" id="month">
                             <option value="">全部</option>
@@ -132,7 +131,7 @@
                                                         申请日期
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <input type="text" name="report_date" style="display: inline-block;" class="form-control white-bg" v-model="report_date" :readonly="true">
+                                                        <input type="text" name="report_date" style="display: inline-block;" class="form-control white-bg date-picker" v-model="report_date" @click="dateModify($event)" >
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -289,6 +288,7 @@
             let cell = $(evt.target).closest('td');
             let reportId = $(this).attr('data-index');
             let reportStatus = $(this).attr('data-status');
+            let isAttach = $(this).attr('is-attach');
             if(reportId == undefined) return false;
             if(cell.index() == 12) {
                 if(reportStatus != 0) return false;
@@ -298,7 +298,14 @@
                 $(this).addClass('selected');
                 $('[name=draftId]').val(-1);
                 showReportDetail(reportId);
+            } else if(cell.index() == 11) {
+                if(isAttach == 0) {
+                    $(this).addClass('selected');
+                    $('[name=draftId]').val(-1);
+                    showReportDetail(reportId);
+                }
             }
+
 
             return true;
         });
@@ -320,7 +327,7 @@
                             if(isNaN(this.value))
                                 return 0;
 
-                            return this.value;
+                            return this.value == 0 ? '' : this.value;
                         } else {
                             let fixedLength = 2;
                             let prefix = '';
@@ -676,6 +683,11 @@
                         let value = $(e.target).val();
                         this.object_type = value;
                     },
+                    dateModify(e) {console.log(e)
+                        $(e.target).on("change", function() {
+                            reportObj.report_date = $(this).val();
+                        });
+                    },
                     reportSubmit(e) {
                         $('[name=reportType]').val(0);
                         let obj_type = reportObj.object_type;
@@ -781,6 +793,10 @@
                     var pageInfo = listTable.page.info();
                     $(row).attr('data-index', data['id']);
                     $(row).attr('data-status', data['state']);
+                    if(data['attachment'] == 1)
+                        $(row).attr('is-attach', 1);
+                    else
+                        $(row).attr('is-attach', 0);
                     $('td', row).eq(1).html('').append(
                         '<span data-index="' + data['id'] + '" class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + ReportTypeData[data['flowid']] + '</span>'
                     );

@@ -80,7 +80,7 @@
                         <my-currency-input v-model="input['cargo_amount']" name="cargo_amount" v-bind:prefix="''"></my-currency-input>
                     </div>
                     <div class="vertical">
-                        <label>单价</label>
+                        <label>运费率</label>
                         <my-currency-input v-model="input['freight_price']" :readonly="batchStatus == true" name="freight_price"></my-currency-input>
                     </div>
                     <div class="vertical">
@@ -333,7 +333,7 @@
                 <td colspan="2" style="border-right: 1px solid #4c4c4c"><input type="text" class="form-control" name="disch_rate" v-model="disch_rate"></td>
             </tr>
             <tr>
-                <td>单价</td>
+                <td>运费率</td>
                 <td class="font-style-italic">FREGITH RATE</td>
                 <td><input type="text" class="form-control" name="freight_rate" readonly v-model="freight_rate"></td>
                 <td></td>

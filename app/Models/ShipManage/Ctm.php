@@ -11,6 +11,7 @@ namespace App\Models\ShipManage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\ShipManage\ShipRegister;
 
 class Ctm extends Model
 {
@@ -18,17 +19,15 @@ class Ctm extends Model
 
     public function getYearList($shipId) {
         $yearList = [];
-        $record = self::where('shipId', $shipId)->orderBy('reg_date', 'desc')->groupBy(DB::raw('mid(reg_date, 1, 4)'))->get();
-
-        foreach($record as $key => $item) {
-            $yearList[] = date('Y', strtotime($item->reg_date));
+        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        if($shipInfo == null) {
+            $baseYear = date('Y');
+        } else {
+            $baseYear = substr($shipInfo->RegDate, 0, 4);
         }
 
-        if(count($yearList) == 0)
-            $yearList[] = date('Y');
-        else {
-            if($yearList[0] < date('Y') )
-                $yearList[] = date('Y');
+        for($year = date('Y'); $year >= $baseYear; $year --) {
+            $yearList[] = $year;
         }
 
         return $yearList;

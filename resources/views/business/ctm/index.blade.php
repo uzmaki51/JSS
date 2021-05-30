@@ -137,9 +137,9 @@ $ships = Session::get('shipList');
                     get: function() {
                         if (this.isInputActive) {
                             if(isNaN(this.value))
-                                return 0;
+                                return '';
 
-                            return this.value;
+                            return this.value == 0 ? '' : this.value;
                         } else {
                             let fixedLength = 2;
                             let prefix = '$ ';

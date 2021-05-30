@@ -7,13 +7,13 @@ var balanceDecimals = [];
 
 
 $(function() {
-    let setHeight = parseInt($('.inner-wrap').innerHeight()) - 106;
+    let setHeight = parseInt($('.inner-wrap').innerHeight()) - 140;
     $('.common-list').css({'height': setHeight + 'px'});
 });
 
 $(window).resize(function(e) {
     e.preventDefault();
-    let setHeight = parseInt($('.inner-wrap').innerHeight()) - 106;
+    let setHeight = parseInt($('.inner-wrap').innerHeight()) - 140;
     $('.common-list').css({'height': setHeight + 'px'});
 });
 

@@ -30,6 +30,7 @@ use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Member\Unit;
 use App\Models\Finance\AccountPersonalInfo;
+use App\Models\ShipManage\Ctm;
 
 use Auth;
 use Illuminate\Support\Facades\Session;
@@ -54,7 +55,14 @@ class DecisionController extends Controller
 		if(isset($params['id']))
 			$id = $params['id'];
 
-		return view('decision.received_report', ['draftId'  => $id, 'shipList'  => $shipList]);
+		$tbl = new DecisionReport();
+		$yearList = $tbl->getYearList($id);
+
+		return view('decision.received_report', [
+				'draftId'  	=> $id, 
+				'shipList'  => $shipList,
+				'years'		=> $yearList,
+			]);
 	}
 
 	// Draft List

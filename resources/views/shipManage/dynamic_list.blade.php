@@ -52,14 +52,14 @@
         <div class="page-header">
             <div class="col-md-3">
                 <h4>
-                    <b>动态记录</b>
+                    <b class="page-title">航船动态</b>
                 </h4>
             </div>
         </div>
         <div class="page-content" id="search-div" v-cloak>
             <div class="row">
                 <div class="col-md-12 align-bottom">
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名:</label>
                         <select class="custom-select d-inline-block" style="padding: 4px;max-width: 100px;" @change="changeShip" v-model="shipId">
                             @foreach($shipList as $ship)
@@ -78,17 +78,15 @@
                                 <label for="analyze" class="ml-1">记录分析</label>
                             </div>
                         </div>
-
-                        <select class="text-center ml-1" style="width: 60px;" name="year_list" @change="onChangeYear" v-model="activeYear">
-                            <option value="0">全部</option>
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
+                        <label style="margin-left: 20px;" class="custom-label">年份</label>
+                        <select class="text-center" name="year_list" @change="onChangeYear" v-model="activeYear">
+                            @foreach($years as $year)
+                                <option value="{{ $year }}">{{ $year }}年</option>
+                            @endforeach
                         </select>
 
                         <label class="font-bold ml-1 text-danger" v-show="record_type == 'all'">航次:</label>
                         <select class="text-center" style="width: 60px;" name="voy_list" @change="onChangeVoy" v-model="activeVoy" v-show="record_type == 'all'">
-                            <option value="0">全部</option>
                             <template v-for="voyItem in voy_list">
                                 <option :value="voyItem.Voy_No">@{{ voyItem.Voy_No }}</option>
                             </template>
@@ -101,7 +99,7 @@
                             </strong>
                         </div>
                     </div>
-                    <div class="col-md-5 d-none">
+                    <div class="col-md-4 d-none">
                         <div class="" style="margin-right: 12px; padding-top: 2px;">
                             <table class="contract-table mt-2 table-layout-fixed" style="min-height: auto;">
                             <tr>
@@ -135,8 +133,8 @@
                     <table class="table-bordered dynamic-table" v-show="record_type == 'all'">
                         <thead>
                             <tr>
-                                <th class="text-center font-style-italic">VOY No</th>
-                                <th class="text-center font-style-italic">DATE</th>
+                                <th class="text-center font-style-italic" style="width: 60px;">VOY No</th>
+                                <th class="text-center font-style-italic" style="width: 70px;">DATE</th>
                                 <th class="text-center font-style-italic" colspan="2">TIME[LT]</th>
                                 <th class="text-center font-style-italic" rowspan="2">GMT</th>
                                 <th class="text-center font-style-italic">STATUS</th>
@@ -148,7 +146,7 @@
                                 <th class="text-center font-style-italic">CGO QTY</th>
                                 <th class="text-center font-style-italic" colspan="2">ROB</th>
                                 <th class="text-center font-style-italic" colspan="2">BUNKERING</th>
-                                <th class="text-center font-style-italic">REMARK</th>
+                                <th class="text-center font-style-italic" colspan="4">REMARK</th>
                             </tr>
                             <tr>
                                 <th class="text-center">航次</th>
@@ -166,7 +164,7 @@
                                 <th class="text-center font-style-italic">DO</th>
                                 <th class="text-center font-style-italic">FO</th>
                                 <th class="text-center font-style-italic">DO</th>
-                                <th class="text-center"></th>
+                                <th class="text-center" colspan="4"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -187,7 +185,7 @@
                                 <td class="text-center font-weight-bold text-danger">@{{ prevData['ROB_DO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_FO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_DO'] }}</td>
-                                <td class="text-center">@{{ prevData['Remark'] }}</td>
+                                <td class="text-center" colspan="4">@{{ prevData['Remark'] }}</td>
                             </tr>
                             <template v-for="(currentItem, index) in currentData" v-cloak>
                                 <tr>
@@ -208,26 +206,22 @@
                                     <td class="text-center">@{{ number_format(currentItem.ROB_DO, 2) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.BUNK_FO, 2) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.BUNK_DO, 2) }}</td>
-                                    <td class="position-width">@{{ currentItem.Remark }}</td>
+                                    <td class="position-width" colspan="4">@{{ currentItem.Remark }}</td>
                                 </tr>
                             </template>
-                        </tbody>
-                    </table>
-                    <table class="dynamic-result-table" v-show="record_type == 'all'">
-                        <tbody>
                             <tr class="dynamic-footer">
                                 <td class="text-center" rowspan="2">航次</td>
-                                <td class="text-center" rowspan="2">报告次</td>
+                                <td class="text-center" rowspan="2" colspan="4">报告次</td>
                                 <td class="text-center" rowspan="2" colspan="2">时间</td>
                                 <td class="text-center" rowspan="2">航次用时</td>
                                 <td class="text-center" rowspan="2">距离<br>[NM]</td>
                                 <td class="text-center" rowspan="2">平均<br>速度</td>
-                                <td class="text-center">经济天</td>
-                                <td class="text-center"><span class="text-warning">@{{ number_format(economic_rate) }}%</span></td>
-                                <td class="text-center" colspan="2">总消耗</td>
-                                <td class="text-center" colspan="2">加油量</td>
-                                <td class="text-center" colspan="2">标准消耗</td>
-                                <td class="text-center" colspan="2">-节约/+超过</td>
+                                <td class="text-center fix-top">经济天</td>
+                                <td class="text-center fix-top"><span class="text-warning">@{{ number_format(economic_rate) }}%</span></td>
+                                <td class="text-center fix-top" colspan="2">总消耗</td>
+                                <td class="text-center fix-top" colspan="2">加油量</td>
+                                <td class="text-center fix-top" colspan="2">标准消耗</td>
+                                <td class="text-center fix-top" colspan="2">-节约/+超过</td>
                             </tr>
                             <tr class="dynamic-footer">
                                 <td class="text-center">航行</td>
@@ -243,7 +237,7 @@
                             </tr>
                             <tr class="dynamic-footer-result">
                                 <td>@{{ activeVoy }}</td>
-                                <td>@{{ number_format(this.currentData.length, 0) }}</td>
+                                <td colspan="4">@{{ number_format(this.currentData.length, 0) }}</td>
                                 <td colspan="2">@{{ sail_term['min_date'] }} ~ @{{ sail_term['max_date'] }}</td>
                                 <td>@{{ number_format(sail_time, 2) }}</td>
                                 <td>@{{ number_format(total_distance, 0) }}</td>
@@ -258,22 +252,19 @@
                                 <td>@{{ number_format(used_do) }}</td>
                                 <td>@{{ number_format(save_fo) }}</td>
                                 <td>@{{ number_format(save_do) }}</td>
-                            </tr>
+                            </tr>                            
                         </tbody>
                     </table>
-
-
-
 
                     <table class="dynamic-result-table analyze-table" v-show="record_type == 'analyze'">
                             <tbody>
                             <tr class="dynamic-footer">
-                                <td class="text-center" rowspan="2" style="width: 45px;">航次</td>
-                                <td class="text-center" rowspan="2" style="width: 45px;">报告次</td>
-                                <td class="text-center" rowspan="2" style="width: 145px;">期间</td>
+                                <td class="text-center" rowspan="2">航次</td>
+                                <td class="text-center" rowspan="2">报告次</td>
+                                <td class="text-center" rowspan="2">期间</td>
                                 <td class="text-center">航次</td>
-                                <td class="text-center" style="width: 260px;">装港</td>
-                                <td class="text-center" style="width: 260px;">卸港</td>
+                                <td class="text-center">装港</td>
+                                <td class="text-center">卸港</td>
                                 <td class="text-center">距离</td>
                                 <td class="text-center">平均</td>
                                 <td class="text-center" colspan="5">经济天数</td>
@@ -298,44 +289,40 @@
                                 <td class="text-center">其他</td>
                             </tr>
                             <template v-for="(item, index) in analyze.list" v-cloak>
-                            <tr class="dynamic-footer-result">
+                            <tr class="">
                             <td class="voy-no" @click="onVoyDetail(item.voy_no)">@{{ item.voy_no }}</td>
-                                <td>@{{ item.voy_count }}</td>
-                                <td>@{{ item.voy_start }} ~ @{{ item.voy_end }}</td>
-                                <td>@{{ item.sail_time }}</td>
+                                <td class="center">@{{ item.voy_count }}</td>
+                                <td class="center">@{{ dateFormat(item.voy_start) }} ~ @{{ dateFormat(item.voy_end) }}</td>
+                                <td class="right">@{{ number_format(item.sail_time, 2) }}</td>
                                 <td style="text-align: left">@{{ item.lport }}</td>
                                 <td style="text-align: left">@{{ item.dport }}</td>
-                                <td>@{{ number_format(item.total_distance, 0) }}</td>
-                                <td>@{{ number_format(item.average_speed, 2) }}</td>
-                                <td>@{{ number_format(item.total_loading_time, 2) }}</td>
-                                <td>@{{ number_format(item.economic_rate, 1) }}%</td>
-                                <td>@{{ number_format(item.total_sail_time, 2) }}</td>
-                                <td>@{{ number_format(item.loading_time, 2) }}</td>
-                                <td>@{{ number_format(item.disch_time, 2) }}</td>
-                                <td>@{{ number_format(item.sail_time - item.total_loading_time, 2) }}</td>
-                                <td>@{{ number_format(item.total_waiting_time, 2) }}</td>
-                                <td>@{{ number_format(item.total_weather_time, 2) }}</td>
-                                <td>@{{ number_format(item.total_repair_time, 2) }}</td>
-                                <td>@{{ number_format(item.total_supply_time, 2) }}</td>
-                                <td>@{{ number_format(item.total_else_time, 2) }}</td>
+                                <td class="right">@{{ number_format(item.total_distance, 0) }}</td>
+                                <td class="center">@{{ number_format(item.average_speed, 2) }}</td>
+                                <td class="right">@{{ number_format(item.total_loading_time, 2) }}</td>
+                                <td class="right">@{{ number_format(item.economic_rate, 1) }}%</td>
+                                <td class="right">@{{ number_format(item.total_sail_time, 2) }}</td>
+                                <td class="right">@{{ number_format(item.loading_time, 2) }}</td>
+                                <td class="right">@{{ number_format(item.disch_time, 2) }}</td>
+                                <td class="right">@{{ number_format(item.sail_time - item.total_loading_time, 2) }}</td>
+                                <td class="right">@{{ number_format(item.total_waiting_time, 2) }}</td>
+                                <td class="right">@{{ number_format(item.total_weather_time, 2) }}</td>
+                                <td class="right">@{{ number_format(item.total_repair_time, 2) }}</td>
+                                <td class="right">@{{ number_format(item.total_supply_time, 2) }}</td>
+                                <td class="right">@{{ number_format(item.total_else_time, 2) }}</td>
                             </tr>
                             </template>
-                        </tbody>
-                    </table>
 
-                    <table class="dynamic-result-table analyze-table" v-show="record_type == 'analyze'" v-cloak>
-                            <tbody>
                             <tr class="dynamic-footer">
-                                <td class="text-center" rowspan="2" style="width: 45px;">航次数</td>
-                                <td class="text-center" rowspan="2" style="width: 45px;">航次数</td>
-                                <td class="text-center" rowspan="2" style="width: 145px;">期间</td>
-                                <td class="text-center">航次</td>
-                                <td class="text-center" style="width: 260px;">装港</td>
-                                <td class="text-center" style="width: 260px;">卸港</td>
-                                <td class="text-center">距离</td>
-                                <td class="text-center">平均</td>
-                                <td class="text-center" colspan="5">经济天数</td>
-                                <td class="text-center" colspan="6">非经济天数</td>
+                                <td class="text-center" rowspan="2">航次数</td>
+                                <td class="text-center" rowspan="2">航次数</td>
+                                <td class="text-center" rowspan="2">期间</td>
+                                <td class="text-center fix-top">航次</td>
+                                <td class="text-center fix-top">装港</td>
+                                <td class="text-center fix-top">卸港</td>
+                                <td class="text-center fix-top">距离</td>
+                                <td class="text-center fix-top">平均</td>
+                                <td class="text-center fix-top" colspan="5">经济天数</td>
+                                <td class="text-center fix-top" colspan="6">非经济天数</td>
                             </tr>
                             <tr class="dynamic-footer">
                                 <td class="text-center">用时</td>
@@ -355,7 +342,6 @@
                                 <td class="text-center">供应</td>
                                 <td class="text-center">其他</td>
                             </tr>
-                            <template>
                             <tr class="dynamic-footer-result">
                                 <td>@{{ analyze.total.voy_count }}</td>
                                 <td>@{{ analyze.total.voy_count }}</td>
@@ -376,8 +362,13 @@
                                 <td>@{{ number_format(analyze.total.total_repair_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.total_supply_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.total_else_time, 2) }}</td>
-                            </tr>
-                            </template>
+                            </tr>                            
+                        </tbody>
+                    </table>
+
+                    <table class="dynamic-result-table analyze-table" v-show="record_type == 'analyze'" v-cloak>
+                            <tbody>
+
                         </tbody>
                     </table>
                 </div>
@@ -432,6 +423,7 @@
         const DAY_UNIT = 1000 * 3600;
         const COMMON_DECIMAL = 2;
         var economic_graph = null;
+        var activeYear = $('[name=year_list]').val();
 
         $(function() {
             initialize();
@@ -450,7 +442,7 @@
                         discharge: '',
                     },
                     activeVoy: 0,
-                    activeYear: 0,
+                    activeYear: activeYear,
 
                     prevData: [],
                     currentData: {
@@ -511,13 +503,20 @@
                             },
                             success: function(result) {
                                 searchObj.voy_list = [];
+                                console.log(result);
                                 searchObj.voy_list = Object.assign([], [], result);
-                                searchObj.activeVoy = 0;
+                                if(searchObj.voy_list.length > 0) {
+                                    searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
+                                }
+
+                                if(this.record_type != 'all') {
+                                    searchObj.getData();
+                                }
                             }
                         });
                     },
                     number_format: function(value, decimal = 1) {
-                        return isNaN(value) || value == 0 ? '' : number_format(value, decimal);
+                        return isNaN(value) || value == 0 || value == null || value == undefined ? '' : number_format(value, decimal);
                     },
                     onChangeVoy: function(evt) {
                         this.setPortName();
@@ -527,9 +526,11 @@
                         this.record_type = val;
                         if(this.record_type == 'all') {
                             this.page_title = '动态记录';
+                            $('.page-title').text('航船动态');
                             this.getData();
                         } else {
-                            this.page_title = '动态记录分析'
+                            this.page_title = '动态记录分析';
+                            $('.page-title').text('记录分析');
                             this.getAnalyzeData();
                         }
                         
@@ -537,11 +538,7 @@
                     onChangeYear: function(e) {
                         this.activeYear = e.target.value;
                         this.getVoyList(this.shipId);
-                        if(this.record_type == 'all') {
-                            if(this.activeYear == 0)
-                                this.activeVoy = 0;
-                            this.getData();
-                        } else {
+                        if(this.record_type != 'all') {
                             this.getAnalyzeData();
                         }
                     },
@@ -609,7 +606,7 @@
                                     realData = [];
                                     realData['voy_no'] = value;
                                     realData['voy_count'] = tmpData.length;
-                                    realData['voy_start'] = tmpData[0]['Voy_Date'];
+                                    realData['voy_start'] = tmpData[0]['Voy_Date'];console.log(tmpData[0]['Voy_Date'])
                                     realData['voy_end'] = tmpData[tmpData.length - 1]['Voy_Date'];
                                     realData['lport'] = cpData[value]['LPort'] == false ? '-' : cpData[value]['LPort'];
                                     realData['dport'] = cpData[value]['DPort'] == false ? '-' : cpData[value]['DPort'];
@@ -617,7 +614,7 @@
 
                                     // searchObj.setTotalInfo(data);
                                     tmpData.forEach(function(data_value, data_key) {
-                                        total_distance += parseInt(data_value["Sail_Distance"]);
+                                        total_distance += __parseFloat(data_value["Sail_Distance"]);
 
 
                                         if(data_key > 0) {
@@ -693,6 +690,7 @@
                                     realData.total_supply_time = total_supply_time.toFixed(COMMON_DECIMAL);
                                     realData.total_else_time = total_else_time.toFixed(COMMON_DECIMAL);
 
+                                    console.log(realData['total_distance'])
                                     // Calc Footer data
                                     footerData['voy_count'] += parseInt(realData['voy_count']);
                                     footerData['sail_time'] += parseInt(realData['sail_time']);
@@ -717,6 +715,10 @@
                                     searchObj.analyze.xAxisLabel.push(realData['voy_no']);
                                     searchObj.analyze.xAxis.push(parseFloat(realData['economic_rate']));
                                 });
+
+
+                                footerData['voy_start'] = searchObj.analyze.list[0].voy_start;
+                                footerData['voy_end'] = searchObj.analyze.list[searchObj.analyze.list.length - 1].voy_end;
 
                                 searchObj.analyze.total = footerData;
                                 let displayData = Object.assign([], [], searchObj.analyze.graph_value);console.log(displayData)
@@ -753,38 +755,38 @@
                                         responsive: true,
                                         maintainAspectRatio: false,
                                         scales: {
-         xAxes: [{
-            barPercentage:1,
-            categoryPercentage:0.5,
-            gridLines:{
-               display:false
-            },
-            ticks: {
-               fontColor:"#8f9092"
-            }
-         }],
-         yAxes: [{
-            display: true,
-            scaleLabel: {
-               show: true
-            },
-            gridLines:{
-               color:"#ecedef"
-            },
-            ticks: {
-               beginAtZero:true,
-               stepSize: 1.3,
-               fontColor:"#8f9092",
-               callback:function(value) {
-                
-                     return value + '%';
-               }
-            }
-         }]
-        },
-      legend: {
-         position:'bottom'
-       }
+                                            xAxes: [{
+                                                barPercentage:1,
+                                                categoryPercentage:0.5,
+                                                gridLines:{
+                                                display:false
+                                                },
+                                                ticks: {
+                                                fontColor:"#8f9092"
+                                                }
+                                            }],
+                                            yAxes: [{
+                                                display: true,
+                                                scaleLabel: {
+                                                show: true
+                                                },
+                                                gridLines:{
+                                                color:"#ecedef"
+                                                },
+                                                ticks: {
+                                                beginAtZero:true,
+                                                stepSize: 1.3,
+                                                fontColor:"#8f9092",
+                                                callback:function(value) {
+                                                    
+                                                        return value + '%';
+                                                }
+                                                }
+                                            }]
+                                            },
+                                    legend: {
+                                        position:'bottom'
+                                    }
                                     }
                                 });
                             }
@@ -921,6 +923,9 @@
                         } else
                             $('#dynamic-form').submit();
                     },
+                    dateFormat: function(date, format = '-') {
+                        return moment(date).format('MM-DD');
+                    },
                     validateForm() {
                         let $this = this.currentData;
                         let retVal = true;
@@ -982,13 +987,14 @@
                 type: 'post',
                 data: {
                     shipId: shipId,
+                    year: this.activeYear
                 },
                 success: function(result) {
                     searchObj.voy_list = [];
                     searchObj.voy_list = Object.assign([], [], result);
-                    // if(searchObj.voy_list.length > 0) {
-                    //     searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
-                    // }
+                    if(searchObj.voy_list.length > 0) {
+                        searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
+                    }
 
                     searchObj.setPortName();
                     searchObj.getData();

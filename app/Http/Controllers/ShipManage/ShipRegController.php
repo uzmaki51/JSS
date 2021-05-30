@@ -42,6 +42,7 @@ use App\Models\ShipManage\ShipIssaCode;
 use App\Models\ShipManage\ShipIssaCodeNo;
 use App\Models\ShipManage\ShipFreeBoard;
 use App\Models\ShipManage\Ctm;
+use App\Models\Convert\VoyLog;
 
 use App\Models\ShipTechnique\EquipmentUnit;
 
@@ -482,12 +483,16 @@ class ShipRegController extends Controller
             $shipName = $shipInfo->shipName_En;
         }
 
+        $tbl = new VoyLog();
+        $yearList = $tbl->getYearList($shipId);
+
         $shipList = ShipRegister::all();
         return view('shipManage.dynamic_list', [
             'shipList'          => $shipList,
             'shipInfo'          => $shipInfo,
             'shipId'            => $shipId,
             'shipName'          => $shipName,
+            'years'             => $yearList
         ]);
     }
 

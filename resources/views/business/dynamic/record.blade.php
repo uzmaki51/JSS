@@ -578,19 +578,19 @@
                         $this.forEach(function(value, key) {
                             if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_DISCH) {
                                 console.log(value['Cargo_Qtty'])
-                                if(value['Cargo_Qtty'] == '')
-                                    retVal = -100;
-                                else if($this[key]['Cargo_Qtty'] == 0) {
-                                    if($this[key]['ROB_FO'] == undefined || $this[key]['ROB_DO'] == undefined) {
-                                        retVal = -2;
-                                    }
-                                }
+                                // if(value['Cargo_Qtty'] == '')
+                                //     retVal = -100;
+                                // else if($this[key]['Cargo_Qtty'] == 0) {
+                                //     if($this[key]['ROB_FO'] == undefined || $this[key]['ROB_DO'] == undefined) {
+                                //         retVal = -2;
+                                //     }
+                                // }
                             }
                         });
 
                         console.log(retVal)
                         // return false;
-                        return false;
+                        return true;
 
                     },
                     getToday: function(symbol) {

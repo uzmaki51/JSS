@@ -9,9 +9,9 @@
                         </option>
                     @endforeach
                 </select>
-                <select class="text-center ml-1" style="width: 60px;" id="year_list">
+                <select class="text-center ml-1" id="year_list">
                     @foreach($yearList as $key => $item)
-                        <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}</option>
+                        <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}年</option>
                     @endforeach
                 </select>
                 @if(isset($shipName['shipName_En']))
@@ -21,13 +21,8 @@
             <div class="col-lg-6">
                 <div class="btn-group f-right">
                     <button class="btn btn-primary btn-sm search-btn" onclick="addRow()"><i class="icon-plus"></i>添加</button>
+                    <button class="btn btn-sm btn-success" id="submit"><i class="icon-save"></i>保存</button>
                     <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
-                    <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
-                    @if(!$isHolder)
-                        <button class="btn btn-sm btn-success" id="submit">
-                            <i class="icon-save"></i>保存
-                        </button>
-                    @endif
                 </div>
             </div>
         </div>
@@ -253,8 +248,8 @@
                     },
                     setDefault: function() {
                         let length = _this.list.length;
-                        _this.list.push([]);
-                        if(length == 0) {                            
+                        if(length == 0) {
+                            _this.list.push([]);
                             _this.list[length].ctm_no  = _this.activeYear[2] + _this.activeYear[3] + '001';
                             _this.list[length]['is_tmp']  = 1;
                             _this.list[length].reg_date  = this.getToday();
@@ -262,6 +257,7 @@
                                 _this.list[length].voy_no  = this.voyList[0]['Voy_No'];
 
                             _this.list[length].profit_type  = 1;
+                            _this.list[length].rate  = 0;
                             _this.list[length].abstract  = '';
                             _this.list[length].credit  = 0;
                             _this.list[length].debit  = 0;
@@ -275,6 +271,7 @@
                             _this.list[length].reg_date  = prevData.reg_date;
                             _this.list[length].voy_no  = prevData.voy_no;
                             _this.list[length].profit_type  = prevData.profit_type;
+                            _this.list[length].rate  = prevData.rate;
                             _this.list[length].abstract  = '';
                             _this.list[length].credit  = 0;
                             _this.list[length].debit  = 0;

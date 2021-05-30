@@ -29,7 +29,7 @@
                     <div class="vertical">
                         <label>装货天数</label>
                         <my-currency-input v-model="input['up_ship_day']" name="up_ship_day" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
-                    </div>
+                    </div>  
                     <div class="vertical">
                         <label>卸货天数</label>
                         <my-currency-input v-model="input['down_ship_day']" name="down_ship_day" v-bind:prefix="''" v-bind:type="'tc'"></my-currency-input>
