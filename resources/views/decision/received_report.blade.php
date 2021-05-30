@@ -295,6 +295,7 @@
                 if(isAdmin != 1) return false;
                 decideReport(reportId, reportStatus);
             } else if(cell.index() != 11 && cell.index() != 13 && isAdmin != 1) {
+                if(reportStatus != 0) return false;
                 $(this).addClass('selected');
                 $('[name=draftId]').val(-1);
                 showReportDetail(reportId);
@@ -378,7 +379,7 @@
                 backdrop: true,
                 buttons: {
                     fee: {
-                        label: '承认',
+                        label: '接受',
                         className: 'btn-success',
                         callback: function(){
                             decideType = 1;

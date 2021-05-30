@@ -387,8 +387,29 @@
                         return isNaN(value) ? 'text-danger' : '';
                     },
                     onChangeVoy: function(evt) {
-                        this.setPortName();
-                        this.getData();
+                        var confirmationMessage = 'It looks like you have been editing something. '
+                                + 'If you leave before saving, your changes will be lost.';
+                        let currentObj = JSON.parse(JSON.stringify(searchObj.currentData));
+                        if(JSON.stringify(searchObjTmp) != JSON.stringify(currentObj))
+                            isChangeStatus = true;
+                        else
+                            isChangeStatus = false;
+
+                        if (!submitted && isChangeStatus) {
+                            bootbox.confirm(confirmationMessage, function (result) {
+                                if (!result) {
+                                    return;
+                                }
+                                else {
+                                    searchObj.setPortName();
+                                    searchObj.getData();
+                                }
+                            });
+                        } else {
+                            this.setPortName();
+                            this.getData();
+                        }
+
                     },
                     getData: function() {
                         $.ajax({
