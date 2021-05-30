@@ -405,7 +405,7 @@
     <script>
         var searchObj = null;
         var shipId = '{!! $shipId !!}';
-        var shipInfo = JSON.parse('{!! $shipInfo !!}');
+        var shipInfo = JSON.parse(JSON.stringify('{!! $shipInfo !!}'));
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
         var DYNAMIC_SUB_DISCH = '{!! DYNAMIC_SUB_DISCH !!}';
