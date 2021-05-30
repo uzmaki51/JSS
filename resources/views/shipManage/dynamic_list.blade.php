@@ -317,8 +317,8 @@
                                 <td class="text-center" rowspan="2">航次数</td>
                                 <td class="text-center" rowspan="2">期间</td>
                                 <td class="text-center fix-top">航次</td>
-                                <td class="text-center fix-top">装港</td>
-                                <td class="text-center fix-top">卸港</td>
+                                <td class="text-center fix-top" rowspan="2"></td>
+                                <td class="text-center fix-top" rowspan="2"></td>
                                 <td class="text-center fix-top">距离</td>
                                 <td class="text-center fix-top">平均</td>
                                 <td class="text-center fix-top" colspan="5">经济天数</td>
@@ -326,8 +326,6 @@
                             </tr>
                             <tr class="dynamic-footer">
                                 <td class="text-center">用时</td>
-                                <td class="text-center font-style-italic font-weight-bold">LOADING PORT</td>
-                                <td class="text-center font-style-italic font-weight-bold">DISCHG PORT</td>
                                 <td class="text-center">[NM]</td>
                                 <td class="text-center">速度</td>
                                 <td class="text-center">合计</td>
