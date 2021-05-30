@@ -785,6 +785,7 @@ $ships = Session::get('shipList');
                             voyContractObj.fileName = voyListObj.list[index].attachment_url.substr(voyListObj.list[index].attachment_url.lastIndexOf("contract/")+9);
                         }
 
+                        voyInputObj.calcContractPreview();
                         voyInputObj.onEditFinish();
                         
                         $($('.ship-register li')[1]).removeClass('active');
@@ -857,6 +858,7 @@ $ships = Session::get('shipList');
                             tcContractObj.fileName = voyListObj.list[index].attachment_url.substr(voyListObj.list[index].attachment_url.lastIndexOf("contract/")+9);
                         }
 
+                        tcInputObj.calcContractPreview();
                         tcInputObj.onEditFinish();
                         
                         $($('.ship-register li')[0]).removeClass('active');
