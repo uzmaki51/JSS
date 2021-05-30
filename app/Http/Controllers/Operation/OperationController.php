@@ -16,6 +16,7 @@ use App\Http\Controllers\Util;
 
 use App\Models\Menu;
 use App\Models\ShipManage\ShipRegister;
+use App\Models\Decision\DecisionReport;
 
 use App\Models\Operations\AcItemDetail;
 use App\Models\Operations\YearlyPlanInput;
@@ -674,7 +675,19 @@ class OperationController extends Controller
     }
 
     public function ajaxIncomeExportListByShip(Request $request) {
-        
+        $params = $request->all();
+		$decideTbl = new DecisionReport();
+		$reportList = $decideTbl->getIncomeExportList($params);
+
+		return response()->json($reportList);
+    }
+
+    public function ajaxListBySOA(Request $request) {
+        $params = $request->all();
+		$decideTbl = new DecisionReport();
+		$reportList = $decideTbl->getListBySOA($params);
+
+		return response()->json($reportList);
     }
 
     public function import(Request $request)

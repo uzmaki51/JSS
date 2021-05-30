@@ -94,7 +94,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="d-flex f-left">
-                            <strong class="f-right" style="font-size: 16px; padding-top: 6px;">
+                            <strong class="f-right" style="font-size: 16px; padding-top: 6px;" id="page_title">
                                 <span id="search_info">"{{ $shipName }}"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ page_title }}</span>
                             </strong>
                         </div>
@@ -117,11 +117,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="btn-group f-right">
-                            <button class="btn btn-report-search btn-sm search-btn d-none" click="doSearch()"><i class="icon-search"></i>搜索</button>
-                            <a class="btn btn-sm btn-danger refresh-btn-over d-none" type="button" click="refresh">
-                                <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">恢复
-                            </a>
-                            <button class="btn btn-warning btn-sm save-btn" @click="submitForm"><i class="icon-table"></i> {{ trans('common.label.excel') }}</button>
+                            <button class="btn btn-warning btn-sm save-btn" @click="fnExcelReport"><i class="icon-table"></i> {{ trans('common.label.excel') }}</button>
                         </div>
                     </div>
                 </div>
@@ -130,7 +126,7 @@
             <!-- Main Contents Begin -->
             <div class="row" style="margin-top: 4px;">
                 <div class="col-md-12">
-                    <table class="table-bordered dynamic-table" v-show="record_type == 'all'">
+                    <table class="table-bordered dynamic-table" v-show="record_type == 'all'" id="table-list-all">
                         <thead>
                             <tr>
                                 <th class="text-center font-style-italic" style="width: 60px;">VOY No</th>
@@ -256,7 +252,7 @@
                         </tbody>
                     </table>
 
-                    <table class="dynamic-result-table analyze-table" v-show="record_type == 'analyze'">
+                    <table class="dynamic-result-table analyze-table" v-show="record_type == 'analyze'"  id="table-list-analysis">
                             <tbody>
                             <tr class="dynamic-footer">
                                 <td class="text-center" rowspan="2">航次</td>
@@ -373,7 +369,7 @@
             </div>
             <div class="col-lg-12 mt2" v-show="record_type == 'analyze'" >
                 <div class="d-flex">
-                    <strong style="font-size: 16px; margin: 30px auto 10px;" class=>{{ $shipName }} @{{ activeYear == 0 ? '' : activeYear }}年经济日占率</p>
+                    <strong style="font-size: 16px; margin: 30px auto 10px;" id="graph_title" class=>{{ $shipName }} @{{ activeYear == 0 ? '' : activeYear }}年经济日占率</p>
                 </div>
                 <div class="chart-div">
                     
@@ -976,6 +972,84 @@
                         searchObj.currentData[length]['Voy_Minute'] = 0;
                         searchObj.currentData[length]['Voy_Date'] = this.getToday('-');
                         searchObj.$forceUpdate();
+                    },
+                    fnExcelReport() {
+                        if (searchObj.record_type == 'all') {
+                            var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                            var real_tab = document.getElementById('table-list-all');
+                            var tab = real_tab.cloneNode(true);
+                            tab_text=tab_text+"<tr><td colspan='20' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>航船动态</td></tr>";
+                            
+                            for(var j = 0; j < tab.rows.length ; j++) 
+                            {
+                                if (tab.rows[j].classList.contains('d-none')) continue;
+                                console.log(j, ",", i);
+
+                                if(j==0 || j == 1) {
+                                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                                    }
+                                    tab.rows[j].childNodes[10].style.width = '200px';
+                                    tab.rows[j].childNodes[2].style.width = '100px';
+                                } 
+                                else if(j < (tab.rows.length-3))
+                                {
+                                    tab.rows[j].childNodes[0].remove();
+                                }
+                                else {
+                                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                        if (j == (tab.rows.length-3))
+                                            tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                                        else
+                                            tab.rows[j].childNodes[i].style.backgroundColor = '#eeeeee';
+                                    }
+                                }
+                                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                            }
+                            tab_text=tab_text+"</table>";
+                            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+                            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+                            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // remove input params
+                            var filename = '动态记录(' + $('#search_info').text() + ')';
+                            exportExcel(tab_text, filename, filename);
+                            return 0;
+                        }
+                        else {
+                            var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                            var real_tab = document.getElementById('table-list-analysis');
+                            var tab = real_tab.cloneNode(true);
+                            tab_text=tab_text+"<tr><td colspan='19' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>航船动态</td></tr>";
+                            
+                            for(var j = 0; j < tab.rows.length ; j++) 
+                            {
+                                if (tab.rows[j].classList.contains('d-none')) continue;
+                                console.log(j, ",", i);
+
+                                if(j==0 || j == 1) {
+                                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                                    }
+                                    tab.rows[j].childNodes[2].style.width = '100px';
+                                    tab.rows[j].childNodes[8].style.width = '200px';
+                                    tab.rows[j].childNodes[10].style.width = '200px';
+                                } 
+                                else if(j >= (tab.rows.length-3)) {
+                                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                        if (j == (tab.rows.length-1))
+                                            tab.rows[j].childNodes[i].style.backgroundColor = '#eeeeee';
+                                        else
+                                            tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
+                                    }
+                                }
+                                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                            }
+                            tab_text=tab_text+"</table>";
+                            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+                            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+                            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // remove input params
+                            var filename = '动态记录分析(' + $('#search_info').text() + ')';
+                            exportExcel(tab_text, filename, filename);
+                        }
                     }
                 },
                 updated() {
@@ -1046,7 +1120,6 @@
             diffDay = currentDate.minus(prevDate);
             return parseFloat(diffDay.div(24));
         }
-
     </script>
 
 @endsection

@@ -69,23 +69,23 @@ $isHolder = Session::get('IS_HOLDER');
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <div class="row" style="margin-bottom:40px">
                                             <div class="head-fix-div common-list" id="total-table" style="">
-                                                <table id="table-shipmember-list-total" style="table-layout:fixed;width:2000px!important;">
+                                                <table id="table-shipmember-list-total" style="table-layout:fixed;width:1500px!important;">
                                                     <thead class="">
                                                         <th class="text-center style-header" style="width: 2%;"><span>No</span></th>
                                                         <th class="text-center style-header" style="width: 6%;"><span>姓名</span></th>
                                                         <th class="text-center style-header" style="width: 3%;"><span>职务</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>电话号码</span></th>
-                                                        <th class="text-center style-header" style="width: 4%;"><span>国籍</span></th>
-                                                        <th class="text-center style-header" style="width: 7%;"><span>身份证号</span></th>
-                                                        <th class="text-center style-header" style="width: 4%;"><span>出生日期</span></th>
-                                                        <th class="text-center style-header" style="width: 4%;"><span>籍贯</span></th>
-                                                        <th class="text-center style-header" style="width: 4%;"><span>上船日期</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>国籍</span></th>
+                                                        <th class="text-center style-header" style="width: 8.5%;"><span>身份证号</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>出生日期</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>籍贯</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>上船日期</span></th>
                                                         <th class="text-center style-header" style="width: 12%;"><span>上船港</span></th>
-                                                        <th class="text-center style-header" style="width: 4%;"><span>下船日期</span></th>
-                                                        <th class="text-center style-header" style="width: 6%;"><span>海员证号</span></th>
-                                                        <th class="text-center style-header" style="width: 4%;"><span>海员证到期</span></th>
-                                                        <th class="text-center style-header" style="width: 6%;"><span>护照号</span></th>
-                                                        <th class="text-center style-header" style="width: 4%;"><span>护照到期</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>下船日期</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>海员证号</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>海员证到期</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>护照号</span></th>
+                                                        <th class="text-center style-header" style="width: 5%;"><span>护照到期</span></th>
                                                         <th class="text-center style-header" style="width: 20%;"><span>地址</span></th>
                                                     </thead>
                                                     <tbody class="" id="total-list-body">
@@ -255,13 +255,13 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: 'birthday', className: "text-center"},
                     {data: 'birthplace', className: "text-center"},
                     {data: 'signon-date', className: "text-center"},
-                    {data: 'signon-port', className: "text-center"},
+                    {data: 'signon-port', className: ""},
                     {data: 'signoff-date', className: "text-center"},
                     {data: 'bookno', className: "text-center"},
                     {data: 'bookno-expire', className: "text-center"},
                     {data: 'passport-no', className: "text-center"},
                     {data: 'passport-expire', className: "text-center"},
-                    {data: 'address', className: "text-center"}
+                    {data: 'address', className: ""}
                 ],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTotalTable.page.info();
@@ -271,6 +271,8 @@ $isHolder = Session::get('IS_HOLDER');
                         $(row).attr('class', 'member-item-even');
                     else
                         $(row).attr('class', 'member-item-odd');
+                    $('td', row).eq(9).attr('style','padding:2px!important');
+                    $('td', row).eq(15).attr('style','padding:2px!important');
 
                 },
             });
@@ -399,7 +401,7 @@ $isHolder = Session::get('IS_HOLDER');
                 }
                 else
                 {
-                    tab.rows[j].childNodes[4].innerHTML = '="' + tab.rows[j].childNodes[4].innerHTML + '"';
+                    tab.rows[j].childNodes[5].innerHTML = '="' + tab.rows[j].childNodes[5].innerHTML + '"';
                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                 }
             }
