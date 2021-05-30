@@ -102,8 +102,8 @@
                     <table class="table-bordered dynamic-table">
                         <thead>
                             <tr>
-                                <th class="text-center font-style-italic" style="width: 60px;">VOY No</th>
-                                <th class="text-center font-style-italic" style="width: 70px;">DATE</th>
+                                <th class="text-center font-style-italic">VOY No</th>
+                                <th class="text-center font-style-italic">DATE</th>
                                 <th class="text-center font-style-italic" colspan="2">TIME[LT]</th>
                                 <th class="text-center font-style-italic" rowspan="2">GMT</th>
                                 <th class="text-center font-style-italic">STATUS</th>
@@ -115,7 +115,7 @@
                                 <th class="text-center font-style-italic" style="border-right: 2px solid #4c4c4c;">CGO QTY</th>
                                 <th class="text-center font-style-italic" colspan="2">ROB</th>
                                 <th class="text-center font-style-italic" colspan="2">BUNKERING</th>
-                                <th class="text-center font-style-italic">REMARK</th>
+                                <th class="text-center font-style-italic" colspan="4" style="width: 20%;">REMARK</th>
                                 <th style="width: 16px;"></th>
                             </tr>
                             <tr>
@@ -134,7 +134,7 @@
                                 <th class="text-center font-style-italic">DO</th>
                                 <th class="text-center font-style-italic">FO</th>
                                 <th class="text-center font-style-italic">DO</th>
-                                <th class="text-center"></th>
+                                <th class="text-center" colspan="4"></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -156,7 +156,7 @@
                                 <td class="text-center font-weight-bold text-danger">@{{ prevData['ROB_DO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_FO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_DO'] }}</td>
-                                <td>@{{ prevData['Remark'] }}</td>
+                                <td colspan="4">@{{ prevData['Remark'] }}</td>
                                 <td></td>
                             </tr>
                             <template v-for="(currentItem, index) in currentData">
@@ -186,7 +186,7 @@
                                     <td><input type="number" class="form-control text-center font-weight-bold" :style="currentItem.Voy_Status == '13' ? 'color: red!important' : ''" name="ROB_DO[]" v-model="currentItem.ROB_DO"></td>
                                     <td><input type="number" class="form-control text-center" name="BUNK_FO[]"  style="color: blue!important" v-model="currentItem.BUNK_FO"></td>
                                     <td><input type="number" class="form-control text-center" name="BUNK_DO[]"  style="color: blue!important" v-model="currentItem.BUNK_DO"></td>
-                                    <td class="position-width"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" @click="addRow(index)" maxlength="50" autocomplete="off" v-model="currentItem.Remark"></textarea></td>
+                                    <td class="position-width" colspan="4"><textarea class="form-control" name="Remark[]" rows="1" style="resize: none" @click="addRow(index)" maxlength="50" autocomplete="off" v-model="currentItem.Remark"></textarea></td>
                                     <td class="text-center">
                                         <div class="action-buttons">
                                             <a class="red" @click="deleteItem(currentItem.id, index)" :class="deleteClass">
@@ -196,40 +196,37 @@
                                     </td>
                                 </tr>
                             </template>
-                        </tbody>
-                            </table>
-                        <table class="dynamic-result-table table-layout-fixed">
-                            <tbody>
                             <tr class="dynamic-footer">
-                                <td class="text-center" style="width: 60px;" rowspan="2">航次</td>
-                                <td class="text-center" style="width: 70px;" rowspan="2">报告次</td>
-                                <td class="text-center" rowspan="2" style="width: 209px;" colspan="2">时间</td>
-                                <td class="text-center" rowspan="2" style="width: 56px;">航次用时</td>
-                                <td class="text-center" rowspan="2" style="width: 70px;">距离<br>[NM]</td>
-                                <td class="text-center" rowspan="2" style="width: 70px;">平均<br>速度</td>
-                                <td class="text-center">经济天</td>
-                                <td class="text-center"><span class="text-warning" :class="dangerClass(economic_rate)">@{{ number_format(economic_rate) }}%</span></td>
-                                <td class="text-center" colspan="2">总消耗</td>
-                                <td class="text-center" colspan="2">加油量</td>
-                                <td class="text-center" colspan="2">标准消耗</td>
-                                <td class="text-center" colspan="2">-节约/+超过</td>
+                                <td class="text-center" rowspan="2">航次</td>
+                                <td class="text-center" rowspan="2">报告次</td>
+                                <td class="text-center" rowspan="2" colspan="5">时间</td>
+                                <td class="text-center" rowspan="2">航次用时</td>
+                                <td class="text-center" rowspan="2">距离<br>[NM]</td>
+                                <td class="text-center" rowspan="2">平均<br>速度</td>
+                                <td class="text-center fix-top">经济天</td>
+                                <td class="text-center fix-top"><span class="text-warning" :class="dangerClass(economic_rate)">@{{ number_format(economic_rate) }}%</span></td>
+                                <td class="text-center fix-top" colspan="2">总消耗</td>
+                                <td class="text-center fix-top" colspan="2">加油量</td>
+                                <td class="text-center fix-top" colspan="2">标准消耗</td>
+                                <td class="text-center fix-top" colspan="2">-节约/+超过</td>
+                                <td class="text-center" rowspan="2" colspan="2"></td>
                             </tr>
                             <tr class="dynamic-footer">
                                 <td class="text-center">航行</td>
                                 <td class="text-center">装卸货</td>
-                                <td class="text-center" style="width: 50px;">FO</td>
-                                <td class="text-center" style="width: 50px;">DO</td>
-                                <td class="text-center" style="width: 50px;">FO</td>
-                                <td class="text-center" style="width: 50px;">DO</td>
-                                <td class="text-center" style="width: 50px;">FO</td>
-                                <td class="text-center" style="width: 50px;">DO</td>
-                                <td class="text-center" style="width: 35px;">FO</td>
-                                <td class="text-center" style="width: 35px;">DO</td>
+                                <td class="text-center">FO</td>
+                                <td class="text-center">DO</td>
+                                <td class="text-center">FO</td>
+                                <td class="text-center">DO</td>
+                                <td class="text-center">FO</td>
+                                <td class="text-center">DO</td>
+                                <td class="text-center">FO</td>
+                                <td class="text-center">DO</td>
                             </tr>
                             <tr class="dynamic-footer-result">
                                 <td>@{{ activeVoy }}</td>
                                 <td>@{{ number_format(total_count, 0) }}</td>
-                                <td colspan="2" style="width: 209px;">@{{ sail_term['min_date'] }} ~ @{{ sail_term['max_date'] }}</td>
+                                <td colspan="5">@{{ sail_term['min_date'] }} ~ @{{ sail_term['max_date'] }}</td>
                                 <td :class="dangerClass(sail_time)">@{{ number_format(sail_time, 2) }}</td>
                                 <td :class="dangerClass(total_distance)">@{{ number_format(total_distance, 0) }}</td>
                                 <td :class="dangerClass(average_speed)">@{{ number_format(average_speed) }}</td>
@@ -243,9 +240,10 @@
                                 <td :class="dangerClass(used_do)">@{{ number_format(used_do) }}</td>
                                 <td :class="dangerClass(save_fo)">@{{ number_format(save_fo) }}</td>
                                 <td :class="dangerClass(save_do)">@{{ number_format(save_do) }}</td>
-                            </tr>
+                                <td></td>
+                            </tr>                            
                         </tbody>
-                    </table>
+                            </table>
                     </form>
                 </div>
             </div>
@@ -383,7 +381,7 @@
                         });
                     },
                     number_format: function(value, decimal = 1) {
-                        return isNaN(value) ? '-' : number_format(value, decimal);
+                        return __parseFloat(value) == 0 ? '-' : number_format(value, decimal);
                     },
                     dangerClass: function(value) {
                         return isNaN(value) ? 'text-danger' : '';
@@ -422,8 +420,8 @@
                                     let total_loading_time = 0;
                                     let total_waiting_time = 0;
 
-                                    searchObj.setTotalInfo(data);
                                     searchObj.setTotalDefault();
+                                    searchObj.setTotalInfo(data);
                                     searchObj.currentData.forEach(function(value, key) {
                                         searchObj.currentData[key]['dynamicSub'] = getSubList(value['Voy_Status']);
                                         value['Sail_Distance'] = __parseFloat(value['Sail_Distance']);
@@ -522,8 +520,9 @@
                         searchObj.sail_term['max_date'] = data['max_date'] == false ? '' : data['max_date']['Voy_Date'];
                         let start_date = data['min_date']['Voy_Date'] + ' ' + data['min_date']['Voy_Hour'] + ':' + data['min_date']['Voy_Minute'];
                         let end_date = data['max_date']['Voy_Date'] + ' ' + data['max_date']['Voy_Hour'] + ':' + data['max_date']['Voy_Minute'];
-                        
+                        console.log(start_date, end_date)
                         this.sail_time = __getTermDay(start_date, end_date, data['min_date']['GMT'], data['max_date']['GMT']);
+                        console.log(this.sail_time)
                     },
                     setTotalDefault: function() {
                         this.sail_time = 0;
