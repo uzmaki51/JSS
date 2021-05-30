@@ -579,6 +579,10 @@
                         let $this = this.currentData;
                         var retVal = true;
                         $this.forEach(function(value, key) {
+                            if(value['Cargo_Qtty'] == '')
+                                $this[key]['Cargo_Qtty'] = null;
+                        });
+                        $this.forEach(function(value, key) {
                             if($this[key]['Voy_Status'] == DYNAMIC_CMPLT_DISCH) {
                                 if(value['Cargo_Qtty'] == undefined || value['Cargo_Qtty'] == null) {
                                     retVal = -1;
