@@ -820,12 +820,24 @@
                                     let total_waiting_time = 0;
 
                                     searchObj.setTotalInfo(data);
+                                    searchObj.rob_fo = 0;
+                                    searchObj.rob_do = 0;
+                                    searchObj.bunker_fo = 0;
+                                    searchObj.bunker_do = 0;
+                                    searchObj.used_fo = 0;
+                                    searchObj.used_fo = 0;
+                                    searchObj.save_fo = 0;
+                                    searchObj.save_do = 0;
+
                                     searchObj.currentData.forEach(function(value, key) {
                                         searchObj.currentData[key]['Voy_Status_Name'] = DynamicStatus[value['Voy_Status']][0];
                                         searchObj.currentData[key]['Voy_Type_Name'] = DynamicSub[value['Voy_Type']];
-                                        searchObj.total_distance += parseInt(value["Sail_Distance"]);
-                                        searchObj.bunker_fo += value['BUNK_FO'];
-                                        searchObj.bunker_do += value['BUNK_DO'];
+                                        searchObj.total_distance += __parseFloat(value["Sail_Distance"]);
+                                        searchObj.bunker_fo += __parseFloat(value['BUNK_FO']);
+                                        searchObj.bunker_do += __parseFloat(value['BUNK_DO']);
+                                        searchObj.rob_fo += __parseFloat(value['ROB_FO']);
+                                        searchObj.rob_do += __parseFloat(value['ROB_DO']);
+
 
                                         if(key > 0) {
                                             // Calc Sail Count
@@ -863,9 +875,10 @@
                                     searchObj.average_speed = BigNumber(searchObj.total_distance).div(searchObj.total_sail_time).div(24).toFixed(1);
                                     
                                     searchObj.economic_rate = BigNumber(total_loading_time).plus(searchObj.total_sail_time).div(searchObj.sail_time).multipliedBy(100).toFixed(1);
-                                    searchObj.prevData['ROB_FO'] = searchObj.prevData['ROB_FO'] == null || searchObj.prevData['ROB_FO'] == undefined ? 0 : searchObj.prevData['ROB_FO'];
-                                    searchObj.prevData['ROB_DO'] = searchObj.prevData['ROB_DO'] == null || searchObj.prevData['ROB_DO'] == undefined ? 0 : searchObj.prevData['ROB_DO'];
-
+                                    searchObj.prevData['ROB_FO'] = __parseFloat(searchObj.prevData['ROB_FO']);
+                                    searchObj.prevData['ROB_DO'] = __parseFloat(searchObj.prevData['ROB_DO']);
+                                    data['max_date']['ROB_FO'] = __parseFloat(data['max_date']['ROB_FO']);
+                                    data['max_date']['ROB_DO'] = __parseFloat(data['max_date']['ROB_DO']);
                                     searchObj.rob_fo = BigNumber(searchObj.prevData['ROB_FO']).plus(searchObj.bunker_fo).minus(data['max_date']['ROB_FO']).toFixed(1);
                                     searchObj.rob_do = BigNumber(searchObj.prevData['ROB_DO']).plus(searchObj.bunker_do).minus(data['max_date']['ROB_DO']).toFixed(1);
 
