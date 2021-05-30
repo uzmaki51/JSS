@@ -43,7 +43,7 @@ $ships = Session::get('shipList');
                         <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;">
                             @foreach($shipList as $ship)
                                 <option value="{{ $ship['IMO_No'] }}"
-                                        {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
+                                    {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
                                 </option>
                             @endforeach
                         </select>
@@ -532,9 +532,7 @@ $ships = Session::get('shipList');
         }
 
         $('#select-ship').on('change', function() {
-            isChangeStatus = false;
-            getShipInfo($(this).val());
-            ship_id = $(this).val();
+            location.href = "/shipManage/shipCertList?id=" + $(this).val()
         });
 
         $('#submit').on('click', function() {
