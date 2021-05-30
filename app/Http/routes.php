@@ -117,7 +117,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipManage/shipCert/delete', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertDelete']);
 
 	//Business
-	Route::post('business/cp/list', ['uses'	=> 'Business\BusinessController@ajaxVoyList']);
+	Route::post('business/cp/list', ['uses'	=> 'Business\BusinessController@ajaxCPList']);
 	Route::post('business/cp/delete', ['uses'	=> 'Business\BusinessController@ajaxVoyDelete']);
 	Route::post('business/contract/info', ['uses'=>'Business\BusinessController@ajaxContractInfo']);
 	Route::post('business/voyNo/validate', ['uses'=>'Business\BusinessController@ajaxVoyNoValid']);

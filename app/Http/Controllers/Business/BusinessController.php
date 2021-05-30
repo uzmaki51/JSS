@@ -112,7 +112,7 @@ class BusinessController extends Controller {
         }
 
         $status = Session::get('status');
-
+// var_dump($cp_list);die;
 		return view('business.ship_contract', array(
             'shipId'	    =>  $shipId,
             'shipName'	    =>  $shipName,
@@ -4216,6 +4216,15 @@ class BusinessController extends Controller {
         $activeYear = $params['year'];
 
         $cp_list = CP::where('Ship_ID', $shipId)->whereRaw(DB::raw('mid(CP_Date, 1, 4) like ' . $activeYear))->orderByRaw('CONVERT(Voy_No, SIGNED) desc')->get();
+
+        return response()->json($cp_list);
+    }
+
+    public function ajaxCPList(Request $request) {
+        $params = $request->all();
+        $shipId = $params['shipId'];
+
+        $cp_list = CP::where('Ship_ID', $shipId)->orderByRaw('CONVERT(Voy_No, SIGNED) desc')->get();
 
         return response()->json($cp_list);
     }
