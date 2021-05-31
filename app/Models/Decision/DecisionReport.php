@@ -15,10 +15,12 @@ use App\Models\ShipManage\ShipRegister;
 use App\Models\Finance\BooksList;
 use App\Models\Finance\ReportSave;
 use App\Models\Finance\WaterList;
+use App\Models\Operations\Cp;
+use App\Models\ShipTechnique\ShipPort;
+use App\Models\Operations\Cargo;
 use App\Models\Finance\AccountPersonalInfo;
 use App\Models\Decision\DecisionReportAttachment;
 use App\Models\Member\Unit;
-
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -68,6 +70,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['amount'] = $record->amount;
 			$newArr[$newindex]['rate'] = $record->rate == null ? '' : $record->rate;
 			$attachment = DecisionReportAttachment::where('reportId', $record->orig_id)->first();
+			$newArr[$newindex]['attachment'] = null;
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
 			}
@@ -132,6 +135,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['amount'] = $record->amount;
 			$newArr[$newindex]['rate'] = '';
 			$attachment = DecisionReportAttachment::where('reportId', $record->id)->first();
+			$newArr[$newindex]['attachment'] = null;
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
 			}
@@ -145,6 +149,198 @@ class DecisionReport extends Model {
             'recordsFiltered' => $newindex,
             'original' => false,
             'data' => $newArr,
+            'error' => 0,
+        ];
+	}
+
+	public function getIncomeExportList($params) {
+		if (!isset($params['columns'][1]['search']['value']) ||
+            $params['columns'][1]['search']['value'] == '' ||
+			!isset($params['columns'][2]['search']['value']) ||
+            $params['columns'][2]['search']['value'] == ''
+        ) {
+            $year = $params['year'];
+        	$shipid = $params['shipId'];
+        }
+		else
+		{
+			$year = $params['columns'][1]['search']['value'];
+			$shipid = $params['columns'][2]['search']['value'];
+		}
+
+		$start = date('Y-m-d', strtotime("$year-01-01"));
+		$end = date('Y-m-d', strtotime("$year-12-31"));
+		$selector = CP::where('Ship_ID', $shipid)->where('CP_Date', '<=' , $end)->where('CP_Date', '>=', $start);
+		$records = $selector->orderBy('Voy_No', 'asc')->get();
+		$count = $selector->count();
+		$total_profit = 0;
+		
+		foreach($records as $index => $record) {
+			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo',$record->Voy_No)
+				->groupBy('flowid','profit_type')
+				->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, currency')
+				->groupBy('flowid');
+			$cost_records = $selector->get();
+			$newArr = [];
+			$credit_sum = 0;
+			$debit_sum = 0;
+			$profit_sum = 0;
+			foreach($cost_records as $cost) {
+				if ($cost->flowid=='Credit') {
+					$credit_sum += $cost->sum;
+				}
+				else if ($cost->profit_type != 13 && $cost->profit_type != 14)
+				{
+
+					$newArr[$cost->profit_type] = $cost->sum;
+					$debit_sum += $cost->sum;
+				}
+			}
+			$record->credit_sum = $credit_sum;
+			$record->debit_sum = $debit_sum;
+			$record->profit_sum = $credit_sum - $debit_sum;
+			$total_profit += $record->profit_sum;
+			$record->total_profit = $total_profit;
+			$record->debit_list = $newArr;
+
+			$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', '<',$record->Voy_No)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+			$max_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', $record->Voy_No)->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+			if($min_date == false || $min_date == null) {
+				$min_date = VoyLog::where('Ship_ID', $shipid)->where('CP_ID', $record->Voy_No)->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
+				if($min_date == null)
+					$min_date = false;
+			}
+	
+			if($max_date == false || $max_date == null)
+				$max_date = false;
+
+			$record->min_date = $min_date;
+			$record->max_date = $max_date;
+		}
+		
+		$newArr = [];
+		$count = 0;
+		foreach($records as $index => $record) {
+			$newArr[$count] = $record;
+			$count++;
+			$newArr[$count] = $record;
+			$count++;
+			$newArr[$count] = $record;
+			$count++;
+			$newArr[$count] = $record;
+			$count++;
+			$newArr[$count] = $record;
+			$count++;
+		}
+
+		if (isset($params['draw'])) {
+			return [
+				'draw' => $params['draw']+0,
+				'recordsTotal' => DB::table($this->table)->count(),
+				'recordsFiltered' => $count,
+				'data' => $newArr,
+				'error' => 0,
+			];
+		} else {
+			return $newArr;
+		}
+		
+	}
+
+	public function getListBySOA($params) {
+		if (!isset($params['columns'][1]['search']['value']) ||
+            $params['columns'][1]['search']['value'] == '' ||
+            !isset($params['columns'][2]['search']['value']) ||
+            $params['columns'][2]['search']['value'] == '' ||
+			!isset($params['columns'][3]['search']['value']) ||
+            $params['columns'][3]['search']['value'] == ''
+        ) {
+            $shipid = $params['shipId'];
+        	$voyNo = $params['voy_no'];
+			$currency = $params['currency'];
+        }
+		else
+		{
+			$shipid = $params['columns'][1]['search']['value'];
+			$voyNo = $params['columns'][2]['search']['value'];
+			$currency = $params['columns'][3]['search']['value'];
+		}
+
+		$selector = ReportSave::where('type', 0)->whereNotIn('profit_type',[13,14])->where('shipNo', $shipid)->where('voyNo', $voyNo);
+		$records = $selector->orderBy('id', 'asc')->get();
+		$newArr = [];
+        $newindex = 0;
+		foreach($records as $index => $record) {
+			$newArr[$newindex]['date'] = $record->report_date;
+			$newArr[$newindex]['content'] = $record->conent;
+			$newArr[$newindex]['flowid'] = $record->flowid;
+			$newArr[$newindex]['profit_type'] = $record->profit_type;
+
+			$amount = $record->amount;
+			if ($currency == 'USD') {
+				if ($record->currency == 'CNY') $amount = $amount / $record->rate;
+			} else if($currency == 'CNY') {
+				if ($record->currency == 'USD') $amount = $record->rate * $amount;
+			}
+
+			if ($record->flowid=='Credit') {
+				$newArr[$newindex]['credit'] = $amount;
+				$newArr[$newindex]['debit'] = '';
+			} else
+			{
+				$newArr[$newindex]['credit'] = '';
+				$newArr[$newindex]['debit'] = $amount;
+			}
+			$newArr[$newindex]['rate'] = $record->rate;
+			
+			$attachment = DecisionReportAttachment::where('reportId', $record->orig_id)->first();
+			$newArr[$newindex]['attachment'] = null;
+			if (!empty($attachment)) {
+				$newArr[$newindex]['attachment'] = $attachment->file_link;
+			}
+			$newindex ++;
+		}
+		
+		$voy_info = CP::where('Ship_ID', $shipid)->where('Voy_No',$voyNo)->first();
+		$LPort = '';
+		$DPort = '';
+		$Cargo = '';
+		if (!empty($voy_info)) {
+			$LPort = $voy_info->LPort;
+			$LPort = explode(',', $LPort);
+			$LPort = ShipPort::whereIn('id', $LPort)->get();
+			$tmp = '';
+			foreach($LPort as $port)
+				$tmp .= $port->Port_En . ', (' . $port->Port_Cn . ') / ';
+			$LPort = substr($tmp, 0, strlen($tmp) - 3);
+
+			$DPort = $voy_info->DPort;
+			$DPort = explode(',', $DPort);
+			$DPort = ShipPort::whereIn('id', $DPort)->get();
+			$tmp = '';
+			foreach($DPort as $port)
+				$tmp .= $port->Port_En . ', (' . $port->Port_Cn . ') / ';
+			$DPort = substr($tmp, 0, strlen($tmp) - 3);
+
+			$Cargo = $voy_info->Cargo;
+			$Cargo = explode(',', $Cargo);
+			$Cargo = Cargo::whereIn('id', $Cargo)->get();
+			$tmp = '';
+			foreach($Cargo as $item)
+				$tmp .=  $item->name . ', ';
+			$Cargo = substr($tmp, 0, strlen($tmp) - 2);
+		}
+
+		return [
+            'draw' => $params['draw']+0,
+            'recordsTotal' => DB::table($this->table)->count(),
+            'recordsFiltered' => $newindex,
+            'original' => false,
+            'data' => $newArr,
+			'voy_info' => $voy_info,
+			'LPort' => $LPort,
+			'DPort' => $DPort,
+			'Cargo' => $Cargo,
             'error' => 0,
         ];
 	}
@@ -417,6 +613,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['account_name'] = $record->account_name;
 			$newArr[$newindex]['report_id'] = $record->report_id;
 			$attachment = DecisionReportAttachment::where('reportId', $record->report_id)->first();
+			$newArr[$newindex]['attachment'] = null;
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
 			}
@@ -470,6 +667,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['account_name'] = $record->account_name;
 			$newArr[$newindex]['report_id'] = $record->report_id;
 			$attachment = DecisionReportAttachment::where('reportId', $record->report_id)->first();
+			$newArr[$newindex]['attachment'] = null;
 			if (!empty($attachment)) {
 				$newArr[$newindex]['attachment'] = $attachment->file_link;
 			}

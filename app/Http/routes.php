@@ -152,6 +152,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('finance/accounts/setting/list', ['uses'=>'Finance\FinanceController@getSettingList']);
 
 	Route::post('operation/listByShip', ['uses'=>'Operation\OperationController@ajaxIncomeExportListByShip']);
+	Route::post('operation/listBySOA', ['uses'=>'Operation\OperationController@ajaxListBySOA']);
 
 });
 

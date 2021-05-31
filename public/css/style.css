@@ -308,6 +308,16 @@ div.input table tbody tr td
     height: 20px;
 }
 
+.style-red-header {
+    font-weight: bold!important;
+    background-color: #f2dcdb!important;
+    height: 20px;
+}
+
+.right-border {
+    border-right:3px double rgb(211, 120, 0); 
+}
+
 .style-search-header {
     height: 25px;
 }
