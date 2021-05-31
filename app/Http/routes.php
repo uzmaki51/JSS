@@ -557,7 +557,9 @@ Route::group(['prefix' => 'shipManage'], function() {
 
     Route::get('shipPartManage', ['uses'=>'ShipManage\ShipRegController@shipPartManage']);
     Route::post('updateEquipmentPart', ['uses'=>'ShipManage\ShipRegController@updateEquipmentPart']);
-    Route::post('deleteEquipmentPart', ['uses'=>'ShipManage\ShipRegController@deleteEquipmentPart']);
+	Route::post('deleteEquipmentPart', ['uses'=>'ShipManage\ShipRegController@deleteEquipmentPart']);
+	
+	Route::get('fuelManage', ['uses'=>'ShipManage\ShipRegController@fuelManage']);
 
     // Excel 출력
     // 배제원

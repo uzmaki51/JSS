@@ -126,7 +126,7 @@ $ships = Session::get('shipList');
                                                     @{{ calcUsd(item.USD.debit, item.CNY.usd_debit) }}
                                                 </td>
                                             </tr>
-                                            <tr class="dynamic-footer">
+                                            <tr class="ctm-analytics-footer">
                                                 <td class="style-header center" style="width: 4%;">合计</td>
                                                 <td class="style-header right" style="width: 7%;">@{{ number_format(total.cny.credit, 2) }}</td>
                                                 <td class="style-header right" style="width: 5%;">@{{ number_format(total.cny.debit, 2) }}</td>
@@ -185,7 +185,7 @@ $ships = Session::get('shipList');
                                                     <td class="right" style="border-right: 2px solid #000!important;">@{{ number_format(item.debitTotal) }}</td>
                                                     <td class="right" v-for="(subItem, subIndex) in item" v-show="subIndex <= 12">@{{ number_format(subItem) }}</td>
                                                 </tr>
-                                                <tr class="dynamic-footer">
+                                                <tr class="ctm-analytics-footer">
                                                     <td class="style-header center" style="width: 40px;">合计</td>
                                                     <td class="style-header right" v-for="(item, index) in total" :style="index == 1 ? 'border-right: 2px solid #000!important;' : ''">@{{ number_format(item) }}</td>
                                                 </tr>

@@ -883,6 +883,9 @@ footer {
     padding: 12px;
     text-align:center;
 }
+.ctm-analytics-footer td {
+    background: #d9f8fb;
+}
 .report-attachment img {
     margin: 2px 4px;
     cursor: pointer;

@@ -4333,7 +4333,7 @@ class BusinessController extends Controller {
         $retVal['min_date'] = $prevData;
         if($retVal['min_date'] == null)
             $retVal['min_date'] = false;
-
+            
         if($params['type'] == 'analyze') {
             $retTmp = [];
             $voyArray = [];

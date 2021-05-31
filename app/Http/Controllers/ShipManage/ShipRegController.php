@@ -923,6 +923,39 @@ class ShipRegController extends Controller
         return 1;
     }
 
+    public function fuelManage(Request $request) {
+        $params = $request->all();
+        $shipName = '';
+		if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else {
+            $firstShipInfo = ShipRegister::first();
+            if($firstShipInfo == null && $firstShipInfo == false)
+                return redirect()->back();
+
+            $shipId = $firstShipInfo->IMO_No;
+        }
+
+        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        if($shipInfo == null || $shipInfo == false)
+            return redirect()->back();
+        else {
+            $shipName = $shipInfo->shipName_En;
+        }
+
+        $tbl = new VoyLog();
+        $yearList = $tbl->getYearList($shipId);
+
+        $shipList = ShipRegister::all();
+        return view('shipManage.fuel_manage', [
+            'shipList'          => $shipList,
+            'shipInfo'          => $shipInfo,
+            'shipId'            => $shipId,
+            'shipName'          => $shipName,
+            'years'             => $yearList
+        ]);
+    }
+
     // 배설비관리
     public function shipEquipmentManage(Request $request) {
         Util::getMenuInfo($request);
