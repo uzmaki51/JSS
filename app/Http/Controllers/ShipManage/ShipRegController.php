@@ -1970,5 +1970,20 @@ class ShipRegController extends Controller
         $retVal = $ctmTbl->getCtmDebit($shipId, $year);
 
         return response()->json($retVal);
+    }
+
+    public function ajaxCtmDebits(Request $request) {
+        $params = $request->all();
+        $year = $params['year'];
+        $shipIds = $params['shipId'];
+        $result = [];
+        $ctmTbl = new Ctm();
+        foreach($shipIds as $shipId)
+        {
+            $retVal = $ctmTbl->getCtmDebit($shipId, $year);
+            $result[$shipId] = $retVal;
+        }
+
+        return response()->json($result);
     }    
 }

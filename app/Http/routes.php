@@ -130,12 +130,14 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('business/dynrecord/delete', ['uses'	=> 'Business\BusinessController@ajaxDeleteDynrecord']);
 	Route::post('business/voy/list', ['uses'	=> 'Business\BusinessController@ajaxVoyAllList']);
 	Route::post('business/dynamic/search', ['uses'	=> 'Business\BusinessController@ajaxDynamicSearch']);
+	Route::post('business/dynamic/multiSearch', ['uses'	=> 'Business\BusinessController@ajaxDynamicMultiSearch']);
 
 	Route::post('business/ctm/list', ['uses'	=> 'Business\BusinessController@ajaxCtm']);	
 	Route::post('business/ctm/delete', ['uses'	=> 'Business\BusinessController@ajaxCtmDelete']);
 
 	Route::post('shipmanage/ctm/total', ['uses'=>'ShipManage\ShipRegController@ajaxCtmTotal']);
 	Route::post('shipmanage/ctm/debit', ['uses'=>'ShipManage\ShipRegController@ajaxCtmDebit']);
+	Route::post('shipmanage/ctm/debits', ['uses'=>'ShipManage\ShipRegController@ajaxCtmDebits']);
 	
 	Route::post('system/backup/list', ['uses'=>'OrgManage\BackupController@getList']);
 	Route::post('system/backup/add', ['uses'=>'OrgManage\BackupController@add']);
@@ -151,8 +153,10 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('finance/accounts/info/list', ['uses'=>'Finance\FinanceController@getPersonalInfoList']);
 	Route::post('finance/accounts/setting/list', ['uses'=>'Finance\FinanceController@getSettingList']);
 
-	Route::post('operation/listByShip', ['uses'=>'Operation\OperationController@ajaxIncomeExportListByShip']);
-	Route::post('operation/listBySOA', ['uses'=>'Operation\OperationController@ajaxListBySOA']);
+	Route::post('operation/listByShip', ['uses'=>'Operation\OperationController@ajaxIncomeExportListByShip']);		// incomeExpense -> Table, Graph
+	Route::post('operation/listBySOA', ['uses'=>'Operation\OperationController@ajaxListBySOA']);					// incomeExpense -> SOA
+
+	Route::post('operation/listByAll', ['uses'=>'Operation\OperationController@ajaxListByAll']);					// incomeExpenseAll -> Table
 
 });
 
@@ -371,6 +375,7 @@ Route::group(['prefix' => 'operation'], function() {
 
 	//수입 및 지출
 	Route::get('incomeExpense', ['uses' => 'Operation\OperationController@incomeExpense']);
+	Route::get('incomeAllExpense', ['uses' => 'Operation\OperationController@incomeAllExpense']);
 
 	Route::get('import', ['uses' => 'Operation\OperationController@import']);
 	Route::post('updateShipInvoice', ['uses' => 'Operation\OperationController@updateShipInvoice']);

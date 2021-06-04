@@ -274,7 +274,7 @@
                                 <td class="text-center">速度</td>
                                 <td class="text-center">合计</td>
                                 <td class="text-center">占率</td>
-                                <td class="text-center">航次</td>
+                                <td class="text-center">航行</td>
                                 <td class="text-center">装货</td>
                                 <td class="text-center">卸货</td>
                                 <td class="text-center">合计</td>
@@ -326,7 +326,7 @@
                                 <td class="text-center">速度</td>
                                 <td class="text-center">合计</td>
                                 <td class="text-center">占率</td>
-                                <td class="text-center">航次</td>
+                                <td class="text-center">航行</td>
                                 <td class="text-center">装货</td>
                                 <td class="text-center">卸货</td>
                                 <td class="text-center">合计</td>
@@ -384,7 +384,6 @@
             <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
         </audio>
     </div>
-
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>
     <script src="{{ cAsset('assets/js/bignumber.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
@@ -983,8 +982,6 @@
                             for(var j = 0; j < tab.rows.length ; j++) 
                             {
                                 if (tab.rows[j].classList.contains('d-none')) continue;
-                                console.log(j, ",", i);
-
                                 if(j==0 || j == 1) {
                                     for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
                                         tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
@@ -1018,20 +1015,15 @@
                             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
                             var real_tab = document.getElementById('table-list-analysis');
                             var tab = real_tab.cloneNode(true);
-                            tab_text=tab_text+"<tr><td colspan='19' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>航船动态</td></tr>";
+                            tab_text=tab_text+"<tr><td colspan='19' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>航船动态分析</td></tr>";
                             
                             for(var j = 0; j < tab.rows.length ; j++) 
                             {
                                 if (tab.rows[j].classList.contains('d-none')) continue;
-                                console.log(j, ",", i);
-
                                 if(j==0 || j == 1) {
                                     for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
                                         tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                                     }
-                                    tab.rows[j].childNodes[2].style.width = '100px';
-                                    tab.rows[j].childNodes[8].style.width = '200px';
-                                    tab.rows[j].childNodes[10].style.width = '200px';
                                 } 
                                 else if(j >= (tab.rows.length-3)) {
                                     for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
@@ -1044,9 +1036,6 @@
                                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                             }
                             tab_text=tab_text+"</table>";
-                            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-                            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
-                            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // remove input params
                             var filename = '动态记录分析(' + $('#search_info').text() + ')';
                             exportExcel(tab_text, filename, filename);
                         }

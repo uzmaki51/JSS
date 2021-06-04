@@ -4281,6 +4281,85 @@ class BusinessController extends Controller {
         return response()->json($retVal);
     }
 
+    public function ajaxDynamicMultiSearch(Request $request) {
+        $params = $request->all();
+        $shipids = $params['shipId'];
+        //$shipids = explode(",",$params['columns'][2]['search']['value']);
+        $year = $params['year'];
+        $result = [];
+        foreach($shipids as $shipId)
+        {
+            $voyTbl = VoyLog::where('Ship_ID', $shipId);
+            $voyTbl2 = VoyLog::where('Ship_ID', $shipId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH);
+            $voyTbl3 = VoyLog::where('Ship_ID', $shipId);
+            $prevData = null;
+
+            if(isset($params['year']) && $params['year'] != 0) {
+                $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
+                $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'desc');
+            }
+            $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
+            $voyTbl2->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
+
+
+            $retVal['currentData'] = $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->get();
+            $prevData = $voyTbl2->first();
+            if($prevData == null)
+                $prevData = $voyTbl->first();
+
+            $retVal['prevData'] = $prevData;
+            $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+            if($retVal['max_date'] == null)
+                $retVal['max_date'] = false;
+
+            $retVal['min_date'] = $prevData;
+            if($retVal['min_date'] == null)
+                $retVal['min_date'] = false;
+                
+            $retTmp = [];
+            $voyArray = [];
+            $tmpVoyId = 0;
+            $cp_list = [];
+            foreach($retVal['currentData'] as $key => $item) {
+                if(!in_array($item->CP_ID, $voyArray)) {
+                    $voyArray[] = $item->CP_ID;
+
+                    $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();
+                    foreach($cp_list as $cp_key => $cp_item) {
+                        $LPort = $cp_item->LPort;
+                        $LPort = explode(',', $LPort);
+                        $LPort = ShipPort::whereIn('id', $LPort)->get();
+                        $tmp = '';
+                        foreach($LPort as $port)
+                            $tmp .= $port->Port_En . ', ';
+                        $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
+            
+                        $DPort = $cp_item->DPort;
+            
+                        $DPort = $cp_item->DPort;
+                        $DPort = explode(',', $DPort);
+                        $DPort = ShipPort::whereIn('id', $DPort)->get();
+                        $tmp = '';
+                        foreach($DPort as $port)
+                            $tmp .= $port->Port_En . ', ';
+                        $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
+                    }
+                    $retVal['cpData'][$item->CP_ID] = $cp_list[0];
+                }
+
+                $retTmp[$item->CP_ID][] = $item;
+                $tmpVoyId = $item->CP_ID;
+                
+            }
+            $retVal['currentData'] = $retTmp;
+            $retVal['voyData'] = $voyArray;
+
+            $result[$shipId] = $retVal;
+        }
+
+        return $result;
+    }
+
     public function ajaxDynamicSearch(Request $request) {
         $params = $request->all();
 
