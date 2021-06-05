@@ -567,7 +567,6 @@
                                 let realData = [];
                                 let footerData = [];
                                 footerData['voy_count'] = 0;
-                                footerData['voy_count'] = 0;
                                 // footerData['voy_start'] = 0;
                                 footerData['sail_time'] = 0;
                                 footerData['total_distance'] = 0;
@@ -595,8 +594,6 @@
                                     let total_supply_time = 0;
                                     let total_else_time = 0;
                                     let total_distance = 0;
-
-
 
                                     realData = [];
                                     realData['voy_no'] = value;
@@ -687,7 +684,6 @@
 
                                     console.log(realData['total_distance'])
                                     // Calc Footer data
-                                    footerData['voy_count'] += parseInt(realData['voy_count']);
                                     footerData['sail_time'] += parseInt(realData['sail_time']);
                                     footerData['total_distance'] += parseInt(realData['total_distance']);
                                     footerData['total_sail_time'] += parseFloat(realData['total_sail_time']);
@@ -711,7 +707,7 @@
                                     searchObj.analyze.xAxis.push(parseFloat(realData['economic_rate']));
                                 });
 
-
+                                footerData['voy_count'] = voyData.length;
                                 footerData['voy_start'] = searchObj.analyze.list[0].voy_start;
                                 footerData['voy_end'] = searchObj.analyze.list[searchObj.analyze.list.length - 1].voy_end;
 
