@@ -19,14 +19,6 @@ $ships = Session::get('shipList');
 
 @section('content')
     <div class="main-content">
-        <style>
-            .filter_row {
-                background-color: #45f7ef;
-            }
-            .chosen-drop {
-                width : 350px !important;
-            }
-        </style>
         <div class="page-content">
             <div class="page-header">
                 <div class="col-md-3">

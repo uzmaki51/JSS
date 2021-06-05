@@ -13,10 +13,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
 
-class ShipEquipment extends Model
+class ShipEquipmentRequire extends Model
 {
-//    use SoftDeletes;
-    protected $table = 'tb_ship_equipment';
+    protected $table = 'tb_ship_equipment_require';
 
 	public function getYearList($shipId) {
         $yearList = [];
@@ -42,7 +41,7 @@ class ShipEquipment extends Model
 		}
 
 		if(isset($params['year']) && $params['year'] != 0) {
-			$selector->whereRaw(DB::raw('mid(request_date, 1, 4) like ' . $params['year']));
+			$selector->whereRaw(DB::raw('mid(create_at, 1, 4) like ' . $params['year']));
 		}
 
 		if(isset($params['placeType']) && $params['placeType'] != 0) {

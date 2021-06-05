@@ -19,6 +19,8 @@ use App\Http\Controllers\Util;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use App\Models\ShipTechnique\ShipPort;
+use App\Models\Operations\Cp;
 
 use App\Models\Menu;
 use App\Models\ShipManage\Ship;
@@ -35,6 +37,8 @@ use App\Models\ShipManage\ShipEquipmentMainKind;
 use App\Models\ShipManage\ShipEquipmentSubKind;
 use App\Models\ShipManage\ShipEquipmentRegKind;
 use App\Models\ShipManage\ShipEquipment;
+use App\Models\ShipManage\ShipEquipmentRequire;
+use App\Models\ShipManage\ShipEquipmentRequireKind;
 use App\Models\ShipManage\ShipDiligence;
 use App\Models\ShipManage\ShipEquipmentPart;
 use App\Models\ShipManage\ShipEquipmentProperty;
@@ -42,7 +46,9 @@ use App\Models\ShipManage\ShipIssaCode;
 use App\Models\ShipManage\ShipIssaCodeNo;
 use App\Models\ShipManage\ShipFreeBoard;
 use App\Models\ShipManage\Ctm;
+use App\Models\ShipManage\Fuel;
 use App\Models\Convert\VoyLog;
+use App\Models\Finance\ReportSave;
 
 use App\Models\ShipTechnique\EquipmentUnit;
 
@@ -476,6 +482,16 @@ class ShipRegController extends Controller
             $shipId = $firstShipInfo->IMO_No;
         }
 
+        if(isset($params['year']))
+            $year = $params['year'];
+        else
+            $year = -1;
+
+        if(isset($params['type']))
+            $record_type = $params['type'];
+        else
+            $record_type = 'all';
+
         $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
         if($shipInfo == null || $shipInfo == false)
             return redirect()->back();
@@ -492,7 +508,9 @@ class ShipRegController extends Controller
             'shipInfo'          => $shipInfo,
             'shipId'            => $shipId,
             'shipName'          => $shipName,
-            'years'             => $yearList
+            'years'             => $yearList,
+            'activeYear'        => $year,
+            'record_type'       => $record_type
         ]);
     }
 
@@ -679,8 +697,8 @@ class ShipRegController extends Controller
 			if(isset($params['due_endorse'][$key]) && $params['due_endorse'][$key] != '' && $params['due_endorse'][$key] != EMPTY_DATE)
 			    $shipCertTbl['due_endorse'] = isset($params['due_endorse'][$key]) ? $params['due_endorse'][$key] : null;
 
-		    $shipCertTbl['issuer']      = isset($params['issuer'][$key]) ? $params['issuer'][$key] : '';
-		    $shipCertTbl['remark']      = isset($params['remark'][$key]) ? $params['remark'][$key] : '';
+		    $shipCertTbl['issuer'] = isset($params['issuer'][$key]) ? $params['issuer'][$key] : '';
+		    $shipCertTbl['remark'] = isset($params['remark'][$key]) ? $params['remark'][$key] : '';
 
 		    // Attachment Upload
 		    if($params['is_update'][$key] == IS_FILE_UPDATE) {
@@ -720,6 +738,100 @@ class ShipRegController extends Controller
 
 	    return redirect('shipManage/shipCertList?id=' . $shipId);
     }
+
+
+    public function saveShipEquipList(Request $request) {
+    	$params = $request->all();
+
+    	if(!isset($params['id']))
+    		return redirect()->back();
+
+        if(isset($params['shipId']))
+            $shipId = $params['shipId'];
+        else
+            return redirect()->back();
+
+        $ids = $params['id'];
+
+    	foreach($ids as $key => $id) {
+            $equipTbl = new ShipEquipment();
+    		if(isset($id) && $id != '') {
+                $equipTbl = ShipEquipment::find($id);
+            }
+
+            $equipTbl['shipId']   = $shipId;
+            $equipTbl['request_date'] = $params['request_date'][$key];
+            $equipTbl['supply_date'] = $params['supply_date'][$key];
+            $equipTbl['place'] = $params['place'][$key];
+            $equipTbl['type'] = $params['type'][$key];
+            $equipTbl['item'] = $params['item'][$key];
+            $equipTbl['issa_no'] = $params['issa_no'][$key];
+            $equipTbl['inventory_vol'] = _convertStr2Int($params['inventory_vol'][$key]);
+            $equipTbl['request_vol'] = _convertStr2Int($params['request_vol'][$key]);
+            $equipTbl['supply_vol'] = _convertStr2Int($params['supply_vol'][$key]);
+            $equipTbl['unit'] = $params['unit'][$key];
+            $equipTbl['remark'] = $params['remark'][$key];
+            $equipTbl->save();
+        }
+
+	    return redirect('shipManage/equipment?id=' . $shipId);
+    }
+
+    public function saveShipReqEquipList(Request $request) {
+    	$params = $request->all();
+
+    	if(!isset($params['id']))
+    		return redirect()->back();
+
+        if(isset($params['shipId']))
+            $shipId = $params['shipId'];
+        else
+            return redirect()->back();
+
+        $ids = $params['id'];
+
+    	foreach($ids as $key => $id) {
+            $equipTbl = new ShipEquipmentRequire();
+    		if(isset($id) && $id != '') {
+                $equipTbl = ShipEquipmentRequire::find($id);
+            }
+
+            $equipTbl['shipId']   = $shipId;
+            $equipTbl['place'] = $params['place'][$key];
+            $equipTbl['item'] = $params['item'][$key];
+            $equipTbl['inventory_vol'] = _convertStr2Int($params['inventory_vol'][$key]);
+            $equipTbl['require_vol'] = _convertStr2Int($params['require_vol'][$key]);
+            $equipTbl['unit'] = $params['unit'][$key];
+            $equipTbl['status'] = $params['status'][$key];
+            $equipTbl['remark'] = $params['remark'][$key];
+            $equipTbl->save();
+        }
+
+	    return redirect('shipManage/equipment?id=' . $shipId);
+    }
+
+    public function saveShipReqEquipType(Request $request) {
+    	$params = $request->all();
+
+		$cert_ids = $params['id'];
+		foreach($cert_ids as $key => $item) {
+			$certTbl = new ShipEquipmentRequireKind();
+			if($item != '' && $item != null) {
+				$certTbl = ShipEquipmentRequireKind::find($item);
+			}
+
+			if($params['order_no'][$key] != '' && $params['name'][$key] != '') {
+				$certTbl['order_no'] = $params['order_no'][$key];
+				$certTbl['name'] = $params['name'][$key];
+
+				$certTbl->save();
+			}
+		}
+
+		$retVal = ShipEquipmentRequireKind::all();
+
+		return response()->json($retVal);
+    }        
 
 	public function saveShipCertType(Request $request) {
 		$params = $request->all();
@@ -958,88 +1070,42 @@ class ShipRegController extends Controller
 
     // 배설비관리
     public function shipEquipmentManage(Request $request) {
-        Util::getMenuInfo($request);
+        $shipList = ShipRegister::all();
 
-        $shipRegList = ShipRegister::getShipListByOrigin();
-        $shipId = $request->get('shipId');
+        $params = $request->all();
 
-        $mainKind = ShipEquipmentMainKind::all();
-	    $kindList = array();
-	    foreach($mainKind as $key => $item)
-		    $kindList[$item['id']] = $item['Kind_Cn'];
+        $shipRegTbl = new ShipRegister();
 
-        foreach($mainKind as $kind) {
-            $subKinds = ShipEquipmentSubKind::subKindByShip($shipId, $kind['id']);
-            $kind['subKind'] = $subKinds;
+        $shipName  = '';
+        if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else {
+            if(count($shipList) > 0) {
+                $shipId = $shipList[0]['IMO_No'];
+            } else {
+                $shipId = 0;
+            }
         }
 
-        $allMainKind = ShipEquipmentMainKind::all();
-        foreach($allMainKind as $kind) {
-            $subKinds = ShipEquipmentSubKind::where('Kind', $kind['id'])->get();
-            $kind['subKind'] = $subKinds;
-        }
+        $shipName = $shipRegTbl->getShipNameByIMO($shipId);        
 
-        $primaryShipId = null;
-        if(isset($shipRegList) && count($shipRegList) > 0)
-        	$primaryShipId = $shipRegList[0]->ShipRegNo;
+        $tbl = new ShipEquipment();
+        $yearList = $tbl->getYearList($shipId);
 
-        $registeredList = null;
-        $diligenceList = null;
-        
-        $list = array();
-	    if(isset($shipRegList) && count($shipRegList) > 0) {
-		    if(empty($shipId)) {
-				$shipId = $shipRegList[0]->RegNo;
-		    }
-		    $list = ShipEquipment::select('tb_ship_equipment_diligence.IssaCodeNo', 'tb_ship_equipment_diligence.remain_count', 'tb_ship_equipment_diligence.diligence_at', 'tb_ship_equipment_diligence.status as Status', 'tb_ship_equipment.*')
-			    ->leftJoin('tb_ship_equipment_diligence', 'tb_ship_equipment_diligence.IssaCodeNo', '=', 'tb_ship_equipment.IssaCodeNo')
-			    ->where('tb_ship_equipment.ShipRegNo', $shipId)
-			    ->where('tb_ship_equipment.supplied_at', '!=', "")
-			    ->orderBy('tb_ship_equipment.supplied_at', 'desc')
-			    ->orderBy('tb_ship_equipment.create_at', 'desc')
-			    ->get();
+        if(isset($params['year'])) {
+            $activeYear = $params['year'];
+         } else {
+            $activeYear = $yearList[0];
+         }
 
-		    $registeredList = ShipEquipment::select('tb_ship_equipment.*')
-			    ->where('tb_ship_equipment.ShipRegNo', $shipId)
-			    ->where('tb_ship_equipment.supplied_at', '=', null)
-			    ->orWhere('tb_ship_equipment.supplied_at', 'like', "%0000-00-00%")
-			    ->orderBy('tb_ship_equipment.supplied_at', 'desc')
-			    ->orderBy('tb_ship_equipment.create_at', 'desc')
-			    ->get();
+        return view('shipManage.ship_equipment', [
+            'shipList'      => $shipList,
+            'shipId'        => $shipId,
+            'shipName'      => $shipName,
 
-		    $diligenceList = ShipDiligence::select('tb_ship_equipment_diligence.*')
-			    ->where('tb_ship_equipment_diligence.ShipRegNo', $shipId)
-			    ->orderBy('tb_ship_equipment_diligence.diligence_at', 'desc')
-			    ->orderBy('tb_ship_equipment_diligence.create_at', 'desc')
-			    ->get();
-	    }
-
-	    $shipNameInfo = null;
-	    if(!empty($shipId))
-		    $shipNameInfo = ShipRegister::getShipFullNameByRegNo($shipId);
-
-	    $unitList = ShipEquipmentUNits::all();
-
-        $status = Session::get('status');
-        
-        return view('shipManage.ship_equipment_manage',
-            [   'shipName'      =>  $shipNameInfo,
-                'shipList'      =>  $shipRegList,
-                'allKind'       =>  $allMainKind,
-                'kindList'      =>  $mainKind,
-                'kindLabelList' =>  $kindList,
-                'shipId'        =>  $shipId,
-
-                'unitList'      => $unitList,
-
-                'list'          =>  $list,
-                'registeredList'    => $registeredList,
-	            'diligenceList'     => $diligenceList,
-
-                'shipID'        =>  $shipId,
-                'kindId'        =>  null,
-                'status'        =>  $status
-            ]);
+            'years'         => $yearList,
+            'activeYear'    => $activeYear
+        ]);
     }
 
     public function shipEquepmentByKind(Request $request) {
@@ -1971,4 +2037,263 @@ class ShipRegController extends Controller
 
         return response()->json($retVal);
     }    
+
+    public function ajaxDynamicSearch(Request $request) {
+        $params = $request->all();
+
+        if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else {
+            return redirect()->back();
+        }
+
+        $year = $params['year'];
+
+        $fuelList = Fuel::where('shipId', $shipId)->where('year', $year)->get();
+        if(!isset($fuelList) || count($fuelList) == 0) {
+            $voyTbl = VoyLog::where('Ship_ID', $shipId);
+            $voyTbl2 = VoyLog::where('Ship_ID', $shipId)->where('Voy_Status', DYNAMIC_CMPLT_DISCH);
+            $voyTbl3 = VoyLog::where('Ship_ID', $shipId);
+            $prevData = null;
+            if(isset($params['type']) && isset($params['type']) != '') {
+                if($params['type'] == 'all') {
+                    if(isset($params['year']) && $params['year'] != 0 && isset($params['voyId']) && $params['voyId'] == 0) {
+                        $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
+                        $voyTbl3->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
+                        $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('CP_ID', 'asc');
+                    }
+            
+                    if(isset($params['voyId']) && $params['voyId'] != 0) {
+                        $voyTbl->where('CP_ID', $params['voyId']);
+                        $voyTbl3->where('CP_ID', $params['voyId']);
+                        $voyTbl2->where('CP_ID', '<', $params['voyId'])->orderBy('CP_ID', 'desc');
+                    }
+    
+                } else if($params['type'] == 'analyze') {
+                    if(isset($params['year']) && $params['year'] != 0) {
+                        $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
+                        $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'desc');
+                    }
+            
+                    $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
+                    $voyTbl2->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');
+                }
+            }
+    
+    
+            $retVal['currentData'] = $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->get();
+            $prevData = $voyTbl2->first();
+            if($prevData == null)
+                $prevData = $voyTbl->first();
+    
+            $retVal['prevData'] = $prevData;
+            $retVal['max_date'] = $voyTbl3->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->orderBy('Voy_Date', 'desc')->orderBy('Voy_Hour', 'desc')->orderBy('Voy_Minute', 'desc')->orderBy('GMT', 'desc')->first();
+            if($retVal['max_date'] == null)
+                $retVal['max_date'] = false;
+    
+            $retVal['min_date'] = $prevData;
+            if($retVal['min_date'] == null)
+                $retVal['min_date'] = false;
+                
+            if($params['type'] == 'analyze') {
+                $retTmp = [];
+                $voyArray = [];
+                $tmpVoyId = 0;
+                $cp_list = [];
+                foreach($retVal['currentData'] as $key => $item) {
+                    if(!in_array($item->CP_ID, $voyArray)) {
+                        $voyArray[] = $item->CP_ID;
+    
+                        $cp_list = CP::where('Ship_ID', $shipId)->where('Voy_No', $item->CP_ID)->orderBy('Voy_No', 'desc')->get();
+                        foreach($cp_list as $cp_key => $cp_item) {
+                            $LPort = $cp_item->LPort;
+                            $LPort = explode(',', $LPort);
+                            $LPort = ShipPort::whereIn('id', $LPort)->get();
+                            $tmp = '';
+                            foreach($LPort as $port)
+                                $tmp .= $port->Port_En . ', ';
+                            $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
+                
+                            $DPort = $cp_item->DPort;
+                
+                            $DPort = $cp_item->DPort;
+                            $DPort = explode(',', $DPort);
+                            $DPort = ShipPort::whereIn('id', $DPort)->get();
+                            $tmp = '';
+                            foreach($DPort as $port)
+                                $tmp .= $port->Port_En . ', ';
+                            $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
+                        }
+                        $retVal['cpData'][$item->CP_ID] = $cp_list[0];
+                    }
+    
+                    
+                    $year = $params['year'];
+    
+                    $selector = ReportSave::where('type', 0)
+                        ->where('shipNo',   $shipId)
+                        ->where('voyNo',    $item->CP_ID)
+                        ->where('year',     $year)
+                        ->where('flowid',   REPORT_TYPE_EVIDENCE_OUT)
+                        ->where('profit_type',  OUTCOME_FEE2)  //OUTCOME_FEE2 = 2		OUTCOME_FEE2 => '油款',
+                        ->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum');
+                    
+                    $sum = $selector->first();
+    
+                    $item->fuelSum = $sum->sum;
+    
+                    $retTmp[$item->CP_ID][] = $item;
+                    $tmpVoyId = $item->CP_ID;
+                }
+    
+                $retVal['currentData'] = $retTmp;
+                $retVal['voyData'] = $voyArray;
+            }
+
+            $retVal['is_exist'] = false;
+        } else {
+            $retVal['currentData'] = $fuelList;
+            $retVal['is_exist'] = true;
+        }
+
+
+        return response()->json($retVal);
+    }
+
+    public function fuelSave(Request $request) {
+        $params = $request->all();
+
+
+        if(!isset($params['shipId']))
+            return redirect()->back();
+        
+        $shipId = $params['shipId'];
+        $year = $params['year'];
+        $ids = $params['id'];
+        
+        // var_dump($params);die;
+        foreach($ids as $key => $id) {
+            $tbl = new Fuel();
+            if($id != '') {
+                $tbl = Fuel::find($id);
+            }
+            
+            $tbl['shipId'] = $shipId;
+            $tbl['year'] = $year;
+            
+            $tbl['voy_no'] = $params['voy_no'][$key];
+            $tbl['avg_speed'] = $params['avg_speed'][$key];
+            $tbl['up_rob_fo'] = $params['up_rob_fo'][$key];
+            $tbl['up_rob_do'] = $params['up_rob_do'][$key];
+            $tbl['down_rob_fo'] = $params['down_rob_fo'][$key];
+            $tbl['down_rob_do'] = $params['down_rob_do'][$key];
+            $tbl['bunk_fo'] = $params['bunk_fo'][$key];
+            $tbl['bunk_do'] = $params['bunk_do'][$key];
+            $tbl['rob_fo'] = $params['rob_fo'][$key];
+            $tbl['rob_do'] = $params['rob_do'][$key];
+            $tbl['used_fo'] = $params['used_fo'][$key];
+            $tbl['used_do'] = $params['used_do'][$key];
+            $tbl['saved_fo'] = $params['saved_fo'][$key];
+            $tbl['saved_do'] = $params['saved_do'][$key];
+            $tbl['fuelSum'] = $params['fuelSum'][$key];
+            $tbl['oil_price_fo'] = $params['oil_price_fo'][$key];
+            $tbl['oil_price_do'] = $params['oil_price_do'][$key];
+            $tbl['oil_price_else'] = $params['oil_price_else'][$key];
+            $tbl['remark'] = $params['remark'][$key];
+
+		    // Attachment Upload
+		    if($params['is_up_update'][$key] == IS_FILE_UPDATE) {
+			    if($request->hasFile('attachment_up')) {
+			    	$file = $request->file('attachment_up')[$key];
+				    $fileName = $file->getClientOriginalName();
+				    $name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path() . '/fuelManage/', $name);
+                    
+                    $tbl['is_up_attach'] = 0;
+				    $tbl['attachment_url_up'] = public_path('/shipCertList/') . $name;
+				    $tbl['attachment_link_up'] = url() . '/shipCertList/' . $name;
+                }
+            } else if($params['is_up_update'][$key] == IS_FILE_DELETE) {
+                $tbl['is_up_attach'] = 1;
+                $tbl['attachment_url_up'] = '';
+                $tbl['attachment_link_up'] = '';
+            }
+
+            if($params['is_down_update'][$key] == IS_FILE_UPDATE) {
+                if($request->hasFile('attachment_down')) {
+			    	$file = $request->file('attachment_down')[$key];
+				    $fileName = $file->getClientOriginalName();
+				    $name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+				    $file->move(public_path() . '/fuelManage/', $name);
+
+                    $tbl['is_down_attach'] = 0;
+				    $tbl['attachment_url_down'] = public_path('/shipCertList/') . $name;
+				    $tbl['attachment_link_down'] = url() . '/shipCertList/' . $name;
+			    }
+
+		    } else if($params['is_down_update'][$key] == IS_FILE_DELETE) {
+                $tbl['is_down_attach'] = 1;
+                $tbl['attachment_url_down'] = '';
+                $tbl['attachment_link_down'] = '';
+            }
+
+            
+            $tbl->save();
+        }
+
+        return redirect()->back();
+        
+    }
+
+    public function ajaxEquipmentList(Request $request) {
+    	$params = $request->all();
+        
+        $equipTbl = new ShipEquipment();
+        $record = $equipTbl->getEquipmentList($params);
+
+    	return response()->json($record);
+    }
+
+    public function ajaxShipEquipDelete(Request $request) {
+		$params = $request->all();
+
+		$retVal = ShipEquipment::where('id', $params['id'])->delete();
+
+		return response()->json($retVal);
+	}
+
+    public function ajaxReqEquipmentList(Request $request) {
+    	$params = $request->all();
+        
+        $equipTbl = new ShipEquipmentRequire();
+        $record = $equipTbl->getEquipmentList($params);
+
+    	return response()->json($record);
+    }
+
+    public function ajaxShipReqEquipDelete(Request $request) {
+		$params = $request->all();
+
+		$retVal = ShipEquipmentRequire::where('id', $params['id'])->delete();
+
+		return response()->json($retVal);
+    }
+    
+    public function ajaxShipReqEquipTypeList(Request $request) {
+    	$params = $request->all();
+        
+        $list = ShipEquipmentRequireKind::all();
+
+    	return response()->json($list);
+    }
+
+    public function ajaxShipReqEquipTypeDelete(Request $request) {
+		$params = $request->all();
+
+        $retVal = ShipEquipmentRequireKind::where('id', $params['id'])->delete();
+        
+        $retVal = ShipEquipmentRequireKind::all();
+
+		return response()->json($retVal);
+	}    
 }

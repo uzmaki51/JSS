@@ -123,7 +123,22 @@ body * {
     display: inline-block;
     margin: 0; }
 
-.table-striped>tbody>tr:nth-child(even)>td,.table-striped>tbody>tr:nth-child(even)>th{background-color: #efefef;}
+
+.table-striped tbody .odd td,
+.table-striped tbody .odd td input,
+.table-striped tbody .odd td .dynamic-select__trigger,
+.table-striped tbody .odd td select,
+.table-striped tbody .odd td textarea {
+    background: #efefef!important;
+}
+
+
+.table-striped tbody .even td,
+.table-striped tbody .even td input,
+.table-striped tbody .even td .dynamic-select__trigger,
+.table-striped tbody .even td select,
+.table-striped tbody .even td textarea
+ {background-color: #ffffff!important;}
 
 #tree {
     max-height: 300px;

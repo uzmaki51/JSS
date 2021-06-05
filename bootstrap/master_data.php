@@ -437,6 +437,41 @@ define('OBJECT_TYPE_SHIP', 		'1');
 define('OBJECT_TYPE_PERSON', 	'2');
 
 
+define('PLACE_TYPE_DECK', 		1);
+define('PLACE_TYPE_ENGINE', 	2);
+define('PLACE_TYPE_ELSE', 		3);
+
+$PlaceType = array(
+	PLACE_TYPE_DECK			=> '甲板',
+	PLACE_TYPE_ENGINE		=> '机舱',
+	PLACE_TYPE_ELSE			=> '其他',
+);
+
+define('VARIETY_TYPE_PRE', 					1);
+define('VARIETY_TYPE_SPARE', 				2);
+define('VARIETY_TYPE_MAINFRAME', 			3);
+define('VARIETY_TYPE_AX_MACHINE', 			4);
+define('VARIETY_TYPE_BOILER', 				5);
+define('VARIETY_TYPE_DEVICE', 				6);
+define('VARIETY_TYPE_TOOLS', 				7);
+define('VARIETY_TYPE_ELSE', 				8);
+
+$VarietyType = array(
+	VARIETY_TYPE_PRE			=> 	'备用品',
+	VARIETY_TYPE_SPARE 			=> 	'备件',
+	VARIETY_TYPE_MAINFRAME 		=>	'主机',
+	VARIETY_TYPE_AX_MACHINE 	=>	'辅机',
+	VARIETY_TYPE_BOILER 		=>	'锅炉',
+	VARIETY_TYPE_DEVICE 		=>	'机械',
+	VARIETY_TYPE_TOOLS 			=>	'工具',
+	VARIETY_TYPE_ELSE 			=>	'其他',
+);
+
+$UnitData = array(
+	'PCS', 'SET', 'BTL', 'BOX', 'M', 'MT', 'kg', 'DRM', 'SHT', 'ROL', 'LTR', '㎡', 'm³', '㎠', ' ㎤'
+);
+
+
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,
 	    'ReportTypeLabelData'	        => $ReportTypeLabelData,
@@ -462,5 +497,8 @@ define('OBJECT_TYPE_PERSON', 	'2');
 		'DynamicSub'					=> $DynamicSub,
 		'ProfitTypeData'				=> $ProfitTypeData,
 		'ProfitDebitData'				=> $ProfitDebitData,
+		'PlaceType'						=> $PlaceType,
+		'VarietyType'					=> $VarietyType,
+		'UnitData'						=> $UnitData,
 
  );

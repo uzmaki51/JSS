@@ -4376,7 +4376,7 @@ class BusinessController extends Controller {
         }
 
         return response()->json($retVal);
-    }    
+    }
 
     public function ajaxVoyAllList(Request $request) {
         $params = $request->all();

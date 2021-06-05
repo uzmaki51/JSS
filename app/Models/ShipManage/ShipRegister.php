@@ -123,4 +123,15 @@ class ShipRegister extends Model
 
     }
 
+    public function getShipNameByIMO($shipId) {
+        $info = self::where('IMO_No', $shipId)
+            ->first();
+
+        if($info == null) {
+            return '';
+        } else {
+            return $info->NickName != '' && $info->NickName != null ? $info->NickName : $info->shipName_En;
+        }
+    }
+
 }

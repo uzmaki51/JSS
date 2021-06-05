@@ -410,6 +410,8 @@
         var DYNAMIC_SUB_REPAIR = '{!! DYNAMIC_SUB_REPAIR !!}';
         var DYNAMIC_SUB_SUPPLY = '{!! DYNAMIC_SUB_SUPPLY !!}';
         var DYNAMIC_SUB_ELSE = '{!! DYNAMIC_SUB_ELSE !!}';
+        var RECORD_TYPE = '{!! $record_type !!}';
+        var ACTIVE_YEAR = '{!! $activeYear !!}';
 
         
         var DYNAMIC_SAILING = '{!! DYNAMIC_SAILING !!}';
@@ -436,7 +438,7 @@
                         discharge: '',
                     },
                     activeVoy: 0,
-                    activeYear: activeYear,
+                    activeYear: ACTIVE_YEAR == -1 ? activeYear : ACTIVE_YEAR,
 
                     prevData: [],
                     currentData: {
@@ -467,7 +469,7 @@
                     save_fo:                0,
                     save_do:                0,
 
-                    record_type:            'all',
+                    record_type:            RECORD_TYPE,
                     page_title:             '动态记录',
 
                     analyze: {
@@ -1077,12 +1079,16 @@
                 success: function(result) {
                     searchObj.voy_list = [];
                     searchObj.voy_list = Object.assign([], [], result);
+
                     if(searchObj.voy_list.length > 0) {
                         searchObj.activeVoy = searchObj.voy_list[0]['Voy_No'];
                     }
-
-                    searchObj.setPortName();
-                    searchObj.getData();
+                    
+                    // searchObj.setPortName();
+                    if(searchObj.record_type == 'all')
+                        searchObj.getData();
+                    else
+                        searchObj.getAnalyzeData();
                 }
             });
             // $.ajax({

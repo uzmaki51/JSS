@@ -116,6 +116,16 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipManage/cert/delete', ['uses'=>'ShipManage\ShipRegController@ajaxCertItemDelete']);
 	Route::post('shipManage/shipCert/delete', ['uses'=>'ShipManage\ShipRegController@ajaxShipCertDelete']);
 
+
+	Route::post('shipManage/dynamic/search', ['uses'	=> 'ShipManage\ShipRegController@ajaxDynamicSearch']);
+	Route::post('shipManage/equipment/list', ['uses'	=> 'ShipManage\ShipRegController@ajaxEquipmentList']);
+	Route::post('shipManage/equipment/delete', ['uses'	=> 'ShipManage\ShipRegController@ajaxShipEquipDelete']);
+
+	Route::post('shipManage/equipment/require/list', ['uses'	=> 'ShipManage\ShipRegController@ajaxReqEquipmentList']);
+	Route::post('shipManage/equipment/require/delete', ['uses'	=> 'ShipManage\ShipRegController@ajaxShipReqEquipDelete']);
+	Route::post('shipManage/equipment/require/type/list', ['uses'	=> 'ShipManage\ShipRegController@ajaxShipReqEquipTypeList']);
+	Route::post('shipManage/equipment/require/type/delete', ['uses'	=> 'ShipManage\ShipRegController@ajaxShipReqEquipTypeDelete']);
+
 	//Business
 	Route::post('business/cp/list', ['uses'	=> 'Business\BusinessController@ajaxCPList']);
 	Route::post('business/cp/delete', ['uses'	=> 'Business\BusinessController@ajaxVoyDelete']);
@@ -561,6 +571,13 @@ Route::group(['prefix' => 'shipManage'], function() {
 	Route::post('deleteEquipmentPart', ['uses'=>'ShipManage\ShipRegController@deleteEquipmentPart']);
 	
 	Route::get('fuelManage', ['uses'=>'ShipManage\ShipRegController@fuelManage']);
+	Route::post('fuelSave', ['uses'=>'ShipManage\ShipRegController@fuelSave']);
+
+	Route::get('equipment', ['uses'=>'ShipManage\ShipRegController@shipEquipmentManage']);
+	Route::post('shipEquipmentList', ['uses'=>'ShipManage\ShipRegController@saveShipEquipList']);
+
+	Route::post('shipReqEquipmentList', ['uses'=>'ShipManage\ShipRegController@saveShipReqEquipList']);
+	Route::post('saveShipReqEquipmentType', ['uses'=>'ShipManage\ShipRegController@saveShipReqEquipType']);
 
     // Excel 출력
     // 배제원

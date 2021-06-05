@@ -18892,7 +18892,7 @@ input[readonly]:focus {
     -webkit-box-shadow: none;
     box-shadow: none;
     border-color: unset;
-    background-color: #f9f9f9
+    background-color: transparent;
 }
 
 .help-inline {

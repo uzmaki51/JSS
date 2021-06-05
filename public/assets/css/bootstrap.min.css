@@ -1420,9 +1420,9 @@ th {
     border-bottom-width: 1px
 }
 
-.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
-    background-color: #fefdfd;
-}
+// .table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+//     background-color: #fefdfd;
+// }
 
 .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
     background-color: #ffe3e082;
@@ -1609,7 +1609,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
     cursor: default;
-    background-color: #eee
+    background-color: #fff
 }
 
 textarea.form-control {
