@@ -96,7 +96,7 @@ class DecisionReport extends Model {
 		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
 		$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
 			
-		$selector->where('create_at', '>=', $now)->where('create_at', '<', $next);
+		$selector->where('report_date', '>=', $now)->where('report_date', '<', $next);
 		$recordsFiltered = $selector->count();
 		$records = $selector->get();
 		foreach($records as $index => $record) {
@@ -107,7 +107,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['flowid'] = $record->flowid;
 			$newArr[$newindex]['report_no'] = $record->report_id;
 			$newArr[$newindex]['book_no'] = '';
-			$newArr[$newindex]['datetime'] = $record->create_at;
+			$newArr[$newindex]['datetime'] = $record->report_date;
 			/*
 			$ship = ShipRegister::where('IMO_No', $record->shipNo)->first();
 			$newArr[$newindex]['obj'] = $ship->NickName;
@@ -153,6 +153,117 @@ class DecisionReport extends Model {
         ];
 	}
 
+	public function calcProfitList($shipid, $year, $month) {
+		$newArr = [];
+		$count = 0;
+
+		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('year', $year);
+		if ($month != null) {
+			$selector = $selector->where('month', $month);
+		}
+		// 办公费:13, 兑换:14
+		$selector = $selector->whereNotIn('profit_type',[13,14])
+		->groupBy('flowid','profit_type')
+		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, currency')
+		->groupBy('flowid');
+
+		$cost_records = $selector->get();
+		$credit_sum = 0;
+		$debit_sum = 0;
+		$profit_sum = 0;
+
+		foreach($cost_records as $cost) {
+			if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
+				$credit_sum += $cost->sum;
+			}
+			else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT) {
+				$newArr[$cost->profit_type] = $cost->sum;
+				$debit_sum += $cost->sum;
+			}
+		}
+		$profit_sum = $credit_sum - $debit_sum;
+		$result['data'] = $newArr;
+		$result['credit_sum'] = $credit_sum;
+		$result['debit_sum'] = $debit_sum;
+		$result['profit_sum'] = $profit_sum;
+
+		return $result;
+	}
+
+	/// incomeExpenseAll -> Table
+	public function getListByAll($params) {
+		if (!isset($params['columns'][1]['search']['value']) ||
+            $params['columns'][1]['search']['value'] == '' ||
+			!isset($params['columns'][2]['search']['value']) ||
+            $params['columns'][2]['search']['value'] == ''
+        ) {
+            $year = $params['year'];
+        	$shipids = $params['shipId'];
+        }
+		else
+		{
+			$year = $params['columns'][1]['search']['value'];
+			$shipids = explode(",",$params['columns'][2]['search']['value']);
+		}
+
+		// Prev Year Profit
+		$prevProfit = [];
+		foreach($shipids as $shipid) {
+			$prevProfit[$shipid] = $this->calcProfitList($shipid, $year-1, null);
+		}
+
+		// Profit Per Every Month 
+		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year', $year);
+		$selector = $selector->whereNotIn('profit_type',[13,14])
+		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
+		->groupBy('flowid','profit_type','shipNo');
+		$records = $selector->get();
+
+		$result = [];
+		foreach($shipids as $shipid)
+		{
+			$result[$shipid]['prevProfit'] = 0;
+			for ($i=0;$i<12;$i++)
+			{
+				$result[$shipid]['months'][$i] = 0;
+				$result[$shipid]['sum_months'][$i] = 0;
+			}
+			for ($i=1;$i<16;$i++)
+			{
+				$result[$shipid]['debits'][$i] = 0;
+			}
+			$result[$shipid]['credit_sum'] = 0;
+			$result[$shipid]['debit_sum'] = 0;
+		}
+		foreach($records as $index => $record) {
+			if ($record['flowid'] == "Credit") {
+				$result[$record['shipNo']]['months'][$record['month']-1] += $record['sum'];
+				$result[$record['shipNo']]['credit_sum'] += $record['sum'];
+			}
+			else if ($record['flowid'] == "Debit") {
+				$result[$record['shipNo']]['months'][$record['month']-1] -= $record['sum'];
+				$result[$record['shipNo']]['debits'][$record['profit_type']] += $record['sum'];
+				$result[$record['shipNo']]['debit_sum'] += $record['sum'];
+			}
+		}
+		foreach($shipids as $shipid) {
+			if (isset($prevProfit[$shipid])) {
+				$result[$shipid]['prevProfit'] = $prevProfit[$shipid]['profit_sum'];
+			} else {
+				$result[$shipid]['prevProfit'] = 0;
+			}
+
+			$sum = 0;
+			for ($i=0;$i<12;$i++) {
+				$sum += $result[$shipid]['months'][$i];
+				$result[$shipid]['sum_months'][$i] = $sum;
+			}
+		}
+
+		return $result;
+	}
+
+	/// incomeExpense -> Table, Graph
 	public function getIncomeExportList($params) {
 		if (!isset($params['columns'][1]['search']['value']) ||
             $params['columns'][1]['search']['value'] == '' ||
@@ -168,15 +279,18 @@ class DecisionReport extends Model {
 			$shipid = $params['columns'][2]['search']['value'];
 		}
 
-		$start = date('Y-m-d', strtotime("$year-01-01"));
-		$end = date('Y-m-d', strtotime("$year-12-31"));
-		$selector = CP::where('Ship_ID', $shipid)->where('CP_Date', '<=' , $end)->where('CP_Date', '>=', $start);
+		//$start = date('Y-m-d', strtotime("$year-01-01"));
+		//$end = date('Y-m-d', strtotime("$year-12-31"));
+		//$selector = CP::where('Ship_ID', $shipid)->where('CP_Date', '<=' , $end)->where('CP_Date', '>=', $start);
+		$selector = CP::where('Ship_ID', $shipid);
 		$records = $selector->orderBy('Voy_No', 'asc')->get();
 		$count = $selector->count();
 		$total_profit = 0;
-		
+
 		foreach($records as $index => $record) {
-			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo',$record->Voy_No)
+			//$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo',$record->Voy_No)
+			//$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo',$record->Voy_No)->where('year', '<=' , $end)->where('report_date', '>=', $start)
+			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo',$record->Voy_No)->where('year', $year)
 				->groupBy('flowid','profit_type')
 				->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, currency')
 				->groupBy('flowid');
@@ -186,10 +300,10 @@ class DecisionReport extends Model {
 			$debit_sum = 0;
 			$profit_sum = 0;
 			foreach($cost_records as $cost) {
-				if ($cost->flowid=='Credit') {
+				if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
 					$credit_sum += $cost->sum;
 				}
-				else if ($cost->profit_type != 13 && $cost->profit_type != 14)
+				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != 13 && $cost->profit_type != 14)
 				{
 
 					$newArr[$cost->profit_type] = $cost->sum;
@@ -218,35 +332,21 @@ class DecisionReport extends Model {
 			$record->max_date = $max_date;
 		}
 		
-		$newArr = [];
-		$count = 0;
-		foreach($records as $index => $record) {
-			$newArr[$count] = $record;
-			$count++;
-			$newArr[$count] = $record;
-			$count++;
-			$newArr[$count] = $record;
-			$count++;
-			$newArr[$count] = $record;
-			$count++;
-			$newArr[$count] = $record;
-			$count++;
-		}
-
 		if (isset($params['draw'])) {
 			return [
 				'draw' => $params['draw']+0,
 				'recordsTotal' => DB::table($this->table)->count(),
 				'recordsFiltered' => $count,
-				'data' => $newArr,
+				'data' => $records,
 				'error' => 0,
 			];
 		} else {
-			return $newArr;
+			return $records;
 		}
 		
 	}
 
+	// incomeExpense -> SOA
 	public function getListBySOA($params) {
 		if (!isset($params['columns'][1]['search']['value']) ||
             $params['columns'][1]['search']['value'] == '' ||
@@ -283,7 +383,7 @@ class DecisionReport extends Model {
 				if ($record->currency == 'USD') $amount = $record->rate * $amount;
 			}
 
-			if ($record->flowid=='Credit') {
+			if ($record->flowid==REPORT_TYPE_EVIDENCE_IN) {
 				$newArr[$newindex]['credit'] = $amount;
 				$newArr[$newindex]['debit'] = '';
 			} else
@@ -383,7 +483,7 @@ class DecisionReport extends Model {
 		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
 		$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
 			
-		$selector->where('create_at', '>=', $now)->where('create_at', '<', $next);
+		$selector->where('report_date', '>=', $now)->where('report_date', '<', $next);
 		$recordsFiltered = $selector->count();
 		$records = $selector->get();
 
@@ -394,7 +494,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['flowid'] = $record->flowid;
 			$newArr[$newindex]['report_no'] = $record->report_id;
 			$newArr[$newindex]['book_no'] = '';
-			$newArr[$newindex]['datetime'] = $record->create_at;
+			$newArr[$newindex]['datetime'] = $record->report_date;
 			
 			if ($record->obj_type == 1) {
 				$newArr[$newindex]['ship_no'] = $record->shipNo;

@@ -663,12 +663,32 @@ class OperationController extends Controller
 
     //----------------- 수입지출 ------------------//
     public function incomeExpense(Request $request) {
-        $start_year = 2020;
-
+        $start_year = DecisionReport::select(DB::raw('MIN(create_at) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = substr($start_year['min_date'],0,4);
+        }
         $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
                         ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
                         ->get();
         return view('operation.incomeExpense', array(
+            'start_year' => $start_year,
+            'shipList'   => $shipList,
+        ));
+    }
+
+    public function incomeAllExpense(Request $request) {
+        $start_year = DecisionReport::select(DB::raw('MIN(create_at) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2020-01-01';
+        } else {
+            $start_year = substr($start_year['min_date'],0,4);
+        }
+        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                        ->get();
+        return view('operation.incomeAllExpense', array(
             'start_year' => $start_year,
             'shipList'   => $shipList,
         ));
@@ -689,6 +709,16 @@ class OperationController extends Controller
 
 		return response()->json($reportList);
     }
+
+    public function ajaxListByAll(Request $request) {
+        $params = $request->all();
+		$decideTbl = new DecisionReport();
+		$reportList = $decideTbl->getListByAll($params);
+
+		return response()->json($reportList);
+    }
+
+    
 
     public function import(Request $request)
     {
