@@ -7,7 +7,7 @@
  */
 namespace App\Http\Controllers\Business;
 
-use App\Helpers\calDate; //주계산 (수정:콤대->정은혁)
+use App\Helpers\calDate;
 
 
 use App\Http\Controllers\Controller;
@@ -4502,7 +4502,7 @@ class BusinessController extends Controller {
     function ajaxCtm(Request $request) {
         $params = $request->all();
 
-        $tbl = Ctm::orderBy('reg_date', 'desc');
+        $tbl = Ctm::orderBy('ctm_no', 'asc');
         $prevTbl = Ctm::orderBy('reg_date', 'desc');
         if(isset($params['shipId'])) {
             $shipId = $params['shipId'];
