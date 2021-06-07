@@ -145,21 +145,20 @@
                                             <input type="hidden" name="used_do[]" v-model="item.used_do">
                                         </td>
                                         <td class="center">
-                                            <input type="number" class="form-control text-center" name="voy_no[]" v-model="item.voy_no" readonly>
+                                            <input type="text" class="form-control text-center" name="voy_no[]" v-model="item.voy_no" readonly>
                                         </td>
                                         <td class="center">
-                                            <input type="number" class="form-control text-center" name="avg_speed[]" v-model="item.avg_speed" readonly>
+                                            <input type="text" class="form-control text-center" name="avg_speed[]" v-model="item.avg_speed" readonly>
                                         </td>
-
-
                                         <td class="center">
                                             <my-currency-input v-model="item.up_rob_fo" class="form-control text-center" name="up_rob_fo[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
                                         <td class="center">
                                             <my-currency-input v-model="item.up_rob_do" class="form-control text-center" name="up_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
                                         </td>
                                         <td class="center" style="width: 3%;">
+                                            <a :href="item.attachment_link_up" target="_blank"><img src="/assets/images/document.png" v-show="item.attachment_link_up != '' && item.attachment_link_up != null" width="15" height="15" style="cursor: pointer;"></a>
                                             <label v-bind:for="index + 'up'">
-                                                <img v-bind:src="getImage(item.up_file_name)" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name">
+                                                <img src="/assets/images/paper-clip.png" width="15" height="15" v-show="item.attachment_link_up == '' || item.attachment_link_up == null" style="cursor: pointer;" v-bind:title="item.file_name">
                                             </label>
                                             <input type="file" name="attachment_up[]" v-bind:id="index + 'up'" class="d-none" @change="onFileChange($event, 'up')" v-bind:data-index="index">
                                             <input type="hidden" name="is_up_update[]" v-bind:id="index + 'up_status'" class="d-none" v-bind:value="item.is_up_attach">
@@ -173,8 +172,9 @@
                                             <my-currency-input v-model="item.down_rob_do" class="form-control text-center" name="down_rob_do[]" v-bind:prefix="''" v-bind:fixednumber="1" v-bind:index="index"></my-currency-input>
                                         </td>
                                         <td class="center" style="width: 3%;">
-                                            <label v-bind:for="index + 'down'" v-show="!item.is_down_file">
-                                                <img v-bind:src="getImage(item.down_file_name)" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name">
+                                            <a :href="item.attachment_link_down" target="_blank"><img src="/assets/images/document.png" v-show="item.attachment_link_down != '' && item.attachment_link_down != null" width="15" height="15" style="cursor: pointer;"></a>
+                                            <label v-bind:for="index + 'down'">
+                                                <img src="/assets/images/paper-clip.png" v-show="item.attachment_link_down == '' || item.attachment_link_down == null" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name">
                                             </label>
                                             <input type="file" name="attachment_down[]" v-bind:id="index + 'down'" class="d-none" @change="onFileChange($event, 'down')" v-bind:data-index="index">
                                             <input type="hidden" name="is_down_update[]" v-bind:id="index + 'down_status'" class="d-none" v-bind:value="item.is_down_attach">
@@ -222,7 +222,7 @@
                                     </tr>
                                 </template>
 
-                                <tr class="dynamic-footer">
+                                <tr class="dynamic-footer bt-0">
                                     <td class="center">@{{ number_format(analyze.total.voy_count, 0) }}</td>
                                     <td class="center">@{{ number_format(analyze.total.average_speed) }}</td>
                                     <td class="center">@{{ number_format(analyze.total.total_up_rob_fo) }}</td>
@@ -295,27 +295,24 @@
         const DAY_UNIT = 1000 * 3600;
         const COMMON_DECIMAL = 2;
         var economic_graph = null;
-        var activeYear = $('[name=year_list]').val();
+        var activeYear = '{!! $activeYear !!}';
 
         var isChangeStatus = false;
-        var searchObjTmp = new Array();
+        var searchObjTmp = [];
         var submitted = false;
 
         $("form").submit(function() {
             submitted = true;
         });
 
+        var $form = '';
+        var origForm = "";
         window.addEventListener("beforeunload", function (e) {
             var confirmationMessage = 'It looks like you have been editing something. '
                 + 'If you leave before saving, your changes will be lost.';
+            let newForm = $('#record-form').serialize();
 
-            let currentObj = JSON.parse(JSON.stringify(searchObj.analyze.list));
-            if(JSON.stringify(searchObjTmp) != JSON.stringify(currentObj))
-                isChangeStatus = true;
-            else
-                isChangeStatus = false;
-
-            if (!submitted && isChangeStatus) {
+            if ((newForm !== origForm) && !submitted) {
                 (e || window.event).returnValue = confirmationMessage;
             }
 
@@ -492,21 +489,17 @@
                     onChangeYear: function(e) {
                         var confirmationMessage = 'It looks like you have been editing something. '
                                 + 'If you leave before saving, your changes will be lost.';
-                        let currentObj = JSON.parse(JSON.stringify(searchObj.analyze.list));
-                        if(JSON.stringify(searchObjTmp) != JSON.stringify(currentObj))
-                            isChangeStatus = true;
-                        else
-                            isChangeStatus = false;
-
-                        if (!submitted && isChangeStatus) {
-                            bootbox.confirm(confirmationMessage, function (result) {
-                                if (!result) {
-                                    return;
-                                }
-                                else {
+                        let newForm = $('#record-form').serialize();
+                        let currentVal = e.target.value;
+                        if(currentVal == searchObj.activeYear)
+                            if (!submitted && origForm != newForm) {
+                                if(window.confirm(confirmationMessage))
                                     searchObj.getVoyList();
+                                else {
+                                    e.preventDefault();
+                                    return false;
                                 }
-                            });
+                                    
                         } else {
                             this.getVoyList();
                         }
@@ -531,12 +524,14 @@
                         let index = e.target.getAttribute('data-index');
                         this.analyze.list[index]['is_attach'] = IS_FILE_UPDATE;
                         this.analyze.list[index][type + '_file_name'] = 'updated';
+                        this.analyze.list[index]['attachment_link_' + type] = 1;
                         this.analyze.list[index]['is_' + type + '_attach'] = IS_FILE_UPDATE;
                         isChangeStatus = true;
                         this.$forceUpdate();
                     },
                     removeFile(index, type) {
                         this.analyze.list[index][type + '_file_name'] = '';
+                        this.analyze.list[index]['attachment_link_' + type] = '';
                         this.analyze.list[index]['is_' + type + '_attach'] = IS_FILE_DELETE;
                         $('#' + index + 'up').val('');
                         this.$forceUpdate();
@@ -645,14 +640,13 @@
                                 year: searchObj.activeYear
                             },
                             success: function(result) {
-                                let currentData = result['currentData'];console.log(currentData);
+                                let currentData = result['currentData'];
                                 let is_exist = result['is_exist'];
                                 if(is_exist == false) {
                                     let voyData = result['voyData'];
                                     let cpData = result['cpData'];
 
                                     searchObj.analyze.list = [];
-                                    console.log(voyData);
                                     let realData = [];
                                     let footerData = [];
                                     footerData['voy_count'] = 0;
@@ -692,7 +686,6 @@
 
                                     voyData.forEach(function(value, key) {
                                         let tmpData = currentData[value];
-                                        console.log(tmpData);
                                         let total_sail_time = 0;
                                         let total_loading_time = 0;
                                         let loading_time = 0;
@@ -809,14 +802,13 @@
                                             down_rob_fo = __parseFloat(tmpData[length-1]['ROB_FO']);
                                             down_rob_do = __parseFloat(tmpData[length-1]['ROB_DO']);
                                         }
-                                        
+                                        console.log(total_sail_time, total_loading_time, total_waiting_time)
                                         realData.up_rob_fo = up_rob_fo;
                                         realData.up_rob_do = up_rob_do;
                                         realData.down_rob_fo = down_rob_fo;
                                         realData.down_rob_do = down_rob_do;
                                         realData.bunk_fo = bunk_fo;
                                         realData.bunk_do = bunk_do;
-                                        console.log(realData.down_rob_fo, realData.down_rob_do)
                                         let usedFoTmp1 = BigNumber(total_sail_time).multipliedBy(shipInfo['FOSailCons_S']).toFixed(1);
                                         let usedFoTmp2 = BigNumber(loading_time).multipliedBy(shipInfo['FOL/DCons_S']).toFixed(1);
                                         let usedFoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['FOIdleCons_S']).toFixed(1);
@@ -861,6 +853,8 @@
                                         realData.total_repair_time = total_repair_time.toFixed(COMMON_DECIMAL);
                                         realData.total_supply_time = total_supply_time.toFixed(COMMON_DECIMAL);
                                         realData.total_else_time = total_else_time.toFixed(COMMON_DECIMAL);
+                                        realData.up_file_name = '';
+                                        realData.down_file_name = '';
 
                                         // Calc Footer data
                                         footerData['sail_time'] += parseInt(realData['sail_time']);
@@ -874,7 +868,6 @@
                                         footerData['total_repair_time'] += parseFloat(realData['total_repair_time']);
                                         footerData['total_supply_time'] += parseFloat(realData['total_supply_time']);
                                         footerData['total_else_time'] += parseFloat(realData['total_else_time']);
-                                        console.log(realData.average_speed)
                                         footerData['average_speed'] += __parseFloat(BigNumber(realData.avg_speed).div(voyData.length).toFixed(1));
 
                                         footerData['total_up_rob_fo'] += __parseFloat(BigNumber(realData.up_rob_fo).toFixed(2));
@@ -897,15 +890,20 @@
                                         footerData['total_oil_price_else'] += __parseFloat(BigNumber(realData.oil_price_else).div(voyData.length).toFixed(2));
 
                                         searchObj.analyze.list.push(realData);
+                                        searchObjTmp += JSON.stringify({realData});
                                     });
                                     footerData['voy_count'] = voyData.length;
                                     searchObj.analyze.total = footerData;
+                                    // searchObjTmp = searchObj.analyze.list;
                                 } else {
                                     searchObj.analyze.list = currentData;
                                     searchObj.calculate();
+                                    searchObjTmp = Object.assign([], [], searchObj.analyze.list);
                                 }
-
-                                searchObjTmp = JSON.parse(JSON.stringify(searchObj.analyze.list));
+                                setTimeout(function() {
+                                    origForm = JSON.parse(JSON.stringify($('#record-form').serialize()));
+                                }, 500)
+                                
                             }
                         });
                     },
@@ -991,6 +989,12 @@
                     }).next().on(ace.click_event, function () {
                         $(this).prev().focus();
                     });
+
+                    // $form = $('#record-form');
+                    // if (origForm == "") {
+                    //     origForm = $('#record-form');
+                    //     console.log(origForm.serialize());
+                    // }
                 }
             });
 

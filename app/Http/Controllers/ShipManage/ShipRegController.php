@@ -1058,13 +1058,20 @@ class ShipRegController extends Controller
         $tbl = new VoyLog();
         $yearList = $tbl->getYearList($shipId);
 
+        if(isset($params['year']))
+            $year = $params['year'];
+        else {
+            $year = $yearList[0];
+        }
+
         $shipList = ShipRegister::all();
         return view('shipManage.fuel_manage', [
             'shipList'          => $shipList,
             'shipInfo'          => $shipInfo,
             'shipId'            => $shipId,
             'shipName'          => $shipName,
-            'years'             => $yearList
+            'years'             => $yearList,
+            'activeYear'        => $year
         ]);
     }
 
@@ -1077,14 +1084,24 @@ class ShipRegController extends Controller
         $shipRegTbl = new ShipRegister();
 
         $shipName  = '';
-        if(isset($params['shipId'])) {
-            $shipId = $params['shipId'];
+        if(isset($params['id'])) {
+            $shipId = $params['id'];
         } else {
             if(count($shipList) > 0) {
                 $shipId = $shipList[0]['IMO_No'];
             } else {
                 $shipId = 0;
             }
+        }
+
+        if(isset($params['type'])) {
+            if($params['type'] != 'record' || $params['type'] == 'require') {
+                $type = 'record';
+            } else {
+                $type = $params['type'];
+            }
+        } else {
+            $type = 'record';
         }
 
         $shipName = $shipRegTbl->getShipNameByIMO($shipId);        
@@ -2139,7 +2156,9 @@ class ShipRegController extends Controller
                                 $tmp .= $port->Port_En . ', ';
                             $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
                         }
-                        $retVal['cpData'][$item->CP_ID] = $cp_list[0];
+
+                        if(count($cp_list) > 0)
+                            $retVal['cpData'][$item->CP_ID] = $cp_list[0];
                     }
     
                     
@@ -2225,8 +2244,8 @@ class ShipRegController extends Controller
                     $file->move(public_path() . '/fuelManage/', $name);
                     
                     $tbl['is_up_attach'] = 0;
-				    $tbl['attachment_url_up'] = public_path('/shipCertList/') . $name;
-				    $tbl['attachment_link_up'] = url() . '/shipCertList/' . $name;
+				    $tbl['attachment_url_up'] = public_path('/fuelManage/') . $name;
+				    $tbl['attachment_link_up'] = url() . '/fuelManage/' . $name;
                 }
             } else if($params['is_up_update'][$key] == IS_FILE_DELETE) {
                 $tbl['is_up_attach'] = 1;
@@ -2242,8 +2261,8 @@ class ShipRegController extends Controller
 				    $file->move(public_path() . '/fuelManage/', $name);
 
                     $tbl['is_down_attach'] = 0;
-				    $tbl['attachment_url_down'] = public_path('/shipCertList/') . $name;
-				    $tbl['attachment_link_down'] = url() . '/shipCertList/' . $name;
+				    $tbl['attachment_url_down'] = public_path('/fuelManage/') . $name;
+				    $tbl['attachment_link_down'] = url() . '/fuelManage/' . $name;
 			    }
 
 		    } else if($params['is_down_update'][$key] == IS_FILE_DELETE) {
@@ -2256,7 +2275,7 @@ class ShipRegController extends Controller
             $tbl->save();
         }
 
-        return redirect()->back();
+        return redirect('/shipManage/fuelManage?shipId=' . $params['shipId'] . '&year=' . $params['year']);
         
     }
 

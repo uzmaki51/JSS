@@ -1,8 +1,8 @@
 <div id="equipment-list" v-cloak>
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-7">
             <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
-            <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;">
+            <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;" @change="onChangeShip" v-model="shipId">
                 @foreach($shipList as $ship)
                     <option value="{{ $ship['IMO_No'] }}"
                         {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
@@ -22,13 +22,11 @@
                 <option value="0">全部</option>
                 <option v-for="(variety, variety_index) in varietyList" v-bind:value="variety_index">@{{ variety }}</option>
             </select>
-        </div>
-        <div class="col-lg-3">
-            <div class="text-center">
-                <strong style="font-size: 16px; padding-top: 6px;">
-                    <span id="search_info">{{ $shipName }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ activeYear }}年备件物料</span>
-                </strong>
-            </div>
+            
+            <strong style="font-size: 16px; padding-top: 6px; margin-left: 30px;">
+                <span id="search_info">{{ $shipName }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ activeYear }}年备件物料</span>
+            </strong>
+            
         </div>
         <div class="col-lg-5">
             <select class="custom-select" v-model="activeStatus" @change="onChangeYear">
@@ -172,8 +170,6 @@
             else
                 isChangeStatus = true;   
 
-            console.log(JSON.stringify(currentObjTmp));
-            console.log(JSON.stringify(equipRequireObjTmp));
             if (!submitted && isChangeStatus) {
                 (e || window.event).returnValue = confirmationMessage;
             }
@@ -243,6 +239,9 @@
                         activeId = index;
                         $('.only-modal-show').click();
                     },
+                    onChangeShip: function(e) {
+                        location.href = '/shipManage/equipment?id=' + $_this.shipId + '&type=record';
+                    },
                     onChangeYear: function(e) {
                         var confirmationMessage = 'It looks like you have been editing something. '
                                 + 'If you leave before saving, your changes will be lost.';
@@ -274,7 +273,7 @@
                     conditionSearch() {
                         getInitInfo();
                     },
-                    getToday: function(symbol) {
+                    getToday: function(symbol = '-') {
                         var today = new Date();
                         var dd = String(today.getDate()).padStart(2, '0');
                         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -290,7 +289,8 @@
                     addRow: function() {
                         let length = $_this.list.length;
                         if(length == 0) {
-                            this.list[0].request_date = this.getToday();
+                            this.list.push([]);
+                            this.list[length].request_date = this.getToday();
 
                             this.list[length].place = 1;
                             this.list[length].type = 1;

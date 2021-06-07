@@ -313,8 +313,8 @@
                                 <td class="text-center" rowspan="2">航次数</td>
                                 <td class="text-center" rowspan="2">期间</td>
                                 <td class="text-center fix-top">航次</td>
-                                <td class="text-center fix-top" rowspan="2"></td>
-                                <td class="text-center fix-top" rowspan="2"></td>
+                                <td class="text-center" rowspan="2"></td>
+                                <td class="text-center" rowspan="2"></td>
                                 <td class="text-center fix-top">距离</td>
                                 <td class="text-center fix-top">平均</td>
                                 <td class="text-center fix-top" colspan="5">经济天数</td>

@@ -30,23 +30,23 @@ $ships = Session::get('shipList');
             <div class="col-lg-12">
                 <div class="col-lg-12">
                     <ul class="nav nav-tabs ship-register">
-                        <li class="{{ !isset($type) || $type == 'equipment_record' ? 'active' : '' }}">
+                        <li class="{{ !isset($type) || $type == 'record' ? 'active' : '' }}">
                             <a data-toggle="tab" href="#equipment_record">
                             备件物料</span>
                             </a>
                         </li>
-                        <li class="{{ isset($type) && $type == 'equipment_require' ? 'active' : '' }}">
+                        <li class="{{ isset($type) && $type == 'require' ? 'active' : '' }}">
                             <a data-toggle="tab" href="#equipment_require_div">
                             必修备件</span>
                             </a>
                         </li>
                     </ul>
                     
-                    <div class="tab-content pt-2">
-                        <div id="equipment_record" class="tab-pane {{ !isset($type) || $type == 'equipment_record' ? 'active' : '' }}">
+                    <div class="tab-content pt-1">
+                        <div id="equipment_record" class="tab-pane {{ !isset($type) || $type == 'record' ? 'active' : '' }}">
                             @include('shipManage.equipment_record')
                         </div>
-                        <div id="equipment_require_div" class="tab-pane {{ isset($type) && $type == 'equipment_require' ? 'active' : '' }}">
+                        <div id="equipment_require_div" class="tab-pane {{ isset($type) && $type == 'require' ? 'active' : '' }}">
                             @include('shipManage.equipment_require')
                         </div>
                     </div>

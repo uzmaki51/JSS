@@ -501,6 +501,7 @@
                                         
                                     });
 
+                                    
                                     searchObj.total_sail_time = total_sail_time.toFixed(2);
                                     searchObj.total_loading_time = total_loading_time.toFixed(2);
                                     searchObj.average_speed = BigNumber(searchObj.total_distance).div(searchObj.total_sail_time).div(24).toFixed(1);
@@ -541,9 +542,7 @@
                         searchObj.sail_term['max_date'] = data['max_date'] == false ? '' : data['max_date']['Voy_Date'];
                         let start_date = data['min_date']['Voy_Date'] + ' ' + data['min_date']['Voy_Hour'] + ':' + data['min_date']['Voy_Minute'];
                         let end_date = data['max_date']['Voy_Date'] + ' ' + data['max_date']['Voy_Hour'] + ':' + data['max_date']['Voy_Minute'];
-                        console.log(start_date, end_date)
                         this.sail_time = __getTermDay(start_date, end_date, data['min_date']['GMT'], data['max_date']['GMT']);
-                        console.log(this.sail_time)
                     },
                     setTotalDefault: function() {
                         this.sail_time = 0;
@@ -689,11 +688,9 @@
                                         id: id,
                                     },
                                     success: function (data, status, xhr) {
-                                        searchObj.currentData.splice(index, 1);                                     
-                                        console.log(_this.currentData.length);
+                                        searchObj.currentData.splice(index, 1);
                                         if(_this.currentData.length == 0) {
                                             _this.empty = true;
-                                            console.log('insert')
                                             _this.setDefaultData();
                                         }
                                         searchObjTmp = JSON.parse(JSON.stringify(_this.currentData));
@@ -703,7 +700,6 @@
                                     searchObj.currentData.splice(index, 1);
                                     if(_this.currentData.length == 0) {
                                         _this.empty = true;
-                                        console.log('insert')
                                         _this.setDefaultData();
                                     }
                                     searchObjTmp = JSON.parse(JSON.stringify(_this.currentData));

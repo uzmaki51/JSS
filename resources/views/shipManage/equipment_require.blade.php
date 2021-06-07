@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-lg-4">
             <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
-            <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;">
+            <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;" @change="onChangeShip">
                 @foreach($shipList as $ship)
                     <option value="{{ $ship['IMO_No'] }}"
                         {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
@@ -17,17 +17,16 @@
             </select>
         </div>
         <div class="col-lg-3">
-            <div class="text-center">
+            <div class="text-center" style="margin-top: 6px;">
                 <strong style="font-size: 16px; padding-top: 6px;">
-                    <span id="search_info">{{ $shipName }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ activeYear }}年必修备件</span>
+                    <span id="search_info">{{ $shipName }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ activeYear }}年必修备件表</span>
                 </strong>
             </div>
         </div>
         <div class="col-lg-5">
             <select class="custom-select" v-model="activeStatus" @change="onChangeYear">
                 <option value="0">全部</option>
-                <option value="1">未供应</option>
-                <option value="2">已供应</option>
+                <option value="1">缺件</option>
             </select>
             <div class="btn-group f-right">
                 <button class="btn btn-primary btn-sm search-btn" @click="addRow"><i class="icon-plus"></i>添加</button>
@@ -46,7 +45,7 @@
                     <thead class="">
                         <th class="d-none"></th>
                         <th class="text-center">No</th>
-                        <th class="text-center" style="width: 72px;">部门</th>
+                        <th class="text-center" style="width: 90px;">部门</th>
                         <th class="text-center style-header" style="width: 300px;">项目</th>
                         <th class="text-center style-header">必备量</th>
                         <th class="text-center style-header" style="width: 60px;">单位</th>
@@ -148,22 +147,6 @@
         if(isChangeStatus == false)
             submitted = false;
 
-        // $("form").submit(function() {
-        //     submitted = true;
-        // });
-
-        // window.addEventListener("beforeunload", function (e) {
-        //     var confirmationMessage = 'It looks like you have been editing something. '
-        //         + 'If you leave before saving, your changes will be lost.';
-
-        //     console.log('require: ', isChangeStatus, submitted);
-        //     if (!submitted && isChangeStatus) {
-        //         (e || window.event).returnValue = confirmationMessage;
-        //     }
-
-        //     return confirmationMessage;
-        // });
-
         function initRequire() {
             // Create Vue Obj
             equipRequireObj = new Vue({
@@ -201,8 +184,6 @@
                         var values = $("input[name='item[]']")
                             .map(function(){return parseInt($(this).val());}).get();
 
-                        // if(values.includes(cert)) {alert('Can\'t register duplicate certificate.'); return false;}
-                        console.log(index, cert)
                         isChangeStatus = true;
                         setCertInfo(cert, index);
                         $(".dynamic-select__trigger").removeClass('open');
@@ -231,6 +212,9 @@
                         // Object.assign(itemListObj.list, shipCertTypeList);
                         // itemListObj.list.push([]);
                         $('.only-modal-show').click();
+                    },
+                    onChangeShip: function(e) {
+                        location.href = '/shipManage/equipment?id=' + $_this.shipId + '&type=require';
                     },
                     onChangeYear: function(e) {
                         var confirmationMessage = 'It looks like you have been editing something. '
@@ -279,8 +263,15 @@
                     addRow: function() {
                         let length = $__this.list.length;
                         if(length == 0) {
+                            this.list.push([]);
                             this.list[length].place = 1;
-                            this.list[length].item = '';
+                            if(itemListObj.list.length > 0)
+                                this.list[length].item = itemListObj.list[0].id;
+                            else {
+                                this.list[length].item = 0;
+                            }
+                            console.log(this.list[length].item)
+                            setCertInfo(this.list[length].item, length);
                             this.list[length].require_vol = '';
                             this.list[length].inventory_vol = '';
                             this.list[length].unit = '';
@@ -290,7 +281,8 @@
                             this.list.push([]);
                             this.list[length].place = this.list[length - 1].place;
                             this.list[length].item = this.list[length-1].item;
-                            setCertInfo(this.list[length-1].item, length);
+                            console.log(this.list[length-1].item)
+                            setCertInfo(this.list[length].item, length);
                             this.list[length].require_vol = this.list[length-1].require_vol;
                             this.list[length].inventory_vol = this.list[length-1].inventory_vol;
                             this.list[length].unit = this.list[length-1].unit;
@@ -400,9 +392,7 @@
                 data: {
                     shipId: $__this.shipId,
                     year: $__this.activeYear,
-                    placeType: $__this.placeType,
-                    activeType: $__this.activeType,
-                    activeStatus: $__this.activeStatus,
+                    checkLack: $__this.activeStatus,
                 },
                 success: function(data, status, xhr) {
                     $__this.list = data;

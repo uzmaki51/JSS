@@ -48,17 +48,8 @@ class ShipEquipmentRequire extends Model
 			$selector->where('place', $params['placeType']);
 		}
 
-		if(isset($params['activeType']) && $params['activeType'] != 0) {
-			$selector->where('type', $params['activeType']);
-		}
-
-		if(isset($params['activeStatus']) && $params['activeStatus'] != 0) {
-			if($params['activeStatus'] == 1) {
-				$selector->where('supply_date', 'like', "0000-00-00")->orWhereNull('supply_date');
-			} else {
-				$selector->whereNotNull('supply_date');
-			}
-				
+		if(isset($params['checkLack']) && $params['checkLack'] != 0) {
+			$selector->whereRaw('require_vol < inventory_vol');
 		}
 
 		$records = $selector->get();
