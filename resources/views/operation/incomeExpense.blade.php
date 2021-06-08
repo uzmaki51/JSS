@@ -981,8 +981,6 @@ $ships = Session::get('shipList');
 
         function fnExcelTableReport()
         {
-            if (voyNo_soa == null) return;
-
             var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
             var real_tab = document.getElementById('table-income-expense-list');
             var tab = real_tab.cloneNode(true);
@@ -1082,53 +1080,6 @@ $ships = Session::get('shipList');
 
             var filename = $('#select-soa-ship option:selected').text() + '_' + voyType_soa + voyNo_soa + '_SOA';
             exportExcel(total_text, filename, filename);
-            
-            return 0;
-        }
-
-        function fnExcelReport()
-        {
-            var tab_text="<table border='1px' style='text-align:center;vertical-align:middle;'>";
-            var real_tab = document.getElementById('table-books-list');
-            var tab = real_tab.cloneNode(true);
-            tab_text=tab_text+"<tr><td colspan='11' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + "记账簿</td></tr>";
-            for(var j = 0 ; j < tab.rows.length ; j++) 
-            {
-                if (j == 0) {
-                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
-                        tab.rows[j].childNodes[i].style.width = '100px';
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
-                    }
-                    tab.rows[j].childNodes[4].style.width = '60px';
-                    tab.rows[j].childNodes[5].style.width = '60px';
-                    tab.rows[j].childNodes[7].style.width = '300px';
-                    tab.rows[j].childNodes[8].style.width = '40px';
-                    
-                }
-                else
-                {
-                    var info = real_tab.rows[j].childNodes[2].childNodes[0].value;
-                    tab.rows[j].childNodes[2].innerHTML = info;
-                    info = real_tab.rows[j].childNodes[7].childNodes[0].value;
-                    tab.rows[j].childNodes[7].innerHTML = info;
-                    info = real_tab.rows[j].childNodes[9].childNodes[0].value;
-                    tab.rows[j].childNodes[9].innerHTML = info;
-                    info = real_tab.rows[j].childNodes[10].childNodes[0].value;
-                    tab.rows[j].childNodes[10].innerHTML = info;
-                    info = real_tab.rows[j].childNodes[11].childNodes[0].value;
-                    tab.rows[j].childNodes[11].innerHTML = info;
-                }
-                tab.rows[j].childNodes[0].remove();
-                tab.rows[j].childNodes[11].remove();
-                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
-            }
-            tab_text=tab_text+"</table>";
-            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
-            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
-
-            var filename = year + '_' + month + '_记账簿';
-            exportExcel(tab_text, filename, year + '_' + month + '_记账簿');
             
             return 0;
         }
