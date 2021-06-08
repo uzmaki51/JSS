@@ -243,7 +243,7 @@ class BusinessController extends Controller {
         }
 
         
-        $cpTbl['currency'] = $params['currency'];
+        $cpTbl['currency'] = !isset($params['currency']) ? 1 : $params['currency'];
         $cpTbl['rate'] = $params['rate'];
         $cpTbl['CP_kind'] = $params['cp_type'];
         
@@ -415,6 +415,85 @@ class BusinessController extends Controller {
         //$cpTbl['down_port_price'] = str_replace(',','',substr($params['down_port_price'], 2));
         $cpTbl['cost_per_day'] = str_replace(',','',substr($params['cost_per_day'], 2));
         $cpTbl['cost_else'] = str_replace(',','',substr($params['cost_else'], 2));
+
+        $cpTbl->save();
+
+        return redirect()->back();
+        
+    }
+
+
+    public function saveNonContract(Request $request) {
+        $params = $request->all();
+
+        if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else 
+            return redirect()->back();
+
+        if (isset($params['voy_no'])) {
+            $Voy_No = $params['voy_no'];
+        } else 
+            return redirect()->back();
+
+        if(isset($params['voy_id'])) {
+            $voy_id = $params['voy_id'];
+            $cpTbl = CP::find($voy_id);
+            if(empty($cpTbl) || ($cpTbl['id'] != $voy_id) || ($voy_id == "")) {
+                $cpTbl = new CP;
+            }
+        }
+        else
+        {
+            $cpTbl = new CP;
+        }
+
+        $isExist = CP::where('Voy_No', $Voy_No)->where('Ship_Id', $shipId)->where('CP_kind', 'TC')->first();
+        if(!empty($isExist) && ($isExist['id'] != $voy_id) && $Voy_No != "") {
+            return redirect()->back()->with(['status'=>'error']);
+        }
+
+        $cpTbl['currency'] = $params['currency'];
+        $cpTbl['rate'] = $params['rate'];
+        $cpTbl['CP_kind'] = $params['cp_type'];
+        if ($params['cp_date'] == '')
+            $cpTbl['CP_Date'] = null;
+        else
+            $cpTbl['CP_Date'] = $params['cp_date'];
+        $cpTbl['Voy_No'] = $params['voy_no'];
+        $cpTbl['Cgo_Qtty'] = $params['hire_duration'];
+        $cpTbl['Ship_ID'] = $shipId;
+        $cpTbl['LPort'] = $params['up_port'];
+        $cpTbl['Remarks'] = $params['remark'];
+
+        if ($params['non_file_remove'] == '1') {
+            $cpTbl['is_attachment'] = 0;
+            $cpTbl['attachment_url'] = null;
+        }
+        else if($request->hasFile('attachment')) {
+            $cpTbl['is_attachment'] = 1;
+            $file = $request->file('attachment');
+            $fileName = $file->getClientOriginalName();
+            $name = date('Ymd_His') . '_NON_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+            $file->move(public_path() . '/contract/', $name);
+            $cpTbl['attachment_url'] = url() . '/contract/' . $name;
+        }
+
+        $cpTbl['speed'] = _convertStr2Int($params['speed']);
+        $cpTbl['distance'] = _convertStr2Int($params['distance']);
+
+        $cpTbl['wait_day'] = _convertStr2Int($params['wait_day']);
+        $cpTbl['fo_sailing'] = _convertStr2Int($params['fo_sailing']);
+        $cpTbl['fo_up_shipping'] = _convertStr2Int($params['fo_up_shipping']);
+        $cpTbl['fo_waiting'] = _convertStr2Int($params['fo_waiting']);
+        $cpTbl['fo_price'] = _convertStr2Int($params['fo_price']);
+        $cpTbl['do_sailing'] = _convertStr2Int($params['do_sailing']);
+        $cpTbl['do_up_shipping'] = _convertStr2Int($params['do_up_shipping']);
+        $cpTbl['do_waiting'] = _convertStr2Int($params['do_waiting']);
+        $cpTbl['do_price'] = _convertStr2Int($params['do_price']);
+
+        $cpTbl['cost_per_day'] = _convertStr2Int($params['cost_per_day']);
+        $cpTbl['cost_else'] = _convertStr2Int($params['cost_else'], 2);
 
         $cpTbl->save();
 
@@ -4182,11 +4261,21 @@ class BusinessController extends Controller {
         $params = $request->all();
         $shipId = $params['shipId'];
         $voyNo = $params['voyNo'];
-        $type = $params['type'];
+        $id = $params['id'];
 
-        $ret = false;
-        $shipInfo = CP::where('Ship_ID', $shipId)->where('Voy_No', $voyNo)->where('CP_kind', $type)->first();
-        if($shipInfo == false || $shipInfo == null)
+        $origInfo = CP::where('id', $id)->first();
+
+        $ret = true;
+        if($origInfo != null) {
+            $origNo = $origInfo->Voy_No;
+            if($origNo == $voyNo)
+                return resonse()->json($ret);
+        }
+
+        $is_exist = CP::where('Ship_ID', $shipId)->where('Voy_No', $voyNo)->first();
+        if($is_exist != null)
+            $ret = false;
+        else
             $ret = true;
 
         return response()->json($ret);
@@ -4332,7 +4421,7 @@ class BusinessController extends Controller {
                         $tmp = '';
                         foreach($LPort as $port)
                             $tmp .= $port->Port_En . ', ';
-                        $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
+                        $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 2);
             
                         $DPort = $cp_item->DPort;
             
@@ -4342,7 +4431,7 @@ class BusinessController extends Controller {
                         $tmp = '';
                         foreach($DPort as $port)
                             $tmp .= $port->Port_En . ', ';
-                        $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
+                        $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 2);
                     }
                     $retVal['cpData'][$item->CP_ID] = $cp_list[0];
                 }
@@ -4430,7 +4519,7 @@ class BusinessController extends Controller {
                         $tmp = '';
                         foreach($LPort as $port)
                             $tmp .= $port->Port_En . ', ';
-                        $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
+                        $cp_list[$cp_key]->LPort = substr($tmp, 0, strlen($tmp) - 2);
             
                         $DPort = $cp_item->DPort;
             
@@ -4440,7 +4529,7 @@ class BusinessController extends Controller {
                         $tmp = '';
                         foreach($DPort as $port)
                             $tmp .= $port->Port_En . ', ';
-                        $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
+                        $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 2);
                     }
                     $retVal['cpData'][$item->CP_ID] = $cp_list[0];
                 }
@@ -4474,7 +4563,7 @@ class BusinessController extends Controller {
             $tmp = '';
             foreach($LPort as $port)
                 $tmp .= $port->Port_En . ', (' . $port->Port_Cn . ') / ';
-            $cp_list[$key]->LPort = substr($tmp, 0, strlen($tmp) - 3);
+            $cp_list[$key]->LPort = substr($tmp, 0, strlen($tmp) - 2);
 
             $DPort = $item->DPort;
 
@@ -4484,7 +4573,7 @@ class BusinessController extends Controller {
             $tmp = '';
             foreach($DPort as $port)
                 $tmp .= $port->Port_En . ', (' . $port->Port_Cn . ') / ';
-            $cp_list[$key]->DPort = substr($tmp, 0, strlen($tmp) - 3);
+            $cp_list[$key]->DPort = substr($tmp, 0, strlen($tmp) - 2);
         }
 
         return response()->json($cp_list);

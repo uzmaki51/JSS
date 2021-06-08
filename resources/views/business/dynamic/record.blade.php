@@ -461,7 +461,10 @@
 
                                         searchObj.currentData[key]['Sail_Distance'] = parseFloat(value['Sail_Distance']) == 0 ? '' : value['Sail_Distance'];
                                         searchObj.currentData[key]['Speed'] = parseFloat(value['Speed']) == 0 ? '' : value['Speed'];
-                                        searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty'])
+                                        if(value['Sail_Distance'] == 13)
+                                            searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty']);
+                                        else
+                                            searchObj.currentData[key]['Cargo_Qtty'] = __parseFloat(value['Cargo_Qtty']) == 0 ? '' : __parseFloat(value['Cargo_Qtty']);
 
                                         searchObj.currentData[key]['RPM'] = parseFloat(value['RPM']) == 0 ? '' : value['RPM'];
                                         searchObj.currentData[key]['ROB_FO'] = parseFloat(value['ROB_FO']) == 0 ? '' : value['ROB_FO'];

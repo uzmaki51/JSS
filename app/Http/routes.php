@@ -177,6 +177,7 @@ Route::group(['prefix' => 'business'], function() {
 	Route::post('saveCargoList', ['uses'	=> 'Business\BusinessController@saveCargoList']);	
 	Route::post('savePortList', ['uses'	=> 'Business\BusinessController@savePortList']);	
 	Route::post('tcContractRegister', ['uses'	=> 'Business\BusinessController@saveTcContract']);
+	Route::post('nonContractRegister', ['uses'	=> 'Business\BusinessController@saveNonContract']);
 
 	Route::get('dynRecord', ['uses' => 'Business\BusinessController@dynRecord']);
 	Route::post('saveDynamic', ['uses'=>'Business\BusinessController@saveDynamic']);

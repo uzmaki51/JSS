@@ -861,6 +861,12 @@ footer {
 .attachment-div {
     height: 26px;
 }
+.contract-file-name {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .fixed-td {
     max-width: 140px;
     white-space: nowrap;
@@ -882,7 +888,9 @@ footer {
 .horizontal-line span:first-child {
     border-bottom: 1px solid;
 }
-
+#non_contract_table input[readonly], #non_contract_table textarea[readonly] {
+    background: #f5f5f5;
+}
 .align-bottom {
     display: flex;
     align-items: flex-end;

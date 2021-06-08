@@ -21,13 +21,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <select class="custom-select d-inline-block" id="year" style="width: auto;">
-                            <option value="">全部</option>
                             @foreach($years as $year)
                                 <option value="{{ $year }}">{{ $year }}年</option>
                             @endforeach
                         </select>
                         <select class="custom-select d-inline-block" id="month">
-                            <option value="">全部</option>
                             <option value="1">1月</option>
                             <option value="2">2月</option>
                             <option value="3">3月</option>
@@ -43,7 +41,6 @@
                         </select>
                         <label style="margin-left: 8px;">对象</label>              
                         <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
-                            <option value="">全部</option>
                             <option value="OBJ">个体</option>
                             @if(isset($shipList))
                                 @foreach($shipList as $key => $item)
@@ -192,7 +189,7 @@
                                                         金额
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <my-currency-input v-model="amount" :class="reportTypeCls(currentReportType)" class="form-control transparent-input" :class="creditClass(item.credit)" name="amount" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:type="'credit'" required></my-currency-input>
+                                                        <my-currency-input v-model="amount" :autocomplete="'off'" :class="reportTypeCls(currentReportType)" class="form-control transparent-input" :class="creditClass(item.credit)" name="amount" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:type="'credit'" required></my-currency-input>
                                                     </td>
                                                 </tr>
                                                 
@@ -201,7 +198,6 @@
                                                     <td class="custom-modal-td-text1">
                                                         <input type="text" name="decTitle" id="decTitle" class="form-control transparent-input" style="width: 100%" v-bind:value="reporter" disabled>
                                                     </td>
-
                                                 </tr>
                                                 <tr>
                                                     <td class="custom-modal-td-label">涉及部门</td>

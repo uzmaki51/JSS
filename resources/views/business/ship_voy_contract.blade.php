@@ -200,7 +200,7 @@
         <input type="hidden" value="{{ $voy_id }}" name="voy_id" id="voy_id">
         <label>航次: </label>
         <input type="text" name="voy_no" v-model="voy_no" minlength="4" maxlength="4" style="width:80px;" @change="validateVoyNo" require>
-        <!--span class="text-danger" v-bind:class="getValidClass">Voy No already exits.</span-->
+        <span class="text-danger" v-bind:class="getValidClass">Voy No already exits.</span>
         <table class="contract-table mt-2">
             <tr>
                 <td style="width: 80px;">合同日期</td>
@@ -389,7 +389,7 @@
             <img src="{{ cAsset('/assets/images/paper-clip.png') }}" width="15" height="15">
             <span class="ml-1">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件: </span>
             <label for="contract_attach" class="ml-1 blue contract-attach">
-                @{{ fileName }}
+                <span class="contract-file-name">@{{ fileName }}</span>
                 <button type="button" class="btn btn-danger p-0" style="min-width: 30px;" @click="removeFile"><i class="icon-remove mr-0"></i></button>
             </label>
             <input type="file" id="contract_attach" name="attachment" class="d-none" @change="onFileChange">
@@ -467,7 +467,11 @@
             },
             methods: {
                 onEditFinish: function() {
-                    voyContractObj.cp_date = this.getToday('-');
+                    if(voyContractObj.pre_cp_date == '')
+                        voyContractObj.cp_date = this.getToday('-');
+                    else 
+                        voyContractObj.cp_date = voyContractObj.pre_cp_date;
+
                     voyContractObj.qty_amount = this.input['cargo_amount'];
                     voyContractObj.freight_rate = this.input['fregith_price'];
                     voyContractObj.net_profit_day = this.output['net_profit_day'];
@@ -584,12 +588,15 @@
         voyContractObj = new Vue({
             el: '#voy_contract_table',
             data: {
+                id:                 '',
+                is_update:          false,
                 shipId:             ship_id,
                 voy_no:             '',
                 validate_voy_no:    true,
                 currency:           'CNY',
                 rate:               1,
                 cp_date:            '',
+                pre_cp_date:            '',
                 cp_type:            'VOY',
                 cargo:              'SODIUM',
                 qty_amount:         0,
@@ -625,13 +632,7 @@
 
             computed: {
                 getValidClass: function() {
-                    if (voy_id > 0) {
-                        return 'd-none';
-                    }
-                    else {
-                        //$('#submit').prop('disabled', !this.validate_voy_no);
-                        return this.validate_voy_no == true ? 'd-none' : '';
-                    }
+                    return this.validate_voy_no == true ? 'd-none' : '';
                 },
             },
             methods: {
@@ -713,6 +714,7 @@
                     });
                 },
                 validateVoyNo(e) {
+                    $('#submit').attr('disabled', 'disabled');
                     let value = $(e.target).val();
                     $.ajax({
                         url: BASE_URL + 'ajax/business/voyNo/validate',
@@ -720,13 +722,15 @@
                         data: {
                             shipId: this.shipId,
                             voyNo: value,
-                            type: voyContractObj.cp_type
+                            id: this.id,
                         },
                         success: function(data, status, xhr) {
                             voyContractObj.validate_voy_no = data;
+                            if(data)
+                                $('#submit').removeAttr('disabled');
                             
                         }
-                    })
+                    });
                 },
                 getOptionCls: function(status) {
                     return status == 1 ? 'disable' : '';

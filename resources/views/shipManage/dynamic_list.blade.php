@@ -126,40 +126,40 @@
             <!-- Main Contents Begin -->
             <div class="row" style="margin-top: 4px;">
                 <div class="col-md-12">
-                    <table class="table-bordered dynamic-table" v-show="record_type == 'all'" id="table-list-all">
+                    <table class="table-bordered dynamic-table table-striped" v-show="record_type == 'all'" id="table-list-all">
                         <thead>
                             <tr>
                                 <th class="text-center font-style-italic" style="width: 60px;">VOY No</th>
-                                <th class="text-center font-style-italic" style="width: 70px;">DATE</th>
+                                <th class="text-center font-style-italic" style="width: 60px;">DATE</th>
                                 <th class="text-center font-style-italic" colspan="2">TIME[LT]</th>
                                 <th class="text-center font-style-italic" rowspan="2">GMT</th>
                                 <th class="text-center font-style-italic">STATUS</th>
-                                <th class="text-center font-style-italic">动态</th>
-                                <th class="text-center font-style-italic">POSITION</th>
-                                <th class="text-center font-style-italic">DTG[NM]</th>
-                                <th class="text-center font-style-italic">SPEED</th>
+                                <th class="text-center">动态</th>
+                                <th class="text-center font-style-italic" style="width: 160px;">POSITION</th>
+                                <th class="text-center font-style-italic" style="width: 50px;">DTG[NM]</th>
+                                <th class="text-center font-style-italic" style="width: 40px;">SPEED</th>
                                 <th class="text-center font-style-italic">RPM</th>
                                 <th class="text-center font-style-italic">CGO QTY</th>
-                                <th class="text-center font-style-italic" colspan="2">ROB</th>
+                                <th class="text-center font-style-italic" colspan="2" style="border-right: 2px solid #ff9207;border-left: 2px solid #ff9207;">ROB</th>
                                 <th class="text-center font-style-italic" colspan="2">BUNKERING</th>
                                 <th class="text-center font-style-italic" colspan="4">REMARK</th>
                             </tr>
                             <tr>
                                 <th class="text-center">航次</th>
-                                <th class="text-center font-style-italic">YY/MM/DD</th>
+                                <th class="text-center font-style-italic" style="width: 60px;">YY/MM/DD</th>
                                 <th class="text-center font-style-italic">hh</th>
                                 <th class="text-center font-style-italic">mm</th>
-                                <th class="text-center font-style-italic">动态</th>
+                                <th class="text-center">动态</th>
                                 <th class="text-center">种类</th>
                                 <th class="text-center">港口(坐标)</th>
                                 <th class="text-center">距离</th>
                                 <th class="text-center">速度</th>
                                 <th class="text-center">转数</th>
                                 <th class="text-center">存货量</th>
-                                <th class="text-center font-style-italic">FO</th>
-                                <th class="text-center font-style-italic">DO</th>
-                                <th class="text-center font-style-italic">FO</th>
-                                <th class="text-center font-style-italic">DO</th>
+                                <th class="text-center font-style-italic" style="border-left: 2px solid #ff9207;width: 55px;">FO</th>
+                                <th class="text-center font-style-italic" style="border-right: 2px solid #ff9207; width: 55px;">DO</th>
+                                <th class="text-center font-style-italic" style="width: 55px;">FO</th>
+                                <th class="text-center font-style-italic" style="width: 55px;">DO</th>
                                 <th class="text-center" colspan="4"></th>
                             </tr>
                         </thead>
@@ -177,29 +177,29 @@
                                 <td class="text-center">@{{ prevData['Speed'] }}</td>
                                 <td class="text-center">@{{ prevData['RPM'] }}</td>
                                 <td class="text-right font-weight-bold text-danger">@{{ prevData['Cargo_Qtty'] }}</td>
-                                <td class="text-center font-weight-bold text-danger">@{{ prevData['ROB_FO'] }}</td>
-                                <td class="text-center font-weight-bold text-danger">@{{ prevData['ROB_DO'] }}</td>
+                                <td class="text-center font-weight-bold text-danger" style="border-left: 2px solid #ff9207;">@{{ prevData['ROB_FO'] }}</td>
+                                <td class="text-center font-weight-bold text-danger" style="border-right: 2px solid #ff9207; width: 55px;">@{{ prevData['ROB_DO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_FO'] }}</td>
                                 <td class="text-center">@{{ prevData['BUNK_DO'] }}</td>
                                 <td class="text-center" colspan="4">@{{ prevData['Remark'] }}</td>
                             </tr>
                             <template v-for="(currentItem, index) in currentData" v-cloak>
-                                <tr>
+                                <tr :class="index % 2 == 0 ? 'even' : 'odd'">
                                     <td class="d-none"><input type="hidden" :value="currentItem.id" name="id[]"></td>
-                                    <td class="text-center voy-td">@{{ currentItem.CP_ID }}</td>
-                                    <td class="text-center date-width">@{{ currentItem.Voy_Date }}</td>
+                                    <td class="text-center">@{{ currentItem.CP_ID }}</td>
+                                    <td class="text-center">@{{ voyDateFormat(currentItem.Voy_Date) }}</td>
                                     <td class="text-center time-width">@{{ currentItem.Voy_Hour }}</td>
                                     <td class="text-center time-width">@{{ currentItem.Voy_Minute }}</td>
                                     <td class="text-center time-width">@{{ currentItem.GMT }}</td>
                                     <td>@{{ currentItem.Voy_Status_Name }}</td>
-                                    <td>@{{ currentItem.Voy_Type_Name }}</td>
+                                    <td class="center">@{{ currentItem.Voy_Type_Name }}</td>
                                     <td class="position-width">@{{ currentItem.Ship_Position }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.Sail_Distance, 0) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.Speed, 1) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.RPM, 0) }}</td>
                                     <td class="text-right">@{{ number_format(currentItem.Cargo_Qtty, 2) }}</td>
-                                    <td class="text-center">@{{ number_format(currentItem.ROB_FO, 2) }}</td>
-                                    <td class="text-center">@{{ number_format(currentItem.ROB_DO, 2) }}</td>
+                                    <td class="text-center" style="border-left: 2px solid #ff9207;">@{{ number_format(currentItem.ROB_FO, 2) }}</td>
+                                    <td class="text-center" style="border-right: 2px solid #ff9207; width: 55px;">@{{ number_format(currentItem.ROB_DO, 2) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.BUNK_FO, 2) }}</td>
                                     <td class="text-center">@{{ number_format(currentItem.BUNK_DO, 2) }}</td>
                                     <td class="position-width" colspan="4">@{{ currentItem.Remark }}</td>
@@ -207,14 +207,14 @@
                             </template>
                             <tr class="dynamic-footer">
                                 <td class="text-center" rowspan="2">航次</td>
-                                <td class="text-center" rowspan="2" colspan="4">报告次</td>
-                                <td class="text-center" rowspan="2" colspan="2">时间</td>
+                                <td class="text-center" rowspan="2" colspan="1">报告次</td>
+                                <td class="text-center" rowspan="2" colspan="5">时间</td>
                                 <td class="text-center" rowspan="2">航次用时</td>
                                 <td class="text-center" rowspan="2">距离<br>[NM]</td>
                                 <td class="text-center" rowspan="2">平均<br>速度</td>
                                 <td class="text-center fix-top">经济天</td>
                                 <td class="text-center fix-top"><span class="text-warning">@{{ number_format(economic_rate) }}%</span></td>
-                                <td class="text-center fix-top" colspan="2">总消耗</td>
+                                <td class="text-center fix-top" colspan="2" style="border-left: 2px solid #ff9207;border-right: 2px solid #ff9207; width: 55px;">总消耗</td>
                                 <td class="text-center fix-top" colspan="2">加油量</td>
                                 <td class="text-center fix-top" colspan="2">标准消耗</td>
                                 <td class="text-center fix-top" colspan="2">-节约/+超过</td>
@@ -222,9 +222,9 @@
                             <tr class="dynamic-footer">
                                 <td class="text-center">航行</td>
                                 <td class="text-center">装卸货</td>
-                                <td class="text-center">FO</td>
-                                <td class="text-center">DO</td>
-                                <td class="text-center">FO</td>
+                                <td class="text-center" style="border-left: 2px solid #ff9207;">FO</td>
+                                <td class="text-center" style="border-right: 2px solid #ff9207; width: 55px;">DO</td>
+                                <td class="text-center">FO</td> 
                                 <td class="text-center">DO</td>
                                 <td class="text-center">FO</td>
                                 <td class="text-center">DO</td>
@@ -233,15 +233,15 @@
                             </tr>
                             <tr class="dynamic-footer-result">
                                 <td>@{{ activeVoy }}</td>
-                                <td colspan="4">@{{ number_format(this.currentData.length, 0) }}</td>
-                                <td colspan="2">@{{ sail_term['min_date'] }} ~ @{{ sail_term['max_date'] }}</td>
+                                <td colspan="1">@{{ number_format(this.currentData.length, 0) }}</td>
+                                <td colspan="5">@{{ sail_term['min_date'] }} ~ @{{ sail_term['max_date'] }}</td>
                                 <td>@{{ number_format(sail_time, 2) }}</td>
                                 <td>@{{ number_format(total_distance, 0) }}</td>
                                 <td>@{{ number_format(average_speed) }}</td>
                                 <td>@{{ number_format(total_sail_time, 2) }}</td>
                                 <td>@{{ number_format(total_loading_time) }}</td>
-                                <td>@{{ number_format(rob_fo) }}</td>
-                                <td>@{{ number_format(rob_do) }}</td>
+                                <td style="border-left: 2px solid #ff9207;">@{{ number_format(rob_fo) }}</td>
+                                <td style="border-right: 2px solid #ff9207; width: 55px;">@{{ number_format(rob_do) }}</td>
                                 <td>@{{ number_format(bunker_fo) }}</td>
                                 <td>@{{ number_format(bunker_do) }}</td>
                                 <td>@{{ number_format(used_fo) }}</td>
@@ -252,18 +252,18 @@
                         </tbody>
                     </table>
 
-                    <table class="dynamic-result-table analyze-table" v-show="record_type == 'analyze'"  id="table-list-analysis">
+                    <table class="dynamic-result-table analyze-table table-striped" v-show="record_type == 'analyze'"  id="table-list-analysis">
                             <tbody>
                             <tr class="dynamic-footer">
                                 <td class="text-center" rowspan="2">航次</td>
                                 <td class="text-center" rowspan="2">报告次</td>
-                                <td class="text-center" rowspan="2">期间</td>
+                                <td class="text-center" rowspan="2" style="width: 90px;">期间</td>
                                 <td class="text-center">航次</td>
                                 <td class="text-center">装港</td>
                                 <td class="text-center">卸港</td>
                                 <td class="text-center">距离</td>
                                 <td class="text-center">平均</td>
-                                <td class="text-center" colspan="5">经济天数</td>
+                                <td class="text-center" colspan="5" style="border-left: 2px solid #ff9207; border-right: 2px solid #ff9207">经济天数</td>
                                 <td class="text-center" colspan="6">非经济天数</td>
                             </tr>
                             <tr class="dynamic-footer">
@@ -272,11 +272,11 @@
                                 <td class="text-center font-style-italic font-weight-bold">DISCHG PORT</td>
                                 <td class="text-center">[NM]</td>
                                 <td class="text-center">速度</td>
-                                <td class="text-center">合计</td>
+                                <td class="text-center" style="border-left: 2px solid #ff9207;">合计</td>
                                 <td class="text-center">占率</td>
                                 <td class="text-center">航行</td>
                                 <td class="text-center">装货</td>
-                                <td class="text-center">卸货</td>
+                                <td class="text-center" style="border-right: 2px solid #ff9207">卸货</td>
                                 <td class="text-center">合计</td>
                                 <td class="text-center">待泊</td>
                                 <td class="text-center">天气</td>
@@ -285,7 +285,7 @@
                                 <td class="text-center">其他</td>
                             </tr>
                             <template v-for="(item, index) in analyze.list" v-cloak>
-                            <tr class="">
+                            <tr :class="index % 2 == 0 ? 'even' : 'odd'">
                             <td class="voy-no" @click="onVoyDetail(item.voy_no)">@{{ item.voy_no }}</td>
                                 <td class="center">@{{ item.voy_count }}</td>
                                 <td class="center">@{{ dateFormat(item.voy_start) }} ~ @{{ dateFormat(item.voy_end) }}</td>
@@ -294,11 +294,11 @@
                                 <td style="text-align: left">@{{ item.dport }}</td>
                                 <td class="right">@{{ number_format(item.total_distance, 0) }}</td>
                                 <td class="center">@{{ number_format(item.average_speed, 2) }}</td>
-                                <td class="right">@{{ number_format(item.total_loading_time, 2) }}</td>
+                                <td class="right" style="border-left: 2px solid #ff9207;">@{{ number_format(item.total_loading_time, 2) }}</td>
                                 <td class="right">@{{ number_format(item.economic_rate, 1) }}%</td>
                                 <td class="right">@{{ number_format(item.total_sail_time, 2) }}</td>
                                 <td class="right">@{{ number_format(item.loading_time, 2) }}</td>
-                                <td class="right">@{{ number_format(item.disch_time, 2) }}</td>
+                                <td class="right" style="border-right: 2px solid #ff9207">@{{ number_format(item.disch_time, 2) }}</td>
                                 <td class="right">@{{ number_format(item.sail_time - item.total_loading_time, 2) }}</td>
                                 <td class="right">@{{ number_format(item.total_waiting_time, 2) }}</td>
                                 <td class="right">@{{ number_format(item.total_weather_time, 2) }}</td>
@@ -317,18 +317,18 @@
                                 <td class="text-center" rowspan="2"></td>
                                 <td class="text-center fix-top">距离</td>
                                 <td class="text-center fix-top">平均</td>
-                                <td class="text-center fix-top" colspan="5">经济天数</td>
+                                <td class="text-center fix-top" colspan="5" style="border-left: 2px solid #ff9207; border-right: 2px solid #ff9207">经济天数</td>
                                 <td class="text-center fix-top" colspan="6">非经济天数</td>
                             </tr>
                             <tr class="dynamic-footer">
                                 <td class="text-center">用时</td>
                                 <td class="text-center">[NM]</td>
                                 <td class="text-center">速度</td>
-                                <td class="text-center">合计</td>
+                                <td class="text-center" style="border-left: 2px solid #ff9207;">合计</td>
                                 <td class="text-center">占率</td>
                                 <td class="text-center">航行</td>
                                 <td class="text-center">装货</td>
-                                <td class="text-center">卸货</td>
+                                <td class="text-center" style="border-right: 2px solid #ff9207">卸货</td>
                                 <td class="text-center">合计</td>
                                 <td class="text-center">待泊</td>
                                 <td class="text-center">天气</td>
@@ -339,17 +339,17 @@
                             <tr class="dynamic-footer-result">
                                 <td>@{{ analyze.total.voy_count }}</td>
                                 <td>@{{ analyze.total.voy_count }}</td>
-                                <td>@{{ analyze.total.voy_start }} ~ @{{ analyze.total.voy_end }}</td>
+                                <td>@{{ dateFormat(analyze.total.voy_start) }} ~ @{{ dateFormat(analyze.total.voy_end) }}</td>
                                 <td>@{{ analyze.total.sail_time }}</td>
                                 <td></td>
                                 <td></td>
                                 <td>@{{ number_format(analyze.total.total_distance, 0) }}</td>
                                 <td>@{{ number_format(analyze.total.average_speed, 2) }}</td>
-                                <td>@{{ number_format(analyze.total.total_loading_time, 2) }}</td>
+                                <td style="border-left: 2px solid #ff9207;">@{{ number_format(analyze.total.total_loading_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.economic_rate, 1) }}%</td>
                                 <td>@{{ number_format(analyze.total.total_sail_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.loading_time, 2) }}</td>
-                                <td>@{{ number_format(analyze.total.disch_time, 2) }}</td>
+                                <td style="border-right: 2px solid #ff9207">@{{ number_format(analyze.total.disch_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.sail_time - analyze.total.total_loading_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.total_waiting_time, 2) }}</td>
                                 <td>@{{ number_format(analyze.total.total_weather_time, 2) }}</td>
@@ -400,7 +400,9 @@
     <script>
         var searchObj = null;
         var shipId = '{!! $shipId !!}';
-        var shipInfo = JSON.parse(JSON.stringify('{!! $shipInfo !!}'));
+        var shipInfo = '{!! $shipInfo !!}';
+        shipInfo=shipInfo.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
+        shipInfo = JSON.parse(shipInfo);
         var DYNAMIC_SUB_SALING = '{!! DYNAMIC_SUB_SALING !!}';
         var DYNAMIC_SUB_LOADING = '{!! DYNAMIC_SUB_LOADING !!}';
         var DYNAMIC_SUB_DISCH = '{!! DYNAMIC_SUB_DISCH !!}';
@@ -819,6 +821,8 @@
                                     searchObj.used_fo = 0;
                                     searchObj.save_fo = 0;
                                     searchObj.save_do = 0;
+                                    searchObj.total_distance = 0;
+                                    searchObj.average_speed = 0;
 
                                     searchObj.currentData.forEach(function(value, key) {
                                         searchObj.currentData[key]['Voy_Status_Name'] = DynamicStatus[value['Voy_Status']][0];
@@ -929,6 +933,9 @@
                     },
                     dateFormat: function(date, format = '-') {
                         return moment(date).format('MM-DD');
+                    },
+                    voyDateFormat: function(date, format = '-') {
+                        return moment(date).format('YY-MM-DD');
                     },
                     validateForm() {
                         let $this = this.currentData;

@@ -537,6 +537,7 @@ class DecisionReport extends Model {
 
 	public function getForDatatable($params, $status = null) {
 		$user = Auth::user();
+		$years = $this->getYearList();
 		$selector = DB::table($this->table)
 			->orderBy('report_id', 'desc')
 			->select('*');
@@ -553,12 +554,18 @@ class DecisionReport extends Model {
 			&& $params['columns'][0]['search']['value'] !== ''
 		) {
 			$selector->whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $params['columns'][0]['search']['value']));
+		} else {
+			$selector->whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $years[0]));
 		}
+
 		if (isset($params['columns'][1]['search']['value'])
 			&& $params['columns'][1]['search']['value'] !== ''
 		) {
 			$selector->whereRaw(DB::raw('mid(report_date, 6, 7) = ' . sprintf("%'02d\n", $params['columns'][1]['search']['value'])));
+		} else {
+			$selector->whereRaw(DB::raw('mid(report_date, 6, 7) = "01"'));
 		}
+
 		if (isset($params['columns'][2]['search']['value'])
 			&& $params['columns'][2]['search']['value'] !== ''
 		) {
@@ -569,6 +576,8 @@ class DecisionReport extends Model {
 				$selector->where('obj_type', OBJECT_TYPE_SHIP);
 				$selector->where('shipNo', $obj);
 			}
+		} else {
+			$selector->where('obj_type', OBJECT_TYPE_PERSON);
 		}
 
 		// number of filtered records

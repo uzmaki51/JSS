@@ -806,7 +806,11 @@ function strtotime2($str) {
 }
 
 function _convertStr2Int($str) {
-    // 1,234.23 -> 1234.23
+    // $ 1,234.23 -> 1234.23
+
+    $str = str_replace(' ', '', $str);
+    $str = str_replace('$', '', $str);
+    $str = str_replace('¥', '', $str);
     $str = str_replace(',', '', $str);
     $str = str_replace(', ', '', $str);
     

@@ -96,7 +96,7 @@ class DecisionController extends Controller
 		if($params['reportType'] != REPORT_STATUS_DRAFT) {
 			if((!isset($reportId) || $reportId == "") || $draftId != -1) {
 				$commonTbl = new Common();
-				$reportNo = $commonTbl->generateReportID();
+				$reportNo = $commonTbl->generateReportID($params['report_date']);
 				if($reportNo == false) return redirect()->back();
 				$reportTbl['report_id'] = $reportNo;
 			}

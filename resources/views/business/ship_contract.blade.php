@@ -87,7 +87,7 @@ $ships = Session::get('shipList');
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.d_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.d_rate') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
-                                    <th class="text-center style-header lr-no-p" style="width: 60px;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span>{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
+                                    <th class="text-center style-header lr-no-p"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span>{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.contract_attach') !!}</th>
                                     <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;"><!--{!! trans('common.label.delete') !!}--></th>
                                 </tr>
@@ -137,6 +137,11 @@ $ships = Session::get('shipList');
                                     期租<span style="font-style: italic;">(TC)</span>
                                 </a>
                             </li>
+                            <li class="">
+                                <a data-toggle="tab" href="#non_contract_div" onclick="changeTab('non')">
+                                    其他<span style="font-style: italic;">(NON)</span>
+                                </a>
+                            </li>
                             <li>
                                 <div class="alert alert-block alert-success center visuallyhidden">
                                     <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
@@ -152,6 +157,9 @@ $ships = Session::get('shipList');
                             <div id="tc_contract_div" class="tab-pane">
                                 @include('business.ship_tc_contract')
                             </div>
+                            <div id="non_contract_div" class="tab-pane">
+                                @include('business.ship_non_contract')
+                            </div>                            
                         </div>
 
                         <div id="modal-wizard" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
@@ -282,7 +290,6 @@ $ships = Session::get('shipList');
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>
     <script src="{{ cAsset('assets/js/bignumber.js') }}"></script>
     <script src="{{ cAsset('assets/js/vue.js') }}"></script>
-    <script src="{{ cAsset('assets/js/vue-numeral-filter.min.js') }}"></script>
     <script src="{{ asset('/assets/js/dycombo.js') }}"></script>
 
 	<?php
@@ -303,8 +310,12 @@ $ships = Session::get('shipList');
 
         var voyInputObjTmp = new Array();
         var voyContractObjTmp = new Array();
+
         var tcInputObjTmp = new Array();
         var tcContractObjTmp = new Array();
+        
+        var nonInputObjTmp = new Array();
+        var nonContractObjTmp = new Array();
 
         var submitted = false;
         var state = '@if(isset($status)){{$status}}@endif';
@@ -330,7 +341,7 @@ $ships = Session::get('shipList');
             var confirmationMessage = 'It looks like you have been editing something. '
                 + 'If you leave before saving, your changes will be lost.';
 
-            if(ACTIVE_TAB == 'voy') {
+                if(ACTIVE_TAB == 'voy') {
                 let currentObj = JSON.parse(JSON.stringify(voyInputObj.input));
                 if(JSON.stringify(voyInputObjTmp) != JSON.stringify(currentObj))
                     isChangeStatus = true;
@@ -344,7 +355,7 @@ $ships = Session::get('shipList');
                     else
                         isChangeStatus = false;
                 }
-            } else {
+            } else if(ACTIVE_TAB == 'tc') {
                 let currentObj = JSON.parse(JSON.stringify(tcInputObj.input));
                 if(JSON.stringify(tcInputObjTmp) != JSON.stringify(currentObj))
                     isChangeStatus = true;
@@ -357,7 +368,21 @@ $ships = Session::get('shipList');
                         isChangeStatus = true;
                     else
                         isChangeStatus = false;
-                    }                    
+                }
+            } else {
+                let currentObj = JSON.parse(JSON.stringify(nonInputObj.input));
+                if(JSON.stringify(nonInputObjTmp) != JSON.stringify(currentObj))
+                    isChangeStatus = true;
+                else
+                    isChangeStatus = false;
+
+                if(!isChangeStatus) {
+                    let currentObj = JSON.parse(JSON.stringify(nonContractObj._data));
+                    if(JSON.stringify(nonContractObjTmp) != JSON.stringify(currentObj))
+                        isChangeStatus = true;
+                    else
+                        isChangeStatus = false;
+                }
             }
 
             if (!submitted && isChangeStatus) {
@@ -381,14 +406,13 @@ $ships = Session::get('shipList');
             computed: {
                 displayValue: {
                     get: function() {
-                        this.setFocus;
                         if (this.isInputActive) {
                             if(isNaN(this.value))
-                                return 0;
+                                return '';
 
-                            return this.value;
+                            return this.value == 0 ? '' : this.value;
                         } else {
-                            let fixedLength = 2;
+                            let fixedLength = 1;
                             let prefix = '$ ';
                             if(this.fixednumber != undefined)
                                 fixedLength = this.fixednumber;
@@ -396,16 +420,18 @@ $ships = Session::get('shipList');
                             if(this.prefix != undefined)
                                 prefix = this.prefix + ' ';
                             
+                            if(this.value == 0 || this.value == undefined || isNaN(this.value))
+                                return '';
+                            
                             return prefix + number_format(this.value, fixedLength);
                         }
                     },
                     set: function(modifiedValue) {
-                        if (isNaN(modifiedValue)) {
+                        if (modifiedValue == 0 || modifiedValue == undefined || isNaN(modifiedValue)) {
                             modifiedValue = 0
                         }
-
-                        this.$emit('input', parseFloat(modifiedValue))
-                        this.setFocus
+                        
+                        this.$emit('input', parseFloat(modifiedValue));
                     },
                 }
             },
@@ -421,8 +447,10 @@ $ships = Session::get('shipList');
                     this.$emit('input', parseFloat(this.value ,10).toFixed(fixedLength));
                     if(this.type == 'tc')
                         tcInputObj.calcContractPreview();
-                    else
+                    else if(this.type == 'voy')
                         voyInputObj.calcContractPreview();
+                    else
+                        nonInputObj.calcContractPreview();
 
                 },
                 keymonitor: function(e) {
@@ -444,6 +472,7 @@ $ships = Session::get('shipList');
             initialize();
             initializeVoy();
             initializeTc();
+            initializeNon();
 
             if(state == 'error') {
                 $.gritter.add({
@@ -496,7 +525,6 @@ $ships = Session::get('shipList');
                         })
                     },
                     getFrtRate: function(a, b) {
-                        console.log(a, b)
                         return parseFloat(a) == 0 || a == undefined ? b : a;
                     },
                     getCargoName: function(ids) {
@@ -661,8 +689,13 @@ $ships = Session::get('shipList');
                                     portListObj.list = [];
                                     voyContractObj.portList = [];
                                     voyContractObj.portList = Object.assign([], [], result);
+
                                     tcContractObj.portList = [];
                                     tcContractObj.portList = Object.assign([], [], result);
+
+                                    nonContractObj.portList = [];
+                                    nonContractObj.portList = Object.assign([], [], result);
+
                                     portListObj.list = Object.assign([], [], result);
                                     portListObj.list.push([]);
                                 }
@@ -705,6 +738,7 @@ $ships = Session::get('shipList');
                 let cargoList = data['cargoList'];
                 voyContractObj.portList = Object.assign([], [], portList);
                 tcContractObj.portList = Object.assign([], [], portList);
+                nonContractObj.portList = Object.assign([], [], portList);
 
                 voyContractObj.cargoList = Object.assign([], [], cargoList);
                 tcContractObj.cargoList = Object.assign([], [], cargoList);
@@ -720,6 +754,8 @@ $ships = Session::get('shipList');
                 {
                     if (voyListObj.list[index].CP_kind == "VOY")
                     {
+                        voyContractObj.id = voyListObj.list[index].id;
+                        voyContractObj.is_update = true;
                         voyInputObj.input["speed"] = voyListObj.list[index].speed;
                         voyInputObj.input["distance"] = voyListObj.list[index].distance;
 
@@ -753,8 +789,8 @@ $ships = Session::get('shipList');
                         voyInputObj.input["rate"] = voyListObj.list[index].rate;
 
                         voyContractObj.voy_no = voyListObj.list[index].Voy_No;
+                        voyContractObj.pre_cp_date = voyListObj.list[index].CP_Date;
                         voyContractObj.cp_date = voyListObj.list[index].CP_Date;
-                        
                         voyContractObj.cargo = voyListObj.list[index].Cargo;
                         voyContractObj.cargoNames = voyListObj.getCargoName(voyListObj.list[index].Cargo);
                         voyContractObj.cargoIDList = voyListObj.list[index].Cargo;
@@ -786,8 +822,8 @@ $ships = Session::get('shipList');
                         }
 
                         voyInputObj.calcContractPreview();
-                        voyInputObj.onEditFinish();
-                        
+                        // voyInputObj.onEditFinish();
+                        // voyContractObj.$forceUpdate();
                         $($('.ship-register li')[1]).removeClass('active');
                         $($('.ship-register li')[0]).addClass('active');
                         $('#voy_contract_div').addClass('active');
@@ -796,8 +832,10 @@ $ships = Session::get('shipList');
                         
                         voyContractObjTmp = JSON.parse(JSON.stringify(voyContractObj._data));
                     }
-                    else
+                    else if(voyListObj.list[index].CP_kind == "TC")
                     {
+                        tcContractObj.id = voyListObj.list[index].id;
+                        tcContractObj.is_update = true;
                         tcInputObj.input["speed"] = voyListObj.list[index].speed;
                         tcInputObj.input["distance"] = voyListObj.list[index].distance;
 
@@ -826,8 +864,8 @@ $ships = Session::get('shipList');
                         tcInputObj.input["rate"] = voyListObj.list[index].rate;
 
                         tcContractObj.voy_no = voyListObj.list[index].Voy_No;
+                        tcContractObj.pre_cp_date = voyListObj.list[index].CP_Date;
                         tcContractObj.cp_date = voyListObj.list[index].CP_Date;
-                        
                         tcContractObj.cargo = voyListObj.list[index].Cargo;
                         tcContractObj.cargoNames = voyListObj.getCargoName(voyListObj.list[index].Cargo);
                         tcContractObj.cargoIDList = voyListObj.list[index].Cargo;
@@ -859,8 +897,8 @@ $ships = Session::get('shipList');
                         }
 
                         tcInputObj.calcContractPreview();
-                        tcInputObj.onEditFinish();
-                        
+                        // tcInputObj.onEditFinish();
+
                         $($('.ship-register li')[0]).removeClass('active');
                         $($('.ship-register li')[1]).addClass('active');
                         $('#voy_contract_div').removeClass('active');
@@ -868,10 +906,62 @@ $ships = Session::get('shipList');
                         changeTab('tc');
 
                         tcContractObjTmp = JSON.parse(JSON.stringify(tcContractObj._data));
+                    } else {
+                        nonContractObj.id = voyListObj.list[index].id;
+                        nonContractObj.is_update = true;
+                        nonInputObj.input["speed"] = voyListObj.list[index].speed;
+                        nonInputObj.input["distance"] = voyListObj.list[index].distance;
+
+                        nonInputObj.input["wait_day"] = voyListObj.list[index].wait_day;
+
+                        nonInputObj.input["fo_sailing"] = voyListObj.list[index].fo_sailing;
+                        nonInputObj.input["fo_up_shipping"] = voyListObj.list[index].fo_up_shipping;
+                        nonInputObj.input["fo_waiting"] = voyListObj.list[index].fo_waiting;
+                        nonInputObj.input["fo_price"] = voyListObj.list[index].fo_price;
+
+                        nonInputObj.input["do_sailing"] = voyListObj.list[index].do_sailing;
+                        nonInputObj.input["do_up_shipping"] = voyListObj.list[index].do_up_shipping;
+                        nonInputObj.input["do_waiting"] = voyListObj.list[index].do_waiting;
+                        nonInputObj.input["do_price"] = voyListObj.list[index].do_price;
+
+                        nonInputObj.input["cost_per_day"] = voyListObj.list[index].cost_per_day;
+                        nonInputObj.input["cost_else"] = voyListObj.list[index].cost_else;
+                        nonInputObj.input["currency"] = voyListObj.list[index].currency;
+                        nonInputObj.input["rate"] = voyListObj.list[index].rate;
+
+                        nonContractObj.voy_no = voyListObj.list[index].Voy_No;
+                        nonContractObj.pre_cp_date = voyListObj.list[index].CP_Date;
+                        nonContractObj.cp_date = voyListObj.list[index].CP_Date;
+                        
+                        nonContractObj.up_port = voyListObj.list[index].LPort;
+                        nonContractObj.upPortNames = voyListObj.getPortName(voyListObj.list[index].LPort);
+                        nonContractObj.upPortIDList = voyListObj.list[index].LPort;
+
+                        nonContractObj.hire_duration = voyListObj.list[index].Cgo_Qtty;
+
+                        nonContractObj.remark = voyListObj.list[index].Remarks;
+                        if (voyListObj.list[index].is_attachment == 1) {
+                            nonContractObj.fileName = voyListObj.list[index].attachment_url.substr(voyListObj.list[index].attachment_url.lastIndexOf("contract/")+9);
+                        }
+
+                        nonInputObj.calcContractPreview();
+                        // nonInputObj.onEditFinish();
+
+                        $($('.ship-register li')[0]).removeClass('active');
+                        $($('.ship-register li')[1]).removeClass('active');
+                        $($('.ship-register li')[2]).addClass('active');
+
+                        $('#voy_contract_div').removeClass('active');
+                        $('#tc_contract_div').removeClass('active');
+                        $('#non_contract_div').addClass('active');
+                        changeTab('non');
+
+                        nonContractObjTmp = JSON.parse(JSON.stringify(nonContractObj._data));                        
                     }
                 }
                 else
                 {
+                    voyContractObj.is_update = false;
                     voyInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
                     voyInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
                     voyInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
@@ -879,18 +969,29 @@ $ships = Session::get('shipList');
                     voyInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
                     voyInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
 
+                    tcContractObj.is_update = false;
                     tcInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
                     tcInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
                     tcInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
                     tcInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
                     tcInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
                     tcInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
+
+                    nonContractObj.is_update = false;
+                    nonInputObj.input['fo_sailing'] = shipInfo['FOSailCons_S'];
+                    nonInputObj.input['do_sailing'] = shipInfo['DOSailCons_S'];
+                    nonInputObj.input['fo_up_shipping'] = shipInfo['FOL/DCons_S'];
+                    nonInputObj.input['do_up_shipping'] = shipInfo['DOL/DCons_S'];
+                    nonInputObj.input['fo_waiting'] = shipInfo['FOIdleCons_S'];
+                    nonInputObj.input['do_waiting'] = shipInfo['DOIdleCons_S'];
                 }
                 voyInputObjTmp = JSON.parse(JSON.stringify(voyInputObj.input));
                 tcInputObjTmp = JSON.parse(JSON.stringify(tcInputObj.input));
+                nonInputObjTmp = JSON.parse(JSON.stringify(nonInputObj.input));
 
                 voyContractObjTmp = JSON.parse(JSON.stringify(voyContractObj._data));
                 tcContractObjTmp = JSON.parse(JSON.stringify(tcContractObj._data));
+                nonContractObjTmp = JSON.parse(JSON.stringify(nonContractObj._data));
             }
         });
     }
@@ -910,7 +1011,7 @@ $ships = Session::get('shipList');
 
     $('#submit').on('click', function(e) {
         if(ACTIVE_TAB == 'voy') {
-            if(/*voyContractObj.validate_voy_no == true && */ voyContractObj.voy_no != '' && voyContractObj.voy_no.length == 4) {
+            if(voyContractObj.validate_voy_no == true && voyContractObj.voy_no != '' && voyContractObj.voy_no.length == 4) {
                 submitted = true;
                 $('#voyContractForm').submit();
             } else {
@@ -918,10 +1019,19 @@ $ships = Session::get('shipList');
                 $('[name=voy_no').focus();
                 return false;
             }
-        } else {
-            if(/*tcContractObj.validate_voy_no == true && */ tcContractObj.voy_no != '' && tcContractObj.voy_no.length == 4) {
+        } else if(ACTIVE_TAB == 'tc') {
+            if(tcContractObj.validate_voy_no == true && tcContractObj.voy_no != '' && tcContractObj.voy_no.length == 4) {
                 submitted = true;
                 $('#tcContractForm').submit();
+            } else {
+                alert('Please input VoyNo correctly.');
+                $($('[name=voy_no')[1]).focus();
+                return false;
+            }
+        } else {
+            if(nonContractObj.validate_voy_no == true && nonContractObj.voy_no != '' && nonContractObj.voy_no.length == 4) {
+                submitted = true;
+                $('#nonContractForm').submit();
             } else {
                 alert('Please input VoyNo correctly.');
                 $($('[name=voy_no')[1]).focus();

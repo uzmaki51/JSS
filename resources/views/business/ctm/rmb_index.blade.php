@@ -71,7 +71,7 @@
                         <tr v-for="(item, array_index) in list">
                             <td class="d-none"><input type="hidden" name="id[]" v-model="item.id"></td>
                             <td class="center no-wrap">
-                                <input type="text" class="form-control text-center" name="ctm_no[]" v-model="item.ctm_no" minlength="5" maxlength="5">
+                                <input type="text" class="form-control text-center" name="ctm_no[]" v-model="item.ctm_no" minlength="5" maxlength="5" readonly>
                             </td>
                             <td class="center">
                                 <input type="text" class="date-picker form-control text-center" name="reg_date[]" v-model="item.reg_date" @click="dateModify($event, array_index)" data-date-format="yyyy-mm-dd">

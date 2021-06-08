@@ -16,16 +16,18 @@ class Common extends Model
 {
     protected $table = 'tb_decision_report';
 
-    public function generateReportID() {
+    public function generateReportID($report_data) {
 		$retVal = false;
 		try {
 			DB::beginTransaction();
 			DB::table($this->table)->lockForUpdate();
-			$year = date('Y');
+			$year = date('Y', strtotime($report_data));
 			$count = self::whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $year))->orderBy('report_id', 'desc')->first();
-			if($count == null)
-				$count = date('y') . '0001';
-			else {
+			
+			if($count == null) {
+				$count = date('y', strtotime($report_data)) . '0001';
+				return $count;
+			} else {
 				$count = $count->report_id + 1;
 			}
 
@@ -35,14 +37,13 @@ class Common extends Model
 				return false;
 			}
 
-			$today = date('y');
-
-			$retVal = $today . $sufix;
+			$retVal = date('y', strtotime($report_data)) . $sufix;
+			
 			
 			$is_exist = DB::table($this->table)->where('report_id', $retVal)->first();
 			if($is_exist != null)
 				$retVal = $retVal + 1;
-
+				
 			DB::commit();
 		} catch(\Exception $e) {
 			DB::rollback();
