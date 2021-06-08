@@ -100,7 +100,7 @@ $ships = Session::get('shipList');
                                     <th class="text-center style-normal-header" style="width: 4%;"><span>证书费</span></th>
                                 </tr>
                                 </thead>
-                                <tbody class="" id="">
+                                <tbody class="" id="table-income-expense-body">
                                 </tbody>
                             </table>
                             <div class="space-12"></div>
