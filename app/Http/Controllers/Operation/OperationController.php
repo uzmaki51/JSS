@@ -694,6 +694,14 @@ class OperationController extends Controller
         ));
     }
 
+    public function ajaxIncomeExportListByShipForPast(Request $request) {
+        $params = $request->all();
+		$decideTbl = new DecisionReport();
+		$reportList = $decideTbl->getIncomeExportListForPast($params);
+
+		return response()->json($reportList);
+    }
+
     public function ajaxIncomeExportListByShip(Request $request) {
         $params = $request->all();
 		$decideTbl = new DecisionReport();

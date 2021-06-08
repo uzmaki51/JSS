@@ -163,10 +163,12 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('finance/accounts/info/list', ['uses'=>'Finance\FinanceController@getPersonalInfoList']);
 	Route::post('finance/accounts/setting/list', ['uses'=>'Finance\FinanceController@getSettingList']);
 
+	Route::post('operation/listByShipForPast', ['uses'=>'Operation\OperationController@ajaxIncomeExportListByShipForPast']);		// dailyAverage
 	Route::post('operation/listByShip', ['uses'=>'Operation\OperationController@ajaxIncomeExportListByShip']);		// incomeExpense -> Table, Graph
 	Route::post('operation/listBySOA', ['uses'=>'Operation\OperationController@ajaxListBySOA']);					// incomeExpense -> SOA
 
 	Route::post('operation/listByAll', ['uses'=>'Operation\OperationController@ajaxListByAll']);					// incomeExpenseAll -> Table
+
 
 });
 
@@ -314,6 +316,9 @@ Route::group(['prefix' => 'business'], function() {
 	Route::any('shipMemberYearReportPrint', ['uses'=>'PrintController@shipMemberYearReportPrint']);
 	Route::any('memberMonthAttendPrint', ['uses'=>'PrintController@memberMonthAttendPrint']);
 	Route::any('shipMemberMonthAttendPrint', ['uses'=>'PrintController@shipMemberMonthAttendPrint']);
+
+	
+	Route::post('updateCostInfo', ['uses' => 'Business\BusinessController@updateCostInfo']);
 });
 
 // Administrative Affairs

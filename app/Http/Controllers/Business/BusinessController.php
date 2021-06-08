@@ -16,6 +16,7 @@ use App\Models\Operations\Cargo;
 use App\Models\Operations\Cp;
 use App\Models\ShipMember\ShipPosition;
 use App\Models\ShipTechnique\ShipPort;
+use App\Models\Finance\ExpectedCosts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -23,6 +24,7 @@ use App\Http\Controllers\Util;
 use App\Models\Menu;
 use App\Models\UserInfo;
 use App\Models\Member\Unit;
+use App\Models\Decision\DecisionReport;
 
 use App\Models\Plan\MainPlan;
 use App\Models\Plan\SubPlan;
@@ -66,10 +68,42 @@ class BusinessController extends Controller {
     }
 
     public function dailyAverageCost(Request $request) {
+        
+        $shipList = ShipRegister::select('tb_ship_register.IMO_No', 'tb_ship_register.shipName_En', 'tb_ship_register.NickName', 'tb_ship.name')
+                        ->leftJoin('tb_ship', 'tb_ship.id', '=', 'tb_ship_register.Shipid')
+                        ->get();
+        $shipId = $request->get('shipId');
+        $costs = ExpectedCosts::where('shipNo', $shipId)->first();
+
         return view('business.daily_average_cost', array(
-            'shipId'	    =>  0,
-		));
+            'shipList'   => $shipList,
+            'shipId'     => $shipId,
+            'costs'      => $costs,
+        ));
     }
+
+    public function updateCostInfo(Request $request) {
+        $shipId = $request->get('select-ship');
+        $inputs = $request->get('input');
+
+        $cost_record = ExpectedCosts::where('shipNo', $shipId)->first();
+        if (empty($cost_record)) {
+            $cost_record = new ExpectedCosts();
+        }
+        $cost_record->shipNo = $shipId;
+        $cost_record->input1 = $inputs[0];
+        $cost_record->input2 = $inputs[1];
+        $cost_record->input3 = $inputs[2];
+        $cost_record->input4 = $inputs[3];
+        $cost_record->input5 = $inputs[4];
+        $cost_record->input6 = $inputs[5];
+        $cost_record->input7 = $inputs[6];
+        $cost_record->input8 = $inputs[7];
+
+        $cost_record->save();
+        return redirect('business/dailyAverageCost?shipId='.$shipId);
+    }
+
 
 	public function contract(Request $request) {
         $params = $request->all();

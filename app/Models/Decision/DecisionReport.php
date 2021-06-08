@@ -15,6 +15,7 @@ use App\Models\ShipManage\ShipRegister;
 use App\Models\Finance\BooksList;
 use App\Models\Finance\ReportSave;
 use App\Models\Finance\WaterList;
+use App\Models\Finance\ExpectedCosts;
 use App\Models\Operations\Cp;
 use App\Models\ShipTechnique\ShipPort;
 use App\Models\Operations\Cargo;
@@ -261,6 +262,115 @@ class DecisionReport extends Model {
 		}
 
 		return $result;
+	}
+
+	/// incomeExpense for three years-> Table, Graph (similar to getIncomeExportList)
+	public function getIncomeExportListForPast($params) {
+		if (!isset($params['columns'][1]['search']['value']) ||
+            $params['columns'][1]['search']['value'] == ''
+        ) {
+        	$shipid = $params['shipId'];
+        }
+		else
+		{
+			$shipid = $params['columns'][1]['search']['value'];
+		}
+
+		$start_year = DecisionReport::select(DB::raw('MAX(create_at) as max_date'))->first();
+        if(empty($start_year)) {
+            $start_year = date("Y");
+        } else {
+            $start_year = substr($start_year['max_date'],0,4);
+        }
+		
+		$total_profit = 0;
+		$start_year = intval($start_year);
+		$records = [];
+		$index = 0;
+		for ($year=$start_year-2;$year<=$start_year;$year ++) {
+			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('year', $year)
+				->groupBy('flowid','profit_type')
+				->selectRaw('sum(CASE WHEN tb_decision_report_save.currency="CNY" THEN tb_decision_report_save.amount/tb_decision_report_save.rate ELSE tb_decision_report_save.amount END) as sum, tb_decision_report_save.flowid, tb_decision_report_save.profit_type, tb_decision_report_save.currency')
+				->groupBy('flowid','profit_type');
+
+			$selector = $selector->leftJoin("tbl_cp", function($join) {
+				$join->on('tbl_cp.Voy_No', '=', 'tb_decision_report_save.voyNo');
+				$join->on('tbl_cp.Ship_ID', '=', 'tb_decision_report_save.shipNo');
+			})->whereIn("tbl_cp.CP_kind",["TC","VOY"]);
+
+			$cost_records = $selector->get();
+			
+			$newArr = [];
+			$credit_sum = 0;
+			$debit_sum = 0;
+			$profit_sum = 0;
+			foreach($cost_records as $cost) {
+				if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
+					$credit_sum += $cost->sum;
+				}
+				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != 13 && $cost->profit_type != 14)
+				{
+					$newArr[$cost->profit_type] = $cost->sum;
+					$debit_sum += $cost->sum;
+				}
+			}
+			$records[$index]['year'] = $year;
+			$records[$index]['credit_sum'] = $credit_sum;
+			$records[$index]['debit_sum'] = $debit_sum;
+			$records[$index]['profit_sum'] = $credit_sum - $debit_sum;
+			$total_profit += $records[$index]['profit_sum'];
+			$records[$index]['total_profit'] = $total_profit;
+			$records[$index]['debit_list'] = $newArr;
+
+			$from_date = $year . "-01-01";
+			$to_date = $year . "-12-31";
+
+			$selector = CP::where('CP_Date','>=',$from_date)->where('CP_Date','<=',$to_date)->where('Ship_ID',$shipid)
+				->groupBy('CP_kind')->selectRaw('count(CP_kind) as count, CP_kind');
+			$cp_records = $selector->get();
+			foreach($cp_records as $count) {
+				if ($count->CP_kind == "TC") $records[$index]['TC_count'] = $count->count;
+				else if ($count->CP_kind == "VOY") $records[$index]['VOY_count'] = $count->count;
+				else if ($count->CP_kind == "NON") $records[$index]['NON_count'] = $count->count;
+			}
+			$min_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
+							  ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->select(DB::raw('MIN(Voy_Date) as min_date,tbl_voy_log.*'))->first();
+			$max_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
+							  ->where('Voy_Status', DYNAMIC_CMPLT_DISCH)->select(DB::raw('MAX(Voy_Date) as max_date,tbl_voy_log.*'))->first();
+
+			if($min_date->min_date == $max_date->max_date) {
+				$min_date = VoyLog::where('Ship_ID', $shipid)->where('Voy_Date', '>=',$from_date)->where('Voy_Date', '<=', $to_date)
+				->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc')->orderBy('GMT', 'asc')->first();
+				if ($min_date == null) $min_date = false;
+			}
+			else
+			{
+				if($min_date->min_date == null)
+					$min_date = false;
+				if($max_date->max_date == null)
+					$max_date = false;
+			}
+			if ($max_date->max_date == null) $max_date = false;
+
+			$records[$index]['min_date'] = $min_date;
+			$records[$index]['max_date'] = $max_date;
+			$index ++;
+		}
+
+		$costs = ExpectedCosts::where('shipNo', $shipid)->first();
+		if (isset($params['draw'])) {
+			return [
+				'draw' => $params['draw']+0,
+				'recordsTotal' => DB::table($this->table)->count(),
+				'recordsFiltered' => $index,
+				'data' => $records,
+				'costs' => $costs,
+				'error' => 0,
+			];
+		} else {
+			return $records;
+		}
+		
 	}
 
 	/// incomeExpense -> Table, Graph
