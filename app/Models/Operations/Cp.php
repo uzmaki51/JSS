@@ -112,4 +112,17 @@ class Cp extends Model
         return $result;
     }
 
+    public function getContractInfo($shipId, $voyId) {
+        $selector = self::where('Ship_ID', $shipId)
+                    ->where('Voy_No', $voyId)
+                    ->select();
+
+        $result = $selector->first();
+
+        if($result == null)
+            return [];
+        
+        return $result;
+    }
+
 }

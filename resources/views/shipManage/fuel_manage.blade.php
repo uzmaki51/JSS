@@ -902,7 +902,7 @@
                                 }
                                 setTimeout(function() {
                                     origForm = JSON.parse(JSON.stringify($('#record-form').serialize()));
-                                }, 500)
+                                }, 500);
                                 
                             }
                         });

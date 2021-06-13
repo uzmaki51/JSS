@@ -51,6 +51,11 @@ use App\Models\ShipManage\Ship;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipMember\ShipMember;
 use App\Models\Convert\VoyLog;
+use App\Models\Convert\VoySettle;
+use App\Models\Convert\VoySettleMain;
+use App\Models\Convert\VoySettleElse;
+use App\Models\Convert\VoySettleFuel;
+use App\Models\Convert\VoySettleProfit;
 use App\Models\ShipManage\Ctm;
 use Illuminate\Support\Facades\DB;
 
@@ -456,7 +461,6 @@ class BusinessController extends Controller {
         
     }
 
-
     public function saveNonContract(Request $request) {
         $params = $request->all();
 
@@ -646,6 +650,47 @@ class BusinessController extends Controller {
         return redirect('/business/ctm?shipId=' . $shipId . '&year=' . $activeYear . '&type=' . $ctm_type);
     }
 
+    public function settleMent(Request $request) {
+        $params = $request->all();
+
+        $shipList = ShipRegister::all();
+
+        if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else {
+            if(count($shipList) > 0)
+                $shipId = $shipList[0]->IMO_No;
+            else
+                return redirect()->back();
+        }
+
+        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        if($shipInfo == null)
+            $shipName = '';
+        else
+            $shipName = $shipInfo->Nick_Name != '' ? $shipInfo->Nick_Name : $shipInfo->shipName_En;
+
+        $cpList = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
+        if(isset($params['voy_id'])) {
+            $voyId = $params['voy_id'];
+        } else {
+            if(count($cpList) > 0)
+                $voyId = $cpList[0]->Voy_No;
+            else
+                return redirect()->back();
+        }
+
+        return view('business.settle.index', [
+            'shipList'          => $shipList,
+            'shipId'            => $shipId,
+            'shipInfo'          => $shipInfo,
+            'shipName'          => $shipName,
+
+            'cpList'            => $cpList,
+            'voyId'             => $voyId
+        ]);
+    }
+
     public function ctm(Request $request) {
         $shipRegList = ShipRegister::all();
 
@@ -684,6 +729,225 @@ class BusinessController extends Controller {
                 'type'          =>  $type,
             ]);
     }
+
+    public function saveVoySettle(Request $request) {
+        $params = $request->all();
+        if(!isset($params['shipId']))
+            return redirect()->back();
+        
+        $shipId = $params['shipId'];
+        $voyId = $params['voyId'];
+
+        if(isset($params['main_id']) && $params['main_id'] != '')
+            $settleMain = VoySettleMain::find($params['main_id']);
+        else
+            $settleMain = new VoySettleMain();
+        
+        $settleMain['shipId']                   = $shipId;
+        $settleMain['voyId']                    = $voyId;
+        $settleMain['load_date']                = $params['load_date'] . ' ' . $params['load_hour'] . ':' . $params['load_minute'] . ':00';
+        $settleMain['dis_date']                 = $params['dis_date'] . ' ' . $params['dis_hour'] . ':' . $params['dis_minute'] . ':00';
+        $settleMain['total_sail_time']          = _convertStr2Int($params['total_sail_time']);
+        $settleMain['sail_time']                = _convertStr2Int($params['sail_time']);
+        $settleMain['load_time']                = _convertStr2Int($params['load_time']);
+        $settleMain['cargo_name']               = $params['cargo_name'];
+        $settleMain['voy_type']                 = $params['voy_type'];
+        $settleMain['cgo_qty']                  = _convertStr2Int($params['cgo_qty']);
+        $settleMain['freight_price']            = _convertStr2Int($params['freight_price']);
+        $settleMain['freight']                  = _convertStr2Int($params['freight']);
+        $settleMain['total_distance']           = _convertStr2Int($params['total_distance']);
+        $settleMain['lport']                    = $params['lport'];
+        $settleMain['dport']                    = $params['dport'];
+        $settleMain['avg_speed']                = _convertStr2Int($params['avg_speed']);
+        $settleMain['com_fee']                  = _convertStr2Int($params['com_fee']);
+        $settleMain->save();
+
+        if(isset($params['origin_id']) && $params['origin_id'] != '') {
+            $settleElse = VoySettleElse::find($params['origin_id']);
+        } else {
+            $settleElse = new VoySettleElse();
+        }
+
+        $settleElse['shipId'] = $shipId;
+        $settleElse['voyId'] = $voyId;
+        $settleElse['position'] = $params['origin_position'];
+        if(!isset($params['origin_date'][$key]) && $params['origin_date'][$key] != '' && $params['origin_date'][$key] != EMPTY_DATE)
+            $settleElse['load_date'] = $params['origin_date'] . ' ' . $params['origin_hour'] . ':' . $params['origin_minute'] . ':00';
+        else
+            $settleElse['load_date'] = null;
+
+        $settleElse['rob_fo'] = _convertStr2Int($params['origin_fo']);
+        $settleElse['rob_do'] = _convertStr2Int($params['origin_do']);
+        $settleElse['type'] = VOY_SETTLE_ORIGIN;
+
+        $settleElse->save();
+
+        $loadIds = $params['load_id'];
+        foreach($loadIds as $key => $id) {
+            if(isset($id) && $id != '') {
+                $settleElse = VoySettleElse::find($id);
+            } else {
+                $settleElse = new VoySettleElse();
+            }
+
+            if(isset($params['load_arrival_hour'][$key]) && $params['load_arrival_hour'][$key] != '')
+                $params['load_arrival_hour'][$key] = $params['load_arrival_hour'][$key];
+            else
+                $params['load_arrival_hour'][$key] = '00';
+
+            if(isset($params['load_arrival_minute'][$key]) && $params['load_arrival_minute'][$key] != '')
+                $params['load_arrival_minute'][$key] = $params['load_arrival_minute'][$key];
+            else
+                $params['load_arrival_minute'][$key] = '00';
+
+            $settleElse['shipId'] = $shipId;
+            $settleElse['voyId'] = $voyId;
+            $settleElse['position'] = $params['load_position'][$key];
+            if(!isset($params['load_arrival_date'][$key]) && $params['load_arrival_date'][$key] != '' && $params['load_arrival_date'][$key] != EMPTY_DATE)
+                $settleElse['arrival_date'] = $params['load_arrival_date'][$key] . ' ' . $params['load_arrival_hour'][$key] . ':' . $params['load_arrival_minute'][$key] . ':00';
+            else
+                $settleElse['arrival_date'] = null;
+
+            if(!isset($params['load_depart_date'][$key]) && $params['load_depart_date'][$key] != '' && $params['load_depart_date'][$key] != EMPTY_DATE)
+                $settleElse['load_date'] = $params['load_depart_date'][$key] . ' ' . $params['load_depart_hour'][$key] . ':' . $params['load_depart_minute'][$key] . ':00';
+            else
+                $settleElse['load_date'] = null;
+
+            $settleElse['rob_fo'] = _convertStr2Int($params['load_fo'][$key]);
+            $settleElse['rob_do'] = _convertStr2Int($params['load_do'][$key]);
+            $settleElse['type'] = VOY_SETTLE_LOAD;
+            $settleElse->save();
+        }
+
+        $loadIds = $params['dis_id'];
+        foreach($loadIds as $key => $id) {
+            if(isset($id) && $id != '') {
+                $settleElse = VoySettleElse::find($id);
+            } else {
+                $settleElse = new VoySettleElse();
+            }
+
+            $settleElse['shipId'] = $shipId;
+            $settleElse['voyId'] = $voyId;
+            $settleElse['position'] = $params['dis_position'][$key];
+            if(!isset($params['dis_arrival_date'][$key]) && $params['dis_arrival_date'][$key] != '' && $params['dis_arrival_date'][$key] != EMPTY_DATE)
+                $settleElse['arrival_date'] = $params['dis_arrival_date'][$key] . ' ' . $params['dis_arrival_hour'][$key] . ':' . $params['dis_arrival_minute'][$key] . ':00';
+            else
+                $settleElse['arrival_date'] = null;
+
+            if(!isset($params['dis_depart_date'][$key]) && $params['dis_depart_date'][$key] != '' && $params['dis_depart_date'][$key] != EMPTY_DATE)
+                $settleElse['load_date'] = $params['dis_depart_date'][$key] . ' ' . $params['dis_depart_hour'][$key] . ':' . $params['dis_depart_minute'][$key] . ':00';
+            else
+                $settleElse['load_date'] = null;
+
+            $settleElse['rob_fo'] = _convertStr2Int($params['dis_fo'][$key]);
+            $settleElse['rob_do'] = _convertStr2Int($params['dis_do'][$key]);
+            $settleElse['type'] = VOY_SETTLE_DIS;
+            $settleElse->save();
+        }
+
+        $loadIds = $params['fuel_id'];
+        
+        foreach($loadIds as $key => $id) {
+            if(isset($id) && $id != '') {
+                $settleElse = VoySettleElse::find($id);
+            } else {
+                $settleElse = new VoySettleElse();
+            }
+
+            $settleElse['shipId'] = $shipId;
+            $settleElse['voyId'] = $voyId;
+            $settleElse['position'] = $params['fuel_position'][$key];
+            if(!isset($params['fuel_arrival_date'][$key]) && $params['fuel_arrival_date'][$key] != '' && $params['fuel_arrival_date'][$key] != EMPTY_DATE)
+                $settleElse['arrival_date'] = $params['fuel_arrival_date'][$key] . ' ' . $params['fuel_arrival_hour'][$key] . ':' . $params['fuel_arrival_minute'][$key] . ':00';
+            else
+                $settleElse['arrival_date'] = null;
+            
+            if(!isset($params['fuel_depart_date'][$key]) && $params['fuel_depart_date'][$key] != '' && $params['fuel_depart_date'][$key] != EMPTY_DATE)
+                $settleElse['load_date'] = $params['fuel_depart_date'][$key] . ' ' . $params['fuel_depart_hour'][$key] . ':' . $params['fuel_depart_minute'][$key] . ':00';
+            else
+                $settleElse['load_date'] = null;
+
+            $settleElse['rob_fo'] = _convertStr2Int($params['fuel_fo'][$key]);
+            $settleElse['rob_do'] = _convertStr2Int($params['fuel_do'][$key]);
+            $settleElse['type'] = VOY_SETTLE_FUEL;
+            $settleElse->save();
+        }
+
+        $fuelCaclId = $params['fuelCalcId'];
+        if(isset($fuelCaclId) && $fuelCaclId != '') {
+            $settleFuel = VoySettleFuel::find($fuelCaclId);
+        } else {
+            $settleFuel = new VoySettleFuel();
+        }
+
+        $settleFuel['shipId'] = $shipId;
+        $settleFuel['voyId'] = $voyId;
+        $settleFuel['rob_fo_1'] = _convertStr2Int($params['rob_fo_1']);
+        $settleFuel['rob_do_1'] = _convertStr2Int($params['rob_do_1']);
+        $settleFuel['rob_fo_2'] = _convertStr2Int($params['rob_fo_2']);
+        $settleFuel['rob_do_2'] = _convertStr2Int($params['rob_do_2']);
+
+        $settleFuel['used_fo'] = _convertStr2Int($params['used_fo']);
+        $settleFuel['used_do'] = _convertStr2Int($params['used_do']);
+        $settleFuel['rob_fo_price_1'] = _convertStr2Int($params['rob_fo_price_1']);
+        $settleFuel['rob_fo_price_2'] = _convertStr2Int($params['rob_fo_price_2']);
+        $settleFuel['rob_do_price_1'] = _convertStr2Int($params['rob_do_price_1']);
+        $settleFuel['rob_do_price_2'] = _convertStr2Int($params['rob_do_price_2']);
+
+        $settleFuel['total_fo'] = _convertStr2Int($params['total_fo']);
+        $settleFuel['total_do'] = _convertStr2Int($params['total_do']);
+        $settleFuel['total_fo_price'] = _convertStr2Int($params['total_fo_price']);
+        $settleFuel['total_do_price'] = _convertStr2Int($params['total_do_price']);
+        $settleFuel['total_fo_diff'] = _convertStr2Int($params['total_fo_diff']);
+        $settleFuel['total_do_diff'] = _convertStr2Int($params['total_do_diff']);
+        $settleFuel['total_fo_price_diff'] = _convertStr2Int($params['total_fo_price_diff']);
+        $settleFuel['total_do_price_diff'] = _convertStr2Int($params['total_do_price_diff']);
+        $settleFuel->save();
+
+        $creditIds = $params['credit_id'];
+        foreach($creditIds as $key => $id) {
+            if(isset($id) && $id != '') {
+                $settleProfit = VoySettleProfit::find($id);
+            } else {
+                $settleProfit = new VoySettleProfit();
+            }
+
+            $settleProfit['shipId'] = $shipId;
+            $settleProfit['voyId'] = $voyId;
+            $settleProfit['name'] = $params['credit_name'][$key];
+            $settleProfit['amount'] = _convertStr2Int($params['credit_amount'][$key]);
+            $settleProfit['remark'] = $params['credit_remark'][$key];
+            $settleProfit['type'] = REPORT_TYPE_EVIDENCE_IN;
+            $settleProfit->save();
+        }
+
+        $debitIds = $params['debit_id'];
+        foreach($debitIds as $key => $id) {
+            if(isset($id) && $id != '') {
+                $settleProfit = VoySettleProfit::find($id);
+            } else {
+                $settleProfit = new VoySettleProfit();
+            }
+
+            $settleProfit['shipId'] = $shipId;
+            $settleProfit['voyId'] = $voyId;
+            $settleProfit['name'] = $params['debit_name'][$key];
+            $settleProfit['amount'] = _convertStr2Int($params['debit_amount'][$key]);
+            $settleProfit['remark'] = $params['debit_remark'][$key];
+            $settleProfit['type'] = REPORT_TYPE_EVIDENCE_OUT;
+            $settleProfit->save();
+        }
+
+        return redirect()->back();
+        // return redirect('/business/dynRecord?shipId=' . $shipId . '&voyNo=' . $CP_ID);
+    }
+    
+
+
+
+
+
     public function newsTemaPage(Request $request) {
         $keyword = $request->get('keyword');
         $temaList = NewsTema::getNewsTemaList($keyword);
@@ -4613,7 +4877,7 @@ class BusinessController extends Controller {
         return response()->json($cp_list);
     }
 
-    function ajaxDeleteDynrecord(Request $request) {
+    public function ajaxDeleteDynrecord(Request $request) {
         $params = $request->all();
 
         $id = $params['id'];
@@ -4622,7 +4886,7 @@ class BusinessController extends Controller {
         return response()->json($ret);
     }
 
-    function ajaxCtm(Request $request) {
+    public function ajaxCtm(Request $request) {
         $params = $request->all();
 
         $tbl = Ctm::orderBy('ctm_no', 'asc');
@@ -4661,12 +4925,40 @@ class BusinessController extends Controller {
         return response()->json($retVal);
     }
 
-    function ajaxCtmDelete(Request $request) {
+    public function ajaxCtmDelete(Request $request) {
         $params = $request->all();
 
         $id = $params['id'];
         $ret = Ctm::where('id', $id)->delete();
 
         return response()->json($ret);
-    }   
+    }
+
+    public function ajaxVoySettleIndex(Request $request) {
+        $params = $request->all();
+
+        $shipId = $params['shipId'];
+        $voyId = $params['voyId'];
+
+        $voySettleTbl = new VoySettle();
+        $is_exist = VoySettleMain::where('shipId', $shipId)->where('voyId', $voyId)->first();
+        
+        // If don't exist saved data in voy settle table.
+        if($is_exist == null) {
+            $retVal = $voySettleTbl->getTotalData($shipId, $voyId);
+        } else {
+            $retVal = $voySettleTbl->getData($shipId, $voyId);
+        }
+
+        return response()->json($retVal);
+    }
+
+    public function ajaxVoySettleDelete(Request $request) {
+        $params = $request->all();
+
+        $id = $params['id'];
+
+        VoySettleElse::where('id', $id)->delete();
+
+    }
 }

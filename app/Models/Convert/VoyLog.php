@@ -31,4 +31,56 @@ class VoyLog extends Model
 
         return $yearList;
     }
+
+    public function getVoyRecord($shipId = 0, $voyId = 0, $last = false, $all = true) {
+        if($shipId == 0 || $voyId == 0) return [];
+
+        if($last)
+            $orderBy = 'desc';
+        else
+            $orderBy = 'asc';
+
+        $selector = self::where('Ship_ID', $shipId)
+                        ->where('CP_ID', $voyId)
+                        ->orderBy('Voy_Date', $orderBy)
+                        ->orderBy('Voy_Hour', $orderBy)
+                        ->orderBy('Voy_Minute', $orderBy)
+                        ->orderBy('GMT', $orderBy);
+        if($all) {
+            $result = $selector->get();
+            if(!isset($result) || count($result) == 0)
+                $result = [];
+        } else {
+            $result = $selector->first();
+            if($result == null)
+                $result = [];
+        }
+
+        return $result;
+    }
+
+    public function getBeforeInfo($shipId, $voyId) {
+        $selector = self::where('Ship_ID', $shipId)
+                    ->where('CP_ID', '<', $voyId)
+                    ->where('Voy_Type', DYNAMIC_CMPLT_DISCH)
+                    ->orderBy('CP_ID', 'desc')
+                    ->first();
+
+        if($selector == null) 
+            return [];
+        
+        return $selector;
+    }
+
+    public function getLastInfo($shipId, $voyId) {
+        $selector = self::where('Ship_ID', $shipId)
+                    ->where('CP_ID', $voyId)
+                    ->where('Voy_Type', DYNAMIC_CMPLT_DISCH)
+                    ->first();
+
+        if($selector == null)
+            return [];
+        
+        return $selector;        
+    }
 }

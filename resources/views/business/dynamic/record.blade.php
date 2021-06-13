@@ -111,8 +111,8 @@
                                 <th class="text-center font-style-italic">POSITION</th>
                                 <th class="text-center font-style-italic">DTG[NM]</th>
                                 <th class="text-center font-style-italic">SPEED</th>
-                                <th class="text-center font-style-italic">RPM</th>
-                                <th class="text-center font-style-italic" style="border-right: 2px solid #4c4c4c;">CGO QTY</th>
+                                <th class="text-center font-style-italic" style="width: 45px;">RPM</th>
+                                <th class="text-center font-style-italic" style="border-right: 2px solid #4c4c4c; width: 48px;">CGO QTY</th>
                                 <th class="text-center font-style-italic" colspan="2">ROB</th>
                                 <th class="text-center font-style-italic" colspan="2">BUNKERING</th>
                                 <th class="text-center font-style-italic" colspan="4" style="width: 20%;">REMARK</th>
@@ -120,7 +120,7 @@
                             </tr>
                             <tr>
                                 <th class="text-center">航次</th>
-                                <th class="text-center font-style-italic">YY/MM/DD</th>
+                                <th class="text-center font-style-italic" style="width: 77px;">YY/MM/DD</th>
                                 <th class="text-center font-style-italic">hh</th>
                                 <th class="text-center font-style-italic">mm</th>
                                 <th class="text-center">动态</th>

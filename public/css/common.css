@@ -406,7 +406,7 @@ ul.timeline > li {
 
 
 .time-width {
-    width: 20px;
+    width: 24px;
 }
 .date-width {
     width: 70px;
@@ -435,7 +435,7 @@ ul.timeline > li {
 }
 
 .dynamic-footer .fix-top {
-    bottom: 31px;
+    bottom: 32px;
 }
 .dynamic-footer-result td {
     background: #eeeeee;
@@ -475,6 +475,56 @@ ul.timeline > li {
 
 .remark {
     text-align: left!important;
+}
+.gray-tr td {   
+    background: #f2f2f2;
+}
+.first-td {
+    padding-left: 12px;
+}
+.date-label {
+    float: left;
+}
+.hour-label {
+    float: left;
+    margin-left: 4px;
+}
+.minute-label {
+    float: left;
+    margin-left: 4px;
+}
+.gray-tr td input[readonly] {
+    background: #f2f2f2!important;
+}
+.total-td {
+    height: 22px!important;
+}
+.hour-input, .minute-input, .date-picker {
+    text-align: center!important;
+}
+.no-border-td {
+    border-bottom: transparent!important;
+    border-top: transparent!important;
+}
+.no-border {
+    border: transparent!important;
+}
+.sub-head-tr td {
+    background: #d9f8fb!important;
+    padding: 8px!important;
+}
+.gray-tr .dot {
+    border-bottom: 1px dashed!important;
+}
+.gray-tr .no-top {
+    border-top: transparent!important;
+}
+.add-img {
+    cursor: pointer;
+    margin: 0 4px;
+}
+.add-img:hover {
+    opacity: .8;
 }
 @media (min-width: 1367px) {
     .inner-wrap {

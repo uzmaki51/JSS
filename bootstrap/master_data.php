@@ -471,6 +471,10 @@ $UnitData = array(
 	'PCS', 'SET', 'BTL', 'BOX', 'M', 'MT', 'kg', 'DRM', 'SHT', 'ROL', 'LTR', '㎡', 'm³', '㎠', ' ㎤'
 );
 
+define('VOY_SETTLE_ORIGIN', 'ORIGIN');
+define('VOY_SETTLE_LOAD', 	'LOAD');
+define('VOY_SETTLE_DIS', 	'DIS');
+define('VOY_SETTLE_FUEL', 	'FUEL');
 
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,

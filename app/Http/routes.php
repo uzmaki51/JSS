@@ -124,7 +124,7 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipManage/equipment/require/list', ['uses'	=> 'ShipManage\ShipRegController@ajaxReqEquipmentList']);
 	Route::post('shipManage/equipment/require/delete', ['uses'	=> 'ShipManage\ShipRegController@ajaxShipReqEquipDelete']);
 	Route::post('shipManage/equipment/require/type/list', ['uses'	=> 'ShipManage\ShipRegController@ajaxShipReqEquipTypeList']);
-	Route::post('shipManage/equipment/require/type/delete', ['uses'	=> 'ShipManage\ShipRegController@ajaxShipReqEquipTypeDelete']);
+	Route::post('shipManage/equipment/require/type/delete', ['uses'	=> 'ShipManage\ShipRegController@ajaxShipReqEquipTypeDelete']);	
 
 	//Business
 	Route::post('business/cp/list', ['uses'	=> 'Business\BusinessController@ajaxCPList']);
@@ -148,6 +148,9 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipmanage/ctm/total', ['uses'=>'ShipManage\ShipRegController@ajaxCtmTotal']);
 	Route::post('shipmanage/ctm/debit', ['uses'=>'ShipManage\ShipRegController@ajaxCtmDebit']);
 	Route::post('shipmanage/ctm/debits', ['uses'=>'ShipManage\ShipRegController@ajaxCtmDebits']);
+
+	Route::post('business/voySettle/index', ['uses'=>'Business\BusinessController@ajaxVoySettleIndex']);
+	Route::post('business/voySettle/elseInfo/delete', ['uses'=>'Business\BusinessController@ajaxVoySettleDelete']);
 	
 	Route::post('system/backup/list', ['uses'=>'OrgManage\BackupController@getList']);
 	Route::post('system/backup/add', ['uses'=>'OrgManage\BackupController@add']);
@@ -183,6 +186,9 @@ Route::group(['prefix' => 'business'], function() {
 
 	Route::get('dynRecord', ['uses' => 'Business\BusinessController@dynRecord']);
 	Route::post('saveDynamic', ['uses'=>'Business\BusinessController@saveDynamic']);
+
+	Route::get('settleMent', ['uses' => 'Business\BusinessController@settleMent']);
+	Route::post('saveVoySettle', ['uses' => 'Business\BusinessController@saveVoySettle']);
 
 	Route::get('ctm', ['uses'	=> 'Business\BusinessController@ctm']);
 	Route::post('saveCtmList', ['uses'	=> 'Business\BusinessController@saveCtmList']);
@@ -748,3 +754,4 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
