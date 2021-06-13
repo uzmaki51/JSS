@@ -30,6 +30,8 @@ Route::group(['prefix' => 'org'], function() {
 	Route::post('memberadder',	['uses'=>'OrgManage\OrgmanageController@addMember']);
 	Route::post('upload',		['uses'=>'OrgManage\OrgmanageController@upload']);
 	Route::post('memberupdate',	['uses'=>'OrgManage\OrgmanageController@updateMember']);
+
+
 	Route::post('updateMemberSchoolCarrer',	['uses'=>'OrgManage\OrgmanageController@updateMemberSchoolCarrer']);
 	Route::post('deleteSchoolCarrer',	['uses'=>'OrgManage\OrgmanageController@deleteSchoolCarrer']);
 	Route::post('updateMemberFamily',	['uses'=>'OrgManage\OrgmanageController@updateMemberFamily']);
@@ -54,6 +56,8 @@ Route::group(['prefix' => 'org'], function() {
 
 	// System Backup/Restore
 	Route::get('system/backup', ['uses'=>'OrgManage\BackupController@index']);
+	Route::get('system/settings', ['uses'=>'OrgManage\SettingsController@index']);
+	Route::post('system/updateSettings',	['uses'=>'OrgManage\OrgmanageController@updateSettings']);
 
 
 });

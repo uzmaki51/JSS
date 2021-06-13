@@ -89,6 +89,7 @@ $ships = Session::get('shipList');
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
+                                    <hr class="dot-hr"/>
                                     <div class="row" style="text-align:center;">
                                         <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_second_title"></span>收支累计比较</strong>
                                         <div class="card" id="graph_second">
@@ -96,6 +97,7 @@ $ships = Session::get('shipList');
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
+                                    <hr class="dot-hr"/>
                                     <div class="row" style="text-align:center;">
                                         <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_third_title"></span>经济天数占率比较</strong>
                                         <div class="card" id="graph_third">
@@ -103,6 +105,7 @@ $ships = Session::get('shipList');
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
+                                    <hr class="dot-hr"/>
                                     <div class="row" style="text-align:center;">
                                         <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_fourth_title"></span>支出比较</strong>
                                         <div class="card" id="graph_fourth">
@@ -110,6 +113,7 @@ $ships = Session::get('shipList');
                                     </div>
                                     <div class="space-4"></div>
                                     <div class="space-10"></div>
+                                    <hr class="dot-hr"/>
                                     <div class="row" style="text-align:center;">
                                         <strong class="text-center" style="font-size: 20px; padding-top: 6px;"><span id="graph_fifth_title"></span>CTM支出比较</strong>
                                         <div class="card" id="graph_fifth">
@@ -348,6 +352,7 @@ $ships = Session::get('shipList');
             }
             if (JSON.stringify(shipids_graph) != JSON.stringify($('#select-graph-ship').val())) {
                 shipids_graph = $('#select-graph-ship').val();
+                console.log("shipids_graph",",",shipids_graph);
                 if (shipids_graph != null) {
                     selectGraphInfo();
                 }

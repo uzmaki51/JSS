@@ -52,10 +52,16 @@ $isHolder = Session::get('IS_HOLDER');
                 <div class="col-md-6">
                 </div>
                 <div class="col-md-6">
-                    <div class="f-right">
-                        <button class="btn btn-report-search btn-sm search-btn" onclick="javascript:goBack()"><< {{transOrgManage("captions.prevPage")}}</button>
-                        <button class="btn btn-danger btn-sm excel-btn" onclick="javascript:deleteMember('{{ $userid }}')"><i class="icon-remove"></i>{{transOrgManage("captions.delete")}}</button>
-                        <button class="btn btn-success btn-sm excel-btn" onclick="javascript:submit()"><i class="icon-save"></i>@if(!isset($userid)){{transOrgManage("captions.register")}}@else {{transOrgManage("captions.save")}} @endif</button>
+                    <div class="btn-group f-right">
+                        <a id="btnPrev" class="btn btn-sm btn-primary btn-add" style="width: 80px" onclick="javascript:goBack()">
+                            <i class=""></i>< {{transOrgManage("captions.prevPage")}}
+                        </a>
+                        <a id="btnDelete" class="btn btn-sm btn-danger" style="width: 80px" onclick="javascript:deleteMember('{{ $userid }}')">
+                            <i class="icon-remove"></i>{{ trans('common.label.delete') }}
+                        </a>
+                        <a id="btnSave" class="btn btn-sm btn-success" style="width: 80px" onclick="javascript:goBack()">
+                            <i class="icon-save"></i>{{ trans('common.label.save') }}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -74,7 +80,7 @@ $isHolder = Session::get('IS_HOLDER');
                             <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
                                 <tbody>
                                 <tr>
-                                    <td class="add-td-label">{{transOrgManage("captions.name")}}<span class="require">*</span>:</td>
+                                    <td class="add-td-label" width="10%;">{{transOrgManage("captions.name")}}<span class="require">*</span>:</td>
                                     <td class="add-td-text">
                                         <input type="text" class="form-control add-td-input" name="name" id="name" value="@if(isset($userinfo)){{$userinfo['realname']}}@endif" required>
                                     </td>
@@ -286,6 +292,11 @@ $isHolder = Session::get('IS_HOLDER');
 
     <script type="text/javascript">
         var token = '{!! csrf_token() !!}';
+
+        $("#btnSave").on('click', function() {
+            $('#validation-form').submit();
+        });
+
         $(function() {
             @if(isset($state))
             var state = '{!! $state !!}';

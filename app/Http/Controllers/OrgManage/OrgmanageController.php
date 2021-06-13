@@ -10,7 +10,10 @@ use App\Models\ShipManage\ShipRegister;
 use App\Models\UserInfo;
 use App\Models\Member\Unit;
 use App\Models\Member\Post;
-
+use App\Models\Home\Settings;
+use App\Models\Home\SettingsSites;
+use App\Models\Decision\DecisionReport;
+use App\Models\Operations\VoyLog;
 use App\User;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
@@ -18,6 +21,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
+use Illuminate\Support\Str;
 
 class OrgmanageController extends Controller
 {
@@ -210,6 +214,84 @@ class OrgmanageController extends Controller
         return view('orgmanage.quartermanager', array('units' => $units));
     }
 
+    public function updateSettings(Request $request) {
+        $graph_year = $request->get('select-graph-year');
+        $graph_ship = json_encode($request->get('select-graph-ship'));
+        $cert_expire_date = $request->get('cert-expire_date');
+        $report_year = $request->get('select-report-year');
+        $dyn_year = $request->get('select-dyn-year');
+        $settings = new Settings();
+        //$settings::first()->update(['graph_year'=> $graph_year,'graph_ship'=>$graph_ship,'cert_expire_date'=>$cert_expire_date,'report_year'=>$report_year,'dyn_year'=>$dyn_year]);
+        Settings::where('id', 1)->update(['graph_year'=> $graph_year,'graph_ship'=>$graph_ship,'cert_expire_date'=>$cert_expire_date,'report_year'=>$report_year,'dyn_year'=>$dyn_year]);
+
+        $report_ids = $request->get('visible_id');
+        $report_values = $request->get('visible_value');
+        if (count($report_ids) > 0) {
+            foreach($report_ids as $index => $id) {
+                DecisionReport::where('report_id', $id)->update(['isvisible' => $report_values[$index]]);
+            }
+        }
+
+        $dyn_ids = $request->get('dyn_id');
+        $dyn_values = $request->get('dyn_value');
+        if (count($dyn_ids) > 0) {
+            foreach($dyn_ids as $index => $id) {
+                VoyLog::where('id', $id)->update(['isvisible' => $dyn_values[$index]]);
+            }
+        }
+
+        $site_orders = $request->get('site_orders');
+        $site_links = $request->get('site_links');
+        $site_updates = $request->get('is_update');
+        $site_attachments = $request->file('attachment');
+
+        $file_index = 0;
+        for ($index=0;$index<10;$index++) {
+            $siteTbl = SettingsSites::find($index+1);
+            $siteTbl['link'] = $site_links[$index];
+            $siteTbl['orderNo'] = $site_orders[$index];
+
+            if($site_updates[$index] == '1') {
+                if ($site_attachments[$index] != null) {
+                    $file = $site_attachments[$index];
+                    $file_index++;
+                    $fileName = $file->getClientOriginalName();
+                    $name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path() . '/shipCertList/', $name);
+                    $siteTbl['image'] = url() . '/shipCertList/' . $name;
+                    $siteTbl['image_path'] = public_path('/shipCertList/') . $name;
+                }
+                else {
+                    if (file_exists($siteTbl['image_path'])) {
+                        @unlink($siteTbl['image_path']);
+                    }
+                    $siteTbl['image'] = null;
+                    $siteTbl['image_path'] = null;
+                }
+            }
+            $siteTbl->save();
+        }
+
+        /*
+        foreach($site_orders as $index => $orders) {
+            if ($sites_updates[$index] == '1') {
+                $file = $site_attachments[$index];
+                $fileName = $file->getClientOriginalName();
+                $name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+                $file->move(public_path() . '/shipCertList/', $name);
+                if($shipCertTbl['attachment'] != '' && $shipCertTbl['attachment'] != null) {
+                    if(file_exists($shipCertTbl['attachment']))
+                        @unlink($shipCertTbl['attachment']);
+                }
+
+                $shipCertTbl['attachment'] = public_path('/shipCertList/') . $name;
+                $shipCertTbl['attachment_link'] = url() . '/shipCertList/' . $name;
+                $shipCertTbl['file_name'] = $fileName;
+            }
+        }
+        */
+        return redirect('org/system/settings');
+    }
     /////////////////////////////  직원정보관리   ///////////////////////
     public function userInfoListView(Request $request) {
         Util::getMenuInfo($request);
