@@ -220,7 +220,20 @@
     border-right: 1px solid #c56f00;
 }
 
+.common-decide-title {
+    background: linear-gradient(to right, #55a4f4, rgba(85, 164, 244, 0.73));
+    color: white;
+    padding: 0 4px;
+}
+.common-decide-border {
+    border-bottom: 1px solid #55a4f4;
+    border-left: 1px solid #55a4f4;
+    border-right: 1px solid #55a4f4;
+}
 
+.decide-sub-title {
+    background: #d9eefb;
+}
 .expired-cert-title {
     background: linear-gradient(to right, #c01b03, rgba(192, 27, 3, 0.73));
     color: white;

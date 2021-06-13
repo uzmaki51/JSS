@@ -14,6 +14,9 @@ use App\Models\ShipManage\ShipCertRegistry;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipMember\ShipMember;
 use App\Models\Decision\DecisionReport;
+use App\Models\Home\Settings;
+use App\Models\Home\SettingsSites;
+use App\Models\Finance\ReportSave;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -79,12 +82,38 @@ class HomeController extends Controller {
 			$expired_certData['ship'][$key]->cert_name = ShipCertList::where('id', $item->cert_id)->first()->name;
 		}
 
+		/////////////////////////////////////////////
+		$settings = Settings::where('id', 1)->first();
+        $reportList = DecisionReport::where('state','0')->get();
+        $noattachments = DecisionReport::where('attachment',0)->orWhere('attachment',null)->get();
+
+		$reportSummary = DecisionReport::groupBy('depart_id')->selectRaw('tb_unit.title,tb_decision_report.depart_id,count(depart_id) as count, count(depart_id)*100/(select count(depart_id) from tb_decision_report) as percent')
+					->groupBy('depart_id')
+					->leftJoin('tb_unit','tb_unit.id','=','tb_decision_report.depart_id')
+					->get();
+        $voyList = [];
+        $index = 0;
+        foreach($shipList as $ship)
+        {
+            $record = VoyLog::where('Ship_ID', $ship['IMO_No'])->orderBy('id','desc')->first();
+            if (!empty($record)) {
+                $voyList[] = $record;
+            }
+        }
+        $sites = SettingsSites::select('*')->orderByRaw("CAST(orderNo AS SIGNED INTEGER) ASC")->get();
+		
 		// var_dump($shipForDecision);die;
 		return view('home.front', [
 			'shipList'          => $shipList,
 			'reportList'        => $reportList,
 			'shipForDecision'   => $shipForDecision,
-			'expired_data'      => $expired_certData
+			'expired_data'      => $expired_certData,
+			'settings'   		=> $settings,
+			'reportList' 		=> $reportList,
+            'noattachments' 	=> $noattachments,
+            'voyList' 			=> $voyList,
+            'sites' 			=> $sites,
+			'reportSummary'		=> $reportSummary,
 		]);
 	}
 
