@@ -156,7 +156,7 @@
                                             <td class="center" style="height:20px!important;">{{g_enum('ReportTypeData')[$report['flowid']]}}</td>
                                             <td class="center">{{$nickName}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
-                                            <td class="center">{{g_enum('FeeTypeData')['Debit'][$report['profit_type']]}}</td>
+                                            <td class="center">{{isset(g_enum('FeeTypeData')['Debit'][$report['profit_type']])?g_enum('FeeTypeData')['Debit'][$report['profit_type']]:""}}</td>
                                             <td class="center"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="margin: 0px 0px"></td>
                                             <?php $index++;?>
                                         </tr>

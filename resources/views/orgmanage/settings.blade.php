@@ -163,7 +163,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <td class="center">{{g_enum('ReportTypeData')[$report['flowid']]}}</td>
                                     <td class="center">{{$nickName}}</td>
                                     <td class="center">{{$report['voyNo']}}</td>
-                                    <td class="center">{{g_enum('FeeTypeData')['Debit'][$report['profit_type']]}}</td>
+                                    <td class="center">{{isset(g_enum('FeeTypeData')['Debit'][$report['profit_type']])?g_enum('FeeTypeData')['Debit'][$report['profit_type']]:""}}</td>
                                     <td class="center">{{$report['report_date']}}</td>
                                     <td class="center report-visible" style="cursor:pointer;">{{$report['isvisible']?"✓":""}}</td>
                                     <?php $index++;?>
