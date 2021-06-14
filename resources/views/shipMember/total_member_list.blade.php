@@ -11,14 +11,21 @@ $isHolder = Session::get('IS_HOLDER');
         <style>
             .member-item-odd {
                 background-color: #efefef;
+                height:20px;
             }
 
+            .member-item-even {
+                height:20px;
+            }
+            
             .member-item-even:hover {
                 background-color: #ffe3e082;
+                height:20px;
             }
 
             .member-item-odd:hover {
                 background-color: #ffe3e082;
+                height:20px;
             }
         </style>
         <div class="page-content">
@@ -69,16 +76,16 @@ $isHolder = Session::get('IS_HOLDER');
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <div class="row" style="margin-bottom:40px">
                                             <div class="head-fix-div common-list" id="total-table" style="">
-                                                <table id="table-shipmember-list-total" style="table-layout:fixed;width:1500px!important;">
+                                                <table id="table-shipmember-list-total" style="max-width:unset!important;table-layout:fixed;width:1500px!important;">
                                                     <thead class="">
                                                         <th class="text-center style-header" style="width: 2%;"><span>No</span></th>
                                                         <th class="text-center style-header" style="width: 6%;"><span>姓名</span></th>
                                                         <th class="text-center style-header" style="width: 3%;"><span>职务</span></th>
-                                                        <th class="text-center style-header" style="width: 5%;"><span>电话号码</span></th>
+                                                        <th class="text-center style-header" style="width: 6%;"><span>电话号码</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>国籍</span></th>
-                                                        <th class="text-center style-header" style="width: 8.5%;"><span>身份证号</span></th>
+                                                        <th class="text-center style-header" style="width: 9%;"><span>身份证号</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>出生日期</span></th>
-                                                        <th class="text-center style-header" style="width: 5%;"><span>籍贯</span></th>
+                                                        <th class="text-center style-header" style="width: 7%;"><span>籍贯</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>上船日期</span></th>
                                                         <th class="text-center style-header" style="width: 12%;"><span>上船港</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>下船日期</span></th>
@@ -86,7 +93,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                         <th class="text-center style-header" style="width: 5%;"><span>海员证到期</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>护照号</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>护照到期</span></th>
-                                                        <th class="text-center style-header" style="width: 20%;"><span>地址</span></th>
+                                                        <th class="text-center style-header" style=""><span>地址</span></th>
                                                     </thead>
                                                     <tbody class="" id="total-list-body">
                                                     </tbody>

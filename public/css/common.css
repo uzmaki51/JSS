@@ -512,7 +512,7 @@ ul.timeline > li {
 .total-td {
     height: 22px!important;
 }
-.hour-input, .minute-input, .date-picker {
+.hour-input, .minute-input {
     text-align: center!important;
 }
 .no-border-td {

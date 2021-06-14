@@ -320,16 +320,16 @@ $isHolder = Session::get('IS_HOLDER');
                     var pageInfo = listTable.page.info();
 
                     $('td', row).eq(1).attr('class', 'text-center disable-td');
-                    $('td', row).eq(2).attr('class', 'text-center disable-td');
+                    $('td', row).eq(2).attr('class', 'text-center');
                     $('td', row).eq(3).attr('class', 'text-center disable-td');
                     $('td', row).eq(4).attr('class', 'text-center disable-td');
                     $('td', row).eq(5).attr('class', 'text-center disable-td');
                     $('td', row).eq(6).attr('class', 'text-center disable-td');
-                    $('td', row).eq(7).attr('class', 'text-center disable-td');
+                    $('td', row).eq(7).attr('class', 'text-center');
                     $('td', row).eq(8).attr('class', 'text-center disable-td');
-                    $('td', row).eq(9).attr('class', 'text-center disable-td');
-                    $('td', row).eq(10).attr('class', 'text-center disable-td');
-                    $('td', row).eq(11).attr('class', 'text-center disable-td');
+                    $('td', row).eq(9).attr('class', 'text-center');
+                    $('td', row).eq(10).attr('class', 'text-center');
+                    $('td', row).eq(11).attr('class', 'text-center');
 
                     if (data['book_no'] != '')
                         $('td', row).eq(0).html('').append('<input type="checkbox" checked disabled></input>');
@@ -423,8 +423,8 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(2).attr('class', 'text-center disable-td');
                     $('td', row).eq(3).attr('class', 'text-center disable-td');
                     $('td', row).eq(4).attr('class', 'text-center disable-td');
-                    $('td', row).eq(5).attr('class', 'text-center disable-td');
-                    $('td', row).eq(6).attr('class', 'text-center disable-td');
+                    $('td', row).eq(5).attr('class', 'text-center');
+                    $('td', row).eq(6).attr('class', 'text-center');
                     $('td', row).eq(7).attr('class', 'text-center disable-td');
                     $('td', row).eq(8).attr('class', 'text-center disable-td');
                     $('td', row).eq(9).attr('class', 'text-center disable-td');

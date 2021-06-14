@@ -125,7 +125,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <div class="head-fix-div common-list" id="crew-table" style="">
                                         <table id="table-memberwage-list" style="table-layout:fixed;">
                                             <thead class="">
-                                                <th class="text-center style-normal-header" style="width: 5%;height:35px;"><span>月份</span></th>
+                                                <th class="text-center style-normal-header" style="width: 7%;height:35px;"><span>月份</span></th>
                                                 <th class="text-center style-normal-header" style="width: 15%;"><span>支付日期</span></th>
                                                 <th class="text-center style-normal-header" style="width: 20%;"><span>家汇款(¥)</span></th>
                                                 <th class="text-center style-normal-header" style="width: 20%;"><span>家汇款($)</span></th>
