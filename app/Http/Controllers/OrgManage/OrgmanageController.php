@@ -29,7 +29,7 @@ class OrgmanageController extends Controller
         $this->middleware('auth');
     }
 
-    /////////////////////////////  부서관리   ///////////////////////
+
     public function unitManage(Request $request) {
         Util::getMenuInfo($request);
 
@@ -84,7 +84,6 @@ class OrgmanageController extends Controller
         if($isExist)
             return;
         
-        //부서를 添加할때에 상위부서를 선택하지 않은 경우에 제일 상위부서로 添加한다.
         $last = Unit::where('parentId', $parentId)->orderBy('orderkey', 'desc')->first();
         
         if(is_null($last)) {
@@ -170,50 +169,6 @@ class OrgmanageController extends Controller
         return json_encode($result);
     }
 
-    /////////////////////////////   부서책임자   ///////////////////////////////////
-    public function showquartermanager(Request $request) {
-        Util::getMenuInfo($request);
-
-        $units = Unit::orderBy('orderkey')->get();
-        $unitArray  = new \stdClass();
-        $idx= 0;
-        foreach ( $units as $unit) {
-            $childcount = Unit::where("parentId", $unit->id)->count();
-            $unit->childcount = $childcount;
-            $unitArray->$idx = $unit;
-            $idx++;
-        }
-        $users = User::get();
-        return view('orgmanage.quartermanager', array('units' => $unitArray, 'users' => $users));
-    }
-
-    //수정
-    public function updatequartermanager(Request $request) {
-        $unit = Unit::find($request->id);
-        $unit->manager = $request->manager;
-        $unit->save();
-        $result = array('result' => "success");
-        return json_encode($result);
-    }
-
-    //삭제
-    public function delquartermanager(Request $request) {
-        $unit = Unit::find($request->id);
-        $unit->manager = "";
-        $unit->save();
-
-        $result = array('result' => "success");
-        return json_encode($result);
-
-    }
-
-    //부서책임자의 添加
-    public function loadquartermanager() {
-        $units = new Unit();
-        $units = $units->orderBy('orderkey')->get();
-        return view('orgmanage.quartermanager', array('units' => $units));
-    }
-
     public function updateSettings(Request $request) {
         $graph_year = $request->get('select-graph-year');
         $graph_ship = json_encode($request->get('select-graph-ship'));
@@ -292,7 +247,7 @@ class OrgmanageController extends Controller
         */
         return redirect('org/system/settings');
     }
-    /////////////////////////////  직원정보관리   ///////////////////////
+
     public function userInfoListView(Request $request) {
         Util::getMenuInfo($request);
 
@@ -336,7 +291,7 @@ class OrgmanageController extends Controller
         return view('org/memberadd',   ['profile'=>$userinfo, 'user'=>$user]);
     }
 
-    // 직원정보添加현시action
+
     public function addMemberinfo(Request $request) {
         $units = Unit::unitFullNameList();
         $posts = Post::orderBy('orderNum')->get();
@@ -374,7 +329,7 @@ class OrgmanageController extends Controller
                 ]);
     }
 
-    //직원정보 갱신
+
     public function updateMember(Request $request) {
         $file = $request->file('photopath');
         if(isset($file)) {
@@ -473,7 +428,7 @@ class OrgmanageController extends Controller
         return redirect('org/memberadd?uid='.$user->id);
     }
 
-    // 개인사진 업로드
+
     public function upload(Request $request) {
         $file = $request->files('photo');
         $desdir = '/upload';
@@ -494,7 +449,6 @@ class OrgmanageController extends Controller
     	return response()->json($ret);
     }
 
-	//////////////////////////////// 권한관리용 직원목록현시  /////////////////////////////////
 	public function userPrivilege(Request $request) {
 		Util::getMenuInfo($request);
 
@@ -527,7 +481,6 @@ class OrgmanageController extends Controller
 			]);
 	}
 
-	// 권한관리편집화면
 	public function addPrivilege(Request $request) {
 		$units = Unit::unitFullNameList();
 		$posts = Post::orderBy('orderNum')->orderByRaw('CAST(OrderNum AS SIGNED) ASC')->get();
