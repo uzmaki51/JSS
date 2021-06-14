@@ -102,6 +102,10 @@ class HomeController extends Controller {
         }
         $sites = SettingsSites::select('*')->orderByRaw("CAST(orderNo AS SIGNED INTEGER) ASC")->get();
 
+		$rep = new DecisionReport();
+		$debit_credit = $rep->getIncome("9333589","2031");
+		return $debit_credit;
+		
 		// var_dump($shipForDecision);die;
 		return view('home.front', [
 			'shipList'          => $shipList,

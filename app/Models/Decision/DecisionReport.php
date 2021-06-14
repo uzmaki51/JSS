@@ -277,6 +277,7 @@ class DecisionReport extends Model {
 
 			$cost_records = $selector->get();
 			
+			$newArr = [];
 			$credit_sum = 0;
 			$debit_sum = 0;
 			foreach($cost_records as $cost) {
@@ -290,8 +291,9 @@ class DecisionReport extends Model {
 				}
 			}
 
-		return [$credit_sum, $debit_sum];
+		return [$credit_sum, $debit_sum, $newArr];
 	}
+	
 	/// incomeExpense for three years-> Table, Graph (similar to getIncomeExportList)
 	public function getIncomeExportListForPast($params) {
 		if (!isset($params['columns'][1]['search']['value']) ||
