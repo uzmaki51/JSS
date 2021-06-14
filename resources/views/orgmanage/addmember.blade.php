@@ -4,19 +4,25 @@ $isHolder = Session::get('IS_HOLDER');
 ?>
 
 @section('styles')
-    <link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
-    <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/>
+    <!--link href="{{ cAsset('css/pretty.css') }}" rel="stylesheet"/>
+    <link href="{{ cAsset('css/dycombo.css') }}" rel="stylesheet"/-->
+    
     <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/-->
 @endsection
 
 @section('content')
     <div class="main-content">
         <style>
+            .add-td-input,.add-td-select{
+                border:unset!important;
+                margin-left: -2px!important;
+            }
+
             .add-td-label {
                 font-size:14px!important;
                 background-color:#c9dfff !important;
                 text-align: left!important;
-                padding:10px!important;
+                padding:8px 10px!important;
             }
 
             .add-td-text {
@@ -36,6 +42,18 @@ $isHolder = Session::get('IS_HOLDER');
                 margin-right:10px;
             }
             
+            .cost-item-odd {
+                background-color: #efefef;
+            }
+
+            .cost-item-even:hover {
+                background-color: #ffe3e082;
+            }
+
+            .cost-item-odd:hover {
+                background-color: #ffe3e082;
+            }
+
         </style>
         <div class="page-content">
             <div class="page-header">
@@ -53,13 +71,13 @@ $isHolder = Session::get('IS_HOLDER');
                 </div>
                 <div class="col-md-6">
                     <div class="btn-group f-right">
-                        <a id="btnPrev" class="btn btn-sm btn-primary btn-add" style="width: 80px" onclick="javascript:goBack()">
+                        <a id="btnPrev" class="btn btn-sm btn-primary btn-add" style="width: 80px" onclick="javascript:goBackPage()">
                             <i class=""></i>< {{transOrgManage("captions.prevPage")}}
                         </a>
                         <a id="btnDelete" class="btn btn-sm btn-danger" style="width: 80px" onclick="javascript:deleteMember('{{ $userid }}')">
                             <i class="icon-remove"></i>{{ trans('common.label.delete') }}
                         </a>
-                        <a id="btnSave" class="btn btn-sm btn-success" style="width: 80px" onclick="javascript:goBack()">
+                        <a id="btnSave" type="button" class="btn btn-sm btn-success" style="width: 80px">
                             <i class="icon-save"></i>{{ trans('common.label.save') }}
                         </a>
                     </div>
@@ -92,56 +110,15 @@ $isHolder = Session::get('IS_HOLDER');
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.officePosition")}}:</td>
-                                    <!--td class="add-td-text">
-                                        <select class="form-control add-td-select" id="pos" name="pos">
+                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.officePosition")}}<span class="require">*</span>:</td>
+                                    <td class="add-td-text">
+                                        <select class="form-control add-td-select" id="pos" name="pos" style="margin-left: 9px;">
                                             <option value="-1" selected></option>
                                             @foreach($pos as $post)
                                                 <option value="{{$post['id']}}" @if ((isset($userinfo))&&($userinfo['pos']==$post['id'])) selected @endif >{{$post['title']}}</option>
                                             @endforeach
                                             <option value="{{ IS_SHAREHOLDER }}" {{ $userinfo['pos'] == IS_SHAREHOLDER ? 'selected' : '' }}>{{ transOrgManage("captions.stockholder") }}</option>
                                         </select>
-                                    </td-->
-                                    <?php $sel = "";
-                                    $sel_id = 0;
-                                    ?>
-                                    @foreach ($pos as $type)
-                                        @if ($type->id == $userinfo['pos'])
-                                        <?php $sel = $type->title; 
-                                        $sel_id = $type->id;
-                                        ?>
-                                        @endif
-                                    @endforeach
-                                    <td class="custom-td-report-text" style="width: 40%">
-                                        <div class="dynamic-select-wrapper">
-                                            <div class="dynamic-select" style="color:#12539b">
-                                                <input type="hidden"  name="pos" value="{{$sel_id}}"/>
-                                                <div class="dynamic-select__trigger"><input type="text" id="position" class="form-control dynamic-select-span" style="background:white!important;height:30px;margin-left:10px;" value="{{$sel}}" readonly>
-                                                    <div class="arrow"></div>
-                                                </div>
-                                                <div class="dynamic-options">
-                                                    <div class="dynamic-options-scroll">
-                                                        @if ($userinfo['pos'] == "")
-                                                        <span class="dynamic-option selected" data-value="" data-text="">&nbsp;</span>
-                                                        @else
-                                                        <span class="dynamic-option" data-value="" data-text="">&nbsp;</span>
-                                                        @endif
-                                                        @foreach ($pos as $item)
-                                                            @if ($item->id == $userinfo['pos'])
-                                                            <span class="dynamic-option selected" data-value="{{$item->id}}" data-text="{{$item->title}}">{{$item->title}}</span>
-                                                            @else
-                                                            <span class="dynamic-option" data-value="{{$item->id}}" data-text="{{$item->title}}">{{$item->title}}</span>
-                                                            @endif
-                                                        @endforeach
-                                                    </div>
-                                                    <div>
-                                                        <span class="edit-list-btn" id="edit-list-btn" onclick="javascript:openPosList('pos')">
-                                                            <img src="{{ cAsset('assets/img/list-edit.png') }}" alt="Edit List Items">
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -156,7 +133,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <td class="add-td-label" colspan="1">{{transOrgManage("captions.enterDate")}}:</td>
                                     <td class="add-td-text">
                                         <div class="input-group">
-                                            <input class="form-control date-picker add-td-input" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['entryDate']}}@endif">
+                                            <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['entryDate']}}@endif">
                                         </div>
                                     </td>
                                 </tr>
@@ -164,7 +141,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <td class="add-td-label" colspan="1">{{transOrgManage("captions.missDate")}}:</td>
                                     <td class="add-td-text">
                                         <div class="input-group">
-                                            <input class="form-control date-picker add-td-input" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['releaseDate']}}@endif">
+                                            <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['releaseDate']}}@endif">
                                         </div>
                                     </td>
                                 </tr>
@@ -185,6 +162,88 @@ $isHolder = Session::get('IS_HOLDER');
                                         </td>
                                     </tr>
                                 @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <h4>职员权限</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <tbody>
+                                <!--tr>
+                                    <td class="custom-td-label" colspan="3"><h4>职员权限</h4></td>
+                                </tr-->
+                                <?php $index = 0; $cflag = true; ?>
+                                @foreach($pmenus as $pmenu)
+                                    @if(isset($userid))
+                                        @if(in_array($pmenu['id'], explode(',', $userinfo['menu'])))
+                                            <?php $cflag = true; ?>
+                                        @else
+                                            <?php $cflag = false; ?>
+                                        @endif
+
+                                        <tr id="{{'row'.$index}}">
+                                            @if($pmenu['parentId'] == 0)
+                                                <td class="custom-td-label">
+                                                    {{$pmenu['title']}}
+                                                </td>
+                                            @endif
+                                            <td class="custom-td-text" style="width: 3%; text-align: center">
+                                                <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}" @if ($cflag==true) checked="true" @endif>
+                                                <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none" @if ($cflag==true) checked="true" @endif>
+                                            </td>
+                                    @else
+                                        <tr id="{{'row'.$index}}">
+                                            @if($pmenu['parentId']==0)
+                                                <td class="custom-td-label">
+                                                    {{$pmenu['title']}}
+                                                </td>
+                                            @endif
+                                            <td class="custom-td-text" style="width: 3%; t ext-align: center">
+                                                <input type="checkbox" onclick="check({{$index}})" id="{{'group'.$index}}" name="{{'group'.$index}}">
+                                                <input type="checkbox" id="{{$pmenu['id']}}" name="{{$pmenu['id']}}" style="display: none">
+                                            </td>
+                                    @endif
+                                            <td class="custom-td-text" style="width: 77%">
+                                                <div class="row">
+                                                    @foreach($cmenus[$index] as $menu)
+                                                        <?php $flag1 = false ?>
+                                                        @if(isset($userid))
+                                                            @if(in_array($menu['id'], explode(',',$userinfo['menu'])))
+                                                                <?php $flag1 = true ?>
+                                                            @endif
+                                                        @endif
+                                                        <div class="col-md-2">&nbsp
+                                                            <input type="checkbox" class="{{'row'.$index}}" onclick="checkchild({{$index}}, this)" id="{{'row'.$menu['id']}}" name="{{'row'.$menu['id']}}" @if(($cflag==true) || ($flag1==true)) checked="true" @endif>
+                                                            <input type="checkbox" id="{{$menu['id']}}" name="{{$menu['id']}}" style="display: none" @if (($cflag==false) && ($flag1==true)) checked="true" @endif>
+                                                            <label>&nbsp{{$menu['title']}}</label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php $index++?>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h4>选船(*只有持股者才能显示)</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td  colspan="3" style="text-align: left!important;">
+                                            <?php $registerList = explode(',', $userinfo['attributes']['shipList']);?>
+                                            <select multiple="multiple" class="chosen-select form-control width-100" name="shipList[]" data-placeholder="选择船舶...">
+                                                @foreach($shipList as $key => $item)
+                                                    <option value="{{ $item['attributes']['shipID'] }}" {{ in_array($item['attributes']['shipID'], $registerList) ? 'selected' : '' }}>{{ $item['attributes']['shipName_En'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -251,7 +310,7 @@ $isHolder = Session::get('IS_HOLDER');
                 return;
             }
 
-            if ($('#position').val() == 0) {
+            if ($('#pos').val() <= 0) {
                 alert("Please select position!");
                 return;
             }
@@ -285,8 +344,8 @@ $isHolder = Session::get('IS_HOLDER');
                 }
             });
         }
-        function goBack() {
-            location.href="org/userInfoListView";
+        function goBackPage() {
+            location.href="userInfoListView";
         }
     </script>
 
@@ -294,7 +353,7 @@ $isHolder = Session::get('IS_HOLDER');
         var token = '{!! csrf_token() !!}';
 
         $("#btnSave").on('click', function() {
-            $('#validation-form').submit();
+            submit();
         });
 
         $(function() {
@@ -326,6 +385,49 @@ $isHolder = Session::get('IS_HOLDER');
                     selector.firstElementChild.classList.remove('open');
             }
         });
+
+        function check(id) {
+            var allcheck = document.getElementById('group' + id);
+            var checks = document.getElementsByClassName('row' + id);
+
+            for (var i = 0; i < checks.length; i++) {
+                if (allcheck.checked == true) {
+                    allcheck.nextElementSibling.checked = true;
+                    checks[i].checked = true;
+                } else {
+                    allcheck.nextElementSibling.checked = false;
+                    checks[i].checked = false;
+                }
+                checks[i].nextElementSibling.checked = false;
+            }
+        }
+
+        function checkchild(id, checkObj) {
+            var allcheck = document.getElementById('group' + id);
+            var checks = document.getElementsByClassName('row' + id);
+            checkObj.nextElementSibling.checked = checkObj.checked;
+
+            var flag = true;
+            for (var i = 0; i < checks.length; i++) {
+                if (checks[i].checked == true) {
+                    continue;
+                } else {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag == true) {
+                allcheck.checked = true;
+                allcheck.nextElementSibling.checked = true;
+                for (var i = 0; i < checks.length; i++)
+                    checks[i].nextElementSibling.checked = false;
+            } else {
+                allcheck.checked = false;
+                allcheck.nextElementSibling.checked = false;
+                for (var i = 0; i < checks.length; i++)
+                    checks[i].nextElementSibling.checked = checks[i].checked;
+            }
+        }
     </script>
 
     <script src="{{ asset('/assets/js/jquery.dataTables.min.js') }}"></script>

@@ -346,6 +346,12 @@ class OrgmanageController extends Controller
 
         $state = Session::get('state');
 
+        foreach ($pmenus as $pmenu) {
+			$cmenus[$index] = array();
+			$cmenus[$index] = Menu::where('parentId', $pmenu['id'])->orderBy('id')->get();
+			$index++;
+		}
+
         $userid = $request->get('uid');
         if(empty($userid)) {
             if(isset($state) && ($state == 'success')) {
@@ -354,6 +360,7 @@ class OrgmanageController extends Controller
         }
 
         $userinfo = User::find($userid);
+        $shipList = ShipRegister::getShipListByOrigin();
 
         return view('orgmanage.addmember',
                 [   'userid'    =>  $userid,
@@ -362,7 +369,8 @@ class OrgmanageController extends Controller
                     'pos'       =>  $posts,
                     'pmenus'    =>  $pmenus,
                     'cmenus'    =>  $cmenus,
-                    'state'     =>  $state
+                    'state'     =>  $state,
+                    'shipList'  =>  $shipList,
                 ]);
     }
 
@@ -413,9 +421,11 @@ class OrgmanageController extends Controller
         if(isset($param['password_reset']) && $param['password_reset'] == true)
 	        $user->password = bcrypt(DEFAULT_PASS);
 
+        $this->storePrivilege($request);
         $user->save();
 
-        return redirect('org/userInfoListView');
+        //return redirect('org/userInfoListView');
+        return redirect('org/memberadd?uid='.$user->id);
     }
 
     public function addMember(Request $request) {
@@ -455,8 +465,12 @@ class OrgmanageController extends Controller
 
         $user->isAdmin = (isset($param['isAdmin']) && $param['isAdmin'] == 1) ? 1 : ($param['pos'] == IS_SHAREHOLDER ? IS_SHAREHOLDER : 0);
         $user->save();
+        $request->merge([
+            'userid' => $user->id,
+        ]);
+        $this->storePrivilege($request);
 
-        return redirect('org/userInfoListView');
+        return redirect('org/memberadd?uid='.$user->id);
     }
 
     // 개인사진 업로드

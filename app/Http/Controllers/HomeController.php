@@ -101,7 +101,7 @@ class HomeController extends Controller {
             }
         }
         $sites = SettingsSites::select('*')->orderByRaw("CAST(orderNo AS SIGNED INTEGER) ASC")->get();
-		
+
 		// var_dump($shipForDecision);die;
 		return view('home.front', [
 			'shipList'          => $shipList,

@@ -264,6 +264,34 @@ class DecisionReport extends Model {
 		return $result;
 	}
 
+	public function getIncome($shipid, $voyNo) {
+		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo', $voyNo)
+				->groupBy('flowid','profit_type')
+				->selectRaw('sum(CASE WHEN tb_decision_report_save.currency="CNY" THEN tb_decision_report_save.amount/tb_decision_report_save.rate ELSE tb_decision_report_save.amount END) as sum, tb_decision_report_save.flowid, tb_decision_report_save.profit_type, tb_decision_report_save.currency')
+				->groupBy('flowid','profit_type');
+
+			$selector = $selector->leftJoin("tbl_cp", function($join) {
+				$join->on('tbl_cp.Voy_No', '=', 'tb_decision_report_save.voyNo');
+				$join->on('tbl_cp.Ship_ID', '=', 'tb_decision_report_save.shipNo');
+			})->whereIn("tbl_cp.CP_kind",["TC","VOY"]);
+
+			$cost_records = $selector->get();
+			
+			$credit_sum = 0;
+			$debit_sum = 0;
+			foreach($cost_records as $cost) {
+				if ($cost->flowid == REPORT_TYPE_EVIDENCE_IN) {
+					$credit_sum += $cost->sum;
+				}
+				else if ($cost->flowid == REPORT_TYPE_EVIDENCE_OUT && $cost->profit_type != 13 && $cost->profit_type != 14)
+				{
+					$newArr[$cost->profit_type] = $cost->sum;
+					$debit_sum += $cost->sum;
+				}
+			}
+
+		return [$credit_sum, $debit_sum];
+	}
 	/// incomeExpense for three years-> Table, Graph (similar to getIncomeExportList)
 	public function getIncomeExportListForPast($params) {
 		if (!isset($params['columns'][1]['search']['value']) ||

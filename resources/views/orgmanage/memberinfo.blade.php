@@ -95,40 +95,34 @@
     </div><!-- /.main-content -->
 
     <script>
+        function fnExcelReport() {
+            var tab_text = "";
+            tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+            var real_tab = document.getElementById('table-shipmember-list');
+            var tab = real_tab.cloneNode(true);
+            tab_text=tab_text+"<tr><td colspan='8' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>吉速船舶有限公司</td></tr>";
 
-        function filterByUnitName() {
-            var keyword = $("#search_unit").val();
-            $("#user-table_filter").find('input[type="text"]').val(keyword).trigger("keyup.DT");
+            for(var j = 0; j < tab.rows.length ; j++)
+            {
+                if (j == 0) {
+                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.width = '100px';
+                    }
+                }
+                tab.rows[j].childNodes[16].remove();
+                tab.rows[j].childNodes[16].remove();
+                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+            }
+            tab_text=tab_text+"</table>";
+            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+
+            var filename = '职员信息';
+            exportExcel(tab_text, filename, filename);
+            
+            return 0;
         }
-
-        $(function () {
-            $('.search-btn').on('click', function () {
-                var unit = $('.select_unit').val();
-                var pos = $('.select_pos').val();
-                var realname = $('.realname').val();
-                var status = $('.select_status').val();
-
-                var param = '';
-                if(unit.length > 0)
-                    param = '?unit=' + unit;
-                if(pos.length > 0)
-                    param = (param == '' ? '?' : param + '&') + 'pos=' + pos;
-
-                if(realname.length > 0)
-                    param = (param == '' ? '?' : param + '&') + 'realname=' + realname;
-
-                if(status.length > 0)
-                    param = (param == '' ? '?' : param + '&') + 'status=' + status;
-
-                location.href = 'userInfoListView' + param;
-            });
-
-            $('.init-btn').on('click', function() {
-
-                location.href = 'userInfoListView';
-            });
-
-        })
-
     </script>
 @stop
