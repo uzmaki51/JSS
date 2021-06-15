@@ -781,7 +781,7 @@ class BusinessController extends Controller {
         $settleElse['shipId'] = $shipId;
         $settleElse['voyId'] = $voyId;
         $settleElse['position'] = $params['origin_position'];
-        if(!isset($params['origin_date'][$key]) && $params['origin_date'][$key] != '' && $params['origin_date'][$key] != EMPTY_DATE)
+        if(!isset($params['origin_date']) && $params['origin_date'] != '' && $params['origin_date'] != EMPTY_DATE)
             $settleElse['load_date'] = $params['origin_date'] . ' ' . $params['origin_hour'] . ':' . $params['origin_minute'] . ':00';
         else
             $settleElse['load_date'] = null;
