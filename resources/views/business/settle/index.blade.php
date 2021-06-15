@@ -466,7 +466,7 @@
                             </tr>
                             <tr class="gray-tr" v-for="(item, index) in debitInfo.else">
                                 <td class="center" colspan="2">
-                                    <input class="form-control text-center" name="debit_name[]" v-model="item.name" :readonly="index < 5">
+                                    <input class="form-control text-center" name="debit_name[]" v-model="item.name" :readonly="index < 6">
                                     <input type="hidden" name="debit_id[]" v-model="item.id">
                                 </td>
                                 <td class="center" colspan="3">
