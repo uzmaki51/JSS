@@ -130,6 +130,9 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::post('shipManage/equipment/require/type/list', ['uses'	=> 'ShipManage\ShipRegController@ajaxShipReqEquipTypeList']);
 	Route::post('shipManage/equipment/require/type/delete', ['uses'	=> 'ShipManage\ShipRegController@ajaxShipReqEquipTypeDelete']);	
 
+	Route::post('shipManage/evaluation/list', ['uses'	=> 'ShipManage\ShipRegController@ajaxEvaluation']);	
+	Route::post('shipManage/evaluation/else', ['uses'	=> 'ShipManage\ShipRegController@ajaxEvaluationElse']);	
+
 	//Business
 	Route::post('business/cp/list', ['uses'	=> 'Business\BusinessController@ajaxCPList']);
 	Route::post('business/cp/delete', ['uses'	=> 'Business\BusinessController@ajaxVoyDelete']);
@@ -514,6 +517,8 @@ Route::group(['prefix' => 'shipManage'], function() {
 	Route::get('dynamicList', ['uses'=>'ShipManage\ShipRegController@dynamicList']);
 
 	Route::get('ctm/analytics', ['uses'=>'ShipManage\ShipRegController@ctmAnalytics']);
+
+	Route::get('voy/evaluation', ['uses'=>'ShipManage\ShipRegController@voyEvaluation']);
 
 	Route::get('shipCertList', ['uses'=>'ShipManage\ShipRegController@shipCertList']);
 	Route::post('shipCertList', ['uses'=>'ShipManage\ShipRegController@saveShipCertList']);

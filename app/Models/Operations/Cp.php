@@ -125,4 +125,28 @@ class Cp extends Model
         return $result;
     }
 
+    public static function getYearList($shipId) {
+		$yearList = [];
+        $info = self::orderBy('CP_Date', 'asc')->where('Ship_ID', $shipId)->first();
+        if($info == null) {
+            $baseYear = date('Y');
+        } else {
+            $baseYear = substr($info->CP_Date, 0, 4);
+        }
+
+        for($year = date('Y'); $year >= $baseYear; $year --) {
+            $yearList[] = $year;
+        }
+
+        return $yearList;
+    }
+    
+    public static function getCpList($shipId, $year) {
+        $info = self::orderBy('Voy_No', 'asc')->where('Ship_ID', $shipId)->whereRaw(DB::raw('mid(CP_Date, 1, 4) like ' . $year))->get();
+
+        if(!isset($info) || count($info) == 0) return [];
+
+        return $info;
+    }
+
 }

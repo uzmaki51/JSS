@@ -40,11 +40,11 @@
                             @endforeach
                         </select>
                         <label class="font-bold">航次:</label>
-                            <select class="text-center" style="width: 60px;" id="voy_list">
-                                @foreach($cpList as $key => $item)
-                                    <option value="{{ $item->Voy_No }}">{{ $item->Voy_No }}</option>
-                                @endforeach
-                            </select>
+                        <select class="text-center" style="width: 60px;" id="voy_list">
+                            @foreach($cpList as $key => $item)
+                                <option value="{{ $item->Voy_No }}">{{ $item->Voy_No }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-md-9">
                         <div class="btn-group f-right">

@@ -24,6 +24,7 @@ use App\Models\Operations\Cp;
 
 use App\Models\Menu;
 use App\Models\ShipManage\Ship;
+use App\Models\ShipManage\Evaluation;
 use App\Models\ShipManage\ShipType;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipMember\ShipPosition;
@@ -48,6 +49,7 @@ use App\Models\ShipManage\ShipFreeBoard;
 use App\Models\ShipManage\Ctm;
 use App\Models\ShipManage\Fuel;
 use App\Models\Convert\VoyLog;
+use App\Models\Convert\VoySettle;
 use App\Models\Finance\ReportSave;
 
 use App\Models\ShipTechnique\EquipmentUnit;
@@ -552,6 +554,62 @@ class ShipRegController extends Controller
                 'activeYear'    =>  $activeYear,
                 'type'          =>  $type,
             ]);
+    }
+
+    public function voyEvaluation(Request $request) {
+        $params = $request->all();
+        $shipList = ShipRegister::all();
+
+        if(isset($params['shipId'])) {
+            $shipId = $params['shipId'];
+        } else {
+            if(count($shipList) > 0)
+                $shipId = $shipList[0]->IMO_No;
+            else
+                return redirect()->back();
+        }
+
+        $shipInfo = ShipRegister::where('IMO_No', $shipId)->first();
+        if($shipInfo == null)
+            $shipName = '';
+        else
+            $shipName = $shipInfo->Nick_Name != '' ? $shipInfo->Nick_Name : $shipInfo->shipName_En;
+
+        $cpList = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
+        if(isset($params['voyId'])) {
+            $voyId = $params['voyId'];
+        } else {
+            if(count($cpList) > 0)
+                $voyId = $cpList[0]->Voy_No;
+            else
+                return redirect()->back();
+        }
+        $yearList = CP::getYearList($shipId);
+
+        if(isset($params['type']))
+            $type = $params['type'];
+        else
+            $type = 'main';
+
+        if(isset($params['year']))
+            $year = $params['year'];
+        else
+            $year = $yearList[0];
+
+        return view('shipManage.voy_evaluation', [
+            'shipList'          => $shipList,
+            'shipId'            => $shipId,
+            'shipInfo'          => $shipInfo,
+            'shipName'          => $shipName,
+
+            'cpList'            => $cpList,
+            'voyId'             => $voyId,
+
+            'yearList'          => $yearList,
+            'year'              => $year,
+
+            'type'              => $type
+        ]);
     }
 
     public function shipDataTabPage(Request $request) {
@@ -2329,5 +2387,34 @@ class ShipRegController extends Controller
         $retVal = ShipEquipmentRequireKind::all();
 
 		return response()->json($retVal);
-	}    
+    }
+    
+    public function ajaxEvaluation(Request $request) {
+        $params = $request->all();
+
+        $shipId = $params['shipId'];
+        $voyId = $params['voyId'];
+
+        $evalTbl = new Evaluation();
+        
+
+        $retVal = $evalTbl->getEvaluationData($shipId, $voyId);
+        
+        return response()->json($retVal);
+    }
+
+    public function ajaxEvaluationElse(Request $request) {
+        $params = $request->all();
+
+        $shipId = $params['shipId'];
+        $year = $params['year'];
+
+        $voyList = Cp::getCpList($shipId, $year);
+
+        $evalTbl = new Evaluation();
+        foreach($voyList as $key => $item)
+            $retVal[] = $evalTbl->getEvaluationData($shipId, $item->Voy_No);
+        
+        return response()->json($retVal);
+    }
 }

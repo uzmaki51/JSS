@@ -328,6 +328,10 @@ class BusinessController extends Controller {
             $file->move(public_path() . '/contract/', $name);
             $cpTbl['attachment_url'] = url() . '/contract/' . $name;
         }
+
+        $cpTbl['sail_time'] = _convertStr2Int($params['sail_time']);
+        $cpTbl['sail_term'] = _convertStr2Int($params['sail_term']);
+        $cpTbl['credit'] = _convertStr2Int($params['credit']);
         $cpTbl['speed'] = str_replace(',','',$params['speed']);
         $cpTbl['distance'] = str_replace(',','',$params['distance']);
         $cpTbl['up_ship_day'] = str_replace(',','',$params['up_ship_day']);
@@ -433,6 +437,9 @@ class BusinessController extends Controller {
             $cpTbl['attachment_url'] = url() . '/contract/' . $name;
         }
 
+        $cpTbl['sail_time'] = _convertStr2Int($params['sail_time']);
+        $cpTbl['sail_term'] = _convertStr2Int($params['sail_term']);
+        $cpTbl['credit'] = _convertStr2Int($params['credit']);
         $cpTbl['speed'] = str_replace(',','',$params['speed']);
         $cpTbl['distance'] = str_replace(',','',$params['distance']);
         $cpTbl['up_ship_day'] = str_replace(',','',$params['up_ship_day']);
@@ -517,6 +524,9 @@ class BusinessController extends Controller {
             $cpTbl['attachment_url'] = url() . '/contract/' . $name;
         }
 
+        $cpTbl['sail_time'] = _convertStr2Int($params['sail_time']);
+        $cpTbl['sail_term'] = _convertStr2Int($params['sail_term']);
+        $cpTbl['credit'] = _convertStr2Int($params['credit']);
         $cpTbl['speed'] = _convertStr2Int($params['speed']);
         $cpTbl['distance'] = _convertStr2Int($params['distance']);
 

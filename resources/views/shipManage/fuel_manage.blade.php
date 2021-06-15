@@ -802,13 +802,14 @@
                                             down_rob_fo = __parseFloat(tmpData[length-1]['ROB_FO']);
                                             down_rob_do = __parseFloat(tmpData[length-1]['ROB_DO']);
                                         }
-                                        console.log(total_sail_time, total_loading_time, total_waiting_time)
+                                        
                                         realData.up_rob_fo = up_rob_fo;
                                         realData.up_rob_do = up_rob_do;
                                         realData.down_rob_fo = down_rob_fo;
                                         realData.down_rob_do = down_rob_do;
                                         realData.bunk_fo = bunk_fo;
                                         realData.bunk_do = bunk_do;
+                                        
                                         let usedFoTmp1 = BigNumber(total_sail_time).multipliedBy(shipInfo['FOSailCons_S']).toFixed(1);
                                         let usedFoTmp2 = BigNumber(loading_time).multipliedBy(shipInfo['FOL/DCons_S']).toFixed(1);
                                         let usedFoTmp3 = BigNumber(total_waiting_time).multipliedBy(shipInfo['FOIdleCons_S']).toFixed(1);

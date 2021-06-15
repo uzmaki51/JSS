@@ -875,6 +875,19 @@ footer {
     display: block;
 }
 
+.evaluation-table {
+    border-top: 1px solid #4c4c4c;
+}
+.evaluation-table td:nth-child(odd){
+    background: #d9f8fb!important;
+}
+.evaluation-table td {
+    padding: 4px!important;
+}
+.main-info-table td, .main-info-table th {
+    padding: 4px!important;
+}
+
 .horizontal-line {
     background: transparent;
 }
