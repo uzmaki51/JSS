@@ -24,6 +24,8 @@
         </div>
         <div class="col-lg-5">
             <div class="btn-group f-right">
+                <a class="btn btn-sm btn-default" @click="openNewPage('soa')">SOA</a>
+                <a class="btn btn-sm btn-default" @click="openNewPage('dynamic')">动态分析</a>
                 <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
             </div>
         </div>
@@ -287,10 +289,8 @@
     </div>
 </div>
 
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="{{ cAsset('/assets/js/highcharts.js') }}"></script>
+
 	<?php
 	echo '<script>';
     echo 'var PlaceType = ' . json_encode(g_enum('PlaceType')) . ';';
@@ -360,7 +360,14 @@
                             },
                             number_format: function(value, decimal = 2) {
                                 return isNaN(value) || value == 0 || value == null || value == undefined ? '' : number_format(value, decimal);
-                            }
+                            },
+                            openNewPage: function(type) {
+                                if(type == 'soa') {
+                                    window.open(BASE_URL + 'business/contract?shipId=' + this.shipId, '_blank');
+                                } else {
+                                    window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + this.shipId + '&type=analyze', '_blank');
+                                }
+                            },
                         },
                         mounted: function() {
                             economicGraph = Highcharts.chart('economic_graph', {

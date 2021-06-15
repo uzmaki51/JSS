@@ -23,6 +23,7 @@
         </div>
         <div class="col-lg-5">
             <div class="btn-group f-right">
+                <a class="btn btn-sm btn-default" @click="openNewPage('dynamic')">动态分析</a>
                 <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
             </div>
         </div>
@@ -163,7 +164,14 @@
                     },
                     number_format: function(value, decimal = 2) {
                         return isNaN(value) || value == 0 || value == null || value == undefined ? '' : number_format(value, decimal);
-                    }
+                    },
+                    openNewPage: function(type) {
+                        if(type == 'soa') {
+                            window.open(BASE_URL + 'business/contract?shipId=' + this.shipId, '_blank');
+                        } else {
+                            window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + this.shipId + '&year=' + this.year + '&type=analyze', '_blank');
+                        }
+                    },
                 }
             });
             console.log('after: ', activeYear);

@@ -563,8 +563,8 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(2).attr('class', 'text-center disable-td');
                     $('td', row).eq(3).attr('class', 'text-center disable-td');
                     $('td', row).eq(4).attr('class', 'text-center disable-td');
-                    $('td', row).eq(5).attr('class', 'text-center disable-td');
-                    $('td', row).eq(6).attr('class', 'text-center disable-td');
+                    $('td', row).eq(5).attr('class', 'text-center');
+                    $('td', row).eq(6).attr('class', 'text-center');
                     $('td', row).eq(7).attr('class', 'text-center disable-td');
 
                     

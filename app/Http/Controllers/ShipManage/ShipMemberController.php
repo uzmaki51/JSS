@@ -70,7 +70,7 @@ class ShipMemberController extends Controller
 //        echo "<script>alert($state)</script>";
         $shipList = ShipRegister::getShipListOnlyOrigin();
         $posList = ShipPosition::orderBy('id')->get();
-        //全部를 의미한다.
+        //全部
         if($state == 3)
             $list = ShipMember::getShipMemberListByKeyword($shipId, $pos, $name, null);
         else
@@ -121,20 +121,18 @@ class ShipMemberController extends Controller
 
         $memberId = $request->get('memberId');
         if($memberId != "") {
-            // 登记자료탭
+
             $info = ShipMember::find($memberId);
             $historyList = ShipBoardCareer::where('memberId', $memberId)->orderBy('FromDate')->get();
-            // 登记카드자료
+
             $card = ShipMemberSocial::where('memberId', $memberId)->first();
             $career = ShipMemberCareer::where('memberId', $memberId)->orderBy('fromDate')->get();
 
-            // 자격관련자료
-            // 자격관련자료
             $capacity = ShipCapacityRegister::where('memberId', $memberId)->first();
             $capacity_career = ShipMemberCapacityCareer::where('memberId', $memberId)->orderBy("RegDate")->get();
             $school = ShipMemberSchool::where('memberId', $memberId)->orderBy("id")->get();
             
-            // 훈련登记자료
+
             $training = ShipMemberTraining::where('memberId', $memberId)->groupBy("CertSequence")->get();
             
 
@@ -216,7 +214,7 @@ class ShipMemberController extends Controller
         $memberId = $request->get('memberId');
         if(!empty($memberId)) {
             $info = ShipMember::find($memberId);
-            // 登记자료탭
+
             $shipList = ShipRegister::select('shipName_En', 'RegNo')->get();
             $posList = ShipPosition::all();
             $ksList = Ship::all();
@@ -224,7 +222,7 @@ class ShipMemberController extends Controller
             $historyList = ShipBoardCareer::where('memberId', $memberId)->orderBy('FromDate')->get();
             return view('shipMember.member_main_tab', ['info'=>$info, 'shipList'=>$shipList, 'posList'=>$posList, 'ksList'=>$ksList, 'historyList'=>$historyList, 'typeList'=>$typeList]);
 
-            // 자격관련자료
+
             $capacity = ShipCapacityRegister::where('memberId', $memberId)->first();
             $capacity_career = ShipMemberCapacityCareer::where('memberId', $memberId)->get();
             $school = ShipMemberSchool::where('memberId', $memberId)->orderBy("id")->get();
@@ -232,12 +230,12 @@ class ShipMemberController extends Controller
             $capacityList = ShipMemberCapacity::all();
             return view('shipMember.member_capacity_tab', ['memberId'=>$memberId, 'capacity'=>$capacity, 'careerList'=>$career, 'schoolList'=>$school, 'capacityList'=>$capacityList]);
 
-            // 훈련登记자료
+
             $training = ShipMemberTraining::where('memberId', $memberId)->first();
 
             return view('shipMember.member_training_tab', ['memberId'=>$memberId, 'training'=>$training]);
 
-            // 실력평가자료
+
             $examingList = ShipMemberExaming::where('memberId', $memberId)->orderBy('ExamDate')->get();
             $subList = array();
             if(count($examingList) > 0)
@@ -246,36 +244,6 @@ class ShipMemberController extends Controller
 
             return view('shipMember.member_examing_tab', ['examList'=>$list, 'subList'=>$subList, 'codeList'=>$codeList]);
         }
-    }
-
-    public function showMemberExamSubMarks(Request $request) {
-        $examId = $request->get('examId');
-        $examCode = ShipMemberExaming::where('id', $examId)->first()->ExamCode;
-        $subList = ShipMemberSubExaming::where('ExamId',$examId)->orderBy('create_at')->get();
-        return view('shipMember.member_subMark_table', ['subList' => $subList, 'examId' => $examId, 'examCode' => $examCode]);
-    }
-
-    public function saveExamSubMarks(Request $request) {
-        $id = $request->get('id');
-        if(empty($id)) {
-            $ExamSubMark = new ShipMemberSubExaming();
-        } else {
-            $ExamSubMark = ShipMemberSubExaming::find($id);
-        }
-        $ExamSubMark['ExamId'] = $request->get('examId');
-        $ExamSubMark['SubMarks'] = $request->get('subMarks');
-        $ExamSubMark->save();
-        $avg = ShipMemberSubExaming::where('ExamId', $request->get('examId'))->avg('SubMarks');
-        return round($avg, 2);
-    }
-
-    public function deleteExamSubMarks(Request $request) {
-        $id = $request->get('id');
-        if(!empty($id)) {
-            ShipMemberSubExaming::where('id', $id)->delete();
-        }
-        $avg = ShipMemberSubExaming::where('ExamId', $request->get('examId'))->avg('SubMarks');
-        return round($avg, 2);
     }
 
     public function deleteShipMember(Request $request)
@@ -665,48 +633,6 @@ class ShipMemberController extends Controller
         return $result;
     }
 
-    public function registerMemberExamingData(Request $request) {
-        $examId = $request->get('examId');
-        if(empty($examId)) {
-            $count = ShipMemberExaming::where('ExamCode', $request->get('examCode'))
-                ->where('Subject', $request->get('examSubject'))
-                ->where('memberId', $request->get('memberId'))->get()->count();
-            if($count > 0) return -1;
-            $memberExamData = new ShipMemberExaming();
-        } else {
-            $memberExamData = ShipMemberExaming::find($examId);
-        }
-        $memberExamData['memberId'] = $request->get('memberId');
-        $memberExamData['ExamCode'] = $request->get('examCode');
-        $memberExamData['ExamDate'] = $request->get('examDate');
-        $memberExamData['Place'] = $request->get('examPlace');
-        $memberExamData['Subject'] = $request->get('examSubject');
-        $memberExamData['Marks'] = $request->get('examMarks');
-        $memberExamData->save();
-        return $memberExamData['id'];
-    }
-
-    public function deleteMemberExamingData(Request $request) {
-        $examId = $request->get('examId');
-        if(!empty($examId)) {
-            ShipMemberExaming::where('id', $examId)->delete();
-            ShipMemberSubExaming::where('ExamId', $examId)->delete();
-        }
-        if($examId == $request->get('current')) {
-            $memberId = $request->get('memberId');
-            $exam = ShipMemberExaming::where('memberId', $memberId)->first();
-            $examId = '';
-            $examCode = '';
-            $subList = array();
-            if (!empty($exam)) {
-                $examId = $exam->id;
-                $examCode = $exam->ExamCode;
-                $subList = ShipMemberSubExaming::where('ExamId', $examId)->orderBy('create_at')->get();
-            }
-            return view('shipMember.member_subMark_table', ['subList' => $subList, 'examId' => $examId, 'examCode' => $examCode]);
-        }
-        return 'success';
-    }
 
 
     public function totalShipMember(Request $request) {
@@ -826,69 +752,6 @@ class ShipMemberController extends Controller
 			]);
     }
 
-    // 선원별실력판정정형
-    public function integretedMemberExaming(Request $request) {
-        Util::getMenuInfo($request);
-
-        $shipId = $request->get('shipId');
-        $paramExamCode = $request->get('ExamCode');
-        $shipList = ShipRegister::orderBy('shipName_Cn')->get();
-        $members = ShipMember::getMemberSimpleInfo($shipId);
-        $members->appends(['shipId'=>$shipId, 'ExamCode' => $paramExamCode]);
-
-        $memberList = array();
-        foreach($members as $member)
-            $memberList[] = $member['id'];
-
-        $list = ShipMemberExaming::getMemberMarks($memberList);
-        $tExamCodes = ShipMemberExaming::select('ExamCode')->whereIn('memberId', $memberList)->groupBy('ExamCode')->orderBy('ExamCode')->get();
-        if($paramExamCode == '')
-            $examCodes = ShipMemberExaming::select('ExamCode')->whereIn('memberId', $memberList)->groupBy('ExamCode')->orderBy('ExamCode')->get();
-        else
-            $examCodes = ShipMemberExaming::select('ExamCode')->whereIn('memberId', $memberList)->where('ExamCode', $paramExamCode)->groupBy('ExamCode')->orderBy('ExamCode')->get();
-        foreach($examCodes as $examing)
-            $examing['subjects'] = ShipMemberExaming::select('Subject')->where('ExamCode', $examing['ExamCode'])->groupBy('Subject')->get();
-
-        if(count($list) > 0)
-            $first = $list[0]['id'];
-
-        $marks = array();
-        foreach($list as $mark) {
-            foreach($members as $member) {
-                if($member['id'] == $mark['memberId']) {
-                    $userId = 'id_'.$member['id'];
-                    if(!isset($marks[$userId])) {
-                        $marks[$userId] = array();
-                    }
-                    foreach($examCodes as $examing) {
-                        $codeId = $examing['ExamCode'];
-                        if($codeId == $mark['ExamCode']){
-                            foreach($examing['subjects'] as $subject) {
-                                $member_subject = $mark['Subject'];
-                                if($member_subject == $subject['Subject']) {
-                                    if(!isset($marks[$userId][$codeId])){
-                                        $marks[$userId][$codeId] = array();
-                                    }
-                                    $marks[$userId][$codeId][$member_subject] = $mark['Marks'];
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-        foreach($members as $member) {
-            $userId = 'id_'.$member['id'];
-            if(isset($marks[$userId])) {
-                $mark = $marks[$userId];
-                $member['mark'] = $mark;
-            }
-        }
-        return view('shipMember.member_examing_total', ['memberList'=>$members, 'shipList'=>$shipList, 'examingList'=>$examCodes, 'shipId'=>$shipId, 'examCodes'=>$tExamCodes,
-            'paramExamCode' => $paramExamCode]);
-    }
     
     public function getMemberGeneralInfo() {
         $member_infolist = ShipMember::select('id', 'crewNum', 'realname', 'Sex', 'birthday', 'Nationality', 'RegStatus')

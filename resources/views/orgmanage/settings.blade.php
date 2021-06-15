@@ -139,7 +139,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="table-head-fix-div" style="height: 150px;margin-top:20px;">
+                        <div class="table-head-fix-div" style="height: 157px;margin-top:20px;">
                         <table id="table-shipmember-list" style="table-layout:fixed;border:1px solid black;">
                             <thead class="">
                                 <th class="text-center style-normal-header" style="width: 9%;height:35px;box-shadow: inset 0 -1px #000, 1px -1px #000;"><span>审批编号</span></th>
@@ -177,7 +177,7 @@ $isHolder = Session::get('IS_HOLDER');
                             </tbody>
                         </table>
                         </div>
-                        <div class="table-head-fix-div" style="height: 150px;margin-top:20px;">
+                        <div class="table-head-fix-div" style="max-height: 157px;margin-top:20px;">
                         <table id="table-shipmember-list" style="table-layout:fixed;">
                             <thead class="">
                                 <th class="text-center style-normal-header" style="width: 10%;height:35px;"><span>无显示</span></th>
@@ -204,7 +204,6 @@ $isHolder = Session::get('IS_HOLDER');
                                     <?php $nickName = $ship['NickName'];?>
                                     @endif
                                 @endforeach
-                                @for($dd=1;$dd<100;$dd++)
                                 <tr @if($index%2==0) class="member-item-odd" @else class="member-item-even" @endif>
                                     <td class="center dyn-visible" data-id="{{$info['id']}}" style="cursor:pointer;">{{$info['isvisible']?"✓":""}}</td>
                                     <td class="center" style="height:20px;">{{$nickName}}</td>
@@ -220,7 +219,6 @@ $isHolder = Session::get('IS_HOLDER');
                                     <td class="center">{{$info['Remark']}}</td>
                                     <?php $index++;?>
                                 </tr>
-                                @endfor
                             @endforeach
                             @else
                             <tr>
@@ -346,7 +344,6 @@ $isHolder = Session::get('IS_HOLDER');
             //td_html = "input type='hidden' name="
             var parentElement = e.target.parentElement;
             var name = $($(parentElement).children(":last")).attr('name');
-            console.log(name);
             if (name == 'visible_value[]') {
                 $(parentElement).children(":last").remove();
                 $(parentElement).children(":last").remove();
@@ -368,7 +365,6 @@ $isHolder = Session::get('IS_HOLDER');
             //td_html = "input type='hidden' name="
             var parentElement = e.target.parentElement;
             var name = $($(parentElement).children(":last")).attr('name');
-            console.log(name);
             if (name == 'dyn_value[]') {
                 $(parentElement).children(":last").remove();
                 $(parentElement).children(":last").remove();

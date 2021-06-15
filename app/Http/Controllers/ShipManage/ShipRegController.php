@@ -100,7 +100,7 @@ class ShipRegController extends Controller
         return redirect('shipManage/shipinfo');
     }
 
-    //배제원현시부분
+
     public function loadShipGeneralInfos(Request $request) {
         $ship_infolist = $this->getShipGeneralInfo();
 
@@ -168,7 +168,7 @@ class ShipRegController extends Controller
 	    ]);
     }
 
-    //배登记
+
     public function registerShipData(Request $request) {
         $GLOBALS['selMenu'] = 52;
         $GLOBALS['submenu'] = 0;
@@ -375,7 +375,7 @@ class ShipRegController extends Controller
 		    } else {
 			    $shipData = new ShipRegister();
 		    }
-//dump($shipData);die;
+
 		    $shipData['No_TypeOfEngine'] = $params['No_TypeOfEngine'];
 		    $shipData['Cylinder_Bore_Stroke'] = $params['Cylinder_Bore_Stroke'];
 		    $shipData['Power'] = $params['Power'];
@@ -436,7 +436,7 @@ class ShipRegController extends Controller
 
 
 
-    //배삭제
+
     public function deleteShipData(Request $request)
     {
         $dataId = $request->get('dataId');
@@ -634,79 +634,10 @@ class ShipRegController extends Controller
         }
     }
 
-    public function saveShipSafetyData(Request $request) {
-        $posId = $request->get('id');
-        $shipId = $request->get('shipId');
-        $ship = ShipRegister::find($shipId);
-        $shipRegNo = $ship['RegNo'];
 
-        if(isset($posId)){
-            $position = ShipPosReg::find($posId);
-        } else {
-            $position = new ShipPosReg();
-            $position['RegNo'] = $shipRegNo;
-        }
 
-        $position['DutyID'] = $request->get('DutyID');
-        $isExist = ShipPosReg::where('RegNo', $shipRegNo)->where('DutyID', $position['DutyID'])->first();
-        if(isset($isExist) && ($isExist['id'] != $posId))
-            return -1;
 
-        $position['Priority'] = $request->get('Priority');
-        $position['STCWRegCodeID'] = $request->get('STCWRegCodeID');
-        $position['PersonNum'] = $request->get('PersonNum');
-        $position->save();
-        $last = ShipPosReg::all(['id'])->last();
-        return $last['id'];
-    }
 
-    public function deleteShipSafetyData(Request $request) {
-        $posId = $request->get('posId');
-        $position = ShipPosReg::find($posId);
-        if(is_null($position))
-            return -1;
-
-        $position->delete();
-        return 1;
-    }
-
-    public function uploadShipPicture(Request $request) {
-        $file = $request->file('photo');
-        $shipId = $request->get('shipId');
-        $ship = ShipRegister::find($shipId);
-        $shipRegNo = $ship['RegNo'];
-
-        $imagePath = '';
-        if (isset($file)) {
-            $ext = $file->getClientOriginalExtension();
-            $imagePath = Util::makeUploadFileName().'.'.$ext;
-            $file->move(public_path('uploads/ship'), $imagePath);
-        }
-
-        $photo = new ShipPhoto();
-        $photo['RegNo'] = $shipRegNo;
-        $photo['path'] = $imagePath;
-        $photo->save();
-
-        $imageList = ShipPhoto::where('RegNo', $shipRegNo)->get();
-        return view('shipManage.tab_photo', ['imageList'=>$imageList]);
-    }
-
-    public function deleteShipPhotoImage(Request $request) {
-        $imageId = $request->get('imageId');
-        $shipId = $request->get('shipId');
-        $ship = ShipRegister::find($shipId);
-        $shipRegNo = $ship['RegNo'];
-
-        $photo = ShipPhoto::find($imageId);
-        if($photo)
-            $photo->delete();
-
-        $imageList = ShipPhoto::where('RegNo', $shipRegNo)->get();
-        return view('shipManage.tab_photo', ['imageList'=>$imageList]);
-    }
-
-    //배증서목록
     public function shipCertList(Request $request) {
         $shipRegList = ShipRegister::all();
 
@@ -915,7 +846,7 @@ class ShipRegController extends Controller
 		return response()->json($retVal);
 	}
 
-    // 배증서 정보얻기
+
     public function getShipCertInfo(Request $request) {
         $shipId = $request->get('shipId');
         $certId = $request->get('certId') * 1;
@@ -936,7 +867,7 @@ class ShipRegController extends Controller
         return view('shipManage.ship_cert_modify', ['info'=>$certInfo, 'certList'=>$certType]);
     }
 
-    // 배증서 添加 및 수정
+
     public function updateCertInfo(Request $request) {
         $certId = $request->get('id');
         $shipName = $request->get('ShipName');
@@ -993,7 +924,7 @@ class ShipRegController extends Controller
         return 1;
     }
 
-    //증서종류관리
+
     public function shipCertManage(Request $request) {
 	    $shipRegList = ShipRegister::all();
 
@@ -1056,7 +987,7 @@ class ShipRegController extends Controller
         return view('shipManage.cert_modify', ['info'=>$certInfo]);
     }
 
-    // 증서 添加 및 수정
+
     public function updateCertType(Request $request) {
         $certId = $request->get('id');
         $cert = $request->get('cert');
@@ -1082,7 +1013,7 @@ class ShipRegController extends Controller
         return redirect('shipManage/shipCertManage?cert='.$cert);
     }
 
-    // 증서종류삭제
+
     public function deleteShipCertType(Request $request) {
         $certId = $request->get('certId');
         $certInfo = ShipCertList::find($certId);
@@ -1133,7 +1064,7 @@ class ShipRegController extends Controller
         ]);
     }
 
-    // 배설비관리
+
     public function shipEquipmentManage(Request $request) {
         $shipList = ShipRegister::all();
 
@@ -1313,8 +1244,8 @@ class ShipRegController extends Controller
 
     public function getEquipmentDetail(Request $request) {
 
-        $GLOBALS['selMenu'] = 54;  // 설비登记메뉴표
-        $GLOBALS['submenu'] = 107; // 배별 설비목록메뉴표
+        $GLOBALS['selMenu'] = 54;  //
+        $GLOBALS['submenu'] = 107; //
 
         $deviceId = $request->get('equipId');
         $device = ShipEquipment::find($deviceId);
@@ -1550,7 +1481,6 @@ class ShipRegController extends Controller
 
 
 
-    // 배 설비종류관리
     public function equipmentTypeManage(Request $request) {
         Util::getMenuInfo($request);
 
@@ -1984,7 +1914,7 @@ class ShipRegController extends Controller
         return 1;
     }
     
-    // 설비 일반부속자재
+
     public function shipPartManage(Request $request) {
         Util::getMenuInfo($request);
 

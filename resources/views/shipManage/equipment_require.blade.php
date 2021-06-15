@@ -406,7 +406,7 @@
                 url: BASE_URL + 'ajax/shipManage/equipment/require/type/list',
                 type: 'post',
                 success: function(data, status, xhr) {
-
+                    if(data.length == 0) data.push([]);
                     $__this.cert_array = Object.assign([], [], data);
                     itemListObj.list = Object.assign([], [], data);
                     $__this.certTypeList = Object.assign([], [], data);
