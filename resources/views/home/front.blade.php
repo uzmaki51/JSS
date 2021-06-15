@@ -1,6 +1,6 @@
 @extends('layout.header')
 @section('content')
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="{{ cAsset('assets/css/slick.css') }}"/>
     <link href="{{ cAsset('assets/css/slides.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ cAsset('assets/js/chartjs/c3.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ cAsset('assets/css/home.css') }}" rel="stylesheet"/>
@@ -21,7 +21,7 @@
     <script src="{{ cAsset('assets/js/chartjs/c3.js') }}"></script>
     <script src="{{ cAsset('assets/js/chartjs/flot.js') }}"></script>
 
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script type="text/javascript" src="{{ cAsset('assets/js/slick.min.js') }}"></script>
     <script type="text/javascript" src="{{ cAsset('assets/css/koala.min.1.5.js') }}"></script>
 
     <style>
@@ -90,6 +90,22 @@
         table td{
             border-style:dotted;
         }
+
+        .td-notice-yellow {
+            border: 2px solid white;
+            border-top: unset!important;border-bottom: unset!important;
+            color:yellow;
+            font-weight:bold;
+            font-size: 15px;
+        }
+
+        .td-notice-white {
+            border: 2px solid white;
+            border-top: unset!important;border-bottom: unset!important;
+            color:white;
+            font-weight:bold;
+            font-size: 15px;
+        }
     </style>
     <div class="main-content">
         <div class="page-content">
@@ -108,6 +124,7 @@
                                     @if (isset($reportList) && count($reportList) > 0)
                                     <?php $index = 1;?>
                                     @foreach ($reportList as $report)
+                                        @if ($report['isvisible'] != 1)
                                         <?php $nickName=""?>
                                         @foreach($shipList as $ship)
                                             @if ($ship->IMO_No == $report['shipNo'])
@@ -122,6 +139,7 @@
                                             <td class="center">等待</td>
                                             <?php $index++;?>
                                         </tr>
+                                        @endif
                                     @endforeach
                                     @else
                                     <tr>
@@ -143,9 +161,10 @@
                             <div class="card-body no-attachment-decide-border" style="padding: 0 0px!important;max-height:141px!important;overflow-y: auto;">
                                 <table id="" style="table-layout:fixed;border:0px solid black;">
                                     <tbody class="" id="list-body" style="">
-                                    @if (isset($noattachments) && count($reportList) > 0)
+                                    @if (isset($noattachments) && count($noattachments) > 0)
                                     <?php $index = 1;?>
                                     @foreach ($noattachments as $report)
+                                        @if ($report['isvisible'] != 1)
                                         <?php $nickName=""?>
                                         @foreach($shipList as $ship)
                                             @if ($ship->IMO_No == $report['shipNo'])
@@ -160,6 +179,7 @@
                                             <td class="center"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="margin: 0px 0px"></td>
                                             <?php $index++;?>
                                         </tr>
+                                        @endif
                                     @endforeach
                                     @else
                                     <tr>
@@ -219,29 +239,44 @@
                             <div class="card-body p-0" style="box-shadow: 0px 0px 8px 4px #d2d2d2;">
                                 <div class="advertise">
                                     <div style="padding-left: 16px;">
-                                        <h5 style="font-weight: bold;">重要公告 : </h5>
+                                        <h5 style="font-weight: bold;">动态 </h5>
                                     </div>
-                                    <div class="sign_list slider" style="width: auto; min-width: 100px;">
-                                        @if(isset($reportList) && count($reportList) > 0)
-                                            @foreach ($reportList as $item)
+                                    <div class="sign_list slider text-center" style="width:100%;padding-left:10px;padding-right: 16px; margin-left: auto;">
+                                        @if(isset($voyList) && count($voyList) > 0)
+                                            @foreach ($voyList as $info)
+                                                @if ($info['isvisible'] != 1)
+                                                <?php $nickName=""?>
+                                                @foreach($shipList as $ship)
+                                                    @if ($ship->IMO_No == $info['Ship_ID'])
+                                                    <?php $nickName = $ship['NickName'];?>
+                                                    @endif
+                                                @endforeach
                                                 <div style="height: auto; outline: unset;">
                                                     <h5>
-                                                        <a href="/decision/receivedReport?reportId={{$item->id}}" style="color: white; outline: unset;" target="_blank">
-                                                            @if($item->obj_type == 1)
-                                                            从[{{ $item->realname }}]收到了[{{ $shipForDecision[$item->shipNo] }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.
-                                                            @else
-                                                            从[{{ $item->realname }}]收到了[{{ $item->obj_name }}]号的{{ g_enum('ReportTypeData')[$item->flowid][0] }}审批文件.
-                                                            @endif
+                                                        <a href="/shipManage/dynamicList" style="color: white; outline: unset;" target="_blank">
+                                                        <table style="width:100%;border:unset!important;table-layout:fixed;">
+                                                            <tbody><tr>
+                                                                <td class="td-notice-yellow" style="width:4%">{{$nickName}}</td>
+                                                                <td class="td-notice-white" style="width:8%">{{$info['Voy_Date']}}</td>
+                                                                <td class="td-notice-white" style="width:6%">{{str_pad($info['Voy_Hour'],2,"0",STR_PAD_LEFT).str_pad($info['Voy_Minute'],2,"0",STR_PAD_LEFT)}}</td>
+                                                                <td class="td-notice-yellow" style="width:15%">{{g_enum('DynamicStatus')[$info['Voy_Status']][0]}}</td>
+                                                                <td class="td-notice-white" style="width:15%">{{$info['Ship_Position']}}</td>
+                                                                <td class="td-notice-white" style="width:8%">{{$info['Cargo_Qtty']}}</td>
+                                                                <td class="td-notice-yellow" style="width:8%">{{$info['ROB_FO']}}</td>
+                                                                <td class="td-notice-yellow" style="width:8%">{{$info['ROB_DO']}}</td>
+                                                                <td class="td-notice-white" style="width:8%">{{$info['BUNK_FO']}}</td>
+                                                                <td class="td-notice-white" style="width:8%">{{$info['BUNK_DO']}}</td>
+                                                                <td class="td-notice-white" style="width:12%;border-right:unset!important;">{{$info['Remark']}}</td>
+                                                            </tr></tbody>
+                                                        </table>
                                                         </a>
                                                     </h5>
                                                 </div>
+                                                @endif
                                             @endforeach
                                         @else
                                             <span>{{ trans('home.message.no_data') }}</span>
                                         @endif
-                                    </div>
-                                    <div class="text-right" style="padding-right: 16px; margin-left: auto;">
-                                        <a href="/decision/receivedReport" style="color: white; text-decoration: underline;" target="_blank">更多</a>
                                     </div>
                                 </div>
                             </div>
