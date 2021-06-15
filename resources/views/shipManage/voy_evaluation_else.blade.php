@@ -17,21 +17,21 @@
             </select>
 
             <strong style="font-size: 16px; padding-top: 6px; margin-left: 30px;" class="f-right">
-                <span id="search_info">{{ $shipName }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ year }}年 航次效率比较</span>
+                <span id="search_info">{{ $shipName }}</span>&nbsp;<span class="font-bold">@{{ year }}年航次效率比较</span>
             </strong>
             
         </div>
         <div class="col-lg-5">
             <div class="btn-group f-right">
                 <a class="btn btn-sm btn-default" @click="openNewPage('dynamic')">动态分析</a>
-                <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                <button class="btn btn-warning btn-sm excel-btn" @click="fnExcelElse()"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
             </div>
         </div>
     </div>
     
     <div class="row" style="margin-top: 4px;">
         <div class="col-lg-12 head-fix-div common-list">
-            <table class="mt-2 table-striped">
+            <table class="mt-2 table-striped" id="table-else">
                 <tr class="dynamic-footer">
                     <td class="center" rowspan="2" style="width: 5%">航次</td>
                     <td class="center" rowspan="2">租船<br>种类</td>
@@ -120,7 +120,6 @@
         var shipId = '{!! $shipId !!}';
         var voyId = '{!! $voyId !!}';
         var activeYear = '{!! $year !!}';
-        console.log('before: ', activeYear);
         function initRequire() {
             compareObj = new Vue({
                 el: '#else-list',
@@ -172,6 +171,37 @@
                             window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + this.shipId + '&year=' + this.year + '&type=analyze', '_blank');
                         }
                     },
+                    fnExcelElse: function() {
+                        //table-else
+                        var tab_text = "";
+                        tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                        real_tab = document.getElementById('table-else');
+                        var tab = real_tab.cloneNode(true);
+                        tab_text=tab_text+"<tr><td colspan='17' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + '_'  + compareObj._data.year + "年航次效率比较" + "</td></tr>";
+                        
+                        for(j = 0; j < tab.rows.length ; j++)
+                        {
+                            if (j==0||j==1||j==tab.rows.length-1) {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                                }
+                            }
+                            if (j==0) {
+                                tab.rows[j].childNodes[4].style.width = '240px';
+                            }
+                            tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                        }
+                        tab_text=tab_text+"</table>";
+                        
+                        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+                        tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+                        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+
+                        var filename = $('#search_info').html() + '_'  + compareObj._data.year + "年航次效率比较";
+                        exportExcel(tab_text, filename, filename);
+                        
+                        return 0;
+                    }
                 }
             });
             console.log('after: ', activeYear);

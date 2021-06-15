@@ -84,7 +84,7 @@
                     <div class="col-md-3">
                         <div class="d-flex f-left">
                             <strong class="f-right" style="font-size: 16px; padding-top: 6px;">
-                                <span id="search_info">{{ $shipName }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ activeYear }}年 @{{ page_title }}</span>
+                                <span id="search_info">{{ $shipName }}</span>&nbsp;<span class="font-bold">@{{ activeYear }}年@{{ page_title }}</span>
                             </strong>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                             <a class="btn btn-sm btn-default" @click="openNewPage('soa')">SOA</a>
                             <a class="btn btn-sm btn-default" @click="openNewPage('dynamic')">动态分析</a>
                             <button class="btn btn-sm btn-primary" id="submit" @click="submitForm"><i class="icon-save"></i>保存</button>
-                            <button class="btn btn-warning btn-sm save-btn" @click="submitForm"><i class="icon-table"></i> {{ trans('common.label.excel') }}</button>
+                            <button class="btn btn-warning btn-sm save-btn" @click="fnExcelTableReport"><i class="icon-table"></i> {{ trans('common.label.excel') }}</button>
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <input type="hidden" name="shipId" value="{{ $shipId }}">
                         <input type="hidden" name="year" v-model="activeYear">
-                        <table class="dynamic-result-table analyze-table table-striped">
+                        <table class="dynamic-result-table analyze-table table-striped" id="table-fuel-list">
                                 <tbody>
                                 <tr class="dynamic-footer">
                                     <td class="text-center" rowspan="2">航次</td>
@@ -982,6 +982,68 @@
                         searchObj.currentData[length]['Voy_Minute'] = 0;
                         searchObj.currentData[length]['Voy_Date'] = this.getToday('-');
                         searchObj.$forceUpdate();
+                    },
+                    fnExcelTableReport() {
+                        var tab_text = "";
+                        tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                        real_tab = document.getElementById('table-fuel-list');
+                        var tab = real_tab.cloneNode(true);
+                        tab_text=tab_text+"<tr><td colspan='19' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + " " + searchObj._data.activeYear + "年"+ searchObj._data.page_title + "</td></tr>";
+                        
+                        for(var j = 0; j < tab.rows.length ; j++)
+                        {
+                            if (j == 0) {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                                }
+                            }
+                            else if (j == 1) {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                                }
+                            }
+                            else if (j == (tab.rows.length - 1))
+                            {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.fontWeight = "bold";
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#ebf1de';
+                                }
+                            }
+                            else
+                            {
+                                var info = real_tab.rows[j].childNodes[2].childNodes[0].value;
+                                tab.rows[j].childNodes[2].innerHTML = info;
+                                info = real_tab.rows[j].childNodes[4].childNodes[0].value;
+                                tab.rows[j].childNodes[4].innerHTML = info;
+                                info = real_tab.rows[j].childNodes[6].childNodes[0].value;
+                                tab.rows[j].childNodes[6].innerHTML = info;
+                                info = real_tab.rows[j].childNodes[7].childNodes[0].value;
+                                tab.rows[j].childNodes[7].innerHTML = info;
+                                tab.rows[j].childNodes[9].innerHTML = "";
+                                info = real_tab.rows[j].childNodes[11].childNodes[0].value;
+                                tab.rows[j].childNodes[11].innerHTML = info;
+                                info = real_tab.rows[j].childNodes[13].childNodes[0].value;
+                                tab.rows[j].childNodes[13].innerHTML = info;
+                                tab.rows[j].childNodes[15].innerHTML = "";
+                                info = real_tab.rows[j].childNodes[17].childNodes[0].value;
+                                tab.rows[j].childNodes[17].innerHTML = info;
+                                for (var i=19;i<38;i+=2) {
+                                    info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                    tab.rows[j].childNodes[i].innerHTML = info;
+                                }
+                                tab.rows[j].childNodes[0].remove();
+                            }
+                            tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                        }
+                        tab_text=tab_text+"</table>";
+                        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+                        tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+                        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+
+                        var filename = $('#search_info').html() + '_' + searchObj._data.activeYear + "年"+ searchObj._data.page_title;
+                        exportExcel(tab_text, filename, filename);
+                        
+                        return 0;
                     }
                 },
                 updated() {

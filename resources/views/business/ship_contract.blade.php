@@ -1044,9 +1044,12 @@ $ships = Session::get('shipList');
         if(ACTIVE_TAB == 'voy') {
             if(voyContractObj.validate_voy_no == true && voyContractObj.voy_no != '')
                 fnExcelVoy();
-        } else {
+        } else if(ACTIVE_TAB = 'non') {
+            fnExcelTc('NON');
+        }
+         else {
             if(tcContractObj.validate_voy_no == true && tcContractObj.voy_no != '') 
-                fnExcelTc();
+                fnExcelTc('TC');
         }        
     }
 
@@ -1068,7 +1071,7 @@ $ships = Session::get('shipList');
         }
     });
 
-    function fnExcelTc()
+    function fnExcelTc(type)
     {
         var tab_text;
         tab_text = '<table id="excel" style="text-align:center;vertical-align:middle;">';
@@ -1090,7 +1093,7 @@ $ships = Session::get('shipList');
         tab_text += '</tr>';
         tab_text += '<tr style="font-size:14px;font-family:simsun;">';
         tab_text += '<td style="background:#f3f3f3;text-align:right;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">' + '合同种类' + '</td>';
-        tab_text += '<td colspan="2" style="text-align:left;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;"><b>' + 'TC' + '</b></td>';
+        tab_text += '<td colspan="2" style="text-align:left;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;"><b>' + type + '</b></td>';
         tab_text += '<td style="background:#f3f3f3;text-align:right;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;">' + '日租金' + '</td>';
         tab_text += '<td colspan="4" style="text-align:left;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">$ ' + $('[name=hire]').val() + '</td>';
         tab_text += '</tr>';
@@ -1208,7 +1211,7 @@ $ships = Session::get('shipList');
         tab_text += '<td colspan="4" style="border-bottom:3px #484848 solid!important;text-align:left;vertical-align:middle;border-left:hidden;border-right:hidden;border-bottom:hidden;padding:5px!important;">' + $($('[name=net_profit_day]')[1]).val() + '</td>';
         tab_text += '<tr><td colspan="8" style="height:30px;border-top:1px solid black;">&nbsp;</td></tr>';
         
-        var filename = '{!! $shipName !!}' + '_' + tcContractObj.voy_no + '合同分析(TC)';
+        var filename = '{!! $shipName !!}' + '_' + tcContractObj.voy_no + '合同分析(' + type + ')';
         exportExcel(tab_text, filename, filename);
         return 0;
     }

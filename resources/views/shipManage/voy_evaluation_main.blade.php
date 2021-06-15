@@ -26,14 +26,14 @@
             <div class="btn-group f-right">
                 <a class="btn btn-sm btn-default" @click="openNewPage('soa')">SOA</a>
                 <a class="btn btn-sm btn-default" @click="openNewPage('dynamic')">动态分析</a>
-                <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                <button class="btn btn-warning btn-sm excel-btn" @click="fnExcelMain()"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
             </div>
         </div>
     </div>
     
     <div class="row" style="margin-top: 4px;">
         <div class="col-lg-12 head-fix-div common-list">
-            <table class="evaluation-table mt-2 table-striped">
+            <table class="evaluation-table mt-2 table-striped" id="table-main">
                 <tr>
                     <td style="width: 20%;">航次</td>
                     <td colspan="2" style="width: 30%;">@{{ cpInfo.Voy_No }}</td>
@@ -84,7 +84,7 @@
                     <td style="background: white!important;">@{{ cpInfo.charterer }}</td>
                 </tr>
             </table>
-            <table class="mt-2 table-striped main-info-table">
+            <table class="mt-2 table-striped main-info-table" id="table-main-2">
                 <thead>
                     <th class="center" style="width: 5%">No.</th>
                     <th class="center" colspan="2" style="width: 20%">项目</th>
@@ -368,6 +368,73 @@
                                     window.open(BASE_URL + 'shipManage/dynamicList?shipId=' + this.shipId + '&type=analyze', '_blank');
                                 }
                             },
+                            fnExcelMain: function() {
+                                var tab_text = "";
+                                tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                                real_tab = document.getElementById('table-main');
+                                var tab = real_tab.cloneNode(true);
+                                tab_text=tab_text+"<tr><td colspan='5' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + '_'  + $('#voy_list').val() + "次评估" + "</td></tr>";
+                                
+                                var j;
+                                for(j=0;j<tab.rows.length-1;j++)
+                                {
+                                    tab.rows[j].childNodes[0].style.backgroundColor = '#c9dfff';
+                                    tab.rows[j].childNodes[4].style.backgroundColor = '#c9dfff';
+                                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                                }
+                                tab.rows[j].childNodes[0].style.backgroundColor = '#c9dfff';
+                                tab.rows[j].childNodes[6].style.backgroundColor = '#c9dfff';
+                                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                                tab_text=tab_text+"</table>";
+
+                                tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                                tab_text +="<tr colspan='6'><td style='height:20px;'></td></tr>"
+                                real_tab = document.getElementById('table-main-2');
+                                tab = real_tab.cloneNode(true);
+                                for(j = 0; j < tab.rows.length ; j++)
+                                {
+                                    if (j==0) {
+                                        for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                            tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                            var node = tab.rows[j].childNodes[i].childNodes[0];
+                                            if ( node != undefined)
+                                            {
+                                                var type = node.nodeType;
+                                                var value;
+                                                if (type == 3) continue;
+                                                if (node.tagName=='DIV') {
+                                                    tab.rows[j].childNodes[i].innerHTML = "";
+                                                }
+                                                else if(node.tagName=='INPUT'){
+                                                    console.log(j,i,type,node);
+                                                    value = node.value;
+                                                    tab.rows[j].childNodes[i].innerHTML = value;
+                                                    
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (tab.rows[j].lastChild.className.indexOf('no-border') >= 0) {
+                                        tab.rows[j].lastChild.remove();
+                                    }
+                                    tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                                }
+                                tab_text=tab_text+"</table>";
+                                
+                                tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+                                tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+                                tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+
+                                var filename = $('#search_info').html() + '_'  + $('#voy_list').val() + "次评估";
+                                exportExcel(tab_text, filename, filename);
+                                
+                                return 0;
+                            }
                         },
                         mounted: function() {
                             economicGraph = Highcharts.chart('economic_graph', {

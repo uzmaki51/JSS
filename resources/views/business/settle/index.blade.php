@@ -52,7 +52,7 @@
                             <a class="btn btn-sm btn-default" onclick="openNewPage('dynamic')">动态分析</a>
                             <button class="btn btn-report-search btn-sm search-btn d-none" click="doSearch()"><i class="icon-search"></i>搜索</button>
                             <button class="btn btn-primary btn-sm save-btn" onclick="submitForm()"><i class="icon-save"></i> {{ trans('common.label.save') }}</button>
-                            <button class="btn btn-warning btn-sm save-btn"><i class="icon-table"></i> {{ trans('common.label.excel') }}</button>
+                            <button class="btn btn-warning btn-sm save-btn" onclick="fnExcelRecord()"><i class="icon-table"></i> {{ trans('common.label.excel') }}</button>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                     <input type="hidden" name="shipId" value="{{ $shipId }}">
                     <input type="hidden" name="voyId" value="{{ $voyId }}">
 
-                    <table class="table-bordered dynamic-table">
+                    <table class="table-bordered dynamic-table" id="table-settlement">
                         <thead>
                             <tr class="sub-head-tr">
                                 <td class="text-center" colspan="9">
@@ -870,6 +870,57 @@
                 return false;
             }
         });
+
+        function fnExcelRecord() {
+            var tab_text = "";
+            tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+            real_tab = document.getElementById('table-settlement');
+            var tab = real_tab.cloneNode(true);
+            tab_text=tab_text+"<tr><td colspan='8' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + '_'  + $('#voy_list').val() + "_航次结算表" + "</td></tr>";
+            
+            for(var j = 0; j < tab.rows.length ; j++)
+            {
+                if (j==0 || j==8 || j==14 || j==19 || j==25 || j==38) {
+                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                    }
+                }
+                else
+                {
+                    for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                        var node = tab.rows[j].childNodes[i].childNodes[0];
+                        if ( node != undefined)
+                        {
+                            var type = node.nodeType;
+                            var value;
+                            if (type == 3) continue;
+                            if (node.tagName=='DIV') {
+                                value = node.childNodes[0].childNodes[0].value + " " + node.childNodes[2].childNodes[0].value + " " + node.childNodes[4].childNodes[0].value;
+                                tab.rows[j].childNodes[i].innerHTML = value;
+                            }
+                            else if(node.tagName=='INPUT'){
+                                value = node.value;
+                                tab.rows[j].childNodes[i].innerHTML = value;
+                            }
+                        }
+                    }
+                }
+                if (tab.rows[j].lastChild.className.indexOf('no-border') >= 0) {
+                    tab.rows[j].lastChild.remove();
+                }
+                tab.rows[0].childNodes[0].colSpan = 8;
+                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+            }
+            tab_text=tab_text+"</table>";
+            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+
+            var filename = $('#search_info').html() + '_'  + $('#voy_list').val() + "_航次结算表";
+            exportExcel(tab_text, filename, filename);
+            
+            return 0;
+        }
     </script>
 
 @endsection

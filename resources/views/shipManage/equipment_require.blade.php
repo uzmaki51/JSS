@@ -19,7 +19,7 @@
         <div class="col-lg-3">
             <div class="text-center" style="margin-top: 6px;">
                 <strong style="font-size: 16px; padding-top: 6px;">
-                    <span id="search_info">{{ $shipName }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ activeYear }}年必修备件表</span>
+                    <span id="search_info">{{ $shipName }}</span>&nbsp;<span class="font-bold">@{{ activeYear }}年必修备件表</span>
                 </strong>
             </div>
         </div>
@@ -31,7 +31,7 @@
             <div class="btn-group f-right">
                 <button class="btn btn-primary btn-sm search-btn" @click="addRow"><i class="icon-plus"></i>添加</button>
                 <button class="btn btn-sm btn-success" @click="submitForm"><i class="icon-save"></i>保存</button>
-                <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                <button class="btn btn-warning btn-sm excel-btn" @click="fnExcelRequire"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                 <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
             </div>
         </div>
@@ -41,7 +41,7 @@
             <form action="shipReqEquipmentList" method="post" id="equipment-require-form" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">
-                <table class="table-striped">
+                <table class="table-striped" id="table-require">
                     <thead class="">
                         <th class="d-none"></th>
                         <th class="text-center">No</th>
@@ -59,10 +59,10 @@
                             <td class="center no-wrap">@{{ index + 1 }}<input type="hidden" name="id[]" v-model="item.id"></td>
                             <td class="center no-wrap">
                                 <select class="form-control text-center" v-model="item.place" name="place[]">
-                                    <option value="1">主机(M/E)</option>
-                                    <option value="2">辅机(A/E)</option>
-                                    <option value="3">锅炉(BLR)</option>
-                                    <option value="4">机械</option>
+                                    <option value="1" data-ref="主机(M/E)">主机(M/E)</option>
+                                    <option value="2" data-ref="辅机(A/E)">辅机(A/E)</option>
+                                    <option value="3" data-ref="锅炉(BLR)">锅炉(BLR)</option>
+                                    <option value="4" data-ref="机械">机械</option>
                                 </select>
                             </td>
                             <td>
@@ -94,8 +94,8 @@
                             </td>
                             <td class="center no-wrap">
                                 <select class="form-control text-center" v-model="item.status" name="status[]">
-                                    <option value="1">新品</option>
-                                    <option value="2">二手</option>
+                                    <option value="1" data-ref="新品">新品</option>
+                                    <option value="2" data-ref="二手">二手</option>
                                 </select>
                             </td>
 
@@ -312,8 +312,78 @@
                                 }
                             }
                         });
-                    }
+                    },
+                    fnExcelRequire() {
+                        var tab_text = "";
+                        tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                        real_tab = document.getElementById('table-require');
+                        var tab = real_tab.cloneNode(true);
+                        tab_text=tab_text+"<tr><td colspan='8' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + " " + equipRequireObj._data.activeYear + "年必修备件表" + "</td></tr>";
+                        
+                        for(var j = 0; j < tab.rows.length ; j++)
+                        {
+                            if (j == 0) {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                                }
+                                tab.rows[j].childNodes[16].remove();
+                                tab.rows[j].childNodes[0].remove();
+                            }
+                            else
+                            {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    if (i == 2) {
+                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        if (info == 1) {
+                                            info = "主机(M/E)";
+                                        } else if (info == 2) {
+                                            info = "辅机(A/E)";
+                                        } else if (info == 3) {
+                                            info = "锅炉(BLR)";
+                                        } else if (info == 4) {
+                                            info = "机械";
+                                        }
+                                        tab.rows[j].childNodes[i].innerHTML = info;
+                                    }
+                                    else if (i == 4) {
+                                        info = real_tab.rows[j].childNodes[i].childNodes[0].childNodes[0].childNodes[0].value;
+                                        if (info == 0)
+                                            tab.rows[j].childNodes[i].innerHTML = '';
+                                        else
+                                            tab.rows[j].childNodes[i].innerHTML = $__this.list[j].cert_name;
+                                    }
+                                    else if (i == 12) {
+                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        if (info == 1) {
+                                            info = "新品";
+                                        } else if (info == 2) {
+                                            info = "二手";
+                                        }
+                                        tab.rows[j].childNodes[i].innerHTML = info;
+                                    }
+                                    else if (i == 0 || i == 14) {
+                                    }
+                                    else {
+                                        var info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        tab.rows[j].childNodes[i].innerHTML = info;
+                                    }
+                                }
+                                tab.rows[j].childNodes[16].remove();
+                            }
+                            
+                            
+                            tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                        }
+                        tab_text=tab_text+"</table>";
+                        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+                        tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+                        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
 
+                        var filename = $('#search_info').html() + '_' + equipRequireObj._data.activeYear + "必修备件表";
+                        exportExcel(tab_text, filename, filename);
+                        
+                        return 0;
+                    }
                 },
                 updated() {
                         $('.date-picker').datepicker({

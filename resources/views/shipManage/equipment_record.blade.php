@@ -24,7 +24,7 @@
             </select>
             
             <strong style="font-size: 16px; padding-top: 6px; margin-left: 30px;">
-                <span id="search_info">{{ $shipName }}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font-bold">@{{ activeYear }}年备件物料</span>
+                <span id="search_info">{{ $shipName }}</span>&nbsp;<span class="font-bold">@{{ activeYear }}年备件物料</span>
             </strong>
             
         </div>
@@ -37,7 +37,7 @@
             <div class="btn-group f-right">
                 <button class="btn btn-primary btn-sm search-btn" @click="addRow"><i class="icon-plus"></i>添加</button>
                 <button class="btn btn-sm btn-success" @click="submitForm"><i class="icon-save"></i>保存</button>
-                <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                <button class="btn btn-warning btn-sm excel-btn" @click="fnExcelRecord"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
             <form action="shipEquipmentList" method="post" id="certList-form" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">
-                <table class="table-striped">
+                <table class="table-striped" id="table-record">
                     <thead class="">
                         <th class="d-none"></th>
                         <th class="text-center">No</th>
@@ -339,8 +339,62 @@
                                 }
                             }
                         });
-                    }
+                    },
+                    fnExcelRecord() {
+                        var tab_text = "";
+                        tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+                        real_tab = document.getElementById('table-record');
+                        var tab = real_tab.cloneNode(true);
+                        tab_text=tab_text+"<tr><td colspan='12' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + $('#search_info').html() + " " + equipObj._data.activeYear + "年备件物料" + "</td></tr>";
+                        
+                        for(var j = 0; j < tab.rows.length ; j++)
+                        {
+                            if (j == 0) {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                                }
+                                tab.rows[j].childNodes[24].remove();
+                                tab.rows[j].childNodes[0].remove();
+                            }
+                            else
+                            {
+                                for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
+                                    if (i == 4) {
+                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        tab.rows[j].childNodes[i].innerHTML = PlaceType[info];
+                                    }
+                                    else if (i == 6) {
+                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        tab.rows[j].childNodes[i].innerHTML = VarietyType[info]
+                                    }
+                                    else if (i == 16) {
+                                        info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        tab.rows[j].childNodes[i].innerHTML = UnitData[info];
+                                    }
+                                    else if (i == 0 || i == 22) {
 
+                                    }
+                                    else {
+                                        var info = real_tab.rows[j].childNodes[i].childNodes[0].value;
+                                        tab.rows[j].childNodes[i].innerHTML = info;
+                                    }
+                                }
+                                tab.rows[j].childNodes[24].remove();
+                            }
+                            
+                            
+                            tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+                        }
+                        tab_text=tab_text+"</table>";
+                        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+                        tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+                        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+
+                        var filename = $('#search_info').html() + '_' + equipObj._data.activeYear + "年备件物料";
+                        exportExcel(tab_text, filename, filename);
+                        
+                        return 0;
+                    }
                 },
                 updated() {
                         $('.date-picker').datepicker({
