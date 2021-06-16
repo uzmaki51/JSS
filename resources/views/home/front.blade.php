@@ -96,7 +96,7 @@
             border-top: unset!important;border-bottom: unset!important;
             color:yellow;
             font-weight:bold;
-            font-size: 15px;
+            font-size: 12px;
         }
 
         .td-notice-white {
@@ -104,7 +104,7 @@
             border-top: unset!important;border-bottom: unset!important;
             color:white;
             font-weight:bold;
-            font-size: 15px;
+            font-size: 12px;
         }
     </style>
     <div class="main-content">
@@ -252,7 +252,7 @@
                     <div class="row">
                         <div class="card mb-4">
                             <div class="card-body p-0" style="box-shadow: 0px 0px 8px 4px #d2d2d2;">
-                                <div class="advertise">
+                                <div class="advertise" style="height:30px;">
                                     <div style="padding-left: 16px;">
                                         <h5 style="font-weight: bold;">动态 </h5>
                                     </div>
@@ -272,7 +272,7 @@
                                                         <table style="width:100%;border:unset!important;table-layout:fixed;">
                                                             <tbody><tr>
                                                                 <td class="td-notice-yellow" style="width:4%">{{$nickName}}</td>
-                                                                <td class="td-notice-white" style="width:8%">{{$info['Voy_Date']}}</td>
+                                                                <td class="td-notice-white" style="width:9%">{{$info['Voy_Date']}}</td>
                                                                 <td class="td-notice-white" style="width:6%">{{str_pad($info['Voy_Hour'],2,"0",STR_PAD_LEFT).str_pad($info['Voy_Minute'],2,"0",STR_PAD_LEFT)}}</td>
                                                                 <td class="td-notice-yellow" style="width:15%">{{g_enum('DynamicStatus')[$info['Voy_Status']][0]}}</td>
                                                                 <td class="td-notice-white" style="width:15%">{{$info['Ship_Position']}}</td>
@@ -281,7 +281,7 @@
                                                                 <td class="td-notice-yellow" style="width:8%">{{$info['ROB_DO']}}</td>
                                                                 <td class="td-notice-white" style="width:8%">{{$info['BUNK_FO']}}</td>
                                                                 <td class="td-notice-white" style="width:8%">{{$info['BUNK_DO']}}</td>
-                                                                <td class="td-notice-white" style="width:12%;border-right:unset!important;">{{$info['Remark']}}</td>
+                                                                <td class="td-notice-white" style="border-right:unset!important;">{{$info['Remark']}}</td>
                                                             </tr></tbody>
                                                         </table>
                                                         </a>
