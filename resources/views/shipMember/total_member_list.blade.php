@@ -81,13 +81,13 @@ $isHolder = Session::get('IS_HOLDER');
                                                         <th class="text-center style-header" style="width: 2%;"><span>No</span></th>
                                                         <th class="text-center style-header" style="width: 6%;"><span>姓名</span></th>
                                                         <th class="text-center style-header" style="width: 3%;"><span>职务</span></th>
-                                                        <th class="text-center style-header" style="width: 6%;"><span>电话号码</span></th>
+                                                        <th class="text-center style-header" style="width: 7%;"><span>电话号码</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>国籍</span></th>
-                                                        <th class="text-center style-header" style="width: 9%;"><span>身份证号</span></th>
+                                                        <th class="text-center style-header" style="width: 10%;"><span>身份证号</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>出生日期</span></th>
                                                         <th class="text-center style-header" style="width: 7%;"><span>籍贯</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>上船日期</span></th>
-                                                        <th class="text-center style-header" style="width: 12%;"><span>上船港</span></th>
+                                                        <th class="text-center style-header" style="width: 10%;"><span>上船港</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>下船日期</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>海员证号</span></th>
                                                         <th class="text-center style-header" style="width: 5%;"><span>海员证到期</span></th>
