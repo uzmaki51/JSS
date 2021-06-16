@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
+use App\Models\ShipManage\ShipRegister;
 
 class ShipEquipmentRequire extends Model
 {
@@ -53,6 +54,27 @@ class ShipEquipmentRequire extends Model
 		}
 
 		$records = $selector->get();
+
+		return $records;
+	}
+
+	public function getDataForDash() {
+		$selector = self::whereRaw(1);
+		$selector->whereRaw('require_vol < inventory_vol');
+		$records = $selector->get();
+
+		$placeList = array(
+			'1'		=> '主机(M/E)',
+			'2'		=> '辅机(A/E)',
+			'3'		=> '锅炉(BLR)',
+			'4'		=> '机械',
+		);
+
+		$shipReg = new ShipRegister();
+		foreach($records as $key => $item) {
+			$records[$key]->shipName = $shipReg->getShipNameByIMO($item->shipId);
+			$records[$key]->place = $placeList[$item->place];
+		}
 
 		return $records;
 	}

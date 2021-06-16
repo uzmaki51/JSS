@@ -198,15 +198,23 @@
                                     <span class="bigger-120">证书到期</span>
                                 </div>
                             </div>
-                            <div class="card-body expired-cert-border" style="padding: 0 0px!important;max-height:101px!important;overflow-y: auto;">
+                            <div class="card-body expired-cert-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;">
                                     <thead>
-                                        <td class="center decide-sub-title">船名</td>
+                                        <td class="center decide-sub-title" style="width: 35px;">船名</td>
                                         <td class="center decide-sub-title">证书</td>
-                                        <td class="center decide-sub-title">有效期</td>
-                                        <td class="center decide-sub-title">周检日期</td>
+                                        <td class="center decide-sub-title" style="width: 60px;">有效期</td>
+                                        <td class="center decide-sub-title" style="width: 60px;">周检日期</td>
                                     </thead>
                                     <tbody class="" id="cert-body" style="">
+                                        @foreach($expireCert as $key => $item)
+                                            <tr>
+                                                <td>{{ $item->shipName }}</td>
+                                                <td class="center"><span>{{ $item->certName }}</span></td>
+                                                <td class="center">{{ date('m-d', strtotime($item->expire_date)) }}</td>
+                                                <td class="center">{{ date('m-d', strtotime($item->due_endorse)) }}</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -219,14 +227,21 @@
                                     <span class="bigger-120">必需备件</span>
                                 </div>
                             </div>
-                            <div class="card-body decide-border" style="padding: 0 0px!important;max-height:101px!important;overflow-y: auto;">
+                            <div class="card-body decide-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;">
                                     <thead>
                                         <td class="center decide-sub-title">船名</td>
                                         <td class="center decide-sub-title">部门</td>
                                         <td class="center decide-sub-title">缺件</td>
                                     </thead>
-                                    <tbody class="" id="cert-body" style="">
+                                    <tbody class="" id="equipment-body" style="">
+                                        @foreach($equipment as $key => $item)
+                                            <tr>
+                                                <td style="width: 35px;">{{ $item->shipName }}</td>
+                                                <td class="center" style="width: 65px;">{{ $item->place }}</td>
+                                                <td>{{ $item->remark }}</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -1031,12 +1046,13 @@
     </script>
 
     <script>
-        var currencyListObj = new Vue({
-            el: '#currency-list',
+
+        var certObj = new Vue({
+            el: '#cert-body',
             data: {
-                list: []
-            },
-        });
+                list: [],
+            }
+        })
 
         $(".sign_list").slick({
             dots: false,
@@ -1088,7 +1104,6 @@
         function _format(value, decimal = 2) {
             return isNaN(value) || value == 0 || value == null || value == undefined ? '' : number_format(value, decimal);
         }
-
 
     </script>
 @endsection

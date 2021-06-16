@@ -29,5 +29,4 @@ class ShipCertList extends Model
 
         return $list;
     }
-
 }

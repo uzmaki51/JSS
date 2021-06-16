@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
+use App\Models\ShipManage\ShipRegister;
+use App\Models\ShipManage\ShipCertList;
 
 class ShipCertRegistry extends Model
 {
@@ -70,9 +72,18 @@ class ShipCertRegistry extends Model
 	    if($ship_id != '')
 		    $selector->where('ship_id', $ship_id);
 
-    	$result = $selector->get();
+        $result = $selector->get();
+        
+        $shipReg = new ShipRegister();
+        foreach($result as $key => $item) {
+            $result[$key]->shipName = $shipReg->getShipNameByIMO($item->ship_id);
+            $certInfo = ShipCertList::where('id', $item->cert_id)->first();
+            if($certInfo == null)
+                $result[$key]->certName = '';
+            else
+                $result[$key]->certName = $certInfo->code;
+        }
 
     	return $result;
-
     }
 }

@@ -11,6 +11,7 @@ use App\Models\Operations\VoyLog;
 use App\Models\Schedule;
 use App\Models\ShipManage\ShipCertList;
 use App\Models\ShipManage\ShipCertRegistry;
+use App\Models\ShipManage\ShipEquipmentRequire;
 use App\Models\ShipManage\ShipRegister;
 use App\Models\ShipMember\ShipMember;
 use App\Models\Decision\DecisionReport;
@@ -102,7 +103,14 @@ class HomeController extends Controller {
         }
         $sites = SettingsSites::select('*')->orderByRaw("CAST(orderNo AS SIGNED INTEGER) ASC")->get();
 
-		// var_dump($shipForDecision);die;
+		$shipEquip = new ShipEquipmentRequire();
+		$equipment = $shipEquip->getDataForDash();
+
+		$tbl = new ShipCertRegistry();
+		$expireCert = $tbl->getExpiredList($settings->cert_expire_date);
+
+
+		// var_dump($equipment);die;
 		return view('home.front', [
 			'shipList'          => $shipList,
 			'reportList'        => $reportList,
@@ -114,6 +122,8 @@ class HomeController extends Controller {
             'voyList' 			=> $voyList,
             'sites' 			=> $sites,
 			'reportSummary'		=> $reportSummary,
+			'equipment'			=> $equipment,
+			'expireCert'		=> $expireCert,
 		]);
 	}
 
@@ -144,8 +154,5 @@ class HomeController extends Controller {
             $msg = "密码错误，请重新输入密码。";
             return back()->with(['state'=>'error','msg'=>$msg]);
         }
-    }
+	}
 }
-
-
-
