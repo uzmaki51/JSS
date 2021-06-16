@@ -582,7 +582,7 @@ class ShipRegController extends Controller
             if(count($cpList) > 0)
                 $voyId = $cpList[0]->Voy_No;
             else
-                return redirect()->back();
+                $voyId = 0;
         }
         $yearList = CP::getYearList($shipId);
 
