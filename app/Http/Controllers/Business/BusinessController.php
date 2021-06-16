@@ -687,7 +687,7 @@ class BusinessController extends Controller {
             if(count($cpList) > 0)
                 $voyId = $cpList[0]->Voy_No;
             else
-                return redirect()->back();
+                $voyId = 0;
         }
 
         return view('business.settle.index', [
