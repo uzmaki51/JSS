@@ -15,7 +15,8 @@ $isHolder = Session::get('IS_HOLDER');
         <style>
             .add-td-input,.add-td-select{
                 border:unset!important;
-                margin-left: -2px!important;
+                margin-left:10px!important;
+                padding:0px!important;
             }
 
             .add-td-label {
@@ -30,18 +31,6 @@ $isHolder = Session::get('IS_HOLDER');
                 font-weight: normal;
                 vertical-align: middle;
             }
-
-            .add-td-input {
-                font-size:14px!important;
-                margin-left:10px;
-            }
-
-            .add-td-select {
-                font-size:14px!important;
-                margin-left:5px;
-                margin-right:10px;
-            }
-            
             .cost-item-odd {
                 background-color: #efefef;
             }
