@@ -57,7 +57,7 @@
                                 </a>
                             @endif
                             <a class="btn btn-sm btn-warning refresh-btn-over" type="button" onclick="fnExport()">
-                                <i class="icon icon-table"></i>1{{ trans('common.label.excel') }}
+                                <i class="icon icon-table"></i>{{ trans('common.label.excel') }}
                             </a>                            
                             <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
                         </div>
@@ -560,6 +560,8 @@
             {
                 if (j == 0) {
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                        if (i==0||i==1||i==2||i==9||i==10)
+                            tab.rows[j].childNodes[i].style.width = '100px';
                         tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
                     }
                     tab.rows[j].childNodes[13].remove();
