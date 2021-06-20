@@ -44,9 +44,7 @@
                             <option value="OBJ">个体</option>
                             @if(isset($shipList))
                                 @foreach($shipList as $key => $item)
-                                    <option value="{{ $item->IMO_No }}" {{ isset($shipId) && $shipId == $item->IMO_No ?  "selected" : "" }}>
-                                        {{ $item->NickName == '' ? $item->shipName_En : $item->NickName }}
-                                    </option>
+                                    <option value="{{ $item->IMO_No }}" {{ isset($shipId) && $shipId == $item->IMO_No ?  "selected" : "" }}>{{$item->NickName == '' ? $item->shipName_En : $item->NickName }}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -58,8 +56,8 @@
                                     <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">起草
                                 </a>
                             @endif
-                            <a class="btn btn-sm btn-warning refresh-btn-over" type="button" onclick="refresh()">
-                                <i class="icon icon-table"></i>{{ trans('common.label.excel') }}
+                            <a class="btn btn-sm btn-warning refresh-btn-over" type="button" onclick="fnExport()">
+                                <i class="icon icon-table"></i>1{{ trans('common.label.excel') }}
                             </a>                            
                             <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
                         </div>
@@ -551,9 +549,37 @@
             listTable.draw();
         }
 
-        function refresh() {
-            if(listTable != null && listTable != undefined)
-                listTable.draw();
+        function fnExport() {
+            var tab_text = "";
+            tab_text +="<table border='1px' style='text-align:center;vertical-align:middle;'>";
+            real_tab = document.getElementById('report_info_table');
+            var tab = real_tab.cloneNode(true);
+            tab_text=tab_text+"<tr><td colspan='13' style='font-size:24px;font-weight:bold;border-left:hidden;border-top:hidden;border-right:hidden;text-align:center;vertical-align:middle;'>" + "审批文件" + "(" + $('#ship_name option:selected').text() + "_" +  $('#year').val() + "_" + $('#month').val() + ")" + "</td></tr>";
+            
+            for(var j = 0; j < tab.rows.length ; j++)
+            {
+                if (j == 0) {
+                    for (var i=0; i<tab.rows[j].childElementCount;i++) {
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                    }
+                    tab.rows[j].childNodes[13].remove();
+                }
+                else
+                {
+                    tab.rows[j].childNodes[13].remove();
+                }
+                
+                tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
+            }
+            tab_text=tab_text+"</table>";
+            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+            tab_text= tab_text.replace(/<img[^>]*>/gi,"");
+            tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+
+            var filename = "审批文件" + "(" + $('#ship_name option:selected').text() + "_" +  $('#year').val() + "_" + $('#month').val() + ")";
+            exportExcel(tab_text, filename, filename);
+            
+            return 0;
         }
 
         function initialize() {
