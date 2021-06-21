@@ -262,7 +262,7 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: 'birthday', className: "text-center"},
                     {data: 'birthplace', className: "text-center"},
                     {data: 'signon-date', className: "text-center"},
-                    {data: 'signon-port', className: ""},
+                    {data: 'signon-port', className: "text-center"},
                     {data: 'signoff-date', className: "text-center"},
                     {data: 'bookno', className: "text-center"},
                     {data: 'bookno-expire', className: "text-center"},

@@ -340,8 +340,9 @@ $isHolder = Session::get('IS_HOLDER');
 
     <script type="text/javascript">
         var token = '{!! csrf_token() !!}';
-
+        var submitted = false;
         $("#btnSave").on('click', function() {
+            submitted = true;
             submit();
         });
 
@@ -417,6 +418,18 @@ $isHolder = Session::get('IS_HOLDER');
                     checks[i].nextElementSibling.checked = checks[i].checked;
             }
         }
+
+        var $form = $('form');
+        var origForm = $form.serialize();
+        window.addEventListener("beforeunload", function (e) {
+            var confirmationMessage = 'It looks like you have been editing something. '
+                                    + 'If you leave before saving, your changes will be lost.';
+            var newForm = $form.serialize();
+            if ((newForm !== origForm) && !submitted) {
+                (e || window.event).returnValue = confirmationMessage;
+            }
+            return confirmationMessage;
+        });
     </script>
 
     <script src="{{ asset('/assets/js/jquery.dataTables.min.js') }}"></script>
