@@ -702,8 +702,6 @@ class DecisionReport extends Model {
 			&& $params['columns'][1]['search']['value'] !== ''
 		) {
 			$selector->whereRaw(DB::raw('mid(report_date, 6, 7) = ' . sprintf("%'02d\n", $params['columns'][1]['search']['value'])));
-		} else {
-			$selector->whereRaw(DB::raw('mid(report_date, 6, 7) = "01"'));
 		}
 
 		if (isset($params['columns'][2]['search']['value'])
@@ -716,8 +714,6 @@ class DecisionReport extends Model {
 				$selector->where('obj_type', OBJECT_TYPE_SHIP);
 				$selector->where('shipNo', $obj);
 			}
-		} else {
-			$selector->where('obj_type', OBJECT_TYPE_PERSON);
 		}
 
 		// number of filtered records

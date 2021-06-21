@@ -2076,11 +2076,12 @@ class ShipRegController extends Controller
             $voyTbl3 = VoyLog::where('Ship_ID', $shipId);
             $prevData = null;
             if(isset($params['type']) && isset($params['type']) != '') {
+                $params['year'] = substr($params['year'], 2, 2);
                 if($params['type'] == 'all') {
                     if(isset($params['year']) && $params['year'] != 0 && isset($params['voyId']) && $params['voyId'] == 0) {
-                        $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
-                        $voyTbl3->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
-                        $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('CP_ID', 'asc');
+                        $voyTbl->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $params['year']));
+                        $voyTbl3->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $params['year']));
+                        $voyTbl2->whereRaw(DB::raw('mid(CP_ID, 1, 2) < ' . $params['year']))->orderBy('CP_ID', 'asc');
                     }
             
                     if(isset($params['voyId']) && $params['voyId'] != 0) {
@@ -2091,8 +2092,8 @@ class ShipRegController extends Controller
     
                 } else if($params['type'] == 'analyze') {
                     if(isset($params['year']) && $params['year'] != 0) {
-                        $voyTbl->whereRaw(DB::raw('mid(Voy_Date, 1, 4) like ' . $params['year']));
-                        $voyTbl2->whereRaw(DB::raw('mid(Voy_Date, 1, 4) < ' . $params['year']))->orderBy('Voy_Date', 'desc');
+                        $voyTbl->whereRaw(DB::raw('mid(CP_ID, 1, 2) like ' . $params['year']));
+                        $voyTbl2->whereRaw(DB::raw('mid(CP_ID, 1, 2) < ' . $params['year']))->orderBy('Voy_Date', 'desc');
                     }
             
                     $voyTbl->orderBy('Voy_Date', 'asc')->orderBy('Voy_Hour', 'asc')->orderBy('Voy_Minute', 'asc');

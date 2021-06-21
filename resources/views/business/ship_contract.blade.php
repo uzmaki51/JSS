@@ -126,19 +126,19 @@ $ships = Session::get('shipList');
                             </table>
                         </div>
 
-                        <ul class="nav nav-tabs ship-register">
+                        <!--ul class="nav nav-tabs ship-register">
                             <li class="active">
-                                <a data-toggle="tab" href="#voy_contract_div" onclick="changeTab('voy')">
+                                <a data-toggle="tab" href="#voy_contract_div" onclick="changeVoyType('voy')">
                                     程租<span style="font-style: italic;">(VOY)</span>
                                 </a>
                             </li>
                             <li class="">
-                                <a data-toggle="tab" href="#tc_contract_div" onclick="changeTab('tc')">
+                                <a data-toggle="tab" href="#tc_contract_div" onclick="changeVoyType('tc')">
                                     期租<span style="font-style: italic;">(TC)</span>
                                 </a>
                             </li>
                             <li class="">
-                                <a data-toggle="tab" href="#non_contract_div" onclick="changeTab('non')">
+                                <a data-toggle="tab" href="#non_contract_div" onclick="changeVoyType('non')">
                                     其他<span style="font-style: italic;">(NON)</span>
                                 </a>
                             </li>
@@ -148,7 +148,13 @@ $ships = Session::get('shipList');
                                     <strong id="msg-content"> Please register a new ship contract.</strong>
                                 </div>
                             </li>
-                        </ul>
+                        </ul-->
+
+                        <select class="voy-type" style="margin-top: 20px;" onchange="changeVoyType()">
+                            <option value="voy">程租(VOY)</option>
+                            <option value="tc">期租(TC)</option>
+                            <option value="non">其他(NON)</option>
+                        </select>
 
                         <div class="tab-content">
                             <div id="voy_contract_div" class="tab-pane active">
@@ -159,7 +165,7 @@ $ships = Session::get('shipList');
                             </div>
                             <div id="non_contract_div" class="tab-pane">
                                 @include('business.ship_non_contract')
-                            </div>                            
+                            </div>
                         </div>
 
                         <div id="modal-wizard" class="modal modal-draggable" aria-hidden="true" style="display: none; margin-top: 15%;">
@@ -281,10 +287,6 @@ $ships = Session::get('shipList');
                 </div>
             </div>
         </div>
-        <audio controls="controls" class="d-none" id="warning-audio">
-            <source src="{{ cAsset('assets/sound/delete.wav') }}">
-            <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
-        </audio>
     </div>
 
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>
@@ -828,7 +830,7 @@ $ships = Session::get('shipList');
                         $($('.ship-register li')[0]).addClass('active');
                         $('#voy_contract_div').addClass('active');
                         $('#tc_contract_div').removeClass('active');
-                        changeTab('voy');
+                        $('.voy-type').val('voy')
                         
                         voyContractObjTmp = JSON.parse(JSON.stringify(voyContractObj._data));
                     }
@@ -903,7 +905,7 @@ $ships = Session::get('shipList');
                         $($('.ship-register li')[1]).addClass('active');
                         $('#voy_contract_div').removeClass('active');
                         $('#tc_contract_div').addClass('active');
-                        changeTab('tc');
+                        $('.voy-type').val('tc')
 
                         tcContractObjTmp = JSON.parse(JSON.stringify(tcContractObj._data));
                     } else {
@@ -954,7 +956,7 @@ $ships = Session::get('shipList');
                         $('#voy_contract_div').removeClass('active');
                         $('#tc_contract_div').removeClass('active');
                         $('#non_contract_div').addClass('active');
-                        changeTab('non');
+                        $('.voy-type').val('non')
 
                         nonContractObjTmp = JSON.parse(JSON.stringify(nonContractObj._data));                        
                     }
@@ -996,9 +998,12 @@ $ships = Session::get('shipList');
         });
     }
 
-    function changeTab(type) {
+    $('.voy-type').on('change', function() {
+        let type = $(this).val();
         ACTIVE_TAB = type;
-    }
+        $('.tab-pane').removeClass('active');
+        $('#' + type + '_contract_div').addClass('active');
+    });
 
     $('#select-ship').on('change', function() {
         let ship_id = $(this).val();

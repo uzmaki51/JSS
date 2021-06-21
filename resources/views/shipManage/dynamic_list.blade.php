@@ -289,7 +289,7 @@
                             <td class="voy-no" @click="onVoyDetail(item.voy_no)">@{{ item.voy_no }}</td>
                                 <td class="center">@{{ item.voy_count }}</td>
                                 <td class="center">@{{ dateFormat(item.voy_start) }} ~ @{{ dateFormat(item.voy_end) }}</td>
-                                <td class="right">@{{ number_format(item.sail_time, 2) }}</td>
+                                <td class="center">@{{ number_format(item.sail_time, 2) }}</td>
                                 <td style="text-align: left">@{{ item.lport }}</td>
                                 <td style="text-align: left">@{{ item.dport }}</td>
                                 <td class="right">@{{ number_format(item.total_distance, 0) }}</td>
@@ -699,7 +699,7 @@
                                     footerData['total_else_time'] += parseFloat(realData['total_else_time']);
 
                                     footerData['average_speed'] = parseFloat(BigNumber(realData['average_speed']).div(voyData.length).toFixed(2));
-                                    footerData['economic_rate'] = BigNumber(realData['loading_time']).plus(realData['disch_time']).plus(realData['total_sail_time']).div(realData['sail_time']).multipliedBy(100).div(voyData.length).toFixed(1);
+                                    footerData['economic_rate'] = BigNumber(realData['loading_time']).plus(realData['disch_time']).plus(realData['total_sail_time']).div(realData['sail_time']).multipliedBy(100).toFixed(1);
 
                                     searchObj.analyze.list.push(realData);
                                     let xAxisTmp = [];
@@ -771,9 +771,8 @@
                                                 stepSize: 1.3,
                                                 fontColor:"#8f9092",
                                                 callback:function(value) {
-                                                    
-                                                        return value + '%';
-                                                }
+                                                            return value + '%';
+                                                    }
                                                 }
                                             }]
                                             },

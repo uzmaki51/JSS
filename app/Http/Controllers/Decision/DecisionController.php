@@ -116,7 +116,11 @@ class DecisionController extends Controller
 			$reportTbl['obj_name'] = null;
 		} else if($params['object_type'] == OBJECT_TYPE_PERSON) {
 			$reportTbl['obj_no'] = isset($params['obj_no']) ? $params['obj_no'] : null;
-			$reportTbl['obj_name'] = AccountPersonalInfo::where('id', $params['obj_no'])->first()->person;
+			if(isset($params['obj_no']))
+				$reportTbl['obj_name'] = AccountPersonalInfo::where('id', $params['obj_no'])->first()->person;
+			else
+				$reportTbl['obj_name'] = '';
+
 			$reportTbl['shipNo'] = null;
 			$reportTbl['voyNo'] = null;
 		}
@@ -258,28 +262,29 @@ class DecisionController extends Controller
 	public function ajaxReportFile(Request $request) {
 		$params = $request->all();
 
+		if(isset($params['id']))
+			$id = $params['id'];
+		else
+			$id = 0;
+		
+		$lastId = $id;
+		$reportTbl = DecisionReport::find($lastId);
+		$attachmentTbl = new DecisionReportAttachment();
 		$hasFile = $request->file('file');
 		if(isset($hasFile)) {
-			if(isset($hasFile)) {
-				$name = date('Ymd_H_i_s'). '.' . $hasFile->getClientOriginalExtension();
-				$hasFile->move(public_path() . '/files/', $name);
-				$fileList[] =  array($hasFile->getClientOriginalName(), '/files/' . $name);
+			$reportTbl['attachment'] = 1;
+			$file = $request->file('file');
+            $fileName = $file->getClientOriginalName();
+			$name = date('Ymd_His') . '_' . Str::random(10). '.' . $file->getClientOriginalExtension();
+			$file->move(public_path() . '/reports/' . $params['flowid'] . '/', $name);
+			$fileDir =  public_path() . '/reports/' . $params['flowid'] . '/' . $name;
+			$fileLink = url() . '/reports/' . $params['flowid'] . '/' . $name;
+			$ret = $attachmentTbl->updateAttach($lastId, $fileName, $fileDir, $fileLink);
 
-				if(Session::get('reportFiles')) {
-					$reportFile = Session::get('reportFiles');
-				} else {
-					$reportFile = array();
-				}
-				$reportFile[] = $fileList;
-				Session::put('reportFiles', $reportFile);
-			}
+			$reportTbl->save();
 		}
 
-		$retVal = Session::get('reportFiles');
-
-		$retVal[][] = array('请选择文件。', '请选择文件。');
-
-		return response()->json($retVal);
+		return response()->json(1);
 	}
 
 	public function ajaxGetDepartment() {

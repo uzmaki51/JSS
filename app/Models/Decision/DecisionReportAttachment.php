@@ -22,6 +22,9 @@ class DecisionReportAttachment extends Model {
 	protected $table_report = 'tb_decision_report';
 
     public function updateAttach($reportId, $fileName, $fileDir, $fileLink) {
+		if(self::where('reportId', $reportId)->first() != null)
+			self::where('reportId', $reportId)->delete();
+
 		$ret = DB::table($this->table)
 			->insert([
 				'reportId'  => $reportId,

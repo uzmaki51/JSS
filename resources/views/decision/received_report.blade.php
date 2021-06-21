@@ -26,6 +26,7 @@
                             @endforeach
                         </select>
                         <select class="custom-select d-inline-block" id="month">
+                            <option value=""></option>
                             <option value="1">1月</option>
                             <option value="2">2月</option>
                             <option value="3">3月</option>
@@ -41,6 +42,7 @@
                         </select>
                         <label style="margin-left: 8px;">对象</label>              
                         <select type="text" class="custom-select d-inline-block" id="ship_name" style="width:80px">
+                            <option value=""></option>
                             <option value="OBJ">个体</option>
                             @if(isset($shipList))
                                 @foreach($shipList as $key => $item)
@@ -295,9 +297,9 @@
                 showReportDetail(reportId);
             } else if(cell.index() == 11) {
                 if(isAttach == 0) {
-                    $(this).addClass('selected');
-                    $('[name=draftId]').val(-1);
-                    showReportDetail(reportId);
+                    // $(this).addClass('selected');
+                    // $('[name=draftId]').val(-1);
+                    // showReportDetail(reportId);
                 }
             }
 
@@ -406,7 +408,8 @@
                                     decideType: decideType
                                 },
                                 success: function(data, status, xhr) {
-                                    listTable.draw();
+                                    location.reload();
+                                    // listTable.draw();
                                 },
                                 error: function(error, status) {
                                     listTable.draw();
@@ -886,7 +889,7 @@
                         );
                     } else {
                         $('td', row).eq(11).html('').append(
-                            '<img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="margin: 2px 4px">'
+                            '<label for="upload_' + data['id'] + '"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="margin: 2px 4px"></label><input type="file" id="upload_' + data['id'] + '" class="d-none" onchange="fileUpload(this, '+ data['id'] +', \'' + data['flowid'] + '\')" class="form-control attach-upload">'
                         );
                     }
 
@@ -908,6 +911,7 @@
                         );
                     else
                     $('td', row).eq(13).addClass('d-none');
+
                 },
             });
 
@@ -1011,7 +1015,7 @@
             listTable.column(0).search(year, false, false);
             listTable.column(1).search(month, false, false);
             listTable.column(2).search(obj, false, false);
-            listTable.draw();            
+            listTable.draw();
         });
 
         $('input').attr('autocomplete', 'off');
@@ -1020,6 +1024,31 @@
             if(draftId != -1)
                 location.href = "/decision/receivedReport";
         });
+
+        function fileUpload(input, id, flowid) {
+            var formdata = new FormData();
+            if (input.files && input.files[0]) {
+                formdata.append("file", input.files[0]);
+                formdata.append('id', id);
+                formdata.append('flowid', flowid);
+               } else {
+                console.log('failed');
+            }
+
+            $.ajax({
+                url: BASE_URL + 'ajax/report/fileupload',
+                type: 'post', 
+                data: formdata,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    listTable.draw();
+                }, 
+                error: function(error) {
+                    listTable.draw();
+                }
+            });
+        }
 
     </script>
 

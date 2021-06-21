@@ -432,6 +432,8 @@
 
                                     if(searchObj.prevData['Voy_Minute'] < 10)
                                         searchObj.prevData['Voy_Minute'] = "0" + searchObj.prevData['Voy_Minute'];
+
+                                    searchObj.prevData['Cargo_Qtty'] = parseFloat(searchObj.prevData['Cargo_Qtty']).toFixed(0);
                                 }
                                 
                                 if(data['currentData'] != undefined && data['currentData'] != null && data['currentData'].length > 0) {
@@ -447,7 +449,6 @@
                                         searchObj.currentData[key]['dynamicSub'] = getSubList(value['Voy_Status']);
                                         value['Sail_Distance'] = __parseFloat(value['Sail_Distance']);
                                         value['Speed'] = __parseFloat(value['Speed']);
-                                        value['Cargo_Qtty'] = __parseFloat(value['Cargo_Qtty']);
                                         value['RPM'] = __parseFloat(value['RPM']);
                                         value['ROB_FO'] = __parseFloat(value['ROB_FO']);
                                         value['ROB_DO'] = __parseFloat(value['ROB_DO']);
@@ -461,8 +462,8 @@
 
                                         searchObj.currentData[key]['Sail_Distance'] = parseFloat(value['Sail_Distance']) == 0 ? '' : value['Sail_Distance'];
                                         searchObj.currentData[key]['Speed'] = parseFloat(value['Speed']) == 0 ? '' : value['Speed'];
-                                        if(value['Sail_Distance'] == 13)
-                                            searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty']);
+                                        if(value['Voy_Status'] == DYNAMIC_CMPLT_DISCH)
+                                            searchObj.currentData[key]['Cargo_Qtty'] = parseFloat(value['Cargo_Qtty']).toFixed(0);
                                         else
                                             searchObj.currentData[key]['Cargo_Qtty'] = __parseFloat(value['Cargo_Qtty']) == 0 ? '' : __parseFloat(value['Cargo_Qtty']);
 
@@ -526,6 +527,7 @@
                                     searchObj.used_fo = BigNumber(usedFoTmp1).plus(usedFoTmp2).plus(usedFoTmp3).toFixed(2);
                                     searchObj.used_do = BigNumber(usedDoTmp1).plus(usedDoTmp2).plus(usedDoTmp3).toFixed(2);
 
+                                    // tmp
                                     searchObj.save_fo = BigNumber(searchObj.used_fo).minus(searchObj.rob_fo).toFixed(2);
                                     searchObj.save_do = BigNumber(searchObj.used_do).minus(searchObj.rob_do).toFixed(2);
 

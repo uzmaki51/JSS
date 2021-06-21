@@ -28,7 +28,7 @@
         </div>
 
         <div class="row" style="margin-top: 4px;" id="usd_list" v-cloak>
-            <div class="col-lg-12 head-fix-div common-list">
+            <div class="col-lg-12 head-fix-div common-list"  id="usd-ctm-table">
                 <form action="saveCtmList" method="post" id="ctmList-usd-form" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" value="{{ $shipId }}" name="shipId">
@@ -108,7 +108,7 @@
                             <td class="text-center">
                                 <label v-bind:for="array_index"><img v-bind:src="getImage(item.file_name)" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name"></label>
                                 <input type="file" name="attachment[]" v-bind:id="array_index" class="d-none" @change="onFileChange" v-bind:data-index="array_index">
-                                <input type="hidden" name="is_update[]" v-bind:id="array_index" class="d-none" v-bind:value="item.is_update">
+                                <input type="hidden" name="is_update[]" v-bind:id="array_index + 'usd_id'" class="d-none" v-bind:value="item.is_update">
                             </td>
                             <td class="text-center">
                                 <div class="action-buttons">
@@ -246,8 +246,8 @@
 
                     setDefault: function() {
                         let length = _uThis.list.length;
-                        _uThis.list.push([]);
-                        if(length == 0) {                            
+                        if(length == 0) {
+                            _uThis.list.push([]);
                             _uThis.list[length].ctm_no  = _uThis.activeYearUsd[2] + _uThis.activeYearUsd[3] + '001';
                             _uThis.list[length]['is_tmp']  = 1;
                             _uThis.list[length].reg_date  = this.getToday();
@@ -258,7 +258,7 @@
                             _uThis.list[length].abstract  = '';
                             _uThis.list[length].credit  = 0;
                             _uThis.list[length].debit  = 0;
-                            _uThis.list[length].remark  = '';                            
+                            _uThis.list[length].remark  = '';
                         } else {
                             let prevData = _uThis.list[length - 1];
                             _uThis.list.push([]);
@@ -371,6 +371,8 @@
 
         function addRowUsd() {
             _uThis.setDefault();
+
+            $('#usd-ctm-table').scrollTop($('#usd-ctm-table table').innerHeight());
         }
 
         $('#usd-select-ship').on('change', function() {
@@ -393,13 +395,11 @@
                 (data.credit == 0 && data.debit == 0) || 
                 data.abstract == '' || 
                 data.voy_no == '' || 
-                data.voy_no == undefined || 
-                data.remark == '' || 
-                data.remark == null)
+                data.voy_no == undefined)
                     isEmpty = true;
             });
 
-            if(isEmpty) {alert('Please input data correctly.'); return false;}
+            if(isEmpty) {alert('请您必须填数据。'); return false;}
 
             $('#ctmList-usd-form').submit();
         });

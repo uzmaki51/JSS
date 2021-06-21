@@ -28,7 +28,7 @@
         </div>
 
         <div class="row" style="margin-top: 4px;" id="rmb_list" v-cloak>
-            <div class="col-lg-12 head-fix-div common-list">
+            <div class="col-lg-12 head-fix-div common-list" id="rmb-ctm-table">
                 <form action="saveCtmList" method="post" id="ctmList-form" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" value="{{ $shipId }}" name="shipId">
@@ -108,7 +108,7 @@
                             <td class="text-center">
                                 <label v-bind:for="array_index"><img v-bind:src="getImage(item.file_name)" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name"></label>
                                 <input type="file" name="attachment[]" v-bind:id="array_index" class="d-none" @change="onFileChange" v-bind:data-index="array_index">
-                                <input type="hidden" name="is_update[]" v-bind:id="array_index" class="d-none" v-bind:value="item.is_update">
+                                <input type="hidden" name="is_update[]" v-bind:id="array_index + '_id'" class="d-none" v-bind:value="item.is_update">
                             </td>
                             <td class="text-center">
                                 <div class="action-buttons">
@@ -261,7 +261,7 @@
                             _this.list[length].abstract  = '';
                             _this.list[length].credit  = 0;
                             _this.list[length].debit  = 0;
-                            _this.list[length].remark  = '';                            
+                            _this.list[length].remark  = '';
                         } else {
                             let prevData = _this.list[length - 1];
                             _this.list.push([]);
@@ -277,6 +277,10 @@
                             _this.list[length].debit  = 0;
                             _this.list[length].remark  = '';
                         }
+
+                        // setTimeout(function() {
+                            $($('[name=abstract]')[length]).focus();
+                        // }, 1000);
 
                         _this.calcTotal();
                     },
@@ -332,6 +336,7 @@
                     });
 
                     offAutoCmplt();
+                    $($('[name=abstract]')[_this.list.length - 1]).focus();
                 }
             });
 
@@ -374,6 +379,7 @@
 
         function addRow() {
             _this.setDefault();
+            $('#rmb-ctm-table').scrollTop($('#rmb-ctm-table table').innerHeight());
         }
 
         $('#select-ship').on('change', function() {
@@ -395,13 +401,11 @@
                 (data.credit == 0 && data.debit == 0) || 
                 data.abstract == '' || 
                 data.voy_no == '' || 
-                data.voy_no == undefined || 
-                data.remark == '' || 
-                data.remark == null)
+                data.voy_no == undefined)
                     isEmpty = true;
             });
 
-            if(isEmpty) {alert('Please input data correctly.'); return false;}
+            if(isEmpty) {alert('请您必须填数据。'); return false;}
             $('#ctmList-form').submit();
         });
 
