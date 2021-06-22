@@ -77,18 +77,18 @@ $ships = Session::get('shipList');
                             <table id="voy_list" v-cloak>
                                 <thead id="list-header" class="">
                                 <tr>
-                                    <th class="text-center style-header" rowspan="2" style="width: 5%;">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 5%; white-space: nowrap;">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2" style="min-width: 55px;">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2" style="width: 7%;">{!! trans('business.table.cn.cp_date') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cp_date') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2" style="width: 8%;">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 9%;">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.loading_port') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.discharge_port') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2" style="width: 9%;">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.d_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.d_rate') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.d_rate') !!}<br><span class="style-bold-italic" style="white-space: nowrap;">{!! trans('business.table.en.d_rate') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2" style="width: 9%; min-width: 100px;">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
-                                    <th class="text-center style-header lr-no-p" style="width: 6%;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span>{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
-                                    <th class="text-center style-header" rowspan="2" style="width: 3%;">{!! trans('business.table.cn.contract_attach') !!}</th>
+                                    <th class="text-center style-header lr-no-p" style="width: 6%;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span style="white-space: nowrap;">{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 3%; min-width: 40px;">{!! trans('business.table.cn.contract_attach') !!}</th>
                                     <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;"></th>
                                 </tr>
                                 </thead>

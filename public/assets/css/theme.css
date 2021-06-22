@@ -350,11 +350,13 @@ table {
     overflow-y: auto;
     height: auto;
     border-bottom: 1px solid #e2e2e2;
+    border-top: 1px solid #484f5b;
 }
 .head-fix-div thead th {
     position: sticky;
     top: 0;
     border-bottom: unset!important;
+    border-top: unset;
 }
 .head-fix-div th {
     box-shadow: inset 0 -1px #000, 1px -1px #000;
