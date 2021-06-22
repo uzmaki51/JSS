@@ -342,7 +342,7 @@
 
                             <!-- Fuel Dynami Info Begin -->
                             <tr class="gray-tr">
-                                <td class="no-border-td" colspan="9">&nbsp;</td>
+                                <td class="no-border-td" colspan="8">&nbsp;</td>
                             </tr>
                             <tr class="sub-head-tr">
                                 <td class="center"></td>
@@ -429,6 +429,7 @@
                                 <td class="center" rowspan="6">运<br>营<br><br>收<br>入</td>
                                 <td class="center" colspan="5">运费信息</td>
                                 <td class="center" colspan="2">收入状态</td>
+                                <td class="no-border" style="background: transparent!important;"></td>
                             </tr>
                             <!--tr class="gray-tr">
                                 <td class="center" colspan="3">运费(租金)</td>

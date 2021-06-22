@@ -792,6 +792,7 @@ class BusinessController extends Controller {
 
         $settleElse->save();
 
+        
         $loadIds = $params['load_id'];
         foreach($loadIds as $key => $id) {
             if(isset($id) && $id != '') {
@@ -813,12 +814,12 @@ class BusinessController extends Controller {
             $settleElse['shipId'] = $shipId;
             $settleElse['voyId'] = $voyId;
             $settleElse['position'] = $params['load_position'][$key];
-            if(!isset($params['load_arrival_date'][$key]) && $params['load_arrival_date'][$key] != '' && $params['load_arrival_date'][$key] != EMPTY_DATE)
+            if(isset($params['load_arrival_date'][$key]) && $params['load_arrival_date'][$key] != '' && $params['load_arrival_date'][$key] != EMPTY_DATE)
                 $settleElse['arrival_date'] = $params['load_arrival_date'][$key] . ' ' . $params['load_arrival_hour'][$key] . ':' . $params['load_arrival_minute'][$key] . ':00';
             else
                 $settleElse['arrival_date'] = null;
-
-            if(!isset($params['load_depart_date'][$key]) && $params['load_depart_date'][$key] != '' && $params['load_depart_date'][$key] != EMPTY_DATE)
+// var_dump($settleElse['arrival_date']);die;
+            if(isset($params['load_depart_date'][$key]) && $params['load_depart_date'][$key] != '' && $params['load_depart_date'][$key] != EMPTY_DATE)
                 $settleElse['load_date'] = $params['load_depart_date'][$key] . ' ' . $params['load_depart_hour'][$key] . ':' . $params['load_depart_minute'][$key] . ':00';
             else
                 $settleElse['load_date'] = null;
@@ -828,7 +829,7 @@ class BusinessController extends Controller {
             $settleElse['type'] = VOY_SETTLE_LOAD;
             $settleElse->save();
         }
-
+        // var_dump($params);die;
         $loadIds = $params['dis_id'];
         foreach($loadIds as $key => $id) {
             if(isset($id) && $id != '') {
@@ -840,12 +841,12 @@ class BusinessController extends Controller {
             $settleElse['shipId'] = $shipId;
             $settleElse['voyId'] = $voyId;
             $settleElse['position'] = $params['dis_position'][$key];
-            if(!isset($params['dis_arrival_date'][$key]) && $params['dis_arrival_date'][$key] != '' && $params['dis_arrival_date'][$key] != EMPTY_DATE)
+            if(isset($params['dis_arrival_date'][$key]) && $params['dis_arrival_date'][$key] != '' && $params['dis_arrival_date'][$key] != EMPTY_DATE)
                 $settleElse['arrival_date'] = $params['dis_arrival_date'][$key] . ' ' . $params['dis_arrival_hour'][$key] . ':' . $params['dis_arrival_minute'][$key] . ':00';
             else
                 $settleElse['arrival_date'] = null;
 
-            if(!isset($params['dis_depart_date'][$key]) && $params['dis_depart_date'][$key] != '' && $params['dis_depart_date'][$key] != EMPTY_DATE)
+            if(isset($params['dis_depart_date'][$key]) && $params['dis_depart_date'][$key] != '' && $params['dis_depart_date'][$key] != EMPTY_DATE)
                 $settleElse['load_date'] = $params['dis_depart_date'][$key] . ' ' . $params['dis_depart_hour'][$key] . ':' . $params['dis_depart_minute'][$key] . ':00';
             else
                 $settleElse['load_date'] = null;
@@ -868,12 +869,12 @@ class BusinessController extends Controller {
             $settleElse['shipId'] = $shipId;
             $settleElse['voyId'] = $voyId;
             $settleElse['position'] = $params['fuel_position'][$key];
-            if(!isset($params['fuel_arrival_date'][$key]) && $params['fuel_arrival_date'][$key] != '' && $params['fuel_arrival_date'][$key] != EMPTY_DATE)
+            if(isset($params['fuel_arrival_date'][$key]) && $params['fuel_arrival_date'][$key] != '' && $params['fuel_arrival_date'][$key] != EMPTY_DATE)
                 $settleElse['arrival_date'] = $params['fuel_arrival_date'][$key] . ' ' . $params['fuel_arrival_hour'][$key] . ':' . $params['fuel_arrival_minute'][$key] . ':00';
             else
                 $settleElse['arrival_date'] = null;
             
-            if(!isset($params['fuel_depart_date'][$key]) && $params['fuel_depart_date'][$key] != '' && $params['fuel_depart_date'][$key] != EMPTY_DATE)
+            if(isset($params['fuel_depart_date'][$key]) && $params['fuel_depart_date'][$key] != '' && $params['fuel_depart_date'][$key] != EMPTY_DATE)
                 $settleElse['load_date'] = $params['fuel_depart_date'][$key] . ' ' . $params['fuel_depart_hour'][$key] . ':' . $params['fuel_depart_minute'][$key] . ':00';
             else
                 $settleElse['load_date'] = null;
