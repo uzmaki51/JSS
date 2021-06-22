@@ -125,39 +125,18 @@ $ships = Session::get('shipList');
                                 </tbody>
                             </table>
                         </div>
-
-                        <!--ul class="nav nav-tabs ship-register">
-                            <li class="active">
-                                <a data-toggle="tab" href="#voy_contract_div" onclick="changeVoyType('voy')">
-                                    程租<span style="font-style: italic;">(VOY)</span>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a data-toggle="tab" href="#tc_contract_div" onclick="changeVoyType('tc')">
-                                    期租<span style="font-style: italic;">(TC)</span>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a data-toggle="tab" href="#non_contract_div" onclick="changeVoyType('non')">
-                                    其他<span style="font-style: italic;">(NON)</span>
-                                </a>
-                            </li>
-                            <li>
-                                <div class="alert alert-block alert-success center visuallyhidden">
-                                    <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
-                                    <strong id="msg-content"> Please register a new ship contract.</strong>
-                                </div>
-                            </li>
-                        </ul-->
-
-                        <select class="voy-type" style="margin-top: 20px;" onchange="changeVoyType()">
+                        
+                        <select class="voy-type" style="margin-top: 20px;">
+                            <option value="nothing"></option>
                             <option value="voy">程租(VOY)</option>
                             <option value="tc">期租(TC)</option>
                             <option value="non">其他(NON)</option>
                         </select>
 
                         <div class="tab-content">
-                            <div id="voy_contract_div" class="tab-pane active">
+                            <div id="nothing_contract_div" class="tab-pane active">
+                            </div>
+                            <div id="voy_contract_div" class="tab-pane">
                                 @include('business.ship_voy_contract')
                             </div>
                             <div id="tc_contract_div" class="tab-pane">
@@ -304,7 +283,7 @@ $ships = Session::get('shipList');
         var ship_id = '{!! $shipId !!}';
         var voy_id = '{!! $voy_id !!}';
         var is_scrolled = false;
-        var ACTIVE_TAB = 'voy';
+        var ACTIVE_TAB = 'nothing';
         var isChangeStatus = false;
         var cargoListObj = null;
         var portListObj = null;
@@ -1033,7 +1012,7 @@ $ships = Session::get('shipList');
                 $($('[name=voy_no')[1]).focus();
                 return false;
             }
-        } else {
+        } else if(ACTIVE_TAB == 'non') {
             if(nonContractObj.validate_voy_no == true && nonContractObj.voy_no != '' && nonContractObj.voy_no.length == 4) {
                 submitted = true;
                 $('#nonContractForm').submit();
@@ -1042,6 +1021,8 @@ $ships = Session::get('shipList');
                 $($('[name=voy_no')[1]).focus();
                 return false;
             }
+        } else {
+            return false;
         }
     });
 

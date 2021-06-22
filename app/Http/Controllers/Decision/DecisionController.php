@@ -100,6 +100,8 @@ class DecisionController extends Controller
 				if($reportNo == false) return redirect()->back();
 				$reportTbl['report_id'] = $reportNo;
 			}
+		} else {
+			$reportTbl['report_id'] = 0;
 		}
 		$reportTbl['obj_type'] = $params['object_type'];
 

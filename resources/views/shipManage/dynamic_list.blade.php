@@ -699,7 +699,6 @@
                                     footerData['total_else_time'] += parseFloat(realData['total_else_time']);
 
                                     footerData['average_speed'] = parseFloat(BigNumber(realData['average_speed']).div(voyData.length).toFixed(2));
-                                    footerData['economic_rate'] = BigNumber(realData['loading_time']).plus(realData['disch_time']).plus(realData['total_sail_time']).div(realData['sail_time']).multipliedBy(100).toFixed(1);
 
                                     searchObj.analyze.list.push(realData);
                                     let xAxisTmp = [];
@@ -712,6 +711,7 @@
                                 footerData['voy_count'] = voyData.length;
                                 footerData['voy_start'] = searchObj.analyze.list[0].voy_start;
                                 footerData['voy_end'] = searchObj.analyze.list[searchObj.analyze.list.length - 1].voy_end;
+                                footerData['economic_rate'] = BigNumber(footerData['loading_time']).plus(footerData['disch_time']).plus(footerData['total_sail_time']).div(footerData['sail_time']).multipliedBy(100).toFixed(1);
 
                                 searchObj.analyze.total = footerData;
                                 let displayData = Object.assign([], [], searchObj.analyze.graph_value);console.log(displayData)

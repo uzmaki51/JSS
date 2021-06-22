@@ -384,7 +384,7 @@
                         return __parseFloat(value) == 0 ? '-' : number_format(value, decimal);
                     },
                     dangerClass: function(value) {
-                        return isNaN(value) ? 'text-danger' : '';
+                        return isNaN(value) || value < 0 ? 'text-danger' : '';
                     },
                     onChangeVoy: function(evt) {
                         var confirmationMessage = 'It looks like you have been editing something. '
@@ -433,7 +433,7 @@
                                     if(searchObj.prevData['Voy_Minute'] < 10)
                                         searchObj.prevData['Voy_Minute'] = "0" + searchObj.prevData['Voy_Minute'];
 
-                                    searchObj.prevData['Cargo_Qtty'] = parseFloat(searchObj.prevData['Cargo_Qtty']).toFixed(0);
+                                    searchObj.prevData['Cargo_Qtty'] = __parseFloat(searchObj.prevData['Cargo_Qtty']).toFixed(0);
                                 }
                                 
                                 if(data['currentData'] != undefined && data['currentData'] != null && data['currentData'].length > 0) {
