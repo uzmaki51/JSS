@@ -826,7 +826,7 @@
                     else
                         $(row).attr('is-attach', 0);
                     $('td', row).eq(1).html('').append(
-                        '<span data-index="' + data['id'] + '" class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + ReportTypeData[data['flowid']] + '</span>'
+                        '<span data-index="' + data['id'] + '" class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(ReportTypeData[data['flowid']]) + '</span>'
                     );
 
                     $('td', row).eq(2).html('').append(
@@ -845,7 +845,7 @@
                     
                     if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
                         $('td', row).eq(5).html('').append(
-                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + FeeTypeData[data['flowid']][data['profit_type']] + '</span>'
+                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(FeeTypeData[data['flowid']][data['profit_type']]) + '</span>'
                         );  
                     } else {
                         $('td', row).eq(5).html('').append(
@@ -856,28 +856,27 @@
                     if(data['currency'] != '') {
                         if(data['currency'] == 'CNY') {
                             $('td', row).eq(7).html('').append(
-                                '<span class="text-danger">' + CurrencyLabel[data['currency']] + '</span>'
+                                '<span class="text-danger">' + __parseStr(CurrencyLabel[data['currency']]) + '</span>'
                             );
                         } else if(data['currency'] == 'USD') {
                             $('td', row).eq(7).html('').append(
-                                '<span class="text-profit">' + CurrencyLabel[data['currency']] + '</span>'
+                                '<span class="text-profit">' + __parseStr(CurrencyLabel[data['currency']]) + '</span>'
                             );
                         } else {
                             $('td', row).eq(7).html('').append(
-                                '<span>' + CurrencyLabel[data['currency']] + '</span>'
+                                '<span>' + __parseStr(CurrencyLabel[data['currency']]) + '</span>'
                             );
                         }
                     }
 
-                    if(data['amount'] != 0)
+                    if(data['amount'] != 0 && data['amount'] != null)
                         $('td', row).eq(8).html('').append(
                             '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + number_format(data['amount'], 2) + '</span>'
                         );
                     else 
-                        $('td', row).eq(8).html('').append(
-                            ''
-                        );
-                        $('td', row).eq(8).attr('style', 'padding-right:5px!important;')
+                        $('td', row).eq(8).html('').append('');
+
+                    $('td', row).eq(8).attr('style', 'padding-right:5px!important;')
 
                     if(data['attachment']  == 1) {
                         $('td', row).eq(11).html('').append(
