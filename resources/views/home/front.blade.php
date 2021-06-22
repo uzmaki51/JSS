@@ -135,7 +135,7 @@
                                             <td class="center" style="height:20px!important;">{{g_enum('ReportTypeData')[$report['flowid']]}}</td>
                                             <td class="center">{{$nickName}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
-                                            <td class="center">{{g_enum('FeeTypeData')['Debit'][$report['profit_type']]}}</td>
+                                            <td class="center">{{($report['profit_type']!=null)&&($report['profit_type']!="")?g_enum('FeeTypeData')['Debit'][$report['profit_type']]:""}}</td>
                                             <td class="center">等待</td>
                                             <?php $index++;?>
                                         </tr>
