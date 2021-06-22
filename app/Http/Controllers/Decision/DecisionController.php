@@ -93,12 +93,30 @@ class DecisionController extends Controller
 		$draftId = $params['draftId'];
 
 		$user = Auth::user();
+		$commonTbl = new Common();
 		if($params['reportType'] != REPORT_STATUS_DRAFT) {
 			if((!isset($reportId) || $reportId == "") || $draftId != -1) {
-				$commonTbl = new Common();
 				$reportNo = $commonTbl->generateReportID($params['report_date']);
 				if($reportNo == false) return redirect()->back();
 				$reportTbl['report_id'] = $reportNo;
+			} else if(isset($reportId) && $reportTbl != '') {
+				$reportNo = DecisionReport::where('id', $reportTbl)->where('state', REPORT_STATUS_REQUEST)->first();
+				if($reportNo == null) {
+					$reportNo = $commonTbl->generateReportID($params['report_date']);
+					$reportTbl['report_id'] = $reportNo;
+				} else {
+					$reportNo = substr(0, 2, $reportNo->report_id);
+					// if($params['report_date'])
+					$reportDate = date('y', strtotime($params['report_date']));
+					if($reportNo == $reportDate) {
+						$reportTbl['report_id'] = $reportNo->report_id;
+					} else {
+						$reportTbl['report_id'] = $commonTbl->generateReportID($params['report_date']);
+					}
+
+				}
+				$date = $params['report_date'];
+				$date = $params['report_date'];
 			}
 		} else {
 			$reportTbl['report_id'] = 0;

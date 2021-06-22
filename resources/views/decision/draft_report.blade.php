@@ -226,11 +226,11 @@
 
                     if(data['obj_type'] == OBJECT_TYPE_SHIP) {
                         $('td', row).eq(3).html('').append(
-                            '<span>' + data['shipName'] + '</span>'
+                            '<span>' + __parseStr(data['shipName']) + '</span>'
                         );
                     } else {
                         $('td', row).eq(3).html('').append(
-                            '<span>' + data['obj_name'] + '</span>'
+                            '<span>' + __parseStr(data['obj_name']) + '</span>'
                         );
                     }
                     
