@@ -67,7 +67,7 @@
                 </div>
                 <div class="row">
                     <div class="space-2"></div>
-                    <div class="table-responsive head-fix-div common-list">
+                    <div class="table-responsive common-list">
                         <table id="report_info_table" class="table table-bordered">
                             <thead>
                             <tr class="br-hblue">

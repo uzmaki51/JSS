@@ -99,7 +99,8 @@ class DecisionController extends Controller
 				$reportNo = $commonTbl->generateReportID($params['report_date']);
 				if($reportNo == false) return redirect()->back();
 				$reportTbl['report_id'] = $reportNo;
-			} else if(isset($reportId) && $reportTbl != '') {
+				
+			} else if(isset($reportId) && $reportId != '') {var_dump($reportNo);die;
 				$reportNo = DecisionReport::where('id', $reportTbl)->where('state', REPORT_STATUS_REQUEST)->first();
 				if($reportNo == null) {
 					$reportNo = $commonTbl->generateReportID($params['report_date']);
@@ -146,11 +147,11 @@ class DecisionController extends Controller
 		}
 
 		if($params['flowid'] == REPORT_TYPE_CONTRACT) {
-			$reportTbl['profit_type'] = '';
-			$reportTbl['amount'] = '';
-			$reportTbl['currency'] = '';
+			$reportTbl['profit_type'] = null;
+			$reportTbl['amount'] = null;
+			$reportTbl['currency'] = null;
 		} else {
-			$reportTbl['profit_type'] = isset($params['profit_type']) ? $params['profit_type'] : '';
+			$reportTbl['profit_type'] = isset($params['profit_type']) ? $params['profit_type'] : null;
 			$reportTbl['amount'] = isset($params['amount']) ? _convertStr2Int($params['amount']) : 0;
 			$reportTbl['currency'] = isset($params['currency']) ? $params['currency'] : CNY_LABEL;
 		}

@@ -22,7 +22,7 @@ class Common extends Model
 			DB::beginTransaction();
 			DB::table($this->table)->lockForUpdate();
 			$year = date('Y', strtotime($report_data));
-			$count = self::whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $year))->orderBy('report_id', 'desc')->first();
+			$count = self::whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $year))->where('state', '!=', REPORT_STATUS_DRAFT)->orderBy('report_id', 'desc')->first();
 			
 			if($count == null) {
 				$count = date('y', strtotime($report_data)) . '0001';
@@ -30,7 +30,7 @@ class Common extends Model
 			} else {
 				$count = $count->report_id + 1;
 			}
-
+			
 			$sufix = substr($count, 2, strlen($count) - 1);
 			if(intval($sufix) >= 10000) {
 				DB::rollback();

@@ -217,7 +217,7 @@
                         '<span>' + (pageInfo.page * pageInfo.length + index + 1) + '</span>'
                     );
                     $('td', row).eq(1).html('').append(
-                        '<span data-index="' + data['id'] + '" class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + ReportTypeData[data['flowid']] + '</span>'
+                        '<span data-index="' + data['id'] + '" class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(ReportTypeData[data['flowid']]) + '</span>'
                     );
 
                     $('td', row).eq(2).html('').append(
@@ -236,7 +236,7 @@
                     
                     if(data['flowid'] != 'Contract' &&  data['flowid'] != 'Other') {
                         $('td', row).eq(5).html('').append(
-                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + FeeTypeData[data['flowid']][data['profit_type']] + '</span>'
+                            '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + __parseStr(FeeTypeData[data['flowid']][data['profit_type']]) + '</span>'
                         );  
                     } else {
                         $('td', row).eq(5).html('').append(
