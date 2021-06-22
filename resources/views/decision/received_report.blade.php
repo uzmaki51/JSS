@@ -106,7 +106,7 @@
                             </div>
                             <div id="modal-body-content" class="modal-body step-content">
                                 <div class="row">
-                                    <form role="form" method="POST" action="{{url('decision/report/submit')}}" enctype="multipart/form-data" id="report-form">
+                                    <form method="POST" action="{{url('decision/report/submit')}}" enctype="multipart/form-data" id="report-form">
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <input type="hidden" name="reportId" value="">
                                         <input type="hidden" name="reportType" value="0">
@@ -136,7 +136,7 @@
                                                         文件种类
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <select name="flowid" class="form-control width-100" :class="reportTypeCls(currentReportType)" @change="onGetProfit($event)" required v-model="currentReportType">
+                                                        <select name="flowid" class="form-control width-100" :class="reportTypeCls(currentReportType)" @change="onGetProfit" v-model="currentReportType">
                                                             <option v-for="(item, index) in reportType" v-bind:value="index" :class="reportTypeCls(index)">@{{ item }}</option>
                                                         </select>
                                                     </td>
@@ -144,7 +144,7 @@
                                                 <tr v-show="object_type == 1">
                                                     <td class="custom-modal-td-label">对象</td>
                                                     <td class="custom-modal-td-text1">
-                                                        <select name="shipNo" class="form-control width-100" @change="onGetVoyNoList($event)" required v-model="currentShipNo">
+                                                        <select name="shipNo" class="form-control width-100" @change="onGetVoyNoList($event)" v-model="currentShipNo">
                                                             <option v-for="(item, index) in shipList" v-bind:value="item.IMO_No">@{{ item.NickName }}</option>
                                                         </select>
                                                     </td>
@@ -154,7 +154,7 @@
                                                         航次
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <select name="voyNo" class="form-control width-100" required v-model="currentVoyNo">
+                                                        <select name="voyNo" class="form-control width-100" v-model="currentVoyNo">
                                                             <option v-for="(item, index) in voyNoList" v-bind:value="item.Voy_No">@{{ item.Voy_No }}</option>
                                                         </select>
                                                     </td>
@@ -162,7 +162,7 @@
                                                 <tr v-show="object_type == 2">
                                                     <td class="custom-modal-td-label">对象</td>
                                                     <td class="custom-modal-td-text1">
-                                                        <select name="obj_no" class="form-control width-100" required v-model="currentObjectNo">
+                                                        <select name="obj_no" class="form-control width-100" v-model="currentObjectNo">
                                                             <option v-for="(item, index) in objectList" v-bind:value="item.id">@{{ item.person }}</option>
                                                         </select>
                                                     </td>                                                    
@@ -170,7 +170,7 @@
                                                 <tr>
                                                     <td class="custom-modal-td-label">收支种类</td>
                                                     <td class="custom-modal-td-text1">
-                                                        <select name="profit_type" class="form-control width-100 transparent-input" :class="reportTypeCls(currentReportType)" required v-model="currentProfitType">
+                                                        <select name="profit_type" class="form-control width-100 transparent-input" :class="reportTypeCls(currentReportType)" v-model="currentProfitType">
                                                             <option v-for="(item, index) in profitType" v-bind:value="index">@{{ item }}</option>
                                                         </select>
                                                     </td>
@@ -189,7 +189,7 @@
                                                         金额
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <my-currency-input v-model="amount" :autocomplete="'off'" :class="reportTypeCls(currentReportType)" class="form-control transparent-input" :class="creditClass(item.credit)" name="amount" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:type="'credit'" required></my-currency-input>
+                                                        <my-currency-input v-model="amount" :autocomplete="'off'" :class="reportTypeCls(currentReportType)" class="form-control transparent-input" :class="creditClass(item.credit)" name="amount" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:type="'credit'"></my-currency-input>
                                                     </td>
                                                 </tr>
                                                 
@@ -230,11 +230,11 @@
                                             </table>
                                             <div  v-show="reportStatus">
                                                 <div class="btn-group f-left mt-20 d-flex">
-                                                    <button type="button" class="btn btn-success small-btn ml-0" @click="reportSubmit($event)">
+                                                    <button type="button" class="btn btn-success small-btn ml-0" @click="reportSubmit">
                                                         <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}
                                                     </button>
                                                     <div class="between-1"></div>
-                                                    <button type="button" class="btn btn-warning small-btn save-draft" @click="saveDraft($event)">
+                                                    <button type="button" class="btn btn-warning small-btn save-draft" @click="saveDraft" formnovalidate="formnovalidate" >
                                                         <img src="{{ cAsset('assets/images/draft.png') }}" class="report-label-img">{{ trans('decideManage.button.draft') }}
                                                     </button>
                                                     <a class="btn btn-danger small-btn close-modal" data-dismiss="modal"><i class="icon-remove"></i>{{ trans('decideManage.button.cancel') }}</a>
@@ -716,7 +716,7 @@
                             reportObj.report_date = $(this).val();
                         });
                     },
-                    reportSubmit(e) {
+                    reportSubmit() {
                         $('[name=reportType]').val(0);
                         let obj_type = reportObj.object_type;
                         let shipNo = 'required';
@@ -740,21 +740,43 @@
                             voyNo = '';
                         }
 
-                        if($('[name=flowid]').val() == 'Contract' || $('[name=flowid]').val() == 'Other') {
-                            profit_type = '';
-                            amount = '';
-                            currency = '';
+                        if($('[name=flowid]').val() == 'Contract') {
+                            profit_type = false;
+                            amount = false;
+                            currency = false;
+                        } else if($('[name=flowid]').val() == 'Other') {
+                            profit_type = false;
+                            amount = true;
+                            currency = true;
+                        } else {
+                            profit_type = true;
+                            amount = true;
+                            currency = true;
                         }
 
                         let validateParams = {
                             rules: {
-                                shipNo : shipNo,
-                                voyNo: voyNo,
-                                profit_type: profit_type,
-                                currency: currency,
-                                amount: amount,
-                                content: content,
-                                obj_no: obj_no,
+                                shipNo : {
+                                    required: true
+                                },
+                                voyNo: {
+                                    required: true
+                                },
+                                profit_type: {
+                                    required: profit_type
+                                },
+                                currency: {
+                                    required: currency
+                                },
+                                amount: {
+                                    required: amount
+                                },
+                                content: {
+                                    required: true
+                                },
+                                obj_no: {
+                                    required: true
+                                },
                             },
                             messages: {
                                 shipNo : shipNoMsg,
@@ -772,12 +794,34 @@
                             return true;
                         } else 
                             return false;
-                        
                     },
-                    saveDraft(e) {
+                    saveDraft: function() {
                         $('[name=reportType]').val(3);
-                        $('#report-form').submit();
+                        let validateParams = {
+                            rules: {
+                                voyNo: {
+                                    required: ''
+                                },
+                                amount: {
+                                    required: ''
+                                },
+                                content: {
+                                    required: ''
+                                },
+                            },
+                            messages: {
+                                shipNo : '',
+                                voyNo: '',
+                                profit_type: '',
+                                currency: '',
+                                amount: '',
+                                content: '',
+                                obj_no: '',
+                            }
+                        };
 
+                        $("#report-form").validate().cancelSubmit = true;
+                        $('#report-form').submit();
                         return true;
                     }
                 }

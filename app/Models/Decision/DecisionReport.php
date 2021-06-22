@@ -695,7 +695,8 @@ class DecisionReport extends Model {
 		) {
 			$selector->whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $params['columns'][0]['search']['value']));
 		} else {
-			$selector->whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $years[0]));
+			if($status == null)
+				$selector->whereRaw(DB::raw('mid(report_date, 1, 4) like ' . $years[0]));
 		}
 
 		if (isset($params['columns'][1]['search']['value'])

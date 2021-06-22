@@ -46,8 +46,6 @@ class DecisionController extends Controller
 
 	// Report List
 	public function receivedReport(Request $request) {
-		Util::getMenuInfo($request);
-
 		$shipList = ShipRegister::all();
 		$params = $request->all();
 
@@ -68,8 +66,20 @@ class DecisionController extends Controller
 	// Draft List
 	public function draftReport(Request $request) {
 		$shipList = ShipRegister::all();
+		$params = $request->all();
 
-		return view('decision.draft_report', ['shipList' => $shipList]);
+		$id = -1;
+		if(isset($params['id']))
+			$id = $params['id'];
+
+		$tbl = new DecisionReport();
+		$yearList = $tbl->getYearList($id);
+
+		return view('decision.draft_report', [
+			'draftId'  	=> $id, 
+			'shipList'  => $shipList,
+			'years'		=> $yearList,
+		]);
 	}
 
 	public function redirect(Request $request) {
@@ -100,7 +110,7 @@ class DecisionController extends Controller
 				if($reportNo == false) return redirect()->back();
 				$reportTbl['report_id'] = $reportNo;
 				
-			} else if(isset($reportId) && $reportId != '') {var_dump($reportNo);die;
+			} else if(isset($reportId) && $reportId != '') {
 				$reportNo = DecisionReport::where('id', $reportTbl)->where('state', REPORT_STATUS_REQUEST)->first();
 				if($reportNo == null) {
 					$reportNo = $commonTbl->generateReportID($params['report_date']);
