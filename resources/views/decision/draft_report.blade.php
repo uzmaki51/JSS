@@ -247,15 +247,15 @@
                     if(data['currency'] != '') {
                         if(data['currency'] == 'CNY') {
                             $('td', row).eq(7).html('').append(
-                                '<span class="text-danger">' + CurrencyLabel[data['currency']] + '</span>'
+                                '<span class="text-danger">' + __parseStr(CurrencyLabel[data['currency']]) + '</span>'
                             );
                         } else if(data['currency'] == 'USD') {
                             $('td', row).eq(7).html('').append(
-                                '<span class="text-profit">' + CurrencyLabel[data['currency']] + '</span>'
+                                '<span class="text-profit">' + __parseStr(CurrencyLabel[data['currency']]) + '</span>'
                             );
                         } else {
                             $('td', row).eq(7).html('').append(
-                                '<span>' + CurrencyLabel[data['currency']] + '</span>'
+                                '<span>' + __parseStr(CurrencyLabel[data['currency']]) + '</span>'
                             );
                         }
                     }
