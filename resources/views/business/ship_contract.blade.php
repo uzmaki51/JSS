@@ -77,19 +77,19 @@ $ships = Session::get('shipList');
                             <table id="voy_list" v-cloak>
                                 <thead id="list-header" class="">
                                 <tr>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 5%;">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cp_date') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cp_date') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 7%;">{!! trans('business.table.cn.cp_date') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cp_date') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 8%;">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.loading_port') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.discharge_port') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 9%;">{!! trans('business.table.cn.l_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.l_rate') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.d_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.d_rate') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
-                                    <th class="text-center style-header lr-no-p"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span>{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.contract_attach') !!}</th>
-                                    <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;"><!--{!! trans('common.label.delete') !!}--></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 9%; min-width: 100px;">{!! trans('business.table.cn.frt_rate') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.frt_rate') !!}</span></th>
+                                    <th class="text-center style-header lr-no-p" style="width: 6%;"><div class="horizontal-line"><span>{!! trans('business.table.cn.anticipate') !!}</span><span>{!! trans('business.table.cn.daily_profit') !!}</span></div></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 3%;">{!! trans('business.table.cn.contract_attach') !!}</th>
+                                    <th class="text-center style-header" rowspan="2" style="width:20px;word-break: break-all;"></th>
                                 </tr>
                                 </thead>
                                 <tbody id="list-body">
@@ -106,7 +106,7 @@ $ships = Session::get('shipList');
                                         <td class="text-center"><div class="fixed-td">@{{ getPortName(item.LPort) }}</div></td>
                                         <td class="text-center"><div class="fixed-td">@{{ getPortName(item.DPort) }}</div></td>
                                         <td class="text-center">@{{ item.L_Rate }}</td>
-                                        <td class="text-center">@{{ item.D_Rate }}</td>
+                                        <td class="text-center"><span class="fixed-td">@{{ item.D_Rate }}</span></td>
                                         <td class="text-center">@{{ getFrtRate(item.Freight, item.total_Freight) }}</td>
                                         <td class="text-center">@{{ item.net_profit_day }}</td>
                                         <td class="text-center">
