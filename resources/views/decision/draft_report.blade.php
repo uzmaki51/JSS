@@ -260,7 +260,7 @@
                         }
                     }
 
-                    if(data['amount'] != 0)
+                    if(data['amount'] != 0 && data['amount'] != null)
                         $('td', row).eq(8).html('').append(
                             '<span class="' + (data['flowid'] == "Credit" ? "text-profit" : "") + '">' + number_format(data['amount'], 2) + '</span>'
                         );
