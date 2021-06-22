@@ -64,7 +64,7 @@
                 <form action="saveVoySettle" method="post" id="voy-settle-form" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="shipId" value="{{ $shipId }}">
-                    <input type="hidden" name="voyId" value="{{ $voyId }}">
+                    <input type="hidden" name="voyId" v-model="voyId">
 
                     <table class="table-bordered dynamic-table" id="table-settlement">
                         <thead>
@@ -607,6 +607,7 @@
         $(function() {
             initialize();
         });
+        
         function initialize() {
             vSettleObj = new Vue({
                 el: '#settle-info-div',
