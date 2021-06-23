@@ -28,21 +28,26 @@ class Common extends Model
 				$count = date('y', strtotime($report_data)) . '0001';
 				return $count;
 			} else {
-				$count = $count->report_id + 1;
-			}
-			
-			$sufix = substr($count, 2, strlen($count) - 1);
-			if(intval($sufix) >= 10000) {
-				DB::rollback();
-				return false;
+				$count = $count->report_id;
+				$tmp = substr($count, 2, strlen($count) - 1);
+				if(intval($tmp) >= 9999) {
+					DB::rollback();
+					return false;
+				}
+
+				$count = $count + 1;
 			}
 
-			$retVal = date('y', strtotime($report_data)) . $sufix;
-			
+			$retVal = $count;
 			
 			$is_exist = DB::table($this->table)->where('report_id', $retVal)->first();
-			if($is_exist != null)
-				$retVal = $retVal + 1;
+			while(true) {
+				if($is_exist != null)
+					$retVal = $retVal + 1;
+				else
+					break;
+				$is_exist = DB::table($this->table)->where('report_id', $retVal)->first();
+			}
 				
 			DB::commit();
 		} catch(\Exception $e) {

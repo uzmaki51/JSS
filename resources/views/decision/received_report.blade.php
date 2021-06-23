@@ -60,7 +60,7 @@
                             @endif
                             <a class="btn btn-sm btn-warning refresh-btn-over" type="button" onclick="fnExport()">
                                 <i class="icon icon-table"></i>{{ trans('common.label.excel') }}
-                            </a>                            
+                            </a>
                             <a href="#modal-wizard" class="only-modal-show d-none" role="button" data-toggle="modal"></a>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                                                         申请日期
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <input type="text" name="report_date" style="display: inline-block;" class="form-control white-bg date-picker" v-model="report_date" @click="dateModify($event)" >
+                                                        <input type="text" name="report_date" readonly style="display: inline-block;" class="form-control white-bg date-picker" v-model="report_date" @click="dateModify($event)" >
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -230,7 +230,7 @@
                                             </table>
                                             <div  v-show="reportStatus">
                                                 <div class="btn-group f-left mt-20 d-flex">
-                                                    <button type="button" class="btn btn-success small-btn ml-0" @click="reportSubmit">
+                                                    <button type="button" class="btn btn-success small-btn ml-0" @click="reportSubmit" id='submit-report'>
                                                         <img src="{{ cAsset('assets/images/send_report.png') }}" class="report-label-img">{{ trans('decideManage.button.submit') }}
                                                     </button>
                                                     <div class="between-1"></div>
@@ -716,7 +716,8 @@
                             reportObj.report_date = $(this).val();
                         });
                     },
-                    reportSubmit() {
+                    reportSubmit(e) {
+                        $(e.target).attr('disabled', 'disabled');
                         $('[name=reportType]').val(0);
                         let obj_type = reportObj.object_type;
                         let shipNo = 'required';
@@ -791,9 +792,13 @@
 
                         if($('#report-form').validate(validateParams)) {
                             $('#report-form').submit();
+                            $(e.target).removeAttr('disabled');
                             return true;
-                        } else 
+                        } else {
+                            $(e.target).removeAttr('disabled');
                             return false;
+                        }
+                        $(e.target).attr('disabled', 'disabled');
                     },
                     saveDraft: function() {
                         $('[name=reportType]').val(3);
@@ -1092,7 +1097,26 @@
                 }
             });
         }
+        $('#report-form').bind('submit', function (e) {
+            console.log('test-form')
+            var button = $('#submit-report');
 
+            // Disable the submit button while evaluating if the form should be submitted
+            button.prop('disabled', true);
+
+            var valid = true;
+
+            // Do stuff (validations, etc) here and set
+            // "valid" to false if the validation fails
+
+            if (!valid) { 
+                // Prevent form from submitting if validation failed
+                e.preventDefault();
+
+                // Reactivate the button if the form was not submitted
+                button.prop('disabled', false);
+            }
+        });
     </script>
 
 @stop

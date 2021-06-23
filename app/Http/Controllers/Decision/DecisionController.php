@@ -116,7 +116,7 @@ class DecisionController extends Controller
 					$reportNo = $commonTbl->generateReportID($params['report_date']);
 					$reportTbl['report_id'] = $reportNo;
 				} else {
-					$reportNo = substr(0, 2, $reportNo->report_id);
+					$reportNo = substr($reportNo->report_id, 0, 2);
 					// if($params['report_date'])
 					$reportDate = date('y', strtotime($params['report_date']));
 					if($reportNo == $reportDate) {

@@ -88,7 +88,7 @@
                                                         申请日期
                                                     </td>
                                                     <td class="custom-modal-td-text1">
-                                                        <input type="text" name="report_date" style="display: inline-block;" class="form-control white-bg date-picker" v-model="report_date" @click="dateModify($event)" >
+                                                        <input type="text" name="report_date" readonly style="display: inline-block;" class="form-control white-bg date-picker" v-model="report_date" @click="dateModify($event)" >
                                                     </td>
                                                 </tr>
                                                 <tr>
