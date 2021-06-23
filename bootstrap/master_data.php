@@ -476,6 +476,8 @@ define('VOY_SETTLE_LOAD', 	'LOAD');
 define('VOY_SETTLE_DIS', 	'DIS');
 define('VOY_SETTLE_FUEL', 	'FUEL');
 
+define('USER_POS_ACCOUNTER', 8);
+
  $g_masterData = array(
  	    'ReportTypeData'	            => $ReportTypeData,
 	    'ReportTypeLabelData'	        => $ReportTypeLabelData,

@@ -791,14 +791,15 @@
                         };
 
                         if($('#report-form').validate(validateParams)) {
-                            $('#report-form').submit();
+                            let result = $('#report-form').submit();
+                            
                             $(e.target).removeAttr('disabled');
                             return true;
                         } else {
                             $(e.target).removeAttr('disabled');
                             return false;
                         }
-                        $(e.target).attr('disabled', 'disabled');
+                        
                     },
                     saveDraft: function() {
                         $('[name=reportType]').val(3);
@@ -1097,26 +1098,26 @@
                 }
             });
         }
-        $('#report-form').bind('submit', function (e) {
-            console.log('test-form')
-            var button = $('#submit-report');
+        // $('#report-form').bind('submit', function (e) {
+        //     console.log(e)
+        //     var button = $('#submit-report');
 
-            // Disable the submit button while evaluating if the form should be submitted
-            button.prop('disabled', true);
+        //     // Disable the submit button while evaluating if the form should be submitted
+        //     button.prop('disabled', true);
 
-            var valid = true;
+        //     var valid = true;
 
-            // Do stuff (validations, etc) here and set
-            // "valid" to false if the validation fails
+        //     // Do stuff (validations, etc) here and set
+        //     // "valid" to false if the validation fails
 
-            if (!valid) { 
-                // Prevent form from submitting if validation failed
-                e.preventDefault();
+        //     if (!valid) { 
+        //         // Prevent form from submitting if validation failed
+        //         e.preventDefault();
 
-                // Reactivate the button if the form was not submitted
-                button.prop('disabled', false);
-            }
-        });
+        //         // Reactivate the button if the form was not submitted
+        //         button.prop('disabled', false);
+        //     }
+        // });
     </script>
 
 @stop

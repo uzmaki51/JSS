@@ -75,6 +75,7 @@
 
 	        <?php
                 $routeName = Route::getCurrentRoute()->getPath();
+                // var_dump($routeName);die;
                 $menuList = Session::get('menusList');
                 $id = Request::get('menuId');
 	        ?>

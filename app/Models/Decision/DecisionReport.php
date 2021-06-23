@@ -677,6 +677,7 @@ class DecisionReport extends Model {
 
 	public function getForDatatable($params, $status = null) {
 		$user = Auth::user();
+		$is_booker = $user->pos;
 		$years = $this->getYearList();
 		$selector = DB::table($this->table)
 			->orderBy('report_id', 'desc')
@@ -686,8 +687,10 @@ class DecisionReport extends Model {
 			$selector->where('state', '=', $status);
 		else
 			$selector->where('state', '!=', REPORT_STATUS_DRAFT);
-
-		if($user->isAdmin != SUPER_ADMIN)
+			
+		if($is_booker == USER_POS_ACCOUNTER) {
+			$selector->whereIn('flowid', [REPORT_TYPE_EVIDENCE_OUT, REPORT_TYPE_EVIDENCE_IN]);
+		} else if($user->isAdmin != SUPER_ADMIN)
 			$selector->where('creator', '=', $user->id);
 
 		if (isset($params['columns'][0]['search']['value'])
