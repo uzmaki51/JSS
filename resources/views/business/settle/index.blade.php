@@ -562,7 +562,6 @@
                         if (this.isInputActive) {
                             if(isNaN(this.value))
                                 return '';
-                                console.log(this.value);
 
                             return this.value == 0 ? '' : this.value;
                         } else {
