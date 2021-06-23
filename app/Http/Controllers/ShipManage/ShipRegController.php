@@ -2343,6 +2343,7 @@ class ShipRegController extends Controller
         $voyList = Cp::getCpList($shipId, $year);
 
         $evalTbl = new Evaluation();
+        $retVal = [];
         foreach($voyList as $key => $item)
             $retVal[] = $evalTbl->getEvaluationData($shipId, $item->Voy_No);
         
