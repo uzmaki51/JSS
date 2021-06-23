@@ -85,20 +85,20 @@
                 </tr>
             </table>
             <table class="mt-2 table-striped main-info-table" id="table-main-2">
-                <thead>
-                    <th class="center" style="width: 5%">No.</th>
-                    <th class="center" colspan="2" style="width: 20%">项目</th>
-                    <th class="center" style="width: 15%">预计</th>
-                    <th class="center" style="width: 15%">实际</th>
-                    <th class="center" style="width: 15%">方差</th>
-                    <th class="center" style="width: 30%"></th>
-                </thead>
+                <tr class="dynamic-footer">
+                    <td class="center" style="width: 5%">No.</td>
+                    <td class="center" colspan="2" style="width: 20%">项目</td>
+                    <td class="center" style="width: 15%">预计</td>
+                    <td class="center" style="width: 15%">实际</td>
+                    <td class="center" style="width: 15%">方差</td>
+                    <td class="center" style="width: 30%"></td>
+                </tr>
 
                 <tbody>
                     <tr class="even">
                         <td class="center">1</td>
                         <td colspan="2">期间</td>
-                        <td colspan="3" class="center">@{{ realInfo.start_date + ' ~ ' + realInfo.end_date }}</td>
+                        <td colspan="3" class="center">@{{ realInfo.start_date == 'undefined' ? '' : realInfo.start_date }} ~ @{{ realInfo.end_date == 'undefined' ? '' : realInfo.end_date }}</td>
                         <td rowspan="12">
                             <div id="economic_graph" style="height: 200px;"></div>
                         </td>
