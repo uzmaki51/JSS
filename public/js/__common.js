@@ -201,7 +201,7 @@ function __alertAudio() {
 }
 
 function __parseFloat(value) {
-    if(value == undefined || value == null || isNaN(value) || value == '') 
+    if(value == undefined || value == null || isNaN(value) || value == '' || value == 'Infinity') 
         return 0;
 
     return parseFloat(value);

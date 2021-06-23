@@ -64,40 +64,40 @@
                         <td class="center voy-no" @click="onVoyDetail(item[0].Voy_No)">@{{ item[0].Voy_No }}</td>
                         <td class="center">@{{ item[0].CP_kind }}</td>
                         <td class="center" style="width: 145px;">@{{ _sailTime(item[1].start_date, item[1].end_date) }}</td>
-                        <td class="center">@{{ number_format(item[1].total_sail_time) }}</td>
-                        <td class="center">@{{ number_format(item[1].total_distance, 0) }}</td>
-                        <td class="center">@{{ number_format(item[1].cgo_qty, 0) }}</td>
-                        <td class="center">@{{ number_format(item[0].Freight, 1) }}</td>
-                        <td class="center">@{{ number_format(item[1].credit, 0) }}</td>
-                        <td class="center">@{{ number_format(item[1].credit_distance, 0) }}</td>
-                        <td class="center">@{{ number_format(item[1].soa_credit) }}</td>
-                        <td class="center">@{{ number_format(item[1].profit) }}</td>
-                        <td class="center">@{{ number_format(item[1].day_profit) }}</td>
-                        <td class="center">@{{ number_format(item[1].debit_percent, 1) }}</td>
-                        <td class="center">@{{ number_format(item[1].fuel_percent, 1) }}</td>
-                        <td class="center">@{{ number_format(item[1].sail_percent, 1) }}</td>
-                        <td class="center">@{{ number_format(item[1].else_percent, 1) }}</td>
-                        <td class="center">@{{ number_format(item[1].manage_percent, 1) }}</td>
+                        <td class="center">@{{ _number_format(item[1].total_sail_time) }}</td>
+                        <td class="center">@{{ _number_format(item[1].total_distance, 0) }}</td>
+                        <td class="center">@{{ _number_format(item[1].cgo_qty, 0) }}</td>
+                        <td class="center">@{{ _number_format(item[0].Freight, 1) }}</td>
+                        <td class="center">@{{ _number_format(item[1].credit, 0) }}</td>
+                        <td class="center">@{{ _number_format(item[1].credit_distance, 0) }}</td>
+                        <td class="center">@{{ _number_format(item[1].soa_credit) }}</td>
+                        <td class="center">@{{ _number_format(item[1].profit) }}</td>
+                        <td class="center">@{{ _number_format(item[1].day_profit) }}</td>
+                        <td class="center">@{{ _number_format(item[1].debit_percent, 1) }}</td>
+                        <td class="center">@{{ _number_format(item[1].fuel_percent, 1) }}</td>
+                        <td class="center">@{{ _number_format(item[1].sail_percent, 1) }}</td>
+                        <td class="center">@{{ _number_format(item[1].else_percent, 1) }}</td>
+                        <td class="center">@{{ _number_format(item[1].manage_percent, 1) }}</td>
                     </tr>
 
                     <tr class="dynamic-footer">
-                        <td class="text-center">@{{ number_format(footer.count, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.count, 0) }}</td>
                         <td class="text-center"></td>
                         <td class="text-center"></td>
-                        <td class="text-center">@{{ number_format(footer.sail_time, 2) }}</td>
-                        <td class="text-center">@{{ number_format(footer.distance, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.sail_time, 2) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.distance, 0) }}</td>
                         <td class="text-center"></td>
                         <td class="text-center"></td>
-                        <td class="text-center">@{{ number_format(footer.credit, 0) }}</td>
-                        <td class="text-center">@{{ number_format(footer.credit_distance, 0) }}</td>
-                        <td class="text-center">@{{ number_format(footer.profit_soa, 0) }}</td>
-                        <td class="text-center">@{{ number_format(footer.profit_real, 0) }}</td>
-                        <td class="text-center">@{{ number_format(footer.day_profit_real, 0) }}</td>
-                        <td class="text-center">@{{ number_format(footer.debit, 0) }}</td>
-                        <td class="text-center">@{{ number_format(footer.fuel, 0) }}</td>
-                        <td class="text-center">@{{ number_format(footer.sail, 0) }}</td>
-                        <td class="text-center">@{{ number_format(footer.else, 0) }}</td>
-                        <td class="text-center">@{{ number_format(footer.manage, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.credit, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.credit_distance, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.profit_soa, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.profit_real, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.day_profit_real, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.debit, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.fuel, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.sail, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.else, 0) }}</td>
+                        <td class="text-center">@{{ _number_format(footer.manage, 0) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -161,8 +161,8 @@
 
                         return start + ' ~ ' + end;
                     },
-                    number_format: function(value, decimal = 2) {
-                        return isNaN(value) || value == 0 || value == null || value == undefined ? '' : number_format(value, decimal);
+                    _number_format: function(value, decimal = 2) {
+                        return __parseFloat(value) == 0 ? '' : number_format(value, decimal);
                     },
                     openNewPage: function(type) {
                         if(type == 'soa') {
