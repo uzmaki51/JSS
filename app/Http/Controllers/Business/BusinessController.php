@@ -681,8 +681,8 @@ class BusinessController extends Controller {
             $shipName = $shipInfo->Nick_Name != '' ? $shipInfo->Nick_Name : $shipInfo->shipName_En;
 
         $cpList = CP::where('Ship_ID', $shipId)->orderBy('Voy_No', 'desc')->get();
-        if(isset($params['voy_id'])) {
-            $voyId = $params['voy_id'];
+        if(isset($params['voyId'])) {
+            $voyId = $params['voyId'];
         } else {
             if(count($cpList) > 0)
                 $voyId = $cpList[0]->Voy_No;
@@ -781,7 +781,7 @@ class BusinessController extends Controller {
         $settleElse['shipId'] = $shipId;
         $settleElse['voyId'] = $voyId;
         $settleElse['position'] = $params['origin_position'];
-        if(!isset($params['origin_date']) && $params['origin_date'] != '' && $params['origin_date'] != EMPTY_DATE)
+        if(isset($params['origin_date']) && $params['origin_date'] != '' && $params['origin_date'] != EMPTY_DATE)
             $settleElse['load_date'] = $params['origin_date'] . ' ' . $params['origin_hour'] . ':' . $params['origin_minute'] . ':00';
         else
             $settleElse['load_date'] = null;
@@ -818,7 +818,7 @@ class BusinessController extends Controller {
                 $settleElse['arrival_date'] = $params['load_arrival_date'][$key] . ' ' . $params['load_arrival_hour'][$key] . ':' . $params['load_arrival_minute'][$key] . ':00';
             else
                 $settleElse['arrival_date'] = null;
-// var_dump($settleElse['arrival_date']);die;
+
             if(isset($params['load_depart_date'][$key]) && $params['load_depart_date'][$key] != '' && $params['load_depart_date'][$key] != EMPTY_DATE)
                 $settleElse['load_date'] = $params['load_depart_date'][$key] . ' ' . $params['load_depart_hour'][$key] . ':' . $params['load_depart_minute'][$key] . ':00';
             else
@@ -829,7 +829,7 @@ class BusinessController extends Controller {
             $settleElse['type'] = VOY_SETTLE_LOAD;
             $settleElse->save();
         }
-        // var_dump($params);die;
+
         $loadIds = $params['dis_id'];
         foreach($loadIds as $key => $id) {
             if(isset($id) && $id != '') {
@@ -950,8 +950,7 @@ class BusinessController extends Controller {
             $settleProfit->save();
         }
 
-        return redirect()->back();
-        // return redirect('/business/dynRecord?shipId=' . $shipId . '&voyNo=' . $CP_ID);
+        return redirect('/business/settleMent?shipId=' . $shipId . '&voyId=' . $voyId);
     }
     
 

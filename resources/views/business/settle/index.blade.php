@@ -42,7 +42,7 @@
                         <label class="font-bold">航次:</label>
                         <select class="text-center" style="width: 60px;" id="voy_list">
                             @foreach($cpList as $key => $item)
-                                <option value="{{ $item->Voy_No }}">{{ $item->Voy_No }}</option>
+                                <option value="{{ $item->Voy_No }}" {{ $item->Voy_No == $voyId ? 'selected' : '' }}>{{ $item->Voy_No }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -201,7 +201,7 @@
                                 <td class="center" colspan="2">
                                     <div>
                                         <label class="date-label">
-                                            <input class="form-control date-picker" v-model="elseInfo.date" name="origin_date" @click="dateModify($event, '', 'origin', '')">
+                                            <input class="form-control date-picker text-center" v-model="elseInfo.date" name="origin_date" @click="dateModify($event, '', 'origin', '')">
                                         </label>
                                         <label class="time-width hour-label">
                                             <input class="form-control hour-input" v-model="elseInfo.hour" name="origin_hour">
@@ -228,7 +228,7 @@
                                 <td class="center" colspan="2">
                                     <div>
                                         <label class="date-label">
-                                            <input class="form-control date-picker" name="load_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'load', 'arrival')">
+                                            <input class="form-control date-picker text-center" name="load_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'load', 'arrival')">
                                         </label>
                                         <label class="time-width hour-label">
                                             <input class="form-control hour-input" name="load_arrival_hour[]" v-model="item.arrival_hour">
@@ -241,7 +241,7 @@
                                 <td class="center" colspan="2">
                                     <div>
                                         <label class="date-label">
-                                            <input class="form-control date-picker" name="load_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'load', 'load')">
+                                            <input class="form-control date-picker text-center" name="load_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'load', 'load')">
                                         </label>
                                         <label class="time-width hour-label">
                                             <input class="form-control hour-input" name="load_depart_hour[]" v-model="item.load_hour">
@@ -268,7 +268,7 @@
                                 <td class="center" colspan="2">
                                     <div>
                                         <label class="date-label">
-                                            <input class="form-control date-picker" name="dis_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'discharge', 'arrival')">
+                                            <input class="form-control date-picker text-center" name="dis_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'discharge', 'arrival')">
                                         </label>
                                         <label class="time-width hour-label">
                                             <input class="form-control hour-input" name="dis_arrival_hour[]" v-model="item.arrival_hour">
@@ -281,7 +281,7 @@
                                 <td class="center" colspan="2">
                                     <div>
                                         <label class="date-label">
-                                            <input class="form-control date-picker" name="dis_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'discharge', 'load')">
+                                            <input class="form-control date-picker text-center" name="dis_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'discharge', 'load')">
                                         </label>
                                         <label class="time-width hour-label">
                                             <input class="form-control hour-input" name="dis_depart_hour[]" v-model="item.load_hour">
@@ -307,7 +307,7 @@
                                 <td class="center" colspan="2">
                                     <div>
                                         <label class="date-label">
-                                            <input class="form-control date-picker" name="fuel_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'fuel', 'arrival')">
+                                            <input class="form-control date-picker text-center" name="fuel_arrival_date[]" v-model="item.arrival_date" @click="dateModify($event, index, 'fuel', 'arrival')">
                                         </label>
                                         <label class="time-width hour-label">
                                             <input class="form-control hour-input" name="fuel_arrival_hour[]" v-model="item.arrival_hour">
@@ -320,7 +320,7 @@
                                 <td class="center" colspan="2">
                                     <div>
                                         <label class="date-label">
-                                            <input class="form-control date-picker" name="fuel_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'fuel', 'load')">
+                                            <input class="form-control date-picker text-center" name="fuel_depart_date[]" v-model="item.load_date" @click="dateModify($event, index, 'fuel', 'load')">
                                         </label>
                                         <label class="time-width hour-label">
                                             <input class="form-control hour-input" name="fuel_depart_hour[]" v-model="item.load_hour">
@@ -539,6 +539,7 @@
 
             if ((newForm !== origForm) && !submitted) {
                 (e || window.event).returnValue = confirmationMessage;
+                origForm = '';
             }
 
             return confirmationMessage;
@@ -666,9 +667,10 @@
                             $_this.total_profit_day = 0;
 
                         this.$forceUpdate();
+
                         if(origForm == '') {
                             setTimeout(function() {
-                                origForm = JSON.parse(JSON.stringify($('#voy-settle-form').serialize()));
+                                origForm = $('#voy-settle-form').serialize();
                             }, 500);
                         }
                             
@@ -716,7 +718,6 @@
                             else {
                                 this.deleteElseInfo(type, index, id);
                             }
-                                
                         } else if(type == 'disch') {
                             if(index == 0)
                                 this.elseInfo.discharge.push([]);
@@ -729,7 +730,6 @@
                             else
                                 this.deleteElseInfo(type, index, id);
                         }
-                            
 
                         this.$forceUpdate();
                     },
@@ -846,14 +846,14 @@
             let currentVal = $(this).val();
             if (!submitted && origForm != newForm) {
                 if(window.confirm(confirmationMessage)) {
+                    origForm = '';
                     $_this.voyId = currentVal;
                     getInitInfo();
                 } else {
-                    e.preventDefault();
                     return false;
                 }
-                        
             } else {
+                origForm = '';
                 $_this.voyId = currentVal;
                 getInitInfo();
             }
