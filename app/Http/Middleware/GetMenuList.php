@@ -36,7 +36,7 @@ class GetMenuList {
 	public function handle($request, Closure $next) {
 		$tbl = new Menu();
 		$menus = $tbl->getMenuList();
-
+		
 		Session::put('menusList', $menus);
 
 		return $next($request);

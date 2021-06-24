@@ -67,7 +67,7 @@
                 </div>
                 <div class="row">
                     <div class="space-2"></div>
-                    <div class="table-responsive common-list">
+                    <div class="table-responsive common-list head-fix-div">
                         <table id="report_info_table" class="table table-bordered">
                             <thead>
                             <tr class="br-hblue">
@@ -600,6 +600,7 @@
                     console.log(error)
                 }
             });
+            
             getObject();
 
             // Create new Vue obj.
@@ -717,7 +718,6 @@
                         });
                     },
                     reportSubmit(e) {
-                        $(e.target).attr('disabled', 'disabled');
                         $('[name=reportType]').val(0);
                         let obj_type = reportObj.object_type;
                         let shipNo = 'required';
@@ -790,10 +790,47 @@
                             }
                         };
 
-                        if($('#report-form').validate(validateParams)) {
-                            let result = $('#report-form').submit();
-                            
-                            $(e.target).removeAttr('disabled');
+                        if($('#report-form').validate({
+                            rules: {
+                                shipNo : {
+                                    required: true
+                                },
+                                voyNo: {
+                                    required: true
+                                },
+                                profit_type: {
+                                    required: profit_type
+                                },
+                                currency: {
+                                    required: currency
+                                },
+                                amount: {
+                                    required: amount
+                                },
+                                content: {
+                                    required: true
+                                },
+                                obj_no: {
+                                    required: true
+                                },
+                            },
+                            messages: {
+                                shipNo : shipNoMsg,
+                                voyNo: voyNoMsg,
+                                profit_type: profit_typeMsg,
+                                currency: currencyMsg,
+                                amount: amountMsg,
+                                content: contentMsg,
+                                obj_no: obj_noMsg,
+                            }, 
+
+                            submitHandler: function(form) {
+                                $('#submit-report').attr('disabled', 'disabled');
+                                $('.save-draft').attr('disabled', 'disabled');
+                                form.submit();
+                            }
+                        })) {
+                            $('#report-form').submit();
                             return true;
                         } else {
                             $(e.target).removeAttr('disabled');

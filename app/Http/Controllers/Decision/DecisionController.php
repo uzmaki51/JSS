@@ -111,16 +111,17 @@ class DecisionController extends Controller
 				$reportTbl['report_id'] = $reportNo;
 				
 			} else if(isset($reportId) && $reportId != '') {
-				$reportNo = DecisionReport::where('id', $reportTbl)->where('state', REPORT_STATUS_REQUEST)->first();
+				$reportNo = DecisionReport::where('id', $reportId)->where('state', REPORT_STATUS_REQUEST)->first();
 				if($reportNo == null) {
 					$reportNo = $commonTbl->generateReportID($params['report_date']);
 					$reportTbl['report_id'] = $reportNo;
 				} else {
+					$insertId = $reportNo;
 					$reportNo = substr($reportNo->report_id, 0, 2);
 					// if($params['report_date'])
 					$reportDate = date('y', strtotime($params['report_date']));
 					if($reportNo == $reportDate) {
-						$reportTbl['report_id'] = $reportNo->report_id;
+						$reportTbl['report_id'] = $insertId->report_id;
 					} else {
 						$reportTbl['report_id'] = $commonTbl->generateReportID($params['report_date']);
 					}

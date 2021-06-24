@@ -18,6 +18,7 @@ class Kernel extends HttpKernel {
 		'App\Http\Middleware\VerifyCsrfToken',
 		'App\Http\Middleware\ValidateShareHolder',
 		'App\Http\Middleware\GetMenuList',
+		// 'App\Http\Middleware\RedirectRoute',
 	];
 
 	/**
