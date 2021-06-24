@@ -975,4 +975,16 @@ class DecisionReport extends Model {
         return $yearList;
 	}
 
+	public function getLastId() {
+		$user = Auth::user();
+		$user_id = $user->id;
+
+		$last = self::where('creator', $user_id)->where('state', REPORT_STATUS_REQUEST)->orderBy('report_id', 'desc')->first();
+		if($last == null) {
+			return 0;
+		}
+
+		return $last->id;
+	}
+
 }

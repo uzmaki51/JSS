@@ -54,7 +54,7 @@
                     <div class="col-md-6">
                         <div class="btn-group f-right">
                             @if(!Auth::user()->isAdmin)
-                                <a href="#modal-wizard" class="btn btn-sm btn-success no-radius show-modal" role="button" data-toggle="modal">
+                                <a class="btn btn-sm btn-success no-radius show-modal">
                                     <img src="{{ cAsset('assets/images/submit.png') }}" class="report-label-img">起草
                                 </a>
                             @endif
@@ -273,6 +273,7 @@
         var REPORT_TYPE_EVIDENCE_OUT = '{!! REPORT_TYPE_EVIDENCE_OUT !!}';
         var DEFAULT_CURRENCY = '{!! CNY_LABEL !!}';
         var OBJECT_TYPE_SHIP = '{!! OBJECT_TYPE_SHIP !!}';
+        var lastId = '{!! $lastId !!}';
 
         $(function() {
             initialize();
@@ -421,7 +422,7 @@
             })
         }
 
-        function showReportDetail(reportId) {
+        function showReportDetail(reportId, is_new = false) {
             $.ajax({
                 url: BASE_URL + 'ajax/report/detail',
                 type: 'post',
@@ -429,7 +430,11 @@
                     reportId: reportId
                 },
                 success: function(data, status, xhr) {
-                    $('[name=reportId]').val(reportId);
+                    if(is_new == false)
+                        $('[name=reportId]').val(reportId);
+                    else
+                        $('[name=reportId]').val('');
+
                     let result = data['list'];
                     let attach = data['attach'];
                     reportObj.object_type = result['obj_type'];
@@ -472,9 +477,9 @@
                 }
             });
 
-            $('.show-modal').on('click', function() {
-                reportObj.init();
-            });
+            // $('.show-modal').on('click', function() {
+
+            // });
         }
 
         $('.show-modal').on('click', function() {
@@ -482,7 +487,13 @@
             if($('[name=draftId]') != -1)
                 $('.save-draft').removeAttr('disabled');
 
-            reportObj.init();
+            if(lastId == 0) {
+                $('.only-modal-show').click();
+            } else {
+                showReportDetail(lastId, true);
+            }
+
+            // reportObj.init();
         });
 
         function getVoyList(shipId, selected = false) {

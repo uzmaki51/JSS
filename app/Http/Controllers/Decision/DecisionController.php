@@ -55,11 +55,14 @@ class DecisionController extends Controller
 
 		$tbl = new DecisionReport();
 		$yearList = $tbl->getYearList($id);
+		$lastId = $tbl->getLastId();
 
 		return view('decision.received_report', [
 				'draftId'  	=> $id, 
 				'shipList'  => $shipList,
 				'years'		=> $yearList,
+
+				'lastId'		=> $lastId
 			]);
 	}
 
@@ -199,6 +202,8 @@ class DecisionController extends Controller
 		}
 		
 		$reportTbl->save();
+		Session::put('last_session', true);
+		
 		return redirect('decision/receivedReport');
 	}
 	public function getACList(Request $request) {
@@ -227,7 +232,6 @@ class DecisionController extends Controller
 
 		$decideTbl = new DecisionReport();
 		$reportList = $decideTbl->getForDatatable($params, REPORT_STATUS_DRAFT);
-
 
 		return response()->json($reportList);
 	}
@@ -273,6 +277,12 @@ class DecisionController extends Controller
 		} else {
 			$voyList = array();
 		}
+
+		$_lastSession = Session::get('last_session');
+		if($_lastSession == null)
+			$beforeReport = false;
+		else
+			$beforeReport = true;
 
 		return response()->json(array('shipList'    => $shipList, 'voyList' => $voyList));
 	}
