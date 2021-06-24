@@ -1015,10 +1015,10 @@
                     reportObj.shipList = data['shipList'];
                     if(data['shipList'] != undefined && data['shipList'] != null && data['shipList'].length > 0)
                         reportObj.currentShipNo = data['shipList'][0].IMO_No;
+
+                    getProfit(REPORT_TYPE_EVIDENCE_IN);
                 }
             });
-
-            getProfit(REPORT_TYPE_EVIDENCE_IN);
         }
 
         $('.close-modal').on('click', function() {
