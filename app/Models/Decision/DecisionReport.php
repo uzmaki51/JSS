@@ -685,8 +685,12 @@ class DecisionReport extends Model {
 
 		if($status != null)
 			$selector->where('state', '=', $status);
-		else
-			$selector->where('state', '!=', REPORT_STATUS_DRAFT);
+		else {
+			if($is_booker == USER_POS_ACCOUNTER)
+				$selector->where('state', REPORT_STATUS_ACCEPT);
+			else
+				$selector->where('state', '!=', REPORT_STATUS_DRAFT);
+		}
 			
 		if($is_booker == USER_POS_ACCOUNTER) {
 			$selector->whereIn('flowid', [REPORT_TYPE_EVIDENCE_OUT, REPORT_TYPE_EVIDENCE_IN]);
