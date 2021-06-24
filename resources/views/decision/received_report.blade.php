@@ -451,9 +451,10 @@
                     reportObj.report_date = result['report_date'];
                     reportObj.currentReportType = result['flowid'];
                     reportObj.currentShipNo = result['shipNo'];
-                    reportObj.amount = result['amount'];
+                    reportObj.amount = is_new == false ? result['amount'] : 0;
+                    reportObj.currentDepartment = result['depart_id'];
                     reportObj.currentCurrency = result['currency'];
-                    reportObj.content = result['content'];
+                    reportObj.content = is_new == false ? result['content'] : '';
                     
                     disableProfit(result['flowid'], result['profit_type']);
 
