@@ -568,9 +568,9 @@ $isHolder = Session::get('IS_HOLDER');
 
         function clearList() {
             $('#keep-list-bookno').val('');
-            $('#keep-list-datetime').val('');
-            $('#pay_type').val(0);
-            $("#account_type").val($("#account_type option:first").val());
+            //$('#keep-list-datetime').val('');
+            //$('#pay_type').val(0);
+            //$("#account_type").val($("#account_type option:first").val());
             
             $('#table-keep-body').html('');
             setState(false);

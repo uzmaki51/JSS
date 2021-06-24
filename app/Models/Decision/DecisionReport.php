@@ -42,7 +42,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['flowid'] = $record->flowid;
 			$newArr[$newindex]['report_no'] = $record->report_id;
 			$newArr[$newindex]['book_no'] = $record->book_no == null ? '' : $record->book_no;
-			$newArr[$newindex]['datetime'] = $record->create_time;
+			$newArr[$newindex]['datetime'] = $record->report_date;
 
 			if ($record->obj_type == 1) {
 				$newArr[$newindex]['ship_no'] = $record->shipNo;
