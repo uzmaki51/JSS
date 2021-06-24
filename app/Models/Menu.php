@@ -46,8 +46,12 @@ class Menu extends Model
 					$parentIds[] = $ret->parentId;
 				} else {
 					$child = self::where('parentId', $ret->id)->get();
-					foreach($child as $kkk)
+					foreach($child as $kkk) {
 						$parentIds[] = $kkk->id;
+						$last = self::where('parentId', $kkk->id)->get();
+						foreach($last as $yyy)
+							$parentIds[] = $yyy->id;
+					}
 				}
 
 				$parentIds[] = $item->id;
