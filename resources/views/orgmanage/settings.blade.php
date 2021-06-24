@@ -93,7 +93,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <td class="add-td-label" style="width:20%!important;height:20px;">GRAPH:</td>
                                     <td class="add-td-text" style="width:20%!important;">
                                         <select name="select-graph-year" id="select-graph-year" class="form-control" style="width:100%;border:unset!important;">
-                                            @for($i=date("Y")-10;$i<=date("Y");$i++)
+                                            @for($i=$start_year;$i<=date("Y");$i++)
                                             <option value="{{$i}}" @if($i==$settings['graph_year']) selected @endif>{{$i}}年</option>
                                             @endfor
                                         </select>
@@ -121,7 +121,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <td class="add-td-label">批准次数:</td>
                                     <td class="add-td-text" colspan="2">
                                         <select name="select-report-year" id="select-report-year" class="form-control" style="font-size:13px">
-                                            @for($i=date("Y")-10;$i<=date("Y");$i++)
+                                            @for($i=$start_year;$i<=date("Y");$i++)
                                             <option value="{{$i}}" @if($i==$settings['report_year']) selected @endif>{{$i}}年</option>
                                             @endfor
                                         </select>
@@ -131,7 +131,7 @@ $isHolder = Session::get('IS_HOLDER');
                                     <td class="add-td-label">船舶日报:</td>
                                     <td class="add-td-text" colspan="2">
                                         <select name="select-dyn-year" id="select-dyn-year" class="form-control" style="font-size:13px">
-                                            @for($i=date("Y")-10;$i<=date("Y");$i++)
+                                            @for($i=$start_year;$i<=date("Y");$i++)
                                             <option value="{{$i}}" @if($i==$settings['dyn_year']) selected @endif>{{$i}}年</option>
                                             @endfor
                                         </select>
