@@ -45,11 +45,14 @@ class SettingsController extends Controller
             }
         }
         $sites = SettingsSites::select('*')->orderByRaw("CAST(orderNo AS SIGNED INTEGER) ASC")->get();
-        //$sites = SettingsSites::select('*')->orderByRaw('CONVERT(order, SIGNED) desc')->get();
-       //$sites = SettingsSites::select('*')->orderByRaw('CAST(order AS SIGNED INTEGER) ASC')->get();
-       //$sites = DB::table('tb_settings_sites')->select('*')->orderByRaw('CAST(OrderNo AS SIGNED) ASC')->get();
-       //$sites = DB::table('tb_settings_sites')->select('*')->orderByRaw('CAST(order AS SIGNED) ASC')->get();
 
+        $start_year = DecisionReport::select(DB::raw('MIN(create_at) as min_date'))->first();
+        if(empty($start_year)) {
+            $start_year = '2021-01-01';
+        } else {
+            $start_year = $start_year['min_date'];
+        }
+        $start_year = date("Y", strtotime($start_year));
         return view('orgmanage.settings', [
             'title' => '',
             'settings'   => $settings,
@@ -58,6 +61,7 @@ class SettingsController extends Controller
             'noattachments' => $noattachments,
             'voyList' => $voyList,
             'sites' => $sites,
+            'start_year' => $start_year,
         ]);
     }
 }

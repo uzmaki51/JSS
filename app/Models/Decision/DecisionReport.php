@@ -306,7 +306,7 @@ class DecisionReport extends Model {
 			$shipid = $params['columns'][1]['search']['value'];
 		}
 
-		$start_year = DecisionReport::select(DB::raw('MAX(create_at) as max_date'))->first();
+		$start_year = DecisionReport::select(DB::raw('MAX(report_date) as max_date'))->first();
         if(empty($start_year)) {
             $start_year = date("Y");
         } else {

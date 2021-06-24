@@ -118,11 +118,11 @@ class FinanceController extends Controller
 		if ($year == '') $year = date("Y");
 		if ($month == '') $month = date("m");
 
-		$max_item = WaterList::select(DB::raw('MAX(book_no) as max_no'))->first();
+		$max_item = WaterList::where('year',$year)->select(DB::raw('MAX(book_no) as max_no'))->first();
 		$book_no = $max_item['max_no'];
 		if (($book_no == null) || ($book_no == '')) $book_no = (int)(substr($year,2) . "0000");
 
-		$start_year = DecisionReport::select(DB::raw('MIN(create_at) as min_date'))->first();
+		$start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = '2020-01-01';
         } else {
@@ -154,7 +154,7 @@ class FinanceController extends Controller
 		$book_no = $max_item['max_no'];
 		if (($book_no == null) || ($book_no == '')) $book_no = (int)(substr($year,2) . "0000");
 
-		$start_year = DecisionReport::select(DB::raw('MIN(create_at) as min_date'))->first();
+		$start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = '2020-01-01';
         } else {
