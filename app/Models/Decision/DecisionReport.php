@@ -144,12 +144,14 @@ class DecisionReport extends Model {
 			$newindex ++;
 		}
 
+		$book_no = $this->getBookNo($year);
 		return [
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
             'recordsFiltered' => $newindex,
             'original' => false,
             'data' => $newArr,
+			'book_no' => $book_no,
             'error' => 0,
         ];
 	}
@@ -585,6 +587,13 @@ class DecisionReport extends Model {
         ];
 	}
 
+	public function getBookNo($year) {
+		$max_item = WaterList::where('year',$year)->select(DB::raw('MAX(book_no) as max_no'))->first();
+		$book_no = $max_item['max_no'];
+		if (($book_no == null) || ($book_no == '')) $book_no = (int)(substr($year,2) . "0000");
+
+		return $book_no;
+	}
 	public function getForBookDatatable($params) {
 		if (!isset($params['columns'][1]['search']['value']) ||
             $params['columns'][1]['search']['value'] == '' ||
@@ -665,12 +674,14 @@ class DecisionReport extends Model {
 			$newindex ++;
 		}
 
+		$book_no = $this->getBookNo($year);
 		return [
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
             'recordsFiltered' => $newindex,
             'original' => true,
             'data' => $newArr,
+			'book_no' => $book_no,
             'error' => 0,
         ];
 	}

@@ -48,7 +48,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="col-md-12">
                                     <div class="col-md-7">
                                         <select name="select-year" id="select-year" style="font-size:13px">
-                                            @for($i=$start_year;$i<=date("Y");$i++)
+                                            @for($i=date("Y");$i>=$start_year;$i--)
                                             <option value="{{$i}}" @if(($year==$i)||(($year=='')&&($i==date("Y")))) selected @endif>{{$i}}年</option>
                                             @endfor
                                         </select>
@@ -194,7 +194,7 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="col-md-12">
                                     <div class="col-md-7">
                                         <select name="select-water-year" id="select-water-year" style="font-size:13px">
-                                            @for($i=$start_year;$i<=date("Y");$i++)
+                                            @for($i=date("Y");$i>=$start_year;$i--)
                                             <option value="{{$i}}" @if(($year==$i)||(($year=='')&&($i==date("Y")))) selected @endif>{{$i}}年</option>
                                             @endfor
                                         </select>
@@ -309,7 +309,7 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: 'obj', className: "text-center"},
                     {data: 'voyNo', className: "text-center"},
                     {data: null, className: "text-center"},
-                    {data: 'content', className: "text-center"},
+                    {data: 'content', className: ""},
                     {data: 'currency', className: "text-center"},
                     {data: null, className: "text-center"},
                     {data: null, className: "text-center"},
@@ -325,7 +325,7 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(4).attr('class', 'text-center disable-td');
                     $('td', row).eq(5).attr('class', 'text-center disable-td');
                     $('td', row).eq(6).attr('class', 'text-center disable-td');
-                    $('td', row).eq(7).attr('class', 'text-center');
+                    $('td', row).eq(7).attr('class', '');
                     $('td', row).eq(8).attr('class', 'text-center disable-td');
                     $('td', row).eq(9).attr('class', 'text-center');
                     $('td', row).eq(10).attr('class', 'text-center');
@@ -342,6 +342,11 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(3).html('').append(data['datetime'].substr(0,10));
                     $('td', row).eq(6).html('').append(FeeTypeData[data['flowid']][data['profit_type']]);
 
+                    if (data['currency'] == '$') {
+                        $('td', row).eq(8).attr('style','color:#026fcd!important');
+                    } else {
+                        $('td', row).eq(8).attr('style','color:red');
+                    }
                     if (data['book_no'] == '')
                         $('td', row).eq(2).html('<input type="text" class="form-control style-blue-input" readonly name="book_no[]" value="" style="width: 100%;text-align: center" autocomplete="off">');
                     else
@@ -351,18 +356,21 @@ $isHolder = Session::get('IS_HOLDER');
                             $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                         else
                             $('td', row).eq(9).html('<input type="text" class="form-control style-red-input" name="credit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
-                        $('td', row).eq(10).html('<input type="text" class="form-control style-blue-input" name="debit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        //$('td', row).eq(10).html('<input type="text" class="form-control style-blue-input" name="debit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        $('td', row).eq(10).html('<input type="text" class="form-control" name="debit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                     } else if(data['flowid'] == "Debit") {
                         if (data['amount'] >= 0)
-                            $('td', row).eq(10).html('<input type="text" class="form-control style-blue-input" name="debit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                            //$('td', row).eq(10).html('<input type="text" class="form-control style-blue-input" name="debit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                            $('td', row).eq(10).html('<input type="text" class="form-control" name="debit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                         else
-                            $('td', row).eq(10).html('<input type="text" class="form-control style-red-input" name="debit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                            //$('td', row).eq(10).html('<input type="text" class="form-control style-red-input" name="debit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                            $('td', row).eq(10).html('<input type="text" class="form-control" name="debit[]" readonly value="' + (data['amount']==null?'':prettyValue(data['amount'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                         $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                     }
                     var link_html = '<label><a href="' + data['attachment'] + '" target="_blank" class="' + (data['attachment']==null ? 'visible-hidden':'') + '"><img src="' + "{{ cAsset('assets/images/document.png') }}" + '"' + ' width="15" height="15" style="cursor: pointer;"></a></label>';
                     $('td', row).eq(11).html('<input type="text" class="form-control style-blue-input" readonly name="rate[]" value="' + data['rate'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(12).html('').append(link_html);
-                    $('td', row).eq(7).html('<input type="text" class="form-control style-blue-input" readonly name="report_remark[]" value="' + data['content'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(7).html('<input type="text" class="form-control style-blue-input" readonly name="report_remark[]" value="' + data['content'] + '" style="width: 100%;" autocomplete="off">');
                 },
                 drawCallback: function (response) {
                     listBook = response.json.data;
@@ -370,6 +378,9 @@ $isHolder = Session::get('IS_HOLDER');
                     origForm = $form.serialize();
                     origForm = origForm.replace(/select-year\=|[0-9]/gi,'');
                     origForm = origForm.replace(/select-month\=|[0-9]/gi,'');
+
+                    book_no = response.json.book_no;
+                    //console.log("BOOK_NO:", response.json.book_no);
                 }
             });
 
@@ -407,7 +418,7 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: 'book_no', className: "text-center"},
                     {data: 'datetime', className: "text-center"},
                     {data: 'ship_name', className: "text-center"},
-                    {data: 'content', className: "text-center"},
+                    {data: 'content', className: ""},
                     {data: 'currency', className: "text-center"},
                     {data: 'credit', className: "text-center"},
                     {data: 'debit', className: "text-center"},
@@ -421,7 +432,8 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(0).attr('class', 'text-center disable-td');
                     $('td', row).eq(1).attr('class', 'text-center disable-td');
                     $('td', row).eq(2).attr('class', 'text-center disable-td');
-                    $('td', row).eq(3).attr('class', 'text-center disable-td');
+                    $('td', row).eq(3).attr('class', 'disable-td');
+                    $('td', row).eq(3).attr('style', 'padding-left:2px!important;');
                     $('td', row).eq(4).attr('class', 'text-center disable-td');
                     $('td', row).eq(5).attr('class', 'text-center');
                     $('td', row).eq(6).attr('class', 'text-center');
@@ -437,12 +449,14 @@ $isHolder = Session::get('IS_HOLDER');
                     if (data['currency']== 0)
                     {
                         $('td', row).eq(4).html('').append('¥');
+                        $('td', row).eq(4).attr('style','color:red');
                         sum_credit_R += data['credit'];
                         sum_debit_R += data['debit'];
                     }
                     else
                     {
                         $('td', row).eq(4).html('').append('$');
+                        $('td', row).eq(4).attr('style','color:#026fcd!important');
                         sum_credit_D += data['credit'];
                         sum_debit_D += data['debit'];
                     }
@@ -551,7 +565,20 @@ $isHolder = Session::get('IS_HOLDER');
                 $('#btnCancel').attr('disabled', true);
             }
         }
+
+        function clearList() {
+            $('#keep-list-bookno').val('');
+            $('#keep-list-datetime').val('');
+            $('#pay_type').val(0);
+            $("#account_type").val($("#account_type option:first").val());
+            
+            $('#table-keep-body').html('');
+            setState(false);
+        }
         function changeYear(type) {
+            
+            clearList();
+            
             if (type == 0)
             {
                 year = $("#select-year option:selected").val();
@@ -650,7 +677,7 @@ $isHolder = Session::get('IS_HOLDER');
                     
                     row_html = "<tr data-ref='" + i + "' ship-no='" + book_list.rows[i].childNodes[0].childNodes[2].value + "'";
                     row_html += " report-id='" + book_list.rows[i].childNodes[0].childNodes[1].value + "'><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[1].innerText + "</td><td class='text-center disable-td no-padding'>"+ listBook[i].obj + "</td><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[5].innerText + "</td><td class='text-center disable-td no-padding'>" + book_list.rows[i].childNodes[6].innerText + "</td><td>";
-                    row_html += '<input type="text" class="form-control" name="Keep_Remark[]" value="' + book_list.rows[i].childNodes[7].childNodes[0].value + '" style="width: 100%;text-align: center" autocomplete="off">';
+                    row_html += '<input type="text" class="form-control" name="Keep_Remark[]" value="' + book_list.rows[i].childNodes[7].childNodes[0].value + '" style="width: 100%;" autocomplete="off">';
                     row_html += "</td><td class='text-center disable-td no-padding'>" + listBook[i].currency + "</td><td>";
                     if (credit >= 0)
                         row_html += '<input type="text" class="form-control style-blue-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
@@ -790,13 +817,7 @@ $isHolder = Session::get('IS_HOLDER');
                     return;
                 }
                 else {
-                    $('#keep-list-bookno').val('');
-                    $('#keep-list-datetime').val('');
-                    $('#pay_type').val(0);
-                    $('#account_type').val(0);
-                    
-                    $('#table-keep-body').html('');
-                    setState(false);
+                    clearList();
                 }
             });
         })
