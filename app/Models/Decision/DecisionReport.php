@@ -34,7 +34,7 @@ class DecisionReport extends Model {
 	public function getForSavedBookDatatable($params, $year, $month) {
 		$selector = ReportSave::where('year', $year)->where('month', $month);
         $recordsFiltered = $selector->count();
-		$records = $selector->orderBy('id', 'asc')->get();
+		$records = $selector->orderBy('report_id', 'asc')->get();
 		$newArr = [];
         $newindex = 0;
 		foreach($records as $index => $record) {
@@ -80,7 +80,7 @@ class DecisionReport extends Model {
 
 		///////////////// Need to Optimize
 		$selector = DB::table($this->table)
-			->orderBy('update_at', 'asc')
+			->orderBy('report_id', 'asc')
 			->where('state', 1);
 
 		$next_year = $year;
@@ -615,7 +615,7 @@ class DecisionReport extends Model {
         }
 
 		$selector = DB::table($this->table)
-			->orderBy('update_at', 'asc')
+			->orderBy('report_id', 'asc')
 			->where('state', 1);
 
 		$next_year = $year;

@@ -621,9 +621,18 @@ $isHolder = Session::get('IS_HOLDER');
 
         var currency = "";
         var datetime = "";
-        var rate = 6.5;
-        var pay_type = 0;
-        var account_type = 0;
+        var rate = window.localStorage.getItem("rate");
+        if (rate == null || rate == undefined) rate = 6.5;
+        else $('#keep_rate').val(rate);
+
+        var pay_type = window.localStorage.getItem("pay_type");
+        if (pay_type == null || pay_type == undefined) pay_type = 0;
+        else $('#pay_type').val(pay_type);
+
+        var account_type = window.localStorage.getItem("account_type");
+        if (account_type == null || account_type == undefined) account_type = 0;
+        else $('#account_type').val(account_type);
+
         var account_name = "";
         var keepContent = "";
         $('#btnKeep').on('click', function() {
@@ -765,6 +774,10 @@ $isHolder = Session::get('IS_HOLDER');
                     return;
                 }
                 else {
+                    window.localStorage.setItem("rate",rate);
+                    window.localStorage.setItem("pay_type",pay_type);
+                    window.localStorage.setItem("account_type",account_type);
+
                     var book_list = document.getElementById('list-book-body');
                     var keep_list = document.getElementById('table-keep-body');
                     
