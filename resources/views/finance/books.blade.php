@@ -17,6 +17,18 @@ $isHolder = Session::get('IS_HOLDER');
                 background-color: #e0edff;
                 cursor: pointer;
             }
+
+            .cost-item-odd {
+                background-color: #efefef;
+            }
+
+            .cost-item-even:hover {
+                background-color: #ffe3e082;
+            }
+
+            .cost-item-odd:hover {
+                background-color: #ffe3e082;
+            }
         </style>
         <div class="page-content">
             <div class="space-4"></div>
@@ -368,9 +380,9 @@ $isHolder = Session::get('IS_HOLDER');
                         $('td', row).eq(9).html('<input type="text" class="form-control style-blue-input" name="credit[]" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                     }
                     var link_html = '<label><a href="' + data['attachment'] + '" target="_blank" class="' + (data['attachment']==null ? 'visible-hidden':'') + '"><img src="' + "{{ cAsset('assets/images/document.png') }}" + '"' + ' width="15" height="15" style="cursor: pointer;"></a></label>';
-                    $('td', row).eq(11).html('<input type="text" class="form-control style-blue-input" readonly name="rate[]" value="' + data['rate'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(11).html('<input type="text" class="form-control" readonly name="rate[]" value="' + data['rate'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                     $('td', row).eq(12).html('').append(link_html);
-                    $('td', row).eq(7).html('<input type="text" class="form-control style-blue-input" readonly name="report_remark[]" value="' + data['content'] + '" style="width: 100%;" autocomplete="off">');
+                    $('td', row).eq(7).html('<input type="text" class="form-control" readonly name="report_remark[]" value="' + data['content'] + '" style="width: 100%;" autocomplete="off">');
                 },
                 drawCallback: function (response) {
                     listBook = response.json.data;
@@ -429,18 +441,24 @@ $isHolder = Session::get('IS_HOLDER');
                 ],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
-                    $('td', row).eq(0).attr('class', 'text-center disable-td');
-                    $('td', row).eq(1).attr('class', 'text-center disable-td');
-                    $('td', row).eq(2).attr('class', 'text-center disable-td');
-                    $('td', row).eq(3).attr('class', 'disable-td');
+
+                    if ((index%2) == 0)
+                        $(row).attr('class', 'cost-item-even');
+                    else
+                        $(row).attr('class', 'cost-item-odd');
+                    
+                    $('td', row).eq(0).attr('class', 'text-center');
+                    $('td', row).eq(1).attr('class', 'text-center');
+                    $('td', row).eq(2).attr('class', 'text-center');
+                    $('td', row).eq(3).attr('class', '');
                     $('td', row).eq(3).attr('style', 'padding-left:2px!important;');
-                    $('td', row).eq(4).attr('class', 'text-center disable-td');
+                    $('td', row).eq(4).attr('class', 'text-center');
                     $('td', row).eq(5).attr('class', 'text-center');
                     $('td', row).eq(6).attr('class', 'text-center');
-                    $('td', row).eq(7).attr('class', 'text-center disable-td');
-                    $('td', row).eq(8).attr('class', 'text-center disable-td');
-                    $('td', row).eq(9).attr('class', 'text-center disable-td');
-                    $('td', row).eq(10).attr('class', 'text-center disable-td');
+                    $('td', row).eq(7).attr('class', 'text-center');
+                    $('td', row).eq(8).attr('class', 'text-center');
+                    $('td', row).eq(9).attr('class', 'text-center');
+                    $('td', row).eq(10).attr('class', 'text-center');
 
                     $('td', row).eq(8).html('').append(PayTypeData[data['pay_type']]);
                     $('td', row).eq(9).html('').append(data['account_name']);
@@ -461,18 +479,18 @@ $isHolder = Session::get('IS_HOLDER');
                         sum_debit_D += data['debit'];
                     }
                     if (data['credit'] > 0)
-                        $('td', row).eq(5).html('<input type="text" class="form-control style-blue-input" readonly value="' + (data['credit']==null?'':prettyValue(data['credit'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        $('td', row).eq(5).html('<input type="text" class="form-control style-noncolor-input style-blue-input" readonly value="' + (data['credit']==null?'':prettyValue(data['credit'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                     else if (data['credit'] < 0)
-                        $('td', row).eq(5).html('<input type="text" class="form-control style-red-input" readonly value="' + (data['credit']==null?'':prettyValue(data['credit'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        $('td', row).eq(5).html('<input type="text" class="form-control style-noncolor-input style-red-input" readonly value="' + (data['credit']==null?'':prettyValue(data['credit'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                     else
-                        $('td', row).eq(5).html('<input type="text" class="form-control style-gray-input" readonly value="' + (data['credit']==null?'':prettyValue(data['credit'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        $('td', row).eq(5).html('<input type="text" class="form-control style-noncolor-input style-gray-input" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
 
                     if (data['debit'] > 0)
-                        $('td', row).eq(6).html('<input type="text" class="form-control style-blue-input" readonly value="' + (data['debit']==null?'':prettyValue(data['debit'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        $('td', row).eq(6).html('<input type="text" class="form-control style-noncolor-input" readonly value="' + (data['debit']==null?'':prettyValue(data['debit'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                     else if (data['debit'] < 0)
-                        $('td', row).eq(6).html('<input type="text" class="form-control style-red-input" readonly value="' + (data['debit']==null?'':prettyValue(data['debit'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        $('td', row).eq(6).html('<input type="text" class="form-control style-noncolor-input style-red-input" readonly value="' + (data['debit']==null?'':prettyValue(data['debit'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
                     else
-                        $('td', row).eq(6).html('<input type="text" class="form-control style-gray-input" readonly value="' + (data['debit']==null?'':prettyValue(data['debit'])) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
+                        $('td', row).eq(6).html('<input type="text" class="form-control style-noncolor-input style-gray-input" readonly value="" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">');
 
                     var link_html = '<label><a href="' + data['attachment'] + '" target="_blank" class="' + (data['attachment']==null ? 'visible-hidden':'') + '"><img src="' + "{{ cAsset('assets/images/document.png') }}" + '"' + ' width="15" height="15" style="cursor: pointer;"></a></label>';
                     $('td', row).eq(10).html('').append(link_html);
@@ -486,18 +504,18 @@ $isHolder = Session::get('IS_HOLDER');
                     }
                     var report_row = '<tr class="tr-report" style="height:20px;border:1px solid black;">';
                     report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">合计 (RMB)</td><td class="sub-small-header style-normal-header"></td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (sum_credit_R >= 0 ? 'style-blue-input':'style-red-input') + '">¥ ' + prettyValue(sum_credit_R) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (sum_debit_R >= 0 ? 'style-blue-input':'style-red-input') + '">¥ ' + prettyValue(sum_debit_R) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + ((sum_credit_R - sum_debit_R) >= 0 ? 'style-blue-input':'style-red-input') + '">¥ ' + prettyValue(sum_credit_R - sum_debit_R) + '</td>';
-                    report_row += '<td class="sub-small-header" colspan="2"></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right style-blue-input">¥ ' + prettyValue(sum_credit_R) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right">¥ ' + prettyValue(sum_debit_R) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" colspan="2" class="style-normal-header sub-small-header text-right ' + ((sum_credit_R - sum_debit_R) >= 0 ? 'style-black-input':'style-red-input') + '">¥ ' + prettyValue(sum_credit_R - sum_debit_R) + '</td>';
+                    report_row += '<td class="sub-small-header" colspan="1"></td>';
                     report_row += '<td class="sub-small-header"></td>';
                     report_row += '</tr>';
                     report_row += '<tr class="tr-report" style="height:20px;border:1px solid black;">';
                     report_row += '<td class="sub-small-header"></td><td class="sub-small-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">合计 (USD)</td><td class="sub-small-header style-normal-header"></td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (sum_credit_D >= 0 ? 'style-blue-input':'style-red-input') + '">$ ' + prettyValue(sum_credit_D) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (sum_debit_D >= 0 ? 'style-blue-input':'style-red-input') + '">$ ' + prettyValue(sum_debit_D) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + ((sum_credit_D - sum_debit_D) >= 0 ? 'style-blue-input':'style-red-input') + '">$ ' + prettyValue(sum_credit_D - sum_debit_D) + '</td>';
-                    report_row += '<td class="sub-small-header" colspan="2"></td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right style-blue-input">$ ' + prettyValue(sum_credit_D) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header sub-small-header text-right">$ ' + prettyValue(sum_debit_D) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" colspan="2" class="style-normal-header sub-small-header text-right ' + ((sum_credit_D - sum_debit_D) >= 0 ? 'style-black-input':'style-red-input') + '">$ ' + prettyValue(sum_credit_D - sum_debit_D) + '</td>';
+                    report_row += '<td class="sub-small-header" colspan="1"></td>';
                     report_row += '<td class="sub-small-header"></td>';
 
                     report_row += '</tr>';
@@ -694,7 +712,7 @@ $isHolder = Session::get('IS_HOLDER');
                         row_html += '<input type="text" class="form-control style-red-input keep_credit" name="Keep_credit[]" value="' + credit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td><td>";
 
                     if (debit >= 0)
-                        row_html += '<input type="text" class="form-control style-blue-input keep_debit" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
+                        row_html += '<input type="text" class="form-control" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
                     else
                         row_html += '<input type="text" class="form-control style-red-input keep_debit" name="Keep_debit[]" value="' + debit_text + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off">' + "</td>";
                     row_html += "</tr>";
@@ -737,7 +755,7 @@ $isHolder = Session::get('IS_HOLDER');
             $('#table-keep-body').append(report_html);
             report_html = "<tr><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header disable-td'></td><td class='sub-small-header style-normal-header text-center'>记账金额</td><td class='style-normal-header sub-small-header text-center disable-td'>" + currency + "</td>";
             report_html += '<td><input type="text" class="form-control ' + (sum_credit>=0?'style-blue-input':'style-red-input') + '" name="sum_credit" value="' + (sum_credit==0?"":prettyValue(sum_credit)) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
-            report_html += '<td><input type="text" class="form-control ' + (sum_debit>=0?'style-blue-input':'style-red-input') + '" name="sum_debit" value="' + (sum_debit==0?"":prettyValue(sum_debit)) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
+            report_html += '<td><input type="text" class="form-control style-black-input" name="sum_debit" value="' + (sum_debit==0?"":prettyValue(sum_debit)) + '" style="width: 100%;text-align:right;margin-right:5px;" autocomplete="off"></td>';
             report_html += "</tr>";
             $('#table-keep-body').append(report_html);
             $('#keep-list-datetime').val(datetime);

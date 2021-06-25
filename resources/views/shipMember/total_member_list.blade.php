@@ -216,6 +216,8 @@ $isHolder = Session::get('IS_HOLDER');
                     
                     if((index%4)==2 || (index%4)==3)
                         $(row).attr('class', 'member-item-odd');
+                    else
+                    $(row).attr('class', 'member-item-even');
                     
                     //$('td', row).eq(0).html('').append((pageInfo.page * pageInfo.length + index + 1));
                     $('td', row).eq(0).html(index/2+1);

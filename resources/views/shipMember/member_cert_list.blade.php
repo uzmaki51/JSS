@@ -9,6 +9,17 @@ $isHolder = Session::get('IS_HOLDER');
 @section('content')
     <div class="main-content">
         <style>
+            .cost-item-odd {
+                background-color: #efefef;
+            }
+
+            .cost-item-even:hover {
+                background-color: #ffe3e082;
+            }
+
+            .cost-item-odd:hover {
+                background-color: #ffe3e082;
+            }
         </style>
         <div class="page-content">
             <div class="page-header">
@@ -51,7 +62,7 @@ $isHolder = Session::get('IS_HOLDER');
                 <div id="item-manage-dialog" class="hide"></div>
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <div>
-                    <table id="table-shipmember-list" class="custom-table-striped">
+                    <table id="table-shipmember-list" class="">
                         <thead>
                         <tr class="black br-hblue" style="height:45px;">
                             <th class="text-center style-header" style="width: 3%;"><span>No</span></th>
@@ -139,7 +150,12 @@ $isHolder = Session::get('IS_HOLDER');
                 rowsGroup: [0, 1, 2],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
-                    $(row).attr('class', 'member-item');
+
+                    if ((data['no']%2) == 0)
+                        $(row).attr('class', 'cost-item-even member-item');
+                    else
+                        $(row).attr('class', 'cost-item-odd member-item');
+                        
                     var cert_index = data['index'];
                     $('td', row).eq(3).html('').append(data['count']);
                     $('td', row).eq(4).attr('class', 'text-center style-bold-italic');

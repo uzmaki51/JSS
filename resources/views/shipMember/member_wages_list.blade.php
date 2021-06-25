@@ -14,8 +14,20 @@ $isHolder = Session::get('IS_HOLDER');
                 background-color: #ffffff;
             }
             .list-body:hover {
-                background-color: #e0edff;
+                background-color: #efefef;
                 cursor: pointer;
+            }
+
+            .cost-item-odd {
+                background-color: #efefef;
+            }
+
+            .cost-item-even:hover {
+                background-color: #ffe3e082;
+            }
+
+            .cost-item-odd:hover {
+                background-color: #ffe3e082;
             }
         </style>
         <div class="page-content">
@@ -181,6 +193,10 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
+                    if ((index%2) == 0)
+                        $(row).attr('class', 'cost-item-even');
+                    else
+                        $(row).attr('class', 'cost-item-odd');
                     $('td', row).eq(1).html(prettyValue(data['totalR']));
                     $('td', row).eq(2).html(prettyValue(data['totalD']));
                     if (index == 12) {
@@ -336,6 +352,10 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
+                    if ((index%2) == 0)
+                        $(row).attr('class', 'cost-item-even');
+                    else
+                        $(row).attr('class', 'cost-item-odd');
                     //$(row).attr('data-index', data['no']);
                     if (index == 12) {
                         $('td', row).eq(0).attr('class', 'sub-small-header style-normal-header text-center');

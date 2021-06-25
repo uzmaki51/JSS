@@ -12,6 +12,18 @@ $isHolder = Session::get('IS_HOLDER');
             .backup-member-item {
                 height:30px;
             }
+
+            .cost-item-odd {
+                background-color: #efefef;
+            }
+
+            .cost-item-even:hover {
+                background-color: #ffe3e082;
+            }
+
+            .cost-item-odd:hover {
+                background-color: #ffe3e082;
+            }
         </style>
         <div class="page-content">
             <div class="page-header">
@@ -88,8 +100,12 @@ $isHolder = Session::get('IS_HOLDER');
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
+                    if ((index%2) == 0)
+                        $(row).attr('class', 'backup-member-item cost-item-even');
+                    else
+                        $(row).attr('class', 'backup-member-item cost-item-odd');
+                        
                     var pageInfo = listTable.page.info();
-                    $(row).attr('class', 'backup-member-item');
                     $('td', row).eq(0).html(index+1);
                     $('td', row).eq(4).html('').append('<div class="action-buttons"><a class="blue" href="javascript:open_backup_folder(' + "'" + data['filepath'].replace(/\\/g,"/") + "','" + data['filename'] + "'" + ')"' + ' title="File Path"><i class="icon-book"></i></a></div>');
                     $('td', row).eq(5).html('').append('<div class="action-buttons"><a class="red" href="javascript:restore(' + "'" + data['filepath'].replace(/\\/g,"/") + "','" + data['filename'] + "'" + ')"' + ' title="Restore"><i class="icon-plus"></i></a></div>');

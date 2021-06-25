@@ -10,6 +10,16 @@ $isHolder = Session::get('IS_HOLDER');
 @section('content')
     <div class="main-content">
         <style>
+            .cost-item-odd {
+            }
+
+            .cost-item-even:hover {
+                background-color: #ffe3e082;
+            }
+
+            .cost-item-odd:hover {
+                background-color: #ffe3e082;
+            }
         </style>
         <div class="page-content">
         <form id="wage-form" action="updateWageSendInfo" role="form" method="POST" enctype="multipart/form-data">
@@ -154,7 +164,11 @@ $isHolder = Session::get('IS_HOLDER');
                 ],
                 createdRow: function (row, data, index) {
                     var pageInfo = listTable.page.info();
-                    $(row).attr('class', 'wage-item disable-tr');
+                    //$(row).attr('class', 'wage-item disable-tr');
+                    if ((index%2) == 0)
+                        $(row).attr('class', 'wage-item cost-item-even');
+                    else
+                        $(row).attr('class', 'wage-item cost-item-odd');
                     $(row).attr('data-index', data['no']);
                     $('td', row).eq(0).attr('class', 'text-center disable-td add-no');
                     $('td', row).eq(1).attr('class', 'text-center disable-td');
@@ -167,16 +181,16 @@ $isHolder = Session::get('IS_HOLDER');
                     $('td', row).eq(1).html('<label>' + data['name'] + '</label><input type="hidden" name="Names[]" value="' + data['name'] + '">');
                     $('td', row).eq(2).html('<label>' + data['rank'] + '</label><input type="hidden" name="Rank[]" value="' + data['rank'] + '">');
                     $('td', row).eq(3).html('<label>' + data['cashR'] + '</label><input type="hidden" name="CashR[]" value="' + data['cashR'] + '">');
-                    $('td', row).eq(4).html('<input type="text" class="form-control add-sendR" name="SendR[]" value="' + data['sendR'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(5).html('<input type="text" class="form-control add-sendD" name="SendD[]" value="' + data['sendD'] + '" style="width: 100%;text-align: center" autocomplete="off">');
-                    $('td', row).eq(6).html('<div class="input-group"><input class="form-control add-trans-date date-picker" name="PurchDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + (data['purchdate'] == null ? "": data['purchdate'].substring(0,10)) + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
+                    $('td', row).eq(4).html('<input type="text" class="form-control style-noncolor-input add-sendR" name="SendR[]" value="' + data['sendR'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(5).html('<input type="text" class="form-control style-noncolor-input add-sendD" name="SendD[]" value="' + data['sendD'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(6).html('<div class="input-group"><input class="form-control style-noncolor-input add-trans-date date-picker" name="PurchDate[]" type="text" data-date-format="yyyy-mm-dd" value="' + (data['purchdate'] == null ? "": data['purchdate'].substring(0,10)) + '"><span class="input-group-addon"><i class="icon-calendar "></i></span></div>');
                     var bank_info = '<select class="form-control" name="SendBank[]">';
                     for (var i=0;i<BankInfo.length;i++)
                         bank_info += '<option value="'+i+'"' + ((i==data['sendbank'])?'selected':'') + '>'+BankInfo[i]+'</option>';
                     bank_info += '</select>';
                     $('td', row).eq(7).html(bank_info);
                     $('td', row).eq(8).html('<label>' + data['bankinfo'] + '</label><input type="hidden" name="BankInfo[]" value="' + data['bankinfo'] + '">');
-                    $('td', row).eq(9).html('<input type="text" class="form-control" name="Remark[]" value="' + data['remark'] + '" style="width: 100%;text-align: center" autocomplete="off">');
+                    $('td', row).eq(9).html('<input type="text" class="form-control style-noncolor-input" name="Remark[]" value="' + data['remark'] + '" style="width: 100%;text-align: center" autocomplete="off">');
                 },
                 drawCallback: function (response) {
                     original = response.json.original;
