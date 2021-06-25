@@ -130,8 +130,7 @@ class DecisionController extends Controller
 					}
 
 				}
-				$date = $params['report_date'];
-				$date = $params['report_date'];
+
 			}
 		} else {
 			$reportTbl['report_id'] = 0;
