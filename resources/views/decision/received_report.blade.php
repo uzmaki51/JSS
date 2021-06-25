@@ -977,7 +977,7 @@
 
                     $('td', row).eq(8).attr('style', 'padding-right:5px!important;')
 
-                    if(data['attachment']  == 1) {
+                    if(data['attachment']  == 1 || isAdmin == 1) {
                         $('td', row).eq(11).html('').append(
                             '<div class="report-attachment">' + 
                             '<a href="' + data['attach_link'] + '" target="_blank">' +
@@ -986,6 +986,7 @@
                             '<img src="{{ cAsset('assets/images/cancel.png') }}" onclick="deleteAttach(' + data['id'] + ')" width="10" height="10"></div>'
                         );
                     } else {
+                        
                         $('td', row).eq(11).html('').append(
                             '<label for="upload_' + data['id'] + '"><img src="{{ cAsset('assets/images/paper-clip.png') }}" width="15" height="15" style="margin: 2px 4px"></label><input type="file" id="upload_' + data['id'] + '" class="d-none" onchange="fileUpload(this, '+ data['id'] +', \'' + data['flowid'] + '\')" class="form-control attach-upload">'
                         );
