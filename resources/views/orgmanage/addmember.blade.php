@@ -21,7 +21,7 @@ $isHolder = Session::get('IS_HOLDER');
 
             .add-td-label {
                 font-size:14px!important;
-                background-color:#c9dfff !important;
+                background-color:#d9f8fb !important;
                 text-align: left!important;
                 padding:8px 10px!important;
             }
@@ -256,10 +256,10 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="head-fix-div col-md-12" style="height:300px;">
                                     <table class="table-bordered pos-table">
                                         <thead>
-                                        <tr style="background-color: #c9dfff;height:18px;">
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:10%">OrderNo</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:80%">Name</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
+                                        <tr style="background-color: #d9f8fb;height:18px;">
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:10%">OrderNo</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:80%">Name</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;"></th>
                                         </tr>
                                         </thead>
                                         <tbody id="pos-table">

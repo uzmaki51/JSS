@@ -11,7 +11,7 @@
             text-align: center;
         }
         table thead tr th {
-            background: #c9dfff;
+            background: #d9f8fb;
         }
     </style>
     <table style="border: 1px solid #333333;">

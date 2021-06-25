@@ -351,7 +351,7 @@
                         {
                             if (j == 0) {
                                 for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
-                                    tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                                    tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                                 }
                                 tab.rows[j].childNodes[24].remove();
                                 tab.rows[j].childNodes[0].remove();

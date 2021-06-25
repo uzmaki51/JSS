@@ -174,10 +174,10 @@ $shipList = Session::get('shipList');
                                 <div class="head-fix-div col-md-12" style="height:300px;">
                                     <table class="table-bordered rank-table">
                                         <thead>
-                                        <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:10%">OrderNo</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;">Name of ShipType</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:10%"></th>
+                                        <tr class="rank-tr" style="background-color: #d9f8fb;height:18px;">
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:10%">OrderNo</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;">Name of ShipType</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:10%"></th>
                                         </tr>
                                         </thead>
                                         <tbody id="shiptype-table">

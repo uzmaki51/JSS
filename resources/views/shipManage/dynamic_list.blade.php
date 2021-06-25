@@ -988,7 +988,7 @@
                                 if (tab.rows[j].classList.contains('d-none')) continue;
                                 if(j==0 || j == 1) {
                                     for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
-                                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                                     }
                                     tab.rows[j].childNodes[10].style.width = '200px';
                                     tab.rows[j].childNodes[2].style.width = '100px';

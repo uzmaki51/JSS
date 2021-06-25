@@ -30,7 +30,7 @@ $isHolder = Session::get('IS_HOLDER');
             .add-td-label {
                 font-size:12px!important;
                 font-weight:bold!important;
-                background-color:#c9dfff !important;
+                background-color:#d9f8fb !important;
                 text-align: left!important;
                 padding-left:5px!important;
             }

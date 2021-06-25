@@ -378,12 +378,12 @@
                                 var j;
                                 for(j=0;j<tab.rows.length-1;j++)
                                 {
-                                    tab.rows[j].childNodes[0].style.backgroundColor = '#c9dfff';
-                                    tab.rows[j].childNodes[4].style.backgroundColor = '#c9dfff';
+                                    tab.rows[j].childNodes[0].style.backgroundColor = '#d9f8fb';
+                                    tab.rows[j].childNodes[4].style.backgroundColor = '#d9f8fb';
                                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                                 }
-                                tab.rows[j].childNodes[0].style.backgroundColor = '#c9dfff';
-                                tab.rows[j].childNodes[6].style.backgroundColor = '#c9dfff';
+                                tab.rows[j].childNodes[0].style.backgroundColor = '#d9f8fb';
+                                tab.rows[j].childNodes[6].style.backgroundColor = '#d9f8fb';
                                 tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                                 tab_text=tab_text+"</table>";
 
@@ -395,7 +395,7 @@
                                 {
                                     if (j==0) {
                                         for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
-                                            tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                                            tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                                         }
                                     }
                                     else

@@ -993,14 +993,14 @@ $ships = Session::get('shipList');
                             tab.rows[j].childNodes[i].style.width = '1500px';
                         else
                             tab.rows[j].childNodes[i].style.width = '100px';
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab.rows[j].childNodes[0].style.width = '80px';
                     tab.rows[j].childNodes[1].style.width = '80px';
                 }
                 else if (j == 1) {
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                 }
                 else if (j == (tab.rows.length - 1))
@@ -1038,7 +1038,7 @@ $ships = Session::get('shipList');
                 if (j == 0) {
                     for (var i=1; i<tab.rows[j].childElementCount*2;i+=2) {
                         tab.rows[j].childNodes[i].style.width = '100px';
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab.rows[j].childNodes[5].style.width = '200px';
                     tab.rows[j].childNodes[9].style.width = '300px';
@@ -1060,7 +1060,7 @@ $ships = Session::get('shipList');
                 if (j == 0) {
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
                         tab.rows[j].childNodes[i].style.width = '100px';
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab.rows[j].childNodes[2].style.width = '400px';
                     tab.rows[j].childNodes[3].style.width = '60px';

@@ -577,7 +577,7 @@
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
                         if (i==0||i==1||i==2||i==9||i==10)
                             tab.rows[j].childNodes[i].style.width = '100px';
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab.rows[j].childNodes[13].remove();
                 }

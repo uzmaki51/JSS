@@ -1231,14 +1231,14 @@ $ships = Session::get('shipList');
             {
                 if (j == 0) {
                     for (var i=1; i<tab.rows[j].childElementCount*2;i+=2) {
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab.rows[j].childNodes[1].style.width = '80px';
                 }
                 if (j == 1) {
                     if (index == 2) {
                         for (var i=1; i<tab.rows[j].childElementCount*2;i+=2) {
-                            tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                            tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                         }
                     }
                 }

@@ -795,7 +795,7 @@ $isHolder = Session::get('IS_HOLDER');
                 if (j == 0) {
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
                         tab.rows[j].childNodes[i].style.width = '100px';
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab.rows[j].childNodes[1].style.width = '140px';
                     tab.rows[j].childNodes[2].style.width = '60px';

@@ -180,12 +180,12 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="head-fix-div col-md-12" style="height:300px;">
                                     <table class="table-bordered rank-table">
                                         <thead>
-                                        <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:10%">OrderNo</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:50%">Rank</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:15%">Rank abb.</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;">Description</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
+                                        <tr class="rank-tr" style="background-color: #d9f8fb;height:18px;">
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:10%">OrderNo</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:50%">Rank</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:15%">Rank abb.</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;">Description</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;"></th>
                                         </tr>
                                         </thead>
                                         <tbody id="rank-table">
@@ -241,12 +241,12 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="head-fix-div col-md-12" style="height:300px;">
                                     <table class="table-bordered rank-table">
                                         <thead>
-                                        <tr style="background-color: #c9dfff;height:18px;">
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:10%">OrderNo</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:50%">Capacity</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:15%">STCW</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;">Description</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
+                                        <tr style="background-color: #d9f8fb;height:18px;">
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:10%">OrderNo</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:50%">Capacity</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:15%">STCW</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;">Description</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;"></th>
                                         </tr>
                                         </thead>
                                         <tbody id="capacity-table">
@@ -283,10 +283,10 @@ $isHolder = Session::get('IS_HOLDER');
                                 <div class="head-fix-div col-md-12" style="height:300px;">
                                     <table class="table-bordered rank-table">
                                         <thead>
-                                        <tr class="rank-tr" style="background-color: #c9dfff;height:18px;">
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:45%">Port Name</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;width:45%">Country Code</th>
-                                            <th class="text-center sub-header style-bold-italic" style="background-color: #c9dfff;"></th>
+                                        <tr class="rank-tr" style="background-color: #d9f8fb;height:18px;">
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:45%">Port Name</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:45%">Country Code</th>
+                                            <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;"></th>
                                         </tr>
                                         </thead>
                                         <tbody id="port-table">

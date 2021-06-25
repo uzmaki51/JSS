@@ -883,7 +883,7 @@
             {
                 if (j==0 || j==8 || j==14 || j==19 || j==25 || j==38) {
                     for (var i=0; i<tab.rows[j].childElementCount*2;i+=2) {
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                 }
                 else

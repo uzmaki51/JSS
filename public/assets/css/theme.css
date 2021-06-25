@@ -290,7 +290,7 @@ td > a {
 }
 
 .br-hblue{
-    background: #c9dfff !important;
+    background: #d9f8fb !important;
 }
 
 .br-lblue{
@@ -415,7 +415,7 @@ table th {
     padding-top: 2px;
     padding-bottom: 2px;
     text-align: left;
-    background-color: #c9dfff;
+    background-color: #d9f8fb;
     color: black;
     z-index: 100;
 }

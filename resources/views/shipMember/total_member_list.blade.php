@@ -340,7 +340,7 @@ $isHolder = Session::get('IS_HOLDER');
                         {
                             tab.rows[j].childNodes[i].style.width = '100px';
                         }
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                 }
@@ -402,7 +402,7 @@ $isHolder = Session::get('IS_HOLDER');
                         {
                             tab.rows[j].childNodes[i].style.width = '100px';
                         }
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab_text=tab_text+"<tr style='text-align:center;vertical-align:middle;font-size:16px;'>"+tab.rows[j].innerHTML+"</tr>";
                 }

@@ -128,7 +128,7 @@ $ships = Session::get('shipList');
                                 </thead>
                                 <tbody class="" id="">
                                 <tr>
-                                    <td class="text-center style-normal-header" style="background:#c9dfff"><span>年份</span></td>
+                                    <td class="text-center style-normal-header" style="background:#d9f8fb"><span>年份</span></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                     <td class="disable-td"><input type="text" name="output[]" class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
@@ -139,7 +139,7 @@ $ships = Session::get('shipList');
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input3'] }}" style="width: 100%"></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center style-normal-header" style="background:#c9dfff"><span>月份</span></td>
+                                    <td class="text-center style-normal-header" style="background:#d9f8fb"><span>月份</span></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input4'] }}" style="width: 100%"></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input5'] }}" style="width: 100%"></td>
                                     <td><input type="text" name="input[]"  class="form-control disabled-td text-center" value="{{ $costs['input6'] }}" style="width: 100%"></td>
@@ -150,7 +150,7 @@ $ships = Session::get('shipList');
                                     <td class="disable-td"><input type="text" name="output[]"  class="form-control disabled-td text-center" value="" style="background:#ececec;width: 100%" readonly></td>
                                 </tr>
                                 <tr style="height:30px;border:2px solid black;">
-                                    <td class="text-center style-normal-header" style="background:#c9dfff"><span>日成本</span></td>
+                                    <td class="text-center style-normal-header" style="background:#d9f8fb"><span>日成本</span></td>
                                     <td colspan="8" class="sub-small-header style-normal-header text-center" id="total-sum">333</td>
                                 </tbody>
                             </table>
@@ -591,14 +591,14 @@ $ships = Session::get('shipList');
                             tab.rows[j].childNodes[i].style.width = '1500px';
                         else
                             tab.rows[j].childNodes[i].style.width = '100px';
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                     tab.rows[j].childNodes[0].style.width = '80px';
                     tab.rows[j].childNodes[1].style.width = '80px';
                 }
                 else if (j == 1) {
                     for (var i=0; i<tab.rows[j].childElementCount;i++) {
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                 }
                 else if (j >= (tab.rows.length - 3))
@@ -621,12 +621,12 @@ $ships = Session::get('shipList');
             {
                 if (j == 0) {
                     for (var i=1; i<tab.rows[j].childElementCount*2;i+=2) {
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                 }
                 else if (j == 1) {
                     for (var i=1; i<tab.rows[j].childElementCount*2;i+=2) {
-                        tab.rows[j].childNodes[i].style.backgroundColor = '#c9dfff';
+                        tab.rows[j].childNodes[i].style.backgroundColor = '#d9f8fb';
                     }
                 }
                 else if (j == (tab.rows.length - 1))
