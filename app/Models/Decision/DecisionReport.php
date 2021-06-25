@@ -34,7 +34,7 @@ class DecisionReport extends Model {
 	public function getForSavedBookDatatable($params, $year, $month) {
 		$selector = ReportSave::where('year', $year)->where('month', $month);
         $recordsFiltered = $selector->count();
-		$records = $selector->orderBy('id', 'asc')->get();
+		$records = $selector->orderBy('report_id', 'asc')->get();
 		$newArr = [];
         $newindex = 0;
 		foreach($records as $index => $record) {
@@ -42,7 +42,7 @@ class DecisionReport extends Model {
 			$newArr[$newindex]['flowid'] = $record->flowid;
 			$newArr[$newindex]['report_no'] = $record->report_id;
 			$newArr[$newindex]['book_no'] = $record->book_no == null ? '' : $record->book_no;
-			$newArr[$newindex]['datetime'] = $record->create_time;
+			$newArr[$newindex]['datetime'] = $record->report_date;
 
 			if ($record->obj_type == 1) {
 				$newArr[$newindex]['ship_no'] = $record->shipNo;
@@ -80,7 +80,7 @@ class DecisionReport extends Model {
 
 		///////////////// Need to Optimize
 		$selector = DB::table($this->table)
-			->orderBy('update_at', 'asc')
+			->orderBy('report_id', 'asc')
 			->where('state', 1);
 
 		$next_year = $year;
@@ -144,12 +144,14 @@ class DecisionReport extends Model {
 			$newindex ++;
 		}
 
+		$book_no = $this->getBookNo($year);
 		return [
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
             'recordsFiltered' => $newindex,
             'original' => false,
             'data' => $newArr,
+			'book_no' => $book_no,
             'error' => 0,
         ];
 	}
@@ -585,6 +587,13 @@ class DecisionReport extends Model {
         ];
 	}
 
+	public function getBookNo($year) {
+		$max_item = WaterList::where('year',$year)->select(DB::raw('MAX(book_no) as max_no'))->first();
+		$book_no = $max_item['max_no'];
+		if (($book_no == null) || ($book_no == '')) $book_no = (int)(substr($year,2) . "0000");
+
+		return $book_no;
+	}
 	public function getForBookDatatable($params) {
 		if (!isset($params['columns'][1]['search']['value']) ||
             $params['columns'][1]['search']['value'] == '' ||
@@ -606,7 +615,7 @@ class DecisionReport extends Model {
         }
 
 		$selector = DB::table($this->table)
-			->orderBy('update_at', 'asc')
+			->orderBy('report_id', 'asc')
 			->where('state', 1);
 
 		$next_year = $year;
@@ -665,12 +674,14 @@ class DecisionReport extends Model {
 			$newindex ++;
 		}
 
+		$book_no = $this->getBookNo($year);
 		return [
             'draw' => $params['draw']+0,
             'recordsTotal' => DB::table($this->table)->count(),
             'recordsFiltered' => $newindex,
             'original' => true,
             'data' => $newArr,
+			'book_no' => $book_no,
             'error' => 0,
         ];
 	}
