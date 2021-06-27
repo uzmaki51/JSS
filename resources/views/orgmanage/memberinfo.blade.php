@@ -8,7 +8,7 @@
             }
 
             .member-item-odd {
-                background-color: #efefef;
+                background-color: #f5f5f5;
             }
 
             .member-item-even:hover {

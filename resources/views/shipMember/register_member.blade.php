@@ -32,7 +32,7 @@ $isHolder = Session::get('IS_HOLDER');
                 background-color: #ffffff;
             }
             .list-body:hover {
-                background-color: #efefef;
+                background-color: #f5f5f5;
                 cursor: pointer;
             }
 

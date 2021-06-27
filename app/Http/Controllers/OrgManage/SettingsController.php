@@ -46,7 +46,7 @@ class SettingsController extends Controller
         }
         $sites = SettingsSites::select('*')->orderByRaw("CAST(orderNo AS SIGNED INTEGER) ASC")->get();
 
-        $start_year = DecisionReport::select(DB::raw('MIN(create_at) as min_date'))->first();
+        $start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = '2021-01-01';
         } else {

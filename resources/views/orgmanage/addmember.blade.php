@@ -32,7 +32,7 @@ $isHolder = Session::get('IS_HOLDER');
                 vertical-align: middle;
             }
             .cost-item-odd {
-                background-color: #efefef;
+                background-color: #f5f5f5;
             }
 
             .cost-item-even:hover {

@@ -10,7 +10,7 @@ $isHolder = Session::get('IS_HOLDER');
     <div class="main-content">
         <style>
             .member-item-odd {
-                background-color: #efefef;
+                background-color: #f5f5f5;
                 height:20px;
             }
 

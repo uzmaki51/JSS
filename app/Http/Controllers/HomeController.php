@@ -88,7 +88,11 @@ class HomeController extends Controller {
         $reportList = DecisionReport::where('state','0')->get();
         $noattachments = DecisionReport::where('attachment',0)->orWhere('attachment',null)->get();
 
-		$reportSummary = DecisionReport::groupBy('depart_id')->selectRaw('tb_unit.title,tb_decision_report.depart_id,count(depart_id) as count, count(depart_id)*100/(select count(depart_id) from tb_decision_report) as percent')
+		$report_year = $settings['report_year'];
+		$now = date('Y-m-d', strtotime("$report_year-1-1"));
+		$next = date('Y-m-d', strtotime("$report_year-12-31"));
+			
+		$reportSummary = DecisionReport::where('report_date', '>=', $now)->where('report_date', '<=', $next)->groupBy('depart_id')->selectRaw('tb_unit.title,tb_decision_report.depart_id,count(depart_id) as count, count(depart_id)*100/(select count(depart_id) from tb_decision_report) as percent')
 					->groupBy('depart_id')
 					->leftJoin('tb_unit','tb_unit.id','=','tb_decision_report.depart_id')
 					->get();

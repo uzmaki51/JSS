@@ -808,6 +808,11 @@
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {
+                    if ((index%2) == 0)
+                        $(row).attr('class', 'cost-item-even');
+                    else
+                        $(row).attr('class', 'cost-item-odd');
+                    $(row).attr('style', 'height:20px;');
                     var pageInfo = listTable.page.info();
                     $(row).attr('data-index', data['id']);
                     $(row).attr('data-status', data['state']);

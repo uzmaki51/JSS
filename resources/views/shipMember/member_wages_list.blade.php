@@ -14,12 +14,12 @@ $isHolder = Session::get('IS_HOLDER');
                 background-color: #ffffff;
             }
             .list-body:hover {
-                background-color: #efefef;
+                background-color: #f5f5f5;
                 cursor: pointer;
             }
 
             .cost-item-odd {
-                background-color: #efefef;
+                background-color: #f5f5f5;
             }
 
             .cost-item-even:hover {
