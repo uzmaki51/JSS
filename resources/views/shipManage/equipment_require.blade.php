@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="row" style="margin-top: 4px;">
-        <div class="col-lg-12 head-fix-div common-list">
+        <div class="head-fix-div common-list">
             <form action="shipReqEquipmentList" method="post" id="equipment-require-form" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">
@@ -58,7 +58,7 @@
                         <tr v-for="(item, index) in list" :class="index % 2 == 0 ? 'even' : 'odd'">
                             <td class="center no-wrap">@{{ index + 1 }}<input type="hidden" name="id[]" v-model="item.id"></td>
                             <td class="center no-wrap">
-                                <select class="form-control text-center" v-model="item.place" name="place[]">
+                                <select class="form-control text-left" v-model="item.place" name="place[]">
                                     <option value="1" data-ref="主机(M/E)">主机(M/E)</option>
                                     <option value="2" data-ref="辅机(A/E)">辅机(A/E)</option>
                                     <option value="3" data-ref="锅炉(BLR)">锅炉(BLR)</option>
@@ -87,7 +87,7 @@
                                 <my-currency-input v-model="item.inventory_vol" class="form-control text-center" name="inventory_vol[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
                             </td>
                             <td>
-                                <input class="form-control text-left" type="text" v-model="item.unit" name="unit[]">
+                                <input class="form-control text-center" type="text" v-model="item.unit" name="unit[]">
                             </td>
                             <td>
                                 <my-currency-input v-model="item.require_vol" class="form-control text-center" name="require_vol[]" v-bind:prefix="''" v-bind:fixednumber="2" v-bind:index="index"></my-currency-input>
@@ -214,7 +214,7 @@
                         $('.only-modal-show').click();
                     },
                     onChangeShip: function(e) {
-                        location.href = '/shipManage/equipment?id=' + $_this.shipId + '&type=require';
+                        location.href = '/shipManage/equipment?id=' + e.target.value + '&type=require';
                     },
                     onChangeYear: function(e) {
                         var confirmationMessage = 'It looks like you have been editing something. '
@@ -573,11 +573,6 @@
             }
         });
 
-        $(".ui-draggable").draggable({
-            helper: 'move',
-            cursor: 'move',
-            tolerance: 'fit',
-            revert: "invalid",
-            revert: false
-        });
+        $('input').attr('autocomplete', 'off');
+
     </script>

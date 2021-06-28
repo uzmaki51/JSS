@@ -249,14 +249,14 @@
                                 <table id="" style="border:0px solid black;">
                                     <thead>
                                         <td class="center decide-sub-title">船名</td>
-                                        <td class="center decide-sub-title">部门</td>
+                                        <td class="center decide-sub-title" style="width: 30px;">部门</td>
                                         <td class="center decide-sub-title">缺件</td>
                                     </thead>
                                     <tbody class="" id="equipment-body" style="">
                                         @foreach($equipment as $key => $item)
                                             <tr>
                                                 <td style="width: 35px;">{{ $item->shipName }}</td>
-                                                <td class="center" style="width: 65px;">{{ $item->place }}</td>
+                                                <td class="center">{{ $item->place }}</td>
                                                 <td>{{ $item->remark }}</td>
                                             </tr>
                                         @endforeach

@@ -37,7 +37,7 @@ $ships = Session::get('shipList');
                         </li>
                         <li class="{{ isset($type) && $type == 'require' ? 'active' : '' }}">
                             <a data-toggle="tab" href="#equipment_require_div">
-                            必修备件</span>
+                            必需备件</span>
                             </a>
                         </li>
                     </ul>
@@ -61,20 +61,20 @@ $ships = Session::get('shipList');
                                 <button type="button"  style="margin-top: 8px; margin-right: 12px;" class="close" data-dismiss="modal" aria-hidden="true">
                                     <span class="white">&times;</span>
                                 </button>
-                                船舶证书种类登记
+                                项目登记
                             </div>
                         </div>
                         <div id="modal-cert-type" class="dynamic-modal-body step-content">
                             <div class="row">
                                 <form action="saveShipReqEquipmentType" method="post" id="shipEquipForm">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                    <div class="head-fix-div col-md-12" style="height:300px;">
+                                    <div class="head-fix-div" style="height:300px;">
                                         <table class="table-bordered rank-table">
                                             <thead>
                                             <tr class="rank-tr" style="background-color: #d9f8fb;height: 5%">
-                                                <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:30%">OrderNo</th>
-                                                <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:50%">Name</th>
-                                                <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width: 15%;"></th>
+                                                <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:20%">OrderNo</th>
+                                                <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width:75%">Name</th>
+                                                <th class="text-center sub-header style-bold-italic" style="background-color: #d9f8fb;width: 5%;"></th>
                                             </tr>
                                             </thead>
                                             <tbody id="rank-table">
@@ -83,7 +83,7 @@ $ships = Session::get('shipList');
                                                     <input type="hidden" name="id[]" v-model="typeItem.id">
                                                 </td>
                                                 <td class="no-padding center">
-                                                    <input type="text" @focus="addNewRow(this)" class="form-control" name="order_no[]" v-model="typeItem.order_no" style="width: 100%;text-align: center">
+                                                    <input type="text" class="form-control" name="order_no[]" v-model="typeItem.order_no" style="width: 100%;text-align: center">
                                                 </td>
                                                 <td class="no-padding center">
                                                     <input type="text" @focus="addNewRow(this)" class="form-control" name="name[]" v-model="typeItem.name" style="width: 100%;text-align: center">
@@ -196,6 +196,7 @@ $ships = Session::get('shipList');
             methods: {
                 setValue: function() {
                     $_this.$forceUpdate();
+                    $__this.$forceUpdate();
                 },
                 keymonitor: function(e) {
                     if(e.keyCode == 9 || e.keyCode == 13)

@@ -28,7 +28,7 @@
         </div>
 
         <div class="row" style="margin-top: 4px;" id="rmb_list" v-cloak>
-            <div class="col-lg-12 head-fix-div common-list" id="rmb-ctm-table">
+            <div class="head-fix-div common-list" id="rmb-ctm-table">
                 <form action="saveCtmList" method="post" id="ctmList-form" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" value="{{ $shipId }}" name="shipId">
@@ -251,7 +251,7 @@
                         if(length == 0) {
                             _this.list.push([]);
                             _this.list[length].ctm_no  = _this.activeYear[2] + _this.activeYear[3] + '001';
-                            _this.list[length]['is_tmp']  = 1;
+                            _this.list[length]['is_tmp']  = '';
                             _this.list[length].reg_date  = this.getToday();
                             if(this.voyList.length > 0)
                                 _this.list[length].voy_no  = this.voyList[0]['Voy_No'];
@@ -270,7 +270,7 @@
                             _this.list[length]['is_tmp']  = 1;
                             _this.list[length].reg_date  = prevData.reg_date;
                             _this.list[length].voy_no  = prevData.voy_no;
-                            _this.list[length].profit_type  = prevData.profit_type;
+                            _this.list[length].profit_type  = '';
                             _this.list[length].rate  = prevData.rate;
                             _this.list[length].abstract  = '';
                             _this.list[length].credit  = 0;

@@ -28,7 +28,7 @@
         </div>
 
         <div class="row" style="margin-top: 4px;" id="usd_list" v-cloak>
-            <div class="col-lg-12 head-fix-div common-list"  id="usd-ctm-table">
+            <div class="head-fix-div common-list"  id="usd-ctm-table">
                 <form action="saveCtmList" method="post" id="ctmList-usd-form" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" value="{{ $shipId }}" name="shipId">
@@ -254,7 +254,7 @@
                             if(this.voyList.length > 0)
                                 _uThis.list[length].voy_no  = this.voyList[0]['Voy_No'];
 
-                            _uThis.list[length].profit_type  = 1;
+                            _uThis.list[length].profit_type  = '';
                             _uThis.list[length].abstract  = '';
                             _uThis.list[length].credit  = 0;
                             _uThis.list[length].debit  = 0;
@@ -265,9 +265,11 @@
                             
                             _uThis.list[length].ctm_no  = parseInt(prevData.ctm_no) + 1;
                             _uThis.list[length]['is_tmp']  = 1;
+                            _uThis.list[length].rate  = prevData.rate;
+                            
                             _uThis.list[length].reg_date  = prevData.reg_date;
                             _uThis.list[length].voy_no  = prevData.voy_no;
-                            _uThis.list[length].profit_type  = prevData.profit_type;
+                            _uThis.list[length].profit_type  = '';
                             _uThis.list[length].abstract  = '';
                             _uThis.list[length].credit  = 0;
                             _uThis.list[length].debit  = 0;
@@ -405,6 +407,7 @@
         });
 
         function offAutoCmplt() {
+            $('input').attr('autocomplete', 'off')
             $('.remark').attr('autocomplete', 'off');
         }
         
@@ -420,5 +423,7 @@
                 }
                 return false;
             }
-        });        
+        });
+
+        
     </script>
