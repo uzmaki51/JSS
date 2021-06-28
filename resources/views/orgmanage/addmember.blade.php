@@ -17,6 +17,7 @@ $isHolder = Session::get('IS_HOLDER');
                 border:unset!important;
                 margin-left:10px!important;
                 padding:0px!important;
+                height:25px!important;
             }
 
             .add-td-label {
@@ -83,76 +84,86 @@ $isHolder = Session::get('IS_HOLDER');
                 <input type="hidden" name="userid" id="userid" value="@if(isset($userid)){{$userid}} @endif">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="table-responsive">
-                            <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
-                                <tbody>
-                                <tr>
-                                    <td class="add-td-label" width="10%;">{{transOrgManage("captions.name")}}<span class="require">*</span>:</td>
-                                    <td class="add-td-text">
-                                        <input type="text" class="form-control add-td-input" name="name" id="name" value="@if(isset($userinfo)){{$userinfo['realname']}}@endif" required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" >{{transOrgManage("captions.loginID")}}<span class="require">*</span>:</td>
-                                    <td class="add-td-text">
-                                        <input type="text" class="form-control add-td-input" name="account" id="account" value="@if(isset($userinfo)){{$userinfo['account']}}@endif" required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.officePosition")}}<span class="require">*</span>:</td>
-                                    <td class="add-td-text">
-                                        <select class="form-control add-td-select" id="pos" name="pos" style="margin-left: 9px;">
-                                            <option value="-1" selected></option>
-                                            @foreach($pos as $post)
-                                                <option value="{{$post['id']}}" @if ((isset($userinfo))&&($userinfo['pos']==$post['id'])) selected @endif >{{$post['title']}}</option>
-                                            @endforeach
-                                            <option value="{{ IS_SHAREHOLDER }}" {{ $userinfo['pos'] == IS_SHAREHOLDER ? 'selected' : '' }}>{{ transOrgManage("captions.stockholder") }}</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.phoneNumber")}}:</td>
-                                    <td class="add-td-text">
-                                        <div class="input-group">
-                                            <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="@if(isset($userinfo)){{trim($userinfo['phone'])}}@endif">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.enterDate")}}:</td>
-                                    <td class="add-td-text">
-                                        <div class="input-group">
-                                            <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['entryDate']}}@endif">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.missDate")}}:</td>
-                                    <td class="add-td-text">
-                                        <div class="input-group">
-                                            <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['releaseDate']}}@endif">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="add-td-label" colspan="1">{{transOrgManage("captions.remark")}}:</td>
-                                    <td class="add-td-text">
-                                        <input type="text" class="form-control add-td-input" name="remark" id="remark" value="@if(isset($userinfo)){{$userinfo['remark']}}@endif" required>
-                                    </td>
-                                </tr>
-                                @if(isset($userinfo))
+                        <div class="col-md-6">
+                            <div class="table-responsive">
+                                <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
+                                    <tbody>
                                     <tr>
-                                        <td class="add-td-label" >{{transOrgManage("captions.resetPass")}}:</td>
-                                        <td class="add-td-text" style="">
+                                        <td class="add-td-label" width="20%;">{{transOrgManage("captions.name")}}<span class="require">*</span>:</td>
+                                        <td class="add-td-text">
+                                            <input type="text" class="form-control add-td-input" name="name" id="name" value="@if(isset($userinfo)){{$userinfo['realname']}}@endif" required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="add-td-label" >{{transOrgManage("captions.loginID")}}<span class="require">*</span>:</td>
+                                        <td class="add-td-text">
+                                            <input type="text" class="form-control add-td-input" name="account" id="account" value="@if(isset($userinfo)){{$userinfo['account']}}@endif" required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="add-td-label" colspan="1">{{transOrgManage("captions.officePosition")}}<span class="require">*</span>:</td>
+                                        <td class="add-td-text">
+                                            <select class="form-control add-td-select" id="pos" name="pos" style="width:98%;margin-left: 6px!important;">
+                                                <option value="-1" selected></option>
+                                                @foreach($pos as $post)
+                                                    <option value="{{$post['id']}}" @if ((isset($userinfo))&&($userinfo['pos']==$post['id'])) selected @endif >{{$post['title']}}</option>
+                                                @endforeach
+                                                <option value="{{ IS_SHAREHOLDER }}" {{ $userinfo['pos'] == IS_SHAREHOLDER ? 'selected' : '' }}>{{ transOrgManage("captions.stockholder") }}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="add-td-label" colspan="1">{{transOrgManage("captions.phoneNumber")}}:</td>
+                                        <td class="add-td-text">
                                             <div class="input-group">
-                                                <input type="checkbox" class="form-control add-td-input" style="width: fit-content; margin-right: 10px; margin-left: 10px;margin-bottom:5px;" name="password_reset" id="password_reset">
-                                                <span>* 使用密码初始化功能，可将该职员的密码改为 {{ DEFAULT_PASS }}。</span>
+                                                <input type="tel" id="rantel" name="phone" class="form-control add-td-input" value="@if(isset($userinfo)){{trim($userinfo['phone'])}}@endif">
                                             </div>
                                         </td>
                                     </tr>
-                                @endif
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="table-responsive">
+                                <table id="sample-table-1" class="table-bordered" style="margin-left:auto;margin-right:auto;">
+                                    <tbody>
+                                    <tr>
+                                        <td class="add-td-label" width="20%;" colspan="1">{{transOrgManage("captions.enterDate")}}:</td>
+                                        <td class="add-td-text">
+                                            <div class="input-group">
+                                                <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="enterdate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['entryDate']}}@endif">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="add-td-label" colspan="1">{{transOrgManage("captions.missDate")}}:</td>
+                                        <td class="add-td-text">
+                                            <div class="input-group">
+                                                <input class="form-control date-picker add-td-input" style="text-align: left!important;" name="releaseDate" type="text" data-date-format="yyyy-mm-dd" value="@if(isset($userinfo)){{$userinfo['releaseDate']}}@endif">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="add-td-label" colspan="1">{{transOrgManage("captions.remark")}}:</td>
+                                        <td class="add-td-text">
+                                            <input type="text" class="form-control add-td-input" name="remark" id="remark" value="@if(isset($userinfo)){{$userinfo['remark']}}@endif" required>
+                                        </td>
+                                    </tr>
+                                    @if(isset($userinfo))
+                                        <tr>
+                                            <td class="add-td-label" >{{transOrgManage("captions.resetPass")}}:</td>
+                                            <td class="add-td-text" style="">
+                                                <div class="input-group">
+                                                    <input type="checkbox" class="form-control add-td-input" style="width: fit-content; margin-right: 10px; margin-left: 10px;margin-bottom:5px;" name="password_reset" id="password_reset">
+                                                    <span>* 使用密码初始化功能，可将该职员的密码改为 {{ DEFAULT_PASS }}。</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="row" style="margin-top:20px;">
@@ -219,7 +230,7 @@ $isHolder = Session::get('IS_HOLDER');
                         </div>
                     </div>
                     <div class="row">
-                        <h4>选船(*只有持股者才能显示)</h4>
+                        <h4>SHIP SELECTION</h4>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <tbody>

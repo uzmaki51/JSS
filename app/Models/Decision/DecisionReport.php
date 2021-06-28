@@ -160,7 +160,11 @@ class DecisionReport extends Model {
 		$newArr = [];
 		$count = 0;
 
-		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('year', $year);
+		$voyNo_from = substr($year, 2, 2) . '00';
+		$voyNo_to = substr($year, 2, 2) + 1;
+		$voyNo_to = $voyNo_to . '00';
+
+		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to)->whereNotNull('book_no');
 		if ($month != null) {
 			$selector = $selector->where('month', $month);
 		}
@@ -216,7 +220,11 @@ class DecisionReport extends Model {
 		}
 
 		// Profit Per Every Month 
-		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year', $year);
+		$voyNo_from = substr($year, 2, 2) . '00';
+		$voyNo_to = substr($year, 2, 2) + 1;
+		$voyNo_to = $voyNo_to . '00';
+
+		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to)->whereNotNull('book_no');
 		$selector = $selector->whereNotIn('profit_type',[13,14])
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
 		->groupBy('flowid','profit_type','shipNo');
@@ -267,7 +275,7 @@ class DecisionReport extends Model {
 	}
 
 	public function getIncome($shipid, $voyNo) {
-		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo', $voyNo)
+		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo', $voyNo)->whereNotNull('book_no')
 				->groupBy('flowid','profit_type')
 				->selectRaw('sum(CASE WHEN tb_decision_report_save.currency="CNY" THEN tb_decision_report_save.amount/tb_decision_report_save.rate ELSE tb_decision_report_save.amount END) as sum, tb_decision_report_save.flowid, tb_decision_report_save.profit_type, tb_decision_report_save.currency')
 				->groupBy('flowid','profit_type');
@@ -320,7 +328,11 @@ class DecisionReport extends Model {
 		$records = [];
 		$index = 0;
 		for ($year=$start_year-2;$year<=$start_year;$year ++) {
-			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('year', $year)
+			$voyNo_from = substr($year, 2, 2) . '00';
+			$voyNo_to = substr($year, 2, 2) + 1;
+			$voyNo_to = $voyNo_to . '00';
+
+			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to)->whereNotNull('book_no')
 				->groupBy('flowid','profit_type')
 				->selectRaw('sum(CASE WHEN tb_decision_report_save.currency="CNY" THEN tb_decision_report_save.amount/tb_decision_report_save.rate ELSE tb_decision_report_save.amount END) as sum, tb_decision_report_save.flowid, tb_decision_report_save.profit_type, tb_decision_report_save.currency')
 				->groupBy('flowid','profit_type');
@@ -424,7 +436,11 @@ class DecisionReport extends Model {
 		//$start = date('Y-m-d', strtotime("$year-01-01"));
 		//$end = date('Y-m-d', strtotime("$year-12-31"));
 		//$selector = CP::where('Ship_ID', $shipid)->where('CP_Date', '<=' , $end)->where('CP_Date', '>=', $start);
-		$selector = CP::where('Ship_ID', $shipid);
+		$voyNo_from = substr($year, 2, 2) . '00';
+		$voyNo_to = substr($year, 2, 2) + 1;
+		$voyNo_to = $voyNo_to . '00';
+
+		$selector = CP::where('Ship_ID', $shipid)->where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to);
 		$records = $selector->orderBy('Voy_No', 'asc')->get();
 		$count = $selector->count();
 		$total_profit = 0;
@@ -432,7 +448,8 @@ class DecisionReport extends Model {
 		foreach($records as $index => $record) {
 			//$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo',$record->Voy_No)
 			//$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo',$record->Voy_No)->where('year', '<=' , $end)->where('report_date', '>=', $start)
-			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo',$record->Voy_No)->where('year', $year)
+			//$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo',$record->Voy_No)->where('year', $year)->whereNotNull('book_no')
+			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo',$record->Voy_No)->whereNotNull('book_no')
 				->groupBy('flowid','profit_type')
 				->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, currency')
 				->groupBy('flowid');
@@ -508,13 +525,13 @@ class DecisionReport extends Model {
 			$currency = $params['columns'][3]['search']['value'];
 		}
 
-		$selector = ReportSave::where('type', 0)->whereNotIn('profit_type',[13,14])->where('shipNo', $shipid)->where('voyNo', $voyNo);
+		$selector = ReportSave::where('type', 0)->whereNotIn('profit_type',[13,14])->where('shipNo', $shipid)->where('voyNo', $voyNo)->whereNotNull('book_no');
 		$records = $selector->orderBy('id', 'asc')->get();
 		$newArr = [];
         $newindex = 0;
 		foreach($records as $index => $record) {
 			$newArr[$newindex]['date'] = $record->report_date;
-			$newArr[$newindex]['content'] = $record->conent;
+			$newArr[$newindex]['content'] = $record->content;
 			$newArr[$newindex]['flowid'] = $record->flowid;
 			$newArr[$newindex]['profit_type'] = $record->profit_type;
 
