@@ -55,7 +55,7 @@ class OperationController extends Controller
 
 
     public function incomeExpense(Request $request) {
-        $start_year = DecisionReport::select(DB::raw('MIN(create_at) as min_date'))->first();
+        $start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = '2020-01-01';
         } else {
@@ -71,7 +71,7 @@ class OperationController extends Controller
     }
 
     public function incomeAllExpense(Request $request) {
-        $start_year = DecisionReport::select(DB::raw('MIN(create_at) as min_date'))->first();
+        $start_year = DecisionReport::select(DB::raw('MIN(report_date) as min_date'))->first();
         if(empty($start_year)) {
             $start_year = '2020-01-01';
         } else {

@@ -257,3 +257,15 @@
     width: 80%;
     border-top: unset;
 }
+
+.cost-item-odd {
+    background-color: #f5f5f5;
+}
+
+.cost-item-even:hover {
+    background-color: #ffe3e082;
+}
+
+.cost-item-odd:hover {
+    background-color: #ffe3e082;
+}

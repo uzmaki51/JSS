@@ -69,18 +69,15 @@
         }
 
         .member-item-odd {
-            background-color: #efefef;
-            cursor:pointer;
+            background-color: #f5f5f5;
         }
 
         .member-item-even:hover {
             background-color: #ffe3e082;
-            cursor:pointer;
         }
 
         .member-item-odd:hover {
             background-color: #ffe3e082;
-            cursor:pointer;
         }
 
         table{
@@ -106,6 +103,19 @@
             font-weight:bold;
             font-size: 12px;
         }
+
+        @-webkit-keyframes blinker {
+        from {opacity: 1.0;}
+        to {opacity: 0.0;}
+        }
+        .blink{
+            text-decoration: blink;
+            -webkit-animation-name: blinker;
+            -webkit-animation-duration: 0.6s;
+            -webkit-animation-iteration-count:infinite;
+            -webkit-animation-timing-function:ease-in-out;
+            -webkit-animation-direction: alternate;
+        }
     </style>
     <div class="main-content">
         <div class="page-content">
@@ -113,11 +123,13 @@
                 <div class="col-lg-2">
                     <div class="row">
                         <div class="card mb-4">
-                            <div class="card-header decide-title">
+                            <a href="/decision/receivedReport" style="color: white; outline: unset;" target="_blank">
+                            <div class="card-header decide-title" style="cursor:pointer">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">等待批准</span>
                                 </div>
                             </div>
+                            </a>
                             <div class="card-body decide-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="table-layout:fixed;border:0px solid black;">
                                     <tbody class="" id="list-body" style="">
@@ -136,7 +148,7 @@
                                             <td class="center">{{$nickName}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
                                             <td class="center">{{($report['profit_type']!=null)&&($report['profit_type']!="")?g_enum('FeeTypeData')['Debit'][$report['profit_type']]:""}}</td>
-                                            <td class="center">等待</td>
+                                            <td class="center" style="background-color:#fdb971"><span class="blink">等待</span></td>
                                             <?php $index++;?>
                                         </tr>
                                         @endif
@@ -153,11 +165,13 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
+                            <a href="/decision/receivedReport" style="color: white; outline: unset;" target="_blank">
                             <div class="card-header no-attachment-decide-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">等待凭证</span>
                                 </div>
                             </div>
+                            </a>
                             <div class="card-body no-attachment-decide-border" style="padding: 0 0px!important;max-height:141px!important;overflow-y: auto;">
                                 <table id="" style="table-layout:fixed;border:0px solid black;">
                                     <tbody class="" id="list-body" style="">
@@ -193,11 +207,13 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
+                            <a href="/shipManage/shipCertManage" style="color: white; outline: unset;" target="_blank">
                             <div class="card-header expired-cert-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">证书到期</span>
                                 </div>
                             </div>
+                            </a>
                             <div class="card-body expired-cert-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;">
                                     <thead>
@@ -222,11 +238,13 @@
                     </div>
                     <div class="row">
                         <div class="card mb-4">
+                            <a href="/shipManage/equipment" style="color: white; outline: unset;" target="_blank">
                             <div class="card-header decide-title">
                                 <div class="card-title front-span">
                                     <span class="bigger-120">必需备件</span>
                                 </div>
                             </div>
+                            </a>
                             <div class="card-body decide-border" style="padding: 0 0px!important;max-height:121px!important;overflow-y: auto;">
                                 <table id="" style="border:0px solid black;">
                                     <thead>

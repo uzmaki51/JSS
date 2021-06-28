@@ -19,7 +19,7 @@ $isHolder = Session::get('IS_HOLDER');
             }
 
             .cost-item-odd {
-                background-color: #efefef;
+                background-color: #f5f5f5;
             }
 
             .cost-item-even:hover {

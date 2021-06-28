@@ -25,7 +25,7 @@ $ships = Session::get('shipList');
     <div class="main-content">
         <style>
             .cost-item-odd {
-                background-color: #efefef;
+                background-color: #f5f5f5;
             }
 
             .cost-item-even:hover {

@@ -173,6 +173,7 @@ class DecisionController extends Controller
 		$reportTbl['creator'] = $user->id;
 		$reportTbl['content'] = isset($params['content']) ? $params['content'] : '';
 		$reportTbl['state'] = $params['reportType'];
+		$reportTbl['isvisible'] = 0;
 		$reportTbl->save();
 
 		$isRegister = false;

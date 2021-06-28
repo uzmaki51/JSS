@@ -27,7 +27,7 @@ $ships = Session::get('shipList');
     <div class="main-content">
         <style>
             .cost-item-odd {
-                background-color: #efefef;
+                background-color: #f5f5f5;
             }
 
             .cost-item-even:hover {
@@ -73,7 +73,7 @@ $ships = Session::get('shipList');
                                             @endforeach
                                         </select>
                                         <select name="select-graph-year" id="select-graph-year" style="font-size:13px">
-                                            @for($i=$start_year;$i<=date("Y");$i++)
+                                            @for($i=date("Y");$i>=$start_year;$i--)
                                             <option value="{{$i}}" @if($i==date("Y")) selected @endif>{{$i}}年</option>
                                             @endfor
                                         </select>
@@ -140,7 +140,7 @@ $ships = Session::get('shipList');
                                             @endforeach
                                         </select>
                                         <select name="select-table-year" id="select-table-year" style="font-size:13px">
-                                            @for($i=$start_year;$i<=date("Y");$i++)
+                                            @for($i=date("Y");$i>=$start_year;$i--)
                                             <option value="{{$i}}" @if($i==date("Y")) selected @endif>{{$i}}年</option>
                                             @endfor
                                         </select>
