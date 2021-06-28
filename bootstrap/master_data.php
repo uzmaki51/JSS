@@ -65,8 +65,8 @@ define('INCOME_UNIM',       '1');
 define('INCOME_BODY_FEE',   '2');
 define('INCOME_ELSE',       '3');
 $InComeData = array(
-	INCOME_UNIM         => '运费',
-	INCOME_BODY_FEE     => '租期费',
+	INCOME_UNIM         => '运费/租费',
+	INCOME_BODY_FEE     => '其他收入',
 	INCOME_ELSE         => '滞期费',
 );
 

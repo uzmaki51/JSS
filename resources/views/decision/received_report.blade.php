@@ -953,6 +953,10 @@
                         );  
                     }
 
+                    $('td', row).eq(6).html('').append(
+                        '<span style="padding: 0 4px!important">'+data['content']+'</span>'
+                    )
+
                     if(data['currency'] != '') {
                         if(data['currency'] == 'CNY') {
                             $('td', row).eq(7).html('').append(
