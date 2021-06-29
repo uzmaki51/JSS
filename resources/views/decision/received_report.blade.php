@@ -491,12 +491,11 @@
                 $('.save-draft').removeAttr('disabled');
 
             if(lastId == 0) {
+                reportObj.init();
                 $('.only-modal-show').click();
             } else {
                 showReportDetail(lastId, true);
             }
-
-            // reportObj.init();
         });
 
         function getVoyList(shipId, selected = false) {
