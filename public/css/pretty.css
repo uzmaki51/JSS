@@ -258,8 +258,8 @@
     border-top: unset;
 }
 
-.cost-item-odd {
-    background-color: #f5f5f5;
+.cost-item-odd, .cost-item-odd * {
+    background-color: #f5f5f5!important;
 }
 
 .cost-item-even:hover {
@@ -269,6 +269,11 @@
 .cost-item-odd:hover {
     background-color: #ffe3e082;
 }
-.contract-item:hover {
+
+.contract-item:hover, .contract-item:hover * {
     background-color: #ffe3e082;
+}
+
+.dynamic-item:hover, .dynamic-item:hover * {
+    background-color: #ffe3e082!important;
 }

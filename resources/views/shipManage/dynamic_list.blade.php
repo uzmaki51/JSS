@@ -184,7 +184,7 @@
                                 <td class="text-center" colspan="4">@{{ prevData['Remark'] }}</td>
                             </tr>
                             <template v-for="(currentItem, index) in currentData" v-cloak>
-                                <tr :class="index % 2 == 0 ? 'even' : 'odd'">
+                                <tr :class="index % 2 == 0 ? 'cost-item-even' : 'cost-item-odd'" class="dynamic-item">
                                     <td class="d-none"><input type="hidden" :value="currentItem.id" name="id[]"></td>
                                     <td class="text-center">@{{ currentItem.CP_ID }}</td>
                                     <td class="text-center">@{{ voyDateFormat(currentItem.Voy_Date) }}</td>
@@ -285,7 +285,7 @@
                                 <td class="text-center">其他</td>
                             </tr>
                             <template v-for="(item, index) in analyze.list" v-cloak>
-                            <tr :class="index % 2 == 0 ? 'even' : 'odd'">
+                            <tr :class="index % 2 == 0 ? 'cost-item-even' : 'cost-item-odd'" class="dynamic-item">
                             <td class="voy-no" @click="onVoyDetail(item.voy_no)">@{{ item.voy_no }}</td>
                                 <td class="center">@{{ item.voy_count }}</td>
                                 <td class="center">@{{ dateFormat(item.voy_start) }} ~ @{{ dateFormat(item.voy_end) }}</td>
