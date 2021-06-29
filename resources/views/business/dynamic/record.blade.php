@@ -160,7 +160,7 @@
                                 <td></td>
                             </tr>
                             <template v-for="(currentItem, index) in currentData">
-                                <tr class="dynamic-item" :class="index % 2 == 0 ? 'even' : 'odd'">
+                                <tr class="dynamic-item" :class="index % 2 == 0 ? 'cost-item-even' : 'cost-item-odd'">
                                     <td class="d-none"><input type="hidden" :value="currentItem.id" name="id[]"></td>
                                     <td class="text-center"><input type="text" readonly  v-model="activeVoy" name="CP_ID[]" class="form-control text-center"></td>
                                     <td class="text-center date-width"><input type="text" class="date-picker form-control text-center" name="Voy_Date[]" v-model="currentItem.Voy_Date" @click="dateModify($event, index)" data-date-format="yyyy-mm-dd"></td>
