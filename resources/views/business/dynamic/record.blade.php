@@ -204,7 +204,7 @@
                                 <td class="text-center" rowspan="2">距离<br>[NM]</td>
                                 <td class="text-center" rowspan="2">平均<br>速度</td>
                                 <td class="text-center fix-top">经济天</td>
-                                <td class="text-center fix-top"><span class="text-warning" :class="dangerClass(economic_rate)">@{{ number_format(economic_rate) }}%</span></td>
+                                <td class="text-center fix-top" style="border-right: 2px solid rgb(72, 79, 91);"><span class="text-warning" :class="dangerClass(economic_rate)">@{{ number_format(economic_rate) }}%</span></td>
                                 <td class="text-center fix-top" colspan="2">总消耗</td>
                                 <td class="text-center fix-top" colspan="2">加油量</td>
                                 <td class="text-center fix-top" colspan="2">标准消耗</td>
@@ -213,7 +213,7 @@
                             </tr>
                             <tr class="dynamic-footer">
                                 <td class="text-center">航行</td>
-                                <td class="text-center">装卸货</td>
+                                <td class="text-center" style="border-right: 2px solid rgb(72, 79, 91);">装卸货</td>
                                 <td class="text-center">FO</td>
                                 <td class="text-center">DO</td>
                                 <td class="text-center">FO</td>
@@ -231,7 +231,7 @@
                                 <td :class="dangerClass(total_distance)">@{{ number_format(total_distance, 0) }}</td>
                                 <td :class="dangerClass(average_speed)">@{{ number_format(average_speed) }}</td>
                                 <td :class="dangerClass(total_sail_time)">@{{ number_format(total_sail_time, 2) }}</td>
-                                <td :class="dangerClass(total_loading_time)">@{{ number_format(total_loading_time) }}</td>
+                                <td :class="dangerClass(total_loading_time)" style="border-right: 2px solid rgb(72, 79, 91);">@{{ number_format(total_loading_time) }}</td>
                                 <td :class="dangerClass(rob_fo)">@{{ number_format(rob_fo) }}</td>
                                 <td :class="dangerClass(rob_do)">@{{ number_format(rob_do) }}</td>
                                 <td :class="dangerClass(bunker_fo)">@{{ number_format(bunker_fo) }}</td>
@@ -241,7 +241,7 @@
                                 <td :class="dangerClass(save_fo)">@{{ number_format(save_fo) }}</td>
                                 <td :class="dangerClass(save_do)">@{{ number_format(save_do) }}</td>
                                 <td></td>
-                            </tr>                            
+                            </tr>
                         </tbody>
                             </table>
                     </form>
