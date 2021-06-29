@@ -94,9 +94,9 @@ $ships = Session::get('shipList');
                                 </thead>
                                 <tbody id="list-body">
                                     @if(isset($voy_id))
-                                        <tr class="contract-item" v-bind:class="item.id == {{$voy_id}} ? 'selected' : (index % 2 == 0 ? 'odd' : 'even')" v-for="(item, index) in list" v-bind:data-index="item.id">
+                                        <tr class="contract-item" v-bind:class="item.id == {{$voy_id}} ? 'selected' : (index % 2 == 0 ? 'cost-item-odd' : 'cost-item-even')" v-for="(item, index) in list" v-bind:data-index="item.id">
                                     @else
-                                        <tr class="contract-item" v-bind:class="index % 2 == 0 ? 'odd' : 'even'" v-for="(item, index) in list" v-bind:data-index="item.id">
+                                        <tr class="contract-item" v-bind:class="index % 2 == 0 ? 'cost-item-odd' : 'cost-item-even'" v-for="(item, index) in list" v-bind:data-index="item.id">
                                     @endif
                                         <td class="text-center">@{{ item.Voy_No }}</td>
                                         <td class="text-center">@{{ item.CP_kind }}</td>
