@@ -259,7 +259,11 @@
 }
 
 .cost-item-odd, .cost-item-odd * {
-    background-color: #f5f5f5!important;
+    background-color: #f5f5f5;
+}
+
+.cost-item-even, .cost-item-even * {
+    background-color: #ffffff;
 }
 
 .cost-item-even:hover {
