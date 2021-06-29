@@ -99,7 +99,7 @@
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" name="shipId" value="{{ $shipId }}">
                     <input type="hidden" name="CP_ID" v-model="activeVoy">
-                    <table class="table-bordered dynamic-table">
+                    <table class="table-bordered dynamic-table table-striped">
                         <thead>
                             <tr>
                                 <th class="text-center font-style-italic">VOY No</th>
@@ -160,9 +160,9 @@
                                 <td></td>
                             </tr>
                             <template v-for="(currentItem, index) in currentData">
-                                <tr class="dynamic-item">
+                                <tr class="dynamic-item" :class="index % 2 == 0 ? 'even' : 'odd'">
                                     <td class="d-none"><input type="hidden" :value="currentItem.id" name="id[]"></td>
-                                    <td class="text-center voy-td"><input type="text" disabled  v-model="activeVoy" name="CP_ID[]" class="form-control text-center"></td>
+                                    <td class="text-center"><input type="text" readonly  v-model="activeVoy" name="CP_ID[]" class="form-control text-center"></td>
                                     <td class="text-center date-width"><input type="text" class="date-picker form-control text-center" name="Voy_Date[]" v-model="currentItem.Voy_Date" @click="dateModify($event, index)" data-date-format="yyyy-mm-dd"></td>
                                     <td class="time-width"><input type="number" class="form-control text-center hour-input" name="Voy_Hour[]" v-model="currentItem.Voy_Hour" @blur="limitHour($event, index)" @keyup="limitHour($event, index)"></td>
                                     <td class="time-width"><input type="number" class="form-control text-center minute-input" name="Voy_Minute[]" v-model="currentItem.Voy_Minute" @blur="limitMinute($event, index)" @keyup="limitMinute($event, index)"></td>

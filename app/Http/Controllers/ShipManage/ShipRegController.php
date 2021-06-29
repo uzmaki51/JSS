@@ -634,10 +634,6 @@ class ShipRegController extends Controller
         }
     }
 
-
-
-
-
     public function shipCertList(Request $request) {
         $shipRegList = ShipRegister::all();
 
@@ -740,6 +736,11 @@ class ShipRegController extends Controller
         else
             return redirect()->back();
 
+        if(isset($params['type']))
+            $type = $params['type'];
+        else
+            $type = '';
+
         $ids = $params['id'];
 
     	foreach($ids as $key => $id) {
@@ -763,7 +764,7 @@ class ShipRegController extends Controller
             $equipTbl->save();
         }
 
-	    return redirect('shipManage/equipment?id=' . $shipId);
+	    return redirect('shipManage/equipment?id=' . $shipId . '&type=' . $type);
     }
 
     public function saveShipReqEquipList(Request $request) {
@@ -776,6 +777,11 @@ class ShipRegController extends Controller
             $shipId = $params['shipId'];
         else
             return redirect()->back();
+            
+        if(isset($params['type']))
+            $type = $params['type'];
+        else
+            $type = '';
 
         $ids = $params['id'];
 
@@ -796,7 +802,7 @@ class ShipRegController extends Controller
             $equipTbl->save();
         }
 
-	    return redirect('shipManage/equipment?id=' . $shipId);
+	    return redirect('shipManage/equipment?id=' . $shipId . '&type=' . $type);
     }
 
     public function saveShipReqEquipType(Request $request) {
@@ -1084,16 +1090,12 @@ class ShipRegController extends Controller
         }
 
         if(isset($params['type'])) {
-            if($params['type'] != 'record' || $params['type'] == 'require') {
-                $type = 'record';
-            } else {
-                $type = $params['type'];
-            }
+            $type = $params['type'];
         } else {
             $type = 'record';
         }
 
-        $shipName = $shipRegTbl->getShipNameByIMO($shipId);        
+        $shipName = $shipRegTbl->getShipNameByIMO($shipId);
 
         $tbl = new ShipEquipment();
         $yearList = $tbl->getYearList($shipId);
@@ -1110,7 +1112,9 @@ class ShipRegController extends Controller
             'shipName'      => $shipName,
 
             'years'         => $yearList,
-            'activeYear'    => $activeYear
+            'activeYear'    => $activeYear,
+
+            'type'          => $type
         ]);
     }
 

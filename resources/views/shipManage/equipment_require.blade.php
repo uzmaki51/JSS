@@ -19,7 +19,7 @@
         <div class="col-lg-3">
             <div class="text-center" style="margin-top: 6px;">
                 <strong style="font-size: 16px; padding-top: 6px;">
-                    <span id="search_info">{{ $shipName }}</span>&nbsp;<span class="font-bold">@{{ activeYear }}年必修备件表</span>
+                    <span id="search_info">{{ $shipName }}</span>&nbsp;<span class="font-bold">@{{ activeYear }}年必需备件表</span>
                 </strong>
             </div>
         </div>
@@ -41,6 +41,7 @@
             <form action="shipReqEquipmentList" method="post" id="equipment-require-form" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">
+                <input type="hidden" value="require" name="type">
                 <table class="table-striped" id="table-require">
                     <thead class="">
                         <th class="d-none"></th>
@@ -184,6 +185,7 @@
                         var values = $("input[name='item[]']")
                             .map(function(){return parseInt($(this).val());}).get();
 
+                        if(values.includes(cert)) {alert('Can\'t register duplicate item.'); return false;}
                         isChangeStatus = true;
                         setCertInfo(cert, index);
                         $(".dynamic-select__trigger").removeClass('open');
@@ -262,6 +264,11 @@
                     },
                     addRow: function() {
                         let length = $__this.list.length;
+                        let item = 0;
+
+                        if(itemListObj.list.length <= length && length > 0)
+                            return false;
+
                         if(length == 0) {
                             this.list.push([]);
                             this.list[length].place = 1;
@@ -270,7 +277,7 @@
                             else {
                                 this.list[length].item = 0;
                             }
-                            console.log(this.list[length].item)
+
                             setCertInfo(this.list[length].item, length);
                             this.list[length].require_vol = '';
                             this.list[length].inventory_vol = '';
@@ -281,8 +288,8 @@
                             this.list.push([]);
                             this.list[length].place = this.list[length - 1].place;
                             this.list[length].item = this.list[length-1].item;
-                            console.log(this.list[length-1].item)
-                            setCertInfo(this.list[length].item, length);
+                            item = getNearCertId(this.list[length-1].item);
+                            setCertInfo(item, length);
                             this.list[length].require_vol = this.list[length-1].require_vol;
                             this.list[length].inventory_vol = this.list[length-1].inventory_vol;
                             this.list[length].unit = this.list[length-1].unit;
@@ -391,6 +398,8 @@
                         }).next().on(ace.click_event, function () {
                             $(this).prev().focus();
                         });
+
+                        offAutoCmplt();
                     }
             });
             
@@ -434,7 +443,6 @@
                             itemListObj.list.forEach(function(value) {
                                 if(value.id == $__this.list[activeId].item) {
                                     $__this.list[activeId].cert_name = value.name;
-                                    console.log(value.name)
                                 }
                             })
 
@@ -495,45 +503,6 @@
             })
         }
 
-        function addCertItem() {
-            let reportLen = equipRequireObj.itemList.length;
-            let newCertId = 0;
-            if(reportLen == 0) {
-                reportLen = 0;
-                newCertId = 0;
-            } else {
-                newCertId = equipRequireObj.itemList[reportLen - 1]['item'];
-            }
-
-            newCertId = getNearCertId(newCertId);
-
-            if(shipCertTypeList.length <= reportLen && reportLen > 0)
-                return false;
-
-            if(newCertId == '') {
-                newCertId = getNearCertId(0);
-            }
-
-            equipRequireObj.itemList.push([]);
-            equipRequireObj.itemList[reportLen]['item']  = newCertId;
-            equipRequireObj.itemList[reportLen]['is_tmp']  = 1;
-            setCertInfo(newCertId, reportLen);
-            equipRequireObj.itemList[reportLen]['issue_date']  = $($('[name^=issue_date]')[reportLen - 1]).val();
-            equipRequireObj.itemList[reportLen]['expire_date']  = $($('[name^=expire_date]')[reportLen - 1]).val();
-            equipRequireObj.itemList[reportLen]['due_endorse']  = $($('[name^=due_endorse]')[reportLen - 1]).val();
-            equipRequireObj.itemList[reportLen]['issuer']  = 1;
-            $($('[name=item]')[reportLen - 1]).focus();
-            certIdList.push(equipRequireObj.itemList[reportLen]['item']);
-
-            $('[date-issue=' + reportLen + ']').datepicker({
-                autoclose: true,
-            }).next().on(ace.click_event, function () {
-                $(this).prev().focus();
-            });
-
-            isChangeStatus = true;
-        }
-
         function getNearCertId(item) {
             var values = $("input[name='item[]']")
                 .map(function(){return parseInt($(this).val());}).get();
@@ -573,6 +542,8 @@
             }
         });
 
-        $('input').attr('autocomplete', 'off');
-
+        function offAutoCmplt() {
+            $('.remark').attr('autocomplete', 'off');
+            $('input').attr('autocomplete', 'off');
+        }
     </script>

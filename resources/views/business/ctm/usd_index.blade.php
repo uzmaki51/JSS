@@ -401,7 +401,7 @@
                     isEmpty = true;
             });
 
-            if(isEmpty) {alert('请您必须填数据。'); return false;}
+            if(isEmpty) {alert('请您必须填数据.'); return false;}
 
             $('#ctmList-usd-form').submit();
         });

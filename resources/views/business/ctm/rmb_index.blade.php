@@ -405,12 +405,13 @@
                     isEmpty = true;
             });
 
-            if(isEmpty) {alert('请您必须填数据。'); return false;}
+            if(isEmpty) {alert('请您必须填数据.'); return false;}
             $('#ctmList-form').submit();
         });
 
         function offAutoCmplt() {
             $('.remark').attr('autocomplete', 'off');
+            $('input').attr('autocomplete', 'off');
         }
         
         $('body').on('keydown', 'input, select', function(e) {

@@ -1036,7 +1036,7 @@ class BusinessController extends Controller {
         $id = $params['id'];
         $ret = CP::where('id', $id)->delete();
 
-        return $this->ajaxVoyList($request);
+        return $this->ajaxCPList($request);
     }
 
     public function ajaxDynamic(Request $request) {

@@ -35,7 +35,7 @@ $ships = Session::get('shipList');
                             备件物料</span>
                             </a>
                         </li>
-                        <li class="{{ isset($type) && $type == 'require' ? 'active' : '' }}">
+                        <li class="{{ $type == 'require' ? 'active' : '' }}">
                             <a data-toggle="tab" href="#equipment_require_div">
                             必需备件</span>
                             </a>
@@ -46,7 +46,7 @@ $ships = Session::get('shipList');
                         <div id="equipment_record" class="tab-pane {{ !isset($type) || $type == 'record' ? 'active' : '' }}">
                             @include('shipManage.equipment_record')
                         </div>
-                        <div id="equipment_require_div" class="tab-pane {{ isset($type) && $type == 'require' ? 'active' : '' }}">
+                        <div id="equipment_require_div" class="tab-pane {{ $type == 'require' ? 'active' : '' }}">
                             @include('shipManage.equipment_require')
                         </div>
                     </div>
@@ -167,7 +167,7 @@ $ships = Session::get('shipList');
                         if (this.isInputActive) {
                             if(isNaN(this.value))
                                 return '';
-                            console.log(this.value)
+
                             return this.value == 0 ? '' : this.value;
                         } else {
                             let fixedLength = 2;

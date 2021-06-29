@@ -46,6 +46,7 @@
             <form action="shipEquipmentList" method="post" id="certList-form" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">
+                <input type="hidden" value="record" name="type">
                 <table class="table-striped" id="table-record">
                     <thead class="">
                         <th class="d-none"></th>
