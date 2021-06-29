@@ -93,8 +93,8 @@
             </div>
 
             <!-- Main Contents Begin -->
-            <div class="row" style="margin-top: 4px;">
-                <div class="col-md-12">
+            <div class="row col-lg-12" style="margin-top: 4px;">
+                <div class="head-fix-div common-list">
                 <form action="saveDynamic" method="post" id="dynamic-form" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" name="shipId" value="{{ $shipId }}">
