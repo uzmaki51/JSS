@@ -32,7 +32,23 @@ class DecisionReport extends Model {
 	protected $table_register_ship = 'tb_ship_register';
 
 	public function getForSavedBookDatatable($params, $year, $month) {
-		$selector = ReportSave::where('year', $year)->where('month', $month);
+		//$selector = ReportSave::where('year', $year)->where('month', $month);
+		$next_year = $year;
+        $next_month = $month;
+        if ($month == 12) {
+            $next_month = 1;
+            $next_year ++;
+        }
+        else
+        {
+            $next_month = $month + 1;
+        }
+		$now = date('Y-m-d', strtotime("$year-$month-1"));
+		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
+		//$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
+			
+		$selector = ReportSave::where('report_date', '>=', $now)->where('report_date', '<', $next);
+
         $recordsFiltered = $selector->count();
 		$records = $selector->orderBy('report_id', 'asc')->get();
 		$newArr = [];
@@ -83,20 +99,6 @@ class DecisionReport extends Model {
 			->orderBy('report_id', 'asc')
 			->where('state', 1);
 
-		$next_year = $year;
-        $next_month = $month;
-        if ($month == 12) {
-            $next_month = 1;
-            $next_year ++;
-        }
-        else
-        {
-            $next_month = $month + 1;
-        }
-		$now = date('Y-m-d', strtotime("$year-$month-1"));
-		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
-		$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
-			
 		$selector->where('report_date', '>=', $now)->where('report_date', '<', $next);
 		$recordsFiltered = $selector->count();
 		$records = $selector->get();
@@ -648,7 +650,7 @@ class DecisionReport extends Model {
         }
 		$now = date('Y-m-d', strtotime("$year-$month-1"));
 		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
-		$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
+		//$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
 			
 		$selector->where('report_date', '>=', $now)->where('report_date', '<', $next);
 		$recordsFiltered = $selector->count();

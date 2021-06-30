@@ -1146,7 +1146,7 @@ class BusinessController extends Controller {
                             $tmp .= $port->Port_En . ', ';
                         $cp_list[$cp_key]->DPort = substr($tmp, 0, strlen($tmp) - 2);
                     }
-                    $retVal['cpData'][$item->CP_ID] = $cp_list[0];
+                    $retVal['cpData'][$item->CP_ID] = count($cp_list) <= 0 ? '' : $cp_list[0];
                 }
 
                 $retTmp[$item->CP_ID][] = $item;
