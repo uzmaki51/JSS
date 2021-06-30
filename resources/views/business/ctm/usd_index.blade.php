@@ -97,7 +97,7 @@
                                 <input type="hidden" v-model="item.cny_debit" class="d-none" name="cny_debit[]">
                             </td>
                             <td>
-                                <my-currency-input v-model="item.balance" name="balance[]" :readonly="true" class="form-control text-right" :style="debitClass(item.balance)" style="background: white!important;" name="balance[]" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
+                                <my-currency-input v-model="item.balance" name="balance[]" :readonly="true" class="form-control text-right" :style="debitClass(item.balance)" name="balance[]" v-bind:prefix="'$'" v-bind:fixednumber="2"></my-currency-input>
                             </td>
                             <td>
                                 <my-currency-input v-model="item.rate" class="form-control text-center" name="rate[]" v-bind:prefix="''" v-bind:fixednumber="4"></my-currency-input>
@@ -106,8 +106,12 @@
                                 <input v-model="item.remark" class="form-control remark" name="remark[]" require>
                             </td>
                             <td class="text-center">
-                                <label v-bind:for="array_index"><img v-bind:src="getImage(item.file_name)" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name"></label>
-                                <input type="file" name="attachment[]" v-bind:id="array_index" class="d-none" @change="onFileChange" v-bind:data-index="array_index">
+                                <div class="d-flex" :style = "item.attachment_link != '' && item.attachment_link != null ? '' : 'display: none!important;'">
+                                    <a :href="item.attachment_link" target="_blank"><img v-bind:src="getImage(item.file_name)" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name"></a>
+                                    <img src="/assets/images/cancel.png" width="12" height="12" style="cursor: pointer; padding-left: 2px!important;" @click="removeFile(array_index)">
+                                </div>
+                                <label v-bind:for="array_index + 'usd'" v-show="item.attachment_link == '' || item.attachment_link == null"><img v-bind:src="getImage(item.file_name)" width="15" height="15" style="cursor: pointer;" v-bind:title="item.file_name"></label>
+                                <input type="file" name="attachment[]" v-bind:id="array_index + 'usd'" class="d-none" @change="onFileChange" v-bind:data-index="array_index">
                                 <input type="hidden" name="is_update[]" v-bind:id="array_index + 'usd_id'" class="d-none" v-bind:value="item.is_update">
                             </td>
                             <td class="text-center">
@@ -207,6 +211,7 @@
                     onFileChange(e) {
                         let index = e.target.getAttribute('data-index');
                         _uThis.list[index]['is_update'] = IS_FILE_UPDATE_U;
+                        _uThis.list[index]['attachment_link'] = ' ';
                         _uThis.list[index]['file_name'] = 'updated';
                         this.$forceUpdate();
                     },
@@ -215,6 +220,14 @@
                             return '/assets/images/document.png';
                         else
                             return '/assets/images/paper-clip.png';
+                    },
+                    removeFile(index) {
+                        _uThis.list[index]['file_name'] = '';
+                        _uThis.list[index]['attachment_link'] = '';
+                        _uThis.list[index]['is_update'] = IS_FILE_DELETE;
+                        $('#' + index + 'usd').val('');
+                        this.$forceUpdate();
+                        // $('#tc_file_remove').val(1);
                     },
                     setDebitCredit: function(type, index) {
                         if(type == 'debit')

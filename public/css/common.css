@@ -437,9 +437,12 @@ ul.timeline > li {
     bottom: -1px!important;
 }
 .dynamic-footer td {
-    background: #d9f8fb;
+    background: #d9f8fb!important;
     position: sticky!important;
     bottom: 0;
+}
+.dynamic-footer:hover, .dynamic-footer:hover td {
+    background: #d9f8fb!important;
 }
 
 .dynamic-footer td {

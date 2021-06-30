@@ -651,6 +651,10 @@ class BusinessController extends Controller {
 				    $tbl['attachment_link'] = url() . '/ctm/' . $name;
 				    $tbl['file_name'] = $fileName;
 			    }
+            } else if($params['is_update'][$key] == IS_FILE_DELETE) {
+                $tbl['attachment'] = null;
+                $tbl['attachment_link'] = null;
+                $tbl['file_name'] = null;
             }
             
             $tbl->save();

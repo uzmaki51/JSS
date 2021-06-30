@@ -686,10 +686,10 @@ footer {
     background: #ffffff!important;
     color: #333333!important;
 }
-.custom-table-striped > tbody > tr:nth-child(even) > td input, select {
-    background: #ffffff!important;
-    color: #333333!important;
-}
+// .custom-table-striped > tbody > tr:nth-child(even) > td input, select {
+//     background: #ffffff!important;
+//     color: #333333!important;
+// }
 .custom-table-striped > thead th {
     line-height: 20px;
 }
@@ -870,7 +870,7 @@ footer {
     white-space: nowrap;
 }
 .fixed-td {
-    max-width: 140px;
+    max-width: 120px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -35,7 +35,7 @@ $ships = Session::get('shipList');
                     </h4>
                 </div>
             </div>
-            <div class="col-lg-12">
+            <div class="row">
                 <div class="col-lg-12">
                     <ul class="nav nav-tabs ship-register">
                         <li class="active">
@@ -51,7 +51,7 @@ $ships = Session::get('shipList');
                     </ul>
                     
                     <div class="tab-content pt-2">
-                        <div id="total_analytics_div" class="tab-pane active" v-cloak>
+                        <div id="total_analytics_div" class="tab-pane active">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
@@ -73,133 +73,134 @@ $ships = Session::get('shipList');
                                         <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-12 head-fix-div" style="margin-top: 4px;">
-                                        <table class="table-layout-fixed">
-                                            <thead class="">
-                                                <tr class="ctm-analytics">
-                                                    <th colspan="4">
-                                                        {{ $shipName['shipName_En'] }}&nbsp;&nbsp;&nbsp;@{{ activeYear }}年 CTM(￥)
-                                                    </th>
-                                                    <th colspan="3" style="border-left: 2px solid #000;">
-                                                        CTM($)
-                                                    </th>
-                                                    <th style="border-left: 3px solid #000;">
-                                                        支出(￥ + $)
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th class="text-center style-header center" style="width: 2%;">月析</th>
-                                                    <th class="text-center style-header center" style="width: 14%;">收入</th>
-                                                    <th class="text-center style-header" style="width: 14%;">支出(￥)</th>
-                                                    <th class="text-center style-header" style="width: 14%;">余额(￥)</th>
-                                                    <th class="text-center style-header" style="width: 14%; border-left: 2px solid #000!important">收入($)</th>
-                                                    <th class="text-center style-header" style="width: 14%;">支出($)</th>
-                                                    <th class="text-center style-header" style="width: 14%;">余额($)</th>
-                                                    <th class="text-center style-header" style="width: 14%; border-left: 3px solid #000!important;">支出合计</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr v-for="(item, array_index, key) in list">
-                                                <td class="">
-                                                    @{{ array_index }}
-                                                </td>
-                                                <td class="right">
-                                                    @{{ number_format(item.CNY.credit) }}
-                                                </td>
-                                                <td class="right">
-                                                    @{{ number_format(item.CNY.debit) }}
-                                                </td>
-                                                <td class="right">
-                                                    @{{ calcBalance(item.CNY.credit, item.CNY.debit) }}
-                                                </td>
-                                                <td class="right" style="border-left: 2px solid #000!important">
-                                                    @{{ number_format(item.USD.credit, 2, '$') }}
-                                                </td>
-                                                <td class="right">
-                                                    @{{ number_format(item.USD.debit, 2, '$') }}
-                                                </td>
-                                                <td class="right">
-                                                    @{{ calcBalance(item.USD.credit, item.USD.debit, '$') }}
-                                                </td>
-                                                <td class="center" style="border-left: 3px solid #000!important">
-                                                    @{{ calcUsd(item.USD.debit, item.CNY.usd_debit) }}
-                                                </td>
+                            </div>
+                            <div class="row">
+                                <div class="head-fix-div" style="margin-top: 4px;">
+                                    <table class="table-layout-fixed" v-cloak>
+                                        <thead class="">
+                                            <tr class="ctm-analytics">
+                                                <th colspan="4">
+                                                    {{ $shipName['shipName_En'] }}&nbsp;&nbsp;&nbsp;@{{ activeYear }}年 CTM(￥)
+                                                </th>
+                                                <th colspan="3" style="border-left: 2px solid #000;">
+                                                    CTM($)
+                                                </th>
+                                                <th style="border-left: 3px solid #000;">
+                                                    支出(￥ + $)
+                                                </th>
                                             </tr>
-                                            <tr class="ctm-analytics-footer">
-                                                <td class="style-header center" style="width: 4%;">合计</td>
-                                                <td class="style-header right" style="width: 7%;">@{{ number_format(total.cny.credit, 2) }}</td>
-                                                <td class="style-header right" style="width: 5%;">@{{ number_format(total.cny.debit, 2) }}</td>
-                                                <td class="style-header right" style="width: 6%;">@{{ calcBalance(total.cny.credit, total.cny.debit) }}</td>
-                                                <td class="style-header right" style="width: 25%; border-left: 2px solid #000!important">@{{ number_format(total.usd.credit, 2, '$') }}</td>
-                                                <td class="style-header right" style="width: 7%;">@{{ number_format(total.usd.debit, 2, '$') }}</td>
-                                                <td class="style-header right" style="width: 7%;">@{{ calcBalance(total.usd.credit, total.usd.debit, '$') }}</td>
-                                                <td class="style-header right" style="width: 8%; border-left: 3px solid #000!important;">@{{ calcUsd(total.usd.debit, total.cny.usd_amount) }}</td>
+                                            <tr>
+                                                <th class="text-center style-header center" style="width: 2%;">月析</th>
+                                                <th class="text-center style-header center" style="width: 14%;">收入</th>
+                                                <th class="text-center style-header" style="width: 14%;">支出(￥)</th>
+                                                <th class="text-center style-header" style="width: 14%;">余额(￥)</th>
+                                                <th class="text-center style-header" style="width: 14%; border-left: 2px solid #000!important">收入($)</th>
+                                                <th class="text-center style-header" style="width: 14%;">支出($)</th>
+                                                <th class="text-center style-header" style="width: 14%;">余额($)</th>
+                                                <th class="text-center style-header" style="width: 14%; border-left: 3px solid #000!important;">支出合计</th>
                                             </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(item, array_index, key) in list">
+                                            <td class="">
+                                                @{{ array_index }}
+                                            </td>
+                                            <td class="right">
+                                                @{{ number_format(item.CNY.credit) }}
+                                            </td>
+                                            <td class="right">
+                                                @{{ number_format(item.CNY.debit) }}
+                                            </td>
+                                            <td class="right">
+                                                @{{ calcBalance(item.CNY.credit, item.CNY.debit) }}
+                                            </td>
+                                            <td class="right" style="border-left: 2px solid #000!important">
+                                                @{{ number_format(item.USD.credit, 2, '$') }}
+                                            </td>
+                                            <td class="right">
+                                                @{{ number_format(item.USD.debit, 2, '$') }}
+                                            </td>
+                                            <td class="right">
+                                                @{{ calcBalance(item.USD.credit, item.USD.debit, '$') }}
+                                            </td>
+                                            <td class="center" style="border-left: 3px solid #000!important">
+                                                @{{ calcUsd(item.USD.debit, item.CNY.usd_debit) }}
+                                            </td>
+                                        </tr>
+                                        <tr class="ctm-analytics-footer">
+                                            <td class="style-header center" style="width: 4%;">合计</td>
+                                            <td class="style-header right" style="width: 7%;">@{{ number_format(total.cny.credit, 2) }}</td>
+                                            <td class="style-header right" style="width: 5%;">@{{ number_format(total.cny.debit, 2) }}</td>
+                                            <td class="style-header right" style="width: 6%;">@{{ calcBalance(total.cny.credit, total.cny.debit) }}</td>
+                                            <td class="style-header right" style="width: 25%; border-left: 2px solid #000!important">@{{ number_format(total.usd.credit, 2, '$') }}</td>
+                                            <td class="style-header right" style="width: 7%;">@{{ number_format(total.usd.debit, 2, '$') }}</td>
+                                            <td class="style-header right" style="width: 7%;">@{{ calcBalance(total.usd.credit, total.usd.debit, '$') }}</td>
+                                            <td class="style-header right" style="width: 8%; border-left: 3px solid #000!important;">@{{ calcUsd(total.usd.debit, total.cny.usd_amount) }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
+                    
 
-                        <div id="debit_analytics_div" class="tab-pane" v-cloak>
-                            <div class="col-lg-6">
-                                <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
-                                <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;" @change="goToUrl">
-                                    @foreach($shipList as $ship)
-                                        <option value="{{ $ship['IMO_No'] }}"
-                                                {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <select class="text-center ml-1" style="width: 60px;" @change="changeYear">
-                                    @foreach($yearList as $key => $item)
-                                        <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="btn-group f-right">
-                                    <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                        <div id="debit_analytics_div" class="tab-pane">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="custom-label d-inline-block font-bold" style="padding: 6px;">船名: </label>
+                                    <select class="custom-select d-inline-block" id="select-ship" style="padding: 4px; max-width: 100px;" @change="goToUrl">
+                                        @foreach($shipList as $ship)
+                                            <option value="{{ $ship['IMO_No'] }}"
+                                                    {{ isset($shipId) && $shipId == $ship['IMO_No'] ?  "selected" : "" }}>{{ $ship['NickName'] == '' ? $ship['shipName_En'] : $ship['NickName'] }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <select class="text-center ml-1" style="width: 60px;" @change="changeYear">
+                                        @foreach($yearList as $key => $item)
+                                            <option value="{{ $item }}" {{ $activeYear == $item ? 'selected' : '' }}>{{ $item }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="btn-group f-right">
+                                        <button class="btn btn-warning btn-sm excel-btn"><i class="icon-table"></i><b>{{ trans('common.label.excel') }}</b></button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-12 head-fix-div" style="margin-top: 4px;">
-                                        <table class="table-layout-fixed">
-                                            <thead class="">
-                                                <tr class="ctm-analytics">
-                                                    <th colspan="13">
-                                                        {{ $shipName['shipName_En'] }}&nbsp;&nbsp;&nbsp;@{{ activeYear }}年 支出分析
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th class="style-header center" style="width: 40px;">月析</th>
-                                                    <th class="style-header center" style="border-right: 2px solid #000!important;">支出合计($)</th>
-                                                    <th  class="style-header center" v-for="(item, index) in profitType">@{{ item }}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(item, index, key) in list">
-                                                    <td class="center">@{{ index }}</td>
-                                                    <td class="right" style="border-right: 2px solid #000!important;">@{{ number_format(item.debitTotal) }}</td>
-                                                    <td class="right" v-for="(subItem, subIndex) in item" v-show="subIndex <= 12">@{{ number_format(subItem) }}</td>
-                                                </tr>
-                                                <tr class="ctm-analytics-footer">
-                                                    <td class="style-header center" style="width: 40px;">合计</td>
-                                                    <td class="style-header right" v-for="(item, index) in total" :style="index == 1 ? 'border-right: 2px solid #000!important;' : ''">@{{ number_format(item) }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="head-fix-div" style="margin-top: 4px;">
+                                    <table class="table-layout-fixed" v-cloak>
+                                        <thead class="">
+                                            <tr class="ctm-analytics">
+                                                <th colspan="13">
+                                                    {{ $shipName['shipName_En'] }}&nbsp;&nbsp;&nbsp;@{{ activeYear }}年 支出分析
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="style-header center" style="width: 40px;">月析</th>
+                                                <th class="style-header center" style="border-right: 2px solid #000!important;">支出合计($)</th>
+                                                <th  class="style-header center" v-for="(item, index) in profitType">@{{ item }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(item, index, key) in list">
+                                                <td class="center">@{{ index }}</td>
+                                                <td class="right" style="border-right: 2px solid #000!important;">@{{ number_format(item.debitTotal) }}</td>
+                                                <td class="right" v-for="(subItem, subIndex) in item" v-show="subIndex <= 12">@{{ number_format(subItem) }}</td>
+                                            </tr>
+                                            <tr class="ctm-analytics-footer">
+                                                <td class="style-header center" style="width: 40px;">合计</td>
+                                                <td class="style-header right" v-for="(item, index) in total" :style="index == 1 ? 'border-right: 2px solid #000!important;' : ''">@{{ number_format(item) }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>                    
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <audio controls="controls" class="d-none" id="warning-audio">
-            <source src="{{ cAsset('assets/sound/delete.wav') }}">
-            <embed src="{{ cAsset('assets/sound/delete.wav') }}" type="audio/wav">
-        </audio>
     </div>
 
     <script src="{{ cAsset('assets/js/moment.js') }}"></script>

@@ -80,7 +80,7 @@ $ships = Session::get('shipList');
                                     <th class="text-center style-header" rowspan="2" style="width: 5%; white-space: nowrap;">{!! trans('business.table.cn.voy_no') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_no') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2" style="min-width: 55px;">{!! trans('business.table.cn.voy_tc') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.voy_tc') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2" style="width: 7%;">{!! trans('business.table.cn.cp_date') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cp_date') !!}</span></th>
-                                    <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
+                                    <th class="text-center style-header" rowspan="2" style="width: 9%;">{!! trans('business.table.cn.cargo') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.cargo') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2" style="width: 9%;">{!! trans('business.table.cn.qty') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.qty') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.loading_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.loading_port') !!}</span></th>
                                     <th class="text-center style-header" rowspan="2">{!! trans('business.table.cn.discharge_port') !!}<br><span class="style-bold-italic">{!! trans('business.table.en.discharge_port') !!}</span></th>
@@ -105,7 +105,7 @@ $ships = Session::get('shipList');
                                         <td class="text-center">@{{ item.Cgo_Qtty }}</td>
                                         <td class="text-center"><div class="fixed-td">@{{ getPortName(item.LPort) }}</div></td>
                                         <td class="text-center"><div class="fixed-td">@{{ getPortName(item.DPort) }}</div></td>
-                                        <td class="text-center">@{{ item.L_Rate }}</td>
+                                        <td class="text-center"><div class="fixed-td">@{{ item.L_Rate }}</div></td>
                                         <td class="text-center"><span class="fixed-td">@{{ item.D_Rate }}</span></td>
                                         <td class="text-center">@{{ getFrtRate(item.Freight, item.total_Freight) }}</td>
                                         <td class="text-center">@{{ item.net_profit_day }}</td>

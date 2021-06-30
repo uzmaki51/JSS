@@ -434,8 +434,10 @@
                 success: function(data, status, xhr) {
                     if(is_new == false)
                         $('[name=reportId]').val(reportId);
-                    else
+                    else {
+                        $('.save-draft').removeAttr('disabled');
                         $('[name=reportId]').val('');
+                    }
 
                     let result = data['list'];
                     let attach = data['attach'];
@@ -472,7 +474,8 @@
                     }
                     
                     if($('[name=draftId]').val() == -1)
-                        $('.save-draft').attr('disabled', 'disabled');
+                        if(!is_new)
+                            $('.save-draft').attr('disabled', 'disabled');
 
                     $('.only-modal-show').click();
                 },
