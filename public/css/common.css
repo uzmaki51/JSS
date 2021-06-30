@@ -503,6 +503,7 @@ ul.timeline > li {
 }
 .date-label {
     float: left;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s!important;
 }
 .hour-label {
     float: left;
@@ -520,6 +521,9 @@ ul.timeline > li {
 }
 .hour-input, .minute-input {
     text-align: center!important;
+}
+.time-width input {
+    border: 1px solid #ffffff!important;
 }
 .no-border-td {
     border-bottom: transparent!important;

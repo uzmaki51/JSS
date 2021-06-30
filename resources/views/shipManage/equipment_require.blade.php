@@ -42,7 +42,7 @@
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" value="{{ $shipId }}" name="shipId">
                 <input type="hidden" value="require" name="type">
-                <table class="table-striped" id="table-require">
+                <table class="" id="table-require">
                     <thead class="">
                         <th class="d-none"></th>
                         <th class="text-center">No</th>
