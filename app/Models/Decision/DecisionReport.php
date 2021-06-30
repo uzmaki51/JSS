@@ -325,7 +325,6 @@ class DecisionReport extends Model {
         } else {
             $start_year = substr($start_year['max_date'],0,4);
         }
-		
 		$total_profit = 0;
 		$start_year = intval($start_year);
 		$records = [];
