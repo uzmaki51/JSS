@@ -354,9 +354,6 @@ ul.timeline > li {
 .main-panel {
     box-shadow: 0px 0px 8px 4px #d2d2d2;
 }
-.white-bg {
-    background: white!important;
-}
 
 .label-input {
     display: flex;

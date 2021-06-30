@@ -290,7 +290,7 @@ $ships = Session::get('shipList');
                                                 <tr>
                                                     <th class="text-center style-normal-header" style="width: 4%;"><span>No</span></th>
                                                     <th class="text-center style-normal-header" style="width: 9%;"><span>日期</span></th>
-                                                    <th class="text-left style-normal-header" style="width: 34%;"><span>摘要</span></th>
+                                                    <th class="text-center style-normal-header" style="width: 34%;"><span>摘要</span></th>
                                                     <th class="text-center style-normal-header" style="width: 5%;"><span>收支种类</span></th>
                                                     <th class="text-center style-normal-header" style="width: 18%;"><span>收入</span></th>
                                                     <th class="text-center style-normal-header" style="width: 18%;"><span>支出</span></th>

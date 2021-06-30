@@ -29,6 +29,10 @@ $isHolder = Session::get('IS_HOLDER');
             .cost-item-odd:hover {
                 background-color: #ffe3e082;
             }
+
+            .disable-td {
+                background-color:unset!important;
+            }
         </style>
         <div class="page-content">
             <div class="space-4"></div>
