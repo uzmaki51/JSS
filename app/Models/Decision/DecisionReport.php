@@ -32,7 +32,23 @@ class DecisionReport extends Model {
 	protected $table_register_ship = 'tb_ship_register';
 
 	public function getForSavedBookDatatable($params, $year, $month) {
-		$selector = ReportSave::where('year', $year)->where('month', $month);
+		//$selector = ReportSave::where('year', $year)->where('month', $month);
+		$next_year = $year;
+        $next_month = $month;
+        if ($month == 12) {
+            $next_month = 1;
+            $next_year ++;
+        }
+        else
+        {
+            $next_month = $month + 1;
+        }
+		$now = date('Y-m-d', strtotime("$year-$month-1"));
+		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
+		//$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
+			
+		$selector = ReportSave::where('report_date', '>=', $now)->where('report_date', '<', $next);
+
         $recordsFiltered = $selector->count();
 		$records = $selector->orderBy('report_id', 'asc')->get();
 		$newArr = [];
@@ -83,20 +99,6 @@ class DecisionReport extends Model {
 			->orderBy('report_id', 'asc')
 			->where('state', 1);
 
-		$next_year = $year;
-        $next_month = $month;
-        if ($month == 12) {
-            $next_month = 1;
-            $next_year ++;
-        }
-        else
-        {
-            $next_month = $month + 1;
-        }
-		$now = date('Y-m-d', strtotime("$year-$month-1"));
-		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
-		$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
-			
 		$selector->where('report_date', '>=', $now)->where('report_date', '<', $next);
 		$recordsFiltered = $selector->count();
 		$records = $selector->get();
@@ -159,12 +161,12 @@ class DecisionReport extends Model {
 	public function calcProfitList($shipid, $year, $month) {
 		$newArr = [];
 		$count = 0;
-
+		/*
 		$voyNo_from = substr($year, 2, 2) . '00';
 		$voyNo_to = substr($year, 2, 2) + 1;
 		$voyNo_to = $voyNo_to . '00';
-
-		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to)->whereNotNull('book_no');
+		*/
+		$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('year',$year)->whereNotNull('book_no');
 		if ($month != null) {
 			$selector = $selector->where('month', $month);
 		}
@@ -224,7 +226,8 @@ class DecisionReport extends Model {
 		$voyNo_to = substr($year, 2, 2) + 1;
 		$voyNo_to = $voyNo_to . '00';
 
-		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to)->whereNotNull('book_no');
+		//$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('voyNo','>=', $voyNo_from)->where('voyNo','<',$voyNo_to)->whereNotNull('book_no');
+		$selector = ReportSave::where('type', 0)->whereIn('shipNo',$shipids)->where('year',$year)->whereNotNull('book_no');
 		$selector = $selector->whereNotIn('profit_type',[13,14])
 		->selectRaw('sum(CASE WHEN currency="CNY" THEN amount/rate ELSE amount END) as sum, flowid, profit_type, month, shipNo')
 		->groupBy('flowid','profit_type','shipNo');
@@ -332,7 +335,7 @@ class DecisionReport extends Model {
 			$voyNo_to = substr($year, 2, 2) + 1;
 			$voyNo_to = $voyNo_to . '00';
 
-			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('Voy_No','>=', $voyNo_from)->where('Voy_No','<',$voyNo_to)->whereNotNull('book_no')
+			$selector = ReportSave::where('type', 0)->where('shipNo',$shipid)->where('voyNo','>=', $voyNo_from)->where('voyNo','<',$voyNo_to)->whereNotNull('book_no')
 				->groupBy('flowid','profit_type')
 				->selectRaw('sum(CASE WHEN tb_decision_report_save.currency="CNY" THEN tb_decision_report_save.amount/tb_decision_report_save.rate ELSE tb_decision_report_save.amount END) as sum, tb_decision_report_save.flowid, tb_decision_report_save.profit_type, tb_decision_report_save.currency')
 				->groupBy('flowid','profit_type');
@@ -647,7 +650,7 @@ class DecisionReport extends Model {
         }
 		$now = date('Y-m-d', strtotime("$year-$month-1"));
 		$next = date('Y-m-d', strtotime("$next_year-$next_month-1"));
-		$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
+		//$next = date('Y-m-d', strtotime('-1 day', strtotime($next)));
 			
 		$selector->where('report_date', '>=', $now)->where('report_date', '<', $next);
 		$recordsFiltered = $selector->count();
