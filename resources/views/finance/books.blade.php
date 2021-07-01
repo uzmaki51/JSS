@@ -815,6 +815,7 @@ $isHolder = Session::get('IS_HOLDER');
                     var content = "";
                     var report_id = "";
                     var obj = "";
+                    var report_ids = [];
                     for(var i = 0 ; i < keep_list.rows.length ; i++) 
                     {
                         var book_id = keep_list.rows[i].getAttribute('data-ref');
@@ -824,6 +825,8 @@ $isHolder = Session::get('IS_HOLDER');
                             if (ship_no == "") ship_no = keep_list.rows[i].getAttribute('ship-no');
                             if (content == "") content = keep_list.rows[i].childNodes[4].childNodes[0].value;
                             if (report_id == "") report_id = keep_list.rows[i].getAttribute('report-id');
+                            report_ids.push(report_id = keep_list.rows[i].getAttribute('report-id'));
+                            
                             if (obj == "") obj = keep_list.rows[i].childNodes[1].innerText;
                             book_list.rows[book_id].childNodes[2].childNodes[0].value = "J-" + new_book_no;
                             book_list.rows[book_id].childNodes[2].childNodes[0].style.setProperty('color', 'red','important');
@@ -837,7 +840,7 @@ $isHolder = Session::get('IS_HOLDER');
                         }
                     }
                     setState(false);
-                    var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_id, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
+                    var new_item = {no:new_book_no, ship_no:ship_no, ship_name:obj, report_id:report_ids, content:content, datetime:datetime, rate:rate, pay_type:pay_type, account_type:account_type, account_name:account_name, currency:(currency=="$"?1:0), credit:sum_credit, debit:sum_debit };
                     books.push(new_item);
                     $('#keep_list').val(JSON.stringify(books));
                 }
