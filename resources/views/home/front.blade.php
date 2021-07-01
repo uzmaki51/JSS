@@ -148,7 +148,7 @@
                                             <td class="center">{{$nickName}}</td>
                                             <td class="center">{{$report['voyNo']}}</td>
                                             <td class="center">{{($report['profit_type']!=null)&&($report['profit_type']!="")?g_enum('FeeTypeData')['Debit'][$report['profit_type']]:""}}</td>
-                                            <td class="center" style="background-color:#fdb971"><span class="blink">等待</span></td>
+                                            <td class="center" style="background-color:#fdb971!important"><span class="blink">等待</span></td>
                                             <?php $index++;?>
                                         </tr>
                                         @endif
@@ -287,7 +287,7 @@
                                                 <div style="height: auto; outline: unset;">
                                                     <h5>
                                                         <a href="/shipManage/dynamicList" style="color: white; outline: unset;" target="_blank">
-                                                        <table style="width:100%;border:unset!important;table-layout:fixed;">
+                                                        <table style="width:100%;border:unset!important;table-layout:fixed;" class="not-striped">
                                                             <tbody><tr>
                                                                 <td class="td-notice-yellow" style="width:4%">{{$nickName}}</td>
                                                                 <td class="td-notice-white" style="width:9%">{{$info['Voy_Date']}}</td>

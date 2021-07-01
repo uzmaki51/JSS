@@ -298,12 +298,12 @@
                 $('[name=draftId]').val(-1);
                 showReportDetail(reportId);
             } else if(cell.index() == 11) {
-                if(isAdmin == 1) return false;
-                if(isAttach == 0) {
-                    // $(this).addClass('selected');
-                    // $('[name=draftId]').val(-1);
-                    // showReportDetail(reportId);
-                }
+                if(isAttach == 0 && isAdmin == 1) return false;
+                // if(isAttach == 0) {
+                //     // $(this).addClass('selected');
+                //     // $('[name=draftId]').val(-1);
+                //     // showReportDetail(reportId);
+                // }
             }
 
 
@@ -917,7 +917,7 @@
                     {data: 'realname', className: "text-center each"},
                     {data: 'depart_name', className: "text-center each"},
                     {data: 'attachment', className: "text-center each"},
-                    {data: 'state', className: "text-center"},
+                    {data: 'state', className: "text-center not-striped-td"},
                     {data: null, className: "text-center"},
                 ],
                 createdRow: function (row, data, index) {

@@ -197,31 +197,31 @@
                                 </tr>
                             </template>
                             <tr class="dynamic-footer">
-                                <td class="text-center" rowspan="2">航次</td>
-                                <td class="text-center" rowspan="2">报告次</td>
-                                <td class="text-center" rowspan="2" colspan="5">时间</td>
-                                <td class="text-center" rowspan="2">航次用时</td>
-                                <td class="text-center" rowspan="2">距离<br>[NM]</td>
-                                <td class="text-center" rowspan="2">平均<br>速度</td>
-                                <td class="text-center fix-top">经济天</td>
-                                <td class="text-center fix-top" style="border-right: 2px solid rgb(72, 79, 91);"><span class="text-warning" :class="dangerClass(economic_rate)">@{{ number_format(economic_rate) }}%</span></td>
-                                <td class="text-center fix-top" colspan="2">总消耗</td>
-                                <td class="text-center fix-top" colspan="2">加油量</td>
-                                <td class="text-center fix-top" colspan="2">标准消耗</td>
-                                <td class="text-center fix-top" colspan="2">-节约/+超过</td>
-                                <td class="text-center" rowspan="2" colspan="2"></td>
+                                <td class="text-center not-striped-td" rowspan="2">航次</td>
+                                <td class="text-center not-striped-td" rowspan="2">报告次</td>
+                                <td class="text-center not-striped-td" rowspan="2" colspan="5">时间</td>
+                                <td class="text-center not-striped-td" rowspan="2">航次用时</td>
+                                <td class="text-center not-striped-td" rowspan="2">距离<br>[NM]</td>
+                                <td class="text-center not-striped-td" rowspan="2">平均<br>速度</td>
+                                <td class="text-center fix-top not-striped-td">经济天</td>
+                                <td class="text-center fix-top not-striped-td" style="border-right: 2px solid rgb(72, 79, 91);"><span class="text-warning" :class="dangerClass(economic_rate)">@{{ number_format(economic_rate) }}%</span></td>
+                                <td class="text-center fix-top not-striped-td" colspan="2">总消耗</td>
+                                <td class="text-center fix-top not-striped-td" colspan="2">加油量</td>
+                                <td class="text-center fix-top not-striped-td" colspan="2">标准消耗</td>
+                                <td class="text-center fix-top not-striped-td" colspan="2">-节约/+超过</td>
+                                <td class="text-center not-striped-td" rowspan="2" colspan="2"></td>
                             </tr>
                             <tr class="dynamic-footer">
-                                <td class="text-center">航行</td>
-                                <td class="text-center" style="border-right: 2px solid rgb(72, 79, 91);">装卸货</td>
-                                <td class="text-center">FO</td>
-                                <td class="text-center">DO</td>
-                                <td class="text-center">FO</td>
-                                <td class="text-center">DO</td>
-                                <td class="text-center">FO</td>
-                                <td class="text-center">DO</td>
-                                <td class="text-center">FO</td>
-                                <td class="text-center">DO</td>
+                                <td class="text-center not-striped-td">航行</td>
+                                <td class="text-center not-striped-td" style="border-right: 2px solid rgb(72, 79, 91);">装卸货</td>
+                                <td class="text-center not-striped-td">FO</td>
+                                <td class="text-center not-striped-td">DO</td>
+                                <td class="text-center not-striped-td">FO</td>
+                                <td class="text-center not-striped-td">DO</td>
+                                <td class="text-center not-striped-td">FO</td>
+                                <td class="text-center not-striped-td">DO</td>
+                                <td class="text-center not-striped-td">FO</td>
+                                <td class="text-center not-striped-td">DO</td>
                             </tr>
                             <tr class="dynamic-footer-result">
                                 <td>@{{ activeVoy }}</td>
