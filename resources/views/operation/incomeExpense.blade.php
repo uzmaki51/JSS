@@ -668,6 +668,9 @@ $ships = Session::get('shipList');
                         else if (i == 12) {
                             dest_obj = $('td', row).eq(20);
                         }
+                        else {
+                            dest_obj = null;
+                        }
 
                         if (i == 15) {
                             $(dest_obj).attr('class', 'text-right right-border');
@@ -686,11 +689,11 @@ $ships = Session::get('shipList');
                             } else {
                                 $(dest_obj).attr('style', 'padding-right:5px!important;')
                             }
-                            
+
                             $(dest_obj).html(prettyValue(data['debit_list'][i]));
                         }
                         else {
-                            $(dest_obj).html('');
+                            if (dest_obj != null) $(dest_obj).html('');
                         }
                     }
                 },

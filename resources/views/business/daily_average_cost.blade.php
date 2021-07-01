@@ -392,6 +392,9 @@ $ships = Session::get('shipList');
                         else if (i == 12) {
                             dest_obj = $('td', row).eq(19);
                         }
+                        else {
+                            dest_obj = null;
+                        }
 
                         if (i == 15) {
                             //$(dest_obj).attr('class', 'text-right right-border');
@@ -414,7 +417,7 @@ $ships = Session::get('shipList');
                             $(dest_obj).html(prettyValue(data['debit_list'][i]));
                         }
                         else {
-                            $(dest_obj).html('');
+                            if (dest_obj != null) $(dest_obj).html('');
                         }
                     }
                 },

@@ -526,7 +526,7 @@ class DecisionReport extends Model {
 			$voyNo = $params['columns'][2]['search']['value'];
 			$currency = $params['columns'][3]['search']['value'];
 		}
-
+		// 办公费:13, 兑换:14
 		$selector = ReportSave::where('type', 0)->whereNotIn('profit_type',[13,14])->where('shipNo', $shipid)->where('voyNo', $voyNo)->whereNotNull('book_no');
 		$records = $selector->orderBy('id', 'asc')->get();
 		$newArr = [];
