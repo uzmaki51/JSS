@@ -4,7 +4,6 @@ var checkTime = 3600 * 1000;
 var amountDecimals = [];
 var priceDecimals = [];
 var balanceDecimals = [];
-var groups = [];
 
 
 $(function() {
@@ -213,54 +212,3 @@ function __parseStr(value) {
 
     return value;
 }
-
-
-// function setRowSpanCls() {
-//     groups = [];
-//     var tds = $("#table-shipmember-list td");
-//     console.log(tds);
-    
-//     for(var i = 0; i < tds.length; i++){
-//         if(tds[i].getAttribute('rowspan') != null) {console.log('---')
-//           var rspan = tds[i];
-//           groups.push({
-//             parent: rspan.parentNode,
-//             height: rspan.getAttribute('rowspan')
-//         });
-//       }
-//     }
-    
-//     var count = 0;
-//     var rows = $('#table-shipmember-list tr');
-//     var dark = true;
-    
-//     for(var i = 0; i < rows.length; i++) {
-//         var row = rows[i];
-//       var index = groupIndex(row);
-//       if(index != null && dark) {
-//           var group = groups[index];
-//             var height = parseInt(group.height);
-//         for(var j = i; j < i + height; j++){
-//             $(rows[j]).addClass('dark');
-//         }
-//         i += height - 1;
-//         dark = !dark;
-//         continue;
-//       }
-//       if(dark){
-//           $(rows[i]).addClass('dark');
-//       }
-//       dark = !dark;
-//     }
-    
-// }
-
-// function groupIndex(element) {
-// 	for(var i = 0; i < groups.length; i++){
-//   	var group = groups[i].parent;
-//     if(group == element){
-//     	return i;
-//     }
-//   }
-//   return null;
-// }
