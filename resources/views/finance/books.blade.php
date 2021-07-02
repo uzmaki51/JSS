@@ -826,7 +826,7 @@ $isHolder = Session::get('IS_HOLDER');
                             if (content == "") content = keep_list.rows[i].childNodes[4].childNodes[0].value;
                             if (report_id == "") report_id = keep_list.rows[i].getAttribute('report-id');
                             report_ids.push(report_id = keep_list.rows[i].getAttribute('report-id'));
-                            
+
                             if (obj == "") obj = keep_list.rows[i].childNodes[1].innerText;
                             book_list.rows[book_id].childNodes[2].childNodes[0].value = "J-" + new_book_no;
                             book_list.rows[book_id].childNodes[2].childNodes[0].style.setProperty('color', 'red','important');
@@ -970,7 +970,11 @@ $isHolder = Session::get('IS_HOLDER');
         $("#btnSave").on('click', function() {
             //origForm = $form.serialize();
             submitted = true;
-            if (document.getElementById('list-book-body').rows.length > 0) {
+            var rows_to_send = document.getElementById('list-book-body').rows;
+            if (rows_to_send.length > 0) {
+                if (rows_to_send.length == 1) {
+                    if (rows_to_send[0].innerHTML.indexOf('No matching records found') >= 0) return;
+                }
                 $('#books-form').submit();
                 $('td[style*="display: none;"]').remove();
             }

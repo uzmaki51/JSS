@@ -858,7 +858,8 @@ $ships = Session::get('shipList');
                     row_html += '<td style="padding-right:5px!important;height:20px!important;" class="right-border text-right ' + (value >= 0 ? 'style-blue-input':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
                     prev_sum += result[ship_no]['prevProfit'];
                     for(var i=0;i<12;i++) {
-                        value = result[ship_no]['sum_months'][i];
+                        //value = result[ship_no]['sum_months'][i];
+                        value = result[ship_no]['months'][i];
                         month_sum[i] += value;
                         row_html += '<td style="padding-right:5px!important;height:20px!important;" class="text-right ' + (value >= 0 ? '':'style-red-input') + '">' + (value==0?'':'$'+prettyValue2(value)) + '</td>';
                     }

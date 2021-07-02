@@ -627,7 +627,8 @@ $ships = Session::get('shipList');
                         $('td', row).eq(7).attr('class', 'style-red-input text-right right-border');
                     }
                     $('td', row).eq(7).attr('style', 'padding-right:5px!important;')
-                    $('td', row).eq(7).html(data['total_profit']==0?'':prettyValue(data['total_profit']));
+                    //$('td', row).eq(7).html(data['total_profit']==0?'':prettyValue(data['total_profit']));
+                    $('td', row).eq(7).html(data['profit_sum']==0?'':(data['total_profit']==0?'':prettyValue(data['total_profit'])))
 
                     for (var i=1;i<16;i++)
                     {
@@ -907,7 +908,6 @@ $ships = Session::get('shipList');
         });
 
         $('#select-soa-ship').on('change', function() {
-            console.log("#select-soa-ship change!");
             shipid_soa = $('#select-soa-ship').val();
             voyNo_soa = null;
             clearSOAInfo();
@@ -915,7 +915,6 @@ $ships = Session::get('shipList');
         });
 
         $('#select-soa-contract').on('change', function() {
-            console.log("#select-soa-contract change!");
             voyNo_soa = $('#select-soa-contract').val();
             selectSOAInfo();
         });
@@ -924,8 +923,6 @@ $ships = Session::get('shipList');
             currency_soa = $('#select-soa-currency').val();
             selectSOAInfo();
         });
-
-        
 
         function gotoDetailPage()
         {
@@ -949,7 +946,6 @@ $ships = Session::get('shipList');
 
         function selectSOAInfo()
         {
-            console.log("selectSOAInfo is called");
             clearSOAInfo();
             $('#soa_title').html($("#select-soa-ship option:selected").attr('data-name') + ' ' + $("#select-soa-contract option:selected").val() + '次 ');
             $('#soa_info').html($("#select-soa-ship option:selected").attr('data-name') + ' ' + $("#select-soa-contract option:selected").val() + '次 ');
@@ -975,38 +971,31 @@ $ships = Session::get('shipList');
                 var voyNo = e.target.innerHTML;
                 if (voyNo != "")
                 {
-                    bootbox.confirm("Are you sure to show more?", function (result) {
-                        if (result) {
-                            if ($('#select-soa-ship').val() == shipid_table)
-                            {
-                                console.log("SetEvents is called(sameShip):", voyNo);
-                                voyNo_soa = voyNo;
-                                $('#select-soa-contract').val(voyNo_soa);
-                                selectSOAInfo();
-                            }
-                            else
-                            {
-                                console.log("SetEvents is called(diffShip):", voyNo);
-                                clicked_voyno = voyNo;
-                                $('#select-soa-ship').val(shipid_table);
-                                getVoyList(shipid_table);
-                                if (listSOATable == null) {
-                                    shipid_soa = shipid_table
-                                    voyNo_soa = voyNo;
-                                    currency_soa = $('#select-soa-currency').val();
-                                    initSOATable();
-                                }
-                            }
-                            
-                            $('a[href="#tab_soa"]').trigger('click');
+                    if ($('#select-soa-ship').val() == shipid_table)
+                    {
+                        voyNo_soa = voyNo;
+                        $('#select-soa-contract').val(voyNo_soa);
+                        selectSOAInfo();
+                    }
+                    else
+                    {
+                        clicked_voyno = voyNo;
+                        $('#select-soa-ship').val(shipid_table);
+                        getVoyList(shipid_table);
+                        if (listSOATable == null) {
+                            shipid_soa = shipid_table
+                            voyNo_soa = voyNo;
+                            currency_soa = $('#select-soa-currency').val();
+                            initSOATable();
                         }
-                    });
+                    }
+                    
+                    $('a[href="#tab_soa"]').trigger('click');
                 }
             });
         }
 
         function getVoyList(shipId) {
-            console.log("getVoyList is called");
             $.ajax({
                 url: BASE_URL + 'ajax/report/getData',
                 type: 'post',
@@ -1020,7 +1009,6 @@ $ships = Session::get('shipList');
                     $('#select-soa-contract').html(select_html);
 
                     if (clicked_voyno != null) {
-                        console.log("clicked_voyno:", clicked_voyno);
                         voyNo_soa = clicked_voyno;
                         $('#select-soa-contract').val(voyNo_soa);
                         clicked_voyno = null;
@@ -1134,7 +1122,6 @@ $ships = Session::get('shipList');
             }
             tab_text=tab_text+"</table>";
             total_text += tab_text;
-            console.log(total_text);
 
             total_text= total_text.replace(/<A[^>]*>|<\/A>/g, "");
             total_text= total_text.replace(/<img[^>]*>/gi,"");
