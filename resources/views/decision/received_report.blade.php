@@ -390,10 +390,21 @@
                                     decideType: decideType
                                 },
                                 success: function(data, status, xhr) {
-                                    listTable.draw();
+                                    let result = data;
+                                    if(result > 0) {
+                                        let cell = $('tr[data-index=' + reportId + '] td:nth-child(13)');
+                                        cell.css({'background': '#ccffcc'});
+                                        cell.html('');
+                                        cell.append('<div class="report-status"><span><i class="icon-ok"></i></span></div>');
+                                    } else if(result == -1) {
+                                        alert('你没有审批权限。');
+                                    } else {
+                                        alert('审批失败了。');
+                                    }
+                                    // listTable.draw();
                                 },
                                 error: function(error, status) {
-                                    listTable.draw();
+                                    alert('审批失败了。');
                                 }
                             });
                         }
@@ -411,11 +422,20 @@
                                     decideType: decideType
                                 },
                                 success: function(data, status, xhr) {
-                                    location.reload();
-                                    // listTable.draw();
+                                    let result = data;
+                                    if(result > 0) {
+                                        let cell = $('tr[data-index=' + reportId + '] td:nth-child(13)');
+                                        cell.css({'background': '#ff7c80'});
+                                        cell.html('');
+                                        cell.append('<div class="report-status"><span><i class="icon-remove"></i></span></div>');
+                                    } else if(result == -1) {
+                                        alert('你没有审批权限。');
+                                    } else {
+                                        alert('审批失败了。');
+                                    }
                                 },
                                 error: function(error, status) {
-                                    listTable.draw();
+                                    alert('审批失败了。');
                                 }
                             });
                         }
