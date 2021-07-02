@@ -687,11 +687,14 @@ $ships = Session::get('shipList');
                                 $(dest_obj).attr('class', 'text-right');
                             }
                             
+                            $(dest_obj).attr('style', 'padding-right:5px!important;')
+                            /*
                             if ((i==1) || (i==2) || (i==4)|| (i==6) || (i==15)) {
                                 $(dest_obj).attr('style', 'padding-right:5px!important;color:#9c9c9c!important')
                             } else {
                                 $(dest_obj).attr('style', 'padding-right:5px!important;')
                             }
+                            */
 
                             $(dest_obj).html(prettyValue(data['debit_list'][i]));
                         }
@@ -730,7 +733,12 @@ $ships = Session::get('shipList');
                     report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right style-blue-input'>" + (table_sums[1]==0?'':prettyValue(table_sums[1])) + "</td>";
                     for(i=2;i<18;i++)
                     {
-                        report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (table_sums[i]>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (table_sums[i]==0?'':prettyValue(table_sums[i])) + "</td>";
+                        if (i==3 || i==4)
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (table_sums[i]>=0?'style-blue-input':'style-red-input') + "' style='padding:5px!important;'>" + (table_sums[i]==0?'':prettyValue(table_sums[i])) + "</td>";
+                        else if (i>=5&&i<=9)
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header style-red-header text-right " + (table_sums[i]>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (table_sums[i]==0?'':prettyValue(table_sums[i])) + "</td>";
+                        else
+                            report_html += "<td style='box-shadow: inset 0 -1px #000, 1px -1px #000;padding:5px!important;' class='table-footer style-normal-header sub-small-header text-right " + (table_sums[i]>=0?'':'style-red-input') + "' style='padding:5px!important;'>" + (table_sums[i]==0?'':prettyValue(table_sums[i])) + "</td>";
                     }
                     report_html += "</tr>";
                     $('#table-income-expense-body').append(report_html);
@@ -837,7 +845,7 @@ $ships = Session::get('shipList');
                     $('td', row).eq(2).attr('style', 'padding-left:2px!important;');
                     $('td', row).eq(4).attr('class', 'style-blue-input text-right');
                     $('td', row).eq(4).attr('style', 'padding-right:5px!important;');
-                    $('td', row).eq(5).attr('class', 'style-blue-input text-right');
+                    $('td', row).eq(5).attr('class', 'text-right');
                     $('td', row).eq(5).attr('style', 'padding-right:5px!important;');
                         
                     $('td', row).eq(0).html('').append(index + 1);
@@ -858,7 +866,7 @@ $ships = Session::get('shipList');
                     report_row += '<td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header"></td><td class="sub-small-header style-normal-header text-center">合计</td>';
                     report_row += '<td class="sub-small-header style-normal-header text-center">' + currency + '</td>';
                     report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (SOA_credit_sum >= 0 ? 'style-blue-input':'style-red-input') + '">' + currency + ' ' + prettyValue(SOA_credit_sum) + '</td>';
-                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (SOA_debit_sum >= 0 ? 'style-blue-input':'style-red-input') + '">' + currency + ' ' + prettyValue(SOA_debit_sum) + '</td>';
+                    report_row += '<td style="padding-right:5px!important;" class="style-normal-header text-right ' + (SOA_debit_sum >= 0 ? '':'style-red-input') + '">' + currency + ' ' + prettyValue(SOA_debit_sum) + '</td>';
                     var total_sum = SOA_credit_sum - SOA_debit_sum;
                     report_row += '<td colspan="2" style="padding-right:5px!important;" class="style-normal-header text-right ' + (total_sum >= 0 ? 'style-blue-input':'style-red-input') + '">' + currency + ' ' + prettyValue(total_sum) + '</td>';
                     report_row += '</tr>';
