@@ -79,7 +79,7 @@ $isHolder = Session::get('IS_HOLDER');
                                                 @endfor
                                             @endif
                                         </select>
-                                        <a class="btn btn-sm btn-danger refresh-btn-over" type="button" onclick="init()" style="width: 80px;height: 26px!important;margin-bottom: 1px;padding: 5px!important;">
+                                        <a class="btn btn-sm btn-danger refresh-btn-over" id="btnInit" type="button" onclick="init()" style="width: 80px;height: 26px!important;margin-bottom: 1px;padding: 5px!important;">
                                             <img src="{{ cAsset('assets/images/refresh.png') }}" class="report-label-img">初始化
                                         </a>
                                         <strong class="f-right" style="font-size: 16px; padding-top: 6px;"><span id="search_info"></span>记账簿</strong>
@@ -829,7 +829,8 @@ $isHolder = Session::get('IS_HOLDER');
 
                             if (obj == "") obj = keep_list.rows[i].childNodes[1].innerText;
                             book_list.rows[book_id].childNodes[2].childNodes[0].value = "J-" + new_book_no;
-                            book_list.rows[book_id].childNodes[2].childNodes[0].style.setProperty('color', 'red','important');
+                            book_list.rows[book_id].childNodes[2].childNodes[0].className = "form-control style-red-input";
+                            
                             book_list.rows[book_id].childNodes[7].childNodes[0].value = keep_list.rows[i].childNodes[4].childNodes[0].value;
                             book_list.rows[book_id].childNodes[9].childNodes[0].value = keep_list.rows[i].childNodes[6].childNodes[0].value;
                             book_list.rows[book_id].childNodes[10].childNodes[0].value = keep_list.rows[i].childNodes[7].childNodes[0].value;
@@ -975,10 +976,44 @@ $isHolder = Session::get('IS_HOLDER');
                 if (rows_to_send.length == 1) {
                     if (rows_to_send[0].innerHTML.indexOf('No matching records found') >= 0) return;
                 }
-                $('#books-form').submit();
+                
+                //$('#books-form').submit();
+                let form = $('#books-form').serialize();
+                $('#btnKeep').attr('disabled', true);
+                $('#btnOK').attr('disabled', true);
+                $('#btnCancel').attr('disabled', true);
+                $('#btnInit').attr('disabled', true);
+                $('#btnSave').attr('disabled', true);
+                
+                setUpdateRows();
+                clearSelection();
+                $.post('books/save', form).done(function (data) {
+                    let result = data;
+                    if (result == 1) {
+                        $('#btnInit').attr('disabled', false);
+                        $('#btnSave').attr('disabled', false);
+                        clearList();
+                        
+                        books = [];
+                    }
+                    else {
+                        alert('保存失败了。');
+                        location.reload();
+                        return;
+                    }
+                });
+                
                 $('td[style*="display: none;"]').remove();
             }
         });
+
+        function setUpdateRows()
+        {
+            $('.style-red-input').parent().parent().find('[type="checkbox"]').attr("disabled", "true");
+            $('.style-red-input').parent().parent().find('[type="checkbox"]').attr("class", "");
+            $('.style-red-input').parent().parent().find('[type="checkbox"]').prop("checked", true);
+            $('.style-red-input').attr("class","form-control style-blue-input");
+        }
 
         function clearSelection()
         {

@@ -374,7 +374,8 @@ class FinanceController extends Controller
 		}
 		*/
 
-		return redirect('finance/books?'.'year='.$year.'&month='.$month);
+		//return redirect('finance/books?'.'year='.$year.'&month='.$month);
+		return 1;
 	}
 
 	public function initBookList(Request $request)
